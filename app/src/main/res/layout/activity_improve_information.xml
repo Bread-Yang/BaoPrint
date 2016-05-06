@@ -1,0 +1,55 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:gravity="center_horizontal"
+              android:orientation="vertical"
+              android:padding="@dimen/margin_medium"
+              tools:context=".activity.login.LoginActivity">
+
+    <com.yideguan.imageprint.views.ClearEditText
+        android:id="@+id/cet_account"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/button_normal"
+        android:background="@null"
+        android:drawablePadding="@dimen/margin_normal"
+        android:hint="@string/input_phone_number"
+        android:inputType="text"
+        android:longClickable="false"/>
+
+    <com.yideguan.imageprint.views.ClearEditText
+        android:id="@+id/cet_captcha"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/button_normal"
+        android:background="@null"
+        android:drawablePadding="@dimen/margin_normal"
+        android:hint="@string/input_captcha"
+        android:inputType="text"
+        android:longClickable="false"/>
+
+
+    <com.yideguan.imageprint.views.ClearEditText
+        android:id="@+id/cet_password"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/button_normal"
+        android:background="@null"
+        android:drawablePadding="@dimen/margin_normal"
+        android:hint="@string/input_password"
+        android:inputType="text"
+        android:longClickable="false"/>
+
+
+    <Button
+        android:id="@+id/btn_login"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/button_normal"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/margin_big"
+        android:gravity="center"
+        android:onClick="finishAction"
+        android:text="@string/finish"
+        android:textColor="@color/color_white"
+        android:textSize="@dimen/text_max"/>
+
+
+</LinearLayout>

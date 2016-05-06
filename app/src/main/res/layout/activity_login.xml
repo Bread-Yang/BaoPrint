@@ -1,0 +1,163 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:gravity="center_horizontal"
+              android:orientation="vertical"
+              android:padding="@dimen/margin_medium"
+              tools:context=".activity.login.LoginActivity">
+
+    <ImageView
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:src="@drawable/ic_wechat"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_normal"
+        android:orientation="vertical">
+
+        <com.yideguan.imageprint.views.ClearEditText
+            android:id="@+id/cet_account"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/button_normal"
+            android:background="@null"
+            android:drawablePadding="@dimen/margin_normal"
+            android:hint="@string/input_phone_number"
+            android:inputType="text"
+            android:longClickable="false"/>
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginLeft="@dimen/margin_tiny"
+            android:layout_marginRight="@dimen/margin_tiny"/>
+
+        <com.yideguan.imageprint.views.ClearEditText
+            android:id="@+id/cet_password"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/button_normal"
+            android:background="@null"
+            android:drawablePadding="@dimen/margin_normal"
+            android:hint="@string/input_password"
+            android:inputType="text"
+            android:longClickable="false"/>
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btn_login"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/button_normal"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/margin_big"
+        android:gravity="center"
+        android:onClick="loginAction"
+        android:text="@string/login"
+        android:textColor="@color/color_white"
+        android:textSize="@dimen/text_max"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_medium">
+
+        <CheckBox
+            android:id="@+id/cb_auto_login"
+            style="@style/NormalTextStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:button="@drawable/selector_cb_bg_auto_login"
+            android:checked="false"
+            android:text="@string/auto_login"/>
+
+        <TextView
+            style="@style/NormalTextStyle"
+            android:layout_alignParentRight="true"
+            android:clickable="true"
+            android:onClick="forgetPasswordAction"
+            android:text="@string/forget_password"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_medium"
+        android:gravity="center_vertical">
+
+        <View
+            android:layout_width="wrap_content"
+            android:layout_height="1dp"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/margin_normal"
+            android:layout_toLeftOf="@+id/tv_other_login_way"
+            android:background="@color/color_text_normal"/>
+
+        <TextView
+            android:id="@+id/tv_other_login_way"
+            style="@style/NormalTextStyle"
+            android:layout_centerInParent="true"
+            android:text="@string/other_login_way"/>
+
+        <View
+            android:layout_width="wrap_content"
+            android:layout_height="1dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/margin_normal"
+            android:layout_toRightOf="@+id/tv_other_login_way"
+            android:background="@color/color_text_normal"/>
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_normal"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="60dp"
+            android:layout_height="68dp"
+            android:layout_weight="1"
+            android:src="@drawable/ic_wechat"/>
+
+        <ImageView
+            android:layout_width="60dp"
+            android:layout_height="68dp"
+            android:layout_weight="1"
+            android:src="@drawable/ic_qq"/>
+
+
+        <ImageView
+            android:layout_width="60dp"
+            android:layout_height="68dp"
+            android:layout_weight="1"
+            android:src="@drawable/ic_weibo"/>
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_medium"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <TextView
+            style="@style/NormalTextStyle"
+            android:layout_alignParentRight="true"
+            android:text="@string/not_account"/>
+
+        <TextView
+            style="@style/NormalTextStyle"
+            android:layout_alignParentRight="true"
+            android:layout_marginLeft="@dimen/margin_normal"
+            android:clickable="true"
+            android:onClick="signUpAction"
+            android:text="@string/sign_up_immediately"/>
+
+    </LinearLayout>
+
+
+</LinearLayout>
