@@ -1,4 +1,4 @@
-package com.yideguan.imageprint.enumobject;
+package com.yideguan.imageprint.enumobject.restfuls;
 
 public enum BusinessType {
 	Global(1), Clinic(2), WeChat(3), FILE(4);

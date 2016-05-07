@@ -51,9 +51,19 @@ public abstract class ToolbarActivity extends AppCompatActivity {
             contentStub.setLayoutResource(getContentLayout());
             contentStub.inflate();
         }
+
+        findViewById();
+        initData();
+        setListener();
     }
 
-    public abstract int getContentLayout();
+    protected abstract int getContentLayout();
+
+    protected abstract void findViewById();
+
+    protected abstract void initData();
+
+    protected abstract void setListener();
 
     protected void setToolbarRightButtonText(int resID) {
         tv_right.setText(resID);

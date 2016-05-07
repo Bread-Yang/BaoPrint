@@ -1,7 +1,7 @@
 package com.yideguan.imageprint.restfuls.Interceptor;
 
 import com.socks.library.KLog;
-import com.yideguan.imageprint.utils.Encrypt;
+import com.yideguan.imageprint.utils.EncryptUtil;
 
 import java.io.IOException;
 import java.net.URLDecoder;
@@ -20,17 +20,15 @@ import okio.Buffer;
 public class DecryptedPayloadInterceptor implements Interceptor {
     @Override
     public Response intercept(Chain chain) throws IOException {
-        KLog.e("DecryptedPayloadInterceptor intercept()");
-
         Request originalRequest = chain.request();
         Response originalResponse;
 
         if (originalRequest.body() != null) {
             String bodyContent = requestBodyToString(originalRequest.body());
 
-            KLog.e("RequestBody是 : " + bodyContent.replaceAll("\\\\", ""));
+            KLog.e(bodyContent.replaceAll("\\\\", ""));
             try {
-                bodyContent = Encrypt.encrypt(bodyContent);  // 加密
+                bodyContent = EncryptUtil.encrypt(bodyContent);  // 加密
                 bodyContent = URLEncoder.encode(bodyContent, "UTF-8");
             } catch (Exception e) {
                 e.printStackTrace();
@@ -46,18 +44,16 @@ public class DecryptedPayloadInterceptor implements Interceptor {
 
             Request newRequest = requestBuilder.build();
 
-            KLog.e("method : " + newRequest.method());
-
-            KLog.e(String.format("Sending request %s on %s%n%s",
-                    newRequest.url(), chain.connection(), newRequest.headers()));
+//            KLog.e(String.format("Sending request %s on %s%n%s",
+//                    newRequest.url(), chain.connection(), newRequest.headers()));
 
             originalResponse = chain.proceed(newRequest);
         } else {
             originalResponse = chain.proceed(originalRequest);
         }
 
-        if (originalResponse.isSuccessful()) {
-            KLog.e("成功请求");
+        if (!originalResponse.isSuccessful()) {
+            KLog.e("成功失败");
         }
 
 //        String responseContent = new Buffer().write(originalResponse.body().bytes()).readUtf8();
@@ -67,12 +63,12 @@ public class DecryptedPayloadInterceptor implements Interceptor {
         String responseContent = originalResponse.body().string();
         try {
             responseContent = URLDecoder.decode(responseContent, "UTF-8");
-            responseContent = Encrypt.decrypt(responseContent);  // 解密
+            responseContent = EncryptUtil.decrypt(responseContent);  // 解密
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        KLog.e("Response是 : " + responseContent);
+        KLog.e("Response是 : " + "\n" + responseContent);
 
         Response newResponse = originalResponse.newBuilder().body(ResponseBody.create(originalResponse.body().contentType(), responseContent)).build();
 

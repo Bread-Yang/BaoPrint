@@ -3,7 +3,7 @@ package com.yideguan.imageprint.application;
 import android.app.Application;
 import android.content.Context;
 
-import com.yideguan.imageprint.enumobject.User;
+import com.yideguan.imageprint.models.User;
 
 /**
  * Created by yoghourt on 5/6/16.

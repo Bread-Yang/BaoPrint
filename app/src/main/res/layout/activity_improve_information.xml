@@ -8,12 +8,12 @@
               tools:context=".activity.login.LoginActivity">
 
     <com.yideguan.imageprint.views.ClearEditText
-        android:id="@+id/cet_account"
+        android:id="@+id/cet_name"
         android:layout_width="match_parent"
         android:layout_height="@dimen/button_normal"
         android:background="@null"
         android:drawablePadding="@dimen/margin_normal"
-        android:hint="@string/input_phone_number"
+        android:hint="@string/input_name"
         android:inputType="text"
         android:longClickable="false"/>
 
@@ -23,7 +23,6 @@
         android:layout_height="@dimen/button_normal"
         android:background="@null"
         android:drawablePadding="@dimen/margin_normal"
-        android:hint="@string/input_captcha"
         android:inputType="text"
         android:longClickable="false"/>
 
@@ -34,7 +33,6 @@
         android:layout_height="@dimen/button_normal"
         android:background="@null"
         android:drawablePadding="@dimen/margin_normal"
-        android:hint="@string/input_password"
         android:inputType="text"
         android:longClickable="false"/>
 

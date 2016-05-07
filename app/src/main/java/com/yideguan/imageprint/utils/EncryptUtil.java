@@ -2,13 +2,21 @@ package com.yideguan.imageprint.utils;
 
 import android.util.Base64;
 
+import com.yideguan.imageprint.restfuls.bean.RequestData;
+
+import java.util.Comparator;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeMap;
+
 import javax.crypto.Cipher;
 import javax.crypto.SecretKey;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.DESKeySpec;
 import javax.crypto.spec.IvParameterSpec;
 
-public class Encrypt {
+public class EncryptUtil {
 	public static final String KEY = "MD2O!50!";
 	
 	/**
@@ -47,4 +55,41 @@ public class Encrypt {
 		return new String(retByte);
 	}
 
+	/**
+	 * 根据RequestData数据生成app签名
+	 * @param data
+	 * @return
+     */
+	public static String appSign(RequestData data) {
+		Map<String, String> params = new TreeMap<String, String>(new Comparator<String>() {
+			public int compare(String lhs, String rhs) {
+				return lhs.compareToIgnoreCase(rhs);
+			}
+
+			;
+		});
+
+		params.put("Version", String.valueOf(data.getVersion()));
+		params.put("Culture", data.getCulture());
+		params.put("Platform", String.valueOf(data.getPlatform()));
+		params.put("BusinessCode", String.valueOf(data.getBusinessCode()));
+		params.put("FunctionName", data.getFunctionName());
+		params.put("DeviceID", String.valueOf(data.getDeviceID()));
+		params.put("UserID", String.valueOf(data.getUserID()));
+		params.put("ServiceToken", data.getServiceToken());
+		params.put("ActionTimeSpan", String.valueOf(data.getActionTimeSpan()));
+
+		Set<String> keySet = params.keySet();
+		Iterator<String> iter = keySet.iterator();
+
+		StringBuffer sb = new StringBuffer();
+		while (iter.hasNext()) {
+			String key = iter.next();
+			sb.append(key);
+			sb.append(params.get(key));
+		}
+		sb.append("@2O!5");
+
+		return MD5Util.MD5(sb.toString());
+	}
 }

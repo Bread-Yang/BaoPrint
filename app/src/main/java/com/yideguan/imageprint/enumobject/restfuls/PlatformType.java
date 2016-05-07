@@ -1,4 +1,4 @@
-package com.yideguan.imageprint.enumobject;
+package com.yideguan.imageprint.enumobject.restfuls;
 
 public enum PlatformType {
 

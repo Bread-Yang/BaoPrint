@@ -3,14 +3,14 @@ package com.yideguan.imageprint.utils;
 import android.content.Context;
 import android.content.res.Configuration;
 
-import com.yideguan.imageprint.enumobject.PlatformType;
+import com.yideguan.imageprint.enumobject.restfuls.PlatformType;
 import com.yideguan.imageprint.restfuls.bean.Device;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.Locale;
 
-public class DeviceUtils {
+public class DeviceUtil {
 
 	private static String filePath = Tools.getAppPath() + File.separator + "device";
 //	private static String filePath = Tools.getAppPath() + File.separator + "device_ua";
@@ -54,7 +54,7 @@ public class DeviceUtils {
 
 	public static Device getDeviceInfo(Context context) {
 		Device device = new Device();
-		boolean isPad = DeviceUtils.isPad(context);
+		boolean isPad = DeviceUtil.isPad(context);
 		if (isPad) {
 			device.setPlatform(PlatformType.ANDROID_PAD.value());
 		} else {
@@ -74,7 +74,7 @@ public class DeviceUtils {
 	 * @return
 	 */
 	public static int getPlatformType(Context context) {
-		boolean isPad = DeviceUtils.isPad(context);
+		boolean isPad = DeviceUtil.isPad(context);
 		if (isPad) {
 			return PlatformType.ANDROID_PAD.value();
 		} else {

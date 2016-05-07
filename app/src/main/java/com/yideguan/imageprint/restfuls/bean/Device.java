@@ -12,7 +12,6 @@ public class Device {
 
 	public int DeviceID;
 	public String DeviceToken;
-	public int ClinicID;
 	public int Platform = 1;//默认为Android手机
 	public String PlatformVersion;
 	public String DeviceModel;
@@ -32,14 +31,6 @@ public class Device {
 
 	public void setDeviceToken(String deviceToken) {
 		DeviceToken = deviceToken;
-	}
-
-	public int getClinicID() {
-		return ClinicID;
-	}
-
-	public void setClinicID(int clinicID) {
-		ClinicID = clinicID;
 	}
 
 	public int getPlatform() {
