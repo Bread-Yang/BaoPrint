@@ -11,13 +11,13 @@ import com.yideguan.imageprint.models.User;
 public class YiDeGuanApplication extends Application{
 
     /** 对外提供整个应用生命周期的Context **/
-    public static Context INSTANCE;
+    public static Context mInstance;
 
     public static User mLoginUser;// 登陆用户
 
     @Override
     public void onCreate() {
         super.onCreate();
-        INSTANCE = this;
+        mInstance = this;
     }
 }

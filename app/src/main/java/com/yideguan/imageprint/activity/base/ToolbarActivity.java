@@ -1,5 +1,7 @@
 package com.yideguan.imageprint.activity.base;
 
+import android.databinding.DataBindingUtil;
+import android.databinding.ViewDataBinding;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -9,10 +11,11 @@ import android.widget.TextView;
 
 import com.yideguan.imageprint.R;
 
-public abstract class ToolbarActivity extends AppCompatActivity {
+public abstract class ToolbarActivity<T extends ViewDataBinding> extends AppCompatActivity {
 
     protected Toolbar mToolbar;
     protected TextView tv_right;
+    protected T mDataBinding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,20 +49,25 @@ public abstract class ToolbarActivity extends AppCompatActivity {
             }
         });
 
+        // data binding
         ViewStub contentStub = (ViewStub) findViewById(R.id.content_stub);
         if (getContentLayout() != 0) {
+            contentStub.setOnInflateListener(new ViewStub.OnInflateListener() {
+                @Override
+                public void onInflate(ViewStub stub, View inflated) {
+                    mDataBinding = DataBindingUtil.bind(inflated);
+                }
+            });
+
             contentStub.setLayoutResource(getContentLayout());
             contentStub.inflate();
         }
 
-        findViewById();
         initData();
         setListener();
     }
 
     protected abstract int getContentLayout();
-
-    protected abstract void findViewById();
 
     protected abstract void initData();
 

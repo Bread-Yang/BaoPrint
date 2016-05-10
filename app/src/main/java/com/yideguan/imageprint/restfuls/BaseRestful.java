@@ -54,7 +54,7 @@ public abstract class BaseRestful {
     }
 
     protected BaseRestful() {
-        mContext = YiDeGuanApplication.INSTANCE;
+        mContext = YiDeGuanApplication.mInstance;
 
         OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
         httpClient.interceptors().add(new DecryptedPayloadInterceptor());  //请求前加密,返回前解密

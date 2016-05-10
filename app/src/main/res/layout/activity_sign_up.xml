@@ -1,111 +1,139 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:tools="http://schemas.android.com/tools"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:gravity="center_horizontal"
-              android:orientation="vertical"
-              android:padding="@dimen/margin_medium"
-              tools:context=".activity.login.LoginActivity">
-
-    <ImageView
-        android:layout_width="120dp"
-        android:layout_height="120dp"
-        android:src="@drawable/ic_wechat"/>
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".activity.login.SignUpActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin_normal"
-        android:orientation="vertical">
+        android:layout_height="match_parent"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:padding="@dimen/margin_medium_24">
 
-        <com.yideguan.imageprint.views.ClearEditText
-            android:id="@+id/cet_account"
+        <ImageView
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:src="@drawable/ic_wechat"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_normal_12"
+            android:orientation="vertical">
+
+            <com.yideguan.imageprint.views.ClearEditText
+                android:id="@+id/cetAccount"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/button_normal"
+                android:background="@null"
+                android:drawablePadding="@dimen/margin_normal_12"
+                android:hint="@string/input_phone_number"
+                android:inputType="phone"
+                android:longClickable="false"
+                android:maxLength="11"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <com.yideguan.imageprint.views.ClearEditText
+                    android:id="@+id/cetCaptcha"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/button_normal"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    android:drawablePadding="@dimen/margin_normal_12"
+                    android:hint="@string/input_captcha"
+                    android:inputType="phone"
+                    android:longClickable="false"/>
+
+                <Button
+                    android:id="@+id/btnAcquireCaptcha"
+                    android:layout_width="@dimen/margin_huge_96"
+                    android:layout_height="@dimen/button_normal"
+                    android:text="@string/acquire_captcha"/>
+            </LinearLayout>
+
+            <com.yideguan.imageprint.views.ClearEditText
+                android:id="@+id/cetPassword"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/button_normal"
+                android:background="@null"
+                android:drawablePadding="@dimen/margin_normal_12"
+                android:hint="@string/input_password"
+                android:inputType="textPassword"
+                android:longClickable="false"
+                android:maxLength="16"/>
+
+            <com.yideguan.imageprint.views.ClearEditText
+                android:id="@+id/cetInviteCode"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/button_normal"
+                android:background="@null"
+                android:drawablePadding="@dimen/margin_normal_12"
+                android:hint="@string/input_invite_code"
+                android:inputType="textPassword"
+                android:longClickable="false"
+                android:maxLength="16"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_medium_24"
+            android:orientation="horizontal">
+
+            <TextView
+                style="@style/NormalTextStyle"
+                android:layout_alignParentRight="true"
+                android:text="@string/agree_protocol_tips"/>
+
+            <TextView
+                style="@style/NormalTextStyle"
+                android:layout_alignParentRight="true"
+                android:layout_marginLeft="@dimen/margin_normal_12"
+                android:clickable="true"
+                android:onClick="protocolAction"
+                android:text="@string/hailan_protocol"/>
+
+        </LinearLayout>
+
+
+        <Button
+            android:id="@+id/btnLogin"
             android:layout_width="match_parent"
             android:layout_height="@dimen/button_normal"
-            android:background="@null"
-            android:drawablePadding="@dimen/margin_normal"
-            android:hint="@string/input_phone_number"
-            android:inputType="text"
-            android:longClickable="false"/>
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/margin_big_32"
+            android:gravity="center"
+            android:onClick="nextStepAction"
+            android:text="@string/next_step"
+            android:textColor="@color/color_white"
+            android:textSize="@dimen/text_max_20"/>
 
-        <com.yideguan.imageprint.views.ClearEditText
-            android:id="@+id/cet_captcha"
+
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/button_normal"
-            android:background="@null"
-            android:drawablePadding="@dimen/margin_normal"
-            android:hint="@string/input_captcha"
-            android:inputType="text"
-            android:longClickable="false"/>
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_medium_24"
+            android:gravity="center"
+            android:orientation="horizontal">
 
+            <TextView
+                style="@style/NormalTextStyle"
+                android:layout_alignParentRight="true"
+                android:text="@string/has_account"/>
 
-        <com.yideguan.imageprint.views.ClearEditText
-            android:id="@+id/cet_password"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/button_normal"
-            android:background="@null"
-            android:drawablePadding="@dimen/margin_normal"
-            android:hint="@string/input_password"
-            android:inputType="text"
-            android:longClickable="false"/>
+            <TextView
+                style="@style/NormalTextStyle"
+                android:layout_alignParentRight="true"
+                android:layout_marginLeft="@dimen/margin_normal_12"
+                android:clickable="true"
+                android:onClick="loginAction"
+                android:text="@string/login_immediately"/>
+
+        </LinearLayout>
     </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin_medium"
-        android:orientation="horizontal">
-
-        <TextView
-            style="@style/NormalTextStyle"
-            android:layout_alignParentRight="true"
-            android:text="@string/agree_protocol_tips"/>
-
-        <TextView
-            style="@style/NormalTextStyle"
-            android:layout_alignParentRight="true"
-            android:layout_marginLeft="@dimen/margin_normal"
-            android:clickable="true"
-            android:onClick="protocolAction"
-            android:text="@string/hailan_protocol"/>
-
-    </LinearLayout>
-
-
-    <Button
-        android:id="@+id/btn_login"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/button_normal"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="@dimen/margin_big"
-        android:gravity="center"
-        android:onClick="nextStepAction"
-        android:text="@string/next_step"
-        android:textColor="@color/color_white"
-        android:textSize="@dimen/text_max"/>
-
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin_medium"
-        android:gravity="center"
-        android:orientation="horizontal">
-
-        <TextView
-            style="@style/NormalTextStyle"
-            android:layout_alignParentRight="true"
-            android:text="@string/has_account"/>
-
-        <TextView
-            style="@style/NormalTextStyle"
-            android:layout_alignParentRight="true"
-            android:layout_marginLeft="@dimen/margin_normal"
-            android:clickable="true"
-            android:onClick="loginAction"
-            android:text="@string/login_immediately"/>
-
-    </LinearLayout>
-
-
-</LinearLayout>
+</layout>

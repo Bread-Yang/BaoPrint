@@ -1,21 +1,18 @@
 package com.yideguan.imageprint.activity.login;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
 import com.yideguan.imageprint.R;
 import com.yideguan.imageprint.activity.base.ToolbarActivity;
-import com.yideguan.imageprint.constants.IntentConstants;
+import com.yideguan.imageprint.constants.Constants;
+import com.yideguan.imageprint.databinding.ActivitySignUpBinding;
 import com.yideguan.imageprint.models.User;
 import com.yideguan.imageprint.utils.MD5Util;
 import com.yideguan.imageprint.utils.StringUtil;
-import com.yideguan.imageprint.views.ClearEditText;
 
-public class SignUpActivity extends ToolbarActivity {
-
-    private ClearEditText cet_account, cet_captcha, cet_password;
+public class SignUpActivity extends ToolbarActivity<ActivitySignUpBinding> {
 
     @Override
     public int getContentLayout() {
@@ -23,15 +20,7 @@ public class SignUpActivity extends ToolbarActivity {
     }
 
     @Override
-    protected void findViewById() {
-        cet_account = (ClearEditText) findViewById(R.id.cet_account);
-        cet_captcha = (ClearEditText) findViewById(R.id.cet_captcha);
-        cet_password = (ClearEditText) findViewById(R.id.cet_password);
-    }
-
-    @Override
     protected void initData() {
-
     }
 
     @Override
@@ -39,27 +28,34 @@ public class SignUpActivity extends ToolbarActivity {
 
     }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-
     public void nextStepAction(View view) {
-        String phone = cet_account.getText().toString();
+        String phone = mDataBinding.cetAccount.getText().toString();
 
-        if (StringUtil.isEmpty(phone) || phone.length() != 11) {
+        if (StringUtil.isEmpty(phone)) {
+            Toast.makeText(this, R.string.input_phone_number, Toast.LENGTH_SHORT).show();
+            return;
+
+        }
+
+        if (phone.length() != 11) {
             Toast.makeText(SignUpActivity.this, R.string.input_corrent_phone, Toast.LENGTH_SHORT).show();
             return;
         }
 
-        String captcha = cet_captcha.getText().toString();
+        String captcha = mDataBinding.cetCaptcha.getText().toString();
         if (StringUtil.isEmpty(captcha)) {
             Toast.makeText(SignUpActivity.this, R.string.input_captcha, Toast.LENGTH_SHORT).show();
             return;
         }
 
-        String password = cet_password.getText().toString();
-        if (StringUtil.isEmpty(password) || password.length() < 6 || password.length() > 16) {
+        String password = mDataBinding.cetPassword.getText().toString();
+
+        if (StringUtil.isEmpty(password)) {
+            Toast.makeText(this, R.string.input_password, Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if (password.length() < 6 || password.length() > 16) {
             Toast.makeText(SignUpActivity.this, R.string.input_corrent_password, Toast.LENGTH_SHORT).show();
             return;
         }
@@ -70,14 +66,15 @@ public class SignUpActivity extends ToolbarActivity {
         newUser.setPassword(MD5Util.MD5(password));
 
         Intent intent = new Intent(this, ImproveInformationActivity.class);
-        intent.putExtra(IntentConstants.NEW_USER, newUser);
+        intent.putExtra(Constants.KEY_NEW_USER, newUser);
         startActivity(intent);
 
         finish();
     }
 
     public void protocolAction(View view) {
-
+        Intent intent = new Intent(this, ProtocolActivity.class);
+        startActivity(intent);
     }
 
     public void loginAction(View view) {

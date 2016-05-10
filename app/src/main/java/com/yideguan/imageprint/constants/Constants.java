@@ -9,4 +9,8 @@ public final class Constants {
 
     // APP在sdcar的目录
     public static final String APP_PATH = "/yideguan_image_print";
+
+
+    public static final String KEY_NEW_USER = "key_new_user";
+    public static final String KEY_PHONE = "key_phone";
 }

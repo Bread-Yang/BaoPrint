@@ -14,7 +14,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:textSize="@dimen/text_huge"
+        android:textSize="@dimen/text_huge_24"
         android:text="这是初始界面"/>
 
 </RelativeLayout>
