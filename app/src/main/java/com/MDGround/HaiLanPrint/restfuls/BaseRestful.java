@@ -2,10 +2,8 @@ package com.MDGround.HaiLanPrint.restfuls;
 
 import android.content.Context;
 
-import com.google.gson.Gson;
-import com.socks.library.KLog;
 import com.MDGround.HaiLanPrint.application.MDGroundApplication;
-import com.MDGround.HaiLanPrint.constants.Constants;
+import com.MDGround.HaiLanPrint.enumobject.restfuls.BusinessType;
 import com.MDGround.HaiLanPrint.enumobject.restfuls.PlatformType;
 import com.MDGround.HaiLanPrint.models.User;
 import com.MDGround.HaiLanPrint.restfuls.Interceptor.DecryptedPayloadInterceptor;
@@ -13,6 +11,10 @@ import com.MDGround.HaiLanPrint.restfuls.bean.RequestData;
 import com.MDGround.HaiLanPrint.restfuls.bean.ResponseData;
 import com.MDGround.HaiLanPrint.utils.DeviceUtil;
 import com.MDGround.HaiLanPrint.utils.EncryptUtil;
+import com.google.gson.Gson;
+import com.socks.library.KLog;
+
+import java.io.IOException;
 
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
@@ -33,15 +35,17 @@ public abstract class BaseRestful {
 
     private BaseService baseService;
 
-    // 请求参数
-    private RequestData requestData;
+    protected abstract BusinessType getBusinessType();
 
-    protected abstract int getBusinessCode();
+    protected abstract String getHost();
 
     // service接口
     public interface BaseService {
         @POST("api/RpcService.ashx/")
-        Call<ResponseData> requestSever(@Body RequestBody requestBody);
+        Call<ResponseData> normalRequest(@Body RequestBody requestBody);  // 普通接口请求地址
+
+        @POST("Api/RpcInternalService.ashx/")
+        Call<ResponseData> fileRequest(@Body RequestBody requestBody);    // 图片请求地址
     }
 
     private int getPlatform() {
@@ -60,22 +64,21 @@ public abstract class BaseRestful {
         httpClient.interceptors().add(new DecryptedPayloadInterceptor());  //请求前加密,返回前解密
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(Constants.HOST)
+                .baseUrl(getHost())
                 .addConverterFactory(GsonConverterFactory.create())  // json转成对象
                 .client(httpClient.build())
                 .build();
         baseService = retrofit.create(BaseService.class);
     }
 
-    protected void initRequestDateAndPost(String functionName, String queryData, Callback<ResponseData> callback) {
-        KLog.e("请求接口 \"" + functionName + "\" 的json数据:");
-
-        requestData = new RequestData();
+    private RequestBody createRequestBody(String functionName, String queryData) {
+        RequestData requestData = new RequestData();
 
         requestData.setQueryData(queryData);
         requestData.setFunctionName(functionName);
         requestData.setCulture(DeviceUtil.getLanguage(mContext));
-        requestData.setBusinessCode(getBusinessCode());
+//        requestData.setBusinessCode(getBusinessType().getType());
+        requestData.setBusinessCode(BusinessType.Global.getType()); // 全部用1
         requestData.setActionTimeSpan(System.currentTimeMillis() / 1000);
         requestData.setPlatform(getPlatform());
 
@@ -93,7 +96,34 @@ public abstract class BaseRestful {
         String json = new Gson().toJson(requestData);
         RequestBody requestBody = RequestBody.create(MediaType.parse("application/json"), json);
 
-        Call<ResponseData> call = baseService.requestSever(requestBody);
+        return requestBody;
+    }
+
+    // 普通接口请求(异步)
+    protected void asynchronousPost(String functionName, String queryData, Callback<ResponseData> callback) {
+        KLog.e("请求接口 \"" + functionName + "\" 的json数据:");
+
+        RequestBody requestBody = createRequestBody(functionName, queryData);
+
+        Call<ResponseData> call = null;
+        if (getBusinessType() == BusinessType.Global) {
+            call = baseService.normalRequest(requestBody);
+        } else {
+            call = baseService.fileRequest(requestBody);
+        }
         call.enqueue(callback);
+    }
+
+    // 文件/图片等请求(同步)
+    protected ResponseData synchronousPost(String functionName, String queryData) {
+        RequestBody requestBody = createRequestBody(functionName, queryData);
+
+        Call<ResponseData> call = baseService.fileRequest(requestBody);
+        try {
+            return call.execute().body();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

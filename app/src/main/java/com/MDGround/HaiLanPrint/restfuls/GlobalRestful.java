@@ -1,6 +1,7 @@
 package com.MDGround.HaiLanPrint.restfuls;
 
 import com.MDGround.HaiLanPrint.application.MDGroundApplication;
+import com.MDGround.HaiLanPrint.constants.Constants;
 import com.MDGround.HaiLanPrint.utils.DeviceUtil;
 import com.google.gson.Gson;
 import com.MDGround.HaiLanPrint.enumobject.restfuls.BusinessType;
@@ -21,8 +22,13 @@ public class GlobalRestful extends BaseRestful {
     private static GlobalRestful mIntance = new GlobalRestful();
 
     @Override
-    protected int getBusinessCode() {
-        return BusinessType.Global.getType();
+    protected BusinessType getBusinessType() {
+        return BusinessType.Global;
+    }
+
+    @Override
+    protected String getHost() {
+        return Constants.HOST;
     }
 
 
@@ -53,12 +59,12 @@ public class GlobalRestful extends BaseRestful {
         }
 
 //        String functionName = Thread.currentThread().getStackTrace()[2].getMethodName();
-        initRequestDateAndPost("LoginUser", obj.toString(), callback);
+        asynchronousPost("LoginUser", obj.toString(), callback);
     }
 
     // 用户注册
     public void RegisterUser(User user, Callback<ResponseData> callback) {
-        initRequestDateAndPost("RegisterUser", new Gson().toJson(user), callback);
+        asynchronousPost("RegisterUser", new Gson().toJson(user), callback);
     }
 
     // 找回密码
@@ -71,6 +77,6 @@ public class GlobalRestful extends BaseRestful {
             e.printStackTrace();
         }
 
-        initRequestDateAndPost("ChangeUserPassword", obj.toString(), callback);
+        asynchronousPost("ChangeUserPassword", obj.toString(), callback);
     }
 }

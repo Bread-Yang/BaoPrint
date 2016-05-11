@@ -7,6 +7,8 @@ public final class Constants {
 //    public static final String HOST = "http://192.168.0.152:8888/";
     public static final String HOST = "http://psuat.yideguan.com/";
 
+    public static final String FILE_HOST = "http://quat.yideguan.com/";
+
     // APP在sdcar的目录
     public static final String APP_PATH = "/mdground_hailan_print";
     // Preference文件名
