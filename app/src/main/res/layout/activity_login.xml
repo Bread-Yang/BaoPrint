@@ -19,36 +19,35 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_normal_12"
+            android:background="@drawable/shape_login_input_area_bg"
             android:orientation="vertical">
 
-            <com.yideguan.imageprint.views.ClearEditText
+            <com.MDGround.HaiLanPrint.views.ClearEditText
                 android:id="@+id/cetAccount"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/button_normal"
                 android:background="@null"
                 android:drawablePadding="@dimen/margin_normal_12"
                 android:hint="@string/input_phone_number"
-                android:maxLength="11"
                 android:inputType="phone"
-                android:longClickable="false"/>
+                android:longClickable="false"
+                android:maxLength="11"
+                android:paddingLeft="@dimen/margin_normal_12"/>
 
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginLeft="@dimen/margin_tiny_2"
-                android:layout_marginRight="@dimen/margin_tiny_2"/>
+            <View style="@style/DividerHorizontal"/>
 
-            <com.yideguan.imageprint.views.ClearEditText
+            <com.MDGround.HaiLanPrint.views.ClearEditText
                 android:id="@+id/cetPassword"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/button_normal"
                 android:background="@null"
                 android:drawablePadding="@dimen/margin_normal_12"
-                android:maxLength="16"
                 android:hint="@string/input_password"
-                tools:text="222222"
                 android:inputType="textPassword"
-                android:longClickable="false"/>
+                android:longClickable="false"
+                android:maxLength="16"
+                android:paddingLeft="@dimen/margin_normal_12"
+                tools:text="222222"/>
         </LinearLayout>
 
         <Button
@@ -57,6 +56,7 @@
             android:layout_height="@dimen/button_normal"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="@dimen/margin_big_32"
+            android:background="@drawable/ripple_button"
             android:gravity="center"
             android:onClick="loginAction"
             android:text="@string/login"
@@ -66,7 +66,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_medium_24">
+            android:layout_marginTop="@dimen/margin_normal_12">
 
             <CheckBox
                 android:id="@+id/cbAutoLogin"
@@ -74,13 +74,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:button="@drawable/selector_cb_bg_auto_login"
                 android:checked="false"
+                android:onClick="autoLoginAction"
                 android:text="@string/auto_login"/>
 
             <TextView
                 style="@style/NormalTextStyle"
                 android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
                 android:clickable="true"
                 android:onClick="forgetPasswordAction"
                 android:text="@string/forget_password_question_mark"/>
@@ -98,11 +99,11 @@
                 android:layout_height="1dp"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="@dimen/margin_normal_12"
-                android:layout_toLeftOf="@+id/tv_other_login_way"
+                android:layout_toLeftOf="@+id/tvOtherLoginWay"
                 android:background="@color/color_text_normal"/>
 
             <TextView
-                android:id="@+id/tv_other_login_way"
+                android:id="@+id/tvOtherLoginWay"
                 style="@style/NormalTextStyle"
                 android:layout_centerInParent="true"
                 android:text="@string/other_login_way"/>
@@ -112,7 +113,7 @@
                 android:layout_height="1dp"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="@dimen/margin_normal_12"
-                android:layout_toRightOf="@+id/tv_other_login_way"
+                android:layout_toRightOf="@+id/tvOtherLoginWay"
                 android:background="@color/color_text_normal"/>
         </RelativeLayout>
 
@@ -126,12 +127,14 @@
                 android:layout_width="60dp"
                 android:layout_height="68dp"
                 android:layout_weight="1"
+                android:onClick="wechatLoginAction"
                 android:src="@drawable/ic_wechat"/>
 
             <ImageView
                 android:layout_width="60dp"
                 android:layout_height="68dp"
                 android:layout_weight="1"
+                android:onClick="qqLoginAction"
                 android:src="@drawable/ic_qq"/>
 
 
@@ -139,6 +142,7 @@
                 android:layout_width="60dp"
                 android:layout_height="68dp"
                 android:layout_weight="1"
+                android:onClick="weiboLoginAction"
                 android:src="@drawable/ic_weibo"/>
         </LinearLayout>
 
@@ -156,7 +160,7 @@
                 android:text="@string/not_account"/>
 
             <TextView
-                style="@style/NormalTextStyle"
+                style="@style/HighlightTextStyle"
                 android:layout_alignParentRight="true"
                 android:layout_marginLeft="@dimen/margin_normal_12"
                 android:clickable="true"

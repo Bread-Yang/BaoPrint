@@ -3,7 +3,7 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
-    <color name="colorOrange">#DD8627</color>
+    <color name="colorOrange">#EA9439</color>
 
     <!--transparent -->
     <color name="color_transparent">#00000000</color>
@@ -11,6 +11,9 @@
     <color name="color_black">#000000</color>
     <!-- white -->
     <color name="color_white">#ffffff</color>
+    <color name="color_window_bg">#F2F2F2</color>
+    <color name="color_divider">#E1E1E1</color>
     <color name="color_text_normal">#818081</color>
+    <color name="color_text_highlight">#2B71F4</color>
 
 </resources>

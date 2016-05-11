@@ -9,7 +9,7 @@
         android:layout_height="match_parent"
         android:gravity="center_horizontal"
         android:orientation="vertical"
-        android:padding="@dimen/margin_medium_24">
+        android:paddingTop="@dimen/margin_medium_24">
 
         <ImageView
             android:layout_width="120dp"
@@ -22,23 +22,28 @@
             android:layout_marginTop="@dimen/margin_normal_12"
             android:orientation="vertical">
 
-            <com.yideguan.imageprint.views.ClearEditText
+            <com.MDGround.HaiLanPrint.views.ClearEditText
                 android:id="@+id/cetAccount"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/button_normal"
-                android:background="@null"
+                android:background="@color/color_white"
                 android:drawablePadding="@dimen/margin_normal_12"
                 android:hint="@string/input_phone_number"
                 android:inputType="phone"
                 android:longClickable="false"
-                android:maxLength="11"/>
+                android:maxLength="11"
+                android:paddingLeft="@dimen/margin_normal_12"/>
+
+            <View style="@style/DividerHorizontal"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:background="@color/color_white"
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/margin_normal_12">
 
-                <com.yideguan.imageprint.views.ClearEditText
+                <com.MDGround.HaiLanPrint.views.ClearEditText
                     android:id="@+id/cetCaptcha"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/button_normal"
@@ -49,41 +54,57 @@
                     android:inputType="phone"
                     android:longClickable="false"/>
 
-                <Button
-                    android:id="@+id/btnAcquireCaptcha"
+                <View
+                    style="@style/DividerVertical"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginTop="8dp"/>
+
+                <TextView
+                    android:id="@+id/tvAcquireCaptcha"
                     android:layout_width="@dimen/margin_huge_96"
-                    android:layout_height="@dimen/button_normal"
-                    android:text="@string/acquire_captcha"/>
+                    android:layout_height="match_parent"
+                    android:clickable="true"
+                    android:gravity="center"
+                    android:onClick="getCaptchaAction"
+                    android:text="@string/acquire_captcha"
+                    android:textColor="@color/colorOrange"/>
             </LinearLayout>
 
-            <com.yideguan.imageprint.views.ClearEditText
+            <View style="@style/DividerHorizontal"/>
+
+            <com.MDGround.HaiLanPrint.views.ClearEditText
                 android:id="@+id/cetPassword"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/button_normal"
-                android:background="@null"
+                android:background="@color/color_white"
                 android:drawablePadding="@dimen/margin_normal_12"
                 android:hint="@string/input_password"
                 android:inputType="textPassword"
                 android:longClickable="false"
-                android:maxLength="16"/>
+                android:maxLength="16"
+                android:paddingLeft="@dimen/margin_normal_12"/>
 
-            <com.yideguan.imageprint.views.ClearEditText
+            <View style="@style/DividerHorizontal"/>
+
+            <com.MDGround.HaiLanPrint.views.ClearEditText
                 android:id="@+id/cetInviteCode"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/button_normal"
-                android:background="@null"
+                android:background="@color/color_white"
                 android:drawablePadding="@dimen/margin_normal_12"
                 android:hint="@string/input_invite_code"
                 android:inputType="textPassword"
                 android:longClickable="false"
-                android:maxLength="16"/>
+                android:maxLength="16"
+                android:paddingLeft="@dimen/margin_normal_12"/>
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_medium_24"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:paddingLeft="@dimen/margin_normal_12">
 
             <TextView
                 style="@style/NormalTextStyle"
@@ -91,7 +112,7 @@
                 android:text="@string/agree_protocol_tips"/>
 
             <TextView
-                style="@style/NormalTextStyle"
+                style="@style/HighlightTextStyle"
                 android:layout_alignParentRight="true"
                 android:layout_marginLeft="@dimen/margin_normal_12"
                 android:clickable="true"
@@ -106,7 +127,10 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/button_normal"
             android:layout_gravity="center_horizontal"
+            android:layout_marginLeft="@dimen/margin_medium_24"
+            android:layout_marginRight="@dimen/margin_medium_24"
             android:layout_marginTop="@dimen/margin_big_32"
+            android:background="@drawable/ripple_button"
             android:gravity="center"
             android:onClick="nextStepAction"
             android:text="@string/next_step"
@@ -127,7 +151,7 @@
                 android:text="@string/has_account"/>
 
             <TextView
-                style="@style/NormalTextStyle"
+                style="@style/HighlightTextStyle"
                 android:layout_alignParentRight="true"
                 android:layout_marginLeft="@dimen/margin_normal_12"
                 android:clickable="true"

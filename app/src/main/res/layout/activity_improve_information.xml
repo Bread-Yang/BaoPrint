@@ -11,66 +11,82 @@
         android:layout_height="match_parent"
         android:gravity="center_horizontal"
         android:orientation="vertical"
-        android:padding="@dimen/margin_medium_24">
+        android:paddingTop="@dimen/margin_normal_12">
 
-        <com.yideguan.imageprint.views.ClearEditText
+        <com.MDGround.HaiLanPrint.views.ClearEditText
             android:id="@+id/cetName"
             android:layout_width="match_parent"
             android:layout_height="@dimen/button_normal"
-            android:background="@null"
+            android:background="@color/color_white"
             android:drawablePadding="@dimen/margin_normal_12"
             android:hint="@string/input_name"
             android:inputType="text"
-            android:longClickable="false"/>
+            android:longClickable="false"
+            android:paddingLeft="@dimen/margin_normal_12"/>
 
-        <com.yideguan.imageprint.views.ClearEditText
+        <com.MDGround.HaiLanPrint.views.ClearEditText
             android:id="@+id/cetChildName"
             android:layout_width="match_parent"
             android:layout_height="@dimen/button_normal"
-            android:background="@null"
-            android:hint="@string/input_child_name"
+            android:layout_marginTop="@dimen/margin_normal_12"
+            android:background="@color/color_white"
             android:drawablePadding="@dimen/margin_normal_12"
+            android:hint="@string/input_child_name"
             android:inputType="text"
-            android:longClickable="false"/>
+            android:longClickable="false"
+            android:paddingLeft="@dimen/margin_normal_12"/>
+
+        <View style="@style/DividerHorizontal"/>
 
         <TextView
             android:id="@+id/tvChildBirthday"
             android:layout_width="match_parent"
             android:layout_height="@dimen/button_normal"
-            android:background="@null"
-            android:gravity="center_vertical"
+            android:background="@color/color_white"
+            android:clickable="true"
             android:drawablePadding="@dimen/margin_normal_12"
-            android:textSize="@dimen/text_big_18"
+            android:gravity="center_vertical"
             android:hint="@string/choose_child_birthday"
             android:inputType="text"
-            android:longClickable="false"/>
+            android:onClick="chooseBirthdayAction"
+            android:paddingLeft="@dimen/margin_normal_12"
+            android:textSize="@dimen/text_big_18"/>
 
-        <com.yideguan.imageprint.views.ClearEditText
+        <View style="@style/DividerHorizontal"/>
+
+        <com.MDGround.HaiLanPrint.views.ClearEditText
             android:id="@+id/cetChildSchool"
             android:layout_width="match_parent"
             android:layout_height="@dimen/button_normal"
-            android:background="@null"
-            android:hint="@string/input_child_school"
+            android:background="@color/color_white"
             android:drawablePadding="@dimen/margin_normal_12"
+            android:hint="@string/input_child_school"
             android:inputType="text"
-            android:longClickable="false"/>
+            android:longClickable="false"
+            android:paddingLeft="@dimen/margin_normal_12"/>
 
-        <com.yideguan.imageprint.views.ClearEditText
+        <View style="@style/DividerHorizontal"/>
+
+        <com.MDGround.HaiLanPrint.views.ClearEditText
             android:id="@+id/cetChildClass"
             android:layout_width="match_parent"
             android:layout_height="@dimen/button_normal"
-            android:background="@null"
-            android:hint="@string/input_child_class"
+            android:background="@color/color_white"
             android:drawablePadding="@dimen/margin_normal_12"
+            android:hint="@string/input_child_class"
             android:inputType="text"
-            android:longClickable="false"/>
+            android:longClickable="false"
+            android:paddingLeft="@dimen/margin_normal_12"/>
 
         <Button
             android:id="@+id/btnLogin"
             android:layout_width="match_parent"
             android:layout_height="@dimen/button_normal"
             android:layout_gravity="center_horizontal"
+            android:layout_marginLeft="@dimen/margin_medium_24"
+            android:layout_marginRight="@dimen/margin_medium_24"
             android:layout_marginTop="@dimen/margin_big_32"
+            android:background="@drawable/ripple_button"
             android:gravity="center"
             android:onClick="finishAction"
             android:text="@string/finish"

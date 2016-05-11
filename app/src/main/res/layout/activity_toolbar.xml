@@ -12,20 +12,21 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/color_white"
         android:minHeight="?attr/actionBarSize"
         app:titleTextColor="@color/colorOrange">
 
         <TextView
-            android:id="@+id/tv_title"
+            android:id="@+id/tvTitle"
             style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:textColor="@color/colorOrange"
+            android:textColor="@color/color_black"
             tools:text="Toolbar Title"/>
 
         <TextView
-            android:id="@+id/tv_right"
+            android:id="@+id/tvRight"
             style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -38,7 +39,7 @@
     </android.support.v7.widget.Toolbar>
 
     <ViewStub
-        android:id="@+id/content_stub"
+        android:id="@+id/viewStubContent"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 

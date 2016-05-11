@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">海岚直印</string>
+    <string name="app_name">海拍海印</string>
 
     <!-- 登录 -->
     <string name="login">登录</string>
@@ -8,6 +8,7 @@
     <string name="not_account">还没有账号?</string>
     <string name="sign_up_immediately">立即注册</string>
     <string name="input_phone_number">请输入手机号码</string>
+    <string name="input_your_phone_number">请输入您的手机号码</string>
     <string name="input_password">请输入密码</string>
     <string name="input_invite_code">请输入邀请码(选填)</string>
 
@@ -26,6 +27,8 @@
     <string name="login_immediately">立即登录</string>
     <string name="input_corrent_phone">手机号码不存在</string>
     <string name="input_corrent_password">密码的字符数应该是6-16位</string>
+    <string name="acquire_again">重新获取</string>
+    <string name="after_second_acquire_again">%d秒后重新获取</string>
     <string name="sign_up_protocol">注册协议</string>
     <string name="hailan_sign_up_protocol">海岚直印注册协议</string>
 
@@ -34,9 +37,12 @@
     <string name="input_name">(必填)请输入注册人姓名</string>
     <string name="input_child_name">请输入孩子姓名</string>
     <string name="choose_child_birthday">请选择孩子生日</string>
-    <string name="input_child_school">请选择孩子学校</string>
-    <string name="input_child_class">请选择孩子班级</string>
+    <string name="input_child_school">请输入孩子学校</string>
+    <string name="input_child_class">请输入孩子班级</string>
     <string name="finish">完成</string>
+
+    <!-- 主界面 -->
+    <string name="main_activity">主界面</string>
 
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>

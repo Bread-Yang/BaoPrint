@@ -5,12 +5,29 @@ android {
     buildToolsVersion "23.0.2"
 
     defaultConfig {
-        applicationId "com.yideguan.imageprint"
+        applicationId "com.MDGround.HaiLanPrint"
         minSdkVersion 15
         targetSdkVersion 23
         versionCode 1
         versionName "1.0"
     }
+
+    signingConfigs {
+        debug {
+            storeFile file('MDGround_Keystore.jks')
+            storePassword "13560506833"
+            keyAlias "yoghourt"
+            keyPassword "13560506833"
+        }
+
+        release {
+            storeFile file('MDGround_Keystore.jks')
+            storePassword "13560506833"
+            keyAlias "yoghourt"
+            keyPassword "13560506833"
+        }
+    }
+
     buildTypes {
         release {
             minifyEnabled false
@@ -20,6 +37,12 @@ android {
 
     dataBinding{
         enabled = true
+    }
+
+    repositories{
+        flatDir{
+            dirs 'libs'
+        }
     }
 }
 
@@ -33,6 +56,10 @@ dependencies {
 
     compile 'com.squareup.retrofit2:retrofit:2.0.2'
     compile 'com.squareup.retrofit2:converter-gson:2.0.0-beta3'
+    compile 'joda-time:joda-time:2.9.3'
     compile 'com.github.zhaokaiqiang.klog:library:1.1.0'
     compile 'com.github.bumptech.glide:glide:3.6.1'
+
+    compile(name: 'SMSSDK-2.0.2', ext: 'aar')
+    compile(name: 'SMSSDKGUI-2.0.2', ext: 'aar')
 }
