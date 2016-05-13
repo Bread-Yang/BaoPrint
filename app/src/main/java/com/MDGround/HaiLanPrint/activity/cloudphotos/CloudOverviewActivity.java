@@ -16,6 +16,7 @@ import com.MDGround.HaiLanPrint.enumobject.restfuls.ResponseCode;
 import com.MDGround.HaiLanPrint.models.CloudImage;
 import com.MDGround.HaiLanPrint.restfuls.GlobalRestful;
 import com.MDGround.HaiLanPrint.restfuls.bean.ResponseData;
+import com.MDGround.HaiLanPrint.utils.ViewUtils;
 import com.google.gson.reflect.TypeToken;
 
 import java.util.ArrayList;
@@ -38,6 +39,14 @@ public class CloudOverviewActivity extends ToolbarActivity<ActivityCloudOverview
         return R.layout.activity_cloud_overview;
     }
 
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        getPhotoCountRequest();
+    }
+
     @Override
     protected void initData() {
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
@@ -46,7 +55,15 @@ public class CloudOverviewActivity extends ToolbarActivity<ActivityCloudOverview
 
         mAdapter = new CloudOverviewAdapter();
         mDataBinding.recyclerView.setAdapter(mAdapter);
+    }
 
+    @Override
+    protected void setListener() {
+
+    }
+
+    private void getPhotoCountRequest() {
+        ViewUtils.loading(this);
         GlobalRestful.getInstance().GetCloudPhotoCount(new Callback<ResponseData>() {
             @Override
             public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
@@ -59,24 +76,16 @@ public class CloudOverviewActivity extends ToolbarActivity<ActivityCloudOverview
                     mImagesList.addAll(tempImagesList);
 
                     mAdapter.notifyDataSetChanged();
+
+                    ViewUtils.dismiss();
                 }
             }
 
             @Override
             public void onFailure(Call<ResponseData> call, Throwable t) {
-
+                ViewUtils.dismiss();
             }
         });
-    }
-
-    @Override
-    protected void setListener() {
-
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
     }
 
     private class CloudOverviewAdapter extends RecyclerView.Adapter<CloudOverviewAdapter.BindingHolder> {

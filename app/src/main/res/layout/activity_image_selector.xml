@@ -37,7 +37,7 @@
                 android:layout_height="match_parent"
                 android:layout_alignParentRight="true"
                 android:layout_gravity="center_horizontal"
-                android:background="@drawable/ripple_button_right_angle"
+                android:background="@drawable/shape_button_right_angle"
                 android:gravity="center"
                 android:onClick="uploadAction"
                 android:text="@string/upload"

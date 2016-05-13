@@ -5,6 +5,7 @@ import android.util.Base64;
 
 import com.MDGround.HaiLanPrint.constants.Constants;
 import com.MDGround.HaiLanPrint.enumobject.restfuls.BusinessType;
+import com.MDGround.HaiLanPrint.restfuls.Interceptor.ProgressRequestBody;
 import com.MDGround.HaiLanPrint.restfuls.bean.ResponseData;
 import com.MDGround.HaiLanPrint.utils.ViewUtils;
 import com.socks.library.KLog;
@@ -61,13 +62,19 @@ public class FileRestful extends BaseRestful {
     }
 
     // 上传图片
-    public void UploadCloudPhoto(boolean isShare, File photo, Callback<ResponseData> callback) {
+    public void UploadCloudPhoto(final boolean isShare, final File photo,
+                                 final ProgressRequestBody.UploadCallbacks uploadCallbacks,
+                                 final Callback<ResponseData> callback) {
         if (photo == null) {
             KLog.e("photo是空的");
             return;
         }
 
-        long fileSize = photo.length();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+
+                long fileSize = photo.length();
 
 //        byte[] buffer = null;
 //        FileInputStream in = null;
@@ -103,30 +110,33 @@ public class FileRestful extends BaseRestful {
 //            KLog.e("读取图片失败");
 //            return;
 //        }
+//                String dataStr = Base64.encodeToString(buffer, Base64.DEFAULT);
 
-        Bitmap bitmap = ViewUtils.getSmallBitmap(photo.getPath());
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 50, baos);
+                Bitmap bitmap = ViewUtils.getSmallBitmap(photo.getPath());
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 50, baos);
+                String dataStr = Base64.encodeToString(baos.toByteArray(), Base64.DEFAULT);
 
-        String fileName = photo.getName();
+                String fileName = photo.getName();
 
-        String dataStr = Base64.encodeToString(baos.toByteArray(), Base64.DEFAULT);
-        try {
-            dataStr = URLEncoder.encode(dataStr, "UTF-8");
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
+                try {
+                    dataStr = URLEncoder.encode(dataStr, "UTF-8");
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
 
-        JSONObject obj = new JSONObject();
-        try {
-            obj.put("Shared", isShare);
-            obj.put("PhotoData", dataStr);
-            obj.put("FileName", fileName);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+                JSONObject obj = new JSONObject();
+                try {
+                    obj.put("Shared", isShare);
+                    obj.put("PhotoData", dataStr);
+                    obj.put("FileName", fileName);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
 
-        asynchronousPost("UploadCloudPhoto", obj.toString(), callback);
+                uploadImagePost("UploadCloudPhoto", obj.toString(), uploadCallbacks, callback);
+            }
+        }).start();
     }
 }
 

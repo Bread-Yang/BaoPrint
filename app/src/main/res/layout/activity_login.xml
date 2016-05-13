@@ -56,7 +56,7 @@
             android:layout_height="@dimen/button_normal"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="@dimen/margin_big_32"
-            android:background="@drawable/ripple_button_round_angle"
+            android:background="@drawable/shape_button_right_angle"
             android:gravity="center"
             android:onClick="loginAction"
             android:text="@string/login"

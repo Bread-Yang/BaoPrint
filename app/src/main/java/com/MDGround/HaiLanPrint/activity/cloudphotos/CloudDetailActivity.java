@@ -13,9 +13,11 @@ import com.MDGround.HaiLanPrint.databinding.ActivityCloudDetailBinding;
 import com.MDGround.HaiLanPrint.models.CloudImage;
 import com.MDGround.HaiLanPrint.restfuls.GlobalRestful;
 import com.MDGround.HaiLanPrint.restfuls.bean.ResponseData;
+import com.MDGround.HaiLanPrint.utils.StringUtil;
 import com.MDGround.HaiLanPrint.utils.ViewUtils;
 import com.MDGround.HaiLanPrint.views.itemdecoration.GridSpacingItemDecoration;
 import com.google.gson.reflect.TypeToken;
+import com.malinskiy.superrecyclerview.OnMoreListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,6 +52,7 @@ public class CloudDetailActivity extends ToolbarActivity<ActivityCloudDetailBind
 
         if (mCloudImage.isShared()) {
             mDataBinding.lltOperation.setVisibility(View.GONE);
+            mDataBinding.btnOperation.setText(R.string.forward);
             tvRight.setText(R.string.forward);
         } else {
             tvRight.setText(R.string.edit);
@@ -72,10 +75,10 @@ public class CloudDetailActivity extends ToolbarActivity<ActivityCloudDetailBind
                 String btnText = tvRight.getText().toString();
                 if (mCloudImage.isShared()) {
                     if (btnText.equals(getString(R.string.forward))) {
-                        mDataBinding.btnOperation.setText(R.string.cancel);
+                        tvRight.setText(R.string.cancel);
                         mDataBinding.lltOperation.setVisibility(View.VISIBLE);
                     } else {
-                        mDataBinding.btnOperation.setText(R.string.forward);
+                        tvRight.setText(R.string.forward);
                         mDataBinding.lltOperation.setVisibility(View.GONE);
                     }
                 } else {
@@ -84,6 +87,8 @@ public class CloudDetailActivity extends ToolbarActivity<ActivityCloudDetailBind
 
                         mDataBinding.btnOperation.setText(R.string.upload);
                     } else {
+                        tvRight.setText(R.string.finish);
+
                         mDataBinding.cbSelectAll.setVisibility(View.VISIBLE);
 
                         mDataBinding.btnOperation.setText(R.string.delete);
@@ -107,6 +112,13 @@ public class CloudDetailActivity extends ToolbarActivity<ActivityCloudDetailBind
                 }
             }
         });
+
+        mDataBinding.recyclerView.setupMoreListener(new OnMoreListener() {
+            @Override
+            public void onMoreAsked(int overallItemsCount, int itemsBeforeMore, int maxLastVisiblePosition) {
+                loadImageRequest();
+            }
+        }, Constants.ITEM_LEFT_TO_LOAD_MORE);
     }
 
     private void loadImageRequest() {
@@ -115,11 +127,18 @@ public class CloudDetailActivity extends ToolbarActivity<ActivityCloudDetailBind
             public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
                 mPageIndex++;
 
-                ArrayList<CloudImage> tempImagesList = response.body().getContent(new TypeToken<ArrayList<CloudImage>>() {
-                });
+                if (StringUtil.isEmpty(response.body().getContent())) {
+                    mDataBinding.recyclerView.setLoadingMore(false);
+                    mDataBinding.recyclerView.setupMoreListener(null, 0);
+                } else {
+                    ArrayList<CloudImage> tempImagesList = response.body().getContent(new TypeToken<ArrayList<CloudImage>>() {
+                    });
 
-                mImagesList.addAll(tempImagesList);
-                mImageAdapter.bindImages(mImagesList);
+                    mImagesList.addAll(tempImagesList);
+                    mImageAdapter.bindImages(mImagesList);
+                }
+
+                mDataBinding.recyclerView.hideMoreProgress();
             }
 
             @Override

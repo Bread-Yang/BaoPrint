@@ -44,7 +44,6 @@ public class MDGroundFetcher implements DataFetcher<InputStream> {
             byte[] bitmapArray;
             bitmapArray = Base64.decode(responseData.getContent(), Base64.DEFAULT);
             mInputStream = new ByteArrayInputStream(bitmapArray);
-            KLog.e("Glide请求图片成功");
             return mInputStream;
         }
 

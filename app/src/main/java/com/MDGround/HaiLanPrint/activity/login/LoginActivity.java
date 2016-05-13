@@ -9,6 +9,7 @@ import android.widget.Toast;
 
 import com.MDGround.HaiLanPrint.R;
 import com.MDGround.HaiLanPrint.activity.main.MainActivity;
+import com.MDGround.HaiLanPrint.application.MDGroundApplication;
 import com.MDGround.HaiLanPrint.constants.Constants;
 import com.MDGround.HaiLanPrint.databinding.ActivityLoginBinding;
 import com.MDGround.HaiLanPrint.enumobject.restfuls.ResponseCode;
@@ -55,6 +56,7 @@ public class LoginActivity extends AppCompatActivity {
                         ViewUtils.dismiss();
                         if (ResponseCode.isSuccess(response.body())) {
                             User user = response.body().getContent(User.class);
+                            MDGroundApplication.mLoginUser = user;
                             if (mDataBinding.cbAutoLogin.isChecked()) {
                                 FileUtils.setObject(Constants.KEY_ALREADY_LOGIN_USER, user);
                                 DeviceUtil.setDeviceId(user.getDeviceID());

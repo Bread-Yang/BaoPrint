@@ -7,6 +7,7 @@ import com.MDGround.HaiLanPrint.enumobject.restfuls.BusinessType;
 import com.MDGround.HaiLanPrint.enumobject.restfuls.PlatformType;
 import com.MDGround.HaiLanPrint.models.User;
 import com.MDGround.HaiLanPrint.restfuls.Interceptor.DecryptedPayloadInterceptor;
+import com.MDGround.HaiLanPrint.restfuls.Interceptor.ProgressRequestBody;
 import com.MDGround.HaiLanPrint.restfuls.bean.RequestData;
 import com.MDGround.HaiLanPrint.restfuls.bean.ResponseData;
 import com.MDGround.HaiLanPrint.utils.DeviceUtil;
@@ -46,6 +47,9 @@ public abstract class BaseRestful {
 
         @POST("Api/RpcInternalService.ashx/")
         Call<ResponseData> fileRequest(@Body RequestBody requestBody);    // 图片请求地址
+
+        @POST("Api/RpcInternalService.ashx/")
+        Call<ResponseData> imageUploadRequest(@Body ProgressRequestBody requestBody);    // 图片请求地址
     }
 
     private int getPlatform() {
@@ -64,7 +68,18 @@ public abstract class BaseRestful {
                 .baseUrl(getHost())
                 .addConverterFactory(GsonConverterFactory.create()); // json转成对象
 
-        if (getBusinessType() != BusinessType.FILE) {  // 请求图片不需要加密
+        if (getBusinessType() == BusinessType.FILE) {  // 请求图片不需要加密,增加上传进度拦截器
+//            OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
+//            httpClient.interceptors().add(new UpLoadProgressInterceptor(new CountingRequestBody.Listener() {
+//                @Override
+//                public void onRequestProgress(long bytesWritten, long contentLength) {
+//                    KLog.e("bytesWritten : " + bytesWritten);
+//                    KLog.e("contentLength : " + contentLength);
+//                }
+//            }));
+//
+//            builder = builder.client(httpClient.build());
+        } else {    // 其他普通请求需要加密
             OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
             httpClient.interceptors().add(new DecryptedPayloadInterceptor());  //请求前加密,返回前解密
 
@@ -75,7 +90,7 @@ public abstract class BaseRestful {
         baseService = retrofit.create(BaseService.class);
     }
 
-    private RequestBody createRequestBody(String functionName, String queryData) {
+    private RequestData createRequestData(String functionName, String queryData) {
         RequestData requestData = new RequestData();
 
         requestData.setQueryData(queryData);
@@ -97,10 +112,24 @@ public abstract class BaseRestful {
         requestData.setServiceToken(serviceToken);
         requestData.setSign(EncryptUtil.appSign(requestData));
 
+        return requestData;
+    }
+
+    private RequestBody createRequestBody(String functionName, String queryData) {
+        RequestData requestData = createRequestData(functionName, queryData);
+
         String json = new Gson().toJson(requestData);
         RequestBody requestBody = RequestBody.create(MediaType.parse("application/json"), json);
 
         return requestBody;
+    }
+
+    private ProgressRequestBody createProgressRequestBody(String functionName, String queryData, ProgressRequestBody.UploadCallbacks uploadCallbacks) {
+        RequestData requestData = createRequestData(functionName, queryData);
+
+        String json = new Gson().toJson(requestData);
+
+        return new ProgressRequestBody(json, uploadCallbacks);
     }
 
     // 普通接口请求(异步)
@@ -118,7 +147,7 @@ public abstract class BaseRestful {
         call.enqueue(callback);
     }
 
-    // 文件/图片等请求(同步)
+    // 请求文件/图片等请求(同步)
     protected ResponseData synchronousPost(String functionName, String queryData) {
         RequestBody requestBody = createRequestBody(functionName, queryData);
 
@@ -129,5 +158,16 @@ public abstract class BaseRestful {
             e.printStackTrace();
         }
         return null;
+    }
+
+    // 上传图片
+    protected void uploadImagePost(String functionName, String queryData,
+                                   ProgressRequestBody.UploadCallbacks uploadCallbacks,
+                                   Callback<ResponseData> callback) {
+        ProgressRequestBody requestBody = createProgressRequestBody(functionName, queryData, uploadCallbacks);
+
+        Call<ResponseData> call = null;
+        call = baseService.imageUploadRequest(requestBody);
+        call.enqueue(callback);
     }
 }

@@ -46,8 +46,8 @@ public class DecryptedPayloadInterceptor implements Interceptor {
 
             Request newRequest = requestBuilder.build();
 
-            KLog.e(String.format("Sending request %s on %s%n%s",
-                    newRequest.url(), chain.connection(), newRequest.headers()));
+//            KLog.e(String.format("Sending request %s on %s%n%s",
+//                    newRequest.url(), chain.connection(), newRequest.headers()));
 
             originalResponse = chain.proceed(newRequest);
         } else {

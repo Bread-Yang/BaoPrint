@@ -68,7 +68,7 @@ public class ImageSelectorActivity extends ToolbarActivity<ActivityImageSelector
 
             File file = new File(localMedia.getImageLocalPath());
 
-            FileRestful.getInstance().UploadCloudPhoto(mIsShared, file, new Callback<ResponseData>() {
+            FileRestful.getInstance().UploadCloudPhoto(mIsShared, file, null, new Callback<ResponseData>() {
                 @Override
                 public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
                     int nextUploadIndex = upload_image_index + 1;

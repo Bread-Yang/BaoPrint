@@ -24,4 +24,6 @@ public final class Constants {
     public static final String KEY_NEW_USER = "key_new_user";
     public static final String KEY_PHONE = "key_phone";
     public static final String KEY_CLOUD_IMAGE = "key_cloud_image";
+
+    public static int ITEM_LEFT_TO_LOAD_MORE = 3;
 }
