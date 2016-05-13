@@ -1,49 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<layout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.MDGround.HaiLanPrint.activity.main.MainActivity">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/colorOrange">
+        android:layout_height="match_parent">
 
-        <ImageView
-            android:id="@+id/ivLogo"
-            android:layout_width="wrap_content"
+        <RelativeLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_wechat"/>
+            android:background="@color/colorOrange">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_toRightOf="@+id/ivLogo"
-            android:text="@string/app_name"
-            android:textColor="@color/color_white"/>
+            <ImageView
+                android:id="@+id/ivLogo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_wechat"/>
 
-        <TextView
-            android:id="@+id/tvCloudPhotos"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_toLeftOf="@+id/tvPersonalCenter"
-            android:text="@string/clound_photos"
-            android:layout_marginRight="@dimen/margin_small_8"
-            android:textColor="@color/color_white"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@+id/ivLogo"
+                android:text="@string/app_name"
+                android:textColor="@color/color_white"/>
 
-        <TextView
-            android:id="@+id/tvPersonalCenter"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:text="@string/personal_center"
-            android:textColor="@color/color_white"/>
+            <TextView
+                android:id="@+id/tvCloudPhotos"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/margin_small_8"
+                android:layout_toLeftOf="@+id/tvPersonalCenter"
+                android:clickable="true"
+                android:onClick="toCloudActivityAction"
+                android:text="@string/clound_album"
+                android:textColor="@color/color_white"/>
 
-    </RelativeLayout>
+            <TextView
+                android:id="@+id/tvPersonalCenter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:text="@string/personal_center"
+                android:textColor="@color/color_white"/>
 
-</LinearLayout>
+        </RelativeLayout>
+
+    </LinearLayout>
+</layout>

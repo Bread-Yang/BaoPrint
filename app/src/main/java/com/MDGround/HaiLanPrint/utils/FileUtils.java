@@ -72,7 +72,6 @@ public class FileUtils {
 
     }
 
-
     public static String saveImage(Bitmap bitmap, String dir, String name) {
         try {
             File dirFile = new File(dir);

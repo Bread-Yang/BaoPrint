@@ -1,7 +1,9 @@
 package com.MDGround.HaiLanPrint.restfuls.Interceptor;
 
-import com.socks.library.KLog;
+import com.MDGround.HaiLanPrint.restfuls.bean.ResponseData;
 import com.MDGround.HaiLanPrint.utils.EncryptUtil;
+import com.google.gson.GsonBuilder;
+import com.socks.library.KLog;
 
 import java.io.IOException;
 import java.net.URLDecoder;
@@ -44,8 +46,8 @@ public class DecryptedPayloadInterceptor implements Interceptor {
 
             Request newRequest = requestBuilder.build();
 
-//            KLog.e(String.format("Sending request %s on %s%n%s",
-//                    newRequest.url(), chain.connection(), newRequest.headers()));
+            KLog.e(String.format("Sending request %s on %s%n%s",
+                    newRequest.url(), chain.connection(), newRequest.headers()));
 
             originalResponse = chain.proceed(newRequest);
         } else {
@@ -53,7 +55,7 @@ public class DecryptedPayloadInterceptor implements Interceptor {
         }
 
         if (!originalResponse.isSuccessful()) {
-            KLog.e("成功失败");
+            KLog.e("请求失败");
         }
 
 //        String responseContent = new Buffer().write(originalResponse.body().bytes()).readUtf8();
@@ -68,7 +70,11 @@ public class DecryptedPayloadInterceptor implements Interceptor {
             e.printStackTrace();
         }
 
-        KLog.e("Response是 : " + "\n" + responseContent);
+        ResponseData mResponseData = new GsonBuilder().create().fromJson(responseContent, ResponseData.class);
+        KLog.e("Response是 : " + "\n" + "{"
+                + "\"Code\" :" + mResponseData.getCode() + ","
+                + "\"Message\" :" + mResponseData.getMessage() + ","
+                + "\"Content\" : " + mResponseData.getContent() + "}" + "\n");
 
         Response newResponse = originalResponse.newBuilder().body(ResponseBody.create(originalResponse.body().contentType(), responseContent)).build();
 

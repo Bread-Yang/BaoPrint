@@ -43,13 +43,6 @@ public abstract class ToolbarActivity<T extends ViewDataBinding> extends AppComp
         // 右边按钮
         tvRight = (TextView) mToolbar.findViewById(R.id.tvRight);
 
-        tvRight.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onToolbarRightButtonClick(v);
-            }
-        });
-
         // data binding
         ViewStub viewStubContent = (ViewStub) findViewById(R.id.viewStubContent);
         if (getContentLayout() != 0) {
@@ -73,12 +66,4 @@ public abstract class ToolbarActivity<T extends ViewDataBinding> extends AppComp
     protected abstract void initData();
 
     protected abstract void setListener();
-
-    protected void setToolbarRightButtonText(int resID) {
-        tvRight.setText(resID);
-    }
-
-    protected void onToolbarRightButtonClick(View v) {
-
-    }
 }

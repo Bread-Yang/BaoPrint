@@ -1,6 +1,12 @@
 <resources>
     <string name="app_name">海拍海印</string>
 
+    <!-- common -->
+    <string name="finish">完成</string>
+    <string name="cancel">取消</string>
+    <string name="edit">编辑</string>
+    <string name="delete">删除</string>
+
     <!-- 登录 -->
     <string name="login">登录</string>
     <string name="auto_login">自动登录</string>
@@ -39,13 +45,26 @@
     <string name="choose_child_birthday">请选择孩子生日</string>
     <string name="input_child_school">请输入孩子学校</string>
     <string name="input_child_class">请输入孩子班级</string>
-    <string name="finish">完成</string>
 
     <!-- 主界面 -->
     <string name="main_activity">主界面</string>
 
     <!-- 云相册 -->
-    <string name="clound_photos">云相册</string>
+    <string name="clound_album">云相册</string>
+    <string name="personal_album">个人相册</string>
+    <string name="share_album">共享相册</string>
+    <string name="image_num">(%d)</string>
+    <string name="choose_photo">选择照片</string>
+    <string name="forward">转存</string>
+
+    <!-- 照片上传 -->
+    <string name="select_photos_upload">选择照片上传</string>
+    <string name="all_image">所有图片</string>
+    <string name="select_all">全选</string>
+    <string name="take_picture">拍摄照片</string>
+    <string name="message_max_num">你最多可以选择%1$s张图片</string>
+    <string name="upload">上传</string>
+    <string name="upload_num">上传(%d)</string>
 
     <!-- 个人中心 -->
     <string name="personal_center">个人中心</string>

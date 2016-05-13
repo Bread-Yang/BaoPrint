@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <com.malinskiy.superrecyclerview.SuperRecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_above="@+id/lltOperation"
+            android:layout_height="match_parent"
+            android:scrollbars="none"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/button_normal"
+            android:id="@+id/lltOperation"
+            android:layout_alignParentBottom="true"
+            android:background="@color/color_white"
+            android:gravity="center_vertical">
+
+            <CheckBox
+                android:id="@+id/cbSelectAll"
+                style="@style/NormalTextStyle"
+                android:layout_width="match_parent"
+                android:visibility="gone"
+                android:layout_height="match_parent"
+                android:layout_centerVertical="true"
+                android:layout_weight="2"
+                android:checked="false"
+                android:onClick="selectAllAction"
+                android:text="@string/select_all"/>
+
+            <Button
+                android:id="@+id/btnOperation"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignParentRight="true"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/ripple_button_right_angle"
+                android:gravity="center"
+                android:layout_weight="3"
+                android:text="@string/upload"
+                android:textColor="@color/color_white"
+                android:textSize="@dimen/text_max_20"/>
+        </LinearLayout>
+
+    </RelativeLayout>
+</layout>

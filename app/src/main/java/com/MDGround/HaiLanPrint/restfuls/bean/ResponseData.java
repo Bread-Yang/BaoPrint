@@ -59,4 +59,9 @@ public class ResponseData {
 			return gson.fromJson(Content, type.getType());
 		}
 	}
+
+	@Override
+	public String toString() {
+		return new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").create().toJson(this);
+	}
 }

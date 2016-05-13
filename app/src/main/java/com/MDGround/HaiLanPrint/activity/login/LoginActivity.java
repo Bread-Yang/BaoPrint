@@ -58,11 +58,10 @@ public class LoginActivity extends AppCompatActivity {
                             if (mDataBinding.cbAutoLogin.isChecked()) {
                                 FileUtils.setObject(Constants.KEY_ALREADY_LOGIN_USER, user);
                                 DeviceUtil.setDeviceId(user.getDeviceID());
-
-                                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                                startActivity(intent);
-                                finish();
                             }
+                            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                            startActivity(intent);
+                            finish();
                         } else {
                             Toast.makeText(LoginActivity.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
                         }
@@ -100,7 +99,7 @@ public class LoginActivity extends AppCompatActivity {
             return;
         }
 
-        loginRequest(phone, MD5Util.MD5(password));
+        loginRequest(phone, password);
     }
 
     public void forgetPasswordAction(View view) {

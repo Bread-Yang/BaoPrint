@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.Base64;
 
 import com.MDGround.HaiLanPrint.enumobject.restfuls.ResponseCode;
+import com.MDGround.HaiLanPrint.models.CloudImage;
 import com.MDGround.HaiLanPrint.restfuls.FileRestful;
 import com.MDGround.HaiLanPrint.restfuls.bean.ResponseData;
 import com.bumptech.glide.Priority;
@@ -21,36 +22,19 @@ public class MDGroundFetcher implements DataFetcher<InputStream> {
 
     private Context mContext;
 
-    private final LocalMedia mLocalMedia;
+    private final CloudImage mCloudImage;
 
     private InputStream mInputStream;
 
-    public MDGroundFetcher(LocalMedia mLocalMedia, Context context) {
-        this.mLocalMedia = mLocalMedia;
+    public MDGroundFetcher(CloudImage cloudImage, Context context) {
+        this.mCloudImage = cloudImage;
         this.mContext = context;
     }
 
     @Override
     public InputStream loadData(Priority priority) throws Exception {
-        String url = mLocalMedia.getYiDeGuanImageURL().substring(MedicalConstant.IMAGE_URI_PREFIX.length());
 
-        KLog.e("执行了这里");
-
-        if (url == null || url.equals("")) {
-            KLog.e("图片url为空");
-            return null;
-        }
-
-        String data[] = url.split("\\.");
-        if (data.length < 2) {
-            KLog.e("图片url不完整");
-            return null;
-        }
-
-        int clinicID = Integer.parseInt(data[0]);
-        int fileID = Integer.parseInt(data[1]);
-
-        ResponseData responseData = FileRestful.getInstance().GetPhoto(fileID);
+        ResponseData responseData = FileRestful.getInstance().GetPhoto(mCloudImage.getPhotoSID());
         if (responseData == null) {
             KLog.e("Glide请求图片失败");
             return null;
@@ -60,6 +44,7 @@ public class MDGroundFetcher implements DataFetcher<InputStream> {
             byte[] bitmapArray;
             bitmapArray = Base64.decode(responseData.getContent(), Base64.DEFAULT);
             mInputStream = new ByteArrayInputStream(bitmapArray);
+            KLog.e("Glide请求图片成功");
             return mInputStream;
         }
 
@@ -86,7 +71,7 @@ public class MDGroundFetcher implements DataFetcher<InputStream> {
      */
     @Override
     public String getId() {
-        return mLocalMedia.getYiDeGuanImageURL();
+        return String.valueOf(mCloudImage.getPhotoID());
     }
 
     /**

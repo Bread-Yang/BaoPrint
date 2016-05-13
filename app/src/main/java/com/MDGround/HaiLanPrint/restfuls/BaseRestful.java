@@ -60,14 +60,18 @@ public abstract class BaseRestful {
     protected BaseRestful() {
         mContext = MDGroundApplication.mInstance;
 
-        OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
-        httpClient.interceptors().add(new DecryptedPayloadInterceptor());  //请求前加密,返回前解密
-
-        Retrofit retrofit = new Retrofit.Builder()
+        Retrofit.Builder builder = new Retrofit.Builder()
                 .baseUrl(getHost())
-                .addConverterFactory(GsonConverterFactory.create())  // json转成对象
-                .client(httpClient.build())
-                .build();
+                .addConverterFactory(GsonConverterFactory.create()); // json转成对象
+
+        if (getBusinessType() != BusinessType.FILE) {  // 请求图片不需要加密
+            OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
+            httpClient.interceptors().add(new DecryptedPayloadInterceptor());  //请求前加密,返回前解密
+
+            builder = builder.client(httpClient.build());
+        }
+
+        Retrofit retrofit = builder.build();
         baseService = retrofit.create(BaseService.class);
     }
 
@@ -108,7 +112,7 @@ public abstract class BaseRestful {
         Call<ResponseData> call = null;
         if (getBusinessType() == BusinessType.Global) {
             call = baseService.normalRequest(requestBody);
-        } else {
+        } else if (getBusinessType() == BusinessType.FILE) {
             call = baseService.fileRequest(requestBody);
         }
         call.enqueue(callback);

@@ -1,19 +1,19 @@
 package com.MDGround.HaiLanPrint.restfuls;
 
+import android.graphics.Bitmap;
 import android.util.Base64;
 
 import com.MDGround.HaiLanPrint.constants.Constants;
 import com.MDGround.HaiLanPrint.enumobject.restfuls.BusinessType;
 import com.MDGround.HaiLanPrint.restfuls.bean.ResponseData;
+import com.MDGround.HaiLanPrint.utils.ViewUtils;
 import com.socks.library.KLog;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
@@ -63,49 +63,54 @@ public class FileRestful extends BaseRestful {
     // 上传图片
     public void UploadCloudPhoto(boolean isShare, File photo, Callback<ResponseData> callback) {
         if (photo == null) {
+            KLog.e("photo是空的");
             return;
         }
 
         long fileSize = photo.length();
 
-        byte[] buffer = null;
-        FileInputStream in = null;
-        try {
-            // 一次读多个字节
-            in = new FileInputStream(photo);
-            buffer = new byte[(int) fileSize];
-            int offset = 0;
-            int numRead = 0;
+//        byte[] buffer = null;
+//        FileInputStream in = null;
+//        try {
+//            // 一次读多个字节
+//            in = new FileInputStream(photo);
+//            buffer = new byte[(int) fileSize];
+//            int offset = 0;
+//            int numRead = 0;
+//
+//            while (offset < buffer.length && (numRead = in.read(buffer, offset, buffer.length - offset)) >= 0) {
+//                offset += numRead;
+//            }
+//            // 确保所有数据均被读取
+//            if (offset != buffer.length) {
+//                throw new IOException("Could not completely read uploadFile " + photo.getName());
+//            }
+//        } catch (FileNotFoundException e) {
+//            e.printStackTrace();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        } finally {
+//            if (in != null) {
+//                try {
+//                    in.close();
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        }
+//
+//        if (buffer == null || buffer.length == 0) {
+//            KLog.e("读取图片失败");
+//            return;
+//        }
 
-            while (offset < buffer.length && (numRead = in.read(buffer, offset, buffer.length - offset)) >= 0) {
-                offset += numRead;
-            }
-            // 确保所有数据均被读取
-            if (offset != buffer.length) {
-                throw new IOException("Could not completely read uploadFile " + photo.getName());
-            }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            if (in != null) {
-                try {
-                    in.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-
-        if (buffer == null || buffer.length == 0) {
-            KLog.e("读取图片失败");
-            return;
-        }
+        Bitmap bitmap = ViewUtils.getSmallBitmap(photo.getPath());
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 50, baos);
 
         String fileName = photo.getName();
 
-        String dataStr = Base64.encodeToString(buffer, Base64.DEFAULT);
+        String dataStr = Base64.encodeToString(baos.toByteArray(), Base64.DEFAULT);
         try {
             dataStr = URLEncoder.encode(dataStr, "UTF-8");
         } catch (UnsupportedEncodingException e) {
@@ -121,6 +126,8 @@ public class FileRestful extends BaseRestful {
             e.printStackTrace();
         }
 
-        asynchronousPost("LoginUser", obj.toString(), callback);
+        asynchronousPost("UploadCloudPhoto", obj.toString(), callback);
     }
 }
+
+

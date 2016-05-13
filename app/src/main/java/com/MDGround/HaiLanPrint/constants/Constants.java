@@ -4,10 +4,12 @@ package com.MDGround.HaiLanPrint.constants;
  * Created by yoghourt on 5/5/16.
  */
 public final class Constants {
-//    public static final String HOST = "http://192.168.0.152:8888/";
-    public static final String HOST = "http://psuat.yideguan.com/";
 
-    public static final String FILE_HOST = "http://quat.yideguan.com/";
+    public static final String HOST = "http://psuat.yideguan.com/";
+//    public static final String HOST = "http://192.168.0.152:9999/";
+
+    public static final String FILE_HOST = "http://psuat.yideguan.com/";
+//    public static final String FILE_HOST = "http://192.168.0.152:9999/";
 
     // APP在sdcar的目录
     public static final String APP_PATH = "/mdground_hailan_print";
@@ -21,4 +23,5 @@ public final class Constants {
     public static String KEY_ALREADY_LOGIN_USER = "key_already_login_user";
     public static final String KEY_NEW_USER = "key_new_user";
     public static final String KEY_PHONE = "key_phone";
+    public static final String KEY_CLOUD_IMAGE = "key_cloud_image";
 }

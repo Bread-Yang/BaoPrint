@@ -49,6 +49,7 @@ public class StartingActivity extends AppCompatActivity {
                 MDGroundApplication.mLoginUser = (User) FileUtils.getObject(Constants.KEY_ALREADY_LOGIN_USER);
                 if (MDGroundApplication.mLoginUser != null) {
 
+                    loginRequest(MDGroundApplication.mLoginUser);
                 } else {
                     Intent intent = new Intent(StartingActivity.this, LoginActivity.class);
                     startActivity(intent);
@@ -79,7 +80,7 @@ public class StartingActivity extends AppCompatActivity {
                             finish();
                         } else {
                             ViewUtils.toast(response.body().getMessage());
-                            Intent intent = new Intent(StartingActivity.this, MainActivity.class);
+                            Intent intent = new Intent(StartingActivity.this, LoginActivity.class);
                             startActivity(intent);
                             finish();
                         }
