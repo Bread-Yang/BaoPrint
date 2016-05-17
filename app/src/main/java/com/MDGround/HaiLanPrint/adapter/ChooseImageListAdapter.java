@@ -10,16 +10,19 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.MDGround.HaiLanPrint.R;
-import com.MDGround.HaiLanPrint.models.CloudImage;
+import com.MDGround.HaiLanPrint.application.MDGroundApplication;
+import com.MDGround.HaiLanPrint.models.MDImage;
+import com.MDGround.HaiLanPrint.utils.SelectImageUtil;
 import com.bumptech.glide.Glide;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by dee on 15/11/19.
+ * Created by yoghourt on 16/5/16.
  */
-public class CloudImageListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class ChooseImageListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     public final static int MODE_MULTIPLE = 1;
     public final static int MODE_SINGLE = 2;
@@ -28,36 +31,52 @@ public class CloudImageListAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     public static final int TYPE_PICTURE = 4;
 
     private Context context;
-    private boolean showCamera = true;
-    private boolean enablePreview = true;
-    private int maxSelectNum;
+    private boolean showCamera = false;
+    private boolean enablePreview = false;
+    private int mMaxSelectNum = Integer.MAX_VALUE;
     private int selectMode = MODE_MULTIPLE;
+    private boolean mIsSelectable = false;
 
-    private List<CloudImage> images = new ArrayList<CloudImage>();
-    private List<CloudImage> selectImages = new ArrayList<CloudImage>();
+    private List<MDImage> mImages = new ArrayList<MDImage>();
+    private List<MDImage> mSelectImages = new ArrayList<MDImage>();
 
     private OnImageSelectChangedListener imageSelectChangedListener;
 
-    public CloudImageListAdapter(Context context, int maxSelectNum, int mode, boolean showCamera, boolean enablePreview) {
+    public ChooseImageListAdapter(Context context, int maxSelectNum, boolean isSelectable) {
         this.context = context;
-        this.selectMode = mode;
-        this.maxSelectNum = maxSelectNum;
-        this.showCamera = showCamera;
-        this.enablePreview = enablePreview;
+        this.mMaxSelectNum = maxSelectNum;
+        this.mIsSelectable = isSelectable;
     }
 
-    public void bindImages(List<CloudImage> images) {
-        this.images = images;
+    public void setSelectable(boolean isSelectable) {
+        mIsSelectable = isSelectable;
+        if (!mIsSelectable) {
+            mSelectImages.clear();
+            notifyDataSetChanged();
+        }
+    }
+
+    public void selectAllImage(boolean mIsSelectAll) {
+        if (mIsSelectAll) {
+            mSelectImages.clear();
+            for (MDImage localMedia : mImages) {
+                mSelectImages.add(localMedia);
+            }
+        } else {
+            mSelectImages.clear();
+        }
         notifyDataSetChanged();
     }
 
-//    public void bindSelectImages(List<CloudImage> images) {
-//        this.selectImages = images;
-//        notifyDataSetChanged();
-//        if (imageSelectChangedListener != null) {
-//            imageSelectChangedListener.onChange(selectImages);
-//        }
-//    }
+    public void bindImages(List<MDImage> images) {
+        this.mImages = images;
+        notifyDataSetChanged();
+    }
+
+    public void bindSelectImages(List<MDImage> images) {
+        this.mSelectImages = images;
+        notifyDataSetChanged();
+    }
 
     @Override
     public int getItemViewType(int position) {
@@ -93,28 +112,41 @@ public class CloudImageListAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             });
         } else {
             final ViewHolder contentHolder = (ViewHolder) holder;
-            final CloudImage image = images.get(showCamera ? position - 1 : position);
+            final MDImage mdImage = mImages.get(showCamera ? position - 1 : position);
 
-            Glide.with(context)
-                    .load(image)
-                    .centerCrop()
-                    .thumbnail(0.5f)
-                    .placeholder(R.drawable.layerlist_image_placeholder)
-                    .error(R.drawable.layerlist_image_placeholder)
-                    .dontAnimate()
-                    .into(contentHolder.picture);
+            if (mdImage.getImageLocalPath() != null && mdImage.getImageLocalPath().contains("storage")) {
+                // 加载本地图片
+                Glide.with(MDGroundApplication.mInstance)
+                        .load(new File(mdImage.getImageLocalPath()))
+                        .centerCrop()
+                        .thumbnail(0.5f)
+                        .placeholder(R.drawable.layerlist_image_placeholder)
+                        .error(R.drawable.layerlist_image_placeholder)
+                        .dontAnimate()
+                        .into(contentHolder.picture);
+            } else {
+                // 加载网络图片
+                Glide.with(MDGroundApplication.mInstance)
+                        .load(mdImage)
+                        .centerCrop()
+                        .thumbnail(0.5f)
+                        .placeholder(R.drawable.layerlist_image_placeholder)
+                        .error(R.drawable.layerlist_image_placeholder)
+                        .dontAnimate()
+                        .into(contentHolder.picture);
+            }
 
             if (selectMode == MODE_SINGLE) {
                 contentHolder.check.setVisibility(View.GONE);
             }
 
-            selectImage(contentHolder, isSelected(image));
+            selectImage(contentHolder, isSelected(mdImage));
 
             if (enablePreview) {
                 contentHolder.check.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        changeCheckboxState(contentHolder, image);
+                        changeCheckboxState(contentHolder, mdImage);
                     }
                 });
             }
@@ -123,9 +155,11 @@ public class CloudImageListAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                 @Override
                 public void onClick(View v) {
                     if ((selectMode == MODE_SINGLE || enablePreview) && imageSelectChangedListener != null) {
-                        imageSelectChangedListener.onPictureClick(image, showCamera ? position - 1 : position);
+                        imageSelectChangedListener.onPictureClick(mdImage, showCamera ? position - 1 : position);
                     } else {
-                        changeCheckboxState(contentHolder, image);
+                        if (mIsSelectable) {
+                            changeCheckboxState(contentHolder, mdImage);
+                        }
                     }
                 }
             });
@@ -134,42 +168,45 @@ public class CloudImageListAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
     @Override
     public int getItemCount() {
-        return showCamera ? images.size() + 1 : images.size();
+        return showCamera ? mImages.size() + 1 : mImages.size();
     }
 
-    private void changeCheckboxState(ViewHolder contentHolder, CloudImage image) {
+    private void changeCheckboxState(ViewHolder contentHolder, MDImage image) {
         boolean isChecked = contentHolder.check.isSelected();
-        if (selectImages.size() >= maxSelectNum && !isChecked) {
-            Toast.makeText(context, context.getString(R.string.message_max_num, maxSelectNum), Toast.LENGTH_LONG).show();
+        if (mSelectImages.size() >= mMaxSelectNum && !isChecked) {
+            Toast.makeText(context, context.getString(R.string.message_max_num, mMaxSelectNum), Toast.LENGTH_LONG).show();
             return;
         }
         if (isChecked) {
-            for (CloudImage media : selectImages) {
-                if (media.getAutoID() == image.getAutoID()) {
-                    selectImages.remove(media);
+            for (MDImage media : mSelectImages) {
+                if (SelectImageUtil.isSameImage(media, image)) {
+                    mSelectImages.remove(media);
+                    if (imageSelectChangedListener != null) {
+                        imageSelectChangedListener.onUnSelectImage(image);
+                    }
                     break;
                 }
             }
         } else {
-            selectImages.add(image);
+            mSelectImages.add(image);
+            if (imageSelectChangedListener != null) {
+                imageSelectChangedListener.onSelectImage(image);
+            }
         }
         selectImage(contentHolder, !isChecked);
-        if (imageSelectChangedListener != null) {
-            imageSelectChangedListener.onChange(selectImages);
-        }
     }
 
-    public List<CloudImage> getSelectedImages() {
-        return selectImages;
+    public List<MDImage> getSelectedImages() {
+        return mSelectImages;
     }
 
-    public List<CloudImage> getImages() {
-        return images;
+    public List<MDImage> getmImages() {
+        return mImages;
     }
 
-    public boolean isSelected(CloudImage image) {
-        for (CloudImage media : selectImages) {
-            if (media.getAutoID() == image.getAutoID()) {
+    public boolean isSelected(MDImage image) {
+        for (MDImage media : mSelectImages) {
+            if (SelectImageUtil.isSameImage(media, image)) {
                 return true;
             }
         }
@@ -210,11 +247,14 @@ public class CloudImageListAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     }
 
     public interface OnImageSelectChangedListener {
-        void onChange(List<CloudImage> selectImages);
+
+        void onSelectImage(MDImage selectImage);
+
+        void onUnSelectImage(MDImage unselectImage);
 
         void onTakePhoto();
 
-        void onPictureClick(CloudImage media, int position);
+        void onPictureClick(MDImage media, int position);
     }
 
     public void setOnImageSelectChangedListener(OnImageSelectChangedListener imageSelectChangedListener) {

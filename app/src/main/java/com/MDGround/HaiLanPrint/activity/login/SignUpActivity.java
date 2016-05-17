@@ -77,6 +77,7 @@ public class SignUpActivity extends ToolbarActivity<ActivitySignUpBinding> {
         finish();
     }
 
+    //region ACTION
     public void getCaptchaAction(View view) {
         String phone = mDataBinding.cetAccount.getText().toString();
 
@@ -164,6 +165,6 @@ public class SignUpActivity extends ToolbarActivity<ActivitySignUpBinding> {
     public void loginAction(View view) {
         finish();
     }
-
+    //endregion
 }
 

@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.MDGround.HaiLanPrint.activity.main.MainActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/color_white"
+        android:orientation="vertical">
+
+        <View
+            style="@style/DividerHorizontal"
+            android:layout_height="@dimen/margin_small_8"
+            android:layout_margin="0dp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_10"
+            android:text="@string/choose_paper"/>
+
+        <RadioGroup
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_small_8"
+            android:background="@color/color_white"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/rbGlossyPaper"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/selector_rb_bg"
+                android:button="@null"
+                android:checked="true"
+                android:padding="@dimen/margin_small_8"
+                android:text="@string/glossy_paper"
+                android:textColor="@drawable/selector_rb_text_color"/>
+
+            <RadioButton
+                android:id="@+id/rbMattePaper"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/margin_small_8"
+                android:background="@drawable/selector_rb_bg"
+                android:button="@null"
+                android:padding="@dimen/margin_small_8"
+                android:text="@string/matte_paper"
+                android:textColor="@drawable/selector_rb_text_color"/>
+        </RadioGroup>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_small_8"
+            android:text="@string/glossy_paper_quality"
+            android:textColor="@color/color_f88e11"/>
+
+        <View
+            style="@style/DividerHorizontal"
+            android:layout_height="10dp"
+            android:layout_margin="0dp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_10"
+            android:text="@string/choose_print_num"/>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="@dimen/margin_small_8"
+            android:layout_weight="1"/>
+
+        <Button
+            android:id="@+id/btnNextStep"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/button_normal"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/margin_big_32"
+            android:background="?attr/selectableItemBackground"
+            android:gravity="center"
+            android:onClick="loginAction"
+            android:text="@string/next_step"
+            android:textColor="@color/color_f88e11"
+            android:textSize="@dimen/text_max_20"/>
+
+    </LinearLayout>
+
+</layout>

@@ -3,7 +3,7 @@ package com.MDGround.HaiLanPrint.glide;
 import android.content.Context;
 
 import com.MDGround.HaiLanPrint.R;
-import com.MDGround.HaiLanPrint.models.CloudImage;
+import com.MDGround.HaiLanPrint.models.MDImage;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.GlideBuilder;
 import com.bumptech.glide.load.DecodeFormat;
@@ -31,6 +31,6 @@ public class MDGroundGlideModule implements GlideModule {
 
     @Override
     public void registerComponents(Context context, Glide glide) {
-        glide.register(CloudImage.class, InputStream.class, new MDGroundLoader.Factory());
+        glide.register(MDImage.class, InputStream.class, new MDGroundLoader.Factory());
     }
 }

@@ -100,6 +100,7 @@ public class ForgetPasswordActivity extends ToolbarActivity<ActivityForgetPasswo
                 });
     }
 
+    //region ACTION
     public void getCaptchaAction(View view) {
         String phone = mDataBinding.cetAccount.getText().toString();
 
@@ -176,6 +177,6 @@ public class ForgetPasswordActivity extends ToolbarActivity<ActivityForgetPasswo
 
         SMSSDK.submitVerificationCode("86", phone, captcha);
     }
-
+    //endregion
 }
 

@@ -4,12 +4,10 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.view.View;
 
-import com.MDGround.HaiLanPrint.utils.NavUtils;
-
 /**
  * Created by yoghourt on 5/12/16.
  */
-public class CloudImage implements Parcelable {
+public class PhotoPrint implements Parcelable {
 
     private int AutoID;
 
@@ -30,7 +28,7 @@ public class CloudImage implements Parcelable {
         return handler;
     }
 
-    protected CloudImage(Parcel in) {
+    protected PhotoPrint(Parcel in) {
         AutoID = in.readInt();
         PhotoID = in.readInt();
         PhotoSID = in.readInt();
@@ -38,15 +36,15 @@ public class CloudImage implements Parcelable {
         Shared = in.readByte() != 0;
     }
 
-    public static final Creator<CloudImage> CREATOR = new Creator<CloudImage>() {
+    public static final Creator<PhotoPrint> CREATOR = new Creator<PhotoPrint>() {
         @Override
-        public CloudImage createFromParcel(Parcel in) {
-            return new CloudImage(in);
+        public PhotoPrint createFromParcel(Parcel in) {
+            return new PhotoPrint(in);
         }
 
         @Override
-        public CloudImage[] newArray(int size) {
-            return new CloudImage[size];
+        public PhotoPrint[] newArray(int size) {
+            return new PhotoPrint[size];
         }
     };
 
@@ -105,8 +103,7 @@ public class CloudImage implements Parcelable {
     }
 
     public class BindingHandler {
-        public void toCloudDetailActivity(View view) {
-            NavUtils.toCloudDetailActivity(view.getContext(), CloudImage.this);
+        public void toImageSelectorActivityAction(View view) {
         }
     }
 }

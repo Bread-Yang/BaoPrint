@@ -65,13 +65,25 @@
             android:label="@string/main_activity"/>
         <activity
             android:name=".activity.cloudphotos.CloudOverviewActivity"
-            android:label="@string/clound_album"/>
+            android:label="@string/cloud_album"/>
         <activity
             android:name=".activity.cloudphotos.CloudDetailActivity"
-            android:label="@string/clound_album"/>
+            android:label="@string/cloud_album"/>
         <activity
-            android:name=".activity.imageselect.ImageSelectorActivity"
+            android:name=".activity.uploadimage.UploadImageActivity"
             android:label="@string/select_photos_upload"/>
+        <activity
+            android:name=".activity.selectimage.SelectAlbumActivity"
+            android:label="@string/choose_photo"/>
+        <activity
+            android:name=".activity.selectimage.SelectImageActivity"
+            android:label="@string/choose_photo"/>
+        <activity
+            android:name=".activity.photoprint.PrintPhotoChooseInchActivity"
+            android:label="@string/print_photo"/>
+        <activity
+            android:name=".activity.photoprint.PrintPhotoChoosePaperNumActivity"
+            android:label="@string/choose_paper_num"/>
 
         <!-- ShareSDK -->
         <activity

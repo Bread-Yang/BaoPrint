@@ -130,7 +130,7 @@
             android:layout_marginLeft="@dimen/margin_medium_24"
             android:layout_marginRight="@dimen/margin_medium_24"
             android:layout_marginTop="@dimen/margin_big_32"
-            android:background="@drawable/shape_button_round_angle"
+            android:background="@drawable/ripple_button_round_angle"
             android:gravity="center"
             android:onClick="nextStepAction"
             android:text="@string/next_step"

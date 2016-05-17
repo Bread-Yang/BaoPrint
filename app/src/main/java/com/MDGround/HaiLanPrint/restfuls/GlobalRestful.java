@@ -1,5 +1,6 @@
 package com.MDGround.HaiLanPrint.restfuls;
 
+import com.MDGround.HaiLanPrint.ProductType;
 import com.MDGround.HaiLanPrint.application.MDGroundApplication;
 import com.MDGround.HaiLanPrint.constants.Constants;
 import com.MDGround.HaiLanPrint.utils.DeviceUtil;
@@ -65,6 +66,10 @@ public class GlobalRestful extends BaseRestful {
         asynchronousPost("LoginUser", obj.toString(), callback);
     }
 
+    public void CheckUserPhone(String phone, Callback<ResponseData> callback) {
+
+    }
+
     // 用户注册
     public void RegisterUser(User user, Callback<ResponseData> callback) {
         asynchronousPost("RegisterUser", new Gson().toJson(user), callback);
@@ -101,6 +106,7 @@ public class GlobalRestful extends BaseRestful {
         asynchronousPost("GetCloudPhoto", obj.toString(), callback);
     }
 
+    // 删除个人云相册接口
     public void DeleteCloudPhoto(ArrayList<Integer> AutoIDList, Callback<ResponseData> callback) {
         JSONObject obj = new JSONObject();
         try {
@@ -114,6 +120,7 @@ public class GlobalRestful extends BaseRestful {
         asynchronousPost("DeleteCloudPhoto", obj.toString(), callback);
     }
 
+    //转存到个人相册
     public void TransferCloudPhoto(boolean IsShared, ArrayList<Integer> AutoIDList, Callback<ResponseData> callback) {
         JSONObject obj = new JSONObject();
         try {
@@ -126,6 +133,18 @@ public class GlobalRestful extends BaseRestful {
         }
 
         asynchronousPost("TransferCloudPhoto", obj.toString(), callback);
+    }
+
+    // 获取获取产品类型信息以及规格明细
+    public void GetPhotoType(ProductType productType, Callback<ResponseData> callback) {
+        JSONObject obj = new JSONObject();
+        try {
+            obj.put("ProductType", productType.value());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        asynchronousPost("GetPhotoType", obj.toString(), callback);
     }
 
 }

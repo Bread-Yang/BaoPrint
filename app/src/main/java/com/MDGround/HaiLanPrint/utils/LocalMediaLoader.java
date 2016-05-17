@@ -11,8 +11,8 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.MDGround.HaiLanPrint.R;
-import com.MDGround.HaiLanPrint.models.LocalMedia;
-import com.MDGround.HaiLanPrint.models.LocalMediaFolder;
+import com.MDGround.HaiLanPrint.models.Album;
+import com.MDGround.HaiLanPrint.models.MDImage;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -70,9 +70,9 @@ public class LocalMediaLoader {
 
             @Override
             public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-                ArrayList<LocalMediaFolder> imageFolders = new ArrayList<LocalMediaFolder>();
-                LocalMediaFolder allImageFolder = new LocalMediaFolder();
-                List<LocalMedia> allImages = new ArrayList<LocalMedia>();
+                ArrayList<Album> imageFolders = new ArrayList<Album>();
+                Album allImageFolder = new Album();
+                List<MDImage> allImages = new ArrayList<MDImage>();
 
                 if (data != null) {
                     int count = data.getCount();
@@ -88,9 +88,9 @@ public class LocalMediaLoader {
                             long dateTime = data.getLong(data.getColumnIndexOrThrow(IMAGE_PROJECTION[2]));
                             int duration = (type == TYPE_VIDEO ? data.getInt(data.getColumnIndexOrThrow(VIDEO_PROJECTION[4])) : 0);
 
-                            LocalMedia image = new LocalMedia(path, dateTime, duration);
+                            MDImage image = new MDImage(path, dateTime, duration);
 
-                            LocalMediaFolder folder = getImageFolder(path,imageFolders);
+                            Album folder = getImageFolder(path,imageFolders);
                             Log.i("FolderName",folder.getName());
 
                             folder.getImages().add(image);
@@ -118,11 +118,11 @@ public class LocalMediaLoader {
         });
     }
 
-    private void sortFolder(List<LocalMediaFolder> imageFolders) {
+    private void sortFolder(List<Album> imageFolders) {
         // 文件夹按图片数量排序
-        Collections.sort(imageFolders, new Comparator<LocalMediaFolder>() {
+        Collections.sort(imageFolders, new Comparator<Album>() {
             @Override
-            public int compare(LocalMediaFolder lhs, LocalMediaFolder rhs) {
+            public int compare(Album lhs, Album rhs) {
                 if (lhs.getImages() == null || rhs.getImages() == null) {
                     return 0;
                 }
@@ -133,16 +133,16 @@ public class LocalMediaLoader {
         });
     }
 
-    private LocalMediaFolder getImageFolder(String path,List<LocalMediaFolder> imageFolders) {
+    private Album getImageFolder(String path, List<Album> imageFolders) {
         File imageFile = new File(path);
         File folderFile = imageFile.getParentFile();
 
-        for (LocalMediaFolder folder : imageFolders) {
+        for (Album folder : imageFolders) {
             if (folder.getName().equals(folderFile.getName())) {
                 return folder;
             }
         }
-        LocalMediaFolder newFolder = new LocalMediaFolder();
+        Album newFolder = new Album();
         newFolder.setName(folderFile.getName());
         newFolder.setPath(folderFile.getAbsolutePath());
         newFolder.setFirstImagePath(path);
@@ -151,7 +151,7 @@ public class LocalMediaLoader {
     }
 
     public interface LocalMediaLoadListener {
-        void loadComplete(List<LocalMediaFolder> folders);
+        void loadComplete(List<Album> albums);
     }
 
 }

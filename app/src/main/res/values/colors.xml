@@ -7,9 +7,7 @@
 
     <!--transparent -->
     <color name="color_transparent">#00000000</color>
-    <!-- black -->
     <color name="color_black">#000000</color>
-    <!-- white -->
     <color name="color_white">#ffffff</color>
     <color name="color_window_bg">#F2F2F2</color>
     <color name="color_divider">#E1E1E1</color>
@@ -18,5 +16,10 @@
     <color name="content_grey">#353535</color>
     <color name="image_overlay">#20000000</color>
     <color name="image_overlay2">#80000000</color>
+
+    <color name="color_333333">#333333</color>
+    <color name="color_f88e11">#f88e11</color>
+    <color name="color_fff7ed">#fff7ed</color>
+    <color name="color_999999">#999999</color>
 
 </resources>

@@ -6,6 +6,7 @@
     <string name="cancel">取消</string>
     <string name="edit">编辑</string>
     <string name="delete">删除</string>
+    <string name="loading">加载中</string>
 
     <!-- 登录 -->
     <string name="login">登录</string>
@@ -50,7 +51,7 @@
     <string name="main_activity">主界面</string>
 
     <!-- 云相册 -->
-    <string name="clound_album">云相册</string>
+    <string name="cloud_album">云相册</string>
     <string name="personal_album">个人相册</string>
     <string name="share_album">共享相册</string>
     <string name="image_num">(%d)</string>
@@ -66,7 +67,54 @@
     <string name="upload">上传</string>
     <string name="upload_num">上传(%d)</string>
 
+    <!-- 选择照片 -->
+    <string name="choose_image_tips">已选%1$d张照片,最多选择%2$d张</string>
+
     <!-- 个人中心 -->
     <string name="personal_center">个人中心</string>
+
+    <!-- 冲印照片 -->
+    <string name="print_photo">冲印照片</string>
+    <string name="measurement_description">尺寸说明</string>
+    <string name="choose_paper_num">选择相纸数量</string>
+    <string name="choose_paper">选择相纸</string>
+    <string name="glossy_paper">光面相纸</string>
+    <string name="matte_paper">绒面相纸</string>
+    <string name="choose_print_num">选择冲印数量</string>
+    <string name="glossy_paper_quality">* 特色 : 照片色彩鲜艳,表面光亮,清晰度高,一般适合于产品照或艺术照</string>
+    <string name="matte_paper_quality">* 特色 : 照片色彩柔和,相纸表面显哑光效果,手感好,不容易留下手指印,更易保存</string>
+
+    <!-- 明信片 -->
+    <string name="postcard">明信片</string>
+
+    <!-- 杂志册 -->
+    <string name="magazine_album">杂志册</string>
+
+    <!-- 艺术册 -->
+    <string name="art_album">艺术册</string>
+
+    <!-- 相框 -->
+    <string name="picture_frame">相框</string>
+
+    <!-- 个性日历 -->
+    <string name="custom_calendar">个性日历</string>
+
+    <!-- 手机壳 -->
+    <string name="phone_shell">手机壳</string>
+
+    <!-- 扑克 -->
+    <string name="poker">扑克</string>
+
+    <!-- 拼图 -->
+    <string name="puzzle">拼图</string>
+
+    <!-- 魔术杯 -->
+    <string name="magic_cup">魔术杯</string>
+
+    <!-- LOMO卡 -->
+    <string name="lomo_card">LOMO卡</string>
+
+    <!-- 版画 -->
+    <string name="engraving">版画</string>
 
 </resources>

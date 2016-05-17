@@ -5,6 +5,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
+        android:orientation="vertical"
         android:layout_height="match_parent">
 
         <RelativeLayout
@@ -35,7 +36,7 @@
                 android:layout_toLeftOf="@+id/tvPersonalCenter"
                 android:clickable="true"
                 android:onClick="toCloudActivityAction"
-                android:text="@string/clound_album"
+                android:text="@string/cloud_album"
                 android:textColor="@color/color_white"/>
 
             <TextView
@@ -49,5 +50,9 @@
 
         </RelativeLayout>
 
+        <android.support.v4.view.ViewPager
+            android:id="@+id/viewPager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
     </LinearLayout>
 </layout>

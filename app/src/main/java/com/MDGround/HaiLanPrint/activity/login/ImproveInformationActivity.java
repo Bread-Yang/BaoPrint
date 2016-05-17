@@ -46,6 +46,7 @@ public class ImproveInformationActivity extends ToolbarActivity<ActivityImproveI
 
     }
 
+    //region ACTION
     public void chooseBirthdayAction(View view) {
         Calendar calendar = Calendar.getInstance();
 
@@ -89,6 +90,7 @@ public class ImproveInformationActivity extends ToolbarActivity<ActivityImproveI
                     }
                 });
     }
+    //endregion
 
     @Override
     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {

@@ -1,7 +1,10 @@
 package com.MDGround.HaiLanPrint.enumobject.restfuls;
 
 public enum BusinessType {
-	Global(1), Clinic(2), WeChat(3), FILE(4);
+	Global(1),
+	Clinic(2),
+	WeChat(3),
+	FILE(4);
 
 	private int type;
 

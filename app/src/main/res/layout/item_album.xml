@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="album"
+            type="com.MDGround.HaiLanPrint.models.Album"/>
+        <variable
+            name="viewHolder"
+            type="com.MDGround.HaiLanPrint.adapter.AlbumAdapter.ViewHolder"/>
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:onClick="@{viewHolder::toSelectImageActivityAction}"
+        android:paddingBottom="@dimen/margin_small_8"
+        android:paddingLeft="@dimen/margin_small_8"
+        android:paddingRight="@dimen/margin_small_8"
+        android:paddingTop="@dimen/margin_small_8">
+
+        <ImageView
+            android:id="@+id/first_image"
+            android:layout_width="@dimen/album_size"
+            android:layout_height="@dimen/album_size"
+            app:loadImageByMDImage="@{album.images[0]}"
+            tools:src="@drawable/ic_placeholder"/>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin_medium_24"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tvAlbumName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{album.name}"
+                tools:text="所有图片"/>
+
+            <TextView
+                android:id="@+id/tvImageCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{@string/image_num(album.imageNum)}"
+                tools:text="12 张"/>
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/is_selected"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+</layout>

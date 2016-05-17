@@ -4,7 +4,7 @@ import android.content.Context;
 import android.util.Base64;
 
 import com.MDGround.HaiLanPrint.enumobject.restfuls.ResponseCode;
-import com.MDGround.HaiLanPrint.models.CloudImage;
+import com.MDGround.HaiLanPrint.models.MDImage;
 import com.MDGround.HaiLanPrint.restfuls.FileRestful;
 import com.MDGround.HaiLanPrint.restfuls.bean.ResponseData;
 import com.bumptech.glide.Priority;
@@ -22,19 +22,19 @@ public class MDGroundFetcher implements DataFetcher<InputStream> {
 
     private Context mContext;
 
-    private final CloudImage mCloudImage;
+    private final MDImage mImage;
 
     private InputStream mInputStream;
 
-    public MDGroundFetcher(CloudImage cloudImage, Context context) {
-        this.mCloudImage = cloudImage;
+    public MDGroundFetcher(MDImage image, Context context) {
+        this.mImage = image;
         this.mContext = context;
     }
 
     @Override
     public InputStream loadData(Priority priority) throws Exception {
 
-        ResponseData responseData = FileRestful.getInstance().GetPhoto(mCloudImage.getPhotoSID());
+        ResponseData responseData = FileRestful.getInstance().GetPhoto(mImage.getPhotoSID());
         if (responseData == null) {
             KLog.e("Glide请求图片失败");
             return null;
@@ -70,7 +70,7 @@ public class MDGroundFetcher implements DataFetcher<InputStream> {
      */
     @Override
     public String getId() {
-        return String.valueOf(mCloudImage.getPhotoID());
+        return String.valueOf(mImage.getPhotoID());
     }
 
     /**

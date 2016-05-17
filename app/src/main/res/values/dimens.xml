@@ -10,6 +10,7 @@
     <dimen name="margin_medium_24">24dp</dimen>
     <dimen name="margin_normal_12">12dp</dimen>
     <dimen name="_margin_normal_12">-12dp</dimen>
+    <dimen name="margin_10">10dp</dimen>
     <dimen name="margin_small_8">8dp</dimen>
     <dimen name="_margin_small_8">-8dp</dimen>
     <dimen name="margin_half_6">6dp</dimen>
@@ -18,6 +19,7 @@
     <dimen name="margin_empty">0dp</dimen>
 
     <dimen name="button_normal">50dp</dimen>
+    <dimen name="album_size">74dp</dimen>
 
     <dimen name="text_huge_24">24dp</dimen>
     <dimen name="text_max_20">20dp</dimen>

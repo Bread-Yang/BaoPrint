@@ -76,6 +76,7 @@ public class LoginActivity extends AppCompatActivity {
                 });
     }
 
+    //region ACTION
     public void loginAction(View view) {
         String phone = mDataBinding.cetAccount.getText().toString();
 
@@ -205,6 +206,6 @@ public class LoginActivity extends AppCompatActivity {
         });
         weibo.authorize();
     }
-
+    //endregion
 }
 

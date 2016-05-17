@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <variable
+            name="handlers"
+            type="com.MDGround.HaiLanPrint.activity.main.MainActivity.MainBindingEventHandler"/>
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="?android:attr/selectableItemBackground"
+                android:drawableTop="@drawable/ic_wechat"
+                android:gravity="center"
+                android:paddingBottom="12dp"
+                android:paddingTop="12dp"
+                android:text="@string/phone_shell"
+                android:textSize="17sp"/>
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="?android:attr/selectableItemBackground"
+                android:drawableTop="@drawable/ic_wechat"
+                android:gravity="center"
+                android:paddingBottom="12dp"
+                android:paddingTop="12dp"
+                android:text="@string/poker"
+                android:textSize="17sp"/>
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="?android:attr/selectableItemBackground"
+                android:drawableTop="@drawable/ic_wechat"
+                android:gravity="center"
+                android:paddingBottom="12dp"
+                android:paddingTop="12dp"
+                android:text="@string/puzzle"
+                android:textSize="17sp"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btnMagicCup"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="?android:attr/selectableItemBackground"
+                android:drawableTop="@drawable/ic_wechat"
+                android:gravity="center"
+                android:onClick="@{handlers::toMagicCupActivityAction}"
+                android:paddingBottom="12dp"
+                android:paddingTop="12dp"
+                android:text="@string/magic_cup"
+                android:textSize="17sp"/>
+
+            <Button
+                android:id="@+id/btnLomoCard"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="?android:attr/selectableItemBackground"
+                android:drawableTop="@drawable/ic_wechat"
+                android:gravity="center"
+                android:onClick="@{handlers::toLomoCardActivityAction}"
+                android:paddingBottom="12dp"
+                android:paddingTop="12dp"
+                android:text="@string/lomo_card"
+                android:textSize="17sp"/>
+
+            <Button
+                android:id="@+id/btnEngraving"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="?android:attr/selectableItemBackground"
+                android:drawableTop="@drawable/ic_wechat"
+                android:gravity="center"
+                android:onClick="@{handlers::toEngravingActivityAction}"
+                android:paddingBottom="12dp"
+                android:paddingTop="12dp"
+                android:text="@string/engraving"
+                android:textSize="17sp"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+</layout>

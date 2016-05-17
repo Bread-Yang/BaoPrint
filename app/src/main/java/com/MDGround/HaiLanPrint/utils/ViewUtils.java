@@ -13,6 +13,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.MDGround.HaiLanPrint.R;
 import com.MDGround.HaiLanPrint.application.MDGroundApplication;
 
 /**
@@ -81,7 +82,8 @@ public class ViewUtils {
     public static void loading(Context context) {
         try {
             dismiss();
-            progressDialog = ProgressDialog.show(context, null, null);
+            String message = context.getString(R.string.loading);
+            progressDialog = ProgressDialog.show(context, null, message);
         } catch (Throwable e) {
 
         }

@@ -1,14 +1,15 @@
-package com.MDGround.HaiLanPrint.activity.imageselect;
+package com.MDGround.HaiLanPrint.activity.uploadimage;
 
 import android.support.v7.widget.GridLayoutManager;
 import android.view.View;
+import android.widget.CompoundButton;
 
 import com.MDGround.HaiLanPrint.R;
 import com.MDGround.HaiLanPrint.activity.base.ToolbarActivity;
-import com.MDGround.HaiLanPrint.adapter.LocalImageListAdapter;
-import com.MDGround.HaiLanPrint.databinding.ActivityImageSelectorBinding;
-import com.MDGround.HaiLanPrint.models.LocalMedia;
-import com.MDGround.HaiLanPrint.models.LocalMediaFolder;
+import com.MDGround.HaiLanPrint.adapter.ChooseImageListAdapter;
+import com.MDGround.HaiLanPrint.databinding.ActivityUploadImageBinding;
+import com.MDGround.HaiLanPrint.models.Album;
+import com.MDGround.HaiLanPrint.models.MDImage;
 import com.MDGround.HaiLanPrint.restfuls.FileRestful;
 import com.MDGround.HaiLanPrint.restfuls.bean.ResponseData;
 import com.MDGround.HaiLanPrint.utils.LocalMediaLoader;
@@ -26,17 +27,17 @@ import retrofit2.Response;
 /**
  * Created by yoghourt on 5/12/16.
  */
-public class ImageSelectorActivity extends ToolbarActivity<ActivityImageSelectorBinding> {
+public class UploadImageActivity extends ToolbarActivity<ActivityUploadImageBinding> {
 
     private boolean mIsShared;
 
     private int mCountPerLine = 3; // 每行显示3个
 
-    private LocalImageListAdapter imageAdapter;
+    private ChooseImageListAdapter mImageAdapter;
 
     @Override
     protected int getContentLayout() {
-        return R.layout.activity_image_selector;
+        return R.layout.activity_upload_image;
     }
 
     @Override
@@ -45,28 +46,35 @@ public class ImageSelectorActivity extends ToolbarActivity<ActivityImageSelector
         mDataBinding.recyclerView.addItemDecoration(new GridSpacingItemDecoration(mCountPerLine, ViewUtils.dp2px(2), false));
         mDataBinding.recyclerView.setLayoutManager(new GridLayoutManager(this, mCountPerLine));
 
-        imageAdapter = new LocalImageListAdapter(this, 1000, LocalImageListAdapter.MODE_MULTIPLE, false, false);
-        mDataBinding.recyclerView.setAdapter(imageAdapter);
+        mImageAdapter = new ChooseImageListAdapter(this, Integer.MAX_VALUE, true);
+        mDataBinding.recyclerView.setAdapter(mImageAdapter);
 
         new LocalMediaLoader(this, LocalMediaLoader.TYPE_IMAGE).loadAllImage(new LocalMediaLoader.LocalMediaLoadListener() {
 
             @Override
-            public void loadComplete(List<LocalMediaFolder> folders) {
-                imageAdapter.bindImages(folders.get(0).getImages());
+            public void loadComplete(List<Album> albums) {
+                mImageAdapter.bindImages(albums.get(0).getImages());
             }
         });
     }
 
     @Override
     protected void setListener() {
-
+        mDataBinding.cbSelectAll.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                mImageAdapter.selectAllImage(isChecked);
+            }
+        });
     }
 
     private void uploadImageReuqest(final int upload_image_index) {
-        if (upload_image_index < imageAdapter.getSelectedImages().size()) {
-            LocalMedia localMedia = imageAdapter.getSelectedImages().get(upload_image_index);
+        if (upload_image_index < mImageAdapter.getSelectedImages().size()) {
+            MDImage localMedia = mImageAdapter.getSelectedImages().get(upload_image_index);
 
             File file = new File(localMedia.getImageLocalPath());
+
+            KLog.e("localMedia.getImageLocalPath() : " + localMedia.getImageLocalPath());
 
             FileRestful.getInstance().UploadCloudPhoto(mIsShared, file, null, new Callback<ResponseData>() {
                 @Override
@@ -77,23 +85,23 @@ public class ImageSelectorActivity extends ToolbarActivity<ActivityImageSelector
 
                 @Override
                 public void onFailure(Call<ResponseData> call, Throwable t) {
-                    KLog.e("上传图片失败");
-                    KLog.e("失败原因 : " + t);
                 }
             });
         } else {
             ViewUtils.toast("上传图片成功");
             ViewUtils.dismiss();
+            mImageAdapter.selectAllImage(false);
             mDataBinding.btnUpload.setEnabled(true);
         }
     }
 
+    //region ACTION
     public void selectAllAction(View view) {
 
     }
 
     public void uploadAction(View view) {
-        List<LocalMedia> selectImages = imageAdapter.getSelectedImages();
+        List<MDImage> selectImages = mImageAdapter.getSelectedImages();
 
         if (selectImages == null || selectImages.size() == 0) {
             ViewUtils.toast(R.string.choose_photo);
@@ -104,5 +112,6 @@ public class ImageSelectorActivity extends ToolbarActivity<ActivityImageSelector
         mDataBinding.btnUpload.setEnabled(false);
         uploadImageReuqest(0);
     }
+    //endregion
 
 }
