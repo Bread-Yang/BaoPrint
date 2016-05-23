@@ -13,7 +13,9 @@ import com.MDGround.HaiLanPrint.models.MDImage;
 import com.MDGround.HaiLanPrint.restfuls.FileRestful;
 import com.MDGround.HaiLanPrint.restfuls.bean.ResponseData;
 import com.MDGround.HaiLanPrint.utils.LocalMediaLoader;
+import com.MDGround.HaiLanPrint.utils.ToolNetwork;
 import com.MDGround.HaiLanPrint.utils.ViewUtils;
+import com.MDGround.HaiLanPrint.views.dialog.NotifyDialog;
 import com.MDGround.HaiLanPrint.views.itemdecoration.GridSpacingItemDecoration;
 import com.socks.library.KLog;
 
@@ -34,6 +36,8 @@ public class UploadImageActivity extends ToolbarActivity<ActivityUploadImageBind
     private int mCountPerLine = 3; // 每行显示3个
 
     private ChooseImageListAdapter mImageAdapter;
+
+    private NotifyDialog notifyDialog;
 
     @Override
     protected int getContentLayout() {
@@ -68,6 +72,47 @@ public class UploadImageActivity extends ToolbarActivity<ActivityUploadImageBind
         });
     }
 
+    //region ACTION
+    public void uploadAction(View view) {
+        List<MDImage> selectImages = mImageAdapter.getSelectedImages();
+
+        if (selectImages == null || selectImages.size() == 0) {
+            ViewUtils.toast(R.string.choose_photo);
+            return;
+        }
+
+        if (ToolNetwork.getInstance().isConnected()) {
+            if (ToolNetwork.isWIFIConnected(this)) {
+                uploadImage();
+            } else {
+                showUseCelluarNetworkTips();
+            }
+        } else {
+            ViewUtils.toast(R.string.network_unavailable);
+        }
+    }
+    //endregion
+
+    private void showUseCelluarNetworkTips() {
+        if (notifyDialog == null) {
+            notifyDialog = new NotifyDialog(this);
+            notifyDialog.setOnSureClickListener(new NotifyDialog.OnSureClickListener() {
+                @Override
+                public void onSureClick() {
+                    notifyDialog.dismiss();
+                    uploadImage();
+                }
+            });
+        }
+        notifyDialog.show();
+    }
+
+    private void uploadImage() {
+        ViewUtils.loading(this);
+        mDataBinding.btnUpload.setEnabled(false);
+        uploadImageReuqest(0);
+    }
+
     private void uploadImageReuqest(final int upload_image_index) {
         if (upload_image_index < mImageAdapter.getSelectedImages().size()) {
             MDImage localMedia = mImageAdapter.getSelectedImages().get(upload_image_index);
@@ -94,24 +139,5 @@ public class UploadImageActivity extends ToolbarActivity<ActivityUploadImageBind
             mDataBinding.btnUpload.setEnabled(true);
         }
     }
-
-    //region ACTION
-    public void selectAllAction(View view) {
-
-    }
-
-    public void uploadAction(View view) {
-        List<MDImage> selectImages = mImageAdapter.getSelectedImages();
-
-        if (selectImages == null || selectImages.size() == 0) {
-            ViewUtils.toast(R.string.choose_photo);
-            return;
-        }
-
-        ViewUtils.loading(this);
-        mDataBinding.btnUpload.setEnabled(false);
-        uploadImageReuqest(0);
-    }
-    //endregion
 
 }

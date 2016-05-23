@@ -84,6 +84,21 @@
         <activity
             android:name=".activity.photoprint.PrintPhotoChoosePaperNumActivity"
             android:label="@string/choose_paper_num"/>
+        <activity
+            android:name=".activity.photoprint.PrintPhotoMeasurementDescription"
+            android:label="@string/measurement_description"/>
+        <activity
+            android:name=".activity.magiccup.MagicCupChooseColorActivity"
+            android:label="@string/magic_cup"/>
+        <activity
+            android:name=".activity.lomocard.LomoCardChooseNumActivity"
+            android:label="@string/lomo_card"/>
+        <activity
+            android:name=".activity.puzzle.PuzzleStartActivity"
+            android:label="@string/puzzle"/>
+        <activity
+            android:name=".activity.photoedit.PhotoEditActivity"
+            android:label="@string/edit"/>
 
         <!-- ShareSDK -->
         <activity

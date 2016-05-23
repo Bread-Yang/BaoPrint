@@ -10,12 +10,10 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.MDGround.HaiLanPrint.R;
-import com.MDGround.HaiLanPrint.application.MDGroundApplication;
 import com.MDGround.HaiLanPrint.models.MDImage;
+import com.MDGround.HaiLanPrint.utils.GlideUtil;
 import com.MDGround.HaiLanPrint.utils.SelectImageUtil;
-import com.bumptech.glide.Glide;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -114,27 +112,7 @@ public class ChooseImageListAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             final ViewHolder contentHolder = (ViewHolder) holder;
             final MDImage mdImage = mImages.get(showCamera ? position - 1 : position);
 
-            if (mdImage.getImageLocalPath() != null && mdImage.getImageLocalPath().contains("storage")) {
-                // 加载本地图片
-                Glide.with(MDGroundApplication.mInstance)
-                        .load(new File(mdImage.getImageLocalPath()))
-                        .centerCrop()
-                        .thumbnail(0.5f)
-                        .placeholder(R.drawable.layerlist_image_placeholder)
-                        .error(R.drawable.layerlist_image_placeholder)
-                        .dontAnimate()
-                        .into(contentHolder.picture);
-            } else {
-                // 加载网络图片
-                Glide.with(MDGroundApplication.mInstance)
-                        .load(mdImage)
-                        .centerCrop()
-                        .thumbnail(0.5f)
-                        .placeholder(R.drawable.layerlist_image_placeholder)
-                        .error(R.drawable.layerlist_image_placeholder)
-                        .dontAnimate()
-                        .into(contentHolder.picture);
-            }
+            GlideUtil.loadImageByMDImage(contentHolder.picture, mdImage);
 
             if (selectMode == MODE_SINGLE) {
                 contentHolder.check.setVisibility(View.GONE);

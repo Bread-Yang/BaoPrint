@@ -2,6 +2,7 @@ package com.MDGround.HaiLanPrint.restfuls;
 
 import android.content.Context;
 
+import com.MDGround.HaiLanPrint.R;
 import com.MDGround.HaiLanPrint.application.MDGroundApplication;
 import com.MDGround.HaiLanPrint.enumobject.restfuls.BusinessType;
 import com.MDGround.HaiLanPrint.enumobject.restfuls.PlatformType;
@@ -12,6 +13,8 @@ import com.MDGround.HaiLanPrint.restfuls.bean.RequestData;
 import com.MDGround.HaiLanPrint.restfuls.bean.ResponseData;
 import com.MDGround.HaiLanPrint.utils.DeviceUtil;
 import com.MDGround.HaiLanPrint.utils.EncryptUtil;
+import com.MDGround.HaiLanPrint.utils.ToolNetwork;
+import com.MDGround.HaiLanPrint.utils.ViewUtils;
 import com.google.gson.Gson;
 import com.socks.library.KLog;
 
@@ -136,15 +139,20 @@ public abstract class BaseRestful {
     protected void asynchronousPost(String functionName, String queryData, Callback<ResponseData> callback) {
         KLog.e("请求接口 \"" + functionName + "\" 的json数据:");
 
-        RequestBody requestBody = createRequestBody(functionName, queryData);
+        if (ToolNetwork.getInstance().isConnected()) {
+            RequestBody requestBody = createRequestBody(functionName, queryData);
 
-        Call<ResponseData> call = null;
-        if (getBusinessType() == BusinessType.Global) {
-            call = baseService.normalRequest(requestBody);
-        } else if (getBusinessType() == BusinessType.FILE) {
-            call = baseService.fileRequest(requestBody);
+            Call<ResponseData> call = null;
+            if (getBusinessType() == BusinessType.Global) {
+                call = baseService.normalRequest(requestBody);
+            } else if (getBusinessType() == BusinessType.FILE) {
+                call = baseService.fileRequest(requestBody);
+            }
+            call.enqueue(callback);
+        } else {
+            ViewUtils.toast(R.string.network_unavailable);
+            callback.onFailure(null, null);
         }
-        call.enqueue(callback);
     }
 
     // 请求文件/图片等请求(同步)

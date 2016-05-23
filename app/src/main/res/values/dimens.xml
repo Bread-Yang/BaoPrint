@@ -1,31 +1,34 @@
 <resources>
-    <!-- Default screen margins, per the Android Design guidelines. -->
-    <dimen name="activity_horizontal_margin">16dp</dimen>
-    <dimen name="activity_vertical_margin">16dp</dimen>
 
-    <dimen name="margin_huge_96">96dp</dimen>
-    <dimen name="margin_max_64">64dp</dimen>
-    <dimen name="margin_great_48">48dp</dimen>
-    <dimen name="margin_big_32">32dp</dimen>
-    <dimen name="margin_medium_24">24dp</dimen>
-    <dimen name="margin_normal_12">12dp</dimen>
-    <dimen name="_margin_normal_12">-12dp</dimen>
+    <dimen name="margin_96">96dp</dimen>
+    <dimen name="margin_64">64dp</dimen>
+    <dimen name="margin_48">48dp</dimen>
+    <dimen name="margin_40">40dp</dimen>
+    <dimen name="margin_36">36dp</dimen>
+    <dimen name="margin_32">32dp</dimen>
+    <dimen name="margin_30">30dp</dimen>
+    <dimen name="margin_25">25dp</dimen>
+    <dimen name="margin_24">24dp</dimen>
+    <dimen name="margin_20">20dp</dimen>
+    <dimen name="margin_15">15dp</dimen>
+    <dimen name="margin_12">12dp</dimen>
+    <dimen name="_margin_12">-12dp</dimen>
     <dimen name="margin_10">10dp</dimen>
-    <dimen name="margin_small_8">8dp</dimen>
-    <dimen name="_margin_small_8">-8dp</dimen>
-    <dimen name="margin_half_6">6dp</dimen>
-    <dimen name="margin_min_4">4dp</dimen>
-    <dimen name="margin_tiny_2">2dp</dimen>
-    <dimen name="margin_empty">0dp</dimen>
+    <dimen name="margin_8">8dp</dimen>
+    <dimen name="_margin_8">-8dp</dimen>
+    <dimen name="margin_6">6dp</dimen>
+    <dimen name="margin_4">4dp</dimen>
+    <dimen name="margin_2">2dp</dimen>
+    <dimen name="margin_0">0dp</dimen>
 
-    <dimen name="button_normal">50dp</dimen>
+    <dimen name="text_size_24">24dp</dimen>
+    <dimen name="text_size_20">20dp</dimen>
+    <dimen name="text_size_18">18dp</dimen>
+    <dimen name="text_size_16">16dp</dimen>
+    <dimen name="text_size_14">14dp</dimen>
+    <dimen name="text_size_12">12dp</dimen>
+
+    <dimen name="button_normal">44dp</dimen>
     <dimen name="album_size">74dp</dimen>
-
-    <dimen name="text_huge_24">24dp</dimen>
-    <dimen name="text_max_20">20dp</dimen>
-    <dimen name="text_big_18">18dp</dimen>
-    <dimen name="text_medium_16">16dp</dimen>
-    <dimen name="text_normal_14">14dp</dimen>
-    <dimen name="text_small_12">12dp</dimen>
 
 </resources>

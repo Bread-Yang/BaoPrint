@@ -8,18 +8,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.MDGround.HaiLanPrint.BR;
 import com.MDGround.HaiLanPrint.ProductType;
 import com.MDGround.HaiLanPrint.R;
 import com.MDGround.HaiLanPrint.activity.base.ToolbarActivity;
-import com.MDGround.HaiLanPrint.activity.selectimage.SelectAlbumActivity;
-import com.MDGround.HaiLanPrint.constants.Constants;
 import com.MDGround.HaiLanPrint.databinding.ActivityPrintPhotoChooseInchBinding;
 import com.MDGround.HaiLanPrint.databinding.ItemPrintPhotoChooseInchBinding;
 import com.MDGround.HaiLanPrint.enumobject.restfuls.ResponseCode;
 import com.MDGround.HaiLanPrint.models.Measurement;
 import com.MDGround.HaiLanPrint.restfuls.GlobalRestful;
 import com.MDGround.HaiLanPrint.restfuls.bean.ResponseData;
+import com.MDGround.HaiLanPrint.utils.NavUtils;
 import com.MDGround.HaiLanPrint.utils.StringUtil;
 import com.MDGround.HaiLanPrint.utils.ViewUtils;
 import com.MDGround.HaiLanPrint.views.itemdecoration.NormalItemDecoration;
@@ -73,7 +71,8 @@ public class PrintPhotoChooseInchActivity extends ToolbarActivity<ActivityPrintP
         tvRight.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent intent = new Intent(PrintPhotoChooseInchActivity.this, PrintPhotoMeasurementDescription.class);
+                startActivity(intent);
             }
         });
     }
@@ -120,9 +119,7 @@ public class PrintPhotoChooseInchActivity extends ToolbarActivity<ActivityPrintP
     public class BindingHandlers {
 
         public void toSelectImageActivityAction(View view) {
-            Intent intent = new Intent(PrintPhotoChooseInchActivity.this, SelectAlbumActivity.class);
-            intent.putExtra(Constants.KEY_PRODUCT_TYPE, ProductType.PrintPhoto);
-            startActivity(intent);
+            NavUtils.toSelectAlbumActivity(view.getContext(), ProductType.PrintPhoto);
         }
     }
 
@@ -141,8 +138,8 @@ public class PrintPhotoChooseInchActivity extends ToolbarActivity<ActivityPrintP
 
         @Override
         public void onBindViewHolder(BindingHolder holder, int position) {
-            holder.viewDataBinding.setVariable(BR.measurement, mSpecList.get(position));
-            holder.viewDataBinding.setVariable(BR.handlers, bindingHandlers);
+            holder.viewDataBinding.setMeasurement(mSpecList.get(position));
+            holder.viewDataBinding.setHandlers(bindingHandlers);
         }
 
         @Override

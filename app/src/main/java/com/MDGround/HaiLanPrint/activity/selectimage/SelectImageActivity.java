@@ -15,6 +15,7 @@ import com.MDGround.HaiLanPrint.models.Album;
 import com.MDGround.HaiLanPrint.models.MDImage;
 import com.MDGround.HaiLanPrint.restfuls.GlobalRestful;
 import com.MDGround.HaiLanPrint.restfuls.bean.ResponseData;
+import com.MDGround.HaiLanPrint.utils.NavUtils;
 import com.MDGround.HaiLanPrint.utils.SelectImageUtil;
 import com.MDGround.HaiLanPrint.utils.StringUtil;
 import com.MDGround.HaiLanPrint.utils.ViewUtils;
@@ -33,6 +34,8 @@ import retrofit2.Response;
  * Created by yoghourt on 5/11/16.
  */
 public class SelectImageActivity extends ToolbarActivity<ActivitySelectImageBinding> {
+
+    private ProductType mProductType;
 
     private ChooseImageListAdapter mImageAdapter;
 
@@ -60,9 +63,9 @@ public class SelectImageActivity extends ToolbarActivity<ActivitySelectImageBind
 
         changeTips();
 
-        ProductType productType = (ProductType) getIntent().getSerializableExtra(Constants.KEY_PRODUCT_TYPE);
+        mProductType = (ProductType) getIntent().getSerializableExtra(Constants.KEY_PRODUCT_TYPE);
 
-        mMaxSelectImageNum = SelectImageUtil.getMaxSelectImageNum(productType);
+        mMaxSelectImageNum = SelectImageUtil.getMaxSelectImageNum(mProductType);
 
         mAlbum = getIntent().getParcelableExtra(Constants.KEY_ALBUM);
 
@@ -176,7 +179,7 @@ public class SelectImageActivity extends ToolbarActivity<ActivitySelectImageBind
 
     //region ACTION
     public void nextStepAction(View view) {
-
+        NavUtils.toPhotoEditActivity(view.getContext(), mProductType);
     }
     //endregion
 }

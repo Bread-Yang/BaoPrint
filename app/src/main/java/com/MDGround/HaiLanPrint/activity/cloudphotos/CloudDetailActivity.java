@@ -55,8 +55,10 @@ public class CloudDetailActivity extends ToolbarActivity<ActivityCloudDetailBind
             mDataBinding.lltOperation.setVisibility(View.GONE);
             mDataBinding.btnOperation.setText(R.string.forward);
             tvRight.setText(R.string.forward);
+            tvTitle.setText(R.string.share_album);
         } else {
             tvRight.setText(R.string.edit);
+            tvTitle.setText(R.string.personal_album);
         }
 
         mDataBinding.recyclerView.addItemDecoration(new GridSpacingItemDecoration(mCountPerLine, ViewUtils.dp2px(2), true));
@@ -77,18 +79,25 @@ public class CloudDetailActivity extends ToolbarActivity<ActivityCloudDetailBind
                 if (mImage.isShared()) {
                     if (btnText.equals(getString(R.string.forward))) {
                         tvRight.setText(R.string.cancel);
+                        mImageAdapter.setSelectable(true);
                         mDataBinding.lltOperation.setVisibility(View.VISIBLE);
+                        mDataBinding.cbSelectAll.setVisibility(View.VISIBLE);
                     } else {
                         tvRight.setText(R.string.forward);
+                        mImageAdapter.setSelectable(false);
                         mDataBinding.lltOperation.setVisibility(View.GONE);
+                        mDataBinding.cbSelectAll.setVisibility(View.GONE);
                     }
                 } else {
                     if (btnText.equals(getString(R.string.finish))) {
                         tvRight.setText(R.string.edit);
                         mDataBinding.cbSelectAll.setVisibility(View.GONE);
+                        mDataBinding.cbSelectAll.setChecked(false);
                         mImageAdapter.setSelectable(false);
 
                         mDataBinding.btnOperation.setText(R.string.upload);
+                        mDataBinding.btnOperation.setBackgroundResource(R.drawable.ripple_button_right_angle_orange);
+//                        mDataBinding.btnOperation.setBackgroundColor();
                     } else {
                         tvRight.setText(R.string.finish);
                         mImageAdapter.setSelectable(true);
@@ -96,6 +105,7 @@ public class CloudDetailActivity extends ToolbarActivity<ActivityCloudDetailBind
                         mDataBinding.cbSelectAll.setVisibility(View.VISIBLE);
 
                         mDataBinding.btnOperation.setText(R.string.delete);
+                        mDataBinding.btnOperation.setBackgroundResource(R.drawable.ripple_button_right_angle_red);
                     }
                 }
             }

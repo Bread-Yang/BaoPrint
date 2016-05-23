@@ -15,15 +15,19 @@ import com.MDGround.HaiLanPrint.utils.ViewUtils;
  */
 public class DividerItemDecoration extends RecyclerView.ItemDecoration {
 
+    private int mMargin = 0;
+
     private Drawable mDrawable;
 
-    public DividerItemDecoration() {
+    public DividerItemDecoration(int margin) {
         mDrawable = MDGroundApplication.mInstance.getResources().getDrawable(R.drawable.shape_divider);
+
+        mMargin = margin;
     }
 
     @Override
     public void onDrawOver(Canvas c, RecyclerView parent) {
-        final int left = ViewUtils.dp2px(16);
+        final int left = ViewUtils.dp2px(mMargin);
         final int right = parent.getWidth() - left;
 
         final int childCount = parent.getChildCount();

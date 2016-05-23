@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RadioGroup;
 
 import com.MDGround.HaiLanPrint.R;
 import com.MDGround.HaiLanPrint.activity.base.ToolbarActivity;
@@ -39,6 +40,11 @@ public class PrintPhotoChoosePaperNumActivity extends ToolbarActivity<ActivityPr
     @Override
     protected void initData() {
 
+        // 讲所有选中图片的数量设为1
+        for (MDImage mdImage : SelectImageUtil.mAlreadySelectImage) {
+            mdImage.setPhotoCount(1);
+        }
+
         mDataBinding.recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
 
         mAdapter = new PrintPhotoChoosePaperNumAdapter();
@@ -47,6 +53,19 @@ public class PrintPhotoChoosePaperNumActivity extends ToolbarActivity<ActivityPr
 
     @Override
     protected void setListener() {
+        mDataBinding.rgPaper.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                switch (checkedId) {
+                    case R.id.rbGlossyPaper:
+                        mDataBinding.tvPaperQuality.setText(R.string.glossy_paper_quality);
+                        break;
+                    case R.id.rbMattePaper:
+                        mDataBinding.tvPaperQuality.setText(R.string.matte_paper_quality);
+                        break;
+                }
+            }
+        });
     }
 
     //region ADAPTER
@@ -80,28 +99,37 @@ public class PrintPhotoChoosePaperNumActivity extends ToolbarActivity<ActivityPr
                 viewDataBinding = DataBindingUtil.bind(itemView);
             }
 
-            public class BindingHandlers {
+            public void addPrintNumAction(View view) {
+                int position = getAdapterPosition();
 
-                public void addPrintNumAction(View view) {
-                    int position = getAdapterPosition();
+                MDImage mdImage = SelectImageUtil.mAlreadySelectImage.get(position);
+                int photoCount = mdImage.getPhotoCount();
 
-                    MDImage mdImage = SelectImageUtil.mAlreadySelectImage.get(position);
-                    int photoCount = mdImage.getPhotoCount();
-                    mdImage.setPhotoCount(photoCount++);
+                if (photoCount == 1) {
+                    viewDataBinding.ivMinus.setImageResource(R.drawable.btn_optionbox_reduce_sel);
+                }
+                viewDataBinding.ivMinus.setEnabled(true);
+
+                mdImage.setPhotoCount(++photoCount);
+            }
+
+            public void minusPrintNumAction(View view) {
+                int position = getAdapterPosition();
+
+                MDImage mdImage = SelectImageUtil.mAlreadySelectImage.get(position);
+                int photoCount = mdImage.getPhotoCount();
+
+                if (photoCount == 1) {
+                    return;
                 }
 
-                public void minusPrintNumAction(View view) {
-                    int position = getAdapterPosition();
-
-                    MDImage mdImage = SelectImageUtil.mAlreadySelectImage.get(position);
-                    int photoCount = mdImage.getPhotoCount();
-
-                    if (photoCount == 1) {
-                        view.setEnabled(false);
-                        return;
-                    }
-                    mdImage.setPhotoCount(photoCount--);
+                if (photoCount == 2) {
+                    view.setEnabled(false);
+                    viewDataBinding.ivMinus.setImageResource(R.drawable.btn_optionbox_reduce_nor);
                 }
+
+                mdImage.setPhotoCount(--photoCount);
+
             }
         }
     }

@@ -1,13 +1,11 @@
 package com.MDGround.HaiLanPrint.activity.selectimage;
 
-import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 
 import com.MDGround.HaiLanPrint.ProductType;
 import com.MDGround.HaiLanPrint.R;
 import com.MDGround.HaiLanPrint.activity.base.ToolbarActivity;
-import com.MDGround.HaiLanPrint.activity.photoprint.PrintPhotoChoosePaperNumActivity;
 import com.MDGround.HaiLanPrint.adapter.AlbumAdapter;
 import com.MDGround.HaiLanPrint.adapter.SelectedImageAdapter;
 import com.MDGround.HaiLanPrint.constants.Constants;
@@ -18,6 +16,7 @@ import com.MDGround.HaiLanPrint.models.MDImage;
 import com.MDGround.HaiLanPrint.restfuls.GlobalRestful;
 import com.MDGround.HaiLanPrint.restfuls.bean.ResponseData;
 import com.MDGround.HaiLanPrint.utils.LocalMediaLoader;
+import com.MDGround.HaiLanPrint.utils.NavUtils;
 import com.MDGround.HaiLanPrint.utils.SelectImageUtil;
 import com.MDGround.HaiLanPrint.utils.ViewUtils;
 import com.MDGround.HaiLanPrint.views.itemdecoration.DividerItemDecoration;
@@ -59,6 +58,7 @@ public class SelectAlbumActivity extends ToolbarActivity<ActivitySelectAlbumBind
 
     @Override
     protected void initData() {
+        SelectImageUtil.mAlreadySelectImage.clear(); // 清空之前选中的图片
 
         mProductType = (ProductType) getIntent().getSerializableExtra(Constants.KEY_PRODUCT_TYPE);
 
@@ -68,7 +68,7 @@ public class SelectAlbumActivity extends ToolbarActivity<ActivitySelectAlbumBind
         LinearLayoutManager albumLayoutManager = new LinearLayoutManager(this);
         albumLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         mDataBinding.albumRecyclerView.setLayoutManager(albumLayoutManager);
-        mDataBinding.albumRecyclerView.addItemDecoration(new DividerItemDecoration());
+        mDataBinding.albumRecyclerView.addItemDecoration(new DividerItemDecoration(0));
         mAlbumAdapter = new AlbumAdapter(mProductType);
         mDataBinding.albumRecyclerView.setAdapter(mAlbumAdapter);
 
@@ -120,7 +120,7 @@ public class SelectAlbumActivity extends ToolbarActivity<ActivitySelectAlbumBind
                     for (MDImage mdImage : tempImagesList) {
                         Album album = new Album();
                         if (mdImage.isShared()) {
-                            album.setName(getString(R.string.cloud_album));
+                            album.setName(getString(R.string.share_album));
                         } else {
                             album.setName(getString(R.string.personal_album));
                         }
@@ -147,16 +147,7 @@ public class SelectAlbumActivity extends ToolbarActivity<ActivitySelectAlbumBind
 
     //region ACTION
     public void nextStepAction(View view) {
-        if (SelectImageUtil.mAlreadySelectImage.size() == 0) {
-            return;
-        }
-        Intent intent = new Intent();
-        switch (mProductType) {
-            case PrintPhoto:
-                intent.setClass(this, PrintPhotoChoosePaperNumActivity.class);
-                break;
-        }
-        startActivity(intent);
+        NavUtils.toPhotoEditActivity(view.getContext(), mProductType);
     }
     //endregion
 }

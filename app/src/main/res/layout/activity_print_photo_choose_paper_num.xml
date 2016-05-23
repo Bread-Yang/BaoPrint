@@ -12,19 +12,22 @@
 
         <View
             style="@style/DividerHorizontal"
-            android:layout_height="@dimen/margin_small_8"
+            android:layout_height="@dimen/margin_8"
             android:layout_margin="0dp"/>
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_10"
+            android:layout_marginLeft="@dimen/margin_12"
+            android:layout_marginTop="@dimen/margin_8"
             android:text="@string/choose_paper"/>
 
         <RadioGroup
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_small_8"
+            android:id="@+id/rgPaper"
+            android:layout_marginLeft="@dimen/margin_12"
+            android:layout_marginTop="@dimen/margin_8"
             android:background="@color/color_white"
             android:orientation="horizontal">
 
@@ -35,7 +38,7 @@
                 android:background="@drawable/selector_rb_bg"
                 android:button="@null"
                 android:checked="true"
-                android:padding="@dimen/margin_small_8"
+                android:padding="@dimen/margin_8"
                 android:text="@string/glossy_paper"
                 android:textColor="@drawable/selector_rb_text_color"/>
 
@@ -43,10 +46,10 @@
                 android:id="@+id/rbMattePaper"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/margin_small_8"
+                android:layout_marginLeft="@dimen/margin_15"
                 android:background="@drawable/selector_rb_bg"
                 android:button="@null"
-                android:padding="@dimen/margin_small_8"
+                android:padding="@dimen/margin_8"
                 android:text="@string/matte_paper"
                 android:textColor="@drawable/selector_rb_text_color"/>
         </RadioGroup>
@@ -54,19 +57,25 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_small_8"
+            android:id="@+id/tvPaperQuality"
+            android:layout_marginLeft="@dimen/margin_12"
+            android:layout_marginRight="@dimen/margin_12"
+            android:layout_marginTop="@dimen/margin_8"
             android:text="@string/glossy_paper_quality"
             android:textColor="@color/color_f88e11"/>
 
         <View
             style="@style/DividerHorizontal"
             android:layout_height="10dp"
-            android:layout_margin="0dp"/>
+            android:layout_marginLeft="0dp"
+            android:layout_marginRight="0dp"
+            android:layout_marginTop="@dimen/margin_12"/>
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_10"
+            android:layout_marginLeft="@dimen/margin_12"
+            android:layout_marginTop="@dimen/margin_12"
             android:text="@string/choose_print_num"/>
 
         <android.support.v7.widget.RecyclerView
@@ -74,21 +83,24 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_alignParentRight="true"
-            android:layout_marginTop="@dimen/margin_small_8"
+            android:layout_marginTop="@dimen/margin_12"
             android:layout_weight="1"/>
+
+        <View style="@style/DividerHorizontal"
+              android:layout_marginLeft="0dp"
+              android:layout_marginRight="0dp"/>
 
         <Button
             android:id="@+id/btnNextStep"
             android:layout_width="match_parent"
             android:layout_height="@dimen/button_normal"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="@dimen/margin_big_32"
             android:background="?attr/selectableItemBackground"
             android:gravity="center"
             android:onClick="loginAction"
-            android:text="@string/next_step"
+            android:text="@string/start_make"
             android:textColor="@color/color_f88e11"
-            android:textSize="@dimen/text_max_20"/>
+            android:textSize="@dimen/text_size_20"/>
 
     </LinearLayout>
 

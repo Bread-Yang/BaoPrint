@@ -29,8 +29,12 @@
                 android:layout_width="match_parent"
                 android:visibility="gone"
                 android:layout_height="match_parent"
+                android:button="@drawable/selector_cb_bg_auto_login"
                 android:layout_centerVertical="true"
                 android:layout_weight="2"
+                android:layout_marginLeft="@dimen/margin_10"
+                android:textSize="@dimen/text_size_16"
+                android:paddingLeft="@dimen/margin_10"
                 android:checked="false"
                 android:text="@string/select_all"/>
 
@@ -40,12 +44,12 @@
                 android:layout_height="match_parent"
                 android:layout_alignParentRight="true"
                 android:layout_gravity="center_horizontal"
-                android:background="@drawable/ripple_button_right_angle"
+                android:background="@drawable/ripple_button_right_angle_orange"
                 android:gravity="center"
                 android:layout_weight="3"
-                android:text="@string/upload"
+                android:text="@string/upload_image"
                 android:textColor="@color/color_white"
-                android:textSize="@dimen/text_max_20"/>
+                android:textSize="@dimen/text_size_20"/>
         </LinearLayout>
 
     </RelativeLayout>

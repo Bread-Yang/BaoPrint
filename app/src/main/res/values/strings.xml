@@ -7,6 +7,9 @@
     <string name="edit">编辑</string>
     <string name="delete">删除</string>
     <string name="loading">加载中</string>
+    <string name="go_on">继续</string>
+    <string name="tips">温馨提示</string>
+    <string name="network_unavailable">网络不可用,确保wifi或者移动网络是否已经打开</string>
 
     <!-- 登录 -->
     <string name="login">登录</string>
@@ -39,6 +42,9 @@
     <string name="sign_up_protocol">注册协议</string>
     <string name="hailan_sign_up_protocol">海岚直印注册协议</string>
 
+    <!-- 注册协议 -->
+    <string name="protocol_tips">请务必认真阅读和理解本&lt;&lt;用户服务协议&gt;&gt; (以下简称&lt;&lt;协议&gt;&gt;)中规定的所有权利和限制。除非您接受本&lt;&lt;协议&gt;&gt;条款,否则您无权注册、登录或使用本协议所涉及的相关服务。您一旦注册、登录、使用或以任何方式使用本&lt;&lt;协议&gt;&gt;所涉及的相关服务的行为将视为对本&lt;&lt;协议&gt;&gt;的接受,即表示您同意并接受本&lt;&lt;协议&gt;&gt;各项条款的约束。</string>
+
     <!-- 完善资料 -->
     <string name="improve_information">完善资料</string>
     <string name="input_name">(必填)请输入注册人姓名</string>
@@ -65,7 +71,9 @@
     <string name="take_picture">拍摄照片</string>
     <string name="message_max_num">你最多可以选择%1$s张图片</string>
     <string name="upload">上传</string>
+    <string name="upload_image">上传图片</string>
     <string name="upload_num">上传(%d)</string>
+    <string name="current_cellular_network">您当前使用的是手机流量,上传图片会消耗大量的流量,是否继续?</string>
 
     <!-- 选择照片 -->
     <string name="choose_image_tips">已选%1$d张照片,最多选择%2$d张</string>
@@ -107,6 +115,7 @@
 
     <!-- 拼图 -->
     <string name="puzzle">拼图</string>
+    <string name="start_make">开始制作</string>
 
     <!-- 魔术杯 -->
     <string name="magic_cup">魔术杯</string>
@@ -116,5 +125,8 @@
 
     <!-- 版画 -->
     <string name="engraving">版画</string>
+
+    <!-- 编辑图片 -->
+    <string name="percent">%d</string>
 
 </resources>

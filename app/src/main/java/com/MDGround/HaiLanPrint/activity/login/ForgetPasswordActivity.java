@@ -3,7 +3,6 @@ package com.MDGround.HaiLanPrint.activity.login;
 import android.os.CountDownTimer;
 import android.text.InputType;
 import android.view.View;
-import android.widget.CompoundButton;
 import android.widget.Toast;
 
 import com.MDGround.HaiLanPrint.R;
@@ -42,16 +41,20 @@ public class ForgetPasswordActivity extends ToolbarActivity<ActivityForgetPasswo
 
     @Override
     protected void setListener() {
-        mDataBinding.cbShowPwd.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+
+        mDataBinding.ivShowPsd.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    mDataBinding.cetPassword.setInputType(InputType.TYPE_CLASS_TEXT
-                            | InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
-                } else {
-                    mDataBinding.cetPassword.setInputType(InputType.TYPE_CLASS_TEXT
-                            | InputType.TYPE_TEXT_VARIATION_PASSWORD);
-                }
+            public void onClick(View v) {
+                mDataBinding.cetPassword.setInputType(InputType.TYPE_CLASS_TEXT
+                        | InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+            }
+        });
+
+        mDataBinding.ivHidePsd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mDataBinding.cetPassword.setInputType(InputType.TYPE_CLASS_TEXT
+                        | InputType.TYPE_TEXT_VARIATION_PASSWORD);
             }
         });
     }

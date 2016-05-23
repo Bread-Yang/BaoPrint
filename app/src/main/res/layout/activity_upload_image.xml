@@ -27,9 +27,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/margin_10"
+                android:button="@drawable/selector_cb_bg_auto_login"
                 android:checked="false"
-                android:onClick="selectAllAction"
-                android:text="@string/select_all"/>
+                android:paddingLeft="@dimen/margin_10"
+                android:text="@string/select_all"
+                android:textSize="@dimen/text_size_16"/>
 
             <Button
                 android:id="@+id/btnUpload"
@@ -37,12 +40,12 @@
                 android:layout_height="match_parent"
                 android:layout_alignParentRight="true"
                 android:layout_gravity="center_horizontal"
-                android:background="@drawable/ripple_button_right_angle"
+                android:background="@drawable/ripple_button_right_angle_orange"
                 android:gravity="center"
                 android:onClick="uploadAction"
                 android:text="@string/upload"
                 android:textColor="@color/color_white"
-                android:textSize="@dimen/text_max_20"/>
+                android:textSize="@dimen/text_size_20"/>
         </RelativeLayout>
 
     </RelativeLayout>

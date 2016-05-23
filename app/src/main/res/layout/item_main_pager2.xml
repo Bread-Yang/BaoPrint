@@ -25,11 +25,12 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="?android:attr/selectableItemBackground"
-                android:drawableTop="@drawable/ic_wechat"
+                android:drawableTop="@drawable/icon_photo_home"
                 android:gravity="center"
                 android:paddingBottom="12dp"
                 android:paddingTop="12dp"
                 android:text="@string/phone_shell"
+                android:textColor="@color/color_666666"
                 android:textSize="17sp"/>
 
             <Button
@@ -37,11 +38,12 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="?android:attr/selectableItemBackground"
-                android:drawableTop="@drawable/ic_wechat"
+                android:drawableTop="@drawable/icon_dra_home"
                 android:gravity="center"
                 android:paddingBottom="12dp"
                 android:paddingTop="12dp"
                 android:text="@string/poker"
+                android:textColor="@color/color_666666"
                 android:textSize="17sp"/>
 
             <Button
@@ -49,11 +51,13 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="?android:attr/selectableItemBackground"
-                android:drawableTop="@drawable/ic_wechat"
+                android:drawableTop="@drawable/icon_card_home"
                 android:gravity="center"
+                android:onClick="@{handlers::toPuzzleActivity}"
                 android:paddingBottom="12dp"
                 android:paddingTop="12dp"
                 android:text="@string/puzzle"
+                android:textColor="@color/color_666666"
                 android:textSize="17sp"/>
 
         </LinearLayout>
@@ -70,12 +74,13 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="?android:attr/selectableItemBackground"
-                android:drawableTop="@drawable/ic_wechat"
+                android:drawableTop="@drawable/icon_book_home"
                 android:gravity="center"
                 android:onClick="@{handlers::toMagicCupActivityAction}"
                 android:paddingBottom="12dp"
                 android:paddingTop="12dp"
                 android:text="@string/magic_cup"
+                android:textColor="@color/color_666666"
                 android:textSize="17sp"/>
 
             <Button
@@ -84,12 +89,13 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="?android:attr/selectableItemBackground"
-                android:drawableTop="@drawable/ic_wechat"
+                android:drawableTop="@drawable/icon_art_home"
                 android:gravity="center"
                 android:onClick="@{handlers::toLomoCardActivityAction}"
                 android:paddingBottom="12dp"
                 android:paddingTop="12dp"
                 android:text="@string/lomo_card"
+                android:textColor="@color/color_666666"
                 android:textSize="17sp"/>
 
             <Button
@@ -98,12 +104,13 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="?android:attr/selectableItemBackground"
-                android:drawableTop="@drawable/ic_wechat"
+                android:drawableTop="@drawable/icon_lomo_home"
                 android:gravity="center"
                 android:onClick="@{handlers::toEngravingActivityAction}"
                 android:paddingBottom="12dp"
                 android:paddingTop="12dp"
                 android:text="@string/engraving"
+                android:textColor="@color/color_666666"
                 android:textSize="17sp"/>
 
         </LinearLayout>

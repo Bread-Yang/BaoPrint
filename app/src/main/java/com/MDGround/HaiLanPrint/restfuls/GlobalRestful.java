@@ -147,4 +147,9 @@ public class GlobalRestful extends BaseRestful {
         asynchronousPost("GetPhotoType", obj.toString(), callback);
     }
 
+    // 获取首页轮播图片列表
+    public void GetBannerPhotoList(Callback<ResponseData> callback) {
+        asynchronousPost("GetBannerPhotoList", null, callback);
+    }
+
 }

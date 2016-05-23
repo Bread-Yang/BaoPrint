@@ -14,7 +14,7 @@ import com.MDGround.HaiLanPrint.R;
 public abstract class ToolbarActivity<T extends ViewDataBinding> extends AppCompatActivity {
 
     protected Toolbar mToolbar;
-    protected TextView tvRight;
+    protected TextView tvTitle, tvRight;
     protected T mDataBinding;
 
     @Override
@@ -27,7 +27,7 @@ public abstract class ToolbarActivity<T extends ViewDataBinding> extends AppComp
         setSupportActionBar(mToolbar);
 
         // 左边返回键
-        mToolbar.setNavigationIcon(android.R.drawable.arrow_up_float);
+        mToolbar.setNavigationIcon(R.drawable.btn_return_public);
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -37,7 +37,8 @@ public abstract class ToolbarActivity<T extends ViewDataBinding> extends AppComp
 
         // 标题
         String title = (String) getSupportActionBar().getTitle();
-        ((TextView) mToolbar.findViewById(R.id.tvTitle)).setText(title);
+        tvTitle = ((TextView) mToolbar.findViewById(R.id.tvTitle));
+        tvTitle.setText(title);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         // 右边按钮

@@ -14,10 +14,26 @@ import android.view.ViewGroup;
 import com.MDGround.HaiLanPrint.BR;
 import com.MDGround.HaiLanPrint.R;
 import com.MDGround.HaiLanPrint.activity.cloudphotos.CloudOverviewActivity;
+import com.MDGround.HaiLanPrint.activity.lomocard.LomoCardChooseNumActivity;
+import com.MDGround.HaiLanPrint.activity.magiccup.MagicCupChooseColorActivity;
 import com.MDGround.HaiLanPrint.activity.photoprint.PrintPhotoChooseInchActivity;
+import com.MDGround.HaiLanPrint.activity.puzzle.PuzzleStartActivity;
 import com.MDGround.HaiLanPrint.databinding.ActivityMainBinding;
+import com.MDGround.HaiLanPrint.enumobject.restfuls.ResponseCode;
+import com.MDGround.HaiLanPrint.models.MDImage;
+import com.MDGround.HaiLanPrint.restfuls.GlobalRestful;
+import com.MDGround.HaiLanPrint.restfuls.bean.ResponseData;
+import com.google.gson.reflect.TypeToken;
+
+import java.util.ArrayList;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
+
+    private ArrayList<MDImage> mImagesList = new ArrayList<MDImage>();
 
     private ActivityMainBinding mDataBinding;
 
@@ -30,7 +46,28 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initData() {
+        GlobalRestful.getInstance().GetBannerPhotoList(new Callback<ResponseData>() {
+            @Override
+            public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
+                if (ResponseCode.isSuccess(response.body())) {
+                    ArrayList<MDImage> tempImagesList = response.body().getContent(new TypeToken<ArrayList<MDImage>>() {
+                    });
+
+                    mImagesList.addAll(tempImagesList);
+
+                    mDataBinding.simpleImageBanner
+                            .setSource(mImagesList).startScroll();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseData> call, Throwable t) {
+
+            }
+        });
+
         mDataBinding.viewPager.setAdapter(new MainAdapter());
+
     }
 
     public void toCloudActivityAction(View view) {
@@ -46,15 +83,22 @@ public class MainActivity extends AppCompatActivity {
         }
 
         public void toMagicCupActivityAction(View view) {
-
+            Intent intent = new Intent(MainActivity.this, MagicCupChooseColorActivity.class);
+            startActivity(intent);
         }
 
         public void toLomoCardActivityAction(View view) {
-
+            Intent intent = new Intent(MainActivity.this, LomoCardChooseNumActivity.class);
+            startActivity(intent);
         }
 
         public void toEngravingActivityAction(View view) {
 
+        }
+
+        public void toPuzzleActivity(View view) {
+            Intent intent = new Intent(MainActivity.this, PuzzleStartActivity.class);
+            startActivity(intent);
         }
 
     }

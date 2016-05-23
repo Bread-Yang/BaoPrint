@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:orientation="vertical"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -15,43 +16,49 @@
 
             <ImageView
                 android:id="@+id/ivLogo"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_wechat"/>
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/icon_login_logo"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/margin_10"
                 android:layout_centerVertical="true"
                 android:layout_toRightOf="@+id/ivLogo"
                 android:text="@string/app_name"
                 android:textColor="@color/color_white"/>
 
-            <TextView
-                android:id="@+id/tvCloudPhotos"
+            <ImageView
+                android:id="@+id/ivCloudImage"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="@dimen/margin_small_8"
-                android:layout_toLeftOf="@+id/tvPersonalCenter"
-                android:clickable="true"
                 android:onClick="toCloudActivityAction"
-                android:text="@string/cloud_album"
-                android:textColor="@color/color_white"/>
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/margin_15"
+                android:layout_toLeftOf="@+id/ivPersonalCenter"
+                android:src="@drawable/icon_pr_download"/>
 
-            <TextView
-                android:id="@+id/tvPersonalCenter"
+            <ImageView
+                android:id="@+id/ivPersonalCenter"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:text="@string/personal_center"
-                android:textColor="@color/color_white"/>
+                android:layout_marginRight="@dimen/margin_15"
+                android:src="@drawable/icon_wszl_wd"/>
 
         </RelativeLayout>
 
+        <com.MDGround.HaiLanPrint.views.SimpleImageBanner
+            android:id="@+id/simpleImageBanner"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            app:bb_scale="0.8"/>
+
         <android.support.v4.view.ViewPager
             android:id="@+id/viewPager"
+            android:background="@color/color_white"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
     </LinearLayout>

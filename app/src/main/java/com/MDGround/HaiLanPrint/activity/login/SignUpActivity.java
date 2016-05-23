@@ -2,6 +2,7 @@ package com.MDGround.HaiLanPrint.activity.login;
 
 import android.content.Intent;
 import android.os.CountDownTimer;
+import android.text.InputType;
 import android.view.View;
 import android.widget.Toast;
 
@@ -34,7 +35,21 @@ public class SignUpActivity extends ToolbarActivity<ActivitySignUpBinding> {
 
     @Override
     protected void setListener() {
+        mDataBinding.ivShowPsd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mDataBinding.cetPassword.setInputType(InputType.TYPE_CLASS_TEXT
+                        | InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+            }
+        });
 
+        mDataBinding.ivHidePsd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mDataBinding.cetPassword.setInputType(InputType.TYPE_CLASS_TEXT
+                        | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+            }
+        });
     }
 
     private EventHandler mEventHandler = new EventHandler() {

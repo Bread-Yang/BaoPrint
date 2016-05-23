@@ -5,7 +5,6 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
         <variable
             name="handlers"
             type="com.MDGround.HaiLanPrint.activity.photoprint.PrintPhotoChooseInchActivity.BindingHandlers"/>
@@ -18,6 +17,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="60dp"
+        android:background="@drawable/shape_round_corner_area_bg"
         android:onClick="@{handlers::toSelectImageActivityAction}">
 
         <TextView
@@ -28,6 +28,7 @@
             android:layout_alignLeft="@+id/tvImageCount"
             android:text="@{measurement.title}"
             android:textColor="@color/color_black"
+            android:textSize="@dimen/text_size_16"
             tools:text="个人相册"/>
 
         <TextView
@@ -35,8 +36,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:layout_marginBottom="@dimen/margin_normal_12"
-            android:layout_marginLeft="@dimen/margin_normal_12"
+            android:layout_marginBottom="@dimen/margin_12"
+            android:layout_marginLeft="@dimen/margin_12"
             android:text="@{measurement.titleSub}"
             android:textColor="@color/color_333333"
             tools:text="(2)"/>
@@ -46,11 +47,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginBottom="@dimen/margin_normal_12"
-            android:layout_marginLeft="@dimen/margin_normal_12"
+            android:layout_marginBottom="@dimen/margin_12"
+            android:layout_marginLeft="@dimen/margin_12"
+            android:layout_marginRight="@dimen/margin_12"
             android:layout_toLeftOf="@+id/ivArrow"
             android:text='@{(measurement.price / 100) + "/" + measurement.priceDesc}'
             android:textColor="@color/color_f88e11"
+            android:textSize="@dimen/text_size_12"
             tools:text="0.5/张"/>
 
         <ImageView
@@ -58,8 +61,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:src="@drawable/ssdk_oks_ptr_ptr"/>
-
+            android:layout_centerVertical="true"/>
     </RelativeLayout>
 </layout>

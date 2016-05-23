@@ -11,34 +11,43 @@
 
         <com.malinskiy.superrecyclerview.SuperRecyclerView
             android:id="@+id/imageRecyclerView"
-            android:layout_weight="1"
             android:layout_width="match_parent"
-            android:layout_above="@+id/lltOperation"
             android:layout_height="match_parent"
+            android:layout_above="@+id/lltOperation"
+            android:layout_weight="1"
             android:scrollbars="none"/>
+
+        <View
+            style="@style/DividerHorizontal"
+            android:layout_marginLeft="0dp"
+            android:layout_marginRight="0dp"/>
+
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:background="@color/color_white">
 
             <TextView
                 android:id="@+id/tvChooseTips"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/margin_10"
                 android:text="@string/choose_image_tips"/>
 
             <Button
                 android:id="@+id/btnNextStep"
                 android:layout_width="60dp"
-                android:layout_height="20dp"
+                android:layout_height="25dp"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="@dimen/margin_big_32"
-                android:onClick="nextStepAction"
-                android:background="@drawable/ripple_button_right_angle"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="@dimen/margin_32"
+                android:background="@drawable/ripple_button_round_angle_orange"
                 android:gravity="center"
+                android:onClick="nextStepAction"
                 android:text="@string/next_step"
                 android:textColor="@color/color_white"/>
         </RelativeLayout>
@@ -46,7 +55,8 @@
         <android.support.v7.widget.RecyclerView
             android:id="@+id/selectedImageRecyclerView"
             android:layout_width="match_parent"
-            android:layout_height="80dp"
-            android:scrollbars="none" />
+            android:layout_height="96dp"
+            android:background="@color/color_white"
+            android:scrollbars="none"/>
     </LinearLayout>
 </layout>

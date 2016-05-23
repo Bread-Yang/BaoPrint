@@ -11,30 +11,36 @@
         android:layout_height="match_parent"
         android:gravity="center_horizontal"
         android:orientation="vertical"
-        android:paddingTop="@dimen/margin_normal_12">
+        android:paddingTop="@dimen/margin_10">
 
         <com.MDGround.HaiLanPrint.views.ClearEditText
             android:id="@+id/cetName"
             android:layout_width="match_parent"
             android:layout_height="@dimen/button_normal"
             android:background="@color/color_white"
-            android:drawablePadding="@dimen/margin_normal_12"
+            android:drawableLeft="@drawable/icon_wszl_wd"
+            android:drawablePadding="@dimen/margin_12"
             android:hint="@string/input_name"
             android:inputType="text"
             android:longClickable="false"
-            android:paddingLeft="@dimen/margin_normal_12"/>
+            android:paddingLeft="@dimen/margin_10"
+            android:textColorHint="@color/color_999999"
+            android:textSize="@dimen/text_size_16"/>
 
         <com.MDGround.HaiLanPrint.views.ClearEditText
             android:id="@+id/cetChildName"
             android:layout_width="match_parent"
             android:layout_height="@dimen/button_normal"
-            android:layout_marginTop="@dimen/margin_normal_12"
+            android:layout_marginTop="@dimen/margin_10"
             android:background="@color/color_white"
-            android:drawablePadding="@dimen/margin_normal_12"
+            android:drawableLeft="@drawable/icon_wszl_wd"
+            android:drawablePadding="@dimen/margin_12"
             android:hint="@string/input_child_name"
             android:inputType="text"
             android:longClickable="false"
-            android:paddingLeft="@dimen/margin_normal_12"/>
+            android:paddingLeft="@dimen/margin_10"
+            android:textColorHint="@color/color_999999"
+            android:textSize="@dimen/text_size_16"/>
 
         <View style="@style/DividerHorizontal"/>
 
@@ -44,13 +50,15 @@
             android:layout_height="@dimen/button_normal"
             android:background="@color/color_white"
             android:clickable="true"
-            android:drawablePadding="@dimen/margin_normal_12"
+            android:drawableLeft="@drawable/icon_wszl_cake"
+            android:drawablePadding="@dimen/margin_12"
             android:gravity="center_vertical"
             android:hint="@string/choose_child_birthday"
             android:inputType="text"
             android:onClick="chooseBirthdayAction"
-            android:paddingLeft="@dimen/margin_normal_12"
-            android:textSize="@dimen/text_big_18"/>
+            android:paddingLeft="@dimen/margin_10"
+            android:textColorHint="@color/color_999999"
+            android:textSize="@dimen/text_size_16"/>
 
         <View style="@style/DividerHorizontal"/>
 
@@ -59,11 +67,14 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/button_normal"
             android:background="@color/color_white"
-            android:drawablePadding="@dimen/margin_normal_12"
+            android:drawableLeft="@drawable/icon_wszl_school"
+            android:drawablePadding="@dimen/margin_12"
             android:hint="@string/input_child_school"
             android:inputType="text"
             android:longClickable="false"
-            android:paddingLeft="@dimen/margin_normal_12"/>
+            android:paddingLeft="@dimen/margin_10"
+            android:textColorHint="@color/color_999999"
+            android:textSize="@dimen/text_size_16"/>
 
         <View style="@style/DividerHorizontal"/>
 
@@ -72,25 +83,28 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/button_normal"
             android:background="@color/color_white"
-            android:drawablePadding="@dimen/margin_normal_12"
+            android:drawableLeft="@drawable/icon_wszl_class"
+            android:drawablePadding="@dimen/margin_12"
             android:hint="@string/input_child_class"
             android:inputType="text"
             android:longClickable="false"
-            android:paddingLeft="@dimen/margin_normal_12"/>
+            android:paddingLeft="@dimen/margin_10"
+            android:textColorHint="@color/color_999999"
+            android:textSize="@dimen/text_size_16"/>
 
         <Button
             android:id="@+id/btnLogin"
             android:layout_width="match_parent"
             android:layout_height="@dimen/button_normal"
             android:layout_gravity="center_horizontal"
-            android:layout_marginLeft="@dimen/margin_medium_24"
-            android:layout_marginRight="@dimen/margin_medium_24"
-            android:layout_marginTop="@dimen/margin_big_32"
-            android:background="@drawable/ripple_button_round_angle"
+            android:layout_marginLeft="@dimen/margin_24"
+            android:layout_marginRight="@dimen/margin_24"
+            android:layout_marginTop="@dimen/margin_36"
+            android:background="@drawable/ripple_button_round_angle_orange"
             android:gravity="center"
             android:onClick="finishAction"
             android:text="@string/finish"
             android:textColor="@color/color_white"
-            android:textSize="@dimen/text_max_20"/>
+            android:textSize="@dimen/text_size_20"/>
     </LinearLayout>
 </layout>

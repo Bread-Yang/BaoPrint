@@ -18,7 +18,7 @@ import com.MDGround.HaiLanPrint.restfuls.GlobalRestful;
 import com.MDGround.HaiLanPrint.restfuls.bean.ResponseData;
 import com.MDGround.HaiLanPrint.utils.NavUtils;
 import com.MDGround.HaiLanPrint.utils.ViewUtils;
-import com.MDGround.HaiLanPrint.views.itemdecoration.NormalItemDecoration;
+import com.MDGround.HaiLanPrint.views.itemdecoration.DividerItemDecoration;
 import com.google.gson.reflect.TypeToken;
 
 import java.util.ArrayList;
@@ -53,7 +53,7 @@ public class CloudOverviewActivity extends ToolbarActivity<ActivityCloudOverview
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         mDataBinding.recyclerView.setLayoutManager(layoutManager);
-        mDataBinding.recyclerView.addItemDecoration(new NormalItemDecoration(ViewUtils.dp2px(2)));
+        mDataBinding.recyclerView.addItemDecoration(new DividerItemDecoration(0));
 
         mAdapter = new CloudOverviewAdapter();
         mDataBinding.recyclerView.setAdapter(mAdapter);

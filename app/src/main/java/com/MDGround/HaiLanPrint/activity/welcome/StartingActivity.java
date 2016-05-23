@@ -51,10 +51,8 @@ public class StartingActivity extends AppCompatActivity {
 
                     loginRequest(MDGroundApplication.mLoginUser);
                 } else {
-                    Intent intent = new Intent(StartingActivity.this, LoginActivity.class);
-                    startActivity(intent);
+                    toLoginActivity();
                 }
-                finish();
             }
 
             @Override
@@ -62,6 +60,12 @@ public class StartingActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    private void toLoginActivity() {
+        Intent intent = new Intent(StartingActivity.this, LoginActivity.class);
+        startActivity(intent);
+        finish();
     }
 
     private void loginRequest(User user) {
@@ -80,15 +84,13 @@ public class StartingActivity extends AppCompatActivity {
                             finish();
                         } else {
                             ViewUtils.toast(response.body().getMessage());
-                            Intent intent = new Intent(StartingActivity.this, LoginActivity.class);
-                            startActivity(intent);
-                            finish();
+                            toLoginActivity();
                         }
                     }
 
                     @Override
                     public void onFailure(Call<ResponseData> call, Throwable t) {
-
+                        toLoginActivity();
                     }
                 });
     }

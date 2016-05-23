@@ -18,14 +18,14 @@
     <style name="NormalTextStyle">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:textSize">@dimen/text_normal_14</item>
+        <item name="android:textSize">@dimen/text_size_14</item>
         <item name="android:textColor">@drawable/selector_text_color_normal</item>
     </style>
 
     <style name="HighlightTextStyle">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:textSize">@dimen/text_normal_14</item>
+        <item name="android:textSize">@dimen/text_size_14</item>
         <item name="android:textColor">@drawable/selector_text_color_highlight</item>
     </style>
 
@@ -38,9 +38,21 @@
     <style name="DividerHorizontal">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">1dp</item>
-        <item name="android:layout_marginLeft">@dimen/margin_normal_12</item>
-        <item name="android:layout_marginRight">@dimen/margin_normal_12</item>
+        <item name="android:layout_marginLeft">@dimen/margin_12</item>
+        <item name="android:layout_marginRight">@dimen/margin_12</item>
         <item name="android:background">@color/color_divider</item>
+    </style>
+
+    <style name="customDialog" parent="android:style/Theme.Dialog">
+
+        <!-- 背景颜色及透明程度 -->
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <!-- 是否有标题 -->
+        <item name="android:windowNoTitle">true</item>
+        <!-- 是否浮现在activity之上 -->
+        <item name="android:windowIsFloating">true</item>
+        <!-- 是否模糊 -->
+        <item name="android:backgroundDimEnabled">true</item>
     </style>
 
 </resources>

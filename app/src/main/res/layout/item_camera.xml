@@ -19,7 +19,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/camera"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="@dimen/margin_small_8"
+        android:layout_marginTop="@dimen/margin_8"
         android:text="@string/take_picture"
         android:textColor="@color/color_white"/>
 </com.MDGround.HaiLanPrint.views.SquareRelativeLayout>
