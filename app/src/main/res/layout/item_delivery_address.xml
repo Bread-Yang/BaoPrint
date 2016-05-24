@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="deliveryAddress"
+            type="com.MDGround.HaiLanPrint.models.DeliveryAddress"/>
+
+        <variable
+            name="handlers"
+            type="com.MDGround.HaiLanPrint.activity.deliveryaddress.ChooseDeliveryAddressActivity.DeliveryAddressAdapter.ViewHolder"/>
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="@{handlers::toEditDeliveryAddressActivityAction}"
+        android:background="@color/color_white"
+        android:padding="@dimen/margin_15">
+
+        <ImageView
+            android:id="@+id/ivLocationLogo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:src="@drawable/icon_place_pay"/>
+
+        <TextView
+            android:id="@+id/tvName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin_8"
+            android:layout_toRightOf="@+id/ivLocationLogo"
+            android:text="@{deliveryAddress.receiver}"
+            tools:text="陈奕迅"/>
+
+        <TextView
+            android:id="@+id/tvPhone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin_15"
+            android:layout_toRightOf="@+id/tvName"
+            android:text="@{deliveryAddress.phone}"
+            tools:text="15521377721"/>
+
+        <TextView
+            android:id="@+id/tvAddress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/tvName"
+            android:layout_below="@+id/tvName"
+            android:layout_marginTop="@dimen/margin_8"
+            android:layout_toRightOf="@+id/ivLocationLogo"
+            android:text="@{deliveryAddress.street}"
+            tools:text="广东省广州市天河区棠安路188号乐天大厦8楼808-812"/>
+    </RelativeLayout>
+</layout>

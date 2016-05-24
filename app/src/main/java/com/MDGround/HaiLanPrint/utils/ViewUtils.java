@@ -8,6 +8,7 @@ import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.text.InputType;
 import android.util.DisplayMetrics;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
@@ -150,5 +151,16 @@ public class ViewUtils {
         ClipboardManager clipboardManager = (ClipboardManager) MDGroundApplication.mInstance.getSystemService(Context.CLIPBOARD_SERVICE);
         clipboardManager.setText(str);
         ViewUtils.toast(str);
+    }
+
+    public static void isShowPassword(boolean isShow, EditText editText) {
+        if (isShow) {
+            editText.setInputType(InputType.TYPE_CLASS_TEXT
+                    | InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+        } else {
+            editText.setInputType(InputType.TYPE_CLASS_TEXT
+                    | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+        }
+        editText.setSelection(editText.length());
     }
 }

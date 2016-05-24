@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">海拍海印</string>
+    <string name="haipai_print">海拍海印</string>
 
     <!-- common -->
     <string name="finish">完成</string>
@@ -31,6 +32,7 @@
     <string name="input_captcha">请输入验证码</string>
     <string name="acquire_captcha">获取验证码</string>
     <string name="next_step">下一步</string>
+    <string name="phone_already_signup">该手机号码已注册</string>
     <string name="agree_protocol_tips">继续注册表示已同意</string>
     <string name="hailan_protocol">&lt;&lt;海岚冲印注册协议&gt;&gt;</string>
     <string name="has_account">已有账号,</string>
@@ -47,7 +49,8 @@
 
     <!-- 完善资料 -->
     <string name="improve_information">完善资料</string>
-    <string name="input_name">(必填)请输入注册人姓名</string>
+    <string name="require">(必填)</string>
+    <string name="input_name">请输入注册人姓名</string>
     <string name="input_child_name">请输入孩子姓名</string>
     <string name="choose_child_birthday">请选择孩子生日</string>
     <string name="input_child_school">请输入孩子学校</string>
@@ -76,7 +79,11 @@
     <string name="current_cellular_network">您当前使用的是手机流量,上传图片会消耗大量的流量,是否继续?</string>
 
     <!-- 选择照片 -->
-    <string name="choose_image_tips">已选%1$d张照片,最多选择%2$d张</string>
+    <string name="choose_image_tips">
+        <![CDATA[
+        已选<font color=#f88e11>%1$d</font>张照片,最多选择<font color=#f88e11>%2$d</font>张
+        ]]>
+    </string>
 
     <!-- 个人中心 -->
     <string name="personal_center">个人中心</string>
@@ -128,5 +135,37 @@
 
     <!-- 编辑图片 -->
     <string name="percent">%d</string>
+
+    <!-- 支付 -->
+    <string name="pay">支付</string>
+    <string name="go_pay">去支付</string>
+    <string name="alipay_pay">支付宝支付</string>
+    <string name="wechat_pay">微信支付</string>
+    <string name="receivables">应付金额: ¥%f</string>
+    <string name="yuan_symbol">¥%f</string>
+    <string name="yuan_unit">元</string>
+    <string name="coupon">优惠劵</string>
+    <string name="available_num">%d张可用</string>
+    <string name="credit">积分</string>
+    <string name="payment_success">支付成功</string>
+
+    <!-- 选择优惠劵 -->
+    <string name="choose_coupon">选择优惠劵</string>
+    <string name="no_coupon">很抱歉,没有找到您的优惠劵</string>
+
+    <!-- 收货地址 -->
+    <string name="delivery_address">收货地址</string>
+    <string name="add_address">新增地址</string>
+    <string name="still_can_add_address">还可以增加%d个地址</string>
+
+    <!-- 编辑地址 -->
+    <string name="edit_address">编辑地址</string>
+    <string name="save_and_use">保存并使用</string>
+    <string name="consignee">收货人</string>
+    <string name="input_consignee">请输入收货人姓名</string>
+    <string name="contact_number">联系电话</string>
+    <string name="region">所在地区</string>
+    <string name="detailed_address">详细地址</string>
+    <string name="input_detailed_address">请输入详细地址</string>
 
 </resources>

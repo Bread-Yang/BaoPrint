@@ -39,7 +39,7 @@
                 android:paddingLeft="@dimen/margin_10"
                 android:textColorHint="@color/color_999999"/>
 
-            <View style="@style/DividerHorizontal"/>
+            <View style="@style/DividerHorizontal_Margin"/>
 
             <com.MDGround.HaiLanPrint.views.ClearEditText
                 android:id="@+id/cetPassword"
@@ -62,7 +62,7 @@
         <Button
             android:id="@+id/btnLogin"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/button_normal"
+            android:layout_height="@dimen/size_44"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="@dimen/margin_20"
             android:background="@drawable/ripple_button_round_angle_orange"

@@ -18,9 +18,7 @@
             android:scrollbars="none"/>
 
         <View
-            style="@style/DividerHorizontal"
-            android:layout_marginLeft="0dp"
-            android:layout_marginRight="0dp"/>
+            style="@style/DividerHorizontal"/>
 
 
         <RelativeLayout
@@ -34,7 +32,8 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="@dimen/margin_10"
-                android:text="@string/choose_image_tips"/>
+                android:text="@string/choose_image_tips"
+                android:textSize="@dimen/margin_12"/>
 
             <Button
                 android:id="@+id/btnNextStep"

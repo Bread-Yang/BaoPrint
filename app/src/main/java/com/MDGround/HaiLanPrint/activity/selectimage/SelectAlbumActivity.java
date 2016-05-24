@@ -1,6 +1,7 @@
 package com.MDGround.HaiLanPrint.activity.selectimage;
 
 import android.support.v7.widget.LinearLayoutManager;
+import android.text.Html;
 import android.view.View;
 
 import com.MDGround.HaiLanPrint.ProductType;
@@ -102,7 +103,9 @@ public class SelectAlbumActivity extends ToolbarActivity<ActivitySelectAlbumBind
     }
 
     private void changeTips() {
-        mDataBinding.tvChooseTips.setText(getString(R.string.choose_image_tips, SelectImageUtil.mAlreadySelectImage.size(), mMaxSelectImageNum));
+        String tips = getString(R.string.choose_image_tips, SelectImageUtil.mAlreadySelectImage.size(), mMaxSelectImageNum);
+
+        mDataBinding.tvChooseTips.setText(Html.fromHtml(tips));
     }
 
     //region SERVER
@@ -117,20 +120,30 @@ public class SelectAlbumActivity extends ToolbarActivity<ActivitySelectAlbumBind
                     ArrayList<MDImage> tempImagesList = response.body().getContent(new TypeToken<ArrayList<MDImage>>() {
                     });
 
-                    for (MDImage mdImage : tempImagesList) {
-                        Album album = new Album();
-                        if (mdImage.isShared()) {
-                            album.setName(getString(R.string.share_album));
-                        } else {
-                            album.setName(getString(R.string.personal_album));
-                        }
-                        album.setImageNum(mdImage.getPhotoCount());
+                    // 个人相册
+                    Album personalAlbum = new Album();
+                    personalAlbum.setName(getString(R.string.personal_album));
+                    mAlbumsList.add(personalAlbum);
 
+                    // 共享相册
+                    Album shareAlbum = new Album();
+                    shareAlbum.setName(getString(R.string.share_album));
+                    mAlbumsList.add(shareAlbum);
+
+                    for (MDImage mdImage : tempImagesList) {
                         List<MDImage> images = new ArrayList<MDImage>();
                         images.add(mdImage);
 
+                        Album album = null;
+
+                        if (mdImage.isShared()) {
+                            album = mAlbumsList.get(mAlbumsList.size() - 1);
+                        } else {
+                            album = mAlbumsList.get(mAlbumsList.size() - 2);
+                        }
+
                         album.setImages(images);
-                        mAlbumsList.add(album);
+                        album.setImageNum(mdImage.getPhotoCount());
                     }
 
                     mAlbumAdapter.notifyDataSetChanged();

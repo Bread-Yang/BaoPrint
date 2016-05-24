@@ -2,15 +2,18 @@ package com.MDGround.HaiLanPrint.activity.login;
 
 import android.content.Intent;
 import android.os.CountDownTimer;
-import android.text.InputType;
 import android.view.View;
+import android.widget.CompoundButton;
 import android.widget.Toast;
 
 import com.MDGround.HaiLanPrint.R;
 import com.MDGround.HaiLanPrint.activity.base.ToolbarActivity;
 import com.MDGround.HaiLanPrint.constants.Constants;
 import com.MDGround.HaiLanPrint.databinding.ActivitySignUpBinding;
+import com.MDGround.HaiLanPrint.enumobject.restfuls.ResponseCode;
 import com.MDGround.HaiLanPrint.models.User;
+import com.MDGround.HaiLanPrint.restfuls.GlobalRestful;
+import com.MDGround.HaiLanPrint.restfuls.bean.ResponseData;
 import com.MDGround.HaiLanPrint.utils.MD5Util;
 import com.MDGround.HaiLanPrint.utils.StringUtil;
 import com.MDGround.HaiLanPrint.utils.ViewUtils;
@@ -19,6 +22,9 @@ import com.socks.library.KLog;
 import cn.smssdk.EventHandler;
 import cn.smssdk.OnSendMessageHandler;
 import cn.smssdk.SMSSDK;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class SignUpActivity extends ToolbarActivity<ActivitySignUpBinding> {
 
@@ -35,21 +41,13 @@ public class SignUpActivity extends ToolbarActivity<ActivitySignUpBinding> {
 
     @Override
     protected void setListener() {
-        mDataBinding.ivShowPsd.setOnClickListener(new View.OnClickListener() {
+        mDataBinding.cbShowPwd.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
-            public void onClick(View v) {
-                mDataBinding.cetPassword.setInputType(InputType.TYPE_CLASS_TEXT
-                        | InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                ViewUtils.isShowPassword(isChecked, mDataBinding.cetPassword);
             }
         });
 
-        mDataBinding.ivHidePsd.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mDataBinding.cetPassword.setInputType(InputType.TYPE_CLASS_TEXT
-                        | InputType.TYPE_TEXT_VARIATION_PASSWORD);
-            }
-        });
     }
 
     private EventHandler mEventHandler = new EventHandler() {
@@ -139,7 +137,7 @@ public class SignUpActivity extends ToolbarActivity<ActivitySignUpBinding> {
 
 
     public void nextStepAction(View view) {
-        String phone = mDataBinding.cetAccount.getText().toString();
+        final String phone = mDataBinding.cetAccount.getText().toString();
 
         if (StringUtil.isEmpty(phone)) {
             Toast.makeText(this, R.string.input_phone_number, Toast.LENGTH_SHORT).show();
@@ -151,7 +149,7 @@ public class SignUpActivity extends ToolbarActivity<ActivitySignUpBinding> {
             return;
         }
 
-        String captcha = mDataBinding.cetCaptcha.getText().toString();
+        final String captcha = mDataBinding.cetCaptcha.getText().toString();
         if (StringUtil.isEmpty(captcha)) {
             Toast.makeText(SignUpActivity.this, R.string.input_captcha, Toast.LENGTH_SHORT).show();
             return;
@@ -169,7 +167,21 @@ public class SignUpActivity extends ToolbarActivity<ActivitySignUpBinding> {
             return;
         }
 
-        SMSSDK.submitVerificationCode("86", phone, captcha);
+        GlobalRestful.getInstance().CheckUserPhone(phone, new Callback<ResponseData>() {
+            @Override
+            public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
+                if(ResponseCode.isSuccess(response.body())) {
+                    ViewUtils.toast(R.string.phone_already_signup);
+                } else {
+                    SMSSDK.submitVerificationCode("86", phone, captcha);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseData> call, Throwable t) {
+
+            }
+        });
     }
 
     public void protocolAction(View view) {

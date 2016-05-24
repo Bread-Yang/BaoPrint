@@ -16,6 +16,7 @@ import com.MDGround.HaiLanPrint.utils.EncryptUtil;
 import com.MDGround.HaiLanPrint.utils.ToolNetwork;
 import com.MDGround.HaiLanPrint.utils.ViewUtils;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.socks.library.KLog;
 
 import java.io.IOException;
@@ -177,5 +178,10 @@ public abstract class BaseRestful {
         Call<ResponseData> call = null;
         call = baseService.imageUploadRequest(requestBody);
         call.enqueue(callback);
+    }
+
+    protected String convertObjectToString(Object object) {
+        Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").create();
+        return gson.toJson(object);
     }
 }

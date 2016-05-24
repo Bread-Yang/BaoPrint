@@ -26,6 +26,7 @@ public final class Constants {
     public static final String KEY_CLOUD_IMAGE = "key_cloud_image";
     public static final String KEY_ALBUM = "key_album";
     public static final String KEY_PRODUCT_TYPE = "key_product_type";
+    public static final String KEY_DELIVERY_ADDRESS = "key_delivery_address";
 
     public static int ITEM_LEFT_TO_LOAD_MORE = 3;
 

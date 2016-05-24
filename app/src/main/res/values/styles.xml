@@ -15,6 +15,15 @@
         <item name="android:windowTranslucentStatus">true</item>
     </style>
 
+    <style name="NormalLayoutStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/size_44</item>
+        <item name="android:background">@color/color_white</item>
+        <item name="android:paddingLeft">@dimen/margin_10</item>
+        <item name="android:paddingRight">@dimen/margin_10</item>
+        <item name="android:drawablePadding">@dimen/margin_8</item>
+    </style>
+
     <style name="NormalTextStyle">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
@@ -36,6 +45,12 @@
     </style>
 
     <style name="DividerHorizontal">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1dp</item>
+        <item name="android:background">@color/color_divider</item>
+    </style>
+
+    <style name="DividerHorizontal_Margin">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">1dp</item>
         <item name="android:layout_marginLeft">@dimen/margin_12</item>

@@ -82,7 +82,9 @@ public class PhotoEditActivity extends ToolbarActivity<ActivityPhotoEditBinding>
                     public void onResourceReady(Bitmap bitmap, GlideAnimation glideAnimation) {
                         // do something with the bitmap
                         // for demonstration purposes, let's just set it to an ImageView
+                        mDataBinding.bgiImage.getGPUImage().deleteImage();
                         mDataBinding.bgiImage.setImage(bitmap);
+                        mDataBinding.bgiImage.requestRender();
                     }
                 });
     }

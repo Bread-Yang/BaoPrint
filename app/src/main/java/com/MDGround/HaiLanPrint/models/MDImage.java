@@ -18,11 +18,17 @@ public class MDImage extends BaseObservable implements Parcelable {
 
     private int PhotoSID;
 
+    private int syntheticPhotoID;
+
+    private int syntheticPhotoSID;
+
     private int PhotoCount;
 
     private boolean Shared;
 
     private String imageLocalPath;
+
+    private String syntheticImageLocalPath;
 
     private long duration;
 
@@ -138,5 +144,29 @@ public class MDImage extends BaseObservable implements Parcelable {
 
     public void setLastUpdateAt(long lastUpdateAt) {
         this.lastUpdateAt = lastUpdateAt;
+    }
+
+    public int getSyntheticPhotoID() {
+        return syntheticPhotoID;
+    }
+
+    public void setSyntheticPhotoID(int syntheticPhotoID) {
+        this.syntheticPhotoID = syntheticPhotoID;
+    }
+
+    public int getSyntheticPhotoSID() {
+        return syntheticPhotoSID;
+    }
+
+    public void setSyntheticPhotoSID(int syntheticPhotoSID) {
+        this.syntheticPhotoSID = syntheticPhotoSID;
+    }
+
+    public String getSyntheticImageLocalPath() {
+        return syntheticImageLocalPath;
+    }
+
+    public void setSyntheticImageLocalPath(String syntheticImageLocalPath) {
+        this.syntheticImageLocalPath = syntheticImageLocalPath;
     }
 }

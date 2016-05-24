@@ -110,10 +110,10 @@ public class UploadImageActivity extends ToolbarActivity<ActivityUploadImageBind
     private void uploadImage() {
         ViewUtils.loading(this);
         mDataBinding.btnUpload.setEnabled(false);
-        uploadImageReuqest(0);
+        uploadImageRequest(0);
     }
 
-    private void uploadImageReuqest(final int upload_image_index) {
+    private void uploadImageRequest(final int upload_image_index) {
         if (upload_image_index < mImageAdapter.getSelectedImages().size()) {
             MDImage localMedia = mImageAdapter.getSelectedImages().get(upload_image_index);
 
@@ -125,7 +125,7 @@ public class UploadImageActivity extends ToolbarActivity<ActivityUploadImageBind
                 @Override
                 public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
                     int nextUploadIndex = upload_image_index + 1;
-                    uploadImageReuqest(nextUploadIndex);
+                    uploadImageRequest(nextUploadIndex);
                 }
 
                 @Override

@@ -2,6 +2,7 @@ package com.MDGround.HaiLanPrint.activity.selectimage;
 
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
+import android.text.Html;
 import android.view.View;
 
 import com.MDGround.HaiLanPrint.ProductType;
@@ -147,7 +148,9 @@ public class SelectImageActivity extends ToolbarActivity<ActivitySelectImageBind
     }
 
     private void changeTips() {
-        mDataBinding.tvChooseTips.setText(getString(R.string.choose_image_tips, SelectImageUtil.mAlreadySelectImage.size(), mMaxSelectImageNum));
+        String tips = getString(R.string.choose_image_tips, SelectImageUtil.mAlreadySelectImage.size(), mMaxSelectImageNum);
+
+        mDataBinding.tvChooseTips.setText(Html.fromHtml(tips));
     }
 
     private void loadImageRequest() {

@@ -80,7 +80,7 @@ public class BaoGPUImage extends GPUImageView {
 //        mBrightnessFilter.setBrightness(0);
 
         GPUImageFilterGroup filterGroup = new GPUImageFilterGroup();
-        filterGroup.addFilter(mBrightnessFilter);
+//        filterGroup.addFilter(mBrightnessFilter);
         filterGroup.addFilter(mTransformFilter);
 
         setFilter(filterGroup);

@@ -28,7 +28,7 @@ public class DecryptedPayloadInterceptor implements Interceptor {
         if (originalRequest.body() != null) {
             String bodyContent = requestBodyToString(originalRequest.body());
 
-            KLog.e(bodyContent.replaceAll("\\\\", ""));
+            KLog.e("\n" + bodyContent.replaceAll("\\\\", ""));
             try {
                 bodyContent = EncryptUtil.encrypt(bodyContent);  // 加密
                 bodyContent = URLEncoder.encode(bodyContent, "UTF-8");

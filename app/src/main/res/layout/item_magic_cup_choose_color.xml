@@ -6,6 +6,8 @@
 
     <data>
 
+        <import type="com.MDGround.HaiLanPrint.utils.StringUtil"/>
+
         <variable
             name="handlers"
             type="com.MDGround.HaiLanPrint.activity.magiccup.MagicCupChooseColorActivity.BindingHandlers"/>
@@ -41,7 +43,7 @@
             android:layout_marginLeft="@dimen/margin_12"
             android:layout_marginRight="@dimen/margin_12"
             android:layout_toLeftOf="@+id/ivArrow"
-            android:text='@{(measurement.price / 100) + "/" + measurement.priceDesc}'
+            android:text='@{StringUtil.toYuan(measurement.price) + measurement.priceDesc}'
             android:textColor="@color/color_f88e11"
             tools:text="0.5/张"/>
 

@@ -3,6 +3,7 @@ package com.MDGround.HaiLanPrint.application;
 import android.app.Application;
 import android.content.Context;
 
+import com.MDGround.HaiLanPrint.models.Measurement;
 import com.MDGround.HaiLanPrint.models.User;
 
 import cn.sharesdk.framework.ShareSDK;
@@ -16,6 +17,8 @@ public class MDGroundApplication extends Application{
     public static Context mInstance;
 
     public static User mLoginUser;// 登陆用户
+
+    public static Measurement mChooseMeasurement;
 
     @Override
     public void onCreate() {

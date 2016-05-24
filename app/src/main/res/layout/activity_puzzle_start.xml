@@ -12,14 +12,12 @@
 
         <View
             style="@style/DividerHorizontal"
-            android:layout_above="@+id/btnNextStep"
-            android:layout_marginLeft="0dp"
-            android:layout_marginRight="0dp"/>
+            android:layout_above="@+id/btnNextStep"/>
 
         <Button
             android:id="@+id/btnNextStep"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/button_normal"
+            android:layout_height="@dimen/size_44"
             android:layout_alignParentBottom="true"
             android:layout_gravity="center_horizontal"
             android:background="?attr/selectableItemBackground"

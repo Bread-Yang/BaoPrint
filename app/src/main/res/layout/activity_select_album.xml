@@ -16,9 +16,7 @@
             android:layout_weight="1"
             android:scrollbars="none"/>
 
-        <View style="@style/DividerHorizontal"
-              android:layout_marginLeft="0dp"
-              android:layout_marginRight="0dp"/>
+        <View style="@style/DividerHorizontal"/>
 
         <RelativeLayout
             android:layout_width="match_parent"

@@ -89,7 +89,7 @@ public class CloudDetailActivity extends ToolbarActivity<ActivityCloudDetailBind
                         mDataBinding.cbSelectAll.setVisibility(View.GONE);
                     }
                 } else {
-                    if (btnText.equals(getString(R.string.finish))) {
+                    if (btnText.equals(getString(R.string.cancel))) {
                         tvRight.setText(R.string.edit);
                         mDataBinding.cbSelectAll.setVisibility(View.GONE);
                         mDataBinding.cbSelectAll.setChecked(false);
@@ -99,7 +99,7 @@ public class CloudDetailActivity extends ToolbarActivity<ActivityCloudDetailBind
                         mDataBinding.btnOperation.setBackgroundResource(R.drawable.ripple_button_right_angle_orange);
 //                        mDataBinding.btnOperation.setBackgroundColor();
                     } else {
-                        tvRight.setText(R.string.finish);
+                        tvRight.setText(R.string.cancel);
                         mImageAdapter.setSelectable(true);
 
                         mDataBinding.cbSelectAll.setVisibility(View.VISIBLE);
@@ -125,7 +125,7 @@ public class CloudDetailActivity extends ToolbarActivity<ActivityCloudDetailBind
                 if (mImage.isShared()) {
                     transferImageRequest();
                 } else {
-                    if (btnText.equals(getString(R.string.upload))) {
+                    if (btnText.equals(getString(R.string.upload_image))) {
                         toImageSelectActivity();
                     } else {
                         deleteImageRequest();

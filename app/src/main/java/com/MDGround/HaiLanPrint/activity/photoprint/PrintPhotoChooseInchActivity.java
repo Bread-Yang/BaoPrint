@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import com.MDGround.HaiLanPrint.ProductType;
 import com.MDGround.HaiLanPrint.R;
 import com.MDGround.HaiLanPrint.activity.base.ToolbarActivity;
+import com.MDGround.HaiLanPrint.application.MDGroundApplication;
 import com.MDGround.HaiLanPrint.databinding.ActivityPrintPhotoChooseInchBinding;
 import com.MDGround.HaiLanPrint.databinding.ItemPrintPhotoChooseInchBinding;
 import com.MDGround.HaiLanPrint.enumobject.restfuls.ResponseCode;
@@ -116,17 +117,8 @@ public class PrintPhotoChooseInchActivity extends ToolbarActivity<ActivityPrintP
     }
     //endregion
 
-    public class BindingHandlers {
-
-        public void toSelectImageActivityAction(View view) {
-            NavUtils.toSelectAlbumActivity(view.getContext(), ProductType.PrintPhoto);
-        }
-    }
-
     //region ADAPTER
-    private class PrintPhotoChooseInchAdapter extends RecyclerView.Adapter<PrintPhotoChooseInchAdapter.BindingHolder> {
-
-        private BindingHandlers bindingHandlers = new BindingHandlers();
+    public class PrintPhotoChooseInchAdapter extends RecyclerView.Adapter<PrintPhotoChooseInchAdapter.BindingHolder> {
 
         @Override
         public BindingHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -139,7 +131,7 @@ public class PrintPhotoChooseInchActivity extends ToolbarActivity<ActivityPrintP
         @Override
         public void onBindViewHolder(BindingHolder holder, int position) {
             holder.viewDataBinding.setMeasurement(mSpecList.get(position));
-            holder.viewDataBinding.setHandlers(bindingHandlers);
+            holder.viewDataBinding.setHandlers(holder);
         }
 
         @Override
@@ -154,6 +146,12 @@ public class PrintPhotoChooseInchActivity extends ToolbarActivity<ActivityPrintP
             public BindingHolder(View itemView) {
                 super(itemView);
                 viewDataBinding = DataBindingUtil.bind(itemView);
+            }
+
+            public void toSelectImageActivityAction(View view) {
+                MDGroundApplication.mChooseMeasurement = mSpecList.get(getAdapterPosition());
+
+                NavUtils.toSelectAlbumActivity(view.getContext(), ProductType.PrintPhoto);
             }
         }
     }

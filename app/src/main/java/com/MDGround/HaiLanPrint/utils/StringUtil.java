@@ -10,11 +10,16 @@ import com.google.gson.reflect.TypeToken;
  * Created by yoghourt on 5/6/16.
  */
 public class StringUtil {
+
     public static boolean isEmpty(String string) {
         if (string == null || "".equals(string) || TextUtils.isEmpty(string) || "[]".equals(string) || "null".equals(string) || "[null]".equals(string)) {
             return true;
         }
         return false;
+    }
+
+    public static String toYuan(float amount) {
+        return String.format("%.02f", amount / 100);
     }
 
     public static <T> T getInstanceByJsonString(String jsonString, TypeToken<T> type) {

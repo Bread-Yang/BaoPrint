@@ -3,7 +3,7 @@
           xmlns:android="http://schemas.android.com/apk/res/android">
 
     <!-- To auto-complete the email text field in the login form with the user's emails -->
-    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"/>
     <uses-permission android:name="android.permission.GET_ACCOUNTS"/>
     <uses-permission android:name="android.permission.READ_PROFILE"/>
     <uses-permission android:name="android.permission.READ_CONTACTS"/>
@@ -27,7 +27,7 @@
     <uses-permission android:name="android.permission.VIBRATE"/>
     <uses-permission android:name="android.permission.CAMERA"/>
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
-    <uses-permission android:name="android.permission.MANAGE_USERS" />
+    <uses-permission android:name="android.permission.MANAGE_USERS"/>
 
     <application
         android:name=".application.MDGroundApplication"
@@ -36,7 +36,9 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activity.welcome.StartingActivity">
+        <activity
+            android:name=".activity.welcome.StartingActivity"
+            android:screenOrientation="portrait">
             <intent-filter android:label="@string/app_name">
                 <action android:name="android.intent.action.MAIN"/>
 
@@ -45,60 +47,97 @@
         </activity>
         <activity
             android:name=".activity.login.LoginActivity"
-            android:label="@string/login">
+            android:label="@string/login"
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name=".activity.login.ForgetPasswordActivity"
-            android:label="@string/forget_password"/>
+            android:label="@string/forget_password"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.login.SignUpActivity"
-            android:label="@string/sign_up"/>
+            android:label="@string/sign_up"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.login.ProtocolActivity"
-            android:label="@string/sign_up_protocol"/>
+            android:label="@string/sign_up_protocol"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.login.ImproveInformationActivity"
-            android:label="@string/improve_information"/>
-
+            android:label="@string/improve_information"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.main.MainActivity"
-            android:label="@string/main_activity"/>
+            android:label="@string/main_activity"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.cloudphotos.CloudOverviewActivity"
-            android:label="@string/cloud_album"/>
+            android:label="@string/cloud_album"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.cloudphotos.CloudDetailActivity"
-            android:label="@string/cloud_album"/>
+            android:label="@string/cloud_album"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.uploadimage.UploadImageActivity"
-            android:label="@string/select_photos_upload"/>
+            android:label="@string/select_photos_upload"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.selectimage.SelectAlbumActivity"
-            android:label="@string/choose_photo"/>
+            android:label="@string/choose_photo"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.selectimage.SelectImageActivity"
-            android:label="@string/choose_photo"/>
+            android:label="@string/choose_photo"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.photoprint.PrintPhotoChooseInchActivity"
-            android:label="@string/print_photo"/>
+            android:label="@string/print_photo"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.photoprint.PrintPhotoChoosePaperNumActivity"
-            android:label="@string/choose_paper_num"/>
+            android:label="@string/choose_paper_num"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.photoprint.PrintPhotoMeasurementDescription"
-            android:label="@string/measurement_description"/>
+            android:label="@string/measurement_description"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.magiccup.MagicCupChooseColorActivity"
-            android:label="@string/magic_cup"/>
+            android:label="@string/magic_cup"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.lomocard.LomoCardChooseNumActivity"
-            android:label="@string/lomo_card"/>
+            android:label="@string/lomo_card"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.puzzle.PuzzleStartActivity"
-            android:label="@string/puzzle"/>
+            android:label="@string/puzzle"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.photoedit.PhotoEditActivity"
-            android:label="@string/edit"/>
+            android:label="@string/edit"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activity.payment.PaymentPreviewActivity"
+            android:label="@string/pay"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activity.payment.PaymentSuccessActivity"
+            android:label="@string/payment_success"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activity.coupon.ChooseCouponActivity"
+            android:label="@string/choose_coupon"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activity.deliveryaddress.ChooseDeliveryAddressActivity"
+            android:label="@string/delivery_address"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activity.deliveryaddress.EditDeliveryAddressActivity"
+            android:label="@string/edit_address"
+            android:screenOrientation="portrait"/>
 
         <!-- ShareSDK -->
         <activity
