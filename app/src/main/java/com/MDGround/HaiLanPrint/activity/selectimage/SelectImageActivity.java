@@ -5,11 +5,11 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.text.Html;
 import android.view.View;
 
-import com.MDGround.HaiLanPrint.ProductType;
 import com.MDGround.HaiLanPrint.R;
 import com.MDGround.HaiLanPrint.activity.base.ToolbarActivity;
 import com.MDGround.HaiLanPrint.adapter.ChooseImageListAdapter;
 import com.MDGround.HaiLanPrint.adapter.SelectedImageAdapter;
+import com.MDGround.HaiLanPrint.application.MDGroundApplication;
 import com.MDGround.HaiLanPrint.constants.Constants;
 import com.MDGround.HaiLanPrint.databinding.ActivitySelectImageBinding;
 import com.MDGround.HaiLanPrint.models.Album;
@@ -35,8 +35,6 @@ import retrofit2.Response;
  * Created by yoghourt on 5/11/16.
  */
 public class SelectImageActivity extends ToolbarActivity<ActivitySelectImageBinding> {
-
-    private ProductType mProductType;
 
     private ChooseImageListAdapter mImageAdapter;
 
@@ -64,9 +62,7 @@ public class SelectImageActivity extends ToolbarActivity<ActivitySelectImageBind
 
         changeTips();
 
-        mProductType = (ProductType) getIntent().getSerializableExtra(Constants.KEY_PRODUCT_TYPE);
-
-        mMaxSelectImageNum = SelectImageUtil.getMaxSelectImageNum(mProductType);
+        mMaxSelectImageNum = SelectImageUtil.getMaxSelectImageNum(MDGroundApplication.mSelectProductType);
 
         mAlbum = getIntent().getParcelableExtra(Constants.KEY_ALBUM);
 
@@ -182,7 +178,7 @@ public class SelectImageActivity extends ToolbarActivity<ActivitySelectImageBind
 
     //region ACTION
     public void nextStepAction(View view) {
-        NavUtils.toPhotoEditActivity(view.getContext(), mProductType);
+        NavUtils.toPhotoEditActivity(view.getContext());
     }
     //endregion
 }

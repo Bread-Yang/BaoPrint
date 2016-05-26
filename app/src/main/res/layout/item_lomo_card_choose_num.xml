@@ -18,7 +18,7 @@
     </data>
 
     <RelativeLayout
-        android:layout_width="match_parent"
+        style="@style/NormalLayoutStyle"
         android:layout_height="60dp"
         android:onClick="@{handlers::toSelectImageActivityAction}">
 
@@ -40,6 +40,7 @@
             android:layout_centerVertical="true"
             android:layout_marginBottom="@dimen/margin_12"
             android:layout_marginLeft="@dimen/margin_12"
+            android:layout_marginRight="@dimen/margin_12"
             android:layout_toLeftOf="@+id/ivArrow"
             android:text='@{StringUtil.toYuan(measurement.price) + "/" + measurement.priceDesc}'
             android:textColor="@color/color_f88e11"
@@ -47,11 +48,7 @@
 
         <ImageView
             android:id="@+id/ivArrow"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:src="@drawable/ssdk_oks_ptr_ptr"/>
+            style="@style/Arrow"/>
 
     </RelativeLayout>
 </layout>

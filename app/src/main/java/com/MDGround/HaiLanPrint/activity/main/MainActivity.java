@@ -12,12 +12,15 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.MDGround.HaiLanPrint.BR;
+import com.MDGround.HaiLanPrint.ProductType;
 import com.MDGround.HaiLanPrint.R;
 import com.MDGround.HaiLanPrint.activity.cloudphotos.CloudOverviewActivity;
 import com.MDGround.HaiLanPrint.activity.lomocard.LomoCardChooseNumActivity;
 import com.MDGround.HaiLanPrint.activity.magiccup.MagicCupChooseColorActivity;
 import com.MDGround.HaiLanPrint.activity.photoprint.PrintPhotoChooseInchActivity;
+import com.MDGround.HaiLanPrint.activity.postcard.PostcardStartActivity;
 import com.MDGround.HaiLanPrint.activity.puzzle.PuzzleStartActivity;
+import com.MDGround.HaiLanPrint.application.MDGroundApplication;
 import com.MDGround.HaiLanPrint.databinding.ActivityMainBinding;
 import com.MDGround.HaiLanPrint.enumobject.restfuls.ResponseCode;
 import com.MDGround.HaiLanPrint.models.MDImage;
@@ -67,41 +70,57 @@ public class MainActivity extends AppCompatActivity {
         });
 
         mDataBinding.viewPager.setAdapter(new MainAdapter());
-
     }
 
+    //region ACTION
     public void toCloudActivityAction(View view) {
         Intent intent = new Intent(this, CloudOverviewActivity.class);
         startActivity(intent);
     }
 
+
     public class MainBindingEventHandler {
 
         public void toPhotoPrintChooseInchActivityAction(View view) {
+            MDGroundApplication.mSelectProductType = ProductType.PrintPhoto;
+
             Intent intent = new Intent(MainActivity.this, PrintPhotoChooseInchActivity.class);
             startActivity(intent);
         }
 
         public void toMagicCupActivityAction(View view) {
+            MDGroundApplication.mSelectProductType = ProductType.MagicCup;
+
             Intent intent = new Intent(MainActivity.this, MagicCupChooseColorActivity.class);
             startActivity(intent);
         }
 
         public void toLomoCardActivityAction(View view) {
+            MDGroundApplication.mSelectProductType = ProductType.LOMOCard;
+
             Intent intent = new Intent(MainActivity.this, LomoCardChooseNumActivity.class);
             startActivity(intent);
         }
 
         public void toEngravingActivityAction(View view) {
-
+            MDGroundApplication.mSelectProductType = ProductType.Engraving;
         }
 
-        public void toPuzzleActivity(View view) {
+        public void toPuzzleActivityAction(View view) {
+            MDGroundApplication.mSelectProductType = ProductType.Puzzle;
+
             Intent intent = new Intent(MainActivity.this, PuzzleStartActivity.class);
             startActivity(intent);
         }
 
+        public void toPostcarActivityAction(View view) {
+            MDGroundApplication.mSelectProductType = ProductType.Postcard;
+
+            Intent intent = new Intent(MainActivity.this, PostcardStartActivity.class);
+            startActivity(intent);
+        }
     }
+    //endregion
 
     //region ADAPTER
     private class MainAdapter extends PagerAdapter {

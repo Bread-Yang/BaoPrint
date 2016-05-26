@@ -43,6 +43,7 @@
                 android:background="?android:attr/selectableItemBackground"
                 android:drawableTop="@drawable/icon_dra_home"
                 android:gravity="center"
+                android:onClick="@{handlers::toPostcarActivityAction}"
                 android:paddingBottom="12dp"
                 android:paddingTop="12dp"
                 android:text="@string/postcard"

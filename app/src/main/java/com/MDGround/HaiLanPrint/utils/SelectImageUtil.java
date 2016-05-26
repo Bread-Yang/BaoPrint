@@ -21,6 +21,8 @@ public class SelectImageUtil {
 
     public static ArrayList<MDImage> mAlreadySelectImage = new ArrayList<>();
 
+    public static ArrayList<MDImage> mTemplateImage = new ArrayList<>();
+
     private static SelectImageUtil mIntance = new SelectImageUtil();
 
     public interface UploadAllImageSuccessListener {
@@ -77,6 +79,8 @@ public class SelectImageUtil {
                 return Constants.PUZZLEL_MAX_SELECT_IMAGE_NUM;
             case LOMOCard:
                 return Constants.LOMO_CARD_MAX_SELECT_IMAGE_NUM;
+            case Postcard:
+                return Constants.POSTCARD_MAX_SELECT_IMAGE_NUM;
         }
         return 0;
     }

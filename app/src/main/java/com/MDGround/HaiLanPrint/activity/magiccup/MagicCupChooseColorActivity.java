@@ -102,7 +102,7 @@ public class MagicCupChooseColorActivity extends ToolbarActivity<ActivityMagicCu
     public class BindingHandlers {
 
         public void toSelectImageActivityAction(View view) {
-            NavUtils.toSelectAlbumActivity(view.getContext(), ProductType.MagicCup);
+            NavUtils.toSelectAlbumActivity(view.getContext());
         }
     }
 

@@ -18,7 +18,7 @@
     </data>
 
     <RelativeLayout
-        android:layout_width="match_parent"
+        style="@style/NormalLayoutStyle"
         android:layout_height="60dp"
         android:onClick="@{handlers::toSelectImageActivityAction}">
 
@@ -26,10 +26,10 @@
             android:id="@+id/tvColor"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/margin_12"
             android:layout_above="@+id/tvImageCount"
             android:layout_alignLeft="@+id/tvImageCount"
             android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/margin_12"
             android:text="@{measurement.title}"
             android:textColor="@color/color_black"
             tools:text="红色"/>
@@ -49,10 +49,7 @@
 
         <ImageView
             android:id="@+id/ivArrow"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"/>
+            style="@style/Arrow"/>
 
     </RelativeLayout>
 </layout>

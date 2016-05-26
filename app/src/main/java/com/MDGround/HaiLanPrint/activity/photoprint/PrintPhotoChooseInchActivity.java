@@ -151,7 +151,7 @@ public class PrintPhotoChooseInchActivity extends ToolbarActivity<ActivityPrintP
             public void toSelectImageActivityAction(View view) {
                 MDGroundApplication.mChooseMeasurement = mSpecList.get(getAdapterPosition());
 
-                NavUtils.toSelectAlbumActivity(view.getContext(), ProductType.PrintPhoto);
+                NavUtils.toSelectAlbumActivity(view.getContext());
             }
         }
     }

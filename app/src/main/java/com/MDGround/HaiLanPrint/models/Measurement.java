@@ -17,6 +17,8 @@ public class Measurement {
 
     private String TitleSub;
 
+    private int TypeDescID;
+
     private int TypeID;
 
     private Date UpdatedTime;
@@ -59,6 +61,14 @@ public class Measurement {
 
     public void setTitleSub(String titleSub) {
         TitleSub = titleSub;
+    }
+
+    public int getTypeDescID() {
+        return TypeDescID;
+    }
+
+    public void setTypeDescID(int typeDescID) {
+        TypeDescID = typeDescID;
     }
 
     public int getTypeID() {

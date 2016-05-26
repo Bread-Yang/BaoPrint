@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.MDGround.HaiLanPrint.BR;
-import com.MDGround.HaiLanPrint.ProductType;
 import com.MDGround.HaiLanPrint.R;
 import com.MDGround.HaiLanPrint.databinding.ItemAlbumBinding;
 import com.MDGround.HaiLanPrint.models.Album;
@@ -21,16 +20,11 @@ import java.util.List;
  */
 public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.ViewHolder>{
 
-    private ProductType mProductType;
     private List<Album> mAlbumsList = new ArrayList<>();
 
     public void bindAlbum(List<Album> albumList){
         this.mAlbumsList = albumList;
         notifyDataSetChanged();
-    }
-
-    public AlbumAdapter(ProductType productType) {
-        this.mProductType = productType;
     }
 
     @Override
@@ -65,7 +59,7 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.ViewHolder>{
         public void toSelectImageActivityAction(View view) {
             Album album = mAlbumsList.get(getAdapterPosition());
 
-            NavUtils.toSelectImageActivity(view.getContext(), album, mProductType);
+            NavUtils.toSelectImageActivity(view.getContext(), album);
         }
     }
 }

@@ -17,8 +17,8 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:onClick="@{handlers::toEditDeliveryAddressActivityAction}"
         android:background="@color/color_white"
+        android:onClick="@{handlers::toEditDeliveryAddressActivityAction}"
         android:padding="@dimen/margin_15">
 
         <ImageView
@@ -53,8 +53,13 @@
             android:layout_alignLeft="@+id/tvName"
             android:layout_below="@+id/tvName"
             android:layout_marginTop="@dimen/margin_8"
+            android:layout_toLeftOf="@+id/ivArrow"
             android:layout_toRightOf="@+id/ivLocationLogo"
             android:text="@{deliveryAddress.street}"
             tools:text="广东省广州市天河区棠安路188号乐天大厦8楼808-812"/>
+
+        <ImageView
+            android:id="@+id/ivArrow"
+            style="@style/Arrow"/>
     </RelativeLayout>
 </layout>

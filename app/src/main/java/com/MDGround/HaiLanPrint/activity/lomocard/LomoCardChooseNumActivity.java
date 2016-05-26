@@ -102,7 +102,7 @@ public class LomoCardChooseNumActivity extends ToolbarActivity<ActivityLomoCardC
     public class BindingHandlers {
 
         public void toSelectImageActivityAction(View view) {
-            NavUtils.toSelectAlbumActivity(view.getContext(), ProductType.LOMOCard);
+            NavUtils.toSelectAlbumActivity(view.getContext());
         }
     }
 

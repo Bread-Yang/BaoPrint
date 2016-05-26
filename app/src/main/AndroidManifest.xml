@@ -115,6 +115,10 @@
             android:label="@string/puzzle"
             android:screenOrientation="portrait"/>
         <activity
+            android:name=".activity.postcard.PostcardStartActivity"
+            android:label="@string/postcard"
+            android:screenOrientation="portrait"/>
+        <activity
             android:name=".activity.photoedit.PhotoEditActivity"
             android:label="@string/edit"
             android:screenOrientation="portrait"/>
@@ -137,7 +141,8 @@
         <activity
             android:name=".activity.deliveryaddress.EditDeliveryAddressActivity"
             android:label="@string/edit_address"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait">
+        </activity>
 
         <!-- ShareSDK -->
         <activity

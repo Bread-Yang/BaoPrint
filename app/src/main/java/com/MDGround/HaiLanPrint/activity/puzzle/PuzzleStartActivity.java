@@ -2,7 +2,6 @@ package com.MDGround.HaiLanPrint.activity.puzzle;
 
 import android.view.View;
 
-import com.MDGround.HaiLanPrint.ProductType;
 import com.MDGround.HaiLanPrint.R;
 import com.MDGround.HaiLanPrint.activity.base.ToolbarActivity;
 import com.MDGround.HaiLanPrint.databinding.ActivityPuzzleStartBinding;
@@ -28,6 +27,6 @@ public class PuzzleStartActivity extends ToolbarActivity<ActivityPuzzleStartBind
     }
 
     public void nextStepAction(View view) {
-        NavUtils.toSelectAlbumActivity(view.getContext(), ProductType.Puzzle);
+        NavUtils.toSelectAlbumActivity(view.getContext());
     }
 }

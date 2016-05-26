@@ -7,6 +7,7 @@ import com.MDGround.HaiLanPrint.activity.base.ToolbarActivity;
 import com.MDGround.HaiLanPrint.constants.Constants;
 import com.MDGround.HaiLanPrint.databinding.ActivityEditDeliveryAddressBinding;
 import com.MDGround.HaiLanPrint.models.DeliveryAddress;
+import com.MDGround.HaiLanPrint.views.RegionPickerDialog;
 
 /**
  * Created by yoghourt on 5/24/16.
@@ -15,6 +16,8 @@ import com.MDGround.HaiLanPrint.models.DeliveryAddress;
 public class EditDeliveryAddressActivity extends ToolbarActivity<ActivityEditDeliveryAddressBinding> {
 
     private DeliveryAddress mDeliveryAddress;
+
+    private RegionPickerDialog mRegionPickerDialog;
 
     @Override
     protected int getContentLayout() {
@@ -42,6 +45,13 @@ public class EditDeliveryAddressActivity extends ToolbarActivity<ActivityEditDel
     }
 
     //region ACTION
+    public void chooseRegionAction(View view) {
+        if (mRegionPickerDialog == null) {
+            mRegionPickerDialog = new RegionPickerDialog(this);
+        }
+        mRegionPickerDialog.show();
+    }
+
     public void saveAction(View view) {
 
     }

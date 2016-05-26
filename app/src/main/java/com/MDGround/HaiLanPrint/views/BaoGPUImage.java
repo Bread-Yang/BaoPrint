@@ -1,6 +1,7 @@
 package com.MDGround.HaiLanPrint.views;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.opengl.Matrix;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
@@ -23,6 +24,8 @@ public class BaoGPUImage extends GPUImageView {
     private GPUImageTransformFilter mTransformFilter;
 
     public GPUImageBrightnessFilter mBrightnessFilter;
+
+    private GPUImageFilterGroup mFilterGroup;
 
     private float mScaleFactor = 1.0f;  // 放大缩小倍数
 
@@ -75,16 +78,6 @@ public class BaoGPUImage extends GPUImageView {
     private void init(Context context) {
         setScaleType(GPUImage.ScaleType.CENTER_INSIDE);
 
-        mTransformFilter = new GPUImageTransformFilter();
-        mBrightnessFilter = new GPUImageBrightnessFilter();
-//        mBrightnessFilter.setBrightness(0);
-
-        GPUImageFilterGroup filterGroup = new GPUImageFilterGroup();
-//        filterGroup.addFilter(mBrightnessFilter);
-        filterGroup.addFilter(mTransformFilter);
-
-        setFilter(filterGroup);
-
         mScaleDetector = new ScaleGestureDetector(context, new ScaleListener());
         mRotateDetector = new RotateGestureDetector(context, new RotateListener());
     }
@@ -95,5 +88,24 @@ public class BaoGPUImage extends GPUImageView {
         mRotateDetector.onTouchEvent(event);
 
         return true;
+    }
+
+    public void loadNewImage(Bitmap bitmap) {
+        mScaleFactor = 1;
+        mRotationDegrees = 0;
+
+        mTransformFilter = new GPUImageTransformFilter();
+        mBrightnessFilter = new GPUImageBrightnessFilter();
+        mBrightnessFilter.setBrightness(0);
+
+        mFilterGroup = new GPUImageFilterGroup();
+        mFilterGroup.addFilter(mBrightnessFilter);
+        mFilterGroup.addFilter(mTransformFilter);
+
+        setFilter(mFilterGroup);
+
+        getGPUImage().deleteImage();
+        setImage(bitmap);
+        requestRender();
     }
 }

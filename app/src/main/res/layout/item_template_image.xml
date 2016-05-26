@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="viewHolder"
+            type="com.MDGround.HaiLanPrint.adapter.TemplageImageAdapter.ViewHolder"/>
+
+        <variable
+            name="image"
+            type="com.MDGround.HaiLanPrint.models.MDImage"/>
+    </data>
+
+    <com.MDGround.HaiLanPrint.views.SquareRelativeLayout
+        android:layout_width="90dp"
+        android:onClick="@{viewHolder::selectImageAction}"
+        android:layout_height="90dp">
+
+        <ImageView
+            android:id="@+id/ivImage"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_margin="@dimen/margin_8"
+            app:loadImageByMDImage="@{image}"/>
+
+    </com.MDGround.HaiLanPrint.views.SquareRelativeLayout>
+</layout>

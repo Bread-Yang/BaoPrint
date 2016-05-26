@@ -53,7 +53,7 @@
                 android:background="?android:attr/selectableItemBackground"
                 android:drawableTop="@drawable/icon_card_home"
                 android:gravity="center"
-                android:onClick="@{handlers::toPuzzleActivity}"
+                android:onClick="@{handlers::toPuzzleActivityAction}"
                 android:paddingBottom="12dp"
                 android:paddingTop="12dp"
                 android:text="@string/puzzle"

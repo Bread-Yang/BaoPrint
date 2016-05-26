@@ -58,6 +58,14 @@
         <item name="android:background">@color/color_divider</item>
     </style>
 
+    <style name="Arrow">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_alignParentRight">true</item>
+        <item name="android:layout_centerVertical">true</item>
+        <item name="android:src">@drawable/icon_neet</item>
+    </style>
+
     <style name="customDialog" parent="android:style/Theme.Dialog">
 
         <!-- 背景颜色及透明程度 -->
@@ -68,6 +76,11 @@
         <item name="android:windowIsFloating">true</item>
         <!-- 是否模糊 -->
         <item name="android:backgroundDimEnabled">true</item>
+    </style>
+
+    <style name="action_sheet_animation" parent="android:Animation">
+        <item name="@android:windowEnterAnimation">@anim/anim_dialog_enter</item>
+        <item name="@android:windowExitAnimation">@anim/anim_dialog_exit</item>
     </style>
 
 </resources>

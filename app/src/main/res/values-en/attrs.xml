@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="FlexibleRelativeLayout">
+        <!-- relativelayout的宽高比,如ratio == 3, 则表示 width = 3 * height-->
+        <attr name="ratio" format="float"/>
+    </declare-styleable>
+
+</resources>

@@ -6,9 +6,11 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 import android.widget.SeekBar;
 
+import com.MDGround.HaiLanPrint.ProductType;
 import com.MDGround.HaiLanPrint.R;
 import com.MDGround.HaiLanPrint.activity.base.ToolbarActivity;
-import com.MDGround.HaiLanPrint.adapter.PhotoEditImageAdapter;
+import com.MDGround.HaiLanPrint.adapter.TemplageImageAdapter;
+import com.MDGround.HaiLanPrint.application.MDGroundApplication;
 import com.MDGround.HaiLanPrint.databinding.ActivityPhotoEditBinding;
 import com.MDGround.HaiLanPrint.models.MDImage;
 import com.MDGround.HaiLanPrint.utils.SelectImageUtil;
@@ -24,7 +26,7 @@ import jp.co.cyberagent.android.gpuimage.GPUImageView;
  */
 public class PhotoEditActivity extends ToolbarActivity<ActivityPhotoEditBinding> {
 
-    private PhotoEditImageAdapter mAdapter;
+    private TemplageImageAdapter mAdapter;
 
     @Override
     protected int getContentLayout() {
@@ -33,21 +35,21 @@ public class PhotoEditActivity extends ToolbarActivity<ActivityPhotoEditBinding>
 
     @Override
     protected void initData() {
-        showImageToGPUImageView(SelectImageUtil.mAlreadySelectImage.get(0));
+        showImageToGPUImageView(0, SelectImageUtil.mAlreadySelectImage.get(0));
 
         LinearLayoutManager imageLayoutManager = new LinearLayoutManager(this);
         imageLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         mDataBinding.selectedImageRecyclerView.setLayoutManager(imageLayoutManager);
-        mAdapter = new PhotoEditImageAdapter();
+        mAdapter = new TemplageImageAdapter();
         mDataBinding.selectedImageRecyclerView.setAdapter(mAdapter);
     }
 
     @Override
     protected void setListener() {
-        mAdapter.setOnSelectImageLisenter(new PhotoEditImageAdapter.onSelectImageLisenter() {
+        mAdapter.setOnSelectImageLisenter(new TemplageImageAdapter.onSelectImageLisenter() {
             @Override
-            public void selectImage(MDImage mdImage) {
-                showImageToGPUImageView(mdImage);
+            public void selectImage(int position, MDImage mdImage) {
+                showImageToGPUImageView(position, mdImage);
             }
         });
 
@@ -73,18 +75,30 @@ public class PhotoEditActivity extends ToolbarActivity<ActivityPhotoEditBinding>
         });
     }
 
-    private void showImageToGPUImageView(MDImage mdImage) {
+    private void showImageToGPUImageView(int position, MDImage mdImage) {
+        if (MDGroundApplication.mSelectProductType == ProductType.Postcard) {
+            if (position < SelectImageUtil.mTemplateImage.size()) {
+                MDImage templateImage = SelectImageUtil.mTemplateImage.get(position);
+
+                Glide.with(MDGroundApplication.mInstance)
+                        .load(templateImage)
+                        .dontAnimate()
+                        .into(mDataBinding.ivTemplate);
+            } else {
+                mDataBinding.ivTemplate.setImageBitmap(null);
+            }
+        }
+
         Glide.with(this)
                 .load(mdImage)
                 .asBitmap()
-                .into(new SimpleTarget<Bitmap>() {
+                .thumbnail(0.1f)
+                .into(new SimpleTarget<Bitmap>(200, 200) {
                     @Override
                     public void onResourceReady(Bitmap bitmap, GlideAnimation glideAnimation) {
                         // do something with the bitmap
                         // for demonstration purposes, let's just set it to an ImageView
-                        mDataBinding.bgiImage.getGPUImage().deleteImage();
-                        mDataBinding.bgiImage.setImage(bitmap);
-                        mDataBinding.bgiImage.requestRender();
+                        mDataBinding.bgiImage.loadNewImage(bitmap);
                     }
                 });
     }

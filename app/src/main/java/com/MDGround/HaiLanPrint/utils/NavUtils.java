@@ -3,12 +3,12 @@ package com.MDGround.HaiLanPrint.utils;
 import android.content.Context;
 import android.content.Intent;
 
-import com.MDGround.HaiLanPrint.ProductType;
 import com.MDGround.HaiLanPrint.activity.cloudphotos.CloudDetailActivity;
 import com.MDGround.HaiLanPrint.activity.photoedit.PhotoEditActivity;
 import com.MDGround.HaiLanPrint.activity.photoprint.PrintPhotoChoosePaperNumActivity;
 import com.MDGround.HaiLanPrint.activity.selectimage.SelectAlbumActivity;
 import com.MDGround.HaiLanPrint.activity.selectimage.SelectImageActivity;
+import com.MDGround.HaiLanPrint.application.MDGroundApplication;
 import com.MDGround.HaiLanPrint.constants.Constants;
 import com.MDGround.HaiLanPrint.models.Album;
 import com.MDGround.HaiLanPrint.models.MDImage;
@@ -24,25 +24,23 @@ public class NavUtils {
         context.startActivity(intent);
     }
 
-    public static void toSelectAlbumActivity(Context context, ProductType productTyp) {
+    public static void toSelectAlbumActivity(Context context) {
         Intent intent = new Intent(context, SelectAlbumActivity.class);
-        intent.putExtra(Constants.KEY_PRODUCT_TYPE, productTyp);
         context.startActivity(intent);
     }
 
-    public static void toSelectImageActivity(Context context, Album album, ProductType productType) {
+    public static void toSelectImageActivity(Context context, Album album) {
         Intent intent = new Intent(context, SelectImageActivity.class);
         intent.putExtra(Constants.KEY_ALBUM, album);
-        intent.putExtra(Constants.KEY_PRODUCT_TYPE, productType);
         context.startActivity(intent);
     }
 
-    public static void toPhotoEditActivity(Context context, ProductType productType) {
+    public static void toPhotoEditActivity(Context context) {
         if (SelectImageUtil.mAlreadySelectImage.size() == 0) {
             return;
         }
         Intent intent = new Intent();
-        switch (productType) {
+        switch (MDGroundApplication.mSelectProductType) {
             case PrintPhoto:
                 intent.setClass(context, PrintPhotoChoosePaperNumActivity.class);
                 break;
@@ -53,6 +51,9 @@ public class NavUtils {
                 intent.setClass(context, PhotoEditActivity.class);
                 break;
             case LOMOCard:
+                intent.setClass(context, PhotoEditActivity.class);
+                break;
+            case Postcard:
                 intent.setClass(context, PhotoEditActivity.class);
                 break;
         }

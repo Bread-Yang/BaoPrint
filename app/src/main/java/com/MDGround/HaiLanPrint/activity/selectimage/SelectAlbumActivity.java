@@ -4,16 +4,16 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.text.Html;
 import android.view.View;
 
-import com.MDGround.HaiLanPrint.ProductType;
 import com.MDGround.HaiLanPrint.R;
 import com.MDGround.HaiLanPrint.activity.base.ToolbarActivity;
 import com.MDGround.HaiLanPrint.adapter.AlbumAdapter;
 import com.MDGround.HaiLanPrint.adapter.SelectedImageAdapter;
-import com.MDGround.HaiLanPrint.constants.Constants;
+import com.MDGround.HaiLanPrint.application.MDGroundApplication;
 import com.MDGround.HaiLanPrint.databinding.ActivitySelectAlbumBinding;
 import com.MDGround.HaiLanPrint.enumobject.restfuls.ResponseCode;
 import com.MDGround.HaiLanPrint.models.Album;
 import com.MDGround.HaiLanPrint.models.MDImage;
+import com.MDGround.HaiLanPrint.models.TemplateList;
 import com.MDGround.HaiLanPrint.restfuls.GlobalRestful;
 import com.MDGround.HaiLanPrint.restfuls.bean.ResponseData;
 import com.MDGround.HaiLanPrint.utils.LocalMediaLoader;
@@ -34,8 +34,6 @@ import retrofit2.Response;
  * Created by yoghourt on 5/11/16.
  */
 public class SelectAlbumActivity extends ToolbarActivity<ActivitySelectAlbumBinding> {
-
-    private ProductType mProductType;
 
     private int mMaxSelectImageNum = 0;
 
@@ -61,16 +59,14 @@ public class SelectAlbumActivity extends ToolbarActivity<ActivitySelectAlbumBind
     protected void initData() {
         SelectImageUtil.mAlreadySelectImage.clear(); // 清空之前选中的图片
 
-        mProductType = (ProductType) getIntent().getSerializableExtra(Constants.KEY_PRODUCT_TYPE);
-
-        mMaxSelectImageNum = SelectImageUtil.getMaxSelectImageNum(mProductType);
+        mMaxSelectImageNum = SelectImageUtil.getMaxSelectImageNum(MDGroundApplication.mSelectProductType);
 
         // 相册
         LinearLayoutManager albumLayoutManager = new LinearLayoutManager(this);
         albumLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         mDataBinding.albumRecyclerView.setLayoutManager(albumLayoutManager);
         mDataBinding.albumRecyclerView.addItemDecoration(new DividerItemDecoration(0));
-        mAlbumAdapter = new AlbumAdapter(mProductType);
+        mAlbumAdapter = new AlbumAdapter();
         mDataBinding.albumRecyclerView.setAdapter(mAlbumAdapter);
 
         // 选中图片
@@ -95,6 +91,13 @@ public class SelectAlbumActivity extends ToolbarActivity<ActivitySelectAlbumBind
         });
 
         getPhotoCountRequest();
+
+        // 模版图片
+        switch (MDGroundApplication.mSelectProductType) {
+            case Postcard:
+                getPhotoTemplateListRequest();
+                break;
+        }
     }
 
     @Override
@@ -156,11 +159,45 @@ public class SelectAlbumActivity extends ToolbarActivity<ActivitySelectAlbumBind
             }
         });
     }
+
+    private void getPhotoTemplateListRequest() {
+        GlobalRestful.getInstance().GetPhotoTemplateList(MDGroundApplication.mChooseMeasurement.getTypeDescID(), new Callback<ResponseData>() {
+            @Override
+            public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
+                ArrayList<TemplateList> templateList = response.body().getContent(new TypeToken<ArrayList<TemplateList>>() {
+                });
+
+                getPhotoTemplateAttachListRequest(templateList.get(0).getTemplateID());
+            }
+
+            @Override
+            public void onFailure(Call<ResponseData> call, Throwable t) {
+
+            }
+        });
+    }
+
+    private void getPhotoTemplateAttachListRequest(int templateID) {
+        GlobalRestful.getInstance().GetPhotoTemplateAttachList(templateID, new Callback<ResponseData>() {
+            @Override
+            public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
+                SelectImageUtil.mTemplateImage.clear();
+
+                SelectImageUtil.mTemplateImage = response.body().getContent(new TypeToken<ArrayList<MDImage>>() {
+                });
+            }
+
+            @Override
+            public void onFailure(Call<ResponseData> call, Throwable t) {
+
+            }
+        });
+    }
     //endregion
 
     //region ACTION
     public void nextStepAction(View view) {
-        NavUtils.toPhotoEditActivity(view.getContext(), mProductType);
+        NavUtils.toPhotoEditActivity(view.getContext());
     }
     //endregion
 }

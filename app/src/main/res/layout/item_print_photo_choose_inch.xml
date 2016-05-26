@@ -18,7 +18,7 @@
     </data>
 
     <RelativeLayout
-        android:layout_width="match_parent"
+        style="@style/NormalLayoutStyle"
         android:layout_height="60dp"
         android:background="@drawable/shape_round_corner_area_bg"
         android:onClick="@{handlers::toSelectImageActivityAction}">
@@ -61,9 +61,6 @@
 
         <ImageView
             android:id="@+id/ivArrow"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"/>
+            style="@style/Arrow"/>
     </RelativeLayout>
 </layout>
