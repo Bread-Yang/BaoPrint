@@ -1,7 +1,6 @@
 package com.MDGround.HaiLanPrint.activity.photoedit;
 
 import android.graphics.Bitmap;
-import android.net.Uri;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 import android.widget.SeekBar;
@@ -15,11 +14,9 @@ import com.MDGround.HaiLanPrint.databinding.ActivityPhotoEditBinding;
 import com.MDGround.HaiLanPrint.models.MDImage;
 import com.MDGround.HaiLanPrint.utils.SelectImageUtil;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.GlideBitmapDrawable;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
-import com.socks.library.KLog;
-
-import jp.co.cyberagent.android.gpuimage.GPUImageView;
 
 /**
  * Created by yoghourt on 5/18/16.
@@ -104,12 +101,13 @@ public class PhotoEditActivity extends ToolbarActivity<ActivityPhotoEditBinding>
     }
 
     public void saveImageAction(View view) {
-        mDataBinding.bgiImage.saveToPictures("海拍", "海拍.jpg", new GPUImageView.OnPictureSavedListener() {
-            @Override
-            public void onPictureSaved(Uri uri) {
-                KLog.e("保存图片成功 :" + uri);
-            }
-        });
+        mDataBinding.ivTest.setImageBitmap(mDataBinding.bgiImage.addTemplate(this, ((GlideBitmapDrawable)mDataBinding.ivTemplate.getDrawable()).getBitmap()));
+//        mDataBinding.bgiImage.saveToPictures("海拍", "海拍.jpg", new GPUImageView.OnPictureSavedListener() {
+//            @Override
+//            public void onPictureSaved(Uri uri) {
+//                KLog.e("保存图片成功 :" + uri);
+//            }
+//        });
     }
 
 }

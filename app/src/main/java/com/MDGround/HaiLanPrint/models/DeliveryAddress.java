@@ -13,15 +13,15 @@ public class DeliveryAddress implements Parcelable {
 
     private int AutoID;
 
-    private int CityID;
+    private long CityID;
 
-    private int CountryID;
+    private long CountryID;
 
-    private int DistrictID;
+    private long DistrictID;
 
     private String Phone;
 
-    private int ProvinceID;
+    private long ProvinceID;
 
     private String Receiver;
 
@@ -31,15 +31,17 @@ public class DeliveryAddress implements Parcelable {
 
     private int UserID;
 
-    public DeliveryAddress() {}
+    public DeliveryAddress() {
+
+    }
 
     protected DeliveryAddress(Parcel in) {
         AutoID = in.readInt();
-        CityID = in.readInt();
-        CountryID = in.readInt();
-        DistrictID = in.readInt();
+        CityID = in.readLong();
+        CountryID = in.readLong();
+        DistrictID = in.readLong();
         Phone = in.readString();
-        ProvinceID = in.readInt();
+        ProvinceID = in.readLong();
         Receiver = in.readString();
         Street = in.readString();
         UserID = in.readInt();
@@ -65,27 +67,27 @@ public class DeliveryAddress implements Parcelable {
         AutoID = autoID;
     }
 
-    public int getCityID() {
+    public long getCityID() {
         return CityID;
     }
 
-    public void setCityID(int cityID) {
+    public void setCityID(long cityID) {
         CityID = cityID;
     }
 
-    public int getCountryID() {
+    public long getCountryID() {
         return CountryID;
     }
 
-    public void setCountryID(int countryID) {
+    public void setCountryID(long countryID) {
         CountryID = countryID;
     }
 
-    public int getDistrictID() {
+    public long getDistrictID() {
         return DistrictID;
     }
 
-    public void setDistrictID(int districtID) {
+    public void setDistrictID(long districtID) {
         DistrictID = districtID;
     }
 
@@ -97,11 +99,11 @@ public class DeliveryAddress implements Parcelable {
         Phone = phone;
     }
 
-    public int getProvinceID() {
+    public long getProvinceID() {
         return ProvinceID;
     }
 
-    public void setProvinceID(int provinceID) {
+    public void setProvinceID(long provinceID) {
         ProvinceID = provinceID;
     }
 
@@ -145,11 +147,11 @@ public class DeliveryAddress implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(AutoID);
-        dest.writeInt(CityID);
-        dest.writeInt(CountryID);
-        dest.writeInt(DistrictID);
+        dest.writeLong(CityID);
+        dest.writeLong(CountryID);
+        dest.writeLong(DistrictID);
         dest.writeString(Phone);
-        dest.writeInt(ProvinceID);
+        dest.writeLong(ProvinceID);
         dest.writeString(Receiver);
         dest.writeString(Street);
         dest.writeInt(UserID);

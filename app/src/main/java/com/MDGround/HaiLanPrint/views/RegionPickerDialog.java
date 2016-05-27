@@ -6,12 +6,13 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 
 import com.MDGround.HaiLanPrint.R;
 import com.MDGround.HaiLanPrint.databinding.DialogRegionPickerBinding;
-import com.MDGround.HaiLanPrint.utils.ViewUtils;
+import com.MDGround.HaiLanPrint.greendao.Location;
 
 /**
  * Created by yoghourt on 5/25/16.
@@ -21,6 +22,8 @@ public class RegionPickerDialog extends Dialog {
 
     private DialogRegionPickerBinding mDataBinding;
 
+    private OnRegionSelectListener onRegionSelectListener;
+
     public RegionPickerDialog(Context context) {
         super(context, R.style.customDialog);
     }
@@ -28,6 +31,12 @@ public class RegionPickerDialog extends Dialog {
     public RegionPickerDialog(Context context, int themeResId) {
         super(context, themeResId);
     }
+
+    //region INTERFACE
+    public interface OnRegionSelectListener {
+        public void onRegionSelect(Location province, Location city, Location county);
+    }
+    //endregion
 
     protected RegionPickerDialog(Context context, boolean cancelable, OnCancelListener cancelListener) {
         super(context, cancelable, cancelListener);
@@ -42,10 +51,33 @@ public class RegionPickerDialog extends Dialog {
         setContentView(mDataBinding.getRoot());
 
         Window window = getWindow();
-        window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, ViewUtils.dp2px(300)); // 填充满屏幕的宽度
+        window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT); // 填充满屏幕的宽度
         window.setWindowAnimations(R.style.action_sheet_animation); // 添加动画
         WindowManager.LayoutParams wlp = window.getAttributes();
         wlp.gravity = Gravity.BOTTOM; // 使dialog在底部显示
         window.setAttributes(wlp);
+
+        mDataBinding.tvCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dismiss();
+            }
+        });
+
+        mDataBinding.tvFinish.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (onRegionSelectListener != null) {
+                    onRegionSelectListener.onRegionSelect(mDataBinding.regionWheelview.mSelectProvince,
+                            mDataBinding.regionWheelview.mSelectCity,
+                            mDataBinding.regionWheelview.mSelectCounty);
+                }
+                dismiss();
+            }
+        });
+    }
+
+    public void setOnRegionSelectListener(OnRegionSelectListener onRegionSelectListener) {
+        this.onRegionSelectListener = onRegionSelectListener;
     }
 }

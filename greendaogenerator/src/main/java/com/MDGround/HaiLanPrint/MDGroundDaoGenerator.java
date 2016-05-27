@@ -17,12 +17,12 @@ public class MDGroundDaoGenerator {
     private static void addLocationEntity(Schema schema) {
         Entity location = schema.addEntity("Location");
 
+        location.addLongProperty("LocationID").primaryKey();
         location.addStringProperty("EnglishName");
         location.addBooleanProperty("IsCity");
         location.addBooleanProperty("IsHot");
         location.addBooleanProperty("IsValid");
         location.addLongProperty("LocationCode");
-        location.addLongProperty("LocationID");
         location.addStringProperty("LocationName");
         location.addFloatProperty("LocationX");
         location.addFloatProperty("LocationY");

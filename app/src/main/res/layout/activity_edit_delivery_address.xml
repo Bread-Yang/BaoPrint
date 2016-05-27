@@ -105,6 +105,12 @@
                 android:textColorHint="@color/color_999999"
                 android:textSize="@dimen/text_size_16"/>
 
+            <ImageView
+                android:id="@+id/ivArrow"
+                style="@style/Arrow"
+                android:layout_gravity="center_vertical"
+                android:layout_marginRight="@dimen/margin_8"/>
+
         </LinearLayout>
 
         <View style="@style/DividerHorizontal_Margin"/>

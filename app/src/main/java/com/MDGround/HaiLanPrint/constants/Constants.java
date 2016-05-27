@@ -30,6 +30,8 @@ public final class Constants {
     public static final String KEY_ALBUM = "key_album";
     public static final String KEY_DELIVERY_ADDRESS = "key_delivery_address";
 
+    public static int MAX_DELIVERY_ADDRESS = 10; // 最多十个收货地址
+
     public static int ITEM_LEFT_TO_LOAD_MORE = 3;
 
     public static int PRINT_PHOTO_MAX_SELECT_IMAGE_NUM = 100; // 冲印相片最多选择100张

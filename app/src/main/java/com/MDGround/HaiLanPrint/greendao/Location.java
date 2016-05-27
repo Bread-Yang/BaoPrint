@@ -20,6 +20,10 @@ public class Location {
     public Location() {
     }
 
+    public Location(Long LocationID) {
+        this.LocationID = LocationID;
+    }
+
     public Location(String EnglishName, Boolean IsCity, Boolean IsHot, Boolean IsValid, Long LocationCode, Long LocationID, String LocationName, Float LocationX, Float LocationY, Long ParentID) {
         this.EnglishName = EnglishName;
         this.IsCity = IsCity;

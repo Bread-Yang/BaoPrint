@@ -80,7 +80,7 @@ public class ChooseDeliveryAddressActivity extends ToolbarActivity<ActivityChoos
                 mAddressArrayList = response.body().getContent(new TypeToken<ArrayList<com.MDGround.HaiLanPrint.models.DeliveryAddress>>() {
                 });
 
-                mDataBinding.tvCanAddNum.setText(getString(R.string.still_can_add_address, 8 - mAddressArrayList.size()));
+                mDataBinding.tvCanAddNum.setText(getString(R.string.still_can_add_address, Constants.MAX_DELIVERY_ADDRESS - mAddressArrayList.size()));
 
                 mAdapter.notifyDataSetChanged();
             }

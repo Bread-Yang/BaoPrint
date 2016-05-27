@@ -2,6 +2,7 @@ package com.MDGround.HaiLanPrint.views;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.opengl.GLSurfaceView;
 import android.opengl.Matrix;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
@@ -12,6 +13,7 @@ import com.MDGround.HaiLanPrint.views.gesture.RotateGestureDetector;
 import jp.co.cyberagent.android.gpuimage.GPUImage;
 import jp.co.cyberagent.android.gpuimage.GPUImageBrightnessFilter;
 import jp.co.cyberagent.android.gpuimage.GPUImageFilterGroup;
+import jp.co.cyberagent.android.gpuimage.GPUImageNormalBlendFilter;
 import jp.co.cyberagent.android.gpuimage.GPUImageTransformFilter;
 import jp.co.cyberagent.android.gpuimage.GPUImageView;
 
@@ -108,4 +110,23 @@ public class BaoGPUImage extends GPUImageView {
         setImage(bitmap);
         requestRender();
     }
-}
+
+    public Bitmap addTemplate(Context context, Bitmap templateBitmap) {
+        GPUImageNormalBlendFilter blendFilter = new GPUImageNormalBlendFilter();
+
+//        blendFilter.setMix(1);
+        blendFilter.setBitmap(templateBitmap);
+
+        GPUImage blendImage = new GPUImage(context);
+        blendImage.setImage(getGPUImage().getBitmapWithFilterApplied());
+        blendImage.setFilter(blendFilter);
+
+        Bitmap blendBitmap = blendImage.getBitmapWithFilterApplied();
+
+        GLSurfaceView mGLSurfaceView = new GLSurfaceView(context);
+
+//        mGLSurfaceView.setRenderMode(GLSurfaceView.RENDERMODE_CONTINUOUSLY);
+
+
+        return blendBitmap;
+    }}

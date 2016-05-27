@@ -37,8 +37,9 @@
 
         <View style="@style/DividerHorizontal"/>
 
-        <com.MDGround.HaiLanPrint.views.RegionPickerView
+        <com.MDGround.HaiLanPrint.views.RegionWheelView
+            android:id="@+id/regionWheelview"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="wrap_content"/>
     </LinearLayout>
 </layout>

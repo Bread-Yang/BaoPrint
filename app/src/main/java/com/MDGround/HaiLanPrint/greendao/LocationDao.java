@@ -14,7 +14,7 @@ import com.MDGround.HaiLanPrint.greendao.Location;
 /** 
  * DAO for table "LOCATION".
 */
-public class LocationDao extends AbstractDao<Location, Void> {
+public class LocationDao extends AbstractDao<Location, Long> {
 
     public static final String TABLENAME = "LOCATION";
 
@@ -28,7 +28,7 @@ public class LocationDao extends AbstractDao<Location, Void> {
         public final static Property IsHot = new Property(2, Boolean.class, "IsHot", false, "IS_HOT");
         public final static Property IsValid = new Property(3, Boolean.class, "IsValid", false, "IS_VALID");
         public final static Property LocationCode = new Property(4, Long.class, "LocationCode", false, "LOCATION_CODE");
-        public final static Property LocationID = new Property(5, Long.class, "LocationID", false, "LOCATION_ID");
+        public final static Property LocationID = new Property(5, Long.class, "LocationID", true, "LOCATION_ID");
         public final static Property LocationName = new Property(6, String.class, "LocationName", false, "LOCATION_NAME");
         public final static Property LocationX = new Property(7, Float.class, "LocationX", false, "LOCATION_X");
         public final static Property LocationY = new Property(8, Float.class, "LocationY", false, "LOCATION_Y");
@@ -53,7 +53,7 @@ public class LocationDao extends AbstractDao<Location, Void> {
                 "\"IS_HOT\" INTEGER," + // 2: IsHot
                 "\"IS_VALID\" INTEGER," + // 3: IsValid
                 "\"LOCATION_CODE\" INTEGER," + // 4: LocationCode
-                "\"LOCATION_ID\" INTEGER," + // 5: LocationID
+                "\"LOCATION_ID\" INTEGER PRIMARY KEY ," + // 5: LocationID
                 "\"LOCATION_NAME\" TEXT," + // 6: LocationName
                 "\"LOCATION_X\" REAL," + // 7: LocationX
                 "\"LOCATION_Y\" REAL," + // 8: LocationY
@@ -124,8 +124,8 @@ public class LocationDao extends AbstractDao<Location, Void> {
 
     /** @inheritdoc */
     @Override
-    public Void readKey(Cursor cursor, int offset) {
-        return null;
+    public Long readKey(Cursor cursor, int offset) {
+        return cursor.isNull(offset + 5) ? null : cursor.getLong(offset + 5);
     }    
 
     /** @inheritdoc */
@@ -163,15 +163,19 @@ public class LocationDao extends AbstractDao<Location, Void> {
     
     /** @inheritdoc */
     @Override
-    protected Void updateKeyAfterInsert(Location entity, long rowId) {
-        // Unsupported or missing PK type
-        return null;
+    protected Long updateKeyAfterInsert(Location entity, long rowId) {
+        entity.setLocationID(rowId);
+        return rowId;
     }
     
     /** @inheritdoc */
     @Override
-    public Void getKey(Location entity) {
-        return null;
+    public Long getKey(Location entity) {
+        if(entity != null) {
+            return entity.getLocationID();
+        } else {
+            return null;
+        }
     }
 
     /** @inheritdoc */

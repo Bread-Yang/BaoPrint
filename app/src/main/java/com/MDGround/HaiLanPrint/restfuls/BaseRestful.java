@@ -20,6 +20,7 @@ import com.google.gson.GsonBuilder;
 import com.socks.library.KLog;
 
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
@@ -27,6 +28,7 @@ import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.GsonConverterFactory;
+import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.http.Body;
 import retrofit2.http.POST;
@@ -84,10 +86,11 @@ public abstract class BaseRestful {
 //
 //            builder = builder.client(httpClient.build());
         } else {    // 其他普通请求需要加密
-            OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
-            httpClient.interceptors().add(new DecryptedPayloadInterceptor());  //请求前加密,返回前解密
+            OkHttpClient.Builder httpClientBuilder = new OkHttpClient.Builder();
+            httpClientBuilder.connectTimeout(60, TimeUnit.SECONDS);
+            httpClientBuilder.interceptors().add(new DecryptedPayloadInterceptor());  //请求前加密,返回前解密
 
-            builder = builder.client(httpClient.build());
+            builder = builder.client(httpClientBuilder.build());
         }
 
         Retrofit retrofit = builder.build();
@@ -137,8 +140,26 @@ public abstract class BaseRestful {
     }
 
     // 普通接口请求(异步)
-    protected void asynchronousPost(String functionName, String queryData, Callback<ResponseData> callback) {
+    protected void asynchronousPost(String functionName, String queryData, final Callback<ResponseData> secondCallback) {
         KLog.e("请求接口 \"" + functionName + "\" 的json数据:");
+
+        Callback firstCallback = new Callback<ResponseData>() {
+            @Override
+            public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
+                if (secondCallback != null) {
+                    secondCallback.onResponse(call, response);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseData> call, Throwable t) {
+                ViewUtils.toast(R.string.request_timeout);  // 请求超时
+                ViewUtils.dismiss();
+                if (secondCallback != null) {
+                    secondCallback.onFailure(call, t);
+                }
+            }
+        };
 
         if (ToolNetwork.getInstance().isConnected()) {
             RequestBody requestBody = createRequestBody(functionName, queryData);
@@ -149,10 +170,11 @@ public abstract class BaseRestful {
             } else if (getBusinessType() == BusinessType.FILE) {
                 call = baseService.fileRequest(requestBody);
             }
-            call.enqueue(callback);
+            call.enqueue(firstCallback);
         } else {
             ViewUtils.toast(R.string.network_unavailable);
-            callback.onFailure(null, null);
+            ViewUtils.dismiss();
+            secondCallback.onFailure(null, null);
         }
     }
 
