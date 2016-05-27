@@ -49,7 +49,8 @@ public class StartingActivity extends AppCompatActivity {
                 MDGroundApplication.mLoginUser = (User) FileUtils.getObject(Constants.KEY_ALREADY_LOGIN_USER);
                 if (MDGroundApplication.mLoginUser != null) {
 
-                    loginRequest(MDGroundApplication.mLoginUser);
+//                    loginRequest(MDGroundApplication.mLoginUser);
+                    toMainActivity();
                 } else {
                     toLoginActivity();
                 }
@@ -64,6 +65,12 @@ public class StartingActivity extends AppCompatActivity {
 
     private void toLoginActivity() {
         Intent intent = new Intent(StartingActivity.this, LoginActivity.class);
+        startActivity(intent);
+        finish();
+    }
+
+    private void toMainActivity() {
+        Intent intent = new Intent(StartingActivity.this, MainActivity.class);
         startActivity(intent);
         finish();
     }

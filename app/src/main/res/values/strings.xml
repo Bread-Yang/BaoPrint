@@ -117,6 +117,11 @@
 
     <!-- 手机壳 -->
     <string name="phone_shell">手机壳</string>
+    <string name="phone_brand">手机品牌</string>
+    <string name="select_phone_brand">选择手机品牌</string>
+    <string name="select_phone_model">选择手机型号</string>
+    <string name="silicone">硅胶</string>
+    <string name="plastic">塑料</string>
 
     <!-- 扑克 -->
     <string name="poker">扑克</string>

@@ -23,8 +23,8 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/margin_10"
                 android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/margin_10"
                 android:layout_toRightOf="@+id/ivLogo"
                 android:text="@string/haipai_print"
                 android:textColor="@color/color_white"/>
@@ -33,10 +33,10 @@
                 android:id="@+id/ivCloudImage"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:onClick="toCloudActivityAction"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="@dimen/margin_15"
                 android:layout_toLeftOf="@+id/ivPersonalCenter"
+                android:onClick="toCloudActivityAction"
                 android:src="@drawable/icon_pr_download"/>
 
             <ImageView
@@ -46,6 +46,7 @@
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="@dimen/margin_15"
+                android:onClick="toPersonalCenterActivityAction"
                 android:src="@drawable/icon_wszl_wd"/>
 
         </RelativeLayout>
@@ -58,8 +59,8 @@
 
         <android.support.v4.view.ViewPager
             android:id="@+id/viewPager"
-            android:background="@color/color_white"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent"
+            android:background="@color/color_white"/>
     </LinearLayout>
 </layout>

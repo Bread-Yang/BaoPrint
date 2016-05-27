@@ -28,6 +28,8 @@ public class BaoGPUImage extends GPUImageView {
 
     private GPUImageFilterGroup mFilterGroup;
 
+    private Context mContext;
+
     private float mScaleFactor = 1.0f;  // 放大缩小倍数
 
     private float mRotationDegrees = 0.f; // 旋转倍数
@@ -40,18 +42,9 @@ public class BaoGPUImage extends GPUImageView {
         @Override
         public boolean onScale(ScaleGestureDetector detector) {
             mScaleFactor *= detector.getScaleFactor(); // scale change since previous event
-//            KLog.e("mScaleSpan : " + mScaleFactor);
 
-            float[] transform = new float[16];
-            Matrix.setIdentityM(transform, 0);
-            Matrix.setRotateM(transform, 0, mRotationDegrees, 0, 0, 1.0f);
-            if (mScaleFactor < 0) {
-                mScaleFactor = 1;
-            }
-            Matrix.scaleM(transform, 0, mScaleFactor, mScaleFactor, 1.0f);
+            setTransformFactor(mScaleFactor, mRotationDegrees);
 
-            mTransformFilter.setTransform3D(transform);
-            requestRender();
             return true;
         }
     }
@@ -60,7 +53,6 @@ public class BaoGPUImage extends GPUImageView {
         @Override
         public boolean onRotate(RotateGestureDetector detector) {
             mRotationDegrees += detector.getRotationDegreesDelta();
-//            KLog.e("mRotationDegrees : " + mRotationDegrees);
 
             return true;
         }
@@ -77,6 +69,8 @@ public class BaoGPUImage extends GPUImageView {
     }
 
     private void init(Context context) {
+        mContext = context;
+
         setScaleType(GPUImage.ScaleType.CENTER_INSIDE);
 
         mScaleDetector = new ScaleGestureDetector(context, new ScaleListener());
@@ -100,7 +94,7 @@ public class BaoGPUImage extends GPUImageView {
         mBrightnessFilter.setBrightness(0);
 
         mFilterGroup = new GPUImageFilterGroup();
-        mFilterGroup.addFilter(mBrightnessFilter);
+//        mFilterGroup.addFilter(mBrightnessFilter);
         mFilterGroup.addFilter(mTransformFilter);
 
         setFilter(mFilterGroup);
@@ -127,4 +121,21 @@ public class BaoGPUImage extends GPUImageView {
 
 
         return blendBitmap;
-    }}
+    }
+
+    public void setTransformFactor(float scaleFactor, float rotationDegree) {
+        mScaleFactor = scaleFactor;
+        rotationDegree = rotationDegree;
+
+        float[] transform = new float[16];
+        Matrix.setIdentityM(transform, 0);
+        Matrix.setRotateM(transform, 0, mRotationDegrees, 0, 0, 1.0f);
+        if (mScaleFactor < 0) {
+            mScaleFactor = 1;
+        }
+        Matrix.scaleM(transform, 0, mScaleFactor, mScaleFactor, 1.0f);
+
+        mTransformFilter.setTransform3D(transform);
+        requestRender();
+    }
+}

@@ -15,8 +15,10 @@ import com.MDGround.HaiLanPrint.BR;
 import com.MDGround.HaiLanPrint.ProductType;
 import com.MDGround.HaiLanPrint.R;
 import com.MDGround.HaiLanPrint.activity.cloudphotos.CloudOverviewActivity;
+import com.MDGround.HaiLanPrint.activity.login.LoginActivity;
 import com.MDGround.HaiLanPrint.activity.lomocard.LomoCardChooseNumActivity;
 import com.MDGround.HaiLanPrint.activity.magiccup.MagicCupChooseColorActivity;
+import com.MDGround.HaiLanPrint.activity.phoneshell.PhoneShellStartActivity;
 import com.MDGround.HaiLanPrint.activity.photoprint.PrintPhotoChooseInchActivity;
 import com.MDGround.HaiLanPrint.activity.postcard.PostcardStartActivity;
 import com.MDGround.HaiLanPrint.activity.puzzle.PuzzleStartActivity;
@@ -78,13 +80,41 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void toPersonalCenterActivityAction(View view) {
+        Intent intent = new Intent(this, LoginActivity.class);
+        startActivity(intent);
+        finish();
+    }
 
     public class MainBindingEventHandler {
 
+        // pager 1
         public void toPhotoPrintChooseInchActivityAction(View view) {
             MDGroundApplication.mSelectProductType = ProductType.PrintPhoto;
 
             Intent intent = new Intent(MainActivity.this, PrintPhotoChooseInchActivity.class);
+            startActivity(intent);
+        }
+
+        public void toPostcarActivityAction(View view) {
+            MDGroundApplication.mSelectProductType = ProductType.Postcard;
+
+            Intent intent = new Intent(MainActivity.this, PostcardStartActivity.class);
+            startActivity(intent);
+        }
+
+        // pager 2
+        public void toPhoneShellActivityAction(View view) {
+            MDGroundApplication.mSelectProductType = ProductType.PhoneShell;
+
+            Intent intent = new Intent(MainActivity.this, PhoneShellStartActivity.class);
+            startActivity(intent);
+        }
+
+        public void toPuzzleActivityAction(View view) {
+            MDGroundApplication.mSelectProductType = ProductType.Puzzle;
+
+            Intent intent = new Intent(MainActivity.this, PuzzleStartActivity.class);
             startActivity(intent);
         }
 
@@ -104,20 +134,6 @@ public class MainActivity extends AppCompatActivity {
 
         public void toEngravingActivityAction(View view) {
             MDGroundApplication.mSelectProductType = ProductType.Engraving;
-        }
-
-        public void toPuzzleActivityAction(View view) {
-            MDGroundApplication.mSelectProductType = ProductType.Puzzle;
-
-            Intent intent = new Intent(MainActivity.this, PuzzleStartActivity.class);
-            startActivity(intent);
-        }
-
-        public void toPostcarActivityAction(View view) {
-            MDGroundApplication.mSelectProductType = ProductType.Postcard;
-
-            Intent intent = new Intent(MainActivity.this, PostcardStartActivity.class);
-            startActivity(intent);
         }
     }
     //endregion

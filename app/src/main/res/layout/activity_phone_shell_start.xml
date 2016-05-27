@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/color_white"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_placeholder"/>
+
+            <LinearLayout
+                style="@style/NormalLayoutStyle"
+                android:onClick="toSelectBrandActivityAction"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="@dimen/margin_80"
+                    android:layout_height="match_parent"
+                    android:clickable="true"
+                    android:gravity="center_vertical"
+                    android:text="@string/phone_brand"
+                    android:textColor="@color/color_333333"
+                    android:textSize="@dimen/text_size_16"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/size_44"
+                    android:layout_marginRight="@dimen/margin_8"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    android:drawablePadding="@dimen/margin_8"
+                    android:gravity="center_vertical|right"
+                    android:inputType="phone"
+                    android:onClick="toSelectBrandActivityAction"
+                    android:textColorHint="@color/color_999999"
+                    android:textSize="@dimen/text_size_16"
+                    tools:text="iPhone6s"/>
+
+                <ImageView
+                    android:id="@+id/ivArrow"
+                    style="@style/Arrow"
+                    android:layout_gravity="center_vertical"/>
+            </LinearLayout>
+
+            <View
+                style="@style/DividerHorizontal_Margin"
+                android:layout_above="@+id/btnNextStep"/>
+
+            <RelativeLayout
+                style="@style/NormalLayoutStyle">
+
+                <TextView
+                    android:layout_width="@dimen/margin_80"
+                    android:layout_height="match_parent"
+                    android:clickable="true"
+                    android:gravity="center_vertical"
+                    android:text="@string/phone_brand"
+                    android:textColor="@color/color_333333"
+                    android:textSize="@dimen/text_size_16"/>
+
+                <RadioGroup
+                    android:id="@+id/rgMaterial"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginLeft="@dimen/margin_12"
+                    android:layout_marginTop="@dimen/margin_8"
+                    android:background="@color/color_white"
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:id="@+id/rbSilicone"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/selector_rb_bg"
+                        android:button="@null"
+                        android:checked="true"
+                        android:paddingBottom="@dimen/margin_6"
+                        android:paddingLeft="@dimen/margin_15"
+                        android:paddingRight="@dimen/margin_15"
+                        android:paddingTop="@dimen/margin_6"
+                        android:text="@string/silicone"
+                        android:textColor="@drawable/selector_rb_text_color"/>
+
+                    <RadioButton
+                        android:id="@+id/rbPlastic"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/margin_15"
+                        android:background="@drawable/selector_rb_bg"
+                        android:button="@null"
+                        android:paddingBottom="@dimen/margin_6"
+                        android:paddingLeft="@dimen/margin_15"
+                        android:paddingRight="@dimen/margin_15"
+                        android:paddingTop="@dimen/margin_6"
+                        android:text="@string/plastic"
+                        android:textColor="@drawable/selector_rb_text_color"/>
+                </RadioGroup>
+
+            </RelativeLayout>
+
+            <View
+                style="@style/DividerHorizontal"
+                android:layout_above="@+id/btnNextStep"/>
+
+        </LinearLayout>
+
+        <View
+            style="@style/DividerHorizontal"
+            android:layout_above="@+id/btnNextStep"/>
+
+        <Button
+            android:id="@+id/btnNextStep"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/size_44"
+            android:layout_alignParentBottom="true"
+            android:layout_gravity="center_horizontal"
+            android:background="?attr/selectableItemBackground"
+            android:gravity="center"
+            android:onClick="nextStepAction"
+            android:text="@string/next_step"
+            android:textColor="@color/color_f88e11"
+            android:textSize="@dimen/text_size_20"/>
+
+    </RelativeLayout>
+
+</layout>

@@ -63,7 +63,7 @@
         SortId="1"
         AppKey="566104451"
         AppSecret="94f0c8ab97225247e64d2632fff18a46"
-        RedirectUrl="http://www.sharesdk.cn"
+        RedirectUrl="https://api.weibo.com/oauth2/default.html"
         ShareByAppClient="true"
         Enable="true" />
 
@@ -97,8 +97,8 @@
     <Wechat
         Id="4"
         SortId="4"
-        AppId="wxcb3d5adbfb987208"
-        AppSecret="c05eec74ab0ecde5d6bd1f16c2bfb548"
+        AppId="wxc631b66c9f23f37b"
+        AppSecret="19d4e49553c151cfbafe380df4a3ce13"
         BypassApproval="false"
         Enable="true" />
     

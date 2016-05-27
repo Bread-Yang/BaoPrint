@@ -103,20 +103,28 @@
             android:label="@string/measurement_description"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".activity.magiccup.MagicCupChooseColorActivity"
-            android:label="@string/magic_cup"
+            android:name=".activity.postcard.PostcardStartActivity"
+            android:label="@string/postcard"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".activity.lomocard.LomoCardChooseNumActivity"
-            android:label="@string/lomo_card"
+            android:name=".activity.phoneshell.PhoneShellStartActivity"
+            android:label="@string/phone_shell"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activity.phoneshell.PhoneShellSelectBrandActivity"
+            android:label="@string/select_phone_brand"
             android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.puzzle.PuzzleStartActivity"
             android:label="@string/puzzle"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".activity.postcard.PostcardStartActivity"
-            android:label="@string/postcard"
+            android:name=".activity.magiccup.MagicCupChooseColorActivity"
+            android:label="@string/magic_cup"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activity.lomocard.LomoCardChooseNumActivity"
+            android:label="@string/lomo_card"
             android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.photoedit.PhotoEditActivity"

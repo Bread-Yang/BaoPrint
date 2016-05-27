@@ -3,6 +3,7 @@ package com.MDGround.HaiLanPrint.restfuls;
 import com.MDGround.HaiLanPrint.ProductType;
 import com.MDGround.HaiLanPrint.application.MDGroundApplication;
 import com.MDGround.HaiLanPrint.constants.Constants;
+import com.MDGround.HaiLanPrint.enumobject.ThirdPartyLoginType;
 import com.MDGround.HaiLanPrint.enumobject.restfuls.BusinessType;
 import com.MDGround.HaiLanPrint.models.DeliveryAddress;
 import com.MDGround.HaiLanPrint.models.OrderWork;
@@ -65,8 +66,38 @@ public class GlobalRestful extends BaseRestful {
             e.printStackTrace();
         }
 
-//        String functionName = Thread.currentThread().getStackTrace()[2].getMethodName();
         asynchronousPost("LoginUser", obj.toString(), callback);
+    }
+
+    public void LoginUserByThirdParty(ThirdPartyLoginType loginType, String openID,
+                                      String PhotoUrl, String UserNickName,
+                                      String UserName, Callback<ResponseData> callback) {
+        Device device = DeviceUtil.getDeviceInfo(MDGroundApplication.mInstance);
+        device.setDeviceToken("abc");   // 信鸽的token, XGPushConfig.getToken(this);
+        device.setDeviceID(DeviceUtil.getDeviceId());
+
+        JSONObject obj = new JSONObject();
+        try {
+            switch (loginType) {
+                case Wechat:
+                    obj.put("WXOpenID", openID);
+                    break;
+                case QQ:
+                    obj.put("QQOpenID", openID);
+                    break;
+                case Weibo:
+                    obj.put("WBUID", openID);
+                    break;
+            }
+            obj.put("PhotoUrl", PhotoUrl);
+            obj.put("UserNickName", UserNickName);
+            obj.put("UserName", UserName);
+            obj.put("Device", new JSONObject(convertObjectToString(device)));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        asynchronousPost("LoginUserByThirdParty", obj.toString(), callback);
     }
 
     public void CheckUserPhone(String phone, Callback<ResponseData> callback) {

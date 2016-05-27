@@ -12,6 +12,7 @@ import com.MDGround.HaiLanPrint.activity.main.MainActivity;
 import com.MDGround.HaiLanPrint.application.MDGroundApplication;
 import com.MDGround.HaiLanPrint.constants.Constants;
 import com.MDGround.HaiLanPrint.databinding.ActivityLoginBinding;
+import com.MDGround.HaiLanPrint.enumobject.ThirdPartyLoginType;
 import com.MDGround.HaiLanPrint.enumobject.restfuls.ResponseCode;
 import com.MDGround.HaiLanPrint.models.User;
 import com.MDGround.HaiLanPrint.restfuls.GlobalRestful;
@@ -21,7 +22,6 @@ import com.MDGround.HaiLanPrint.utils.FileUtils;
 import com.MDGround.HaiLanPrint.utils.MD5Util;
 import com.MDGround.HaiLanPrint.utils.StringUtil;
 import com.MDGround.HaiLanPrint.utils.ViewUtils;
-import com.socks.library.KLog;
 
 import java.util.HashMap;
 
@@ -44,35 +44,6 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mDataBinding = DataBindingUtil.setContentView(this, R.layout.activity_login);
-    }
-
-    private void loginRequest(String phone, String password) {
-        ViewUtils.loading(this);
-
-        GlobalRestful.getInstance()
-                .LoginUser(phone, MD5Util.MD5(password), new Callback<ResponseData>() {
-                    @Override
-                    public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
-                        ViewUtils.dismiss();
-                        if (ResponseCode.isSuccess(response.body())) {
-                            User user = response.body().getContent(User.class);
-                            MDGroundApplication.mLoginUser = user;
-                            if (mDataBinding.cbAutoLogin.isChecked()) {
-                                FileUtils.setObject(Constants.KEY_ALREADY_LOGIN_USER, user);
-                                DeviceUtil.setDeviceId(user.getDeviceID());
-                            }
-                            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                            startActivity(intent);
-                            finish();
-                        } else {
-                            Toast.makeText(LoginActivity.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Call<ResponseData> call, Throwable t) {
-                    }
-                });
     }
 
     //region ACTION
@@ -101,7 +72,7 @@ public class LoginActivity extends AppCompatActivity {
             return;
         }
 
-        loginRequest(phone, password);
+        loginUserRequest(phone, password);
     }
 
     public void forgetPasswordAction(View view) {
@@ -148,17 +119,21 @@ public class LoginActivity extends AppCompatActivity {
         wechat.setPlatformActionListener(new PlatformActionListener() {
             @Override
             public void onComplete(Platform platform, int i, HashMap<String, Object> hashMap) {
-                KLog.e("微信登录成功");
+                String openID = platform.getDb().getUserId();
+                String accessToken = platform.getDb().getToken();
+                String userName = platform.getDb().getUserName();
+                String nickName = platform.getDb().get("nickname");
+                String photoUrl = platform.getDb().get("icon");
+
+                loginUserByThirdPartyRequest(ThirdPartyLoginType.Wechat, openID, photoUrl, nickName, userName);
             }
 
             @Override
             public void onError(Platform platform, int i, Throwable throwable) {
-
             }
 
             @Override
             public void onCancel(Platform platform, int i) {
-
             }
         });
         wechat.authorize();
@@ -169,7 +144,13 @@ public class LoginActivity extends AppCompatActivity {
         qq.setPlatformActionListener(new PlatformActionListener() {
             @Override
             public void onComplete(Platform platform, int i, HashMap<String, Object> hashMap) {
-                KLog.e("qq登录成功");
+                String openID = platform.getDb().getUserId();
+                String userName = platform.getDb().getUserName();
+                String nickName = platform.getDb().get("nickname");
+                String photoUrl = platform.getDb().get("icon");
+
+                loginUserByThirdPartyRequest(ThirdPartyLoginType.QQ, openID, photoUrl, nickName, userName);
+
             }
 
             @Override
@@ -190,7 +171,12 @@ public class LoginActivity extends AppCompatActivity {
         weibo.setPlatformActionListener(new PlatformActionListener() {
             @Override
             public void onComplete(Platform platform, int i, HashMap<String, Object> hashMap) {
-                KLog.e("微博登录成功");
+                String openID = platform.getDb().getUserId();
+                String userName = platform.getDb().getUserName();
+                String nickName = platform.getDb().get("nickname");
+                String photoUrl = platform.getDb().get("icon");
+
+                loginUserByThirdPartyRequest(ThirdPartyLoginType.Weibo, openID, photoUrl, nickName, userName);
             }
 
             @Override
@@ -206,5 +192,65 @@ public class LoginActivity extends AppCompatActivity {
         weibo.authorize();
     }
     //endregion
+
+    //region SERVER
+    private void loginUserRequest(String phone, String password) {
+        ViewUtils.loading(this);
+
+        GlobalRestful.getInstance()
+                .LoginUser(phone, MD5Util.MD5(password), new Callback<ResponseData>() {
+                    @Override
+                    public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
+                        ViewUtils.dismiss();
+                        if (ResponseCode.isSuccess(response.body())) {
+                            User user = response.body().getContent(User.class);
+                            saveUserAndToMainActivity(user);
+                        } else {
+                            Toast.makeText(LoginActivity.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<ResponseData> call, Throwable t) {
+                    }
+                });
+    }
+
+    private void loginUserByThirdPartyRequest(ThirdPartyLoginType loginType,
+                                              String openID,
+                                              String photoUrl,
+                                              String userNickName,
+                                              String userName) {
+        ViewUtils.loading(this);
+        GlobalRestful.getInstance().LoginUserByThirdParty(loginType, openID, photoUrl, userNickName, userName, new Callback<ResponseData>() {
+            @Override
+            public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
+                ViewUtils.dismiss();
+                if (ResponseCode.isSuccess(response.body())) {
+                    User user = response.body().getContent(User.class);
+                    saveUserAndToMainActivity(user);
+                } else {
+                    Toast.makeText(LoginActivity.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseData> call, Throwable t) {
+
+            }
+        });
+    }
+    //endregion
+
+    private void saveUserAndToMainActivity(User user) {
+        MDGroundApplication.mLoginUser = user;
+        if (mDataBinding.cbAutoLogin.isChecked()) {
+            FileUtils.setObject(Constants.KEY_ALREADY_LOGIN_USER, user);
+            DeviceUtil.setDeviceId(user.getDeviceID());
+        }
+        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+        startActivity(intent);
+        finish();
+    }
 }
 
