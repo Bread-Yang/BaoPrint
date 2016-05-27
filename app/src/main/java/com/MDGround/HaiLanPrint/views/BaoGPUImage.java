@@ -2,7 +2,6 @@ package com.MDGround.HaiLanPrint.views;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.opengl.GLSurfaceView;
 import android.opengl.Matrix;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
@@ -114,7 +113,6 @@ public class BaoGPUImage extends GPUImageView {
     public Bitmap addTemplate(Context context, Bitmap templateBitmap) {
         GPUImageNormalBlendFilter blendFilter = new GPUImageNormalBlendFilter();
 
-//        blendFilter.setMix(1);
         blendFilter.setBitmap(templateBitmap);
 
         GPUImage blendImage = new GPUImage(context);
@@ -123,7 +121,7 @@ public class BaoGPUImage extends GPUImageView {
 
         Bitmap blendBitmap = blendImage.getBitmapWithFilterApplied();
 
-        GLSurfaceView mGLSurfaceView = new GLSurfaceView(context);
+//        GLSurfaceView mGLSurfaceView = new GLSurfaceView(context);
 
 //        mGLSurfaceView.setRenderMode(GLSurfaceView.RENDERMODE_CONTINUOUSLY);
 
