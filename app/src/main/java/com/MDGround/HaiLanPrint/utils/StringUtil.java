@@ -18,8 +18,12 @@ public class StringUtil {
         return false;
     }
 
-    public static String toYuan(float amount) {
+    public static String toYuanWithoutUnit(float amount) {
         return String.format("%.02f", amount / 100);
+    }
+
+    public static String toYuanWithUnit(float amount) {
+        return String.format("%.02f", amount / 100) + "元";
     }
 
     public static <T> T getInstanceByJsonString(String jsonString, TypeToken<T> type) {

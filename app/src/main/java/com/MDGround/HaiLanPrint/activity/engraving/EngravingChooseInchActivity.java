@@ -1,4 +1,4 @@
-package com.MDGround.HaiLanPrint.activity.phoneshell;
+package com.MDGround.HaiLanPrint.activity.engraving;
 
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
@@ -11,17 +11,17 @@ import android.view.ViewGroup;
 import com.MDGround.HaiLanPrint.ProductType;
 import com.MDGround.HaiLanPrint.R;
 import com.MDGround.HaiLanPrint.activity.base.ToolbarActivity;
-import com.MDGround.HaiLanPrint.activity.photoprint.PrintPhotoMeasurementDescription;
 import com.MDGround.HaiLanPrint.application.MDGroundApplication;
-import com.MDGround.HaiLanPrint.databinding.ActivityPhoneShellSelectBrandBinding;
-import com.MDGround.HaiLanPrint.databinding.ItemPhoneSheelSelectBrandBinding;
+import com.MDGround.HaiLanPrint.databinding.ActivityEngravingChooseInchBinding;
+import com.MDGround.HaiLanPrint.databinding.ItemEngravingChooseInchBinding;
 import com.MDGround.HaiLanPrint.enumobject.restfuls.ResponseCode;
 import com.MDGround.HaiLanPrint.models.Measurement;
 import com.MDGround.HaiLanPrint.restfuls.GlobalRestful;
 import com.MDGround.HaiLanPrint.restfuls.bean.ResponseData;
+import com.MDGround.HaiLanPrint.utils.NavUtils;
 import com.MDGround.HaiLanPrint.utils.StringUtil;
 import com.MDGround.HaiLanPrint.utils.ViewUtils;
-import com.MDGround.HaiLanPrint.views.itemdecoration.NormalItemDecoration;
+import com.MDGround.HaiLanPrint.views.itemdecoration.DividerItemDecoration;
 import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONException;
@@ -36,15 +36,15 @@ import retrofit2.Response;
 /**
  * Created by yoghourt on 5/11/16.
  */
-public class PhoneShellSelectBrandActivity extends ToolbarActivity<ActivityPhoneShellSelectBrandBinding> {
+public class EngravingChooseInchActivity extends ToolbarActivity<ActivityEngravingChooseInchBinding> {
 
-    private PhoneShellSelectBrandAdapter mAdapter;
+    private EngravingChooseInchAdapter mAdapter;
 
     private ArrayList<Measurement> mSpecList = new ArrayList<Measurement>();
 
     @Override
     protected int getContentLayout() {
-        return R.layout.activity_phone_shell_select_brand;
+        return R.layout.activity_engraving_choose_inch;
     }
 
     @Override
@@ -56,12 +56,14 @@ public class PhoneShellSelectBrandActivity extends ToolbarActivity<ActivityPhone
 
     @Override
     protected void initData() {
+        tvRight.setText(R.string.measurement_description);
+
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         mDataBinding.recyclerView.setLayoutManager(layoutManager);
-        mDataBinding.recyclerView.addItemDecoration(new NormalItemDecoration(ViewUtils.dp2px(2)));
+        mDataBinding.recyclerView.addItemDecoration(new DividerItemDecoration(16));
 
-        mAdapter = new PhoneShellSelectBrandAdapter();
+        mAdapter = new EngravingChooseInchAdapter();
         mDataBinding.recyclerView.setAdapter(mAdapter);
     }
 
@@ -70,25 +72,16 @@ public class PhoneShellSelectBrandActivity extends ToolbarActivity<ActivityPhone
         tvRight.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(PhoneShellSelectBrandActivity.this, PrintPhotoMeasurementDescription.class);
+                Intent intent = new Intent(EngravingChooseInchActivity.this, EngravingMeasurementDescription.class);
                 startActivity(intent);
             }
         });
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_OK) {
-            setResult(RESULT_OK);
-            finish();
-        }
-    }
-
     //region SERVER
     private void getSpecificationRequest() {
         ViewUtils.loading(this);
-        GlobalRestful.getInstance().GetPhotoType(ProductType.PhoneShell, new Callback<ResponseData>() {
+        GlobalRestful.getInstance().GetPhotoType(ProductType.Engraving, new Callback<ResponseData>() {
             @Override
             public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
                 ViewUtils.dismiss();
@@ -105,14 +98,6 @@ public class PhoneShellSelectBrandActivity extends ToolbarActivity<ActivityPhone
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-//                    mImagesList.clear();
-//
-//                    ArrayList<MDImage> tempImagesList = response.body().getContent(new TypeToken<ArrayList<MDImage>>() {
-//                    });
-//
-//                    mImagesList.addAll(tempImagesList);
-//
-//                    mAdapter.notifyDataSetChanged();
                 }
             }
 
@@ -125,12 +110,12 @@ public class PhoneShellSelectBrandActivity extends ToolbarActivity<ActivityPhone
     //endregion
 
     //region ADAPTER
-    public class PhoneShellSelectBrandAdapter extends RecyclerView.Adapter<PhoneShellSelectBrandAdapter.BindingHolder> {
+    public class EngravingChooseInchAdapter extends RecyclerView.Adapter<EngravingChooseInchAdapter.BindingHolder> {
 
         @Override
         public BindingHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             View itemView = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.item_phone_sheel_select_brand, parent, false);
+                    .inflate(R.layout.item_engraving_choose_inch, parent, false);
             BindingHolder holder = new BindingHolder(itemView);
             return holder;
         }
@@ -148,18 +133,17 @@ public class PhoneShellSelectBrandActivity extends ToolbarActivity<ActivityPhone
 
         public class BindingHolder extends RecyclerView.ViewHolder {
 
-            public ItemPhoneSheelSelectBrandBinding viewDataBinding;
+            public ItemEngravingChooseInchBinding viewDataBinding;
 
             public BindingHolder(View itemView) {
                 super(itemView);
                 viewDataBinding = DataBindingUtil.bind(itemView);
             }
 
-            public void toPhoneShellSelectModelActivityAction(View view) {
+            public void toSelectImageActivityAction(View view) {
                 MDGroundApplication.mChooseMeasurement = mSpecList.get(getAdapterPosition());
 
-                Intent intent = new Intent(PhoneShellSelectBrandActivity.this, PhoneShellSelectModelActivity.class);
-                startActivityForResult(intent, 0);
+                NavUtils.toSelectAlbumActivity(view.getContext());
             }
         }
     }

@@ -195,7 +195,7 @@ public class LoginActivity extends AppCompatActivity {
 
     //region SERVER
     private void loginUserRequest(String phone, String password) {
-        ViewUtils.loading(this);
+        ViewUtils.loading(LoginActivity.this);
 
         GlobalRestful.getInstance()
                 .LoginUser(phone, MD5Util.MD5(password), new Callback<ResponseData>() {
@@ -221,7 +221,7 @@ public class LoginActivity extends AppCompatActivity {
                                               String photoUrl,
                                               String userNickName,
                                               String userName) {
-        ViewUtils.loading(this);
+        ViewUtils.loading(LoginActivity.this);
         GlobalRestful.getInstance().LoginUserByThirdParty(loginType, openID, photoUrl, userNickName, userName, new Callback<ResponseData>() {
             @Override
             public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {

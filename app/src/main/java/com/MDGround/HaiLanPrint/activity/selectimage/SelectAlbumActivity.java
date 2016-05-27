@@ -13,7 +13,7 @@ import com.MDGround.HaiLanPrint.databinding.ActivitySelectAlbumBinding;
 import com.MDGround.HaiLanPrint.enumobject.restfuls.ResponseCode;
 import com.MDGround.HaiLanPrint.models.Album;
 import com.MDGround.HaiLanPrint.models.MDImage;
-import com.MDGround.HaiLanPrint.models.TemplateList;
+import com.MDGround.HaiLanPrint.models.Template;
 import com.MDGround.HaiLanPrint.restfuls.GlobalRestful;
 import com.MDGround.HaiLanPrint.restfuls.bean.ResponseData;
 import com.MDGround.HaiLanPrint.utils.LocalMediaLoader;
@@ -164,10 +164,10 @@ public class SelectAlbumActivity extends ToolbarActivity<ActivitySelectAlbumBind
         GlobalRestful.getInstance().GetPhotoTemplateList(MDGroundApplication.mChooseMeasurement.getTypeDescID(), new Callback<ResponseData>() {
             @Override
             public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
-                ArrayList<TemplateList> templateList = response.body().getContent(new TypeToken<ArrayList<TemplateList>>() {
+                ArrayList<Template> template = response.body().getContent(new TypeToken<ArrayList<Template>>() {
                 });
 
-                getPhotoTemplateAttachListRequest(templateList.get(0).getTemplateID());
+                getPhotoTemplateAttachListRequest(template.get(0).getTemplateID());
             }
 
             @Override

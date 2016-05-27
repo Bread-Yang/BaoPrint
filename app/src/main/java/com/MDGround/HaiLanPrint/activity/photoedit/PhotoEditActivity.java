@@ -101,7 +101,9 @@ public class PhotoEditActivity extends ToolbarActivity<ActivityPhotoEditBinding>
     }
 
     public void saveImageAction(View view) {
-        mDataBinding.ivTest.setImageBitmap(mDataBinding.bgiImage.addTemplate(this, ((GlideBitmapDrawable)mDataBinding.ivTemplate.getDrawable()).getBitmap()));
+        if(SelectImageUtil.mTemplateImage.size() > 0) {
+            mDataBinding.ivTest.setImageBitmap(mDataBinding.bgiImage.addTemplate(this, ((GlideBitmapDrawable)mDataBinding.ivTemplate.getDrawable()).getBitmap()));
+        }
 //        mDataBinding.bgiImage.saveToPictures("海拍", "海拍.jpg", new GPUImageView.OnPictureSavedListener() {
 //            @Override
 //            public void onPictureSaved(Uri uri) {

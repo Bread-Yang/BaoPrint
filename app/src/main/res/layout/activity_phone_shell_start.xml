@@ -35,6 +35,7 @@
                     android:textSize="@dimen/text_size_16"/>
 
                 <TextView
+                    android:id="@+id/tvPhoneModel"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/size_44"
                     android:layout_marginRight="@dimen/margin_8"
@@ -49,13 +50,12 @@
                     tools:text="iPhone6s"/>
 
                 <ImageView
-                    android:id="@+id/ivArrow"
                     style="@style/Arrow"
                     android:layout_gravity="center_vertical"/>
             </LinearLayout>
 
             <View
-                style="@style/DividerHorizontal_Margin"
+                style="@style/DividerHorizontal"
                 android:layout_above="@+id/btnNextStep"/>
 
             <RelativeLayout
@@ -66,7 +66,7 @@
                     android:layout_height="match_parent"
                     android:clickable="true"
                     android:gravity="center_vertical"
-                    android:text="@string/phone_brand"
+                    android:text="@string/phone_material"
                     android:textColor="@color/color_333333"
                     android:textSize="@dimen/text_size_16"/>
 
@@ -82,34 +82,54 @@
 
                     <RadioButton
                         android:id="@+id/rbSilicone"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/selector_rb_bg"
-                        android:button="@null"
+                        style="@style/NormalRaidoButtonStyle"
                         android:checked="true"
-                        android:paddingBottom="@dimen/margin_6"
-                        android:paddingLeft="@dimen/margin_15"
-                        android:paddingRight="@dimen/margin_15"
-                        android:paddingTop="@dimen/margin_6"
-                        android:text="@string/silicone"
-                        android:textColor="@drawable/selector_rb_text_color"/>
+                        android:text="@string/silicone"/>
 
                     <RadioButton
                         android:id="@+id/rbPlastic"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        style="@style/NormalRaidoButtonStyle"
                         android:layout_marginLeft="@dimen/margin_15"
-                        android:background="@drawable/selector_rb_bg"
-                        android:button="@null"
-                        android:paddingBottom="@dimen/margin_6"
-                        android:paddingLeft="@dimen/margin_15"
-                        android:paddingRight="@dimen/margin_15"
-                        android:paddingTop="@dimen/margin_6"
-                        android:text="@string/plastic"
-                        android:textColor="@drawable/selector_rb_text_color"/>
+                        android:text="@string/plastic"/>
                 </RadioGroup>
 
             </RelativeLayout>
+
+            <View
+                style="@style/DividerHorizontal"
+                android:layout_above="@+id/btnNextStep"/>
+
+            <LinearLayout
+                style="@style/NormalLayoutStyle"
+                android:onClick="toSelectBrandActivityAction"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="@dimen/margin_80"
+                    android:layout_height="match_parent"
+                    android:clickable="true"
+                    android:gravity="center_vertical"
+                    android:text="@string/price"
+                    android:textColor="@color/color_333333"
+                    android:textSize="@dimen/text_size_16"/>
+
+                <TextView
+                    android:id="@+id/tvPrice"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/size_44"
+                    android:layout_marginRight="@dimen/margin_8"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    android:drawablePadding="@dimen/margin_8"
+                    android:gravity="center_vertical|right"
+                    android:inputType="phone"
+                    android:onClick="toSelectBrandActivityAction"
+                    android:textColor="@color/color_f88e11"
+                    android:textColorHint="@color/color_999999"
+                    android:textSize="@dimen/text_size_16"
+                    tools:text="23.00元"/>
+
+            </LinearLayout>
 
             <View
                 style="@style/DividerHorizontal"

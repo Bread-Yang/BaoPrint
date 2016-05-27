@@ -6,11 +6,14 @@ import android.view.View;
 import com.MDGround.HaiLanPrint.ProductType;
 import com.MDGround.HaiLanPrint.R;
 import com.MDGround.HaiLanPrint.activity.base.ToolbarActivity;
+import com.MDGround.HaiLanPrint.application.MDGroundApplication;
 import com.MDGround.HaiLanPrint.databinding.ActivityPhoneShellStartBinding;
 import com.MDGround.HaiLanPrint.enumobject.restfuls.ResponseCode;
 import com.MDGround.HaiLanPrint.models.Measurement;
+import com.MDGround.HaiLanPrint.models.Template;
 import com.MDGround.HaiLanPrint.restfuls.GlobalRestful;
 import com.MDGround.HaiLanPrint.restfuls.bean.ResponseData;
+import com.MDGround.HaiLanPrint.utils.NavUtils;
 import com.MDGround.HaiLanPrint.utils.StringUtil;
 import com.MDGround.HaiLanPrint.utils.ViewUtils;
 import com.google.gson.reflect.TypeToken;
@@ -28,8 +31,6 @@ import retrofit2.Response;
  * Created by yoghourt on 5/11/16.
  */
 public class PhoneShellStartActivity extends ToolbarActivity<ActivityPhoneShellStartBinding> {
-
-    private ArrayList<Measurement> mSpecList = new ArrayList<Measurement>();
 
     @Override
     protected int getContentLayout() {
@@ -51,10 +52,25 @@ public class PhoneShellStartActivity extends ToolbarActivity<ActivityPhoneShellS
     protected void setListener() {
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            if (MDGroundApplication.mChooseTemplate != null) {
+                mDataBinding.tvPhoneModel.setText(MDGroundApplication.mChooseTemplate.getTemplateName());
+                mDataBinding.tvPrice.setText(StringUtil.toYuanWithUnit(MDGroundApplication.mChooseTemplate.getPrice()));
+            }
+        }
+    }
+
     //region ACTION
     public void toSelectBrandActivityAction(View view) {
         Intent intent = new Intent(this, PhoneShellSelectBrandActivity.class);
-        startActivity(intent);
+        startActivityForResult(intent, 0);
+    }
+
+    public void nextStepAction(View view) {
+        NavUtils.toSelectAlbumActivity(this);
     }
     //endregion
 
@@ -71,8 +87,12 @@ public class PhoneShellStartActivity extends ToolbarActivity<ActivityPhoneShellS
 
                         String PhotoTypeDescList = jsonObject.getString("PhotoTypeDescList");
 
-                        mSpecList = StringUtil.getInstanceByJsonString(PhotoTypeDescList, new TypeToken<ArrayList<Measurement>>() {
+                        ArrayList<Measurement> specList = StringUtil.getInstanceByJsonString(PhotoTypeDescList, new TypeToken<ArrayList<Measurement>>() {
                         });
+
+                        if (specList.size() > 0) {
+                            getPhotoTemplateListRequest(specList.get(0));
+                        }
 
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -85,6 +105,33 @@ public class PhoneShellStartActivity extends ToolbarActivity<ActivityPhoneShellS
                 ViewUtils.dismiss();
             }
         });
+    }
+
+    private void getPhotoTemplateListRequest(Measurement measurement) {
+        ViewUtils.loading(this);
+        GlobalRestful.getInstance().GetPhotoTemplateList(measurement.getTypeDescID(),
+                new Callback<ResponseData>() {
+                    @Override
+                    public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
+                        ViewUtils.dismiss();
+                        if (ResponseCode.isSuccess(response.body())) {
+                            ArrayList<Template> templateList = response.body().getContent(new TypeToken<ArrayList<Template>>() {
+                            });
+
+                            if (templateList.size() > 0) {
+                                Template template = templateList.get(0);
+
+                                mDataBinding.tvPhoneModel.setText(template.getTemplateName());
+                                mDataBinding.tvPrice.setText(StringUtil.toYuanWithUnit(template.getPrice()));
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<ResponseData> call, Throwable t) {
+                        ViewUtils.dismiss();
+                    }
+                });
     }
     //endregion
 

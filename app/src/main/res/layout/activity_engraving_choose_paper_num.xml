@@ -19,7 +19,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/margin_12"
             android:layout_marginTop="@dimen/margin_8"
-            android:text="@string/choose_paper"/>
+            android:text="@string/choose_material"/>
 
         <RadioGroup
             android:id="@+id/rgPaper"
@@ -31,16 +31,16 @@
             android:orientation="horizontal">
 
             <RadioButton
-                android:id="@+id/rbGlossyPaper"
+                android:id="@+id/rbCrystal"
                 style="@style/NormalRaidoButtonStyle"
                 android:checked="true"
-                android:text="@string/glossy_paper"/>
+                android:text="@string/crystal"/>
 
             <RadioButton
-                android:id="@+id/rbMattePaper"
+                android:id="@+id/rbYogon"
                 style="@style/NormalRaidoButtonStyle"
                 android:layout_marginLeft="@dimen/margin_15"
-                android:text="@string/matte_paper"/>
+                android:text="@string/yogon"/>
         </RadioGroup>
 
         <TextView
@@ -50,7 +50,7 @@
             android:layout_marginLeft="@dimen/margin_12"
             android:layout_marginRight="@dimen/margin_12"
             android:layout_marginTop="@dimen/margin_8"
-            android:text="@string/glossy_paper_quality"
+            android:text="@string/crystal_paper_quality"
             android:textColor="@color/color_f88e11"/>
 
         <View
@@ -65,7 +65,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/margin_12"
             android:layout_marginTop="@dimen/margin_12"
-            android:text="@string/choose_print_num"/>
+            android:text="@string/choose_make_num"/>
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recyclerView"

@@ -115,6 +115,10 @@
             android:label="@string/select_phone_brand"
             android:screenOrientation="portrait"/>
         <activity
+            android:name=".activity.phoneshell.PhoneShellSelectModelActivity"
+            android:label="@string/select_phone_model"
+            android:screenOrientation="portrait"/>
+        <activity
             android:name=".activity.puzzle.PuzzleStartActivity"
             android:label="@string/puzzle"
             android:screenOrientation="portrait"/>
@@ -125,6 +129,18 @@
         <activity
             android:name=".activity.lomocard.LomoCardChooseNumActivity"
             android:label="@string/lomo_card"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activity.engraving.EngravingChooseInchActivity"
+            android:label="@string/engraving"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activity.engraving.EngravingMeasurementDescription"
+            android:label="@string/measurement_description"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activity.engraving.EngravingChoosePaperNumActivity"
+            android:label="@string/choose_material_num"
             android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.photoedit.PhotoEditActivity"

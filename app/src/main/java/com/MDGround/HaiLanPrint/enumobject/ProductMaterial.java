@@ -9,7 +9,9 @@ import java.util.Map;
 public enum ProductMaterial {
 
     PrintPhoto_Glossy("光面"),
-    PrintPhoto_Matte("绒面");
+    PrintPhoto_Matte("绒面"),
+    Engraving_Crystal("水晶面"),
+    Engraving_Yogon("亚光面");
 
     private String text;
 

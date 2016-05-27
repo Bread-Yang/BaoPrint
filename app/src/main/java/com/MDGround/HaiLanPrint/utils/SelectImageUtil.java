@@ -81,6 +81,10 @@ public class SelectImageUtil {
                 return Constants.LOMO_CARD_MAX_SELECT_IMAGE_NUM;
             case Postcard:
                 return Constants.POSTCARD_MAX_SELECT_IMAGE_NUM;
+            case PhoneShell:
+                return Constants.PHONE_SHELL_MAX_SELECT_IMAGE_NUM;
+            case Engraving:
+                return Constants.ENGRAVING_MAX_SELECT_IMAGE_NUM;
         }
         return 0;
     }

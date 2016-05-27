@@ -15,6 +15,7 @@ import com.MDGround.HaiLanPrint.BR;
 import com.MDGround.HaiLanPrint.ProductType;
 import com.MDGround.HaiLanPrint.R;
 import com.MDGround.HaiLanPrint.activity.cloudphotos.CloudOverviewActivity;
+import com.MDGround.HaiLanPrint.activity.engraving.EngravingChooseInchActivity;
 import com.MDGround.HaiLanPrint.activity.login.LoginActivity;
 import com.MDGround.HaiLanPrint.activity.lomocard.LomoCardChooseNumActivity;
 import com.MDGround.HaiLanPrint.activity.magiccup.MagicCupChooseColorActivity;
@@ -134,6 +135,9 @@ public class MainActivity extends AppCompatActivity {
 
         public void toEngravingActivityAction(View view) {
             MDGroundApplication.mSelectProductType = ProductType.Engraving;
+
+            Intent intent = new Intent(MainActivity.this, EngravingChooseInchActivity.class);
+            startActivity(intent);
         }
     }
     //endregion

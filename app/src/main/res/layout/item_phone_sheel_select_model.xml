@@ -10,11 +10,11 @@
 
         <variable
             name="handlers"
-            type="com.MDGround.HaiLanPrint.activity.phoneshell.PhoneShellSelectBrandActivity.PhoneShellSelectBrandAdapter.BindingHolder"/>
+            type="com.MDGround.HaiLanPrint.activity.phoneshell.PhoneShellSelectModelActivity.PhoneShellSelectModelAdapter.BindingHolder"/>
 
         <variable
-            name="measurement"
-            type="com.MDGround.HaiLanPrint.models.Measurement"/>
+            name="template"
+            type="com.MDGround.HaiLanPrint.models.Template"/>
     </data>
 
     <RelativeLayout
@@ -28,12 +28,13 @@
             android:layout_above="@+id/tvImageCount"
             android:layout_alignLeft="@+id/tvImageCount"
             android:layout_centerVertical="true"
-            android:text="@{measurement.title}"
+            android:text="@{template.templateName}"
             android:textColor="@color/color_black"
             android:textSize="@dimen/text_size_16"
             tools:text="个人相册"/>
 
         <ImageView
+            android:visibility="gone"
             android:id="@+id/ivArrow"
             style="@style/Arrow"/>
     </RelativeLayout>

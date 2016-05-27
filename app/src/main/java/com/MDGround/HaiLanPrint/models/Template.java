@@ -6,7 +6,7 @@ import java.util.Date;
  * Created by yoghourt on 5/25/16.
  */
 
-public class TemplateList {
+public class Template {
 
     private String MaterialDesc;
 

@@ -10,6 +10,7 @@ import com.MDGround.HaiLanPrint.greendao.DaoMaster;
 import com.MDGround.HaiLanPrint.greendao.DaoSession;
 import com.MDGround.HaiLanPrint.greendao.DatabaseOpenHelper;
 import com.MDGround.HaiLanPrint.models.Measurement;
+import com.MDGround.HaiLanPrint.models.Template;
 import com.MDGround.HaiLanPrint.models.User;
 
 import cn.sharesdk.framework.ShareSDK;
@@ -29,6 +30,8 @@ public class MDGroundApplication extends Application{
     public static ProductType mSelectProductType;
 
     public static Measurement mChooseMeasurement;
+
+    public static Template mChooseTemplate;
 
     @Override
     public void onCreate() {

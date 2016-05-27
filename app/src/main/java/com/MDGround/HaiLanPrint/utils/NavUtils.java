@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 
 import com.MDGround.HaiLanPrint.activity.cloudphotos.CloudDetailActivity;
+import com.MDGround.HaiLanPrint.activity.engraving.EngravingChoosePaperNumActivity;
 import com.MDGround.HaiLanPrint.activity.photoedit.PhotoEditActivity;
 import com.MDGround.HaiLanPrint.activity.photoprint.PrintPhotoChoosePaperNumActivity;
 import com.MDGround.HaiLanPrint.activity.selectimage.SelectAlbumActivity;
@@ -41,8 +42,12 @@ public class NavUtils {
         }
         Intent intent = new Intent();
         switch (MDGroundApplication.mSelectProductType) {
+            // pager 1
             case PrintPhoto:
                 intent.setClass(context, PrintPhotoChoosePaperNumActivity.class);
+                break;
+            case PhoneShell:
+                intent.setClass(context, PhotoEditActivity.class);
                 break;
             case MagicCup:
                 intent.setClass(context, PhotoEditActivity.class);
@@ -55,6 +60,9 @@ public class NavUtils {
                 break;
             case Postcard:
                 intent.setClass(context, PhotoEditActivity.class);
+                break;
+            case Engraving:
+                intent.setClass(context, EngravingChoosePaperNumActivity.class);
                 break;
         }
         context.startActivity(intent);

@@ -15,6 +15,18 @@
         <item name="android:windowTranslucentStatus">true</item>
     </style>
 
+    <style name="NormalRaidoButtonStyle">
+        <item name="android:paddingTop">@dimen/margin_6</item>
+        <item name="android:paddingLeft">@dimen/margin_15</item>
+        <item name="android:paddingRight">@dimen/margin_15</item>
+        <item name="android:paddingBottom">@dimen/margin_6</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@drawable/selector_rb_text_color</item>
+        <item name="android:background">@drawable/selector_rb_bg</item>
+        <item name="android:button">@null</item>
+    </style>
+
     <style name="NormalLayoutStyle">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">@dimen/size_44</item>

@@ -10,7 +10,7 @@
 
         <variable
             name="handlers"
-            type="com.MDGround.HaiLanPrint.activity.magiccup.MagicCupChooseColorActivity.BindingHandlers"/>
+            type="com.MDGround.HaiLanPrint.activity.engraving.EngravingChooseInchActivity.EngravingChooseInchAdapter.BindingHolder"/>
 
         <variable
             name="measurement"
@@ -30,7 +30,7 @@
             android:layout_alignLeft="@+id/tvImageCount"
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/margin_12"
-            android:text="@{measurement.title}"
+            android:text='@{measurement.title + "(" + measurement.TitleSub + ")"}'
             android:textColor="@color/color_black"
             tools:text="红色"/>
 

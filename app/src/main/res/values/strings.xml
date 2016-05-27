@@ -120,8 +120,10 @@
     <string name="phone_brand">手机品牌</string>
     <string name="select_phone_brand">选择手机品牌</string>
     <string name="select_phone_model">选择手机型号</string>
+    <string name="phone_material">手机材质壳</string>
     <string name="silicone">硅胶</string>
     <string name="plastic">塑料</string>
+    <string name="price">价格</string>
 
     <!-- 扑克 -->
     <string name="poker">扑克</string>
@@ -138,6 +140,13 @@
 
     <!-- 版画 -->
     <string name="engraving">版画</string>
+    <string name="crystal">水晶面</string>
+    <string name="yogon">亚光面</string>
+    <string name="choose_material_num">选择材质数量</string>
+    <string name="choose_material">选择材质</string>
+    <string name="choose_make_num">选择制作数量</string>
+    <string name="crystal_paper_quality">* 特色 : 光亮、华丽、大气。照片清晰光滑,与空气彻底隔离,防水防潮可擦洗,不易褪色。</string>
+    <string name="yogon_paper_quality">* 特色 : 表面纹理独特,呈现柔化效果、极具艺术感,光滑面不刺眼且具有立体感,照片与空气彻底隔离,不易褪色,防水防潮防晒,可擦洗,刮划不易留痕迹。</string>
 
     <!-- 编辑图片 -->
     <string name="percent">%d</string>
