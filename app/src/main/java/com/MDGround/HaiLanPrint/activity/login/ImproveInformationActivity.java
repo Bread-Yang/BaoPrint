@@ -13,7 +13,9 @@ import com.MDGround.HaiLanPrint.enumobject.restfuls.ResponseCode;
 import com.MDGround.HaiLanPrint.models.User;
 import com.MDGround.HaiLanPrint.restfuls.GlobalRestful;
 import com.MDGround.HaiLanPrint.restfuls.bean.ResponseData;
+import com.MDGround.HaiLanPrint.utils.DateUtils;
 import com.MDGround.HaiLanPrint.utils.StringUtil;
+import com.MDGround.HaiLanPrint.utils.ViewUtils;
 import com.MDGround.HaiLanPrint.views.BirthdayDatePickerDialog;
 
 import org.joda.time.DateTime;
@@ -77,9 +79,10 @@ public class ImproveInformationActivity extends ToolbarActivity<ActivityImproveI
                     @Override
                     public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
                         if (response.body().getCode() == ResponseCode.Normal.getValue()) {
+                            ViewUtils.toast(R.string.sign_up_success);
                             finish();
                         } else {
-                            Toast.makeText(ImproveInformationActivity.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                            ViewUtils.toast(response.body().getMessage());
                             finish();
                         }
                     }
@@ -94,7 +97,7 @@ public class ImproveInformationActivity extends ToolbarActivity<ActivityImproveI
 
     @Override
     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-        mUser.setChildDOB(new DateTime(year, monthOfYear + 1, dayOfMonth, 0, 0, 0).toDate());
+        mUser.setChildDOB(DateUtils.getServerDateStringByDate(new DateTime(year, monthOfYear + 1, dayOfMonth, 0, 0, 0).toDate()));
         mDataBinding.tvChildBirthday.setText(year + "-" + (monthOfYear + 1) + "-" + dayOfMonth);
     }
 }

@@ -37,7 +37,9 @@ public class UploadImageActivity extends ToolbarActivity<ActivityUploadImageBind
 
     private ChooseImageListAdapter mImageAdapter;
 
-    private NotifyDialog notifyDialog;
+    private NotifyDialog mNotifyDialog;
+
+    private boolean isManualChangeState;
 
     @Override
     protected int getContentLayout() {
@@ -67,9 +69,49 @@ public class UploadImageActivity extends ToolbarActivity<ActivityUploadImageBind
         mDataBinding.cbSelectAll.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                mImageAdapter.selectAllImage(isChecked);
+                if (!isManualChangeState) {
+                    mImageAdapter.selectAllImage(isChecked);
+                }
             }
         });
+
+        mImageAdapter.setOnImageSelectChangedListener(new ChooseImageListAdapter.OnImageSelectChangedListener() {
+
+            @Override
+            public void onSelectImage(MDImage selectImage, int selectNum) {
+                changeTextNum(selectNum);
+            }
+
+            @Override
+            public void onUnSelectImage(MDImage unselectImage, int selectNum) {
+                changeTextNum(selectNum);
+            }
+
+            @Override
+            public void onTakePhoto() {
+
+            }
+
+            @Override
+            public void onPictureClick(MDImage media, int position) {
+
+            }
+
+            @Override
+            public void onIsSelectAllImage(boolean isSelectAll) {
+                isManualChangeState = true;
+                mDataBinding.cbSelectAll.setChecked(isSelectAll);
+                isManualChangeState = false;
+            }
+        });
+    }
+
+    private void changeTextNum(int selectNum) {
+        if (selectNum != 0) {
+            mDataBinding.btnUpload.setText(getString(R.string.delete_num, selectNum));
+        } else {
+            mDataBinding.btnUpload.setText(getString(R.string.delete));
+        }
     }
 
     //region ACTION
@@ -94,17 +136,17 @@ public class UploadImageActivity extends ToolbarActivity<ActivityUploadImageBind
     //endregion
 
     private void showUseCelluarNetworkTips() {
-        if (notifyDialog == null) {
-            notifyDialog = new NotifyDialog(this);
-            notifyDialog.setOnSureClickListener(new NotifyDialog.OnSureClickListener() {
+        if (mNotifyDialog == null) {
+            mNotifyDialog = new NotifyDialog(this);
+            mNotifyDialog.setOnSureClickListener(new NotifyDialog.OnSureClickListener() {
                 @Override
                 public void onSureClick() {
-                    notifyDialog.dismiss();
+                    mNotifyDialog.dismiss();
                     uploadImage();
                 }
             });
         }
-        notifyDialog.show();
+        mNotifyDialog.show();
     }
 
     private void uploadImage() {

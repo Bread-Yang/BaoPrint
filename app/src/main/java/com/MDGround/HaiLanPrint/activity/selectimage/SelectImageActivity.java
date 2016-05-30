@@ -110,15 +110,16 @@ public class SelectImageActivity extends ToolbarActivity<ActivitySelectImageBind
     @Override
     protected void setListener() {
         mImageAdapter.setOnImageSelectChangedListener(new ChooseImageListAdapter.OnImageSelectChangedListener() {
+
             @Override
-            public void onSelectImage(MDImage selectImage) {
+            public void onSelectImage(MDImage selectImage, int selectNum) {
                 SelectImageUtil.addImage(selectImage);
                 changeTips();
                 mSelectedImageAdapter.notifyDataSetChanged();
             }
 
             @Override
-            public void onUnSelectImage(MDImage unselectImage) {
+            public void onUnSelectImage(MDImage unselectImage, int selectNum) {
                 SelectImageUtil.removeImage(unselectImage);
                 changeTips();
                 mSelectedImageAdapter.notifyDataSetChanged();
@@ -132,6 +133,10 @@ public class SelectImageActivity extends ToolbarActivity<ActivitySelectImageBind
             @Override
             public void onPictureClick(MDImage media, int position) {
 
+            }
+
+            @Override
+            public void onIsSelectAllImage(boolean isSelectAll) {
             }
         });
 

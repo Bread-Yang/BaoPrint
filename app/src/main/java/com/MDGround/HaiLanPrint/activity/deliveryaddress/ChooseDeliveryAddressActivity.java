@@ -67,8 +67,10 @@ public class ChooseDeliveryAddressActivity extends ToolbarActivity<ActivityChoos
 
     //region ACTION
     public void toAddDeliveryAddressActivityAction(View view) {
-        Intent intent = new Intent(this, EditDeliveryAddressActivity.class);
-        startActivity(intent);
+        if (Constants.MAX_DELIVERY_ADDRESS - mAddressArrayList.size() > 0) {
+            Intent intent = new Intent(this, EditDeliveryAddressActivity.class);
+            startActivity(intent);
+        }
     }
     //endregion
 

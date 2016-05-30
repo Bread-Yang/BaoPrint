@@ -155,7 +155,7 @@
 
                     <CheckBox
                         android:id="@+id/cbUseCredit"
-                        style="@style/NormalTextStyle"
+                        style="@style/NormalClickableTextStyle"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_centerVertical="true"
@@ -240,7 +240,7 @@
 
             <TextView
                 android:id="@+id/tvAmount"
-                style="@style/NormalTextStyle"
+                style="@style/NormalClickableTextStyle"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_centerVertical="true"

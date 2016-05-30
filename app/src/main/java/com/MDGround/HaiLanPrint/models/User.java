@@ -57,14 +57,15 @@ public class User implements Serializable {
 
     public String ChildName;
 
-    public Date ChildDOB;
+    public String ChildDOB;
 
     public String ChildSchool;
 
     public String ChildClass;
 
     public User() {
-
+        InvitationCode = "";
+        ChildDOB = "";
     }
 
     protected User(Parcel in) {
@@ -287,11 +288,11 @@ public class User implements Serializable {
         ChildName = childName;
     }
 
-    public Date getChildDOB() {
+    public String getChildDOB() {
         return ChildDOB;
     }
 
-    public void setChildDOB(Date childDOB) {
+    public void setChildDOB(String childDOB) {
         ChildDOB = childDOB;
     }
 

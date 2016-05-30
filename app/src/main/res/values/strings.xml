@@ -7,6 +7,7 @@
     <string name="cancel">取消</string>
     <string name="edit">编辑</string>
     <string name="delete">删除</string>
+    <string name="delete_num">删除(%d)</string>
     <string name="loading">加载中</string>
     <string name="go_on">继续</string>
     <string name="tips">温馨提示</string>
@@ -43,7 +44,8 @@
     <string name="acquire_again">重新获取</string>
     <string name="after_second_acquire_again">%d秒后重新获取</string>
     <string name="sign_up_protocol">注册协议</string>
-    <string name="hailan_sign_up_protocol">海岚直印注册协议</string>
+    <string name="hailan_sign_up_protocol">海拍海印注册协议</string>
+    <string name="sign_up_success">h</string>
 
     <!-- 注册协议 -->
     <string name="protocol_tips">请务必认真阅读和理解本&lt;&lt;用户服务协议&gt;&gt; (以下简称&lt;&lt;协议&gt;&gt;)中规定的所有权利和限制。除非您接受本&lt;&lt;协议&gt;&gt;条款,否则您无权注册、登录或使用本协议所涉及的相关服务。您一旦注册、登录、使用或以任何方式使用本&lt;&lt;协议&gt;&gt;所涉及的相关服务的行为将视为对本&lt;&lt;协议&gt;&gt;的接受,即表示您同意并接受本&lt;&lt;协议&gt;&gt;各项条款的约束。</string>

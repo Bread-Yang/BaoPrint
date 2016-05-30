@@ -42,9 +42,17 @@ public class CloudDetailActivity extends ToolbarActivity<ActivityCloudDetailBind
 
     private int mPageIndex;
 
+    private boolean isManualChangeState;
+
     @Override
     protected int getContentLayout() {
         return R.layout.activity_cloud_detail;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        loadImageRequest();
     }
 
     @Override
@@ -67,7 +75,6 @@ public class CloudDetailActivity extends ToolbarActivity<ActivityCloudDetailBind
         mImageAdapter = new ChooseImageListAdapter(this, Integer.MAX_VALUE, false);
         mDataBinding.recyclerView.setAdapter(mImageAdapter);
 
-        loadImageRequest();
     }
 
     @Override
@@ -114,7 +121,9 @@ public class CloudDetailActivity extends ToolbarActivity<ActivityCloudDetailBind
         mDataBinding.cbSelectAll.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                mImageAdapter.selectAllImage(isChecked);
+                if (!isManualChangeState) {
+                    mImageAdapter.selectAllImage(isChecked);
+                }
             }
         });
 
@@ -140,6 +149,43 @@ public class CloudDetailActivity extends ToolbarActivity<ActivityCloudDetailBind
                 loadImageRequest();
             }
         }, Constants.ITEM_LEFT_TO_LOAD_MORE);
+
+        mImageAdapter.setOnImageSelectChangedListener(new ChooseImageListAdapter.OnImageSelectChangedListener() {
+            @Override
+            public void onSelectImage(MDImage selectImage, int selectNum) {
+                changeTextNum(selectNum);
+            }
+
+            @Override
+            public void onUnSelectImage(MDImage unselectImage, int selectNum) {
+                changeTextNum(selectNum);
+            }
+
+            @Override
+            public void onTakePhoto() {
+
+            }
+
+            @Override
+            public void onPictureClick(MDImage media, int position) {
+
+            }
+
+            @Override
+            public void onIsSelectAllImage(boolean isSelectAll) {
+                isManualChangeState = true;
+                mDataBinding.cbSelectAll.setChecked(isSelectAll);
+                isManualChangeState = false;
+            }
+        });
+    }
+
+    private void changeTextNum(int selectNum) {
+        if (selectNum != 0) {
+            mDataBinding.btnOperation.setText(getString(R.string.delete_num, selectNum));
+        } else {
+            mDataBinding.btnOperation.setText(getString(R.string.delete));
+        }
     }
 
     //region SERVER

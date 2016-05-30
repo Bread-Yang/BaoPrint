@@ -23,7 +23,7 @@
             android:background="?attr/selectableItemBackground"
             android:gravity="center"
             android:onClick="nextStepAction"
-            android:text="@string/next_step"
+            android:text="@string/start_make"
             android:textColor="@color/color_f88e11"
             android:textSize="@dimen/text_size_20"/>
 

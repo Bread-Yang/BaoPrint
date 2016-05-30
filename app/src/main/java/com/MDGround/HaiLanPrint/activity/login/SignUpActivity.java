@@ -56,7 +56,7 @@ public class SignUpActivity extends ToolbarActivity<ActivitySignUpBinding> {
             if (result == SMSSDK.RESULT_COMPLETE) {
                 if (event == SMSSDK.EVENT_SUBMIT_VERIFICATION_CODE) {
                     // 提交验证码成功
-                    registerRequest();
+                    toImproveInformationActivity();
                 } else if (event == SMSSDK.EVENT_GET_VERIFICATION_CODE) {
                     // 获取验证码成功,开始倒计时
                     KLog.e("获取验证码成功,开始倒计时");
@@ -74,7 +74,7 @@ public class SignUpActivity extends ToolbarActivity<ActivitySignUpBinding> {
         }
     };
 
-    private void registerRequest() {
+    private void toImproveInformationActivity() {
         String phone = mDataBinding.cetAccount.getText().toString();
         String password = mDataBinding.cetPassword.getText().toString();
 

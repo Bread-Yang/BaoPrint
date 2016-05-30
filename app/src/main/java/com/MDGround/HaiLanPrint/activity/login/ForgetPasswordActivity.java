@@ -1,6 +1,7 @@
 package com.MDGround.HaiLanPrint.activity.login;
 
 import android.os.CountDownTimer;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.Toast;
@@ -16,6 +17,8 @@ import com.MDGround.HaiLanPrint.utils.MD5Util;
 import com.MDGround.HaiLanPrint.utils.StringUtil;
 import com.MDGround.HaiLanPrint.utils.ViewUtils;
 import com.socks.library.KLog;
+
+import org.json.JSONObject;
 
 import cn.smssdk.EventHandler;
 import cn.smssdk.OnSendMessageHandler;
@@ -64,12 +67,25 @@ public class ForgetPasswordActivity extends ToolbarActivity<ActivityForgetPasswo
                     // 返回支持发送验证码的国家列表
                 }
             } else {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        ViewUtils.toast("验证码出错");
+//                runOnUiThread(new Runnable() {
+//                    @Override
+//                    public void run() {
+////                        ViewUtils.toast("验证码出错");
+//                    }
+//                });
+                try {
+                    Throwable throwable = (Throwable) data;
+                    throwable.printStackTrace();
+                    JSONObject object = new JSONObject(throwable.getMessage());
+                    String des = object.optString("detail");//错误描述
+                    int status = object.optInt("status");//错误代码
+                    if (status > 0 && !TextUtils.isEmpty(des)) {
+                        Toast.makeText(ForgetPasswordActivity.this, des, Toast.LENGTH_SHORT).show();
+                        return;
                     }
-                });
+                } catch (Exception e) {
+                    //do something
+                }
             }
         }
     };

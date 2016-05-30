@@ -60,9 +60,18 @@ public class ChooseImageListAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             for (MDImage localMedia : mImages) {
                 mSelectImages.add(localMedia);
             }
+
+            if (imageSelectChangedListener != null) {
+                imageSelectChangedListener.onSelectImage(null, mSelectImages.size());
+            }
         } else {
             mSelectImages.clear();
+
+            if (imageSelectChangedListener != null) {
+                imageSelectChangedListener.onUnSelectImage(null, 0);
+            }
         }
+
         notifyDataSetChanged();
     }
 
@@ -160,7 +169,11 @@ public class ChooseImageListAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                 if (SelectImageUtil.isSameImage(media, image)) {
                     mSelectImages.remove(media);
                     if (imageSelectChangedListener != null) {
-                        imageSelectChangedListener.onUnSelectImage(image);
+                        imageSelectChangedListener.onUnSelectImage(image, mSelectImages.size());
+                        if (mSelectImages.size() == mImages.size() - 1) {
+                            imageSelectChangedListener.onIsSelectAllImage(false);
+                        }
+
                     }
                     break;
                 }
@@ -168,7 +181,10 @@ public class ChooseImageListAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         } else {
             mSelectImages.add(image);
             if (imageSelectChangedListener != null) {
-                imageSelectChangedListener.onSelectImage(image);
+                imageSelectChangedListener.onSelectImage(image, mSelectImages.size());
+                if (mSelectImages.size() == mImages.size()) {
+                    imageSelectChangedListener.onIsSelectAllImage(true);
+                }
             }
         }
         selectImage(contentHolder, !isChecked);
@@ -226,13 +242,15 @@ public class ChooseImageListAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
     public interface OnImageSelectChangedListener {
 
-        void onSelectImage(MDImage selectImage);
+        void onSelectImage(MDImage selectImage, int selectNum);
 
-        void onUnSelectImage(MDImage unselectImage);
+        void onUnSelectImage(MDImage unselectImage, int selectNum);
 
         void onTakePhoto();
 
         void onPictureClick(MDImage media, int position);
+
+        void onIsSelectAllImage(boolean isSelectAll);
     }
 
     public void setOnImageSelectChangedListener(OnImageSelectChangedListener imageSelectChangedListener) {

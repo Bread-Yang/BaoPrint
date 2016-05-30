@@ -12,18 +12,20 @@
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_above="@+id/rlt_upload"
             android:scrollbars="none"/>
 
         <RelativeLayout
+            android:id="@+id/rlt_upload"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/size_44"
+            android:layout_height="@dimen/size_60"
             android:layout_alignParentBottom="true"
             android:background="@color/color_white"
             android:gravity="center_vertical">
 
             <CheckBox
                 android:id="@+id/cbSelectAll"
-                style="@style/NormalTextStyle"
+                style="@style/NormalClickableTextStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_centerVertical="true"

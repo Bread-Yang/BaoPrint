@@ -137,7 +137,7 @@
             android:paddingLeft="@dimen/margin_12">
 
             <TextView
-                style="@style/NormalTextStyle"
+                style="@style/NormalClickableTextStyle"
                 android:layout_alignParentRight="true"
                 android:text="@string/agree_protocol_tips"
                 android:textColor="@color/color_666666"
@@ -180,7 +180,7 @@
             android:orientation="horizontal">
 
             <TextView
-                style="@style/NormalTextStyle"
+                style="@style/NormalClickableTextStyle"
                 android:layout_alignParentRight="true"
                 android:text="@string/has_account"
                 android:textSize="12dp"/>

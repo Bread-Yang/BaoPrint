@@ -113,7 +113,21 @@ public class GlobalRestful extends BaseRestful {
 
     // 用户注册
     public void RegisterUser(User user, Callback<ResponseData> callback) {
-        asynchronousPost("RegisterUser", convertObjectToString(user), callback);
+        JSONObject obj = new JSONObject();
+        try {
+            obj.put("Phone", user.getPhone());
+            obj.put("Pwd", user.getPassword());
+            obj.put("UserName", user.getUserName());
+            obj.put("ChildDOB", user.getChildDOB());
+            obj.put("ChildName", user.getChildName());
+            obj.put("ChildSchool", user.getChildSchool());
+            obj.put("ChildClass", user.getChildClass());
+            obj.put("InvitationCode", user.getInvitationCode());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        asynchronousPost("RegisterUser", obj.toString(), callback);
     }
 
     // 找回密码
