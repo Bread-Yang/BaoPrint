@@ -73,14 +73,16 @@ public class SelectImageUtil {
         switch (productType) {
             case PrintPhoto:
                 return Constants.PRINT_PHOTO_MAX_SELECT_IMAGE_NUM;
+            case Postcard:
+                return Constants.POSTCARD_MAX_SELECT_IMAGE_NUM;
+            case PictureFrame:
+                return Constants.PICTURE_FRAME_MAX_SELECT_IMAGE_NUM;
             case MagicCup:
                 return Constants.MAGIC_CUP_MAX_SELECT_IMAGE_NUM;
             case Puzzle:
                 return Constants.PUZZLEL_MAX_SELECT_IMAGE_NUM;
             case LOMOCard:
                 return Constants.LOMO_CARD_MAX_SELECT_IMAGE_NUM;
-            case Postcard:
-                return Constants.POSTCARD_MAX_SELECT_IMAGE_NUM;
             case PhoneShell:
                 return Constants.PHONE_SHELL_MAX_SELECT_IMAGE_NUM;
             case Engraving:

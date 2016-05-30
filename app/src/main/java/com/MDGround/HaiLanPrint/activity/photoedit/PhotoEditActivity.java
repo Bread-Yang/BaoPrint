@@ -73,7 +73,7 @@ public class PhotoEditActivity extends ToolbarActivity<ActivityPhotoEditBinding>
     }
 
     private void showImageToGPUImageView(int position, MDImage mdImage) {
-        if (MDGroundApplication.mSelectProductType == ProductType.Postcard) {
+        if (MDGroundApplication.mChoosedProductType == ProductType.Postcard) {
             if (position < SelectImageUtil.mTemplateImage.size()) {
                 MDImage templateImage = SelectImageUtil.mTemplateImage.get(position);
 

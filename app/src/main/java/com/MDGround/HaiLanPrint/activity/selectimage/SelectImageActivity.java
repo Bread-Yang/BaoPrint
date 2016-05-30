@@ -60,9 +60,9 @@ public class SelectImageActivity extends ToolbarActivity<ActivitySelectImageBind
     @Override
     protected void initData() {
 
-        changeTips();
+        mMaxSelectImageNum = SelectImageUtil.getMaxSelectImageNum(MDGroundApplication.mChoosedProductType);
 
-        mMaxSelectImageNum = SelectImageUtil.getMaxSelectImageNum(MDGroundApplication.mSelectProductType);
+        changeTips();
 
         mAlbum = getIntent().getParcelableExtra(Constants.KEY_ALBUM);
 

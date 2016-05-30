@@ -56,9 +56,9 @@ public class PhoneShellStartActivity extends ToolbarActivity<ActivityPhoneShellS
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
-            if (MDGroundApplication.mChooseTemplate != null) {
-                mDataBinding.tvPhoneModel.setText(MDGroundApplication.mChooseTemplate.getTemplateName());
-                mDataBinding.tvPrice.setText(StringUtil.toYuanWithUnit(MDGroundApplication.mChooseTemplate.getPrice()));
+            if (MDGroundApplication.mChoosedTemplate != null) {
+                mDataBinding.tvPhoneModel.setText(MDGroundApplication.mChoosedTemplate.getTemplateName());
+                mDataBinding.tvPrice.setText(StringUtil.toYuanWithUnit(MDGroundApplication.mChoosedTemplate.getPrice()));
             }
         }
     }

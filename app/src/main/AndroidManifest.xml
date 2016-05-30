@@ -107,6 +107,10 @@
             android:label="@string/postcard"
             android:screenOrientation="portrait"/>
         <activity
+            android:name=".activity.pictureframe.PictureFrameStartActivity"
+            android:label="@string/picture_frame"
+            android:screenOrientation="portrait"/>
+        <activity
             android:name=".activity.phoneshell.PhoneShellStartActivity"
             android:label="@string/phone_shell"
             android:screenOrientation="portrait"/>
@@ -165,6 +169,16 @@
         <activity
             android:name=".activity.deliveryaddress.EditDeliveryAddressActivity"
             android:label="@string/edit_address"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity
+            android:name=".activity.personalcenter.PersonalCenterActivity"
+            android:label="@string/personal_center"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity
+            android:name=".activity.personalcenter.SettingActivity"
+            android:label="@string/setting"
             android:screenOrientation="portrait">
         </activity>
 

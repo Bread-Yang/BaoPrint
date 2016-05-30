@@ -3,7 +3,7 @@ package com.MDGround.HaiLanPrint.views;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
-import android.widget.RelativeLayout;
+import android.widget.LinearLayout;
 
 import com.MDGround.HaiLanPrint.R;
 
@@ -12,20 +12,20 @@ import com.MDGround.HaiLanPrint.R;
  * A flexible RelativeLayout that  height = mRatio * width,
  * where the height is based off the width.
  */
-public class FlexibleRelativeLayout extends RelativeLayout {
+public class FlexibleLinearLayout extends LinearLayout {
 
     private float mRatio = 1; // 宽高比,默认相等
 
-    public FlexibleRelativeLayout(Context context) {
+    public FlexibleLinearLayout(Context context) {
         super(context);
     }
 
-    public FlexibleRelativeLayout(Context context, AttributeSet attrs) {
+    public FlexibleLinearLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
         initAttributeSet(context, attrs);
     }
 
-    public FlexibleRelativeLayout(Context context, AttributeSet attrs, int defStyleAttr) {
+    public FlexibleLinearLayout(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         initAttributeSet(context, attrs);
     }

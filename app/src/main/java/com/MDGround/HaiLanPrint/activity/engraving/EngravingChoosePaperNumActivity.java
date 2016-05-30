@@ -182,8 +182,8 @@ public class EngravingChoosePaperNumActivity extends ToolbarActivity<ActivityEng
     private void saveOrderWorkRequest(int orderID) {
         OrderWork orderWork = new OrderWork();
         orderWork.setOrderID(orderID);
-        orderWork.setTypeID(MDGroundApplication.mChooseMeasurement.getTypeID()); //作品类型（getPhotoType接口返回的TypeID）
-        orderWork.setTypeName(MDGroundApplication.mChooseMeasurement.getTitle()); //Title（getPhotoType接口返回的Title）
+        orderWork.setTypeID(MDGroundApplication.mChoosedMeasurement.getTypeID()); //作品类型（getPhotoType接口返回的TypeID）
+        orderWork.setTypeName(MDGroundApplication.mChoosedMeasurement.getTitle()); //Title（getPhotoType接口返回的Title）
         orderWork.setPhotoCover(SelectImageUtil.mAlreadySelectImage.get(0).getPhotoSID()); //封面，第一张照片的缩略图ID
         orderWork.setPhotoCount(SelectImageUtil.mAlreadySelectImage.size());
         orderWork.setOrderCount(SelectImageUtil.getOrderCount());

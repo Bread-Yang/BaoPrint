@@ -35,9 +35,10 @@ public final class Constants {
     public static int ITEM_LEFT_TO_LOAD_MORE = 3;
 
     public static int PRINT_PHOTO_MAX_SELECT_IMAGE_NUM = 100; // 冲印相片最多选择100张
+    public static int POSTCARD_MAX_SELECT_IMAGE_NUM = 8; // 明信片
+    public static int PICTURE_FRAME_MAX_SELECT_IMAGE_NUM = 1; // 相框
     public static int MAGIC_CUP_MAX_SELECT_IMAGE_NUM = 1; // 魔术杯最多选择一张
     public static int PUZZLEL_MAX_SELECT_IMAGE_NUM = 1; // 拼图最多选择一张
-    public static int POSTCARD_MAX_SELECT_IMAGE_NUM = 8; // 明信片
     public static int LOMO_CARD_MAX_SELECT_IMAGE_NUM = 16; // lomo卡
     public static int PHONE_SHELL_MAX_SELECT_IMAGE_NUM = 1; // 手机壳
     public static int ENGRAVING_MAX_SELECT_IMAGE_NUM = 100; // 版画

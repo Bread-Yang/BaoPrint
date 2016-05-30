@@ -2,9 +2,11 @@ package com.MDGround.HaiLanPrint.utils;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.v4.content.IntentCompat;
 
 import com.MDGround.HaiLanPrint.activity.cloudphotos.CloudDetailActivity;
 import com.MDGround.HaiLanPrint.activity.engraving.EngravingChoosePaperNumActivity;
+import com.MDGround.HaiLanPrint.activity.login.LoginActivity;
 import com.MDGround.HaiLanPrint.activity.photoedit.PhotoEditActivity;
 import com.MDGround.HaiLanPrint.activity.photoprint.PrintPhotoChoosePaperNumActivity;
 import com.MDGround.HaiLanPrint.activity.selectimage.SelectAlbumActivity;
@@ -41,7 +43,7 @@ public class NavUtils {
             return;
         }
         Intent intent = new Intent();
-        switch (MDGroundApplication.mSelectProductType) {
+        switch (MDGroundApplication.mChoosedProductType) {
             // pager 1
             case PrintPhoto:
                 intent.setClass(context, PrintPhotoChoosePaperNumActivity.class);
@@ -65,6 +67,12 @@ public class NavUtils {
                 intent.setClass(context, EngravingChoosePaperNumActivity.class);
                 break;
         }
+        context.startActivity(intent);
+    }
+
+    public static void toLoginActivity(Context context) {
+        Intent intent = new Intent(context, LoginActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | IntentCompat.FLAG_ACTIVITY_CLEAR_TASK);
         context.startActivity(intent);
     }
 

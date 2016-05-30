@@ -34,6 +34,8 @@ public class MDImage extends BaseObservable implements Parcelable {
 
     private long lastUpdateAt;
 
+    public MDImage() {}
+
     public MDImage(String imageLocalPath, long lastUpdateAt, long duration) {
         this.imageLocalPath = imageLocalPath;
         this.duration = duration;

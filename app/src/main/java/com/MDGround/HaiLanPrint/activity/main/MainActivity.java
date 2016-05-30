@@ -14,11 +14,12 @@ import android.view.ViewGroup;
 import com.MDGround.HaiLanPrint.BR;
 import com.MDGround.HaiLanPrint.ProductType;
 import com.MDGround.HaiLanPrint.R;
+import com.MDGround.HaiLanPrint.activity.pictureframe.PictureFrameStartActivity;
 import com.MDGround.HaiLanPrint.activity.cloudphotos.CloudOverviewActivity;
 import com.MDGround.HaiLanPrint.activity.engraving.EngravingChooseInchActivity;
-import com.MDGround.HaiLanPrint.activity.login.LoginActivity;
 import com.MDGround.HaiLanPrint.activity.lomocard.LomoCardChooseNumActivity;
 import com.MDGround.HaiLanPrint.activity.magiccup.MagicCupChooseColorActivity;
+import com.MDGround.HaiLanPrint.activity.personalcenter.PersonalCenterActivity;
 import com.MDGround.HaiLanPrint.activity.phoneshell.PhoneShellStartActivity;
 import com.MDGround.HaiLanPrint.activity.photoprint.PrintPhotoChooseInchActivity;
 import com.MDGround.HaiLanPrint.activity.postcard.PostcardStartActivity;
@@ -82,59 +83,65 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void toPersonalCenterActivityAction(View view) {
-        Intent intent = new Intent(this, LoginActivity.class);
+        Intent intent = new Intent(this, PersonalCenterActivity.class);
         startActivity(intent);
-        finish();
     }
 
     public class MainBindingEventHandler {
 
         // pager 1
         public void toPhotoPrintChooseInchActivityAction(View view) {
-            MDGroundApplication.mSelectProductType = ProductType.PrintPhoto;
+            MDGroundApplication.mChoosedProductType = ProductType.PrintPhoto;
 
             Intent intent = new Intent(MainActivity.this, PrintPhotoChooseInchActivity.class);
             startActivity(intent);
         }
 
         public void toPostcarActivityAction(View view) {
-            MDGroundApplication.mSelectProductType = ProductType.Postcard;
+            MDGroundApplication.mChoosedProductType = ProductType.Postcard;
 
             Intent intent = new Intent(MainActivity.this, PostcardStartActivity.class);
             startActivity(intent);
         }
 
+        public void toPictureFrameActivityAction(View view) {
+            MDGroundApplication.mChoosedProductType = ProductType.PictureFrame;
+
+            Intent intent = new Intent(MainActivity.this, PictureFrameStartActivity.class);
+            startActivity(intent);
+        }
+
         // pager 2
         public void toPhoneShellActivityAction(View view) {
-            MDGroundApplication.mSelectProductType = ProductType.PhoneShell;
+            MDGroundApplication.mChoosedProductType = ProductType.PhoneShell;
 
             Intent intent = new Intent(MainActivity.this, PhoneShellStartActivity.class);
             startActivity(intent);
         }
 
         public void toPuzzleActivityAction(View view) {
-            MDGroundApplication.mSelectProductType = ProductType.Puzzle;
+            MDGroundApplication.mChoosedProductType = ProductType.Puzzle;
 
             Intent intent = new Intent(MainActivity.this, PuzzleStartActivity.class);
             startActivity(intent);
         }
 
         public void toMagicCupActivityAction(View view) {
-            MDGroundApplication.mSelectProductType = ProductType.MagicCup;
+            MDGroundApplication.mChoosedProductType = ProductType.MagicCup;
 
             Intent intent = new Intent(MainActivity.this, MagicCupChooseColorActivity.class);
             startActivity(intent);
         }
 
         public void toLomoCardActivityAction(View view) {
-            MDGroundApplication.mSelectProductType = ProductType.LOMOCard;
+            MDGroundApplication.mChoosedProductType = ProductType.LOMOCard;
 
             Intent intent = new Intent(MainActivity.this, LomoCardChooseNumActivity.class);
             startActivity(intent);
         }
 
         public void toEngravingActivityAction(View view) {
-            MDGroundApplication.mSelectProductType = ProductType.Engraving;
+            MDGroundApplication.mChoosedProductType = ProductType.Engraving;
 
             Intent intent = new Intent(MainActivity.this, EngravingChooseInchActivity.class);
             startActivity(intent);

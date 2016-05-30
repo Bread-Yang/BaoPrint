@@ -17,7 +17,7 @@
             android:orientation="horizontal">
 
             <TextView
-                style="@style/NormalTextStyle"
+                style="@style/NormalTextLayoutStyle"
                 android:layout_width="@dimen/margin_80"
                 android:layout_marginLeft="@dimen/margin_15"
                 android:clickable="true"
@@ -27,7 +27,7 @@
 
             <com.MDGround.HaiLanPrint.views.ClearEditText
                 android:id="@+id/cetConsignee"
-                style="@style/NormalTextStyle"
+                style="@style/NormalTextLayoutStyle"
                 android:layout_width="match_parent"
                 android:layout_weight="1"
                 android:background="@null"
@@ -48,7 +48,7 @@
             android:orientation="horizontal">
 
             <TextView
-                style="@style/NormalTextStyle"
+                style="@style/NormalTextLayoutStyle"
                 android:layout_width="@dimen/margin_80"
                 android:layout_marginLeft="@dimen/margin_15"
                 android:clickable="true"
@@ -58,7 +58,7 @@
 
             <com.MDGround.HaiLanPrint.views.ClearEditText
                 android:id="@+id/cetContactNumber"
-                style="@style/NormalTextStyle"
+                style="@style/NormalTextLayoutStyle"
                 android:layout_width="match_parent"
                 android:layout_weight="1"
                 android:background="@null"
@@ -79,7 +79,7 @@
             android:orientation="horizontal">
 
             <TextView
-                style="@style/NormalTextStyle"
+                style="@style/NormalTextLayoutStyle"
                 android:layout_width="@dimen/margin_80"
                 android:layout_marginLeft="@dimen/margin_15"
                 android:clickable="true"
@@ -89,7 +89,7 @@
 
             <TextView
                 android:id="@+id/tvRegion"
-                style="@style/NormalTextStyle"
+                style="@style/NormalTextLayoutStyle"
                 android:layout_width="match_parent"
                 android:layout_weight="1"
                 android:background="@null"
@@ -116,7 +116,7 @@
 
             <TextView
                 android:id="@+id/tvDetailedAdress"
-                style="@style/NormalTextStyle"
+                style="@style/NormalTextLayoutStyle"
                 android:layout_width="@dimen/margin_80"
                 android:layout_marginLeft="@dimen/margin_15"
                 android:clickable="true"
@@ -126,7 +126,7 @@
 
             <EditText
                 android:id="@+id/etDetailedAddress"
-                style="@style/NormalTextStyle"
+                style="@style/NormalTextLayoutStyle"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/size_88"
                 android:layout_toRightOf="@+id/tvDetailedAdress"

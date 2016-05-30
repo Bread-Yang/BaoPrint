@@ -14,10 +14,10 @@
             type="com.MDGround.HaiLanPrint.models.MDImage"/>
     </data>
 
-    <com.MDGround.HaiLanPrint.views.SquareRelativeLayout
+    <com.MDGround.HaiLanPrint.views.FlexibleRelativeLayout
         android:layout_width="90dp"
-        android:onClick="@{viewHolder::selectImageAction}"
-        android:layout_height="90dp">
+        android:layout_height="90dp"
+        android:onClick="@{viewHolder::selectImageAction}">
 
         <ImageView
             android:id="@+id/ivImage"
@@ -26,5 +26,5 @@
             android:layout_margin="@dimen/margin_8"
             app:loadImageByMDImage="@{image}"/>
 
-    </com.MDGround.HaiLanPrint.views.SquareRelativeLayout>
+    </com.MDGround.HaiLanPrint.views.FlexibleRelativeLayout>
 </layout>

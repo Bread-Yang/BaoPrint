@@ -59,7 +59,7 @@ public class SelectAlbumActivity extends ToolbarActivity<ActivitySelectAlbumBind
     protected void initData() {
         SelectImageUtil.mAlreadySelectImage.clear(); // 清空之前选中的图片
 
-        mMaxSelectImageNum = SelectImageUtil.getMaxSelectImageNum(MDGroundApplication.mSelectProductType);
+        mMaxSelectImageNum = SelectImageUtil.getMaxSelectImageNum(MDGroundApplication.mChoosedProductType);
 
         // 相册
         LinearLayoutManager albumLayoutManager = new LinearLayoutManager(this);
@@ -93,7 +93,7 @@ public class SelectAlbumActivity extends ToolbarActivity<ActivitySelectAlbumBind
         getPhotoCountRequest();
 
         // 模版图片
-        switch (MDGroundApplication.mSelectProductType) {
+        switch (MDGroundApplication.mChoosedProductType) {
             case Postcard:
                 getPhotoTemplateListRequest();
                 break;
@@ -161,7 +161,7 @@ public class SelectAlbumActivity extends ToolbarActivity<ActivitySelectAlbumBind
     }
 
     private void getPhotoTemplateListRequest() {
-        GlobalRestful.getInstance().GetPhotoTemplateList(MDGroundApplication.mChooseMeasurement.getTypeDescID(), new Callback<ResponseData>() {
+        GlobalRestful.getInstance().GetPhotoTemplateList(MDGroundApplication.mChoosedMeasurement.getTypeDescID(), new Callback<ResponseData>() {
             @Override
             public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
                 ArrayList<Template> template = response.body().getContent(new TypeToken<ArrayList<Template>>() {

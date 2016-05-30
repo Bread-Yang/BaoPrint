@@ -66,7 +66,7 @@ public class PostcardStartActivity extends ToolbarActivity<ActivityPostcardStart
                         ArrayList<Measurement> mSpecList = StringUtil.getInstanceByJsonString(PhotoTypeDescList, new TypeToken<ArrayList<Measurement>>() {
                         });
 
-                        MDGroundApplication.mChooseMeasurement = mSpecList.get(0);
+                        MDGroundApplication.mChoosedMeasurement = mSpecList.get(0);
 
                     } catch (JSONException e) {
                         e.printStackTrace();

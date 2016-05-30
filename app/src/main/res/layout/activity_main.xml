@@ -47,7 +47,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginRight="@dimen/margin_15"
                 android:onClick="toPersonalCenterActivityAction"
-                android:src="@drawable/icon_wszl_wd"/>
+                android:src="@drawable/icon_pr_home"/>
 
         </RelativeLayout>
 

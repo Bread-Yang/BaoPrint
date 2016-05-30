@@ -156,7 +156,7 @@ public class PhoneShellSelectBrandActivity extends ToolbarActivity<ActivityPhone
             }
 
             public void toPhoneShellSelectModelActivityAction(View view) {
-                MDGroundApplication.mChooseMeasurement = mSpecList.get(getAdapterPosition());
+                MDGroundApplication.mChoosedMeasurement = mSpecList.get(getAdapterPosition());
 
                 Intent intent = new Intent(PhoneShellSelectBrandActivity.this, PhoneShellSelectModelActivity.class);
                 startActivityForResult(intent, 0);

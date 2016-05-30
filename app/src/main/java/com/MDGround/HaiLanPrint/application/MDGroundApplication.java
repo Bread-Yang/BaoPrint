@@ -27,11 +27,11 @@ public class MDGroundApplication extends Application{
 
     public static User mLoginUser;// 登陆用户
 
-    public static ProductType mSelectProductType;
+    public static ProductType mChoosedProductType;
 
-    public static Measurement mChooseMeasurement;
+    public static Measurement mChoosedMeasurement;
 
-    public static Template mChooseTemplate;
+    public static Template mChoosedTemplate;
 
     @Override
     public void onCreate() {

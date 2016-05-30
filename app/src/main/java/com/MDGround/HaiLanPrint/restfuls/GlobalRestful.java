@@ -275,6 +275,17 @@ public class GlobalRestful extends BaseRestful {
         asynchronousPost("GetPhotoTemplateList", obj.toString(), callback);
     }
 
+    public void GetPhotoTemplateListByType(ProductType productType, Callback<ResponseData> callback) {
+        JSONObject obj = new JSONObject();
+        try {
+            obj.put("ProductType", productType.value());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        asynchronousPost("GetPhotoTemplateListByType", obj.toString(), callback);
+    }
+
     public void GetPhotoTemplateAttachList(int templateID, Callback<ResponseData> callback) {
         JSONObject obj = new JSONObject();
         try {

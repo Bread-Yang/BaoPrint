@@ -38,10 +38,14 @@
 
     <style name="NormalTextStyle">
         <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">@dimen/size_44</item>
+        <item name="android:layout_height">wrap_content</item>
         <item name="android:gravity">center_vertical</item>
         <item name="android:textColor">@color/color_333333</item>
         <item name="android:textColorHint">@color/color_999999</item>
+    </style>
+
+    <style name="NormalTextLayoutStyle" parent="@style/NormalTextStyle">
+        <item name="android:layout_height">@dimen/size_44</item>
     </style>
 
     <style name="NormalClickableTextStyle">
@@ -73,9 +77,7 @@
     <style name="DividerHorizontal_Margin">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">1dp</item>
-        <item name="android:layout_marginLeft">@dimen/margin_12</item>
-        <item name="android:layout_marginRight">@dimen/margin_12</item>
-        <item name="android:background">@color/color_divider</item>
+        <item name="android:background">@drawable/layerlist_divider</item>
     </style>
 
     <style name="Arrow">

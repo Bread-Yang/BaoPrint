@@ -32,6 +32,7 @@ public class GlideUtil {
 //                    .dontAnimate()
 //                    .into(imageView);
 //        }
+
         Glide.with(MDGroundApplication.mInstance)
                 .load(mdImage)
                 .centerCrop()

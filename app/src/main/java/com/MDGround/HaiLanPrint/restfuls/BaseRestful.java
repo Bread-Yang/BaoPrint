@@ -1,11 +1,8 @@
 package com.MDGround.HaiLanPrint.restfuls;
 
 import android.content.Context;
-import android.content.Intent;
-import android.support.v4.content.IntentCompat;
 
 import com.MDGround.HaiLanPrint.R;
-import com.MDGround.HaiLanPrint.activity.login.LoginActivity;
 import com.MDGround.HaiLanPrint.application.MDGroundApplication;
 import com.MDGround.HaiLanPrint.constants.Constants;
 import com.MDGround.HaiLanPrint.enumobject.restfuls.BusinessType;
@@ -19,6 +16,7 @@ import com.MDGround.HaiLanPrint.restfuls.bean.ResponseData;
 import com.MDGround.HaiLanPrint.utils.DeviceUtil;
 import com.MDGround.HaiLanPrint.utils.EncryptUtil;
 import com.MDGround.HaiLanPrint.utils.FileUtils;
+import com.MDGround.HaiLanPrint.utils.NavUtils;
 import com.MDGround.HaiLanPrint.utils.ToolNetwork;
 import com.MDGround.HaiLanPrint.utils.ViewUtils;
 import com.google.gson.Gson;
@@ -155,9 +153,7 @@ public abstract class BaseRestful {
                 if (response.body().getCode() == ResponseCode.InvalidToken.getValue()) { // 请求token失效,重新登录
                     FileUtils.setObject(Constants.KEY_ALREADY_LOGIN_USER, null); // 清空之前的user
 
-                    Intent intent = new Intent(mContext, LoginActivity.class);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | IntentCompat.FLAG_ACTIVITY_CLEAR_TASK);
-                    mContext.startActivity(intent);
+                    NavUtils.toLoginActivity(mContext);
                 } else {
                     if (secondCallback != null) {
                         secondCallback.onResponse(call, response);

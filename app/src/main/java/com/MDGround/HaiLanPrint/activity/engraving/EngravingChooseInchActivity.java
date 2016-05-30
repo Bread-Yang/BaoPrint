@@ -141,7 +141,7 @@ public class EngravingChooseInchActivity extends ToolbarActivity<ActivityEngravi
             }
 
             public void toSelectImageActivityAction(View view) {
-                MDGroundApplication.mChooseMeasurement = mSpecList.get(getAdapterPosition());
+                MDGroundApplication.mChoosedMeasurement = mSpecList.get(getAdapterPosition());
 
                 NavUtils.toSelectAlbumActivity(view.getContext());
             }

@@ -90,6 +90,18 @@
 
     <!-- 个人中心 -->
     <string name="personal_center">个人中心</string>
+    <string name="my_works">我的作品</string>
+    <string name="my_orders">我的订单</string>
+    <string name="my_credits">我的积分</string>
+    <string name="my_coupons">我的优惠劵</string>
+    <string name="setting">设置</string>
+
+    <!-- 设置 -->
+    <string name="only_update_in_wifi">仅在WIFI下更新</string>
+    <string name="version">版本号</string>
+    <string name="clear_cache">清除缓存</string>
+    <string name="about_us">关于我们</string>
+    <string name="log_out">退出登录</string>
 
     <!-- 冲印照片 -->
     <string name="print_photo">冲印照片</string>
@@ -148,7 +160,9 @@
     <string name="choose_material">选择材质</string>
     <string name="choose_make_num">选择制作数量</string>
     <string name="crystal_paper_quality">* 特色 : 光亮、华丽、大气。照片清晰光滑,与空气彻底隔离,防水防潮可擦洗,不易褪色。</string>
-    <string name="yogon_paper_quality">* 特色 : 表面纹理独特,呈现柔化效果、极具艺术感,光滑面不刺眼且具有立体感,照片与空气彻底隔离,不易褪色,防水防潮防晒,可擦洗,刮划不易留痕迹。</string>
+    <string name="yogon_paper_quality">* 特色 :
+        表面纹理独特,呈现柔化效果、极具艺术感,光滑面不刺眼且具有立体感,照片与空气彻底隔离,不易褪色,防水防潮防晒,可擦洗,刮划不易留痕迹。
+    </string>
 
     <!-- 编辑图片 -->
     <string name="percent">%d</string>
