@@ -9,17 +9,23 @@ import com.MDGround.HaiLanPrint.activity.engraving.EngravingChoosePaperNumActivi
 import com.MDGround.HaiLanPrint.activity.login.LoginActivity;
 import com.MDGround.HaiLanPrint.activity.photoedit.PhotoEditActivity;
 import com.MDGround.HaiLanPrint.activity.photoprint.PrintPhotoChoosePaperNumActivity;
+import com.MDGround.HaiLanPrint.activity.pictureframe.PictureFrameTempalteDetailActivity;
 import com.MDGround.HaiLanPrint.activity.selectimage.SelectAlbumActivity;
-import com.MDGround.HaiLanPrint.activity.selectimage.SelectImageActivity;
 import com.MDGround.HaiLanPrint.application.MDGroundApplication;
 import com.MDGround.HaiLanPrint.constants.Constants;
-import com.MDGround.HaiLanPrint.models.Album;
 import com.MDGround.HaiLanPrint.models.MDImage;
 
 /**
  * Created by yoghourt on 5/12/16.
  */
 public class NavUtils {
+
+    public static void toLoginActivity(Context context) {
+        Intent intent = new Intent(context, LoginActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | IntentCompat.FLAG_ACTIVITY_CLEAR_TASK);
+        context.startActivity(intent);
+    }
+
 
     public static void toCloudDetailActivity(Context context, MDImage image) {
         Intent intent = new Intent(context, CloudDetailActivity.class);
@@ -29,12 +35,6 @@ public class NavUtils {
 
     public static void toSelectAlbumActivity(Context context) {
         Intent intent = new Intent(context, SelectAlbumActivity.class);
-        context.startActivity(intent);
-    }
-
-    public static void toSelectImageActivity(Context context, Album album) {
-        Intent intent = new Intent(context, SelectImageActivity.class);
-        intent.putExtra(Constants.KEY_ALBUM, album);
         context.startActivity(intent);
     }
 
@@ -48,6 +48,12 @@ public class NavUtils {
             case PrintPhoto:
                 intent.setClass(context, PrintPhotoChoosePaperNumActivity.class);
                 break;
+            case Postcard:
+                intent.setClass(context, PhotoEditActivity.class);
+                break;
+            case PictureFrame:
+                intent.setClass(context, PictureFrameTempalteDetailActivity.class);
+                break;
             case PhoneShell:
                 intent.setClass(context, PhotoEditActivity.class);
                 break;
@@ -60,19 +66,10 @@ public class NavUtils {
             case LOMOCard:
                 intent.setClass(context, PhotoEditActivity.class);
                 break;
-            case Postcard:
-                intent.setClass(context, PhotoEditActivity.class);
-                break;
             case Engraving:
                 intent.setClass(context, EngravingChoosePaperNumActivity.class);
                 break;
         }
-        context.startActivity(intent);
-    }
-
-    public static void toLoginActivity(Context context) {
-        Intent intent = new Intent(context, LoginActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | IntentCompat.FLAG_ACTIVITY_CLEAR_TASK);
         context.startActivity(intent);
     }
 

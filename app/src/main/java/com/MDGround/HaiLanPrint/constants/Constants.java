@@ -29,6 +29,7 @@ public final class Constants {
     public static final String KEY_CLOUD_IMAGE = "key_cloud_image";
     public static final String KEY_ALBUM = "key_album";
     public static final String KEY_DELIVERY_ADDRESS = "key_delivery_address";
+    public static final String KEY_MAX_IMAGE_NUM = "key_max_image_num";
 
     public static int MAX_DELIVERY_ADDRESS = 10; // 最多十个收货地址
 

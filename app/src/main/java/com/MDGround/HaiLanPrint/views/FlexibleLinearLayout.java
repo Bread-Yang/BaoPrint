@@ -14,7 +14,7 @@ import com.MDGround.HaiLanPrint.R;
  */
 public class FlexibleLinearLayout extends LinearLayout {
 
-    private float mRatio = 1; // 宽高比,默认相等
+    private float mRatio = 1; // 高宽比,默认相等
 
     public FlexibleLinearLayout(Context context) {
         super(context);

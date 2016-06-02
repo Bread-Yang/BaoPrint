@@ -14,14 +14,17 @@ import android.view.ViewGroup;
 import com.MDGround.HaiLanPrint.BR;
 import com.MDGround.HaiLanPrint.ProductType;
 import com.MDGround.HaiLanPrint.R;
-import com.MDGround.HaiLanPrint.activity.pictureframe.PictureFrameStartActivity;
+import com.MDGround.HaiLanPrint.activity.artalbum.ArtAlbumChooseInchActivity;
 import com.MDGround.HaiLanPrint.activity.cloudphotos.CloudOverviewActivity;
 import com.MDGround.HaiLanPrint.activity.engraving.EngravingChooseInchActivity;
 import com.MDGround.HaiLanPrint.activity.lomocard.LomoCardChooseNumActivity;
+import com.MDGround.HaiLanPrint.activity.magazinealbum.MagazineAlbumChooseInchActivity;
 import com.MDGround.HaiLanPrint.activity.magiccup.MagicCupChooseColorActivity;
 import com.MDGround.HaiLanPrint.activity.personalcenter.PersonalCenterActivity;
 import com.MDGround.HaiLanPrint.activity.phoneshell.PhoneShellStartActivity;
 import com.MDGround.HaiLanPrint.activity.photoprint.PrintPhotoChooseInchActivity;
+import com.MDGround.HaiLanPrint.activity.pictureframe.PictureFrameStartActivity;
+import com.MDGround.HaiLanPrint.activity.poker.PokerChooseInchActivity;
 import com.MDGround.HaiLanPrint.activity.postcard.PostcardStartActivity;
 import com.MDGround.HaiLanPrint.activity.puzzle.PuzzleStartActivity;
 import com.MDGround.HaiLanPrint.application.MDGroundApplication;
@@ -104,6 +107,20 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
         }
 
+        public void toMagazineAlbumActivityAction(View view) {
+            MDGroundApplication.mChoosedProductType = ProductType.MagazineAlbum;
+
+            Intent intent = new Intent(MainActivity.this, MagazineAlbumChooseInchActivity.class);
+            startActivity(intent);
+        }
+
+        public void toArtAlbumActivityAction(View view) {
+            MDGroundApplication.mChoosedProductType = ProductType.ArtAlbum;
+
+            Intent intent = new Intent(MainActivity.this, ArtAlbumChooseInchActivity.class);
+            startActivity(intent);
+        }
+
         public void toPictureFrameActivityAction(View view) {
             MDGroundApplication.mChoosedProductType = ProductType.PictureFrame;
 
@@ -116,6 +133,13 @@ public class MainActivity extends AppCompatActivity {
             MDGroundApplication.mChoosedProductType = ProductType.PhoneShell;
 
             Intent intent = new Intent(MainActivity.this, PhoneShellStartActivity.class);
+            startActivity(intent);
+        }
+
+        public void toPokerActivityAction(View view) {
+            MDGroundApplication.mChoosedProductType = ProductType.Poker;
+
+            Intent intent = new Intent(MainActivity.this, PokerChooseInchActivity.class);
             startActivity(intent);
         }
 

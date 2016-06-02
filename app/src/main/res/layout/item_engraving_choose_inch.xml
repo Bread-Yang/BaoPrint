@@ -19,8 +19,9 @@
 
     <RelativeLayout
         style="@style/NormalLayoutStyle"
-        android:layout_height="60dp"
-        android:onClick="@{handlers::toSelectImageActivityAction}">
+        android:onClick="@{handlers::toSelectImageActivityAction}"
+        android:paddingLeft="@dimen/margin_12"
+        android:paddingRight="@dimen/margin_12">
 
         <TextView
             android:id="@+id/tvColor"
@@ -29,7 +30,6 @@
             android:layout_above="@+id/tvImageCount"
             android:layout_alignLeft="@+id/tvImageCount"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/margin_12"
             android:text='@{measurement.title + "(" + measurement.TitleSub + ")"}'
             android:textColor="@color/color_black"
             tools:text="红色"/>

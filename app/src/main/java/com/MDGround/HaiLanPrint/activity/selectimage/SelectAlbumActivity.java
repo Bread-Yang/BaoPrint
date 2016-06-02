@@ -1,15 +1,22 @@
 package com.MDGround.HaiLanPrint.activity.selectimage;
 
+import android.content.Intent;
+import android.databinding.DataBindingUtil;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.Html;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 
+import com.MDGround.HaiLanPrint.BR;
 import com.MDGround.HaiLanPrint.R;
 import com.MDGround.HaiLanPrint.activity.base.ToolbarActivity;
-import com.MDGround.HaiLanPrint.adapter.AlbumAdapter;
 import com.MDGround.HaiLanPrint.adapter.SelectedImageAdapter;
 import com.MDGround.HaiLanPrint.application.MDGroundApplication;
+import com.MDGround.HaiLanPrint.constants.Constants;
 import com.MDGround.HaiLanPrint.databinding.ActivitySelectAlbumBinding;
+import com.MDGround.HaiLanPrint.databinding.ItemSelectAlbumBinding;
 import com.MDGround.HaiLanPrint.enumobject.restfuls.ResponseCode;
 import com.MDGround.HaiLanPrint.models.Album;
 import com.MDGround.HaiLanPrint.models.MDImage;
@@ -52,14 +59,11 @@ public class SelectAlbumActivity extends ToolbarActivity<ActivitySelectAlbumBind
     protected void onResume() {
         super.onResume();
         mSelectedImageAdapter.notifyDataSetChanged();
-        changeTips();
     }
 
     @Override
     protected void initData() {
         SelectImageUtil.mAlreadySelectImage.clear(); // 清空之前选中的图片
-
-        mMaxSelectImageNum = SelectImageUtil.getMaxSelectImageNum(MDGroundApplication.mChoosedProductType);
 
         // 相册
         LinearLayoutManager albumLayoutManager = new LinearLayoutManager(this);
@@ -92,10 +96,18 @@ public class SelectAlbumActivity extends ToolbarActivity<ActivitySelectAlbumBind
 
         getPhotoCountRequest();
 
-        // 模版图片
         switch (MDGroundApplication.mChoosedProductType) {
             case Postcard:
-                getPhotoTemplateListRequest();
+            case MagazineAlbum:
+            case ArtAlbum:
+            case LOMOCard:
+            case Poker:
+                getPhotoTemplateListRequest();  // 模版图片
+                break;
+            default:
+                mMaxSelectImageNum = SelectImageUtil.getMaxSelectImageNum(MDGroundApplication.mChoosedProductType);
+
+                changeTips();
                 break;
         }
     }
@@ -161,13 +173,21 @@ public class SelectAlbumActivity extends ToolbarActivity<ActivitySelectAlbumBind
     }
 
     private void getPhotoTemplateListRequest() {
+        ViewUtils.loading(this);
         GlobalRestful.getInstance().GetPhotoTemplateList(MDGroundApplication.mChoosedMeasurement.getTypeDescID(), new Callback<ResponseData>() {
             @Override
             public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
-                ArrayList<Template> template = response.body().getContent(new TypeToken<ArrayList<Template>>() {
+                ArrayList<Template> templateArrayList = response.body().getContent(new TypeToken<ArrayList<Template>>() {
                 });
 
-                getPhotoTemplateAttachListRequest(template.get(0).getTemplateID());
+                Template template = templateArrayList.get(0);
+
+                mMaxSelectImageNum = template.getPageCount();
+
+                changeTips();
+
+                getPhotoTemplateAttachListRequest(template.getTemplateID());
+
             }
 
             @Override
@@ -185,6 +205,8 @@ public class SelectAlbumActivity extends ToolbarActivity<ActivitySelectAlbumBind
 
                 SelectImageUtil.mTemplateImage = response.body().getContent(new TypeToken<ArrayList<MDImage>>() {
                 });
+
+                ViewUtils.dismiss();
             }
 
             @Override
@@ -198,6 +220,57 @@ public class SelectAlbumActivity extends ToolbarActivity<ActivitySelectAlbumBind
     //region ACTION
     public void nextStepAction(View view) {
         NavUtils.toPhotoEditActivity(view.getContext());
+    }
+    //endregion
+
+    //region ADAPTER
+    public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.ViewHolder> {
+
+        private List<Album> mAlbumsList = new ArrayList<>();
+
+        public void bindAlbum(List<Album> albumList) {
+            this.mAlbumsList = albumList;
+            notifyDataSetChanged();
+        }
+
+        @Override
+        public AlbumAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_select_album, parent, false);
+            AlbumAdapter.ViewHolder holder = new AlbumAdapter.ViewHolder(itemView);
+            return holder;
+        }
+
+        @Override
+        public void onBindViewHolder(AlbumAdapter.ViewHolder holder, final int position) {
+            final Album album = mAlbumsList.get(position);
+
+            holder.viewDataBinding.setVariable(BR.album, album);
+            holder.viewDataBinding.setVariable(BR.viewHolder, holder);
+        }
+
+        @Override
+        public int getItemCount() {
+            return mAlbumsList.size();
+        }
+
+        public class ViewHolder extends RecyclerView.ViewHolder {
+
+            private ItemSelectAlbumBinding viewDataBinding;
+
+            public ViewHolder(View itemView) {
+                super(itemView);
+                viewDataBinding = DataBindingUtil.bind(itemView);
+            }
+
+            public void toSelectImageActivityAction(View view) {
+                Album album = mAlbumsList.get(getAdapterPosition());
+
+                Intent intent = new Intent(SelectAlbumActivity.this, SelectImageActivity.class);
+                intent.putExtra(Constants.KEY_ALBUM, album);
+                intent.putExtra(Constants.KEY_MAX_IMAGE_NUM, mMaxSelectImageNum);
+                startActivity(intent);
+            }
+        }
     }
     //endregion
 }

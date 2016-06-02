@@ -11,6 +11,7 @@ import com.MDGround.HaiLanPrint.BR;
 import com.MDGround.HaiLanPrint.ProductType;
 import com.MDGround.HaiLanPrint.R;
 import com.MDGround.HaiLanPrint.activity.base.ToolbarActivity;
+import com.MDGround.HaiLanPrint.application.MDGroundApplication;
 import com.MDGround.HaiLanPrint.databinding.ActivityLomoCardChooseNumBinding;
 import com.MDGround.HaiLanPrint.databinding.ItemLomoCardChooseNumBinding;
 import com.MDGround.HaiLanPrint.enumobject.restfuls.ResponseCode;
@@ -58,7 +59,7 @@ public class LomoCardChooseNumActivity extends ToolbarActivity<ActivityLomoCardC
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         mDataBinding.recyclerView.setLayoutManager(layoutManager);
-        mDataBinding.recyclerView.addItemDecoration(new DividerItemDecoration(16));
+        mDataBinding.recyclerView.addItemDecoration(new DividerItemDecoration(12));
 
         mAdapter = new LomoCardChooseNumAdapter();
         mDataBinding.recyclerView.setAdapter(mAdapter);
@@ -99,17 +100,8 @@ public class LomoCardChooseNumActivity extends ToolbarActivity<ActivityLomoCardC
     }
     //endregion
 
-    public class BindingHandlers {
-
-        public void toSelectImageActivityAction(View view) {
-            NavUtils.toSelectAlbumActivity(view.getContext());
-        }
-    }
-
     //region ADAPTER
-    private class LomoCardChooseNumAdapter extends RecyclerView.Adapter<LomoCardChooseNumAdapter.BindingHolder> {
-
-        private BindingHandlers bindingHandlers = new BindingHandlers();
+    public class LomoCardChooseNumAdapter extends RecyclerView.Adapter<LomoCardChooseNumAdapter.BindingHolder> {
 
         @Override
         public BindingHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -122,7 +114,7 @@ public class LomoCardChooseNumActivity extends ToolbarActivity<ActivityLomoCardC
         @Override
         public void onBindViewHolder(BindingHolder holder, int position) {
             holder.viewDataBinding.setVariable(BR.measurement, mSpecList.get(position));
-            holder.viewDataBinding.setVariable(BR.handlers, bindingHandlers);
+            holder.viewDataBinding.setVariable(BR.handlers, holder);
         }
 
         @Override
@@ -137,6 +129,12 @@ public class LomoCardChooseNumActivity extends ToolbarActivity<ActivityLomoCardC
             public BindingHolder(View itemView) {
                 super(itemView);
                 viewDataBinding = DataBindingUtil.bind(itemView);
+            }
+
+            public void toSelectTemplateActivityAction(View view) {
+                MDGroundApplication.mChoosedMeasurement = mSpecList.get(getAdapterPosition());
+
+                NavUtils.toSelectAlbumActivity(view.getContext());
             }
         }
     }

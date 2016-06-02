@@ -9,6 +9,7 @@ import com.MDGround.HaiLanPrint.databinding.ActivityChooseCouponBinding;
  */
 
 public class ChooseCouponActivity extends ToolbarActivity<ActivityChooseCouponBinding> {
+
     @Override
     protected int getContentLayout() {
         return R.layout.activity_choose_coupon;

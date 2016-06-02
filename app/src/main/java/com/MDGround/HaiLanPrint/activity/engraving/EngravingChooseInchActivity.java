@@ -61,7 +61,7 @@ public class EngravingChooseInchActivity extends ToolbarActivity<ActivityEngravi
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         mDataBinding.recyclerView.setLayoutManager(layoutManager);
-        mDataBinding.recyclerView.addItemDecoration(new DividerItemDecoration(16));
+        mDataBinding.recyclerView.addItemDecoration(new DividerItemDecoration(12));
 
         mAdapter = new EngravingChooseInchAdapter();
         mDataBinding.recyclerView.setAdapter(mAdapter);

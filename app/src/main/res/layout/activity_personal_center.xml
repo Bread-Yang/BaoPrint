@@ -14,15 +14,27 @@
         android:background="@color/color_white"
         android:orientation="vertical">
 
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/civAvatar"
-            android:layout_width="130dp"
-            android:layout_height="130dp"
+        <ImageView
+            android:id="@+id/ivAvatarCircle"
+            android:layout_width="140dp"
+            android:layout_height="140dp"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="@dimen/margin_30"
-            android:src="@drawable/bg_pic"
+            android:src="@drawable/avatar_circle"/>
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/civAvatar"
+            android:layout_width="128dp"
+            android:layout_height="128dp"
+            android:onClick="toPersonalInformationAction"
+            android:layout_alignBottom="@+id/ivAvatarCircle"
+            android:layout_alignLeft="@+id/ivAvatarCircle"
+            android:layout_alignRight="@+id/ivAvatarCircle"
+            android:layout_alignTop="@+id/ivAvatarCircle"
+            android:layout_margin="@dimen/margin_6"
+            tools:src="@drawable/bg_pic"
             app:civ_border_color="#FF000000"
-            app:civ_border_width="2dp"/>
+            app:civ_border_width="0dp"/>
 
         <TextView
             android:id="@+id/tvName"
@@ -163,6 +175,7 @@
                 <com.MDGround.HaiLanPrint.views.FlexibleLinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:onClick="toMyCouponActivityAction"
                     android:layout_weight="1"
                     android:gravity="center"
                     android:orientation="vertical"
@@ -181,10 +194,10 @@
                 <com.MDGround.HaiLanPrint.views.FlexibleLinearLayout
                     android:id="@+id/flltSetting"
                     android:layout_width="match_parent"
-                    android:onClick="toSettingActivityAction"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="center"
+                    android:onClick="toSettingActivityAction"
                     android:orientation="vertical"
                     app:ratio="0.5">
                     <ImageView

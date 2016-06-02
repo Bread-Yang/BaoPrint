@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest package="com.MDGround.HaiLanPrint"
-          xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest
+    package="com.MDGround.HaiLanPrint"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
     <!-- To auto-complete the email text field in the login form with the user's emails -->
     <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"/>
@@ -48,8 +49,7 @@
         <activity
             android:name=".activity.login.LoginActivity"
             android:label="@string/login"
-            android:screenOrientation="portrait">
-        </activity>
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.login.ForgetPasswordActivity"
             android:label="@string/forget_password"
@@ -90,6 +90,8 @@
             android:name=".activity.selectimage.SelectImageActivity"
             android:label="@string/choose_photo"
             android:screenOrientation="portrait"/>
+
+        <!-- 首页pager1的功能 -->
         <activity
             android:name=".activity.photoprint.PrintPhotoChooseInchActivity"
             android:label="@string/print_photo"
@@ -107,9 +109,27 @@
             android:label="@string/postcard"
             android:screenOrientation="portrait"/>
         <activity
+            android:name=".activity.magazinealbum.MagazineAlbumChooseInchActivity"
+            android:label="@string/magazine_album"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activity.artalbum.ArtAlbumChooseInchActivity"
+            android:label="@string/art_album"
+            android:screenOrientation="portrait"/>
+        <activity
             android:name=".activity.pictureframe.PictureFrameStartActivity"
             android:label="@string/picture_frame"
             android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activity.pictureframe.SelectTemplateActivity"
+            android:label="@string/choose_template"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activity.pictureframe.PictureFrameTempalteDetailActivity"
+            android:label="@string/template_detail"
+            android:screenOrientation="portrait"/>
+
+        <!-- 首页pager2的功能 -->
         <activity
             android:name=".activity.phoneshell.PhoneShellStartActivity"
             android:label="@string/phone_shell"
@@ -121,6 +141,10 @@
         <activity
             android:name=".activity.phoneshell.PhoneShellSelectModelActivity"
             android:label="@string/select_phone_model"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activity.poker.PokerChooseInchActivity"
+            android:label="@string/poker"
             android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.puzzle.PuzzleStartActivity"
@@ -163,24 +187,29 @@
             android:label="@string/choose_coupon"
             android:screenOrientation="portrait"/>
         <activity
+            android:name=".activity.coupon.MyCouponActivity"
+            android:label="@string/choose_coupon"
+            android:screenOrientation="portrait"/>
+        <activity
             android:name=".activity.deliveryaddress.ChooseDeliveryAddressActivity"
             android:label="@string/delivery_address"
             android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.deliveryaddress.EditDeliveryAddressActivity"
             android:label="@string/edit_address"
-            android:screenOrientation="portrait">
-        </activity>
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.personalcenter.PersonalCenterActivity"
             android:label="@string/personal_center"
-            android:screenOrientation="portrait">
-        </activity>
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activity.personalcenter.PersonalInformationActivity"
+            android:label="@string/personal_information"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.personalcenter.SettingActivity"
             android:label="@string/setting"
-            android:screenOrientation="portrait">
-        </activity>
+            android:screenOrientation="portrait"/>
 
         <!-- ShareSDK -->
         <activity

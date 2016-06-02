@@ -20,7 +20,7 @@
     <RelativeLayout
         style="@style/NormalLayoutStyle"
         android:layout_height="60dp"
-        android:background="@drawable/shape_round_corner_area_bg"
+        android:background="@drawable/shape_round_corner_area_white_bg"
         android:onClick="@{handlers::toSelectImageActivityAction}">
 
         <TextView

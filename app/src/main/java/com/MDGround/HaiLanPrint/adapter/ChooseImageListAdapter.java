@@ -29,6 +29,7 @@ public class ChooseImageListAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     public static final int TYPE_PICTURE = 4;
 
     private Context context;
+
     private boolean showCamera = false;
     private boolean enablePreview = false;
     private int mMaxSelectNum = Integer.MAX_VALUE;

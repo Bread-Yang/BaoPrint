@@ -21,7 +21,7 @@ import com.MDGround.HaiLanPrint.restfuls.GlobalRestful;
 import com.MDGround.HaiLanPrint.restfuls.bean.ResponseData;
 import com.MDGround.HaiLanPrint.utils.StringUtil;
 import com.MDGround.HaiLanPrint.utils.ViewUtils;
-import com.MDGround.HaiLanPrint.views.itemdecoration.NormalItemDecoration;
+import com.MDGround.HaiLanPrint.views.itemdecoration.DividerItemDecoration;
 import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONException;
@@ -59,7 +59,7 @@ public class PhoneShellSelectBrandActivity extends ToolbarActivity<ActivityPhone
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         mDataBinding.recyclerView.setLayoutManager(layoutManager);
-        mDataBinding.recyclerView.addItemDecoration(new NormalItemDecoration(ViewUtils.dp2px(2)));
+        mDataBinding.recyclerView.addItemDecoration(new DividerItemDecoration(12));
 
         mAdapter = new PhoneShellSelectBrandAdapter();
         mDataBinding.recyclerView.setAdapter(mAdapter);

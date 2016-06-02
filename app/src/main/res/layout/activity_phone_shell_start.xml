@@ -55,7 +55,7 @@
             </LinearLayout>
 
             <View
-                style="@style/DividerHorizontal"
+                style="@style/DividerHorizontal_Margin"
                 android:layout_above="@+id/btnNextStep"/>
 
             <RelativeLayout
@@ -96,7 +96,7 @@
             </RelativeLayout>
 
             <View
-                style="@style/DividerHorizontal"
+                style="@style/DividerHorizontal_Margin"
                 android:layout_above="@+id/btnNextStep"/>
 
             <LinearLayout
@@ -132,7 +132,7 @@
             </LinearLayout>
 
             <View
-                style="@style/DividerHorizontal"
+                style="@style/DividerHorizontal_Margin"
                 android:layout_above="@+id/btnNextStep"/>
 
         </LinearLayout>

@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <import type="com.MDGround.HaiLanPrint.utils.StringUtil"/>
+
+        <variable name="coupon" type="com.MDGround.HaiLanPrint.models.Coupon"/>
+
+        <variable
+            name="viewHolder"
+            type="com.MDGround.HaiLanPrint.activity.pictureframe.SelectTemplateActivity.SelectTemplateAdapter.ViewHolder"/>
+    </data>
+
+    <com.MDGround.HaiLanPrint.views.FlexibleLinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="@{viewHolder::toSelectAlbumActivityAction}"
+        android:orientation="horizontal"
+        android:padding="@dimen/margin_10"
+        app:ratio="0.5">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/bg_wdgrzx"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/margin_40">
+                <TextView
+                    android:id="@+id/tvRmb"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBaseline="@+id/tvCouponAmount"
+                    android:text="@string/rmb"
+                    android:textColor="@color/color_f88e11"
+                    android:textSize="@dimen/text_size_20"/>
+
+                <TextView
+                    android:id="@+id/tvCouponAmount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/margin_10"
+                    android:layout_toRightOf="@+id/tvRmb"
+                    android:text="@{StringUtil.toYuanWithoutUnit(coupon.price)}"
+                    android:textColor="@color/color_f88e11"
+                    android:textSize="@dimen/text_size_30"
+                    tools:text="10"/>
+
+                <TextView
+                    android:id="@+id/tvUseCondition"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{@string/coupon_use_condition(StringUtil.toYuanWithoutUnit(coupon.priceLimit))}"
+                    android:layout_alignLeft="@+id/tvRmb"
+                    android:layout_below="@+id/tvRmb"
+                    android:layout_marginTop="@dimen/margin_10"
+                    android:textColor="@color/color_666666"
+                    android:textSize="@dimen/text_size_14"
+                    tools:text="满20元使用"/>
+
+            </RelativeLayout>
+
+            <View
+                style="@style/DividerVertical"
+                android:layout_height="@dimen/margin_96"
+                android:layout_marginLeft="@dimen/margin_30"
+                android:layout_marginRight="@dimen/margin_30"
+                android:background="@color/color_666666"/>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tvCouponName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@+id/tvRmb"
+                    android:text="@{@string/coupon_amount(StringUtil.toYuanWithoutUnit(coupon.price))}"
+                    android:textColor="@color/color_333333"
+                    android:textSize="@dimen/text_size_16"
+                    tools:text="10元优惠劵"/>
+
+                <TextView
+                    android:id="@+id/tvNumber"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignLeft="@+id/tvRmb"
+                    android:layout_below="@+id/tvRmb"
+                    android:layout_marginTop="@dimen/margin_10"
+                    android:text="@{@string/coupon_number(coupon.couponNo)}"
+                    android:textColor="@color/color_666666"
+                    android:textSize="@dimen/text_size_14"
+                    tools:text="编号: FHKAJH G23"/>
+
+                <TextView
+                    android:id="@+id/tvExpiryDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignLeft="@+id/tvRmb"
+                    android:layout_below="@+id/tvRmb"
+                    android:text="@{@string/expiry_date(coupon.expireTime)}"
+                    android:layout_marginTop="@dimen/margin_6"
+                    android:textColor="@color/color_666666"
+                    android:textSize="@dimen/text_size_14"
+                    tools:text="有效期至: 2016-06-01"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+    </com.MDGround.HaiLanPrint.views.FlexibleLinearLayout>
+</layout>

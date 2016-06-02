@@ -12,7 +12,7 @@
 
         <variable
             name="viewHolder"
-            type="com.MDGround.HaiLanPrint.adapter.AlbumAdapter.ViewHolder"/>
+            type="com.MDGround.HaiLanPrint.activity.selectimage.SelectAlbumActivity.AlbumAdapter.ViewHolder"/>
     </data>
 
     <LinearLayout

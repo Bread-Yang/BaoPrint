@@ -1,12 +1,17 @@
 package com.MDGround.HaiLanPrint.models;
 
+import android.databinding.BaseObservable;
+import android.databinding.Bindable;
+
+import com.MDGround.HaiLanPrint.BR;
+
 import java.util.Date;
 
 /**
  * Created by yoghourt on 5/25/16.
  */
 
-public class Template {
+public class Template extends BaseObservable {
 
     private String MaterialDesc;
 
@@ -54,12 +59,14 @@ public class Template {
         MaterialType = materialType;
     }
 
+    @Bindable
     public int getPageCount() {
         return PageCount;
     }
 
     public void setPageCount(int pageCount) {
         PageCount = pageCount;
+        notifyPropertyChanged(BR.pageCount);
     }
 
     public int getParentID() {

@@ -9,7 +9,6 @@ import com.MDGround.HaiLanPrint.R;
 import com.MDGround.HaiLanPrint.activity.base.ToolbarActivity;
 import com.MDGround.HaiLanPrint.adapter.ChooseImageListAdapter;
 import com.MDGround.HaiLanPrint.adapter.SelectedImageAdapter;
-import com.MDGround.HaiLanPrint.application.MDGroundApplication;
 import com.MDGround.HaiLanPrint.constants.Constants;
 import com.MDGround.HaiLanPrint.databinding.ActivitySelectImageBinding;
 import com.MDGround.HaiLanPrint.models.Album;
@@ -60,7 +59,7 @@ public class SelectImageActivity extends ToolbarActivity<ActivitySelectImageBind
     @Override
     protected void initData() {
 
-        mMaxSelectImageNum = SelectImageUtil.getMaxSelectImageNum(MDGroundApplication.mChoosedProductType);
+        mMaxSelectImageNum = getIntent().getIntExtra(Constants.KEY_MAX_IMAGE_NUM, 1);
 
         changeTips();
 

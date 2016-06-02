@@ -2,7 +2,6 @@ package com.MDGround.HaiLanPrint.utils;
 
 import android.content.ContentResolver;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -10,7 +9,6 @@ import android.provider.MediaStore;
 import android.text.TextUtils;
 
 import com.MDGround.HaiLanPrint.application.MDGroundApplication;
-import com.MDGround.HaiLanPrint.constants.Constants;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -23,19 +21,6 @@ import java.io.Serializable;
  * Created by shadow on 15/11/17.
  */
 public class FileUtils {
-
-    public static boolean setPreference(String key, String value) {
-        SharedPreferences sharedPreferences = MDGroundApplication.mInstance.getSharedPreferences(Constants.PREFERENCE, Context.MODE_PRIVATE); //私有数据
-        SharedPreferences.Editor editor = sharedPreferences.edit();//获取编辑器
-        editor.putString(key, value);
-        return editor.commit();
-    }
-
-    public static String getPreference(String key) {
-        SharedPreferences sharedPreferences = MDGroundApplication.mInstance.getSharedPreferences(Constants.PREFERENCE, Context.MODE_PRIVATE); //私有数据
-        return sharedPreferences.getString(key, "");
-    }
-
 
     public static boolean setObject(String key, Serializable object) {
         try {

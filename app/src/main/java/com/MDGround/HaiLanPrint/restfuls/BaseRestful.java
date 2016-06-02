@@ -154,6 +154,9 @@ public abstract class BaseRestful {
                     FileUtils.setObject(Constants.KEY_ALREADY_LOGIN_USER, null); // 清空之前的user
 
                     NavUtils.toLoginActivity(mContext);
+                } else if (response.body().getCode() == ResponseCode.SystemError.getValue()) {
+                    ViewUtils.toast(R.string.request_fail);  // 请求超时
+                    ViewUtils.dismiss();
                 } else {
                     if (secondCallback != null) {
                         secondCallback.onResponse(call, response);

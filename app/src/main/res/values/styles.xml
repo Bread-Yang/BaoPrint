@@ -31,8 +31,8 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">@dimen/size_44</item>
         <item name="android:background">@color/color_white</item>
-        <item name="android:paddingLeft">@dimen/margin_10</item>
-        <item name="android:paddingRight">@dimen/margin_10</item>
+        <item name="android:paddingLeft">@dimen/margin_12</item>
+        <item name="android:paddingRight">@dimen/margin_12</item>
         <item name="android:drawablePadding">@dimen/margin_8</item>
     </style>
 
@@ -53,6 +53,21 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textSize">@dimen/text_size_14</item>
         <item name="android:textColor">@drawable/selector_text_color_normal</item>
+    </style>
+
+    <style name="DimTextStyle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:layout_alignParentRight">true</item>
+        <item name="android:layout_centerVertical">true</item>
+        <item name="android:textColor">@color/color_666666</item>
+        <item name="android:textColorHint">@color/color_999999</item>
+    </style>
+
+    <style name="DimArrowTextStyle" parent="DimTextStyle">
+        <item name="android:drawablePadding">@dimen/margin_8</item>
+        <item name="android:drawableRight">@drawable/icon_neet</item>
     </style>
 
     <style name="HighlightTextStyle">

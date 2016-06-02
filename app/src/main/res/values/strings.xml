@@ -13,6 +13,7 @@
     <string name="tips">温馨提示</string>
     <string name="network_unavailable">网络不可用,确保wifi或者移动网络是否已经打开</string>
     <string name="request_timeout">请求超时</string>
+    <string name="request_fail">请求失败</string>
 
     <!-- 登录 -->
     <string name="login">登录</string>
@@ -96,6 +97,18 @@
     <string name="my_coupons">我的优惠劵</string>
     <string name="setting">设置</string>
 
+    <!-- 个人资料 -->
+    <string name="personal_information">个人资料</string>
+    <string name="avatar">头像</string>
+    <string name="nickname">昵称</string>
+    <string name="locality">所在地</string>
+    <string name="phone">手机号码</string>
+    <string name="registrant_name">注册人姓名</string>
+    <string name="child_information">孩子资料</string>
+    <string name="address_management">地址管理</string>
+    <string name="account_security">账户安全</string>
+    <string name="can_change_password">可修改密码</string>
+
     <!-- 设置 -->
     <string name="only_update_in_wifi">仅在WIFI下更新</string>
     <string name="version">版本号</string>
@@ -125,6 +138,19 @@
 
     <!-- 相框 -->
     <string name="picture_frame">相框</string>
+    <string name="template">模版</string>
+    <string name="landscape">横版</string>
+    <string name="portrait">竖版</string>
+    <string name="purchase">购买</string>
+    <string name="choose_size">选择尺寸</string>
+    <string name="choose_style">选择样式</string>
+    <string name="choose_quantity">选择数量</string>
+
+    <!-- 选择模版 -->
+    <string name="choose_template">选择模版</string>
+    <string name="template_detail">模版详情</string>
+    <string name="price_rmb">价格: ¥%s</string>
+    <string name="page_count">%dP</string>
 
     <!-- 个性日历 -->
     <string name="custom_calendar">个性日历</string>
@@ -157,6 +183,7 @@
     <string name="crystal">水晶面</string>
     <string name="yogon">亚光面</string>
     <string name="choose_material_num">选择材质数量</string>
+    <string name="warm_prompt">温馨提示,版画制作周期为5天,请耐心等待</string>
     <string name="choose_material">选择材质</string>
     <string name="choose_make_num">选择制作数量</string>
     <string name="crystal_paper_quality">* 特色 : 光亮、华丽、大气。照片清晰光滑,与空气彻底隔离,防水防潮可擦洗,不易褪色。</string>
@@ -173,6 +200,7 @@
     <string name="alipay_pay">支付宝支付</string>
     <string name="wechat_pay">微信支付</string>
     <string name="receivables">应付金额: ¥%f</string>
+    <string name="rmb">¥</string>
     <string name="yuan_symbol">¥%f</string>
     <string name="yuan_unit">元</string>
     <string name="coupon">优惠劵</string>
@@ -183,6 +211,16 @@
     <!-- 选择优惠劵 -->
     <string name="choose_coupon">选择优惠劵</string>
     <string name="no_coupon">很抱歉,没有找到您的优惠劵</string>
+
+    <!-- 我的优惠劵 -->
+    <string name="input_activation_code">请输入优惠劵激活码</string>
+    <string name="activate">激活</string>
+    <string name="coupon_use_condition">满%s可使用</string>
+    <string name="coupon_amount">%s元现金优惠劵</string>
+    <string name="coupon_number">编号: %s</string>
+    <string name="expiry_date">有效期至%s</string>
+    <string name="available_coupon">可使用(%d)</string>
+    <string name="unavailable_coupon">不可以使用(%d)</string>
 
     <!-- 收货地址 -->
     <string name="delivery_address">收货地址</string>

@@ -20,7 +20,7 @@
             android:layout_width="match_parent"
             android:layout_height="88dp"
             android:layout_marginTop="@dimen/margin_40"
-            android:background="@drawable/shape_round_corner_area_bg"
+            android:background="@drawable/shape_round_corner_area_white_bg"
             android:orientation="vertical">
 
             <com.MDGround.HaiLanPrint.views.ClearEditText

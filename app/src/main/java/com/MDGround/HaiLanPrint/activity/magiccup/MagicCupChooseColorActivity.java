@@ -58,7 +58,7 @@ public class MagicCupChooseColorActivity extends ToolbarActivity<ActivityMagicCu
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         mDataBinding.recyclerView.setLayoutManager(layoutManager);
-        mDataBinding.recyclerView.addItemDecoration(new DividerItemDecoration(16));
+        mDataBinding.recyclerView.addItemDecoration(new DividerItemDecoration(12));
 
         mAdapter = new MagicCupChooseColorAdapter();
         mDataBinding.recyclerView.setAdapter(mAdapter);

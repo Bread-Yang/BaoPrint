@@ -296,4 +296,19 @@ public class GlobalRestful extends BaseRestful {
 
         asynchronousPost("GetPhotoTemplateAttachList", obj.toString(), callback);
     }
+
+    public void ActivatingCoupon(String activationCode, Callback<ResponseData> callback) {
+        JSONObject obj = new JSONObject();
+        try {
+            obj.put("ActivationCode", activationCode);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        asynchronousPost("ActivatingCoupon", obj.toString(), callback);
+    }
+
+    public void GetUserCouponList(Callback<ResponseData> callback) {
+        asynchronousPost("GetUserCouponList", null, callback);
+    }
 }

@@ -32,7 +32,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="@dimen/margin_10"
-                android:text="@string/choose_image_tips"
+                tools:text="@string/choose_image_tips"
                 android:textSize="@dimen/margin_12"/>
 
             <Button
@@ -43,7 +43,7 @@
                 android:layout_centerVertical="true"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginRight="10dp"
-                android:layout_marginTop="@dimen/margin_32"
+                android:layout_marginTop="@dimen/margin_10"
                 android:background="@drawable/ripple_button_round_angle_orange"
                 android:gravity="center"
                 android:onClick="nextStepAction"
