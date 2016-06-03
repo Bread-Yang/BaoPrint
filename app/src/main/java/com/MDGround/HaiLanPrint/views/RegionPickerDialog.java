@@ -25,7 +25,7 @@ public class RegionPickerDialog extends Dialog {
     private OnRegionSelectListener onRegionSelectListener;
 
     public RegionPickerDialog(Context context) {
-        super(context, R.style.customDialog);
+        super(context, R.style.customDialogStyle);
     }
 
     public RegionPickerDialog(Context context, int themeResId) {

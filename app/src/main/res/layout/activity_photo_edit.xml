@@ -67,7 +67,7 @@
             android:scrollbars="none"/>
 
         <View
-            style="@style/DividerHorizontal"
+            style="@style/DividerHorizontalStyle"
             android:layout_marginTop="@dimen/margin_25"/>
 
         <Button

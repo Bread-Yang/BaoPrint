@@ -11,7 +11,7 @@
         android:paddingTop="@dimen/margin_20">
 
         <RelativeLayout
-            style="@style/NormalLayoutStyle">
+            style="@style/FixHeightLayoutStyle">
             <TextView
                 style="@style/NormalTextStyle"
                 android:layout_centerVertical="true"
@@ -22,17 +22,17 @@
                 android:id="@+id/cbWifiUpdateEnable"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
                 android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
                 android:button="@drawable/selector_cb_bg_switch_button"/>
 
         </RelativeLayout>
 
         <View
-            style="@style/DividerHorizontal_Margin"/>
+            style="@style/DividerHorizontalMarginSytle"/>
 
         <RelativeLayout
-            style="@style/NormalLayoutStyle">
+            style="@style/FixHeightLayoutStyle">
             <TextView
                 style="@style/NormalTextStyle"
                 android:layout_centerVertical="true"
@@ -47,10 +47,10 @@
                 tools:text="V2.3.3"/>
         </RelativeLayout>
 
-        <View style="@style/DividerHorizontal_Margin"/>
+        <View style="@style/DividerHorizontalMarginSytle"/>
 
         <RelativeLayout
-            style="@style/NormalLayoutStyle">
+            style="@style/FixHeightLayoutStyle">
             <TextView
                 style="@style/NormalTextStyle"
                 android:layout_centerVertical="true"
@@ -66,10 +66,10 @@
 
         </RelativeLayout>
 
-        <View style="@style/DividerHorizontal_Margin"/>
+        <View style="@style/DividerHorizontalMarginSytle"/>
 
         <RelativeLayout
-            style="@style/NormalLayoutStyle">
+            style="@style/FixHeightLayoutStyle">
             <TextView
                 style="@style/NormalTextStyle"
                 android:layout_centerVertical="true"
@@ -77,7 +77,7 @@
                 android:textSize="@dimen/text_size_16"/>
             <ImageView
                 android:id="@+id/ivArrow"
-                style="@style/Arrow"
+                style="@style/ArrowIconStyle"
                 android:layout_gravity="center_vertical"/>
 
         </RelativeLayout>

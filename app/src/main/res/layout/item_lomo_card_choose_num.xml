@@ -18,9 +18,7 @@
     </data>
 
     <RelativeLayout
-        style="@style/NormalLayoutStyle"
-        android:paddingLeft="@dimen/margin_12"
-        android:paddingRight="@dimen/margin_12"
+        style="@style/FixHeightLayoutStyle"
         android:onClick="@{handlers::toSelectTemplateActivityAction}">
 
     <TextView
@@ -49,7 +47,7 @@
 
     <ImageView
         android:id="@+id/ivArrow"
-        style="@style/Arrow"/>
+        style="@style/ArrowIconStyle"/>
 
 </RelativeLayout>
     </layout>

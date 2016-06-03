@@ -1,7 +1,5 @@
 package com.MDGround.HaiLanPrint.models;
 
-import android.os.Parcel;
-
 import java.io.Serializable;
 import java.util.Date;
 
@@ -66,30 +64,6 @@ public class User implements Serializable {
     public User() {
         InvitationCode = "";
         ChildDOB = "";
-    }
-
-    protected User(Parcel in) {
-        UserID = in.readInt();
-        UserRole = in.readInt();
-        WXOpenID = in.readString();
-        WBUID = in.readString();
-        QQOpenID = in.readString();
-        Phone = in.readString();
-        Password = in.readString();
-        Status = in.readInt();
-        UserName = in.readString();
-        UserNickName = in.readString();
-        Gender = in.readInt();
-        PhotoID = in.readInt();
-        PhotoSID = in.readInt();
-        CountryID = in.readInt();
-        ProvinceID = in.readInt();
-        CityID = in.readInt();
-        DistrictID = in.readInt();
-        SystemSetting = in.readInt();
-        InvitationCode = in.readString();
-        DeviceID = in.readInt();
-        ServiceToken = in.readString();
     }
 
     public int getUserID() {

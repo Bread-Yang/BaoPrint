@@ -3,6 +3,7 @@ package com.MDGround.HaiLanPrint.restfuls;
 import com.MDGround.HaiLanPrint.ProductType;
 import com.MDGround.HaiLanPrint.application.MDGroundApplication;
 import com.MDGround.HaiLanPrint.constants.Constants;
+import com.MDGround.HaiLanPrint.enumobject.OrderStatus;
 import com.MDGround.HaiLanPrint.enumobject.ThirdPartyLoginType;
 import com.MDGround.HaiLanPrint.enumobject.restfuls.BusinessType;
 import com.MDGround.HaiLanPrint.models.DeliveryAddress;
@@ -295,6 +296,17 @@ public class GlobalRestful extends BaseRestful {
         }
 
         asynchronousPost("GetPhotoTemplateAttachList", obj.toString(), callback);
+    }
+
+    public void GetUserOrderList(OrderStatus orderStatus, Callback<ResponseData> callback) {
+        JSONObject obj = new JSONObject();
+        try {
+            obj.put("OrderStatus", orderStatus.value());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        asynchronousPost("GetUserOrderList", obj.toString(), callback);
     }
 
     public void ActivatingCoupon(String activationCode, Callback<ResponseData> callback) {

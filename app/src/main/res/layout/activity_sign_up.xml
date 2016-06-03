@@ -38,7 +38,7 @@
                 android:textColorHint="@color/color_999999"
                 android:textSize="@dimen/text_size_16"/>
 
-            <View style="@style/DividerHorizontal_Margin"/>
+            <View style="@style/DividerHorizontalMarginSytle"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -62,7 +62,7 @@
                     android:textSize="@dimen/text_size_16"/>
 
                 <View
-                    style="@style/DividerVertical"
+                    style="@style/DividerVerticalStyle"
                     android:layout_marginBottom="8dp"
                     android:layout_marginTop="8dp"/>
 
@@ -74,11 +74,11 @@
                     android:gravity="center"
                     android:onClick="getCaptchaAction"
                     android:text="@string/acquire_captcha"
-                    android:textColor="@color/color_f88b0b"
+                    android:textColor="@color/color_f88e11"
                     android:textSize="@dimen/text_size_14"/>
             </LinearLayout>
 
-            <View style="@style/DividerHorizontal_Margin"/>
+            <View style="@style/DividerHorizontalMarginSytle"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -111,7 +111,7 @@
 
             </LinearLayout>
 
-            <View style="@style/DividerHorizontal_Margin"/>
+            <View style="@style/DividerHorizontalMarginSytle"/>
 
             <com.MDGround.HaiLanPrint.views.ClearEditText
                 android:id="@+id/cetInviteCode"
@@ -137,7 +137,7 @@
             android:paddingLeft="@dimen/margin_12">
 
             <TextView
-                style="@style/NormalClickableTextStyle"
+                style="@style/ClickableTextStyle"
                 android:layout_alignParentRight="true"
                 android:text="@string/agree_protocol_tips"
                 android:textColor="@color/color_666666"
@@ -180,7 +180,7 @@
             android:orientation="horizontal">
 
             <TextView
-                style="@style/NormalClickableTextStyle"
+                style="@style/ClickableTextStyle"
                 android:layout_alignParentRight="true"
                 android:text="@string/has_account"
                 android:textSize="12dp"/>

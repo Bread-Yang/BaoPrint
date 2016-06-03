@@ -7,7 +7,9 @@ import android.widget.CompoundButton;
 
 import com.MDGround.HaiLanPrint.R;
 import com.MDGround.HaiLanPrint.activity.base.ToolbarActivity;
+import com.MDGround.HaiLanPrint.constants.Constants;
 import com.MDGround.HaiLanPrint.databinding.ActivitySettingBinding;
+import com.MDGround.HaiLanPrint.utils.FileUtils;
 import com.MDGround.HaiLanPrint.utils.NavUtils;
 
 /**
@@ -57,6 +59,7 @@ public class SettingActivity extends ToolbarActivity<ActivitySettingBinding> {
 
     //region ACTION
     public void logoutAction(View view) {
+        FileUtils.setObject(Constants.KEY_ALREADY_LOGIN_USER, null); // 清空之前的user
         NavUtils.toLoginActivity(this);
     }
     //endregion

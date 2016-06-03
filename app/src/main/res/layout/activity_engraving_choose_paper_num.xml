@@ -61,7 +61,7 @@
             android:textColor="@color/color_f88e11"/>
 
         <View
-            style="@style/DividerHorizontal"
+            style="@style/DividerHorizontalStyle"
             android:layout_height="10dp"
             android:layout_marginLeft="0dp"
             android:layout_marginRight="0dp"
@@ -82,7 +82,7 @@
             android:layout_marginTop="@dimen/margin_12"
             android:layout_weight="1"/>
 
-        <View style="@style/DividerHorizontal"/>
+        <View style="@style/DividerHorizontalStyle"/>
 
         <Button
             android:id="@+id/btnNextStep"

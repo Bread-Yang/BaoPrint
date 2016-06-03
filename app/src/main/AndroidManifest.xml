@@ -188,7 +188,7 @@
             android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.coupon.MyCouponActivity"
-            android:label="@string/choose_coupon"
+            android:label="@string/my_coupons"
             android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.deliveryaddress.ChooseDeliveryAddressActivity"
@@ -202,6 +202,12 @@
             android:name=".activity.personalcenter.PersonalCenterActivity"
             android:label="@string/personal_center"
             android:screenOrientation="portrait"/>
+
+        <activity
+            android:name=".activity.orders.MyOrdersActivity"
+            android:label="@string/my_orders"
+            android:screenOrientation="portrait"/>
+
         <activity
             android:name=".activity.personalcenter.PersonalInformationActivity"
             android:label="@string/personal_information"

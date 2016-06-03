@@ -29,11 +29,15 @@
 
     <style name="NormalLayoutStyle">
         <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">@dimen/size_44</item>
+        <item name="android:layout_height">wrap_content</item>
         <item name="android:background">@color/color_white</item>
         <item name="android:paddingLeft">@dimen/margin_12</item>
         <item name="android:paddingRight">@dimen/margin_12</item>
         <item name="android:drawablePadding">@dimen/margin_8</item>
+    </style>
+
+    <style name="FixHeightLayoutStyle" parent="NormalLayoutStyle">
+        <item name="android:layout_height">@dimen/size_44</item>
     </style>
 
     <style name="NormalTextStyle">
@@ -44,11 +48,11 @@
         <item name="android:textColorHint">@color/color_999999</item>
     </style>
 
-    <style name="NormalTextLayoutStyle" parent="@style/NormalTextStyle">
+    <style name="FixHeightTextStyle" parent="@style/NormalTextStyle">
         <item name="android:layout_height">@dimen/size_44</item>
     </style>
 
-    <style name="NormalClickableTextStyle">
+    <style name="ClickableTextStyle">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textSize">@dimen/text_size_14</item>
@@ -65,7 +69,7 @@
         <item name="android:textColorHint">@color/color_999999</item>
     </style>
 
-    <style name="DimArrowTextStyle" parent="DimTextStyle">
+    <style name="WithArrowIconDimTextStyle" parent="DimTextStyle">
         <item name="android:drawablePadding">@dimen/margin_8</item>
         <item name="android:drawableRight">@drawable/icon_neet</item>
     </style>
@@ -77,25 +81,25 @@
         <item name="android:textColor">@drawable/selector_text_color_highlight</item>
     </style>
 
-    <style name="DividerVertical">
+    <style name="DividerVerticalStyle">
         <item name="android:layout_width">1dp</item>
         <item name="android:layout_height">match_parent</item>
         <item name="android:background">@color/color_divider</item>
     </style>
 
-    <style name="DividerHorizontal">
+    <style name="DividerHorizontalStyle">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">1dp</item>
         <item name="android:background">@color/color_divider</item>
     </style>
 
-    <style name="DividerHorizontal_Margin">
+    <style name="DividerHorizontalMarginSytle">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">1dp</item>
         <item name="android:background">@drawable/layerlist_divider</item>
     </style>
 
-    <style name="Arrow">
+    <style name="ArrowIconStyle">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_alignParentRight">true</item>
@@ -103,7 +107,7 @@
         <item name="android:src">@drawable/icon_neet</item>
     </style>
 
-    <style name="customDialog" parent="android:style/Theme.Dialog">
+    <style name="customDialogStyle" parent="android:style/Theme.Dialog">
 
         <!-- 背景颜色及透明程度 -->
         <item name="android:windowBackground">@android:color/transparent</item>

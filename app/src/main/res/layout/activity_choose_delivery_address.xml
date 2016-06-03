@@ -11,7 +11,7 @@
         android:orientation="vertical">
 
         <RelativeLayout
-            style="@style/NormalLayoutStyle"
+            style="@style/FixHeightLayoutStyle"
             android:layout_marginTop="@dimen/margin_8"
             android:onClick="toAddDeliveryAddressActivityAction">
 
@@ -41,7 +41,7 @@
 
             <ImageView
                 android:id="@+id/ivArrow"
-                style="@style/Arrow"/>
+                style="@style/ArrowIconStyle"/>
 
         </RelativeLayout>
 

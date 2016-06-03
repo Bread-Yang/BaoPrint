@@ -70,7 +70,7 @@
             android:textColorHint="@color/color_999999"
             android:textSize="@dimen/text_size_16"/>
 
-        <View style="@style/DividerHorizontal_Margin"/>
+        <View style="@style/DividerHorizontalMarginSytle"/>
 
         <TextView
             android:id="@+id/tvChildBirthday"
@@ -88,7 +88,7 @@
             android:textColorHint="@color/color_999999"
             android:textSize="@dimen/text_size_16"/>
 
-        <View style="@style/DividerHorizontal_Margin"/>
+        <View style="@style/DividerHorizontalMarginSytle"/>
 
         <com.MDGround.HaiLanPrint.views.ClearEditText
             android:id="@+id/cetChildSchool"
@@ -104,7 +104,7 @@
             android:textColorHint="@color/color_999999"
             android:textSize="@dimen/text_size_16"/>
 
-        <View style="@style/DividerHorizontal_Margin"/>
+        <View style="@style/DividerHorizontalMarginSytle"/>
 
         <com.MDGround.HaiLanPrint.views.ClearEditText
             android:id="@+id/cetChildClass"

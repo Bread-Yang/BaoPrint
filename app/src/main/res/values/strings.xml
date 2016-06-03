@@ -109,6 +109,25 @@
     <string name="account_security">账户安全</string>
     <string name="can_change_password">可修改密码</string>
 
+    <!-- 我的订单 -->
+    <string name="order_no_with_colon">订单号: </string>
+    <string name="num_with_colon">数量: %d</string>
+    <string name="already_paid">已付款</string>
+    <string name="already_delivered">已付款</string>
+    <string name="already_finished">已完成</string>
+    <string name="refunding">退款中</string>
+    <string name="already_refunded">已退款</string>
+    <string name="refundFail">退款失败</string>
+    <string name="actual_payment_with_colon">实付款: </string>
+    <string name="order_time_with_colon">下单时间: </string>
+    <string name="apply_refund">申请退款</string>
+    <string name="confirm_receive">确认收货</string>
+
+    <!-- 订单详情 -->
+    <string name="logistics_information">物流信息</string>
+    <string name="express_company_with_colon">快递公司: %s</string>
+    <string name="express_number_with_colon">快递单号: %s</string>
+
     <!-- 设置 -->
     <string name="only_update_in_wifi">仅在WIFI下更新</string>
     <string name="version">版本号</string>
@@ -201,7 +220,7 @@
     <string name="wechat_pay">微信支付</string>
     <string name="receivables">应付金额: ¥%f</string>
     <string name="rmb">¥</string>
-    <string name="yuan_symbol">¥%f</string>
+    <string name="yuan_amount">¥%s</string>
     <string name="yuan_unit">元</string>
     <string name="coupon">优惠劵</string>
     <string name="available_num">%d张可用</string>

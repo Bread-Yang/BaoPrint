@@ -42,7 +42,7 @@
             android:orientation="vertical">
 
             <RelativeLayout
-                style="@style/NormalLayoutStyle">
+                style="@style/FixHeightLayoutStyle">
 
                 <TextView
                     android:id="@+id/tvTemplateName"
@@ -68,11 +68,11 @@
             </RelativeLayout>
 
             <View
-                style="@style/DividerHorizontal_Margin"/>
+                style="@style/DividerHorizontalMarginSytle"/>
 
 
             <RelativeLayout
-                style="@style/NormalLayoutStyle">
+                style="@style/FixHeightLayoutStyle">
 
                 <TextView
                     android:layout_width="@dimen/margin_80"
@@ -121,10 +121,10 @@
             </RelativeLayout>
 
             <View
-                style="@style/DividerHorizontal_Margin"/>
+                style="@style/DividerHorizontalMarginSytle"/>
 
             <RelativeLayout
-                style="@style/NormalLayoutStyle">
+                style="@style/FixHeightLayoutStyle">
 
                 <TextView
                     android:layout_width="@dimen/margin_80"
@@ -162,10 +162,10 @@
             </RelativeLayout>
 
             <View
-                style="@style/DividerHorizontal_Margin"/>
+                style="@style/DividerHorizontalMarginSytle"/>
 
             <RelativeLayout
-                style="@style/NormalLayoutStyle">
+                style="@style/FixHeightLayoutStyle">
 
                 <TextView
                     android:layout_width="@dimen/margin_80"
@@ -213,7 +213,7 @@
         </LinearLayout>
 
         <View
-            style="@style/DividerHorizontal"
+            style="@style/DividerHorizontalStyle"
             android:layout_above="@+id/btnPurchase"
             android:layout_marginTop="@dimen/margin_25"/>
 

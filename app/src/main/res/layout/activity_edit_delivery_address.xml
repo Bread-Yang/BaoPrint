@@ -17,7 +17,7 @@
             android:orientation="horizontal">
 
             <TextView
-                style="@style/NormalTextLayoutStyle"
+                style="@style/FixHeightTextStyle"
                 android:layout_width="@dimen/margin_80"
                 android:layout_marginLeft="@dimen/margin_15"
                 android:clickable="true"
@@ -27,7 +27,7 @@
 
             <com.MDGround.HaiLanPrint.views.ClearEditText
                 android:id="@+id/cetConsignee"
-                style="@style/NormalTextLayoutStyle"
+                style="@style/FixHeightTextStyle"
                 android:layout_width="match_parent"
                 android:layout_weight="1"
                 android:background="@null"
@@ -39,7 +39,7 @@
 
         </LinearLayout>
 
-        <View style="@style/DividerHorizontal_Margin"/>
+        <View style="@style/DividerHorizontalMarginSytle"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -48,7 +48,7 @@
             android:orientation="horizontal">
 
             <TextView
-                style="@style/NormalTextLayoutStyle"
+                style="@style/FixHeightTextStyle"
                 android:layout_width="@dimen/margin_80"
                 android:layout_marginLeft="@dimen/margin_15"
                 android:clickable="true"
@@ -58,7 +58,7 @@
 
             <com.MDGround.HaiLanPrint.views.ClearEditText
                 android:id="@+id/cetContactNumber"
-                style="@style/NormalTextLayoutStyle"
+                style="@style/FixHeightTextStyle"
                 android:layout_width="match_parent"
                 android:layout_weight="1"
                 android:background="@null"
@@ -70,7 +70,7 @@
 
         </LinearLayout>
 
-        <View style="@style/DividerHorizontal_Margin"/>
+        <View style="@style/DividerHorizontalMarginSytle"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -79,7 +79,7 @@
             android:orientation="horizontal">
 
             <TextView
-                style="@style/NormalTextLayoutStyle"
+                style="@style/FixHeightTextStyle"
                 android:layout_width="@dimen/margin_80"
                 android:layout_marginLeft="@dimen/margin_15"
                 android:clickable="true"
@@ -89,7 +89,7 @@
 
             <TextView
                 android:id="@+id/tvRegion"
-                style="@style/NormalTextLayoutStyle"
+                style="@style/FixHeightTextStyle"
                 android:layout_width="match_parent"
                 android:layout_weight="1"
                 android:background="@null"
@@ -100,13 +100,13 @@
 
             <ImageView
                 android:id="@+id/ivArrow"
-                style="@style/Arrow"
+                style="@style/ArrowIconStyle"
                 android:layout_gravity="center_vertical"
                 android:layout_marginRight="@dimen/margin_8"/>
 
         </LinearLayout>
 
-        <View style="@style/DividerHorizontal_Margin"/>
+        <View style="@style/DividerHorizontalMarginSytle"/>
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -116,7 +116,7 @@
 
             <TextView
                 android:id="@+id/tvDetailedAdress"
-                style="@style/NormalTextLayoutStyle"
+                style="@style/FixHeightTextStyle"
                 android:layout_width="@dimen/margin_80"
                 android:layout_marginLeft="@dimen/margin_15"
                 android:clickable="true"
@@ -126,7 +126,7 @@
 
             <EditText
                 android:id="@+id/etDetailedAddress"
-                style="@style/NormalTextLayoutStyle"
+                style="@style/FixHeightTextStyle"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/size_88"
                 android:layout_toRightOf="@+id/tvDetailedAdress"

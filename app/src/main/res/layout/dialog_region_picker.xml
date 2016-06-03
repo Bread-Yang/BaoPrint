@@ -10,7 +10,7 @@
         android:orientation="vertical">
 
         <RelativeLayout
-            style="@style/NormalLayoutStyle"
+            style="@style/FixHeightLayoutStyle"
             android:orientation="horizontal">
 
             <TextView
@@ -35,7 +35,7 @@
                 android:textSize="18sp"/>
         </RelativeLayout>
 
-        <View style="@style/DividerHorizontal"/>
+        <View style="@style/DividerHorizontalStyle"/>
 
         <com.MDGround.HaiLanPrint.views.RegionWheelView
             android:id="@+id/regionWheelview"

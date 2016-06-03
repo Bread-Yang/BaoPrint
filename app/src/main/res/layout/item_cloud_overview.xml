@@ -64,7 +64,7 @@
 
         <ImageView
             android:id="@+id/ivArrow"
-            style="@style/Arrow"/>
+            style="@style/ArrowIconStyle"/>
     </LinearLayout>
 
 </layout>

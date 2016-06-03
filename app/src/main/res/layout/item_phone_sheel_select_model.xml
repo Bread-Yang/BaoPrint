@@ -18,7 +18,7 @@
     </data>
 
     <RelativeLayout
-        style="@style/NormalLayoutStyle"
+        style="@style/FixHeightLayoutStyle"
         android:onClick="@{handlers::toPhoneShellSelectModelActivityAction}">
 
         <TextView
@@ -36,6 +36,6 @@
         <ImageView
             android:visibility="gone"
             android:id="@+id/ivArrow"
-            style="@style/Arrow"/>
+            style="@style/ArrowIconStyle"/>
     </RelativeLayout>
 </layout>

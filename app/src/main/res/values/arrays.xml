@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <string-array name="order_status_array">
+        <item>全部</item>
+        <item>已付款</item>
+        <item>已发货</item>
+        <item>已完成</item>
+        <item>退款</item>
+    </string-array>
+
     <string-array name="template_class_array">
         <item>全部</item>
         <item>亲子</item>

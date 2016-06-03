@@ -6,6 +6,7 @@ import android.view.View;
 import com.MDGround.HaiLanPrint.R;
 import com.MDGround.HaiLanPrint.activity.base.ToolbarActivity;
 import com.MDGround.HaiLanPrint.activity.coupon.MyCouponActivity;
+import com.MDGround.HaiLanPrint.activity.orders.MyOrdersActivity;
 import com.MDGround.HaiLanPrint.application.MDGroundApplication;
 import com.MDGround.HaiLanPrint.databinding.ActivityPersonalCenterBinding;
 import com.MDGround.HaiLanPrint.models.MDImage;
@@ -42,6 +43,11 @@ public class PersonalCenterActivity extends ToolbarActivity<ActivityPersonalCent
     //region ACTION
     public void toPersonalInformationAction(View view) {
         Intent intent = new Intent(this, PersonalInformationActivity.class);
+        startActivity(intent);
+    }
+
+    public void toMyOrdersActivityAction(View view) {
+        Intent intent = new Intent(this, MyOrdersActivity.class);
         startActivity(intent);
     }
 

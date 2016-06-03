@@ -23,6 +23,7 @@ import com.MDGround.HaiLanPrint.models.OrderWorkPhoto;
 import com.MDGround.HaiLanPrint.restfuls.FileRestful;
 import com.MDGround.HaiLanPrint.restfuls.GlobalRestful;
 import com.MDGround.HaiLanPrint.restfuls.bean.ResponseData;
+import com.MDGround.HaiLanPrint.utils.DateUtils;
 import com.MDGround.HaiLanPrint.utils.SelectImageUtil;
 import com.MDGround.HaiLanPrint.utils.StringUtil;
 import com.MDGround.HaiLanPrint.utils.ViewUtils;
@@ -195,7 +196,7 @@ public class PrintPhotoChoosePaperNumActivity extends ToolbarActivity<ActivityPr
             workMaterial = ProductMaterial.PrintPhoto_Matte.getText();
         }
         orderWork.setWorkMaterial(workMaterial);
-        orderWork.setCreateTime(new Date());
+        orderWork.setCreateTime(DateUtils.getServerDateStringByDate(new Date()));
 
         GlobalRestful.getInstance().SaveOrderWork(orderWork, new Callback<ResponseData>() {
             @Override

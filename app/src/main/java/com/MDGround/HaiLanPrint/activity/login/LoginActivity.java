@@ -201,6 +201,7 @@ public class LoginActivity extends AppCompatActivity {
                 .LoginUser(phone, MD5Util.MD5(password), new Callback<ResponseData>() {
                     @Override
                     public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
+                        ViewUtils.dismiss();
                         if (ResponseCode.isSuccess(response.body())) {
                             User user = response.body().getContent(User.class);
                             saveUserAndToMainActivity(user);

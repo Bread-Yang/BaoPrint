@@ -59,6 +59,12 @@
                         tools:text="广东省广州市天河区棠安路188号乐天大厦8楼808-812"/>
                 </RelativeLayout>
 
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/bitmap_address"/>
+
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -96,7 +102,7 @@
                         android:layout_height="wrap_content"
                         android:layout_alignBottom="@+id/tvNum"
                         android:layout_toLeftOf="@+id/tvYuan"
-                        android:textColor="@color/color_f88b0b"
+                        android:textColor="@color/color_f88e11"
                         tools:text="¥276.00"/>
 
                     <TextView
@@ -110,10 +116,10 @@
 
                 </RelativeLayout>
 
-                <View style="@style/DividerHorizontal"/>
+                <View style="@style/DividerHorizontalStyle"/>
 
                 <RelativeLayout
-                    style="@style/NormalLayoutStyle"
+                    style="@style/FixHeightLayoutStyle"
                     android:gravity="center_vertical"
                     android:onClick="toChooseCouponActivityAction"
                     android:padding="@dimen/margin_8">
@@ -146,16 +152,16 @@
 
                 </RelativeLayout>
 
-                <View style="@style/DividerHorizontal"/>
+                <View style="@style/DividerHorizontalStyle"/>
 
                 <RelativeLayout
-                    style="@style/NormalLayoutStyle"
+                    style="@style/FixHeightLayoutStyle"
                     android:gravity="center_vertical"
                     android:padding="@dimen/margin_8">
 
                     <CheckBox
                         android:id="@+id/cbUseCredit"
-                        style="@style/NormalClickableTextStyle"
+                        style="@style/ClickableTextStyle"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_centerVertical="true"
@@ -204,8 +210,7 @@
 
                     <RadioButton
                         android:id="@+id/rbAplipay"
-                        style="@style/NormalLayoutStyle"
-                        android:layout_width="match_parent"
+                        style="@style/FixHeightLayoutStyle"
                         android:layout_marginBottom="-1dp"
                         android:button="@null"
                         android:checked="true"
@@ -213,11 +218,11 @@
                         android:drawableRight="@drawable/selector_rb_bg_check"
                         android:text="@string/alipay_pay"/>
 
-                    <View style="@style/DividerHorizontal"/>
+                    <View style="@style/DividerHorizontalStyle"/>
 
                     <RadioButton
                         android:id="@+id/rbWechatPay"
-                        style="@style/NormalLayoutStyle"
+                        style="@style/FixHeightLayoutStyle"
                         android:button="@null"
                         android:drawableLeft="@drawable/icon_login_wx"
                         android:drawableRight="@drawable/selector_rb_bg_check"
@@ -240,7 +245,7 @@
 
             <TextView
                 android:id="@+id/tvAmount"
-                style="@style/NormalClickableTextStyle"
+                style="@style/ClickableTextStyle"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_centerVertical="true"

@@ -11,7 +11,7 @@
         android:orientation="vertical">
 
         <View
-            style="@style/DividerHorizontal"
+            style="@style/DividerHorizontalStyle"
             android:layout_above="@+id/btnNextStep"/>
 
         <Button

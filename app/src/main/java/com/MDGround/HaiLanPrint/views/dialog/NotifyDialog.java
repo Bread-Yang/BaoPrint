@@ -31,7 +31,7 @@ public class NotifyDialog extends Dialog implements View.OnClickListener {
 	
 
 	public NotifyDialog(Context context) {
-		this(context, R.style.customDialog);
+		this(context, R.style.customDialogStyle);
 	}
 
 	public NotifyDialog(Context context, int theme) {

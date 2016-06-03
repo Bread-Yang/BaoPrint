@@ -36,14 +36,14 @@
 
             <ImageView
                 android:id="@+id/ivArrow"
-                style="@style/Arrow"/>
+                style="@style/ArrowIconStyle"/>
         </RelativeLayout>
 
         <View
-            style="@style/DividerHorizontal_Margin"/>
+            style="@style/DividerHorizontalMarginSytle"/>
 
         <RelativeLayout
-            style="@style/NormalLayoutStyle">
+            style="@style/FixHeightLayoutStyle">
 
             <TextView
                 android:layout_width="@dimen/margin_80"
@@ -56,16 +56,16 @@
 
             <TextView
                 android:id="@+id/tvNickname"
-                style="@style/DimArrowTextStyle"
+                style="@style/WithArrowIconDimTextStyle"
                 tools:text="包"/>
 
         </RelativeLayout>
 
         <View
-            style="@style/DividerHorizontal_Margin"/>
+            style="@style/DividerHorizontalMarginSytle"/>
 
         <RelativeLayout
-            style="@style/NormalLayoutStyle"
+            style="@style/FixHeightLayoutStyle"
             android:orientation="horizontal">
 
             <TextView
@@ -79,16 +79,16 @@
 
             <TextView
                 android:id="@+id/tvLocality"
-                style="@style/DimArrowTextStyle"
+                style="@style/WithArrowIconDimTextStyle"
                 tools:text="广州天河区"/>
 
         </RelativeLayout>
 
         <View
-            style="@style/DividerHorizontal_Margin"/>
+            style="@style/DividerHorizontalMarginSytle"/>
 
         <RelativeLayout
-            style="@style/NormalLayoutStyle"
+            style="@style/FixHeightLayoutStyle"
             android:orientation="horizontal">
 
             <TextView
@@ -108,10 +108,10 @@
         </RelativeLayout>
 
         <View
-            style="@style/DividerHorizontal_Margin"/>
+            style="@style/DividerHorizontalMarginSytle"/>
 
         <RelativeLayout
-            style="@style/NormalLayoutStyle"
+            style="@style/FixHeightLayoutStyle"
             android:orientation="horizontal">
 
             <TextView
@@ -131,7 +131,7 @@
         </RelativeLayout>
 
         <RelativeLayout
-            style="@style/NormalLayoutStyle"
+            style="@style/FixHeightLayoutStyle"
             android:layout_marginTop="@dimen/margin_10"
             android:orientation="horizontal">
 
@@ -145,12 +145,12 @@
                 android:textSize="@dimen/text_size_16"/>
 
             <ImageView
-                style="@style/Arrow"/>
+                style="@style/ArrowIconStyle"/>
 
         </RelativeLayout>
 
         <RelativeLayout
-            style="@style/NormalLayoutStyle"
+            style="@style/FixHeightLayoutStyle"
             android:layout_marginTop="@dimen/margin_10"
             android:orientation="horizontal">
 
@@ -164,15 +164,15 @@
                 android:textSize="@dimen/text_size_16"/>
 
             <ImageView
-                style="@style/Arrow"/>
+                style="@style/ArrowIconStyle"/>
 
         </RelativeLayout>
 
         <View
-            style="@style/DividerHorizontal_Margin"/>
+            style="@style/DividerHorizontalMarginSytle"/>
 
         <RelativeLayout
-            style="@style/NormalLayoutStyle"
+            style="@style/FixHeightLayoutStyle"
             android:orientation="horizontal">
 
             <TextView
@@ -185,7 +185,7 @@
                 android:textSize="@dimen/text_size_16"/>
 
             <TextView
-                style="@style/DimArrowTextStyle"
+                style="@style/WithArrowIconDimTextStyle"
                 android:text="@string/can_change_password"/>
         </RelativeLayout>
 
