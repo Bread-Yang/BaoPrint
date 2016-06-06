@@ -18,4 +18,13 @@ public enum ThirdPartyLoginType {
     public int value() {
         return value;
     }
+
+    public static ThirdPartyLoginType fromValue(int value) {
+        for (ThirdPartyLoginType type : ThirdPartyLoginType.values()) {
+            if (type.value() == value) {
+                return type;
+            }
+        }
+        return null;
+    }
 }

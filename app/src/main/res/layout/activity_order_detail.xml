@@ -3,6 +3,12 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+        <import type="com.MDGround.HaiLanPrint.utils.StringUtil"/>
+
+        <variable name="orderInfo" type="com.MDGround.HaiLanPrint.models.OrderInfo"/>
+    </data>
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -33,24 +39,21 @@
 
                     <TextView
                         android:id="@+id/tvName"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        style="@style/NormalTextStyle"
                         android:layout_marginLeft="@dimen/margin_8"
                         android:layout_toRightOf="@+id/ivLocationLogo"
                         tools:text="陈奕迅"/>
 
                     <TextView
                         android:id="@+id/tvPhone"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        style="@style/DimTextStyle"
                         android:layout_marginLeft="@dimen/margin_15"
                         android:layout_toRightOf="@+id/tvName"
                         tools:text="15521377721"/>
 
                     <TextView
                         android:id="@+id/tvAddress"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        style="@style/DimTextStyle"
                         android:layout_alignLeft="@+id/tvName"
                         android:layout_below="@+id/tvName"
                         android:layout_marginTop="@dimen/margin_8"
@@ -71,8 +74,7 @@
                     android:paddingBottom="@dimen/margin_8"
                     android:paddingLeft="0dp"
                     android:paddingRight="0dp"
-                    android:paddingTop="@dimen/margin_8"
-                    android:visibility="@{showHeader ? View.VISIBLE : View.GONE}">
+                    android:paddingTop="@dimen/margin_8">
 
                     <TextView
                         android:id="@+id/tvOrderTitle"
@@ -97,7 +99,6 @@
                         android:layout_alignParentRight="true"
                         android:layout_marginLeft="@dimen/margin_8"
                         android:layout_marginRight="@dimen/margin_8"
-                        android:text="@{StringUtil.getOrderStats(orderInfo.orderStatus)}"
                         android:textColor="@color/color_db2e2e"
                         tools:text="已付款"/>
 
@@ -129,9 +130,8 @@
 
                     <TextView
                         android:id="@+id/tvActualPayment"
-                        style="@style/NormalTextStyle"
+                        style="@style/OrangeTextStyle"
                         android:layout_centerVertical="true"
-                        android:textColor="@color/color_f88e11"
                         tools:text="@string/actual_payment_with_colon"/>
 
                     <TextView
@@ -165,8 +165,7 @@
 
                     <TextView
                         android:id="@+id/tvExpressNumber"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        style="@style/DimTextStyle"
                         android:layout_alignLeft="@+id/tvName"
                         android:layout_below="@+id/tvName"
                         android:layout_marginTop="@dimen/margin_6"
@@ -200,7 +199,7 @@
                 android:paddingLeft="@dimen/margin_10"
                 android:text="@string/apply_refund"
                 android:textColor="@color/color_f88e11"
-                android:textSize="@dimen/text_size_16"/>
+                android:textSize="@dimen/text_size_18"/>
 
             <Button
                 android:id="@+id/btnOperation"
@@ -212,7 +211,7 @@
                 android:background="@drawable/ripple_button_right_angle_orange"
                 android:gravity="center"
                 android:textColor="@color/color_white"
-                android:textSize="@dimen/text_size_20"
+                android:textSize="@dimen/text_size_18"
                 tools:text="@string/go_pay"/>
         </LinearLayout>
 

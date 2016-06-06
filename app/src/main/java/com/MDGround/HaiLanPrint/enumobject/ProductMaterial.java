@@ -1,8 +1,5 @@
 package com.MDGround.HaiLanPrint.enumobject;
 
-import java.util.HashMap;
-import java.util.Map;
-
 /**
  * Created by yoghourt on 5/16/16.
  */
@@ -28,18 +25,12 @@ public enum ProductMaterial {
         return text;
     }
 
-    // Implementing a fromString method on an enum type
-    private static final Map<String, ProductMaterial> stringToEnum = new HashMap<String, ProductMaterial>();
-
-    static {
-        // Initialize map from constant name to enum constant
-        for (ProductMaterial productMaterial : values()) {
-            stringToEnum.put(productMaterial.toString(), productMaterial);
+    public static ProductMaterial fromValue(String value) {
+        for (ProductMaterial type : ProductMaterial.values()) {
+            if (type.toString().equals(value)) {
+                return type;
+            }
         }
-    }
-
-    // Returns Blah for string, or null if string is invalid
-    public static ProductMaterial fromString(String symbol) {
-        return stringToEnum.get(symbol);
+        return null;
     }
 }

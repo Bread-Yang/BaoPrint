@@ -34,9 +34,15 @@ public class OrderInfo {
 
     private String Phone;
 
-    private int PrepayID;
+    private String PrepayID;
+
+    private String Receiver;
 
     private String RefundDetail;
+
+    private String RefundID;
+
+    private String RefundNo;
 
     private int RefundPhoto1ID;
 
@@ -52,6 +58,8 @@ public class OrderInfo {
 
     private String RefundReason;
 
+    private String RefundedTime;
+
     private int SaleID;
 
     private int TotalFee;
@@ -62,7 +70,7 @@ public class OrderInfo {
 
     private String TradeTime;
 
-    private int TransactionID;
+    private String TransactionID;
 
     private int UserID;
 
@@ -178,12 +186,20 @@ public class OrderInfo {
         Phone = phone;
     }
 
-    public int getPrepayID() {
+    public String getPrepayID() {
         return PrepayID;
     }
 
-    public void setPrepayID(int prepayID) {
+    public void setPrepayID(String prepayID) {
         PrepayID = prepayID;
+    }
+
+    public String getReceiver() {
+        return Receiver;
+    }
+
+    public void setReceiver(String receiver) {
+        Receiver = receiver;
     }
 
     public String getRefundDetail() {
@@ -192,6 +208,22 @@ public class OrderInfo {
 
     public void setRefundDetail(String refundDetail) {
         RefundDetail = refundDetail;
+    }
+
+    public String getRefundID() {
+        return RefundID;
+    }
+
+    public void setRefundID(String refundID) {
+        RefundID = refundID;
+    }
+
+    public String getRefundNo() {
+        return RefundNo;
+    }
+
+    public void setRefundNo(String refundNo) {
+        RefundNo = refundNo;
     }
 
     public int getRefundPhoto1ID() {
@@ -250,6 +282,14 @@ public class OrderInfo {
         RefundReason = refundReason;
     }
 
+    public String getRefundedTime() {
+        return RefundedTime;
+    }
+
+    public void setRefundedTime(String refundedTime) {
+        RefundedTime = refundedTime;
+    }
+
     public int getSaleID() {
         return SaleID;
     }
@@ -290,11 +330,11 @@ public class OrderInfo {
         TradeTime = tradeTime;
     }
 
-    public int getTransactionID() {
+    public String getTransactionID() {
         return TransactionID;
     }
 
-    public void setTransactionID(int transactionID) {
+    public void setTransactionID(String transactionID) {
         TransactionID = transactionID;
     }
 

@@ -7,6 +7,7 @@ import com.MDGround.HaiLanPrint.enumobject.OrderStatus;
 import com.MDGround.HaiLanPrint.enumobject.ThirdPartyLoginType;
 import com.MDGround.HaiLanPrint.enumobject.restfuls.BusinessType;
 import com.MDGround.HaiLanPrint.models.DeliveryAddress;
+import com.MDGround.HaiLanPrint.models.OrderInfo;
 import com.MDGround.HaiLanPrint.models.OrderWork;
 import com.MDGround.HaiLanPrint.models.OrderWorkPhoto;
 import com.MDGround.HaiLanPrint.models.User;
@@ -322,5 +323,45 @@ public class GlobalRestful extends BaseRestful {
 
     public void GetUserCouponList(Callback<ResponseData> callback) {
         asynchronousPost("GetUserCouponList", null, callback);
+    }
+
+    // 确认支付调用接口（返回微信prepayid 给sdk调用）//支付宝暂时没做，后续做的话会改动
+    public void UpdateOrderPrepay(OrderInfo orderInfo, Callback<ResponseData> callback) {
+        JSONObject obj = new JSONObject();
+        try {
+            String jsonString = convertObjectToString(orderInfo);
+            JSONObject object = new JSONObject(jsonString);
+            obj.put("OrderInfo", object);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        asynchronousPost("UpdateOrderRefunding", obj.toString(), callback);
+    }
+
+    // 确认收货接口
+    public void UpdateOrderFinished(int orderID, Callback<ResponseData> callback) {
+        JSONObject obj = new JSONObject();
+        try {
+            obj.put("OrderID", orderID);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        asynchronousPost("UpdateOrderFinished", obj.toString(), callback);
+    }
+
+    // 申请退款接口
+    public void UpdateOrderRefunding(OrderInfo orderInfo, Callback<ResponseData> callback) {
+        JSONObject obj = new JSONObject();
+        try {
+            String jsonString = convertObjectToString(orderInfo);
+            JSONObject object = new JSONObject(jsonString);
+            obj.put("OrderInfo", object);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        asynchronousPost("UpdateOrderRefunding", obj.toString(), callback);
     }
 }

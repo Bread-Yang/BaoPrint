@@ -15,23 +15,19 @@
 
             <TextView
                 android:id="@+id/tvCancel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                style="@style/NormalTextStyle"
                 android:layout_centerVertical="true"
                 android:gravity="center"
                 android:text="@string/cancel"
-                android:textColor="@color/color_black"
                 android:textSize="18sp"/>
 
             <TextView
                 android:id="@+id/tvFinish"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                style="@style/NormalTextStyle"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:gravity="center"
                 android:text="@string/finish"
-                android:textColor="@color/color_black"
                 android:textSize="18sp"/>
         </RelativeLayout>
 

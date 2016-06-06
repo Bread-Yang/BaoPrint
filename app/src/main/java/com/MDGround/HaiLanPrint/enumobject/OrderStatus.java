@@ -24,4 +24,13 @@ public enum OrderStatus {
     public int value() {
         return value;
     }
+
+    public static OrderStatus fromValue(int value) {
+        for (OrderStatus type : OrderStatus.values()) {
+            if (type.value() == value) {
+                return type;
+            }
+        }
+        return null;
+    }
 }

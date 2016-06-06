@@ -12,8 +12,8 @@
 
         <ImageView
             android:layout_width="wrap_content"
-            android:layout_marginTop="@dimen/margin_36"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_36"
             android:src="@drawable/icon_login_logo"/>
 
         <LinearLayout
@@ -29,7 +29,6 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@null"
-                android:textSize="@dimen/text_size_16"
                 android:drawableLeft="@drawable/icon_register_input"
                 android:drawablePadding="@dimen/margin_8"
                 android:hint="@string/input_phone_number"
@@ -37,7 +36,8 @@
                 android:longClickable="false"
                 android:maxLength="11"
                 android:paddingLeft="@dimen/margin_10"
-                android:textColorHint="@color/color_999999"/>
+                android:textColorHint="@color/color_999999"
+                android:textSize="@dimen/text_size_16"/>
 
             <View style="@style/DividerHorizontalMarginSytle"/>
 
@@ -50,12 +50,12 @@
                 android:drawableLeft="@drawable/icon_register_password"
                 android:drawablePadding="@dimen/margin_8"
                 android:hint="@string/input_password"
-                android:textSize="@dimen/text_size_16"
                 android:inputType="textPassword"
                 android:longClickable="false"
                 android:maxLength="16"
                 android:paddingLeft="@dimen/margin_10"
                 android:textColorHint="@color/color_999999"
+                android:textSize="@dimen/text_size_16"
                 tools:text="222222"/>
         </LinearLayout>
 
@@ -80,26 +80,22 @@
             <CheckBox
                 android:id="@+id/cbAutoLogin"
                 style="@style/ClickableTextStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:button="@drawable/selector_cb_bg_auto_login"
                 android:checked="true"
                 android:onClick="autoLoginAction"
-                android:textSize="@dimen/text_size_14"
                 android:paddingLeft="@dimen/margin_10"
                 android:text="@string/auto_login"
-                android:textColor="@color/color_666666"/>
+                android:textSize="@dimen/text_size_14"/>
 
             <TextView
                 style="@style/ClickableTextStyle"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:clickable="true"
-                android:textSize="@dimen/text_size_14"
                 android:onClick="forgetPasswordAction"
                 android:text="@string/forget_password_question_mark"
-                android:textColor="@color/color_666666"/>
+                android:textSize="@dimen/text_size_14"/>
 
         </RelativeLayout>
 
@@ -119,11 +115,10 @@
 
             <TextView
                 android:id="@+id/tvOtherLoginWay"
-                style="@style/ClickableTextStyle"
-                android:textSize="@dimen/text_size_12"
+                style="@style/DimTextStyle"
                 android:layout_centerInParent="true"
                 android:text="@string/other_login_way"
-                android:textColor="@color/color_666666"/>
+                android:textSize="@dimen/text_size_12"/>
 
             <View
                 android:layout_width="wrap_content"
@@ -136,9 +131,9 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:gravity="center_horizontal"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_30"
+            android:gravity="center_horizontal"
             android:orientation="horizontal">
 
             <ImageView
@@ -149,9 +144,9 @@
 
             <ImageView
                 android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/margin_36"
                 android:layout_marginRight="@dimen/margin_36"
-                android:layout_height="wrap_content"
                 android:onClick="qqLoginAction"
                 android:src="@drawable/icon_login_qq"/>
 
@@ -174,9 +169,8 @@
             <TextView
                 style="@style/ClickableTextStyle"
                 android:layout_alignParentRight="true"
-                android:textColor="@color/color_666666"
-                android:textSize="@dimen/text_size_12"
-                android:text="@string/not_account"/>
+                android:text="@string/not_account"
+                android:textSize="@dimen/text_size_12"/>
 
             <TextView
                 style="@style/HighlightTextStyle"
@@ -184,8 +178,8 @@
                 android:layout_marginLeft="@dimen/margin_12"
                 android:clickable="true"
                 android:onClick="signUpAction"
-                android:textSize="@dimen/text_size_12"
-                android:text="@string/sign_up_immediately"/>
+                android:text="@string/sign_up_immediately"
+                android:textSize="@dimen/text_size_12"/>
 
         </LinearLayout>
 

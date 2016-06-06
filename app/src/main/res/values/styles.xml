@@ -63,14 +63,21 @@
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:gravity">center_vertical</item>
-        <item name="android:layout_alignParentRight">true</item>
-        <item name="android:layout_centerVertical">true</item>
         <item name="android:textColor">@color/color_666666</item>
         <item name="android:textColorHint">@color/color_999999</item>
     </style>
 
+    <style name="OrangeTextStyle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:textColor">@color/color_f88e11</item>
+    </style>
+
     <style name="WithArrowIconDimTextStyle" parent="DimTextStyle">
         <item name="android:drawablePadding">@dimen/margin_8</item>
+        <item name="android:layout_alignParentRight">true</item>
+        <item name="android:layout_centerVertical">true</item>
         <item name="android:drawableRight">@drawable/icon_neet</item>
     </style>
 

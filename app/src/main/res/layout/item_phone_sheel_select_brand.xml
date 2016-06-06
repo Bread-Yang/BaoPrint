@@ -23,13 +23,11 @@
 
         <TextView
             android:id="@+id/tvInch"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            style="@style/NormalTextStyle"
             android:layout_above="@+id/tvImageCount"
             android:layout_alignLeft="@+id/tvImageCount"
             android:layout_centerVertical="true"
             android:text="@{measurement.title}"
-            android:textColor="@color/color_black"
             android:textSize="@dimen/text_size_16"
             tools:text="个人相册"/>
 

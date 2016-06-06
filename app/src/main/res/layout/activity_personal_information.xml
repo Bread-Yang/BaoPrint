@@ -10,16 +10,15 @@
         android:orientation="vertical">
 
         <RelativeLayout
+            android:id="@+id/rltAvatar"
+            android:onClick="selectSingleImageAction"
             style="@style/NormalLayoutStyle"
             android:layout_height="@dimen/size_88">
 
             <TextView
-                android:layout_width="@dimen/margin_80"
-                android:layout_height="match_parent"
-                android:clickable="true"
-                android:gravity="center_vertical"
+                style="@style/NormalTextStyle"
+                android:layout_centerVertical="true"
                 android:text="@string/avatar"
-                android:textColor="@color/color_333333"
                 android:textSize="@dimen/text_size_16"/>
 
             <de.hdodenhof.circleimageview.CircleImageView
@@ -46,12 +45,9 @@
             style="@style/FixHeightLayoutStyle">
 
             <TextView
-                android:layout_width="@dimen/margin_80"
-                android:layout_height="match_parent"
-                android:clickable="true"
-                android:gravity="center_vertical"
+                style="@style/NormalTextStyle"
+                android:layout_centerVertical="true"
                 android:text="@string/nickname"
-                android:textColor="@color/color_333333"
                 android:textSize="@dimen/text_size_16"/>
 
             <TextView
@@ -69,12 +65,9 @@
             android:orientation="horizontal">
 
             <TextView
-                android:layout_width="@dimen/margin_80"
-                android:layout_height="match_parent"
-                android:clickable="true"
-                android:gravity="center_vertical"
+                style="@style/NormalTextStyle"
+                android:layout_centerVertical="true"
                 android:text="@string/locality"
-                android:textColor="@color/color_333333"
                 android:textSize="@dimen/text_size_16"/>
 
             <TextView
@@ -92,17 +85,16 @@
             android:orientation="horizontal">
 
             <TextView
-                android:layout_width="@dimen/margin_80"
-                android:layout_height="match_parent"
-                android:clickable="true"
-                android:gravity="center_vertical"
+                style="@style/NormalTextStyle"
+                android:layout_centerVertical="true"
                 android:text="@string/phone"
-                android:textColor="@color/color_333333"
                 android:textSize="@dimen/text_size_16"/>
 
             <TextView
                 android:id="@+id/tvPhone"
                 style="@style/DimTextStyle"
+                android:layout_alignParentRight="true"
+                android:layout_centerInParent="true"
                 tools:text="15521377721"/>
 
         </RelativeLayout>
@@ -115,17 +107,16 @@
             android:orientation="horizontal">
 
             <TextView
-                android:layout_width="@dimen/margin_80"
-                android:layout_height="match_parent"
-                android:clickable="true"
-                android:gravity="center_vertical"
+                style="@style/NormalTextStyle"
+                android:layout_centerVertical="true"
                 android:text="@string/registrant_name"
-                android:textColor="@color/color_333333"
                 android:textSize="@dimen/text_size_16"/>
 
             <TextView
                 android:id="@+id/tvAccountName"
                 style="@style/DimTextStyle"
+                android:layout_alignParentRight="true"
+                android:layout_centerInParent="true"
                 tools:text="yoghourt"/>
 
         </RelativeLayout>
@@ -136,12 +127,9 @@
             android:orientation="horizontal">
 
             <TextView
-                android:layout_width="@dimen/margin_80"
-                android:layout_height="match_parent"
-                android:clickable="true"
-                android:gravity="center_vertical"
+                style="@style/NormalTextStyle"
+                android:layout_centerVertical="true"
                 android:text="@string/child_information"
-                android:textColor="@color/color_333333"
                 android:textSize="@dimen/text_size_16"/>
 
             <ImageView
@@ -155,12 +143,9 @@
             android:orientation="horizontal">
 
             <TextView
-                android:layout_width="@dimen/margin_80"
-                android:layout_height="match_parent"
-                android:clickable="true"
-                android:gravity="center_vertical"
+                style="@style/NormalTextStyle"
+                android:layout_centerVertical="true"
                 android:text="@string/address_management"
-                android:textColor="@color/color_333333"
                 android:textSize="@dimen/text_size_16"/>
 
             <ImageView
@@ -176,12 +161,9 @@
             android:orientation="horizontal">
 
             <TextView
-                android:layout_width="@dimen/margin_80"
-                android:layout_height="match_parent"
-                android:clickable="true"
-                android:gravity="center_vertical"
+                style="@style/NormalTextStyle"
+                android:layout_centerVertical="true"
                 android:text="@string/account_security"
-                android:textColor="@color/color_333333"
                 android:textSize="@dimen/text_size_16"/>
 
             <TextView

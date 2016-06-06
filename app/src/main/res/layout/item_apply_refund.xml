@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+        <variable
+            name="handlers"
+            type="com.MDGround.HaiLanPrint.activity.orders.ApplyRefundActivity.ApplyRefundAdapter.ViewHolder"/>
+
+        <variable
+            name="image"
+            type="com.MDGround.HaiLanPrint.models.MDImage"/>
+
+    </data>
+
+    <com.MDGround.HaiLanPrint.views.FlexibleRelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="@{handlers::onImageLayoutClickAction}">
+
+        <ImageView
+            android:id="@+id/ivImage"
+            app:loadImageByMDImage="@{image}"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+    </com.MDGround.HaiLanPrint.views.FlexibleRelativeLayout>
+</layout>

@@ -137,10 +137,9 @@
             android:paddingLeft="@dimen/margin_12">
 
             <TextView
-                style="@style/ClickableTextStyle"
+                style="@style/DimTextStyle"
                 android:layout_alignParentRight="true"
                 android:text="@string/agree_protocol_tips"
-                android:textColor="@color/color_666666"
                 android:textSize="@dimen/text_size_12"/>
 
             <TextView
@@ -150,7 +149,6 @@
                 android:clickable="true"
                 android:onClick="protocolAction"
                 android:text="@string/hailan_protocol"
-                android:textColor="@color/color_0076fe"
                 android:textSize="@dimen/text_size_12"/>
 
         </LinearLayout>

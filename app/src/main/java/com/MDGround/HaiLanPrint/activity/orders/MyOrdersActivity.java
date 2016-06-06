@@ -1,5 +1,6 @@
 package com.MDGround.HaiLanPrint.activity.orders;
 
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.support.design.widget.TabLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -136,6 +137,21 @@ public class MyOrdersActivity extends ToolbarActivity<ActivityMyOrdersBinding> {
             }
         });
     }
+
+    // 确认收货
+    private void updateOrderFinishedRequest(int orderID) {
+        GlobalRestful.getInstance().UpdateOrderFinished(orderID, new Callback<ResponseData>() {
+            @Override
+            public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
+                getUserOrderListRequest();
+            }
+
+            @Override
+            public void onFailure(Call<ResponseData> call, Throwable t) {
+
+            }
+        });
+    }
     //endregion
 
     //region ADAPTER
@@ -159,6 +175,35 @@ public class MyOrdersActivity extends ToolbarActivity<ActivityMyOrdersBinding> {
             holder.viewDataBinding.setOrderWork(orderWork);
             holder.viewDataBinding.setShowHeader(isShowHeader(position));
             holder.viewDataBinding.setShowFooter(isShowFooter(position));
+
+            OrderStatus orderStatus = OrderStatus.fromValue(orderInfo.getOrderStatus());
+
+            holder.viewDataBinding.btnOperation.setVisibility(View.VISIBLE);
+            switch (orderStatus) {
+                case Paid:      // 已付款
+                    holder.viewDataBinding.tvOrderStatus.setText(R.string.already_paid);
+                    holder.viewDataBinding.btnOperation.setText(R.string.apply_refund);
+                    break;
+                case Delivered: // 已发货
+                    holder.viewDataBinding.tvOrderStatus.setText(R.string.already_delivered);
+                    holder.viewDataBinding.btnOperation.setText(R.string.confirm_receive);
+                    break;
+                case Finished:  // 已完成
+                    holder.viewDataBinding.tvOrderStatus.setText(R.string.already_finished);
+                    holder.viewDataBinding.btnOperation.setVisibility(View.GONE);
+                    break;
+                case Refunding: // 退款中
+                    holder.viewDataBinding.tvOrderStatus.setText(R.string.refunding);
+                    holder.viewDataBinding.btnOperation.setVisibility(View.GONE);
+                    break;
+                case Refunded:  // 已退款
+                    holder.viewDataBinding.tvOrderStatus.setText(R.string.already_refunded);
+                    holder.viewDataBinding.btnOperation.setVisibility(View.GONE);
+                    break;
+                case RefundFail: // 退款失败
+                    holder.viewDataBinding.tvOrderStatus.setText(R.string.refundFail);
+                    break;
+            }
         }
 
         @Override
@@ -203,9 +248,32 @@ public class MyOrdersActivity extends ToolbarActivity<ActivityMyOrdersBinding> {
                 viewDataBinding = DataBindingUtil.bind(itemView);
             }
 
+            //region ACTION
             public void btnOperationAction(View view) {
+                OrderWork orderWork = mOrderWorkArrayList.get(getAdapterPosition());
+                OrderInfo orderInfo = mOrderInfoHashMap.get(orderWork.getOrderID());
 
+                OrderStatus orderStatus = OrderStatus.fromValue(orderInfo.getOrderStatus());
+
+                switch (orderStatus) {
+                    case Paid:      // 已付款
+                        Intent intent = new Intent(MyOrdersActivity.this, ApplyRefundActivity.class);
+                        startActivity(intent);
+                        break;
+                    case Delivered: // 已发货
+                        updateOrderFinishedRequest(orderInfo.getOrderID());
+                        break;
+                    case Finished:  // 已完成
+                        break;
+                    case Refunding: // 退款中
+                        break;
+                    case Refunded:  // 已退款
+                        break;
+                    case RefundFail: // 退款失败
+                        break;
+                }
             }
+            //endregion
         }
     }
     //endregion

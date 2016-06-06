@@ -35,11 +35,9 @@
                 android:layout_marginLeft="@dimen/margin_40">
                 <TextView
                     android:id="@+id/tvRmb"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    style="@style/OrangeTextStyle"
                     android:layout_alignBaseline="@+id/tvCouponAmount"
                     android:text="@string/rmb"
-                    android:textColor="@color/color_f88e11"
                     android:textSize="@dimen/text_size_20"/>
 
                 <TextView
@@ -55,14 +53,11 @@
 
                 <TextView
                     android:id="@+id/tvUseCondition"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@{@string/coupon_use_condition(StringUtil.toYuanWithoutUnit(coupon.priceLimit))}"
+                    style="@style/DimTextStyle"
                     android:layout_alignLeft="@+id/tvRmb"
                     android:layout_below="@+id/tvRmb"
                     android:layout_marginTop="@dimen/margin_10"
-                    android:textColor="@color/color_666666"
-                    android:textSize="@dimen/text_size_14"
+                    android:text="@{@string/coupon_use_condition(StringUtil.toYuanWithoutUnit(coupon.priceLimit))}"
                     tools:text="满20元使用"/>
 
             </RelativeLayout>
@@ -81,36 +76,28 @@
 
                 <TextView
                     android:id="@+id/tvCouponName"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    style="@style/NormalTextStyle"
                     android:layout_toRightOf="@+id/tvRmb"
                     android:text="@{@string/coupon_amount(StringUtil.toYuanWithoutUnit(coupon.price))}"
-                    android:textColor="@color/color_333333"
                     android:textSize="@dimen/text_size_16"
                     tools:text="10元优惠劵"/>
 
                 <TextView
                     android:id="@+id/tvNumber"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    style="@style/DimTextStyle"
                     android:layout_alignLeft="@+id/tvRmb"
                     android:layout_below="@+id/tvRmb"
                     android:layout_marginTop="@dimen/margin_10"
                     android:text="@{@string/coupon_number(coupon.couponNo)}"
-                    android:textColor="@color/color_666666"
-                    android:textSize="@dimen/text_size_14"
                     tools:text="编号: FHKAJH G23"/>
 
                 <TextView
                     android:id="@+id/tvExpiryDate"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    style="@style/DimTextStyle"
                     android:layout_alignLeft="@+id/tvRmb"
                     android:layout_below="@+id/tvRmb"
-                    android:text="@{@string/expiry_date(coupon.expireTime)}"
                     android:layout_marginTop="@dimen/margin_6"
-                    android:textColor="@color/color_666666"
-                    android:textSize="@dimen/text_size_14"
+                    android:text="@{@string/expiry_date(coupon.expireTime)}"
                     tools:text="有效期至: 2016-06-01"/>
 
             </LinearLayout>

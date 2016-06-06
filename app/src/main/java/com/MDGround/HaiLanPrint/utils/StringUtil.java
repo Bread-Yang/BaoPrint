@@ -26,24 +26,6 @@ public class StringUtil {
         return String.format("%.02f", amount / 100) + "元";
     }
 
-    public static String getOrderStats(int orderStatus) {
-        switch (orderStatus) {
-            case 1:
-                return "已付款";
-            case 2:
-                return "已发货";
-            case 4:
-                return "已完成";
-            case 8:
-                return "退款中";
-            case 16:
-                return "已退款";
-            case 32:
-                return "退款失败";
-        }
-        return null;
-    }
-
     public static <T> T getInstanceByJsonString(String jsonString, TypeToken<T> type) {
         if (type == null) {
             return null;

@@ -43,8 +43,8 @@
                 android:id="@+id/tvPage"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{@string/page_count(template.pageCount)}"
                 android:layout_centerInParent="true"
+                android:text="@{@string/page_count(template.pageCount)}"
                 android:textColor="@color/color_white"
                 android:textSize="@dimen/margin_12"
                 tools:text="22P"/>
@@ -62,12 +62,10 @@
 
         <TextView
             android:id="@+id/tvPrice"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            style="@style/OrangeTextStyle"
             android:layout_alignParentBottom="true"
             android:layout_marginTop="@dimen/margin_6"
             android:text="@{@string/price_rmb(StringUtil.toYuanWithoutUnit(template.price))}"
-            android:textColor="@color/color_f88e11"
             android:textSize="@dimen/text_size_16"
             tools:text="价格: ¥146.0"/>
 

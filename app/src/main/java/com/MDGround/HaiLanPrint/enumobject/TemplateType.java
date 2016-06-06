@@ -21,4 +21,13 @@ public enum TemplateType {
     public int value() {
         return value;
     }
+
+    public static TemplateType fromValue(int value) {
+        for (TemplateType type : TemplateType.values()) {
+            if (type.value() == value) {
+                return type;
+            }
+        }
+        return null;
+    }
 }

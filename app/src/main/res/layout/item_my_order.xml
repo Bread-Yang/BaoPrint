@@ -56,7 +56,6 @@
                 android:layout_alignParentRight="true"
                 android:layout_marginLeft="@dimen/margin_8"
                 android:layout_marginRight="@dimen/margin_8"
-                android:text="@{StringUtil.getOrderStats(orderInfo.orderStatus)}"
                 android:textColor="@color/color_db2e2e"
                 tools:text="已付款"/>
 
@@ -76,38 +75,36 @@
                 android:id="@+id/ivImage"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
+                android:scaleType="centerCrop"
                 app:loadImageByPhotoSID="@{orderWork.photoCover}"
                 tools:src="@drawable/bg_pic"/>
 
             <TextView
                 android:id="@+id/tvProductType"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                style="@style/NormalTextStyle"
                 android:layout_marginLeft="@dimen/margin_8"
-                android:layout_marginTop="@dimen/margin_15"
+                android:layout_marginTop="@dimen/margin_12"
                 android:layout_toRightOf="@+id/ivImage"
                 android:text="@{orderWork.typeName}"
+                android:textSize="@dimen/text_size_16"
                 tools:text="照片冲洗"/>
 
             <TextView
                 android:id="@+id/tvNum"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                style="@style/DimTextStyle"
                 android:layout_below="@+id/tvProductType"
                 android:layout_marginLeft="@dimen/margin_8"
-                android:layout_marginTop="@dimen/margin_15"
+                android:layout_marginTop="@dimen/margin_10"
                 android:layout_toRightOf="@+id/ivImage"
                 android:text="@{@string/num_with_colon(orderWork.photoCount)}"
                 tools:text="数量 : 2"/>
 
             <TextView
                 android:id="@+id/tvPrice"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                style="@style/OrangeTextStyle"
                 android:layout_alignBottom="@+id/ivImage"
                 android:layout_toLeftOf="@+id/tvYuan"
                 android:text="@{@string/yuan_amount(StringUtil.toYuanWithoutUnit(orderWork.price))}"
-                android:textColor="@color/color_f88e11"
                 android:textSize="@dimen/text_size_16"
                 tools:text="¥276.00"/>
 

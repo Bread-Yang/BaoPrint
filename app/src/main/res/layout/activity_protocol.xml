@@ -6,8 +6,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
         android:background="@color/color_white"
+        android:gravity="center_horizontal"
         android:orientation="vertical"
         android:padding="@dimen/margin_24">
 
@@ -15,18 +15,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:textColor="@color/color_424242"
             android:text="@string/hailan_sign_up_protocol"
+            android:textColor="@color/color_424242"
             android:textSize="@dimen/text_size_16"/>
 
 
         <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            style="@style/DimTextStyle"
             android:layout_marginTop="@dimen/margin_24"
-            android:textColor="@color/color_666666"
             android:background="@color/color_white"
-            android:text="@string/protocol_tips"
-            android:textSize="@dimen/text_size_14"/>
+            android:text="@string/protocol_tips"/>
     </LinearLayout>
 </layout>

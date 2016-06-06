@@ -17,14 +17,13 @@
 
     <TextView
         android:id="@+id/tvRegionName"
-        android:layout_width="match_parent"
+        style="@style/NormalTextStyle"
         android:layout_height="50dp"
         android:clickable="true"
         android:gravity="center_vertical"
         android:onClick="@{handlers::onRegionSelectAction}"
         android:paddingLeft="10dp"
         android:text="@{location.locationName}"
-        android:textColor="@color/color_black"
         android:textSize="17sp"
         tools:text="北京市"/>
 

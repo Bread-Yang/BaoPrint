@@ -1,5 +1,7 @@
 package com.MDGround.HaiLanPrint;
 
+import com.MDGround.HaiLanPrint.enumobject.OrderStatus;
+
 /**
  * Created by yoghourt on 5/16/16.
  */
@@ -26,5 +28,14 @@ public enum ProductType {
 
     public int value() {
         return value;
+    }
+
+    public static ProductType fromValue(int value) {
+        for (ProductType type : ProductType.values()) {
+            if (type.value() == value) {
+                return type;
+            }
+        }
+        return null;
     }
 }
