@@ -3,7 +3,10 @@ package com.MDGround.HaiLanPrint.utils;
 import android.content.Context;
 import android.content.res.Configuration;
 
+import com.MDGround.HaiLanPrint.application.MDGroundApplication;
+import com.MDGround.HaiLanPrint.constants.Constants;
 import com.MDGround.HaiLanPrint.enumobject.restfuls.PlatformType;
+import com.MDGround.HaiLanPrint.models.User;
 import com.MDGround.HaiLanPrint.restfuls.bean.Device;
 
 import java.io.File;
@@ -80,5 +83,11 @@ public class DeviceUtil {
 		} else {
 			return PlatformType.ANDROID_PHONE.value();
 		}
+	}
+
+	public static void logoutUser() {
+		User user = new User();
+		user.setPhone(MDGroundApplication.mLoginUser.getPhone());
+		FileUtils.setObject(Constants.KEY_ALREADY_LOGIN_USER, user); // 清空之前的user,保留登录账号
 	}
 }

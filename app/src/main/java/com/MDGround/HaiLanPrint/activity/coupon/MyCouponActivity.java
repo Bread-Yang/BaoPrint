@@ -37,7 +37,7 @@ public class MyCouponActivity extends ToolbarActivity<ActivityMyCouponBinding> {
     private ArrayList<Coupon> mAllCouponArrayList = new ArrayList<>();
     private ArrayList<Coupon> mShowCouponArrayList = new ArrayList<>();
 
-    private int mSelectedCouponStatus = 1; // 默认是"可使用"
+    private boolean mIsAvailable = true; // 默认是"可使用"
 
     @Override
     protected int getContentLayout() {
@@ -66,21 +66,10 @@ public class MyCouponActivity extends ToolbarActivity<ActivityMyCouponBinding> {
             public void onTabSelected(TabLayout.Tab tab) {
                 int currentSelectedTabIndex = tab.getPosition();
 
-                boolean isAvailable = false;
                 if (currentSelectedTabIndex == 0) {
-                    isAvailable = true; // 可使用
+                    mIsAvailable = true; // 可使用
                 } else {
-                    isAvailable = false; // 不可以使用
-                }
-
-                mShowCouponArrayList.clear();
-                for (Coupon coupon : mAllCouponArrayList) {
-                    // 判断优惠券是否可用条件：当前时间在ActiveTime和ExpireTime 之间，并且 CouponStatus是0
-                    boolean couponStatus = DateUtils.isWithinTwoDate(coupon.getActivationCode(), coupon.getExpireTime());
-
-                    if (couponStatus == isAvailable) {
-                        mShowCouponArrayList.add(coupon);
-                    }
+                    mIsAvailable = false; // 不可以使用
                 }
 
                 refreshRecyclerView();
@@ -99,6 +88,16 @@ public class MyCouponActivity extends ToolbarActivity<ActivityMyCouponBinding> {
     }
 
     private void refreshRecyclerView() {
+        mShowCouponArrayList.clear();
+        for (Coupon coupon : mAllCouponArrayList) {
+            // 判断优惠券是否可用条件：当前时间在ActiveTime和ExpireTime 之间，并且 CouponStatus是0
+            boolean couponStatus = DateUtils.isWithinTwoDate(coupon.getActiveTime(), coupon.getExpireTime());
+
+            if (couponStatus == mIsAvailable) {
+                mShowCouponArrayList.add(coupon);
+            }
+        }
+
         if (mShowCouponArrayList.size() > 0) {
             mDataBinding.ivEmpty.setVisibility(View.GONE);
             mDataBinding.recyclerView.setVisibility(View.VISIBLE);
@@ -144,19 +143,15 @@ public class MyCouponActivity extends ToolbarActivity<ActivityMyCouponBinding> {
                 mAllCouponArrayList = response.body().getContent(new TypeToken<ArrayList<Coupon>>() {
                 });
 
-                mShowCouponArrayList.clear();
-
                 int availableCount = 0;
                 int unavailableCount = 0;
 
                 for (Coupon coupon : mAllCouponArrayList) {
-                    if (coupon.getCouponStatus() == 0) {
-                        unavailableCount++;
-                    } else {
+                    boolean couponStatus = DateUtils.isWithinTwoDate(coupon.getActiveTime(), coupon.getExpireTime());
+                    if (couponStatus) {
                         availableCount++;
-                    }
-                    if (coupon.getCouponStatus() == mSelectedCouponStatus) {
-                        mShowCouponArrayList.add(coupon);
+                    } else {
+                        unavailableCount++;
                     }
                 }
 
@@ -190,6 +185,7 @@ public class MyCouponActivity extends ToolbarActivity<ActivityMyCouponBinding> {
         @Override
         public void onBindViewHolder(ViewHolder holder, int position) {
             holder.viewDataBinding.setCoupon(mShowCouponArrayList.get(position));
+            holder.viewDataBinding.setIsAvailable(mIsAvailable);
         }
 
         @Override

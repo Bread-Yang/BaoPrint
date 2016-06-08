@@ -44,6 +44,15 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mDataBinding = DataBindingUtil.setContentView(this, R.layout.activity_login);
+        initData();
+    }
+
+    private void initData() {
+        User user = (User) FileUtils.getObject(Constants.KEY_ALREADY_LOGIN_USER);
+        if (user != null && user.getPhone() != null) {
+            mDataBinding.cetAccount.append(user.getPhone());
+            mDataBinding.cetPassword.requestFocus();
+        }
     }
 
     //region ACTION

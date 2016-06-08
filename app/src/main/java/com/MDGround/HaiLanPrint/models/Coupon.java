@@ -6,9 +6,13 @@ package com.MDGround.HaiLanPrint.models;
 
 public class Coupon {
 
-    private String ActivationCode;
+    private String ActiveTime;
 
     private int AutoID;
+
+    private int CouponID;
+
+    private String CouponName;
 
     private String CouponNo;
 
@@ -24,12 +28,12 @@ public class Coupon {
 
     private int UserID;
 
-    public String getActivationCode() {
-        return ActivationCode;
+    public String getActiveTime() {
+        return ActiveTime;
     }
 
-    public void setActivationCode(String activationCode) {
-        ActivationCode = activationCode;
+    public void setActiveTime(String activeTime) {
+        ActiveTime = activeTime;
     }
 
     public int getAutoID() {
@@ -38,6 +42,22 @@ public class Coupon {
 
     public void setAutoID(int autoID) {
         AutoID = autoID;
+    }
+
+    public int getCouponID() {
+        return CouponID;
+    }
+
+    public void setCouponID(int couponID) {
+        CouponID = couponID;
+    }
+
+    public String getCouponName() {
+        return CouponName;
+    }
+
+    public void setCouponName(String couponName) {
+        CouponName = couponName;
     }
 
     public String getCouponNo() {

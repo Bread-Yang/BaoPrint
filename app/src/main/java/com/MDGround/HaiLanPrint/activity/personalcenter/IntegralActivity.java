@@ -14,7 +14,7 @@ import retrofit2.Response;
 /**
  * Created by PC on 2016-06-07.
  */
-public class IntegralActivity  extends ToolbarActivity<ActivityPersonalIntegralBinding>{
+public class IntegralActivity extends ToolbarActivity<ActivityPersonalIntegralBinding> {
     @Override
     protected int getContentLayout() {
         return R.layout.activity_personal_integral;
@@ -22,15 +22,15 @@ public class IntegralActivity  extends ToolbarActivity<ActivityPersonalIntegralB
 
     @Override
     protected void initData() {
-       // mDataBinding.recyclerView
+        // mDataBinding.recyclerView
 
         GlobalRestful.getInstance().GetUserIntegralInfo(new Callback<ResponseData>() {
             @Override
             public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
                 System.out.println(response.body().toString());
-                   if(ResponseCode.isSuccess(response.body())){
+                if (ResponseCode.isSuccess(response.body())) {
 
-                   }
+                }
             }
 
             @Override

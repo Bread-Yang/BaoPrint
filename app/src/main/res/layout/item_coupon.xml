@@ -12,22 +12,28 @@
         <variable
             name="viewHolder"
             type="com.MDGround.HaiLanPrint.activity.pictureframe.SelectTemplateActivity.SelectTemplateAdapter.ViewHolder"/>
+
+        <variable name="isAvailable" type="boolean"/>
     </data>
 
-    <com.MDGround.HaiLanPrint.views.FlexibleLinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:onClick="@{viewHolder::toSelectAlbumActivityAction}"
         android:orientation="horizontal"
-        android:padding="@dimen/margin_10"
-        app:ratio="0.5">
+        android:paddingTop="@dimen/margin_4"
+        android:paddingBottom="@dimen/margin_4"
+        android:paddingLeft="@dimen/margin_10"
+        android:paddingRight="@dimen/margin_10">
 
-        <LinearLayout
+        <com.MDGround.HaiLanPrint.views.FlexibleLinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/bg_wdgrzx"
+            android:background="@{isAvailable ? @drawable/bg_wdgrzx : @drawable/bg_wdgrzx_beoverdue}"
             android:gravity="center_vertical"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            app:ratio="0.4"
+            tools:background="@drawable/bg_wdgrzx_beoverdue">
 
             <RelativeLayout
                 android:layout_width="wrap_content"
@@ -78,7 +84,7 @@
                     android:id="@+id/tvCouponName"
                     style="@style/NormalTextStyle"
                     android:layout_toRightOf="@+id/tvRmb"
-                    android:text="@{@string/coupon_amount(StringUtil.toYuanWithoutUnit(coupon.price))}"
+                    android:text="@{coupon.couponName}"
                     android:textSize="@dimen/text_size_16"
                     tools:text="10元优惠劵"/>
 
@@ -102,8 +108,7 @@
 
             </LinearLayout>
 
-        </LinearLayout>
+        </com.MDGround.HaiLanPrint.views.FlexibleLinearLayout>
 
-
-    </com.MDGround.HaiLanPrint.views.FlexibleLinearLayout>
+    </RelativeLayout>
 </layout>
