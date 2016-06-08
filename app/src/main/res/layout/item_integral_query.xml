@@ -1,10 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:vic="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    >
+    <data>
+        <variable
+            name="handler"
+            type="com.MDGround.HaiLanPrint.activity.personalcenter.MyCreditActivity.BindHandler"/>
+    </data>
    <RelativeLayout
+       android:onClick="@{handler::ClicEvent}"
       style="@style/IntegerLayoutStyle">
        <TextView
            android:id="@+id/first"
@@ -17,6 +23,7 @@
            android:layout_marginTop="@dimen/margin_6"
            />
         <TextView
+            android:id="@+id/tvDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             tools:text="2015-10-1 10:27:09"
@@ -25,6 +32,7 @@
             android:layout_marginTop="@dimen/margin_6"
             />
        <TextView
+           android:id="@+id/tvIntegral"
            android:layout_width="wrap_content"
            android:layout_height="wrap_content"
            tools:text="-333"
@@ -34,7 +42,4 @@
            />
    </RelativeLayout>
 
-    <View
-        style="@style/DividerHorizontalMarginSytle"/>
-
-</LinearLayout>
+</layout>

@@ -42,14 +42,9 @@
             android:screenOrientation="portrait">
             <intent-filter android:label="@string/app_name">
                 <action android:name="android.intent.action.MAIN"/>
-
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <!--<activity android:name=".activity.personalcenter.IntegralActivity"-->
-            <!--android:label="@string/login"-->
-            <!--android:screenOrientation="portrait"-->
-            <!--&gt;</activity>-->
         <activity
             android:name=".activity.login.LoginActivity"
             android:label="@string/login"
@@ -205,10 +200,11 @@
         <activity
             android:name=".activity.personalcenter.PersonalCenterActivity"
             android:label="@string/personal_center"
-            android:screenOrientation="portrait">
-
-            </activity>
-
+            android:screenOrientation="portrait"/>
+             <activity android:name=".activity.personalcenter.MyCreditActivity"
+                 android:label="@string/mycredit"
+                 android:screenOrientation="portrait"
+                />
         <activity
             android:name=".activity.orders.MyOrdersActivity"
             android:label="@string/my_orders"
@@ -268,7 +264,9 @@
         <!-- 自定义Glide Module注册 -->
         <meta-data
             android:name="com.MDGround.HaiLanPrint.glide.MDGroundGlideModule"
-            android:value="GlideModule"/>
+            android:value="GlideModule"/><!-- ATTENTION: This was auto-generated to add Google Play services to your project for
+     App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information. -->
+
     </application>
 
 </manifest>

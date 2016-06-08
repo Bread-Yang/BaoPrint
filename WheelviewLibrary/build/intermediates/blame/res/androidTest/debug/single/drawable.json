@@ -1,5 +1,9 @@
 [
     {
+        "merged": "D:\\chongyi\\aaa\\WheelviewLibrary\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable\\wheel_val.xml",
+        "source": "D:\\chongyi\\aaa\\WheelviewLibrary\\build\\intermediates\\bundles\\debug\\res\\drawable\\wheel_val.xml"
+    },
+    {
         "merged": "D:\\Users\\yoghourt\\Github\\HailanPrint\\WheelviewLibrary\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable\\wheel_bg.xml",
         "source": "D:\\Users\\yoghourt\\Github\\HailanPrint\\WheelviewLibrary\\build\\intermediates\\bundles\\debug\\res\\drawable\\wheel_bg.xml"
     },
@@ -14,5 +18,9 @@
     {
         "merged": "D:\\Users\\yoghourt\\Github\\HailanPrint\\WheelviewLibrary\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable\\wheel_val.xml",
         "source": "D:\\Users\\yoghourt\\Github\\HailanPrint\\WheelviewLibrary\\build\\intermediates\\bundles\\debug\\res\\drawable\\wheel_val.xml"
+    },
+    {
+        "merged": "D:\\chongyi\\aaa\\WheelviewLibrary\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable\\wheel_bg.xml",
+        "source": "D:\\chongyi\\aaa\\WheelviewLibrary\\build\\intermediates\\bundles\\debug\\res\\drawable\\wheel_bg.xml"
     }
 ]

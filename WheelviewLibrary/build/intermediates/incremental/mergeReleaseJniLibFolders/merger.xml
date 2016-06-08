@@ -1,2 +1,2 @@
 <?xml version="1.0" encoding="utf-8"?>
-<merger version="3"><dataSet config="main"><source path="/Users/yoghourt/Github/HailanPrint/WheelviewLibrary/src/main/jniLibs"/></dataSet><dataSet config="release"><source path="/Users/yoghourt/Github/HailanPrint/WheelviewLibrary/src/release/jniLibs"/></dataSet></merger>
+<merger version="3"><dataSet config="main"><source path="D:\chongyi\aaa\WheelviewLibrary\src\main\jniLibs"/></dataSet><dataSet config="release"><source path="D:\chongyi\aaa\WheelviewLibrary\src\release\jniLibs"/></dataSet></merger>
