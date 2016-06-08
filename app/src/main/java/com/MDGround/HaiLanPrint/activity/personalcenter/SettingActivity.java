@@ -17,7 +17,7 @@ import com.MDGround.HaiLanPrint.utils.NavUtils;
  */
 
 public class SettingActivity extends ToolbarActivity<ActivitySettingBinding> {
-
+   // 13924010907
     @Override
     protected int getContentLayout() {
         return R.layout.activity_setting;
