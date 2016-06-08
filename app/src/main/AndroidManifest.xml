@@ -46,6 +46,10 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+        <!--<activity android:name=".activity.personalcenter.IntegralActivity"-->
+            <!--android:label="@string/login"-->
+            <!--android:screenOrientation="portrait"-->
+            <!--&gt;</activity>-->
         <activity
             android:name=".activity.login.LoginActivity"
             android:label="@string/login"
@@ -201,7 +205,9 @@
         <activity
             android:name=".activity.personalcenter.PersonalCenterActivity"
             android:label="@string/personal_center"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait">
+
+            </activity>
 
         <activity
             android:name=".activity.orders.MyOrdersActivity"
@@ -218,6 +224,7 @@
             android:label="@string/apply_refund"
             android:screenOrientation="portrait">
         </activity>
+
         <activity
             android:name=".activity.personalcenter.PersonalInformationActivity"
             android:label="@string/personal_information"

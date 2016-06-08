@@ -364,4 +364,10 @@ public class GlobalRestful extends BaseRestful {
 
         asynchronousPost("UpdateOrderRefunding", obj.toString(), callback);
     }
+
+
+    //获取用户积分查询接口
+    public void GetUserIntegralInfo(Callback<ResponseData> callback){
+        asynchronousPost("GetUserIntegralInfo",null,callback);
+    }
 }

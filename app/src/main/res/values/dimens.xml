@@ -37,4 +37,5 @@
     <dimen name="size_22">22dp</dimen>
     <dimen name="album_size">74dp</dimen>
 
+     <dimen name="size_200">200dp</dimen>
 </resources>

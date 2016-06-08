@@ -266,5 +266,8 @@
     <string name="region">所在地区</string>
     <string name="detailed_address">详细地址</string>
     <string name="input_detailed_address">请输入详细地址</string>
-
+     <!--个人中心-->
+    <string name="tv_hold">持有积分</string>
+    <string name="tv_intergral_details">积分收支明细</string>
+    <string name="tv_integral_motagage">积分抵押</string>
 </resources>

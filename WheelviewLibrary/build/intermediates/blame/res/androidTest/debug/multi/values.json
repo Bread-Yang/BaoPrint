@@ -1,6 +1,6 @@
 [
     {
-        "outputFile": "/Users/yoghourt/Github/HailanPrint/WheelviewLibrary/build/intermediates/res/merged/androidTest/debug/values/values.xml",
+        "outputFile": "D:\\Users\\yoghourt\\Github\\HailanPrint\\WheelviewLibrary\\build\\intermediates\\res\\merged\\androidTest\\debug\\values\\values.xml",
         "map": [
             {
                 "to": {
@@ -11,7 +11,7 @@
                     "endOffset": 105
                 },
                 "from": {
-                    "file": "/Users/yoghourt/Github/HailanPrint/WheelviewLibrary/build/intermediates/bundles/debug/res/values/values.xml",
+                    "file": "D:\\Users\\yoghourt\\Github\\HailanPrint\\WheelviewLibrary\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
                     "position": {
                         "startLine": 2,
                         "startColumn": 4,
@@ -30,7 +30,7 @@
                     "endOffset": 163
                 },
                 "from": {
-                    "file": "/Users/yoghourt/Github/HailanPrint/WheelviewLibrary/build/intermediates/bundles/debug/res/values/values.xml",
+                    "file": "D:\\Users\\yoghourt\\Github\\HailanPrint\\WheelviewLibrary\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
                     "position": {
                         "startLine": 3,
                         "startColumn": 4,
@@ -49,7 +49,7 @@
                     "endOffset": 219
                 },
                 "from": {
-                    "file": "/Users/yoghourt/Github/HailanPrint/WheelviewLibrary/build/intermediates/bundles/debug/res/values/values.xml",
+                    "file": "D:\\Users\\yoghourt\\Github\\HailanPrint\\WheelviewLibrary\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
                     "position": {
                         "startLine": 4,
                         "startColumn": 4,
@@ -68,7 +68,7 @@
                     "endOffset": 273
                 },
                 "from": {
-                    "file": "/Users/yoghourt/Github/HailanPrint/WheelviewLibrary/build/intermediates/bundles/debug/res/values/values.xml",
+                    "file": "D:\\Users\\yoghourt\\Github\\HailanPrint\\WheelviewLibrary\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
                     "position": {
                         "startLine": 5,
                         "startColumn": 4,
@@ -88,7 +88,7 @@
                     "endOffset": 564
                 },
                 "from": {
-                    "file": "/Users/yoghourt/Github/HailanPrint/WheelviewLibrary/build/intermediates/bundles/debug/res/values/values.xml",
+                    "file": "D:\\Users\\yoghourt\\Github\\HailanPrint\\WheelviewLibrary\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
                     "position": {
                         "startLine": 6,
                         "startColumn": 4,
@@ -109,7 +109,130 @@
                     "endOffset": 724
                 },
                 "from": {
-                    "file": "/Users/yoghourt/Github/HailanPrint/WheelviewLibrary/build/intermediates/bundles/debug/res/values/values.xml",
+                    "file": "D:\\Users\\yoghourt\\Github\\HailanPrint\\WheelviewLibrary\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+                    "position": {
+                        "startLine": 13,
+                        "startColumn": 4,
+                        "startOffset": 569,
+                        "endLine": 15,
+                        "endColumn": 12,
+                        "endOffset": 724
+                    }
+                }
+            }
+        ]
+    },
+    {
+        "outputFile": "D:\\a\\-\\WheelviewLibrary\\build\\intermediates\\res\\merged\\androidTest\\debug\\values\\values.xml",
+        "map": [
+            {
+                "to": {
+                    "startLine": 2,
+                    "startColumn": 4,
+                    "startOffset": 55,
+                    "endColumn": 54,
+                    "endOffset": 105
+                },
+                "from": {
+                    "file": "D:\\a\\-\\WheelviewLibrary\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+                    "position": {
+                        "startLine": 2,
+                        "startColumn": 4,
+                        "startOffset": 55,
+                        "endColumn": 54,
+                        "endOffset": 105
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 3,
+                    "startColumn": 4,
+                    "startOffset": 110,
+                    "endColumn": 57,
+                    "endOffset": 163
+                },
+                "from": {
+                    "file": "D:\\a\\-\\WheelviewLibrary\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+                    "position": {
+                        "startLine": 3,
+                        "startColumn": 4,
+                        "startOffset": 110,
+                        "endColumn": 57,
+                        "endOffset": 163
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 4,
+                    "startColumn": 4,
+                    "startOffset": 168,
+                    "endColumn": 55,
+                    "endOffset": 219
+                },
+                "from": {
+                    "file": "D:\\a\\-\\WheelviewLibrary\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+                    "position": {
+                        "startLine": 4,
+                        "startColumn": 4,
+                        "startOffset": 168,
+                        "endColumn": 55,
+                        "endOffset": 219
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 5,
+                    "startColumn": 4,
+                    "startOffset": 224,
+                    "endColumn": 53,
+                    "endOffset": 273
+                },
+                "from": {
+                    "file": "D:\\a\\-\\WheelviewLibrary\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+                    "position": {
+                        "startLine": 5,
+                        "startColumn": 4,
+                        "startOffset": 224,
+                        "endColumn": 53,
+                        "endOffset": 273
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 6,
+                    "startColumn": 4,
+                    "startOffset": 278,
+                    "endLine": 12,
+                    "endColumn": 12,
+                    "endOffset": 564
+                },
+                "from": {
+                    "file": "D:\\a\\-\\WheelviewLibrary\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+                    "position": {
+                        "startLine": 6,
+                        "startColumn": 4,
+                        "startOffset": 278,
+                        "endLine": 12,
+                        "endColumn": 12,
+                        "endOffset": 564
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 13,
+                    "startColumn": 4,
+                    "startOffset": 569,
+                    "endLine": 15,
+                    "endColumn": 12,
+                    "endOffset": 724
+                },
+                "from": {
+                    "file": "D:\\a\\-\\WheelviewLibrary\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
                     "position": {
                         "startLine": 13,
                         "startColumn": 4,
