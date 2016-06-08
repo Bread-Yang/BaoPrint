@@ -40,7 +40,11 @@
         <activity
             android:name=".activity.welcome.StartingActivity"
             android:screenOrientation="portrait">
+            <intent-filter android:label="@string/app_name">
+                <action android:name="android.intent.action.MAIN"/>
 
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
         </activity>
         <activity
             android:name=".activity.login.LoginActivity"
@@ -213,11 +217,6 @@
             android:name=".activity.orders.ApplyRefundActivity"
             android:label="@string/apply_refund"
             android:screenOrientation="portrait">
-            <intent-filter android:label="@string/app_name">
-                <action android:name="android.intent.action.MAIN"/>
-
-                <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
         </activity>
         <activity
             android:name=".activity.personalcenter.PersonalInformationActivity"

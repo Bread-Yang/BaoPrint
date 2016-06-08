@@ -12,6 +12,7 @@
         <LinearLayout
             style="@style/NormalLayoutStyle"
             android:orientation="horizontal"
+            android:visibility="gone"
             android:paddingBottom="@dimen/margin_10"
             android:paddingTop="@dimen/margin_10">
 

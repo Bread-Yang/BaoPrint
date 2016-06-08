@@ -1,6 +1,8 @@
 package com.MDGround.HaiLanPrint.utils;
 
 import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -14,6 +16,8 @@ import java.util.Locale;
  * @author yoghourt
  */
 public class DateUtils {
+
+    private static String mDatePattern = "yyyy-MM-dd HH:mm:ss";
     static SimpleDateFormat mSimpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.CHINA);
     static java.text.DecimalFormat mDecimalFormat = new java.text.DecimalFormat("00");
 
@@ -119,6 +123,12 @@ public class DateUtils {
         long between_days = (time2 - time1) / (1000 * 3600 * 24);
 
         return Math.abs(Integer.parseInt(String.valueOf(between_days)));
+    }
+
+    public static DateTime getDateByServerDateString(String dateString) {
+        DateTimeFormatter formatter = DateTimeFormat.forPattern(mDatePattern);
+        DateTime dt = formatter.parseDateTime(dateString);
+        return dt;
     }
 
     public static String getServerDateStringByDate(Date date) {
@@ -267,7 +277,7 @@ public class DateUtils {
      * 将字符转成date
      *
      * @param dateStr
-     * @param simpleDateFormat2
+     * @param simpleDateFormat
      * @return
      */
     public static Date toDate(String dateStr, SimpleDateFormat simpleDateFormat) {
@@ -625,5 +635,22 @@ public class DateUtils {
     public static Date getFurtherMonth(int howManyMonths) {
         DateTime dateTime = new DateTime();
         return dateTime.plusMonths(howManyMonths).withTimeAtStartOfDay().toDate();
+    }
+
+    /**
+     * 判断优惠券是否可用条件：当前时间在ActiveTime和ExpireTime之间
+     * @param activeTimeDateString
+     * @param expireTimeDateString
+     * @return
+     */
+    public static boolean isWithinTwoDate(String activeTimeDateString, String expireTimeDateString) {
+        DateTime activeTime = getDateByServerDateString(activeTimeDateString);
+        DateTime expireTime = getDateByServerDateString(expireTimeDateString);
+        DateTime todayTime = new DateTime();
+        if (todayTime.isAfter(activeTime) && todayTime.isBefore(expireTime)) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }

@@ -15,6 +15,7 @@ import com.MDGround.HaiLanPrint.databinding.ItemCouponBinding;
 import com.MDGround.HaiLanPrint.models.Coupon;
 import com.MDGround.HaiLanPrint.restfuls.GlobalRestful;
 import com.MDGround.HaiLanPrint.restfuls.bean.ResponseData;
+import com.MDGround.HaiLanPrint.utils.DateUtils;
 import com.MDGround.HaiLanPrint.utils.StringUtil;
 import com.MDGround.HaiLanPrint.utils.ViewUtils;
 import com.google.gson.reflect.TypeToken;
@@ -65,15 +66,19 @@ public class MyCouponActivity extends ToolbarActivity<ActivityMyCouponBinding> {
             public void onTabSelected(TabLayout.Tab tab) {
                 int currentSelectedTabIndex = tab.getPosition();
 
+                boolean isAvailable = false;
                 if (currentSelectedTabIndex == 0) {
-                    mSelectedCouponStatus = 1;  // 可使用
+                    isAvailable = true; // 可使用
                 } else {
-                    mSelectedCouponStatus = 0; // 不可以使用
+                    isAvailable = false; // 不可以使用
                 }
 
                 mShowCouponArrayList.clear();
                 for (Coupon coupon : mAllCouponArrayList) {
-                    if (coupon.getCouponStatus() == mSelectedCouponStatus) {
+                    // 判断优惠券是否可用条件：当前时间在ActiveTime和ExpireTime 之间，并且 CouponStatus是0
+                    boolean couponStatus = DateUtils.isWithinTwoDate(coupon.getActivationCode(), coupon.getExpireTime());
+
+                    if (couponStatus == isAvailable) {
                         mShowCouponArrayList.add(coupon);
                     }
                 }
