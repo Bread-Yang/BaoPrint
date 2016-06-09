@@ -230,7 +230,7 @@
     <string name="alipay_pay">支付宝支付</string>
     <string name="wechat_pay">微信支付</string>
     <string name="receivables">应付金额: ¥%f</string>
-    <string name="rmb">¥</string>
+    <string name="rmb">¥</string>         toYuanWithoutUnit
     <string name="yuan_amount">¥%s</string>
     <string name="yuan_unit">元</string>
     <string name="coupon">优惠劵</string>
@@ -271,4 +271,6 @@
     <string name="tv_intergral_details">积分收支明细</string>
     <string name="tv_integral_motagage">积分抵押</string>
     <string name="mycredit">我的积分</string>
+    <string name="photobook">照片书</string>
+    <string name="mypostcard">个性明信片</string>
 </resources>

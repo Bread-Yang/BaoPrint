@@ -7,12 +7,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.MDGround.HaiLanPrint.R;
 import com.MDGround.HaiLanPrint.activity.base.ToolbarActivity;
 import com.MDGround.HaiLanPrint.databinding.ActivityPersonalCreditBinding;
-import com.MDGround.HaiLanPrint.databinding.ItemIntegralQueryBinding;
+import com.MDGround.HaiLanPrint.databinding.ItemCreditQueryBinding;
 import com.MDGround.HaiLanPrint.enumobject.restfuls.ResponseCode;
 import com.MDGround.HaiLanPrint.models.UserIntegralList;
 import com.MDGround.HaiLanPrint.restfuls.GlobalRestful;
@@ -36,10 +35,11 @@ import retrofit2.Response;
 
 public class MyCreditActivity extends ToolbarActivity<ActivityPersonalCreditBinding> {
     public static final String TAG = "MyCredit";
-    public String  mTotalAmount;
-    public ArrayList<UserIntegralList> mUserCreditList=new ArrayList<>();
+    public String mTotalAmount;
+    public ArrayList<UserIntegralList> mUserCreditList = new ArrayList<>();
 
     MyCreditadapter mAdapter;
+
     @Override
     protected int getContentLayout() {
         return R.layout.activity_personal_credit;
@@ -57,51 +57,47 @@ public class MyCreditActivity extends ToolbarActivity<ActivityPersonalCreditBind
         getSpecificationRequest();
 
 
-
     }
-   public class BindHandler{
-       public void ClicEvent(View v){
-           int position=mDataBinding.recyclerView.getChildAdapterPosition(v);
-           Toast.makeText(MyCreditActivity.this,position+"",Toast.LENGTH_SHORT).show();
 
-
-       }
-   }
+    public class BindHandler {
+        public void ClicEvent(View v) {
+            int position = mDataBinding.recyclerView.getChildAdapterPosition(v);
+            //  Toast.makeText(MyCreditActivity.this,position+"",Toast.LENGTH_SHORT).show();
+        }
+    }
 
     @Override
     protected void setListener() {
 
     }
-    //region SERVER
 
-    public void getSpecificationRequest(){
+    //region SERVER
+    public void getSpecificationRequest() {
         GlobalRestful.getInstance().GetUserIntegralInfo(new Callback<ResponseData>() {
             @Override
             public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
                 KLog.e(TAG, response.body().toString());
                 if (ResponseCode.isSuccess(response.body())) {
                     try {
-                        JSONObject jsonObject=new JSONObject(response.body().getContent());
+                        JSONObject jsonObject = new JSONObject(response.body().getContent());
                         mTotalAmount = jsonObject.getString("TotalAmount");
-                        KLog.e(TAG,mTotalAmount);
-                        String UserIntegralList=jsonObject.getString("UserIntegralList");
-                        mUserCreditList= StringUtil.getInstanceByJsonString(UserIntegralList, new TypeToken<ArrayList<UserIntegralList>>() {
+                        KLog.e(TAG, mTotalAmount);
+                        String UserIntegralList = jsonObject.getString("UserIntegralList");
+                        mUserCreditList = StringUtil.getInstanceByJsonString(UserIntegralList, new TypeToken<ArrayList<UserIntegralList>>() {
 
-                        }
+                                }
                         );
 
-//                        for(int i=0;i<userList.size();i++){
-//                            KLog.e(TAG,userList.get(i).getCreatedTime());
-//                            System.out.println("----->"+userList.get(i).getCreatedTime());
-//                        }
+
                         mDataBinding.tvCredit.setText(mTotalAmount);
-                        LinearLayoutManager linearLayoutManager=new LinearLayoutManager(MyCreditActivity.this);
+                        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(MyCreditActivity.this);
                         mDataBinding.recyclerView.setLayoutManager(linearLayoutManager);
                         mDataBinding.recyclerView.addItemDecoration(new DividerItemDecoration(0));
 
                         mAdapter = new MyCreditadapter(MyCreditActivity.this);
                         mDataBinding.recyclerView.setAdapter(mAdapter);
-                    }catch (Exception e){}
+                    } catch (Exception e) {
+                    }
 
                 }
             }
@@ -111,32 +107,30 @@ public class MyCreditActivity extends ToolbarActivity<ActivityPersonalCreditBind
 
             }
         });
-    //endregion
+        //endregion
 
 
+    }
 
-}
-    public class MyCreditadapter extends RecyclerView.Adapter<MyCreditadapter.ViewHolder>{
+    public class MyCreditadapter extends RecyclerView.Adapter<MyCreditadapter.ViewHolder> {
         Context context;
 
-        MyCreditadapter(Context context){
-           this.context=context;
-       }
+        MyCreditadapter(Context context) {
+            this.context = context;
+        }
+
         @Override
         public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            View v= LayoutInflater.from(context).inflate(R.layout.item_integral_query,parent,false);
-            ViewHolder viewHolder=new ViewHolder(v);
+            View v = LayoutInflater.from(context).inflate(R.layout.item_credit_query, parent, false);
+            ViewHolder viewHolder = new ViewHolder(v);
             return viewHolder;
         }
 
         @Override
         public void onBindViewHolder(ViewHolder holder, int position) {
-            BindHandler  handler=new BindHandler();
-              holder.itemIntegralQueryBinding.setHandler(handler);
-              holder.itemIntegralQueryBinding.tvDate.setText(mUserCreditList.get(position).getCreatedTime());
-              holder.itemIntegralQueryBinding.tvIntegral.setText(mUserCreditList.get(position).getAmount());
-
-
+            BindHandler handler = new BindHandler();
+            holder.itemIntegralQueryBinding.setHandler(handler);
+            holder.itemIntegralQueryBinding.setCreditInfo(mUserCreditList.get(position));
         }
 
         @Override
@@ -144,12 +138,12 @@ public class MyCreditActivity extends ToolbarActivity<ActivityPersonalCreditBind
             return mUserCreditList.size();
         }
 
-        public class ViewHolder extends RecyclerView.ViewHolder{
-            public ItemIntegralQueryBinding itemIntegralQueryBinding;
+        public class ViewHolder extends RecyclerView.ViewHolder {
+            public ItemCreditQueryBinding itemIntegralQueryBinding;
 
             public ViewHolder(View itemView) {
                 super(itemView);
-               itemIntegralQueryBinding= DataBindingUtil.bind(itemView);
+                itemIntegralQueryBinding = DataBindingUtil.bind(itemView);
             }
         }
     }

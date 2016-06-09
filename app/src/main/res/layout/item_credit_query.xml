@@ -6,6 +6,9 @@
     >
     <data>
         <variable
+            name="creditInfo"
+            type="com.MDGround.HaiLanPrint.models.UserIntegralList"/>
+        <variable
             name="handler"
             type="com.MDGround.HaiLanPrint.activity.personalcenter.MyCreditActivity.BindHandler"/>
     </data>
@@ -24,6 +27,7 @@
            />
         <TextView
             android:id="@+id/tvDate"
+            android:text="@{creditInfo.createdTime}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             tools:text="2015-10-1 10:27:09"
@@ -36,6 +40,7 @@
            android:layout_width="wrap_content"
            android:layout_height="wrap_content"
            tools:text="-333"
+            android:text="@{creditInfo.amount}"
            android:textSize="40sp"
            android:layout_alignParentRight="true"
            android:layout_centerVertical="true"
