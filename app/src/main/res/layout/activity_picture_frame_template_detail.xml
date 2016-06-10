@@ -199,7 +199,7 @@
         <View
             style="@style/DividerHorizontalStyle"
             android:layout_above="@+id/btnPurchase"
-            android:layout_marginTop="@dimen/margin_25"/>
+            android:layout_marginTop="@dimen/margin_26"/>
 
         <Button
             android:id="@+id/btnPurchase"

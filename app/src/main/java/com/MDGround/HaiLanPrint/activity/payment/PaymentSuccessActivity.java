@@ -16,7 +16,7 @@ public class PaymentSuccessActivity extends ToolbarActivity<ActivityPaymentPrevi
 
     @Override
     protected int getContentLayout() {
-        return R.layout.activity_payment_preview;
+        return R.layout.activity_payment_success;
     }
 
     @Override

@@ -209,6 +209,19 @@ public class GlobalRestful extends BaseRestful {
         asynchronousPost("GetBannerPhotoList", null, callback);
     }
 
+    // 用于获取所有类型图片说明/Banner图/介绍页
+    public void GetPhotoTypeExplainList(Callback<ResponseData> callback) {
+//        JSONObject obj = new JSONObject();
+//        try {
+//            obj.put("TypeID", productType.value());
+//            obj.put("ExplainType", photoExplainType.value());
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//        }
+
+        asynchronousPost("GetPhotoTypeExplainList", null, callback);
+    }
+
     // 保存订单接口
     public void SaveOrder(int OrderID, Callback<ResponseData> callback) {
         JSONObject obj = new JSONObject();
@@ -367,7 +380,7 @@ public class GlobalRestful extends BaseRestful {
 
 
     //获取用户积分查询接口
-    public void GetUserIntegralInfo(Callback<ResponseData> callback){
-        asynchronousPost("GetUserIntegralInfo",null,callback);
+    public void GetUserIntegralInfo(Callback<ResponseData> callback) {
+        asynchronousPost("GetUserIntegralInfo", null, callback);
     }
 }

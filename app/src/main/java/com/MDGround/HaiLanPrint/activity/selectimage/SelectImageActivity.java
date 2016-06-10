@@ -88,7 +88,7 @@ public class SelectImageActivity extends ToolbarActivity<ActivitySelectImageBind
         mDataBinding.imageRecyclerView.addItemDecoration(new GridSpacingItemDecoration(mCountPerLine, ViewUtils.dp2px(2), false));
         mDataBinding.imageRecyclerView.setLayoutManager(new GridLayoutManager(this, mCountPerLine));
 
-        mImageAdapter = new ChooseImageListAdapter(this, mMaxSelectImageNum, true);
+        mImageAdapter = new ChooseImageListAdapter(this, mMaxSelectImageNum, true, false);
         mImageAdapter.bindImages(mImagesList);
         mImageAdapter.bindSelectImages(SelectImageUtil.mAlreadySelectImage);
         mDataBinding.imageRecyclerView.setAdapter(mImageAdapter);

@@ -273,8 +273,7 @@
         <!-- 自定义Glide Module注册 -->
         <meta-data
             android:name="com.MDGround.HaiLanPrint.glide.MDGroundGlideModule"
-            android:value="GlideModule"/><!-- ATTENTION: This was auto-generated to add Google Play services to your project for
-     App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information. -->
+            android:value="GlideModule"/>
 
     </application>
 

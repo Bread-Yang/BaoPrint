@@ -15,10 +15,13 @@ import com.MDGround.HaiLanPrint.activity.selectimage.SelectAlbumActivity;
 import com.MDGround.HaiLanPrint.application.MDGroundApplication;
 import com.MDGround.HaiLanPrint.databinding.ActivityPokerChooseInchBinding;
 import com.MDGround.HaiLanPrint.databinding.ItemPokerChooseInchBinding;
+import com.MDGround.HaiLanPrint.enumobject.PhotoExplainTypeEnum;
 import com.MDGround.HaiLanPrint.enumobject.restfuls.ResponseCode;
 import com.MDGround.HaiLanPrint.models.Measurement;
+import com.MDGround.HaiLanPrint.models.PhotoTypeExplain;
 import com.MDGround.HaiLanPrint.restfuls.GlobalRestful;
 import com.MDGround.HaiLanPrint.restfuls.bean.ResponseData;
+import com.MDGround.HaiLanPrint.utils.GlideUtil;
 import com.MDGround.HaiLanPrint.utils.StringUtil;
 import com.MDGround.HaiLanPrint.utils.ViewUtils;
 import com.MDGround.HaiLanPrint.views.itemdecoration.DividerItemDecoration;
@@ -32,6 +35,8 @@ import java.util.ArrayList;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
+import static com.MDGround.HaiLanPrint.application.MDGroundApplication.mPhotoTypeExplainArrayList;
 
 /**
  * Created by yoghourt on 5/11/16.
@@ -56,6 +61,14 @@ public class PokerChooseInchActivity extends ToolbarActivity<ActivityPokerChoose
 
     @Override
     protected void initData() {
+        for (PhotoTypeExplain photoTypeExplain : mPhotoTypeExplainArrayList) {
+            if (photoTypeExplain.getExplainType() == PhotoExplainTypeEnum.Banner.value()
+                    && photoTypeExplain.getTypeID() == ProductType.Poker.value()) {
+                GlideUtil.loadImageByPhotoSID(mDataBinding.ivBanner, photoTypeExplain.getPhotoSID());
+                break;
+            }
+        }
+
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         mDataBinding.recyclerView.setLayoutManager(layoutManager);

@@ -10,8 +10,11 @@ import com.MDGround.HaiLanPrint.greendao.DaoMaster;
 import com.MDGround.HaiLanPrint.greendao.DaoSession;
 import com.MDGround.HaiLanPrint.greendao.DatabaseOpenHelper;
 import com.MDGround.HaiLanPrint.models.Measurement;
+import com.MDGround.HaiLanPrint.models.PhotoTypeExplain;
 import com.MDGround.HaiLanPrint.models.Template;
 import com.MDGround.HaiLanPrint.models.User;
+
+import java.util.ArrayList;
 
 import cn.sharesdk.framework.ShareSDK;
 
@@ -32,6 +35,8 @@ public class MDGroundApplication extends Application{
     public static Measurement mChoosedMeasurement;
 
     public static Template mChoosedTemplate;
+
+    public static ArrayList<PhotoTypeExplain> mPhotoTypeExplainArrayList = new ArrayList<PhotoTypeExplain>();
 
     @Override
     public void onCreate() {

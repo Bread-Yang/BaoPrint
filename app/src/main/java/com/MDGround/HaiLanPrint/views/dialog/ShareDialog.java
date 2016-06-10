@@ -34,6 +34,8 @@ public class ShareDialog extends Dialog {
 
     private Platform.ShareParams mShareParams;
 
+    private String mShareImageLocalPath;
+
     public ShareDialog(Context context) {
         super(context, R.style.customDialogStyle);
         mContext = context;
@@ -73,12 +75,14 @@ public class ShareDialog extends Dialog {
     }
 
     public void initShareParams(String imagePath) {
+        mShareImageLocalPath = imagePath;
+
         mShareParams = new Platform.ShareParams();
-        mShareParams.setTitle("111");
-        mShareParams.setText("text");
+        mShareParams.setTitle("海派海印");
+        mShareParams.setText("海派海印");
         mShareParams.setImagePath(imagePath);
-//        mShareParams.setShareType(Platform.SHARE_TEXT);
-//        mShareParams.setShareType(Platform.SHARE_IMAGE);
+        mShareParams.setShareType(Platform.SHARE_TEXT);
+        mShareParams.setShareType(Platform.SHARE_IMAGE);
 //        mShareParams.setImageData(bitmap);
     }
 

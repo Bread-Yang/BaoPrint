@@ -72,7 +72,7 @@ public class CloudDetailActivity extends ToolbarActivity<ActivityCloudDetailBind
         mDataBinding.recyclerView.addItemDecoration(new GridSpacingItemDecoration(mCountPerLine, ViewUtils.dp2px(2), true));
         mDataBinding.recyclerView.setLayoutManager(new GridLayoutManager(this, mCountPerLine));
 
-        mImageAdapter = new ChooseImageListAdapter(this, Integer.MAX_VALUE, false);
+        mImageAdapter = new ChooseImageListAdapter(this, Integer.MAX_VALUE, false, !mImage.isShared());
         mDataBinding.recyclerView.setAdapter(mImageAdapter);
 
     }
@@ -102,7 +102,7 @@ public class CloudDetailActivity extends ToolbarActivity<ActivityCloudDetailBind
                         mDataBinding.cbSelectAll.setChecked(false);
                         mImageAdapter.setSelectable(false);
 
-                        mDataBinding.btnOperation.setText(R.string.upload);
+                        mDataBinding.btnOperation.setText(R.string.upload_image);
                         mDataBinding.btnOperation.setBackgroundResource(R.drawable.ripple_button_right_angle_orange);
 //                        mDataBinding.btnOperation.setBackgroundColor();
                     } else {
@@ -123,22 +123,6 @@ public class CloudDetailActivity extends ToolbarActivity<ActivityCloudDetailBind
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (!isManualChangeState) {
                     mImageAdapter.selectAllImage(isChecked);
-                }
-            }
-        });
-
-        mDataBinding.btnOperation.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String btnText = mDataBinding.btnOperation.getText().toString();
-                if (mImage.isShared()) {
-                    transferImageRequest();
-                } else {
-                    if (btnText.equals(getString(R.string.upload_image))) {
-                        toImageSelectActivity();
-                    } else {
-                        deleteImageRequest();
-                    }
                 }
             }
         });
@@ -182,11 +166,35 @@ public class CloudDetailActivity extends ToolbarActivity<ActivityCloudDetailBind
 
     private void changeTextNum(int selectNum) {
         if (selectNum != 0) {
-            mDataBinding.btnOperation.setText(getString(R.string.delete_num, selectNum));
+            if (mImage.isShared()) {
+                mDataBinding.btnOperation.setText(getString(R.string.forward_num, selectNum));
+            } else {
+                mDataBinding.btnOperation.setText(getString(R.string.delete_num, selectNum));
+            }
         } else {
             mDataBinding.btnOperation.setText(getString(R.string.delete));
         }
     }
+
+    private void toImageSelectActivity() {
+        Intent intent = new Intent(this, UploadImageActivity.class);
+        startActivity(intent);
+    }
+
+    //region ACTION
+    public void btnOperationAction(View view) {
+        String btnText = mDataBinding.btnOperation.getText().toString();
+        if (mImage.isShared()) {
+            transferImageRequest();
+        } else {
+            if (btnText.equals(getString(R.string.upload_image))) {
+                toImageSelectActivity();
+            } else {
+                deleteImageRequest();
+            }
+        }
+    }
+    //endregion
 
     //region SERVER
     private void loadImageRequest() {
@@ -243,6 +251,8 @@ public class CloudDetailActivity extends ToolbarActivity<ActivityCloudDetailBind
                     }
                 }
 
+                mDataBinding.btnOperation.setText(getString(R.string.delete));
+
                 mImageAdapter.notifyDataSetChanged();
 
                 ViewUtils.dismiss();
@@ -283,13 +293,6 @@ public class CloudDetailActivity extends ToolbarActivity<ActivityCloudDetailBind
                 ViewUtils.dismiss();
             }
         });
-    }
-    //endregion
-
-    //region PRIVATE
-    private void toImageSelectActivity() {
-        Intent intent = new Intent(this, UploadImageActivity.class);
-        startActivity(intent);
     }
     //endregion
 }

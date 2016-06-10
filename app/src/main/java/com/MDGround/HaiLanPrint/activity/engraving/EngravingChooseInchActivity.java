@@ -14,10 +14,13 @@ import com.MDGround.HaiLanPrint.activity.base.ToolbarActivity;
 import com.MDGround.HaiLanPrint.application.MDGroundApplication;
 import com.MDGround.HaiLanPrint.databinding.ActivityEngravingChooseInchBinding;
 import com.MDGround.HaiLanPrint.databinding.ItemEngravingChooseInchBinding;
+import com.MDGround.HaiLanPrint.enumobject.PhotoExplainTypeEnum;
 import com.MDGround.HaiLanPrint.enumobject.restfuls.ResponseCode;
 import com.MDGround.HaiLanPrint.models.Measurement;
+import com.MDGround.HaiLanPrint.models.PhotoTypeExplain;
 import com.MDGround.HaiLanPrint.restfuls.GlobalRestful;
 import com.MDGround.HaiLanPrint.restfuls.bean.ResponseData;
+import com.MDGround.HaiLanPrint.utils.GlideUtil;
 import com.MDGround.HaiLanPrint.utils.NavUtils;
 import com.MDGround.HaiLanPrint.utils.StringUtil;
 import com.MDGround.HaiLanPrint.utils.ViewUtils;
@@ -32,6 +35,8 @@ import java.util.ArrayList;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
+import static com.MDGround.HaiLanPrint.application.MDGroundApplication.mPhotoTypeExplainArrayList;
 
 /**
  * Created by yoghourt on 5/11/16.
@@ -56,6 +61,14 @@ public class EngravingChooseInchActivity extends ToolbarActivity<ActivityEngravi
 
     @Override
     protected void initData() {
+        for (PhotoTypeExplain photoTypeExplain : mPhotoTypeExplainArrayList) {
+            if (photoTypeExplain.getExplainType() == PhotoExplainTypeEnum.Banner.value()
+                    && photoTypeExplain.getTypeID() == ProductType.Engraving.value()) {
+                GlideUtil.loadImageByPhotoSID(mDataBinding.ivBanner, photoTypeExplain.getPhotoSID());
+                break;
+            }
+        }
+
         tvRight.setText(R.string.measurement_description);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);

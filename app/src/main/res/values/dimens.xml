@@ -8,7 +8,8 @@
     <dimen name="margin_36">36dp</dimen>
     <dimen name="margin_32">32dp</dimen>
     <dimen name="margin_30">30dp</dimen>
-    <dimen name="margin_25">25dp</dimen>
+    <dimen name="margin_28">28dp</dimen>
+    <dimen name="margin_26">26dp</dimen>
     <dimen name="margin_24">24dp</dimen>
     <dimen name="margin_20">20dp</dimen>
     <dimen name="margin_15">15dp</dimen>
@@ -32,6 +33,9 @@
     <dimen name="text_size_14">14dp</dimen>
     <dimen name="text_size_12">12dp</dimen>
 
+    <dimen name="size_140">140dp</dimen>
+    <dimen name="size_130">130dp</dimen>
+    <dimen name="size_120">120dp</dimen>
     <dimen name="size_88">88dp</dimen>
     <dimen name="size_60">60dp</dimen>
     <dimen name="size_44">44dp</dimen>

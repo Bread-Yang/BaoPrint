@@ -32,6 +32,7 @@ import com.MDGround.HaiLanPrint.application.MDGroundApplication;
 import com.MDGround.HaiLanPrint.databinding.ActivityMainBinding;
 import com.MDGround.HaiLanPrint.enumobject.restfuls.ResponseCode;
 import com.MDGround.HaiLanPrint.models.MDImage;
+import com.MDGround.HaiLanPrint.models.PhotoTypeExplain;
 import com.MDGround.HaiLanPrint.restfuls.GlobalRestful;
 import com.MDGround.HaiLanPrint.restfuls.bean.ResponseData;
 import com.google.gson.reflect.TypeToken;
@@ -178,6 +179,23 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(MainActivity.this, EngravingChooseInchActivity.class);
             startActivity(intent);
         }
+    }
+    //endregion
+
+    //region SERVER
+    private void getPhotoTypeExplainListRequest() {
+        GlobalRestful.getInstance().GetPhotoTypeExplainList(new Callback<ResponseData>() {
+            @Override
+            public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
+                MDGroundApplication.mPhotoTypeExplainArrayList = response.body().getContent(new TypeToken<ArrayList<PhotoTypeExplain>>() {
+                });
+            }
+
+            @Override
+            public void onFailure(Call<ResponseData> call, Throwable t) {
+
+            }
+        });
     }
     //endregion
 

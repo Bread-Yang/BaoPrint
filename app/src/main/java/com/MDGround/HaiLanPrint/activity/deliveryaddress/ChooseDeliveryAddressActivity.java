@@ -19,7 +19,6 @@ import com.MDGround.HaiLanPrint.greendao.Location;
 import com.MDGround.HaiLanPrint.models.DeliveryAddress;
 import com.MDGround.HaiLanPrint.restfuls.GlobalRestful;
 import com.MDGround.HaiLanPrint.restfuls.bean.ResponseData;
-import com.MDGround.HaiLanPrint.views.itemdecoration.DividerItemDecoration;
 import com.google.gson.reflect.TypeToken;
 
 import java.util.ArrayList;
@@ -38,6 +37,8 @@ public class ChooseDeliveryAddressActivity extends ToolbarActivity<ActivityChoos
 
     private ArrayList<DeliveryAddress> mAddressArrayList = new ArrayList<>();
 
+    private DeliveryAddress mDeliveryAddress;
+
     @Override
     protected int getContentLayout() {
         return R.layout.activity_choose_delivery_address;
@@ -51,10 +52,12 @@ public class ChooseDeliveryAddressActivity extends ToolbarActivity<ActivityChoos
 
     @Override
     protected void initData() {
+        mDeliveryAddress = getIntent().getParcelableExtra(Constants.KEY_DELIVERY_ADDRESS);
+
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         mDataBinding.recyclerView.setLayoutManager(layoutManager);
-        mDataBinding.recyclerView.addItemDecoration(new DividerItemDecoration(0));
+//        mDataBinding.recyclerView.addItemDecoration(new DividerItemDecoration(0));
 
         mAdapter = new DeliveryAddressAdapter();
         mDataBinding.recyclerView.setAdapter(mAdapter);
@@ -120,6 +123,16 @@ public class ChooseDeliveryAddressActivity extends ToolbarActivity<ActivityChoos
             Location county = MDGroundApplication.mDaoSession.getLocationDao().load(deliveryAddress.getDistrictID());
 
             holder.viewDataBinding.tvAddress.setText(province.getLocationName() + city.getLocationName() + county.getLocationName() + deliveryAddress.getStreet());
+
+            if (mDeliveryAddress != null && mDeliveryAddress.getAutoID() == deliveryAddress.getAutoID()) {
+                holder.viewDataBinding.ivLocationLogo.setVisibility(View.VISIBLE);
+                holder.viewDataBinding.ivLine.setVisibility(View.VISIBLE);
+                holder.viewDataBinding.viewDivider.setVisibility(View.GONE);
+            } else {
+                holder.viewDataBinding.ivLocationLogo.setVisibility(View.INVISIBLE);
+                holder.viewDataBinding.ivLine.setVisibility(View.GONE);
+                holder.viewDataBinding.viewDivider.setVisibility(View.VISIBLE);
+            }
         }
 
         @Override

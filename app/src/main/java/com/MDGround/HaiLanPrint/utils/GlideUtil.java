@@ -57,6 +57,12 @@ public class GlideUtil {
         }
     }
 
+    public static void loadImageByPhotoSID(ImageView imageView, int photoSID) {
+        MDImage mdImage = new MDImage();
+        mdImage.setPhotoSID(photoSID);
+        GlideUtil.loadImageByMDImage(imageView, mdImage);
+    }
+
     public static long getFileSize(final File file) {
         if (file == null || !file.exists())
             return 0;

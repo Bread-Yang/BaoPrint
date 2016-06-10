@@ -78,7 +78,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="?android:attr/selectableItemBackground"
-                android:drawableTop="@drawable/icon_book_home"
+                android:drawableTop="@drawable/icon_art_home"
                 android:gravity="center"
                 android:onClick="@{handlers::toArtAlbumActivityAction}"
                 android:paddingBottom="12dp"

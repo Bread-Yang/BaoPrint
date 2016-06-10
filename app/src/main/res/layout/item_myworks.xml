@@ -1,22 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools">
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/margin_96"
         android:background="@android:color/white"
         android:orientation="horizontal"
-        android:paddingLeft="10dp"
         android:padding="@dimen/margin_6"
-        >
+        android:paddingLeft="10dp">
 
         <CheckBox
-
             style="@style/ClickableTextStyle"
             android:layout_gravity="center_vertical"
-            android:button="@drawable/selector_cb_bg_auto_login" />
+            android:button="@drawable/selector_cb_bg_auto_login"/>
 
         <ImageView
             android:id="@+id/ivImage"
@@ -25,13 +23,12 @@
             android:layout_gravity="center_vertical"
             android:layout_margin="@dimen/margin_6"
             android:scaleType="centerCrop"
-            tools:src="@drawable/bg_pic" />
+            tools:src="@drawable/bg_pic"/>
 
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_gravity="center_vertical"
-          >
+            android:layout_gravity="center_vertical">
 
             <TextView
                 android:id="@+id/tv_worksname"
@@ -39,32 +36,24 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
                 android:textSize="@dimen/text_size_18"
-                tools:text="照片书" />
+                tools:text="照片书"/>
 
             <TextView
-                android:layout_below="@id/tv_worksname"
                 android:id="@+id/tv_worksSizee"
                 android:layout_width="wrap_content"
-                android:textSize="@dimen/text_size_16"
                 android:layout_height="wrap_content"
-                tools:text="照片书10*23"
-
-
-
-                />
+                android:layout_below="@id/tv_worksname"
+                android:textSize="@dimen/text_size_16"
+                tools:text="照片书10*23"/>
 
             <TextView
                 android:id="@+id/tv_worksPice"
-                android:layout_alignParentBottom="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                tools:text="照片书"
+                android:layout_alignParentBottom="true"
                 android:textColor="@color/colorOrange"
                 android:textSize="@dimen/size_22"
-
-                />
-
-
+                tools:text="照片书"/>
         </RelativeLayout>
     </LinearLayout>
 </layout>

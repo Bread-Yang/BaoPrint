@@ -27,6 +27,28 @@
         <item name="android:button">@null</item>
     </style>
 
+    <style name="NormalButtonStyle">
+        <item name="android:paddingTop">@dimen/margin_6</item>
+        <item name="android:paddingBottom">@dimen/margin_6</item>
+        <item name="android:layout_width">@dimen/size_130</item>
+        <item name="android:textSize">@dimen/text_size_18</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/color_f88e11</item>
+        <item name="android:background">@drawable/shape_pay_normal_btn_bg</item>
+        <item name="android:button">@null</item>
+    </style>
+
+    <style name="HighlightButtonStyle">
+        <item name="android:paddingTop">@dimen/margin_6</item>
+        <item name="android:paddingBottom">@dimen/margin_6</item>
+        <item name="android:layout_width">@dimen/size_130</item>
+        <item name="android:textSize">@dimen/text_size_18</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/color_white</item>
+        <item name="android:background">@drawable/shape_pay_highlight_btn_bg</item>
+        <item name="android:button">@null</item>
+    </style>
+
     <style name="NormalLayoutStyle">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
@@ -39,7 +61,7 @@
     <style name="FixHeightLayoutStyle" parent="NormalLayoutStyle">
         <item name="android:layout_height">@dimen/size_44</item>
     </style>
-    
+
     <style name="IntegerLayoutStyle" parent="NormalLayoutStyle">
         <item name="android:layout_height">@dimen/margin_64</item>
     </style>

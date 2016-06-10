@@ -70,7 +70,7 @@ public class MDGroundFetcher implements DataFetcher<InputStream> {
      */
     @Override
     public String getId() {
-        return String.valueOf(mImage.getPhotoID());
+        return String.valueOf(mImage.getPhotoSID());
     }
 
     /**

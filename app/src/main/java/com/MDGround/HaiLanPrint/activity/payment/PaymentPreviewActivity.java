@@ -13,6 +13,7 @@ import com.MDGround.HaiLanPrint.databinding.ActivityPaymentPreviewBinding;
 import com.MDGround.HaiLanPrint.greendao.Location;
 import com.MDGround.HaiLanPrint.models.DeliveryAddress;
 import com.MDGround.HaiLanPrint.utils.NavUtils;
+import com.MDGround.HaiLanPrint.utils.ViewUtils;
 
 /**
  * Created by yoghourt on 5/23/16.
@@ -22,6 +23,8 @@ public class PaymentPreviewActivity extends ToolbarActivity<ActivityPaymentPrevi
 
     private final int REQEUST_CODE_SELECT_DELIVERY_ADDRESS = 0x11;
     private final int REQEUST_CODE_SELECT_COUPON = 0x12;
+
+    private DeliveryAddress mDeliveryAddress;
 
     @Override
     protected int getContentLayout() {
@@ -48,17 +51,17 @@ public class PaymentPreviewActivity extends ToolbarActivity<ActivityPaymentPrevi
         if (resultCode == RESULT_OK) {
             switch (requestCode) {
                 case REQEUST_CODE_SELECT_DELIVERY_ADDRESS:
-                    DeliveryAddress deliveryAddress = data.getParcelableExtra(Constants.KEY_DELIVERY_ADDRESS);
+                    mDeliveryAddress = data.getParcelableExtra(Constants.KEY_DELIVERY_ADDRESS);
 
-                    if (deliveryAddress != null) {
-                        mDataBinding.tvName.setText(deliveryAddress.getReceiver());
-                        mDataBinding.tvPhone.setText(deliveryAddress.getPhone());
+                    if (mDeliveryAddress != null) {
+                        mDataBinding.tvName.setText(mDeliveryAddress.getReceiver());
+                        mDataBinding.tvPhone.setText(mDeliveryAddress.getPhone());
 
-                        Location province = MDGroundApplication.mDaoSession.getLocationDao().load(deliveryAddress.getProvinceID());
-                        Location city = MDGroundApplication.mDaoSession.getLocationDao().load(deliveryAddress.getCityID());
-                        Location county = MDGroundApplication.mDaoSession.getLocationDao().load(deliveryAddress.getDistrictID());
+                        Location province = MDGroundApplication.mDaoSession.getLocationDao().load(mDeliveryAddress.getProvinceID());
+                        Location city = MDGroundApplication.mDaoSession.getLocationDao().load(mDeliveryAddress.getCityID());
+                        Location county = MDGroundApplication.mDaoSession.getLocationDao().load(mDeliveryAddress.getDistrictID());
 
-                        mDataBinding.tvAddress.setText(province.getLocationName() + city.getLocationName() + county.getLocationName() + deliveryAddress.getStreet());
+                        mDataBinding.tvAddress.setText(province.getLocationName() + city.getLocationName() + county.getLocationName() + mDeliveryAddress.getStreet());
 
                         mDataBinding.tvChooseFirst.setVisibility(View.GONE);
                         mDataBinding.tvName.setVisibility(View.VISIBLE);
@@ -78,11 +81,21 @@ public class PaymentPreviewActivity extends ToolbarActivity<ActivityPaymentPrevi
     //region ACTION
     public void toDeliveryAddressListActivityAction(View view) {
         Intent intent = new Intent(this, ChooseDeliveryAddressActivity.class);
+        intent.putExtra(Constants.KEY_DELIVERY_ADDRESS, mDeliveryAddress);
         startActivityForResult(intent, REQEUST_CODE_SELECT_DELIVERY_ADDRESS);
     }
 
     public void toChooseCouponActivityAction(View view) {
         Intent intent = new Intent(this, ChooseCouponActivity.class);
+        startActivity(intent);
+    }
+
+    public void payAction(View view) {
+        if (mDeliveryAddress == null) {
+            ViewUtils.toast(R.string.add_address_first);
+            return;
+        }
+        Intent intent = new Intent(this, PaymentSuccessActivity.class);
         startActivity(intent);
     }
     //endregion

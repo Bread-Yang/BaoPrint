@@ -14,11 +14,14 @@ import com.MDGround.HaiLanPrint.models.MDImage;
 import com.MDGround.HaiLanPrint.utils.GlideUtil;
 import com.MDGround.HaiLanPrint.utils.SelectImageUtil;
 import com.MDGround.HaiLanPrint.utils.SnapViewPicture;
-import com.MDGround.HaiLanPrint.utils.ViewUtils;
 import com.MDGround.HaiLanPrint.views.dialog.ShareDialog;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import cn.sharesdk.onekeyshare.OnekeyShare;
+
+import static com.MDGround.HaiLanPrint.utils.ViewUtils.getString;
 
 /**
  * Created by yoghourt on 16/5/16.
@@ -38,6 +41,7 @@ public class ChooseImageListAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     private int mMaxSelectNum = Integer.MAX_VALUE;
     private int selectMode = MODE_MULTIPLE;
     private boolean mIsSelectable = false;
+    private boolean mIsShareble = false;
 
     private List<MDImage> mImages = new ArrayList<MDImage>();
     private List<MDImage> mSelectImages = new ArrayList<MDImage>();
@@ -46,10 +50,11 @@ public class ChooseImageListAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
     private ShareDialog mShareDialog;
 
-    public ChooseImageListAdapter(Context context, int maxSelectNum, boolean isSelectable) {
+    public ChooseImageListAdapter(Context context, int maxSelectNum, boolean isSelectable, boolean isShareble) {
         this.mContext = context;
         this.mMaxSelectNum = maxSelectNum;
         this.mIsSelectable = isSelectable;
+        this.mIsShareble = isShareble;
     }
 
     public void setSelectable(boolean isSelectable) {
@@ -157,9 +162,12 @@ public class ChooseImageListAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                 }
             });
 
-            contentHolder.contentView.setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View v) {
+            if (mIsShareble) {
+                contentHolder.contentView.setOnLongClickListener(new View.OnLongClickListener() {
+                    @Override
+                    public boolean onLongClick(View v) {
+                        String imagePath = SnapViewPicture.snapView(contentHolder.ivImage);
+
 //                    OnekeyShare oks = new OnekeyShare();
 //                    // 分享时Notification的图标和文字  2.5.9以后的版本不调用此方法
 //                    //oks.setNotification(R.drawable.ic_launcher, getString(R.string.app_name));
@@ -170,7 +178,7 @@ public class ChooseImageListAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 //                    // text是分享文本，所有平台都需要这个字段
 //                    oks.setText("我是分享文本");
 //                    // imagePath是图片的本地路径，Linked-In以外的平台都支持此参数
-//                    oks.setImagePath("/sdcard/test.jpg");//确保SDcard下面存在此张图片
+//                    oks.setImagePath(imagePath);//确保SDcard下面存在此张图片
 //                    // url仅在微信（包括好友和朋友圈）中使用
 //                    oks.setUrl("http://sharesdk.cn");
 //                    // site是分享此内容的网站名称，仅在QQ空间使用
@@ -178,17 +186,17 @@ public class ChooseImageListAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 //                    // siteUrl是分享此内容的网站地址，仅在QQ空间使用
 //                    oks.setSiteUrl("http://sharesdk.cn");
 //                    // 启动分享GUI
-//                    oks.show(context);
+//                    oks.show(mContext);
 
-                    String imagePath = SnapViewPicture.snapView(contentHolder.ivImage);
-                    if (mShareDialog == null) {
-                        mShareDialog = new ShareDialog(mContext);
+                        if (mShareDialog == null) {
+                            mShareDialog = new ShareDialog(mContext);
+                        }
+                        mShareDialog.initShareParams(imagePath);
+                        mShareDialog.show();
+                        return true;
                     }
-                    mShareDialog.initShareParams(imagePath);
-                    mShareDialog.show();
-                    return false;
-                }
-            });
+                });
+            }
         }
     }
 

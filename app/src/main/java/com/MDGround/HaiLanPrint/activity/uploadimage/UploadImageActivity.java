@@ -52,7 +52,7 @@ public class UploadImageActivity extends ToolbarActivity<ActivityUploadImageBind
         mDataBinding.recyclerView.addItemDecoration(new GridSpacingItemDecoration(mCountPerLine, ViewUtils.dp2px(2), false));
         mDataBinding.recyclerView.setLayoutManager(new GridLayoutManager(this, mCountPerLine));
 
-        mImageAdapter = new ChooseImageListAdapter(this, Integer.MAX_VALUE, true);
+        mImageAdapter = new ChooseImageListAdapter(this, Integer.MAX_VALUE, true, false);
         mDataBinding.recyclerView.setAdapter(mImageAdapter);
 
         new LocalMediaLoader(this, LocalMediaLoader.TYPE_IMAGE).loadAllImage(new LocalMediaLoader.LocalMediaLoadListener() {
@@ -108,9 +108,9 @@ public class UploadImageActivity extends ToolbarActivity<ActivityUploadImageBind
 
     private void changeTextNum(int selectNum) {
         if (selectNum != 0) {
-            mDataBinding.btnUpload.setText(getString(R.string.delete_num, selectNum));
+            mDataBinding.btnUpload.setText(getString(R.string.upload_num, selectNum));
         } else {
-            mDataBinding.btnUpload.setText(getString(R.string.delete));
+            mDataBinding.btnUpload.setText(getString(R.string.upload));
         }
     }
 
