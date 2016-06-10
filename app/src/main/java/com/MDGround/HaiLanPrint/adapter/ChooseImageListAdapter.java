@@ -13,6 +13,9 @@ import com.MDGround.HaiLanPrint.R;
 import com.MDGround.HaiLanPrint.models.MDImage;
 import com.MDGround.HaiLanPrint.utils.GlideUtil;
 import com.MDGround.HaiLanPrint.utils.SelectImageUtil;
+import com.MDGround.HaiLanPrint.utils.SnapViewPicture;
+import com.MDGround.HaiLanPrint.utils.ViewUtils;
+import com.MDGround.HaiLanPrint.views.dialog.ShareDialog;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +31,7 @@ public class ChooseImageListAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     public static final int TYPE_CAMERA = 3;
     public static final int TYPE_PICTURE = 4;
 
-    private Context context;
+    private Context mContext;
 
     private boolean showCamera = false;
     private boolean enablePreview = false;
@@ -41,8 +44,10 @@ public class ChooseImageListAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
     private OnImageSelectChangedListener imageSelectChangedListener;
 
+    private ShareDialog mShareDialog;
+
     public ChooseImageListAdapter(Context context, int maxSelectNum, boolean isSelectable) {
-        this.context = context;
+        this.mContext = context;
         this.mMaxSelectNum = maxSelectNum;
         this.mIsSelectable = isSelectable;
     }
@@ -122,16 +127,16 @@ public class ChooseImageListAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             final ViewHolder contentHolder = (ViewHolder) holder;
             final MDImage mdImage = mImages.get(showCamera ? position - 1 : position);
 
-            GlideUtil.loadImageByMDImage(contentHolder.picture, mdImage);
+            GlideUtil.loadImageByMDImage(contentHolder.ivImage, mdImage);
 
             if (selectMode == MODE_SINGLE) {
-                contentHolder.check.setVisibility(View.GONE);
+                contentHolder.ivCheck.setVisibility(View.GONE);
             }
 
             selectImage(contentHolder, isSelected(mdImage));
 
             if (enablePreview) {
-                contentHolder.check.setOnClickListener(new View.OnClickListener() {
+                contentHolder.ivCheck.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         changeCheckboxState(contentHolder, mdImage);
@@ -151,6 +156,39 @@ public class ChooseImageListAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                     }
                 }
             });
+
+            contentHolder.contentView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+//                    OnekeyShare oks = new OnekeyShare();
+//                    // 分享时Notification的图标和文字  2.5.9以后的版本不调用此方法
+//                    //oks.setNotification(R.drawable.ic_launcher, getString(R.string.app_name));
+//                    // title标题，印象笔记、邮箱、信息、微信、人人网和QQ空间使用
+//                    oks.setTitle("分享");
+//                    // titleUrl是标题的网络链接，仅在人人网和QQ空间使用
+//                    oks.setTitleUrl("http://sharesdk.cn");
+//                    // text是分享文本，所有平台都需要这个字段
+//                    oks.setText("我是分享文本");
+//                    // imagePath是图片的本地路径，Linked-In以外的平台都支持此参数
+//                    oks.setImagePath("/sdcard/test.jpg");//确保SDcard下面存在此张图片
+//                    // url仅在微信（包括好友和朋友圈）中使用
+//                    oks.setUrl("http://sharesdk.cn");
+//                    // site是分享此内容的网站名称，仅在QQ空间使用
+//                    oks.setSite(getString(R.string.app_name));
+//                    // siteUrl是分享此内容的网站地址，仅在QQ空间使用
+//                    oks.setSiteUrl("http://sharesdk.cn");
+//                    // 启动分享GUI
+//                    oks.show(context);
+
+                    String imagePath = SnapViewPicture.snapView(contentHolder.ivImage);
+                    if (mShareDialog == null) {
+                        mShareDialog = new ShareDialog(mContext);
+                    }
+                    mShareDialog.initShareParams(imagePath);
+                    mShareDialog.show();
+                    return false;
+                }
+            });
         }
     }
 
@@ -160,9 +198,9 @@ public class ChooseImageListAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     }
 
     private void changeCheckboxState(ViewHolder contentHolder, MDImage image) {
-        boolean isChecked = contentHolder.check.isSelected();
+        boolean isChecked = contentHolder.ivCheck.isSelected();
         if (mSelectImages.size() >= mMaxSelectNum && !isChecked) {
-            Toast.makeText(context, context.getString(R.string.message_max_num, mMaxSelectNum), Toast.LENGTH_LONG).show();
+            Toast.makeText(mContext, mContext.getString(R.string.message_max_num, mMaxSelectNum), Toast.LENGTH_LONG).show();
             return;
         }
         if (isChecked) {
@@ -209,11 +247,11 @@ public class ChooseImageListAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     }
 
     public void selectImage(ViewHolder holder, boolean isChecked) {
-        holder.check.setSelected(isChecked);
+        holder.ivCheck.setSelected(isChecked);
         if (isChecked) {
-            holder.picture.setColorFilter(context.getResources().getColor(R.color.image_overlay2), PorterDuff.Mode.SRC_ATOP);
+            holder.ivImage.setColorFilter(mContext.getResources().getColor(R.color.image_overlay2), PorterDuff.Mode.SRC_ATOP);
         } else {
-            holder.picture.setColorFilter(context.getResources().getColor(R.color.image_overlay), PorterDuff.Mode.SRC_ATOP);
+            holder.ivImage.setColorFilter(mContext.getResources().getColor(R.color.image_overlay), PorterDuff.Mode.SRC_ATOP);
         }
     }
 
@@ -227,16 +265,16 @@ public class ChooseImageListAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
-        ImageView picture;
-        ImageView check;
+        ImageView ivImage;
+        ImageView ivCheck;
 
         View contentView;
 
         public ViewHolder(View itemView) {
             super(itemView);
             contentView = itemView;
-            picture = (ImageView) itemView.findViewById(R.id.picture);
-            check = (ImageView) itemView.findViewById(R.id.check);
+            ivImage = (ImageView) itemView.findViewById(R.id.picture);
+            ivCheck = (ImageView) itemView.findViewById(R.id.check);
         }
 
     }

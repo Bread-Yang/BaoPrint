@@ -11,9 +11,11 @@ import android.view.ViewGroup;
 import com.MDGround.HaiLanPrint.BR;
 import com.MDGround.HaiLanPrint.R;
 import com.MDGround.HaiLanPrint.activity.base.ToolbarActivity;
+import com.MDGround.HaiLanPrint.application.MDGroundApplication;
 import com.MDGround.HaiLanPrint.constants.Constants;
 import com.MDGround.HaiLanPrint.databinding.ActivityChooseDeliveryAddressBinding;
 import com.MDGround.HaiLanPrint.databinding.ItemDeliveryAddressBinding;
+import com.MDGround.HaiLanPrint.greendao.Location;
 import com.MDGround.HaiLanPrint.models.DeliveryAddress;
 import com.MDGround.HaiLanPrint.restfuls.GlobalRestful;
 import com.MDGround.HaiLanPrint.restfuls.bean.ResponseData;
@@ -108,8 +110,16 @@ public class ChooseDeliveryAddressActivity extends ToolbarActivity<ActivityChoos
 
         @Override
         public void onBindViewHolder(DeliveryAddressAdapter.ViewHolder holder, int position) {
-            holder.viewDataBinding.setVariable(BR.deliveryAddress, mAddressArrayList.get(position));
+            DeliveryAddress deliveryAddress = mAddressArrayList.get(position);
+
+            holder.viewDataBinding.setVariable(BR.deliveryAddress, deliveryAddress);
             holder.viewDataBinding.setVariable(BR.handlers, holder);
+
+            Location province = MDGroundApplication.mDaoSession.getLocationDao().load(deliveryAddress.getProvinceID());
+            Location city = MDGroundApplication.mDaoSession.getLocationDao().load(deliveryAddress.getCityID());
+            Location county = MDGroundApplication.mDaoSession.getLocationDao().load(deliveryAddress.getDistrictID());
+
+            holder.viewDataBinding.tvAddress.setText(province.getLocationName() + city.getLocationName() + county.getLocationName() + deliveryAddress.getStreet());
         }
 
         @Override
@@ -126,12 +136,13 @@ public class ChooseDeliveryAddressActivity extends ToolbarActivity<ActivityChoos
                 viewDataBinding = DataBindingUtil.bind(itemView);
             }
 
-            public void toEditDeliveryAddressActivityAction(View view) {
+            public void toSelectDeliveryAddressAction(View view) {
                 DeliveryAddress deliveryAddress = mAddressArrayList.get(getAdapterPosition());
 
-                Intent intent = new Intent(ChooseDeliveryAddressActivity.this, EditDeliveryAddressActivity.class);
+                Intent intent = new Intent();
                 intent.putExtra(Constants.KEY_DELIVERY_ADDRESS, deliveryAddress);
-                startActivity(intent);
+                setResult(RESULT_OK, intent);
+                finish();
             }
 
         }

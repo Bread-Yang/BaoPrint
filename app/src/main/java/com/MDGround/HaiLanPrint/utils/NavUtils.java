@@ -7,6 +7,7 @@ import android.support.v4.content.IntentCompat;
 import com.MDGround.HaiLanPrint.activity.cloudphotos.CloudDetailActivity;
 import com.MDGround.HaiLanPrint.activity.engraving.EngravingChoosePaperNumActivity;
 import com.MDGround.HaiLanPrint.activity.login.LoginActivity;
+import com.MDGround.HaiLanPrint.activity.main.MainActivity;
 import com.MDGround.HaiLanPrint.activity.photoedit.PhotoEditActivity;
 import com.MDGround.HaiLanPrint.activity.photoprint.PrintPhotoChoosePaperNumActivity;
 import com.MDGround.HaiLanPrint.activity.pictureframe.PictureFrameTempalteDetailActivity;
@@ -26,6 +27,11 @@ public class NavUtils {
         context.startActivity(intent);
     }
 
+    public static void toMainActivity(Context context) {
+        Intent intent = new Intent(context, MainActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        context.startActivity(intent);
+    }
 
     public static void toCloudDetailActivity(Context context, MDImage image) {
         Intent intent = new Intent(context, CloudDetailActivity.class);

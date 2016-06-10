@@ -15,6 +15,7 @@ import com.MDGround.HaiLanPrint.BR;
 import com.MDGround.HaiLanPrint.ProductType;
 import com.MDGround.HaiLanPrint.R;
 import com.MDGround.HaiLanPrint.activity.artalbum.ArtAlbumChooseInchActivity;
+import com.MDGround.HaiLanPrint.activity.calendar.CalendarChooseOrientationActivity;
 import com.MDGround.HaiLanPrint.activity.cloudphotos.CloudOverviewActivity;
 import com.MDGround.HaiLanPrint.activity.engraving.EngravingChooseInchActivity;
 import com.MDGround.HaiLanPrint.activity.lomocard.LomoCardChooseNumActivity;
@@ -125,6 +126,13 @@ public class MainActivity extends AppCompatActivity {
             MDGroundApplication.mChoosedProductType = ProductType.PictureFrame;
 
             Intent intent = new Intent(MainActivity.this, PictureFrameStartActivity.class);
+            startActivity(intent);
+        }
+
+        public void toCalendarActivityAction(View view) {
+            MDGroundApplication.mChoosedProductType = ProductType.Calendar;
+
+            Intent intent = new Intent(MainActivity.this, CalendarChooseOrientationActivity.class);
             startActivity(intent);
         }
 

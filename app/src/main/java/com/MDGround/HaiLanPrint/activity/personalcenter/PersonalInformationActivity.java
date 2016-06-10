@@ -15,7 +15,7 @@ import com.MDGround.HaiLanPrint.models.User;
 import com.MDGround.HaiLanPrint.restfuls.FileRestful;
 import com.MDGround.HaiLanPrint.restfuls.bean.ResponseData;
 import com.MDGround.HaiLanPrint.utils.GlideUtil;
-import com.MDGround.HaiLanPrint.views.SelectSingleImageDialog;
+import com.MDGround.HaiLanPrint.views.dialog.SelectSingleImageDialog;
 import com.socks.library.KLog;
 
 import java.io.File;

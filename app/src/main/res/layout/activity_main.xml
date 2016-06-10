@@ -55,7 +55,7 @@
             android:id="@+id/simpleImageBanner"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            app:bb_scale="0.8"/>
+            app:bb_scale="1"/>
 
         <android.support.v4.view.ViewPager
             android:id="@+id/viewPager"

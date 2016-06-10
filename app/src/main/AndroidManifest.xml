@@ -47,9 +47,9 @@
             </intent-filter>
         </activity>
         <!--<activity android:name=".activity.personalcenter.IntegralActivity"-->
-            <!--android:label="@string/login"-->
-            <!--android:screenOrientation="portrait"-->
-            <!--&gt;</activity>-->
+        <!--android:label="@string/login"-->
+        <!--android:screenOrientation="portrait"-->
+        <!--&gt;</activity>-->
         <activity
             android:name=".activity.login.LoginActivity"
             android:label="@string/login"
@@ -125,6 +125,14 @@
             android:label="@string/picture_frame"
             android:screenOrientation="portrait"/>
         <activity
+            android:name=".activity.calendar.CalendarChooseOrientationActivity"
+            android:label="@string/calendar"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activity.calendar.CalendarTemplateDetailActivity"
+            android:label="@string/calendar"
+            android:screenOrientation="portrait"/>
+        <activity
             android:name=".activity.pictureframe.SelectTemplateActivity"
             android:label="@string/choose_template"
             android:screenOrientation="portrait"/>
@@ -172,7 +180,7 @@
             android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.engraving.EngravingChoosePaperNumActivity"
-            android:label="@string/choose_material_num"
+            android:label="@string/choose_paper_num"
             android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.photoedit.PhotoEditActivity"
@@ -207,7 +215,7 @@
             android:label="@string/personal_center"
             android:screenOrientation="portrait">
 
-            </activity>
+        </activity>
 
         <activity
             android:name=".activity.orders.MyOrdersActivity"

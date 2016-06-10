@@ -13,7 +13,7 @@ import com.MDGround.HaiLanPrint.restfuls.GlobalRestful;
 import com.MDGround.HaiLanPrint.restfuls.bean.ResponseData;
 import com.MDGround.HaiLanPrint.utils.StringUtil;
 import com.MDGround.HaiLanPrint.utils.ViewUtils;
-import com.MDGround.HaiLanPrint.views.RegionPickerDialog;
+import com.MDGround.HaiLanPrint.views.dialog.RegionPickerDialog;
 
 import retrofit2.Call;
 import retrofit2.Callback;

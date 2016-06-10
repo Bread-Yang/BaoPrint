@@ -1,5 +1,6 @@
 package com.MDGround.HaiLanPrint.activity.pictureframe;
 
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.support.design.widget.TabLayout;
 import android.support.v7.widget.GridLayoutManager;
@@ -11,6 +12,7 @@ import android.view.ViewGroup;
 import com.MDGround.HaiLanPrint.ProductType;
 import com.MDGround.HaiLanPrint.R;
 import com.MDGround.HaiLanPrint.activity.base.ToolbarActivity;
+import com.MDGround.HaiLanPrint.activity.calendar.CalendarTemplateDetailActivity;
 import com.MDGround.HaiLanPrint.application.MDGroundApplication;
 import com.MDGround.HaiLanPrint.databinding.ActivitySelectTemplateBinding;
 import com.MDGround.HaiLanPrint.databinding.ItemSelectTemplateBinding;
@@ -172,10 +174,17 @@ public class SelectTemplateActivity extends ToolbarActivity<ActivitySelectTempla
                 viewDataBinding = DataBindingUtil.bind(itemView);
             }
 
-            public void toSelectAlbumActivityAction(View view) {
+            public void onTemplateImageClickAction(View view) {
                 MDGroundApplication.mChoosedTemplate = mShowTemplateArrayList.get(getAdapterPosition());
 
-                NavUtils.toSelectAlbumActivity(view.getContext());
+                switch (MDGroundApplication.mChoosedProductType) {
+                    case Calendar:
+                        Intent intent = new Intent(SelectTemplateActivity.this, CalendarTemplateDetailActivity.class);
+                        startActivity(intent);
+                        break;
+                    default:
+                        NavUtils.toSelectAlbumActivity(view.getContext());
+                }
             }
         }
     }

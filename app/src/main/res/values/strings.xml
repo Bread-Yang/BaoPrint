@@ -70,6 +70,9 @@
     <string name="image_num">(%d)</string>
     <string name="choose_photo">选择照片</string>
     <string name="forward">转存</string>
+    <string name="share_to_wechat">分享到微信</string>
+    <string name="share_to_qq">分享到QQ</string>
+    <string name="share_to_weibo">分享到微博</string>
 
     <!-- 照片上传 -->
     <string name="select_photos_upload">选择照片上传</string>
@@ -154,8 +157,8 @@
     <string name="glossy_paper">光面相纸</string>
     <string name="matte_paper">绒面相纸</string>
     <string name="choose_print_num">选择冲印数量</string>
-    <string name="glossy_paper_quality">* 特色 : 照片色彩鲜艳,表面光亮,清晰度高,一般适合于产品照或艺术照</string>
-    <string name="matte_paper_quality">* 特色 : 照片色彩柔和,相纸表面显哑光效果,手感好,不容易留下手指印,更易保存</string>
+    <string name="glossy_paper_quality">* 特点 : 照片色彩鲜艳,表面光亮,清晰度高,一般适合于产品照或艺术照</string>
+    <string name="matte_paper_quality">* 特点 : 照片色彩柔和,相纸表面显哑光效果,手感好,不容易留下手指印,更易保存</string>
 
     <!-- 明信片 -->
     <string name="postcard">明信片</string>
@@ -183,7 +186,11 @@
     <string name="page_count">%dP</string>
 
     <!-- 个性日历 -->
-    <string name="custom_calendar">个性日历</string>
+    <string name="calendar">个性日历</string>
+    <string name="create_immediately">马上制作</string>
+    <string name="product_detail">产品详情</string>
+    <string name="template_name">模版: %s</string>
+    <string name="page_num">页数: %dP</string>
 
     <!-- 手机壳 -->
     <string name="phone_shell">手机壳</string>
@@ -212,12 +219,11 @@
     <string name="engraving">版画</string>
     <string name="crystal">水晶面</string>
     <string name="yogon">亚光面</string>
-    <string name="choose_material_num">选择材质数量</string>
     <string name="warm_prompt">温馨提示,版画制作周期为5天,请耐心等待</string>
     <string name="choose_material">选择材质</string>
     <string name="choose_make_num">选择制作数量</string>
-    <string name="crystal_paper_quality">* 特色 : 光亮、华丽、大气。照片清晰光滑,与空气彻底隔离,防水防潮可擦洗,不易褪色。</string>
-    <string name="yogon_paper_quality">* 特色 :
+    <string name="crystal_paper_quality">特点 : 亮光、华丽、大气。照片清晰光滑,与空气彻底隔离,防水防潮可擦洗,不易褪色。</string>
+    <string name="yogon_paper_quality">特点 :
         表面纹理独特,呈现柔化效果、极具艺术感,光滑面不刺眼且具有立体感,照片与空气彻底隔离,不易褪色,防水防潮防晒,可擦洗,刮划不易留痕迹。
     </string>
 
@@ -226,6 +232,7 @@
 
     <!-- 支付 -->
     <string name="pay">支付</string>
+    <string name="choose_delivery_address_first">请先添加收货地址</string>
     <string name="go_pay">去支付</string>
     <string name="alipay_pay">支付宝支付</string>
     <string name="wechat_pay">微信支付</string>

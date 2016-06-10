@@ -1,4 +1,4 @@
-package com.MDGround.HaiLanPrint.views;
+package com.MDGround.HaiLanPrint.views.dialog;
 
 import android.app.Activity;
 import android.app.Dialog;

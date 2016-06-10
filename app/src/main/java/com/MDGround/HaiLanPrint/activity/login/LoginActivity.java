@@ -8,7 +8,6 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.MDGround.HaiLanPrint.R;
-import com.MDGround.HaiLanPrint.activity.main.MainActivity;
 import com.MDGround.HaiLanPrint.application.MDGroundApplication;
 import com.MDGround.HaiLanPrint.constants.Constants;
 import com.MDGround.HaiLanPrint.databinding.ActivityLoginBinding;
@@ -20,6 +19,8 @@ import com.MDGround.HaiLanPrint.restfuls.bean.ResponseData;
 import com.MDGround.HaiLanPrint.utils.DeviceUtil;
 import com.MDGround.HaiLanPrint.utils.FileUtils;
 import com.MDGround.HaiLanPrint.utils.MD5Util;
+import com.MDGround.HaiLanPrint.utils.NavUtils;
+import com.MDGround.HaiLanPrint.utils.PreferenceUtils;
 import com.MDGround.HaiLanPrint.utils.StringUtil;
 import com.MDGround.HaiLanPrint.utils.ViewUtils;
 
@@ -48,9 +49,10 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void initData() {
-        User user = (User) FileUtils.getObject(Constants.KEY_ALREADY_LOGIN_USER);
-        if (user != null && user.getPhone() != null) {
-            mDataBinding.cetAccount.append(user.getPhone());
+        String phone = PreferenceUtils.getPrefString(Constants.KEY_PHONE, null);
+
+        if (!StringUtil.isEmpty(phone)) {
+            mDataBinding.cetAccount.append(phone);
             mDataBinding.cetPassword.requestFocus();
         }
     }
@@ -258,8 +260,7 @@ public class LoginActivity extends AppCompatActivity {
             DeviceUtil.setDeviceId(user.getDeviceID());
         }
         ViewUtils.dismiss();
-        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-        startActivity(intent);
+        NavUtils.toMainActivity(LoginActivity.this);
         finish();
     }
 }

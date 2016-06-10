@@ -3,6 +3,9 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+    </data>
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -19,6 +22,7 @@
                 android:orientation="vertical">
 
                 <RelativeLayout
+                    android:id="@+id/rltDeliveryAddress"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@color/color_white"
@@ -38,6 +42,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/margin_8"
                         android:layout_toRightOf="@+id/ivLocationLogo"
+                        android:visibility="gone"
                         tools:text="陈奕迅"/>
 
                     <TextView
@@ -46,6 +51,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/margin_15"
                         android:layout_toRightOf="@+id/tvName"
+                        android:visibility="gone"
                         tools:text="15521377721"/>
 
                     <TextView
@@ -55,15 +61,33 @@
                         android:layout_alignLeft="@+id/tvName"
                         android:layout_below="@+id/tvName"
                         android:layout_marginTop="@dimen/margin_8"
+                        android:layout_toLeftOf="@+id/ivArrow"
                         android:layout_toRightOf="@+id/ivLocationLogo"
+                        android:visibility="gone"
                         tools:text="广东省广州市天河区棠安路188号乐天大厦8楼808-812"/>
+
+                    <TextView
+                        android:id="@+id/tvChooseFirst"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignLeft="@+id/tvName"
+                        android:layout_centerVertical="true"
+                        android:textSize="@dimen/text_size_16"
+                        android:layout_toRightOf="@+id/ivLocationLogo"
+                        android:text="@string/choose_delivery_address_first"/>
+
+                    <ImageView
+                        android:id="@+id/ivArrow"
+                        style="@style/ArrowIconStyle"/>
                 </RelativeLayout>
 
                 <ImageView
+                    android:id="@+id/ivDeliveryAddress"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:scaleType="fitXY"
-                    android:src="@drawable/bitmap_address"/>
+                    android:src="@drawable/bitmap_address"
+                    android:visibility="gone"/>
 
                 <RelativeLayout
                     android:layout_width="match_parent"

@@ -107,7 +107,7 @@ public class PhoneShellStartActivity extends ToolbarActivity<ActivityPhoneShellS
         });
     }
 
-    private void getPhotoTemplateListRequest(Measurement measurement) {
+    private void getPhotoTemplateListRequest(final Measurement measurement) {
         ViewUtils.loading(this);
         GlobalRestful.getInstance().GetPhotoTemplateList(measurement.getTypeDescID(),
                 new Callback<ResponseData>() {
@@ -121,7 +121,7 @@ public class PhoneShellStartActivity extends ToolbarActivity<ActivityPhoneShellS
                             if (templateList.size() > 0) {
                                 Template template = templateList.get(0);
 
-                                mDataBinding.tvPhoneModel.setText(template.getTemplateName());
+                                mDataBinding.tvPhoneModel.setText(measurement.getTitle() + "-" + template.getTemplateName());
                                 mDataBinding.tvPrice.setText(StringUtil.toYuanWithUnit(template.getPrice()));
                             }
                         }

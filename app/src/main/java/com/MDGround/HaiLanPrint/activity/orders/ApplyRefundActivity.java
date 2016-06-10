@@ -17,7 +17,7 @@ import com.MDGround.HaiLanPrint.databinding.ActivityApplyRefundBinding;
 import com.MDGround.HaiLanPrint.databinding.ItemApplyRefundBinding;
 import com.MDGround.HaiLanPrint.models.MDImage;
 import com.MDGround.HaiLanPrint.utils.ViewUtils;
-import com.MDGround.HaiLanPrint.views.SelectSingleImageDialog;
+import com.MDGround.HaiLanPrint.views.dialog.SelectSingleImageDialog;
 import com.MDGround.HaiLanPrint.views.itemdecoration.GridSpacingItemDecoration;
 import com.socks.library.KLog;
 

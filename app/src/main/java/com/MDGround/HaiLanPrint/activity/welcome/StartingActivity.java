@@ -18,6 +18,7 @@ import com.MDGround.HaiLanPrint.restfuls.GlobalRestful;
 import com.MDGround.HaiLanPrint.restfuls.bean.ResponseData;
 import com.MDGround.HaiLanPrint.utils.DeviceUtil;
 import com.MDGround.HaiLanPrint.utils.FileUtils;
+import com.MDGround.HaiLanPrint.utils.NavUtils;
 import com.MDGround.HaiLanPrint.utils.ViewUtils;
 
 import retrofit2.Call;
@@ -50,7 +51,7 @@ public class StartingActivity extends AppCompatActivity {
                 if (MDGroundApplication.mLoginUser != null) {
 
 //                    loginRequest(MDGroundApplication.mLoginUser);
-                    toMainActivity();
+                    NavUtils.toMainActivity(StartingActivity.this);
                 } else {
                     toLoginActivity();
                 }
@@ -65,12 +66,6 @@ public class StartingActivity extends AppCompatActivity {
 
     private void toLoginActivity() {
         Intent intent = new Intent(StartingActivity.this, LoginActivity.class);
-        startActivity(intent);
-        finish();
-    }
-
-    private void toMainActivity() {
-        Intent intent = new Intent(StartingActivity.this, MainActivity.class);
         startActivity(intent);
         finish();
     }

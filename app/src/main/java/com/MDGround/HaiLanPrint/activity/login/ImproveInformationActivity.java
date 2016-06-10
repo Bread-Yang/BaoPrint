@@ -16,7 +16,7 @@ import com.MDGround.HaiLanPrint.restfuls.bean.ResponseData;
 import com.MDGround.HaiLanPrint.utils.DateUtils;
 import com.MDGround.HaiLanPrint.utils.StringUtil;
 import com.MDGround.HaiLanPrint.utils.ViewUtils;
-import com.MDGround.HaiLanPrint.views.BirthdayDatePickerDialog;
+import com.MDGround.HaiLanPrint.views.dialog.BirthdayDatePickerDialog;
 
 import org.joda.time.DateTime;
 

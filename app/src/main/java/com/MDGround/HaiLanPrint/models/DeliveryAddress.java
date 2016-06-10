@@ -3,8 +3,6 @@ package com.MDGround.HaiLanPrint.models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import java.util.Date;
-
 /**
  * Created by yoghourt on 5/24/16.
  */
@@ -27,37 +25,13 @@ public class DeliveryAddress implements Parcelable {
 
     private String Street;
 
-    private Date UpdatedTime;
+    private String UpdatedTime;
 
     private int UserID;
 
     public DeliveryAddress() {
 
     }
-
-    protected DeliveryAddress(Parcel in) {
-        AutoID = in.readInt();
-        CityID = in.readLong();
-        CountryID = in.readLong();
-        DistrictID = in.readLong();
-        Phone = in.readString();
-        ProvinceID = in.readLong();
-        Receiver = in.readString();
-        Street = in.readString();
-        UserID = in.readInt();
-    }
-
-    public static final Creator<DeliveryAddress> CREATOR = new Creator<DeliveryAddress>() {
-        @Override
-        public DeliveryAddress createFromParcel(Parcel in) {
-            return new DeliveryAddress(in);
-        }
-
-        @Override
-        public DeliveryAddress[] newArray(int size) {
-            return new DeliveryAddress[size];
-        }
-    };
 
     public int getAutoID() {
         return AutoID;
@@ -123,11 +97,11 @@ public class DeliveryAddress implements Parcelable {
         Street = street;
     }
 
-    public Date getUpdatedTime() {
+    public String getUpdatedTime() {
         return UpdatedTime;
     }
 
-    public void setUpdatedTime(Date updatedTime) {
+    public void setUpdatedTime(String updatedTime) {
         UpdatedTime = updatedTime;
     }
 
@@ -138,6 +112,31 @@ public class DeliveryAddress implements Parcelable {
     public void setUserID(int userID) {
         UserID = userID;
     }
+
+    protected DeliveryAddress(Parcel in) {
+        AutoID = in.readInt();
+        CityID = in.readLong();
+        CountryID = in.readLong();
+        DistrictID = in.readLong();
+        Phone = in.readString();
+        ProvinceID = in.readLong();
+        Receiver = in.readString();
+        Street = in.readString();
+        UpdatedTime = in.readString();
+        UserID = in.readInt();
+    }
+
+    public static final Creator<DeliveryAddress> CREATOR = new Creator<DeliveryAddress>() {
+        @Override
+        public DeliveryAddress createFromParcel(Parcel in) {
+            return new DeliveryAddress(in);
+        }
+
+        @Override
+        public DeliveryAddress[] newArray(int size) {
+            return new DeliveryAddress[size];
+        }
+    };
 
     @Override
     public int describeContents() {
@@ -154,6 +153,7 @@ public class DeliveryAddress implements Parcelable {
         dest.writeLong(ProvinceID);
         dest.writeString(Receiver);
         dest.writeString(Street);
+        dest.writeString(UpdatedTime);
         dest.writeInt(UserID);
     }
 }

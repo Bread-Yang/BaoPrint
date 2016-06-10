@@ -9,17 +9,12 @@
 
         <variable name="coupon" type="com.MDGround.HaiLanPrint.models.Coupon"/>
 
-        <variable
-            name="viewHolder"
-            type="com.MDGround.HaiLanPrint.activity.pictureframe.SelectTemplateActivity.SelectTemplateAdapter.ViewHolder"/>
-
         <variable name="isAvailable" type="boolean"/>
     </data>
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:onClick="@{viewHolder::toSelectAlbumActivityAction}"
         android:orientation="horizontal"
         android:paddingTop="@dimen/margin_4"
         android:paddingBottom="@dimen/margin_4"
