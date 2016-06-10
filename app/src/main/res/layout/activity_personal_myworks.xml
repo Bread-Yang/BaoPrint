@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+         xmlns:tools="http://schemas.android.com/tools"
+    >
+
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scrollbars="none">
+            <LinearLayout
+                android:layout_height="match_parent"
+                android:layout_width="match_parent"
+                android:paddingLeft="@dimen/margin_10"
+                android:orientation="vertical">
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:gravity="center_vertical"
+                    android:layout_height="@dimen/margin_48">
+
+                    <CheckBox
+                        style="@style/ClickableTextStyle"
+                        android:button="@drawable/selector_cb_bg_auto_login"
+                        android:text="@string/photobook"
+                        android:id="@+id/cb_photoBook"
+                        />
+                </LinearLayout>
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rv_photoBook"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    ></android.support.v7.widget.RecyclerView>
+            </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:gravity="center_vertical"
+                    android:layout_height="@dimen/margin_48">
+
+                <CheckBox
+                        style="@style/ClickableTextStyle"
+                        android:button="@drawable/selector_cb_bg_auto_login"
+                        android:text="@string/mypostcard"
+                        android:id="@+id/cb_postcard"
+                        />
+                    </LinearLayout>
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rv_postcard"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    ></android.support.v7.widget.RecyclerView>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:gravity="center_vertical"
+                    android:layout_height="@dimen/margin_48">
+
+                    <CheckBox
+                        style="@style/ClickableTextStyle"
+                        android:button="@drawable/selector_cb_bg_auto_login"
+                        android:text="@string/mypostcard"
+                        android:id="@+id/cb_calenrdar"
+                        />
+                </LinearLayout>
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rv_calender"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    ></android.support.v7.widget.RecyclerView>
+            </LinearLayout>
+
+        </ScrollView>
+
+</layout>
+
+

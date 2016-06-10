@@ -39,7 +39,7 @@ public abstract class ToolbarActivity<T extends ViewDataBinding> extends AppComp
         String title = (String) getSupportActionBar().getTitle();
         tvTitle = ((TextView) mToolbar.findViewById(R.id.tvTitle));
         tvTitle.setText(title);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
+            getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         // 右边按钮
         tvRight = (TextView) mToolbar.findViewById(R.id.tvRight);

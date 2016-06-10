@@ -7,6 +7,7 @@ import com.MDGround.HaiLanPrint.R;
 import com.MDGround.HaiLanPrint.activity.base.ToolbarActivity;
 import com.MDGround.HaiLanPrint.activity.coupon.MyCouponActivity;
 import com.MDGround.HaiLanPrint.activity.orders.MyOrdersActivity;
+import com.MDGround.HaiLanPrint.application.MDGroundApplication;
 import com.MDGround.HaiLanPrint.databinding.ActivityPersonalCenterBinding;
 import com.MDGround.HaiLanPrint.models.MDImage;
 import com.MDGround.HaiLanPrint.utils.GlideUtil;
@@ -26,12 +27,12 @@ public class PersonalCenterActivity extends ToolbarActivity<ActivityPersonalCent
     protected void initData() {
         // 用户头像
         MDImage mdImage = new MDImage();
-       // mdImage.setPhotoID(MDGroundApplication.mLoginUser.getPhotoID());
-       // mdImage.setPhotoSID(MDGroundApplication.mLoginUser.getPhotoSID());
+        mdImage.setPhotoID(MDGroundApplication.mLoginUser.getPhotoID());
+        mdImage.setPhotoSID(MDGroundApplication.mLoginUser.getPhotoSID());
         GlideUtil.loadImageByMDImage(mDataBinding.civAvatar, mdImage);
 
         // 用户名
-     //   mDataBinding.tvName.setText(MDGroundApplication.mLoginUser.getUserName());
+      mDataBinding.tvName.setText(MDGroundApplication.mLoginUser.getUserName());
     }
 
     @Override
@@ -61,8 +62,8 @@ public class PersonalCenterActivity extends ToolbarActivity<ActivityPersonalCent
     }
     //endregion
     //积分查询
-    public void toMyIntegralActivityAction(View view){
-       Intent intent =new Intent(this,IntegralActivity.class);
+    public void tOMyCreditActivity(View v){
+          Intent intent=new Intent(this,MyCreditActivity.class);
         startActivity(intent);
     }
 }

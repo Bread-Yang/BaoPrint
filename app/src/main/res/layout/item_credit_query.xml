@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:vic="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    >
+    <data>
+        <variable
+            name="creditInfo"
+            type="com.MDGround.HaiLanPrint.models.UserIntegralList"/>
+        <variable
+            name="handler"
+            type="com.MDGround.HaiLanPrint.activity.personalcenter.MyCreditActivity.BindHandler"/>
+    </data>
+   <RelativeLayout
+       android:onClick="@{handler::ClicEvent}"
+      style="@style/IntegerLayoutStyle">
+       <TextView
+           android:id="@+id/first"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+            android:text="@string/tv_integral_motagage"
+            android:textSize="20sp"
+           android:textStyle="bold"
+           android:layout_marginLeft="@dimen/margin_10"
+           android:layout_marginTop="@dimen/margin_6"
+           />
+        <TextView
+            android:id="@+id/tvDate"
+            android:text="@{creditInfo.createdTime}"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="2015-10-1 10:27:09"
+            android:layout_below="@id/first"
+            android:layout_marginLeft="@dimen/margin_10"
+            android:layout_marginTop="@dimen/margin_6"
+            />
+       <TextView
+           android:id="@+id/tvIntegral"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           tools:text="-333"
+            android:text="@{creditInfo.amount}"
+           android:textSize="40sp"
+           android:layout_alignParentRight="true"
+           android:layout_centerVertical="true"
+           />
+   </RelativeLayout>
+
+</layout>

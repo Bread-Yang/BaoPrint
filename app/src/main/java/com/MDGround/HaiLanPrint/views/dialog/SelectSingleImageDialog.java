@@ -49,6 +49,7 @@ public class SelectSingleImageDialog extends Dialog {
         setContentView(mDataBinding.getRoot());
 
         Window window = getWindow();
+        window.getDecorView().setPadding(0,0,0,0);
         window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT); // 填充满屏幕的宽度
         window.setWindowAnimations(R.style.action_sheet_animation); // 添加动画
         WindowManager.LayoutParams wlp = window.getAttributes();

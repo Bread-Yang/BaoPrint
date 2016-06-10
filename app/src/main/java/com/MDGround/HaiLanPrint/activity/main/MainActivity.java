@@ -64,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
                     ArrayList<MDImage> tempImagesList = response.body().getContent(new TypeToken<ArrayList<MDImage>>() {
                     });
 
-                    mImagesList.addAll(tempImagesList);
+                        mImagesList.addAll(tempImagesList);
 
                     mDataBinding.simpleImageBanner
                             .setSource(mImagesList).startScroll();
