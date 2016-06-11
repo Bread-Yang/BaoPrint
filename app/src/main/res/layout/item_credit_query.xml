@@ -20,10 +20,11 @@
            android:layout_width="wrap_content"
            android:layout_height="wrap_content"
             android:text="@string/tv_integral_motagage"
-            android:textSize="20sp"
+            android:textSize="@dimen/text_size_16"
+           android:textColor="@color/color_333333"
            android:textStyle="bold"
            android:layout_marginLeft="@dimen/margin_10"
-           android:layout_marginTop="@dimen/margin_6"
+           android:layout_marginTop="@dimen/margin_10"
            />
         <TextView
             android:id="@+id/tvDate"
@@ -32,8 +33,10 @@
             android:layout_height="wrap_content"
             tools:text="2015-10-1 10:27:09"
             android:layout_below="@id/first"
+            android:textColor="@color/color_666666"
+            android:textSize="@dimen/text_size_12"
             android:layout_marginLeft="@dimen/margin_10"
-            android:layout_marginTop="@dimen/margin_6"
+            android:layout_marginTop="@dimen/margin_10"
             />
        <TextView
            android:id="@+id/tvIntegral"
@@ -41,10 +44,12 @@
            android:layout_height="wrap_content"
            tools:text="-333"
             android:text="@{creditInfo.amount}"
-           android:textSize="40sp"
+           android:textSize="@dimen/text_size_20"
+           android:textColor="@color/color_0ec100"
            android:layout_alignParentRight="true"
            android:layout_centerVertical="true"
            />
+
    </RelativeLayout>
 
 </layout>

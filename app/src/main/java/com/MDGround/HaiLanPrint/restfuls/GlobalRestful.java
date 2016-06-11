@@ -411,4 +411,8 @@ public class GlobalRestful extends BaseRestful {
     public void GetUserIntegralInfo(Callback<ResponseData> callback) {
         asynchronousPost("GetUserIntegralInfo", null, callback);
     }
+    //获取我的作品列表接口
+    public void GetUserWorkList(Callback<ResponseData> callback){
+        asynchronousPost("GetUserWorkList",null,callback);
+    }
 }

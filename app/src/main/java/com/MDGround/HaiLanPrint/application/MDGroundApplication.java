@@ -46,6 +46,7 @@ public class MDGroundApplication extends Application{
         initDataBase();
 
         ShareSDK.initSDK(this);
+
     }
 
     private void initDataBase() {

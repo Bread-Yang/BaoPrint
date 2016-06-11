@@ -17,6 +17,7 @@ import com.MDGround.HaiLanPrint.models.UserIntegralList;
 import com.MDGround.HaiLanPrint.restfuls.GlobalRestful;
 import com.MDGround.HaiLanPrint.restfuls.bean.ResponseData;
 import com.MDGround.HaiLanPrint.utils.StringUtil;
+import com.MDGround.HaiLanPrint.utils.ViewUtils;
 import com.MDGround.HaiLanPrint.views.itemdecoration.DividerItemDecoration;
 import com.google.gson.reflect.TypeToken;
 import com.socks.library.KLog;
@@ -73,6 +74,7 @@ public class MyCreditActivity extends ToolbarActivity<ActivityPersonalCreditBind
 
     //region SERVER
     public void getSpecificationRequest() {
+        ViewUtils.loading(this);
         GlobalRestful.getInstance().GetUserIntegralInfo(new Callback<ResponseData>() {
             @Override
             public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
@@ -89,10 +91,11 @@ public class MyCreditActivity extends ToolbarActivity<ActivityPersonalCreditBind
                         mDataBinding.tvCredit.setText(mTotalAmount);
                         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(MyCreditActivity.this);
                         mDataBinding.recyclerView.setLayoutManager(linearLayoutManager);
-                        mDataBinding.recyclerView.addItemDecoration(new DividerItemDecoration(0));
-
+                      //  mDataBinding.recyclerView.addItemDecoration(new DividerItemDecoration(0));
+                        mDataBinding.recyclerView.addItemDecoration(new DividerItemDecoration(12));
                         mAdapter = new MyCreditadapter(MyCreditActivity.this);
                         mDataBinding.recyclerView.setAdapter(mAdapter);
+                        ViewUtils.dismiss();
                     } catch (Exception e) {
                     }
                 }
