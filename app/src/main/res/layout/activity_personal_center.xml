@@ -92,6 +92,7 @@
                     android:layout_weight="1"
                     android:gravity="center"
                     android:orientation="vertical"
+                    android:onClick="toMyWorksActivity"
                     app:ratio="0.5">
                     <ImageView
                         android:layout_width="wrap_content"

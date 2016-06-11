@@ -218,6 +218,10 @@
             android:name=".activity.orders.MyOrdersActivity"
             android:label="@string/my_orders"
             android:screenOrientation="portrait"/>
+        <activity android:name=".activity.personalcenter.MyWorksActivity"
+            android:label="@string/my_works"
+            android:screenOrientation="portrait"
+           />
 
         <activity
             android:name=".activity.orders.OrderDetailActivity"
