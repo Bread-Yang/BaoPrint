@@ -12,8 +12,23 @@ import com.MDGround.HaiLanPrint.constants.Constants;
 import com.MDGround.HaiLanPrint.databinding.ActivityPaymentPreviewBinding;
 import com.MDGround.HaiLanPrint.greendao.Location;
 import com.MDGround.HaiLanPrint.models.DeliveryAddress;
+import com.MDGround.HaiLanPrint.models.OrderWork;
+import com.MDGround.HaiLanPrint.models.UserIntegralList;
+import com.MDGround.HaiLanPrint.restfuls.GlobalRestful;
+import com.MDGround.HaiLanPrint.restfuls.bean.ResponseData;
 import com.MDGround.HaiLanPrint.utils.NavUtils;
+import com.MDGround.HaiLanPrint.utils.StringUtil;
 import com.MDGround.HaiLanPrint.utils.ViewUtils;
+import com.google.gson.reflect.TypeToken;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Created by yoghourt on 5/23/16.
@@ -24,7 +39,11 @@ public class PaymentPreviewActivity extends ToolbarActivity<ActivityPaymentPrevi
     private final int REQEUST_CODE_SELECT_DELIVERY_ADDRESS = 0x11;
     private final int REQEUST_CODE_SELECT_COUPON = 0x12;
 
+    private OrderWork mOrderWork;
+
     private DeliveryAddress mDeliveryAddress;
+
+    public ArrayList<UserIntegralList> mUserCreditArrayList = new ArrayList<>();
 
     @Override
     protected int getContentLayout() {
@@ -33,7 +52,11 @@ public class PaymentPreviewActivity extends ToolbarActivity<ActivityPaymentPrevi
 
     @Override
     protected void initData() {
+        mOrderWork = getIntent().getParcelableExtra(Constants.KEY_ORDER_WORK);
 
+        mDataBinding.setOrderWork(mOrderWork);
+
+        getUserIntegralInfoRequest();
     }
 
     @Override
@@ -97,6 +120,31 @@ public class PaymentPreviewActivity extends ToolbarActivity<ActivityPaymentPrevi
         }
         Intent intent = new Intent(this, PaymentSuccessActivity.class);
         startActivity(intent);
+    }
+    //endregion
+
+    //region SERVER
+    private void getUserIntegralInfoRequest() {
+        ViewUtils.loading(this);
+        GlobalRestful.getInstance().GetUserIntegralInfo(new Callback<ResponseData>() {
+            @Override
+            public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
+                ViewUtils.dismiss();
+                try {
+                    JSONObject jsonObject = new JSONObject(response.body().getContent());
+                    String UserIntegralList = jsonObject.getString("UserIntegralList");
+                    mUserCreditArrayList = StringUtil.getInstanceByJsonString(UserIntegralList, new TypeToken<ArrayList<UserIntegralList>>() {
+                    });
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseData> call, Throwable t) {
+
+            }
+        });
     }
     //endregion
 }

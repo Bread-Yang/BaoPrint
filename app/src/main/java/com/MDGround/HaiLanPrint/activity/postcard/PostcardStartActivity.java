@@ -7,13 +7,17 @@ import com.MDGround.HaiLanPrint.R;
 import com.MDGround.HaiLanPrint.activity.base.ToolbarActivity;
 import com.MDGround.HaiLanPrint.application.MDGroundApplication;
 import com.MDGround.HaiLanPrint.databinding.ActivityPostcardStartBinding;
+import com.MDGround.HaiLanPrint.enumobject.PhotoExplainTypeEnum;
 import com.MDGround.HaiLanPrint.enumobject.restfuls.ResponseCode;
+import com.MDGround.HaiLanPrint.models.MDImage;
 import com.MDGround.HaiLanPrint.models.Measurement;
+import com.MDGround.HaiLanPrint.models.PhotoTypeExplain;
 import com.MDGround.HaiLanPrint.restfuls.GlobalRestful;
 import com.MDGround.HaiLanPrint.restfuls.bean.ResponseData;
 import com.MDGround.HaiLanPrint.utils.NavUtils;
 import com.MDGround.HaiLanPrint.utils.StringUtil;
 import com.MDGround.HaiLanPrint.utils.ViewUtils;
+import com.bumptech.glide.Glide;
 import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONException;
@@ -24,6 +28,8 @@ import java.util.ArrayList;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
+import static com.MDGround.HaiLanPrint.application.MDGroundApplication.mPhotoTypeExplainArrayList;
 
 /**
  * Created by yoghourt on 5/18/16.
@@ -41,7 +47,19 @@ public class PostcardStartActivity extends ToolbarActivity<ActivityPostcardStart
 
     @Override
     protected void setListener() {
+        for (PhotoTypeExplain photoTypeExplain : mPhotoTypeExplainArrayList) {
+            if (photoTypeExplain.getExplainType() == PhotoExplainTypeEnum.IntroductionPage.value()
+                    && photoTypeExplain.getTypeID() == ProductType.Postcard.value()) {
 
+                MDImage mdImage = new MDImage();
+                mdImage.setPhotoSID(photoTypeExplain.getPhotoSID());
+
+//                GlideUtil.loadImageByPhotoSID(mDataBinding.ivBanner, photoTypeExplain.getPhotoSID());
+
+                Glide.with(this).load(mdImage).into(mDataBinding.ivIntroductionPage);
+                break;
+            }
+        }
     }
 
     //region ACTION

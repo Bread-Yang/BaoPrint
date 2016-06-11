@@ -7,7 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.MDGround.HaiLanPrint.BR;
 import com.MDGround.HaiLanPrint.R;
 import com.MDGround.HaiLanPrint.activity.base.ToolbarActivity;
 import com.MDGround.HaiLanPrint.databinding.ActivityCloudOverviewBinding;
@@ -115,8 +114,8 @@ public class CloudOverviewActivity extends ToolbarActivity<ActivityCloudOverview
 
         @Override
         public void onBindViewHolder(ViewHolder holder, int position) {
-            holder.viewDataBinding.setVariable(BR.image, mImagesList.get(position));
-            holder.viewDataBinding.setVariable(BR.handlers, bindingHandler);
+            holder.viewDataBinding.setImage(mImagesList.get(position));
+            holder.viewDataBinding.setHandlers(bindingHandler);
         }
 
         @Override

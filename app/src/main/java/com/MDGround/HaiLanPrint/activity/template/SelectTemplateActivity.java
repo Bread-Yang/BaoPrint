@@ -1,4 +1,4 @@
-package com.MDGround.HaiLanPrint.activity.pictureframe;
+package com.MDGround.HaiLanPrint.activity.template;
 
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
@@ -12,7 +12,6 @@ import android.view.ViewGroup;
 import com.MDGround.HaiLanPrint.ProductType;
 import com.MDGround.HaiLanPrint.R;
 import com.MDGround.HaiLanPrint.activity.base.ToolbarActivity;
-import com.MDGround.HaiLanPrint.activity.calendar.CalendarTemplateDetailActivity;
 import com.MDGround.HaiLanPrint.application.MDGroundApplication;
 import com.MDGround.HaiLanPrint.databinding.ActivitySelectTemplateBinding;
 import com.MDGround.HaiLanPrint.databinding.ItemSelectTemplateBinding;
@@ -27,6 +26,7 @@ import com.MDGround.HaiLanPrint.views.itemdecoration.GridSpacingItemDecoration;
 import com.google.gson.reflect.TypeToken;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -43,6 +43,8 @@ public class SelectTemplateActivity extends ToolbarActivity<ActivitySelectTempla
     private ArrayList<Template> mAllTemplateArrayList = new ArrayList<>();
 
     private ArrayList<Template> mShowTemplateArrayList = new ArrayList<>();
+
+    private HashMap<Integer, ArrayList<MDImage>> mTemplateAttachListHashMap = new HashMap<>();
 
     private SelectTemplateAdapter mAdapter;
 
@@ -138,7 +140,7 @@ public class SelectTemplateActivity extends ToolbarActivity<ActivitySelectTempla
 
         @Override
         public void onBindViewHolder(final ViewHolder holder, int position) {
-            Template template = mShowTemplateArrayList.get(position);
+            final Template template = mShowTemplateArrayList.get(position);
             holder.viewDataBinding.setTemplate(template);
             holder.viewDataBinding.setViewHolder(holder);
 
@@ -147,6 +149,7 @@ public class SelectTemplateActivity extends ToolbarActivity<ActivitySelectTempla
                 public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
                     ArrayList<MDImage> templateImageArrayList = response.body().getContent(new TypeToken<ArrayList<MDImage>>() {
                     });
+                    mTemplateAttachListHashMap.put(template.getTemplateID(), templateImageArrayList);
 
                     if (templateImageArrayList.size() > 0) {
                         GlideUtil.loadImageByMDImage(holder.viewDataBinding.ivImage, templateImageArrayList.get(0));
@@ -178,8 +181,9 @@ public class SelectTemplateActivity extends ToolbarActivity<ActivitySelectTempla
                 MDGroundApplication.mChoosedTemplate = mShowTemplateArrayList.get(getAdapterPosition());
 
                 switch (MDGroundApplication.mChoosedProductType) {
+                    case MagazineAlbum:
                     case Calendar:
-                        Intent intent = new Intent(SelectTemplateActivity.this, CalendarTemplateDetailActivity.class);
+                        Intent intent = new Intent(SelectTemplateActivity.this, TemplateStartCreateActivity.class);
                         startActivity(intent);
                         break;
                     default:

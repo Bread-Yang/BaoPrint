@@ -124,11 +124,11 @@
             android:label="@string/calendar"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".activity.calendar.CalendarTemplateDetailActivity"
+            android:name=".activity.template.TemplateStartCreateActivity"
             android:label="@string/calendar"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".activity.pictureframe.SelectTemplateActivity"
+            android:name=".activity.template.SelectTemplateActivity"
             android:label="@string/choose_template"
             android:screenOrientation="portrait"/>
         <activity
@@ -160,6 +160,10 @@
         <activity
             android:name=".activity.magiccup.MagicCupChooseColorActivity"
             android:label="@string/magic_cup"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activity.magiccup.MagicCupPhotoEditActivity"
+            android:label="@string/edit"
             android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.lomocard.LomoCardChooseNumActivity"

@@ -227,27 +227,32 @@ public class LoginActivity extends AppCompatActivity {
                 });
     }
 
-    private void loginUserByThirdPartyRequest(ThirdPartyLoginType loginType,
-                                              String openID,
-                                              String photoUrl,
-                                              String userNickName,
-                                              String userName) {
-        ViewUtils.loading(LoginActivity.this);
-        GlobalRestful.getInstance().LoginUserByThirdParty(loginType, openID, photoUrl, userNickName, userName, new Callback<ResponseData>() {
+    private void loginUserByThirdPartyRequest(final ThirdPartyLoginType loginType,
+                                              final String openID,
+                                              final String photoUrl,
+                                              final String userNickName,
+                                              final String userName) {
+        runOnUiThread(new Runnable() {
             @Override
-            public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
-                ViewUtils.dismiss();
-                if (ResponseCode.isSuccess(response.body())) {
-                    User user = response.body().getContent(User.class);
-                    saveUserAndToMainActivity(user);
-                } else {
-                    Toast.makeText(LoginActivity.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
-                }
-            }
+            public void run() {
+                ViewUtils.loading(LoginActivity.this);
+                GlobalRestful.getInstance().LoginUserByThirdParty(loginType, openID, photoUrl, userNickName, userName, new Callback<ResponseData>() {
+                    @Override
+                    public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
+                        ViewUtils.dismiss();
+                        if (ResponseCode.isSuccess(response.body())) {
+                            User user = response.body().getContent(User.class);
+                            saveUserAndToMainActivity(user);
+                        } else {
+                            Toast.makeText(LoginActivity.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    }
 
-            @Override
-            public void onFailure(Call<ResponseData> call, Throwable t) {
+                    @Override
+                    public void onFailure(Call<ResponseData> call, Throwable t) {
 
+                    }
+                });
             }
         });
     }

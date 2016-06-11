@@ -10,7 +10,7 @@
 
         <variable
             name="handlers"
-            type="com.MDGround.HaiLanPrint.activity.magiccup.MagicCupChooseColorActivity.BindingHandlers"/>
+            type="com.MDGround.HaiLanPrint.activity.magiccup.MagicCupChooseColorActivity.MagicCupChooseColorAdapter.BindingHolder"/>
 
         <variable
             name="measurement"

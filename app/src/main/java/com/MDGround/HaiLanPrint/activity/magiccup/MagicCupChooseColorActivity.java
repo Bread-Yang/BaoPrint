@@ -11,6 +11,7 @@ import com.MDGround.HaiLanPrint.BR;
 import com.MDGround.HaiLanPrint.ProductType;
 import com.MDGround.HaiLanPrint.R;
 import com.MDGround.HaiLanPrint.activity.base.ToolbarActivity;
+import com.MDGround.HaiLanPrint.application.MDGroundApplication;
 import com.MDGround.HaiLanPrint.databinding.ActivityMagicCupChooseColorBinding;
 import com.MDGround.HaiLanPrint.databinding.ItemMagicCupChooseColorBinding;
 import com.MDGround.HaiLanPrint.enumobject.PhotoExplainTypeEnum;
@@ -112,17 +113,8 @@ public class MagicCupChooseColorActivity extends ToolbarActivity<ActivityMagicCu
     }
     //endregion
 
-    public class BindingHandlers {
-
-        public void toSelectImageActivityAction(View view) {
-            NavUtils.toSelectAlbumActivity(view.getContext());
-        }
-    }
-
     //region ADAPTER
-    private class MagicCupChooseColorAdapter extends RecyclerView.Adapter<MagicCupChooseColorAdapter.BindingHolder> {
-
-        private BindingHandlers bindingHandlers = new BindingHandlers();
+    public class MagicCupChooseColorAdapter extends RecyclerView.Adapter<MagicCupChooseColorAdapter.BindingHolder> {
 
         @Override
         public BindingHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -135,7 +127,7 @@ public class MagicCupChooseColorActivity extends ToolbarActivity<ActivityMagicCu
         @Override
         public void onBindViewHolder(BindingHolder holder, int position) {
             holder.viewDataBinding.setVariable(BR.measurement, mSpecList.get(position));
-            holder.viewDataBinding.setVariable(BR.handlers, bindingHandlers);
+            holder.viewDataBinding.setHandlers(holder);
         }
 
         @Override
@@ -150,6 +142,12 @@ public class MagicCupChooseColorActivity extends ToolbarActivity<ActivityMagicCu
             public BindingHolder(View itemView) {
                 super(itemView);
                 viewDataBinding = DataBindingUtil.bind(itemView);
+            }
+
+            public void toSelectImageActivityAction(View view) {
+                MDGroundApplication.mChoosedMeasurement = mSpecList.get(getAdapterPosition());
+
+                NavUtils.toSelectAlbumActivity(view.getContext());
             }
         }
     }

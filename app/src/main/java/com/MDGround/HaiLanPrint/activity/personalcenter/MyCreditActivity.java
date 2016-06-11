@@ -84,10 +84,7 @@ public class MyCreditActivity extends ToolbarActivity<ActivityPersonalCreditBind
                         KLog.e(TAG, mTotalAmount);
                         String UserIntegralList = jsonObject.getString("UserIntegralList");
                         mUserCreditList = StringUtil.getInstanceByJsonString(UserIntegralList, new TypeToken<ArrayList<UserIntegralList>>() {
-
-                                }
-                        );
-
+                        });
 
                         mDataBinding.tvCredit.setText(mTotalAmount);
                         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(MyCreditActivity.this);
@@ -98,7 +95,6 @@ public class MyCreditActivity extends ToolbarActivity<ActivityPersonalCreditBind
                         mDataBinding.recyclerView.setAdapter(mAdapter);
                     } catch (Exception e) {
                     }
-
                 }
             }
 

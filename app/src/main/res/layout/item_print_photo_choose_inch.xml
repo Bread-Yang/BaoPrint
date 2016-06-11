@@ -34,7 +34,7 @@
 
         <TextView
             android:id="@+id/tvImageCount"
-            style="@style/NormalTextStyle"
+            style="@style/DimTextStyle"
             android:layout_alignParentBottom="true"
             android:layout_marginBottom="@dimen/margin_12"
             android:layout_marginLeft="@dimen/margin_12"

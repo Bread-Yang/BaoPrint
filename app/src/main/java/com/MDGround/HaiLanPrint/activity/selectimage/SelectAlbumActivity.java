@@ -9,7 +9,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.MDGround.HaiLanPrint.BR;
 import com.MDGround.HaiLanPrint.R;
 import com.MDGround.HaiLanPrint.activity.base.ToolbarActivity;
 import com.MDGround.HaiLanPrint.adapter.SelectedImageAdapter;
@@ -85,31 +84,35 @@ public class SelectAlbumActivity extends ToolbarActivity<ActivitySelectAlbumBind
 //        SpannableString spannable = new SpannableString(text);
 //        spannable.setSpan(new ForegroundColorSpan(colorBlue), 0, text.length(), 0);
 
-        new LocalMediaLoader(this, LocalMediaLoader.TYPE_IMAGE).loadAllImage(new LocalMediaLoader.LocalMediaLoadListener() {
+        new LocalMediaLoader(SelectAlbumActivity.this, LocalMediaLoader.TYPE_IMAGE).loadAllImage(new LocalMediaLoader.LocalMediaLoadListener() {
 
             @Override
             public void loadComplete(List<Album> albums) {
-                mAlbumsList = albums;
-                mAlbumAdapter.bindAlbum(mAlbumsList);
+                mAlbumsList.addAll(albums);
+
+                getPhotoCountRequest();
+
+                switch (MDGroundApplication.mChoosedProductType) {
+                    case MagazineAlbum:
+                    case ArtAlbum:
+                    case Calendar:
+                        mMaxSelectImageNum = MDGroundApplication.mChoosedTemplate.getPageCount();
+                        changeTips();
+                        break;
+                    case Postcard:
+                    case PictureFrame:
+                    case Poker:
+                    case MagicCup:
+                    case LOMOCard:
+                        getPhotoTemplateListRequest();  // 模版图片
+                        break;
+                    default:
+                        mMaxSelectImageNum = SelectImageUtil.getMaxSelectImageNum(MDGroundApplication.mChoosedProductType);
+                        changeTips();
+                        break;
+                }
             }
         });
-
-        getPhotoCountRequest();
-
-        switch (MDGroundApplication.mChoosedProductType) {
-            case Postcard:
-            case MagazineAlbum:
-            case ArtAlbum:
-            case LOMOCard:
-            case Poker:
-                getPhotoTemplateListRequest();  // 模版图片
-                break;
-            default:
-                mMaxSelectImageNum = SelectImageUtil.getMaxSelectImageNum(MDGroundApplication.mChoosedProductType);
-
-                changeTips();
-                break;
-        }
     }
 
     @Override
@@ -161,7 +164,7 @@ public class SelectAlbumActivity extends ToolbarActivity<ActivitySelectAlbumBind
                         album.setImageNum(mdImage.getPhotoCount());
                     }
 
-                    mAlbumAdapter.notifyDataSetChanged();
+                    mAlbumAdapter.bindAlbum(mAlbumsList);
                 }
             }
 
@@ -180,13 +183,13 @@ public class SelectAlbumActivity extends ToolbarActivity<ActivitySelectAlbumBind
                 ArrayList<Template> templateArrayList = response.body().getContent(new TypeToken<ArrayList<Template>>() {
                 });
 
-                Template template = templateArrayList.get(0);
+                MDGroundApplication.mChoosedTemplate = templateArrayList.get(0);
 
-                mMaxSelectImageNum = template.getPageCount();
+                mMaxSelectImageNum = MDGroundApplication.mChoosedTemplate.getPageCount();
 
                 changeTips();
 
-                getPhotoTemplateAttachListRequest(template.getTemplateID());
+                getPhotoTemplateAttachListRequest(MDGroundApplication.mChoosedTemplate.getTemplateID());
 
             }
 
@@ -229,7 +232,8 @@ public class SelectAlbumActivity extends ToolbarActivity<ActivitySelectAlbumBind
         private List<Album> mAlbumsList = new ArrayList<>();
 
         public void bindAlbum(List<Album> albumList) {
-            this.mAlbumsList = albumList;
+            this.mAlbumsList.clear();
+            this.mAlbumsList.addAll(albumList);
             notifyDataSetChanged();
         }
 
@@ -244,8 +248,8 @@ public class SelectAlbumActivity extends ToolbarActivity<ActivitySelectAlbumBind
         public void onBindViewHolder(AlbumAdapter.ViewHolder holder, final int position) {
             final Album album = mAlbumsList.get(position);
 
-            holder.viewDataBinding.setVariable(BR.album, album);
-            holder.viewDataBinding.setVariable(BR.viewHolder, holder);
+            holder.viewDataBinding.setAlbum(album);
+            holder.viewDataBinding.setViewHolder(holder);
         }
 
         @Override

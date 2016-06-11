@@ -10,7 +10,7 @@
 
         <variable
             name="viewHolder"
-            type="com.MDGround.HaiLanPrint.activity.pictureframe.SelectTemplateActivity.SelectTemplateAdapter.ViewHolder"/>
+            type="com.MDGround.HaiLanPrint.activity.template.SelectTemplateActivity.SelectTemplateAdapter.ViewHolder"/>
     </data>
 
     <com.MDGround.HaiLanPrint.views.FlexibleRelativeLayout

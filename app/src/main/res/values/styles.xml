@@ -62,8 +62,8 @@
         <item name="android:layout_height">@dimen/size_44</item>
     </style>
 
-    <style name="IntegerLayoutStyle" parent="NormalLayoutStyle">
-        <item name="android:layout_height">@dimen/margin_64</item>
+    <style name="MediumLayoutStyle" parent="NormalLayoutStyle">
+        <item name="android:layout_height">@dimen/size_60</item>
     </style>
 
     <style name="NormalTextStyle">

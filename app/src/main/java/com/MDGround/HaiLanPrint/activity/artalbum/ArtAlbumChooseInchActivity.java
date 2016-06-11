@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 import com.MDGround.HaiLanPrint.ProductType;
 import com.MDGround.HaiLanPrint.R;
 import com.MDGround.HaiLanPrint.activity.base.ToolbarActivity;
-import com.MDGround.HaiLanPrint.activity.pictureframe.SelectTemplateActivity;
+import com.MDGround.HaiLanPrint.activity.template.SelectTemplateActivity;
 import com.MDGround.HaiLanPrint.application.MDGroundApplication;
 import com.MDGround.HaiLanPrint.databinding.ActivityArtAlbumChooseInchBinding;
 import com.MDGround.HaiLanPrint.databinding.ItemArtAlbumChooseInchBinding;

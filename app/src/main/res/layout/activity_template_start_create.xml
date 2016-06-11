@@ -50,8 +50,8 @@
                     android:id="@+id/tvPageNum"
                     style="@style/DimTextStyle"
                     android:layout_centerVertical="true"
-                    android:text="@{@string/page_num(template.pageCount)}"
                     android:layout_gravity="center_vertical"
+                    android:text="@{@string/page_num(template.pageCount)}"
                     tools:text="页数: 22P"/>
 
                 <TextView
@@ -74,8 +74,8 @@
                 android:layout_gravity="center_vertical"
                 android:paddingLeft="@dimen/margin_12"
                 android:paddingTop="@dimen/margin_12"
-                android:textSize="@dimen/text_size_16"
-                android:text="@string/product_detail"/>
+                android:text="@string/product_detail"
+                android:textSize="@dimen/text_size_16"/>
 
 
             <TextView
@@ -84,33 +84,38 @@
                 android:layout_centerVertical="true"
                 android:layout_gravity="center_vertical"
                 android:paddingBottom="@dimen/margin_12"
-                android:text="@{template.materialDesc}"
                 android:paddingLeft="@dimen/margin_12"
                 android:paddingTop="@dimen/margin_12"
+                android:text="@{template.materialDesc}"
                 tools:text="@string/phone_brand"/>
-
-            <View
-                style="@style/DividerHorizontalMarginSytle"
-                android:layout_above="@+id/btnNextStep"/>
 
         </LinearLayout>
 
         <View
             style="@style/DividerHorizontalStyle"
-            android:layout_above="@+id/btnNextStep"/>
+            android:layout_above="@+id/rltNextStep"/>
 
-        <Button
-            android:id="@+id/btnNextStep"
+        <RelativeLayout
+            android:id="@+id/rltNextStep"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/size_44"
+            android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:layout_gravity="center_horizontal"
-            android:background="?attr/selectableItemBackground"
-            android:gravity="center"
-            android:onClick="nextStepAction"
-            android:text="@string/create_immediately"
-            android:textColor="@color/color_f88e11"
-            android:textSize="@dimen/text_size_20"/>
+            android:background="@color/color_white">
+            <Button
+                android:id="@+id/btnNextStep"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/size_44"
+
+                android:layout_gravity="center_horizontal"
+                android:background="?attr/selectableItemBackground"
+                android:gravity="center"
+                android:onClick="nextStepAction"
+                android:text="@string/create_immediately"
+                android:textColor="@color/color_f88e11"
+                android:textSize="@dimen/text_size_20"/>
+
+        </RelativeLayout>
+
 
     </RelativeLayout>
 

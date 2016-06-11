@@ -7,7 +7,6 @@ import com.MDGround.HaiLanPrint.application.MDGroundApplication;
 import com.MDGround.HaiLanPrint.models.MDImage;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.socks.library.KLog;
 
 import java.io.File;
 import java.util.LinkedList;
@@ -41,8 +40,8 @@ public class GlideUtil {
 
         if (mdImage != null) {
             File cacheFile = Glide.getPhotoCacheDir(MDGroundApplication.mInstance);
-            KLog.e(" cacheFile : " + cacheFile.getPath());
-            KLog.e("cacheFolder size : " + getFileSize(cacheFile));
+//            KLog.e(" cacheFile : " + cacheFile.getPath());
+//            KLog.e("cacheFolder size : " + getFileSize(cacheFile));
 
             Glide.with(MDGroundApplication.mInstance)
                     .load(mdImage)

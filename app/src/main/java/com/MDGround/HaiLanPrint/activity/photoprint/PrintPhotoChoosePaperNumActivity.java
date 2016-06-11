@@ -1,6 +1,5 @@
 package com.MDGround.HaiLanPrint.activity.photoprint;
 
-import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -9,27 +8,26 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RadioGroup;
 
+import com.MDGround.HaiLanPrint.ProductType;
 import com.MDGround.HaiLanPrint.R;
 import com.MDGround.HaiLanPrint.activity.base.ToolbarActivity;
-import com.MDGround.HaiLanPrint.activity.payment.PaymentPreviewActivity;
 import com.MDGround.HaiLanPrint.application.MDGroundApplication;
 import com.MDGround.HaiLanPrint.databinding.ActivityPrintPhotoChoosePaperNumBinding;
 import com.MDGround.HaiLanPrint.databinding.ItemPrintPhotoChoosePagerNumBinding;
 import com.MDGround.HaiLanPrint.enumobject.ProductMaterial;
 import com.MDGround.HaiLanPrint.models.MDImage;
 import com.MDGround.HaiLanPrint.models.Measurement;
+import com.MDGround.HaiLanPrint.models.OrderInfo;
 import com.MDGround.HaiLanPrint.models.OrderWork;
 import com.MDGround.HaiLanPrint.models.OrderWorkPhoto;
 import com.MDGround.HaiLanPrint.restfuls.FileRestful;
 import com.MDGround.HaiLanPrint.restfuls.GlobalRestful;
 import com.MDGround.HaiLanPrint.restfuls.bean.ResponseData;
 import com.MDGround.HaiLanPrint.utils.DateUtils;
+import com.MDGround.HaiLanPrint.utils.NavUtils;
 import com.MDGround.HaiLanPrint.utils.SelectImageUtil;
 import com.MDGround.HaiLanPrint.utils.StringUtil;
 import com.MDGround.HaiLanPrint.utils.ViewUtils;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -162,13 +160,8 @@ public class PrintPhotoChoosePaperNumActivity extends ToolbarActivity<ActivityPr
 
                 int orderID = 0;
 
-                try {
-                    JSONObject jsonObject = new JSONObject(response.body().Content);
-
-                    orderID = jsonObject.getInt("OrderID");
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+                OrderInfo orderInfo = response.body().getContent(OrderInfo.class);
+                orderID = orderInfo.getOrderID();
 
                 saveOrderWorkRequest(orderID);
             }
@@ -184,7 +177,8 @@ public class PrintPhotoChoosePaperNumActivity extends ToolbarActivity<ActivityPr
         OrderWork orderWork = new OrderWork();
         orderWork.setOrderID(orderID);
         orderWork.setTypeID(MDGroundApplication.mChoosedMeasurement.getTypeID()); //作品类型（getPhotoType接口返回的TypeID）
-        orderWork.setTypeName(MDGroundApplication.mChoosedMeasurement.getTitle()); //Title（getPhotoType接口返回的Title）
+        orderWork.setTypeName(ProductType.getProductName(MDGroundApplication.mChoosedProductType)); //Title（getPhotoType接口返回的Title）
+        orderWork.setPrice(MDGroundApplication.mChoosedMeasurement.getPrice());
         orderWork.setPhotoCover(SelectImageUtil.mAlreadySelectImage.get(0).getPhotoSID()); //封面，第一张照片的缩略图ID
         orderWork.setPhotoCount(SelectImageUtil.mAlreadySelectImage.size());
         orderWork.setOrderCount(SelectImageUtil.getOrderCount());
@@ -201,17 +195,9 @@ public class PrintPhotoChoosePaperNumActivity extends ToolbarActivity<ActivityPr
         GlobalRestful.getInstance().SaveOrderWork(orderWork, new Callback<ResponseData>() {
             @Override
             public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
-                int workOID = 0;
+                OrderWork responseOrderWork = response.body().getContent(OrderWork.class);
 
-                try {
-                    JSONObject jsonObject = new JSONObject(response.body().Content);
-
-                    workOID = jsonObject.getInt("WorkOID");
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-                saveOrderPhotoListAction(workOID);
+                saveOrderPhotoListAction(responseOrderWork);
             }
 
             @Override
@@ -221,14 +207,14 @@ public class PrintPhotoChoosePaperNumActivity extends ToolbarActivity<ActivityPr
         });
     }
 
-    private void saveOrderPhotoListAction(int workOID) {
+    private void saveOrderPhotoListAction(final OrderWork orderWork) {
         List<OrderWorkPhoto> orderWorkPhotoList = new ArrayList<>();
 
         for (int i = 0; i < SelectImageUtil.mAlreadySelectImage.size(); i++) {
             MDImage mdImage = SelectImageUtil.mAlreadySelectImage.get(i);
             OrderWorkPhoto orderWorkPhoto = new OrderWorkPhoto();
             orderWorkPhoto.setAutoID(mdImage.getAutoID());
-            orderWorkPhoto.setWorkOID(workOID);
+            orderWorkPhoto.setWorkOID(orderWork.getWorkOID());
             orderWorkPhoto.setPhoto1ID(mdImage.getPhotoID());
             orderWorkPhoto.setPhoto1SID(mdImage.getPhotoSID());
             int index = i + 1;
@@ -241,7 +227,7 @@ public class PrintPhotoChoosePaperNumActivity extends ToolbarActivity<ActivityPr
             @Override
             public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
                 ViewUtils.dismiss();
-                toPaymentPreviewActivity();
+                NavUtils.toPaymentPreviewActivity(PrintPhotoChoosePaperNumActivity.this, orderWork);
             }
 
             @Override
@@ -251,11 +237,6 @@ public class PrintPhotoChoosePaperNumActivity extends ToolbarActivity<ActivityPr
         });
     }
     //endregion
-
-    private void toPaymentPreviewActivity() {
-        Intent intent = new Intent(this, PaymentPreviewActivity.class);
-        startActivity(intent);
-    }
 
     //region ADAPTER
     public class PrintPhotoChoosePaperNumAdapter extends RecyclerView.Adapter<PrintPhotoChoosePaperNumAdapter.BindingHolder> {

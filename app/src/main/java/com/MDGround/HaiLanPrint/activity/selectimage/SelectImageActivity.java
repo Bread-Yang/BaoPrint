@@ -69,7 +69,7 @@ public class SelectImageActivity extends ToolbarActivity<ActivitySelectImageBind
 
         if (mImagesList.get(0).getPhotoSID() != 0) {
             mIsShared = mImagesList.get(0).isShared();
-            mImagesList.clear();
+//            mImagesList.clear();
 
             mDataBinding.imageRecyclerView.setupMoreListener(new OnMoreListener() {
                 @Override
@@ -81,6 +81,12 @@ public class SelectImageActivity extends ToolbarActivity<ActivitySelectImageBind
             loadImageRequest();
         } else {
             mDataBinding.imageRecyclerView.setLoadingMore(false);
+        }
+
+        if (mImagesList.get(0).getImageLocalPath() == null
+                && mImagesList.get(0).getPhotoID() == 0
+                && mImagesList.get(0).getPhotoCount() == 0) {
+            mImagesList.clear();
         }
 
         // 相册

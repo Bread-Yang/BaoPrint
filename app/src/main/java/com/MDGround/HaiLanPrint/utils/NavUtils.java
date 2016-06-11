@@ -7,7 +7,9 @@ import android.support.v4.content.IntentCompat;
 import com.MDGround.HaiLanPrint.activity.cloudphotos.CloudDetailActivity;
 import com.MDGround.HaiLanPrint.activity.engraving.EngravingChoosePaperNumActivity;
 import com.MDGround.HaiLanPrint.activity.login.LoginActivity;
+import com.MDGround.HaiLanPrint.activity.magiccup.MagicCupPhotoEditActivity;
 import com.MDGround.HaiLanPrint.activity.main.MainActivity;
+import com.MDGround.HaiLanPrint.activity.payment.PaymentPreviewActivity;
 import com.MDGround.HaiLanPrint.activity.photoedit.PhotoEditActivity;
 import com.MDGround.HaiLanPrint.activity.photoprint.PrintPhotoChoosePaperNumActivity;
 import com.MDGround.HaiLanPrint.activity.pictureframe.PictureFrameTempalteDetailActivity;
@@ -15,6 +17,7 @@ import com.MDGround.HaiLanPrint.activity.selectimage.SelectAlbumActivity;
 import com.MDGround.HaiLanPrint.application.MDGroundApplication;
 import com.MDGround.HaiLanPrint.constants.Constants;
 import com.MDGround.HaiLanPrint.models.MDImage;
+import com.MDGround.HaiLanPrint.models.OrderWork;
 
 /**
  * Created by yoghourt on 5/12/16.
@@ -57,6 +60,9 @@ public class NavUtils {
             case Postcard:
                 intent.setClass(context, PhotoEditActivity.class);
                 break;
+            case MagazineAlbum:
+                intent.setClass(context, PhotoEditActivity.class);
+                break;
             case PictureFrame:
                 intent.setClass(context, PictureFrameTempalteDetailActivity.class);
                 break;
@@ -64,7 +70,7 @@ public class NavUtils {
                 intent.setClass(context, PhotoEditActivity.class);
                 break;
             case MagicCup:
-                intent.setClass(context, PhotoEditActivity.class);
+                intent.setClass(context, MagicCupPhotoEditActivity.class);
                 break;
             case Puzzle:
                 intent.setClass(context, PhotoEditActivity.class);
@@ -76,6 +82,12 @@ public class NavUtils {
                 intent.setClass(context, EngravingChoosePaperNumActivity.class);
                 break;
         }
+        context.startActivity(intent);
+    }
+
+    public static void toPaymentPreviewActivity(Context context, OrderWork orderWork) {
+        Intent intent = new Intent(context, PaymentPreviewActivity.class);
+        intent.putExtra(Constants.KEY_ORDER_WORK, orderWork);
         context.startActivity(intent);
     }
 

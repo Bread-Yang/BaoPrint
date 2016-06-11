@@ -14,7 +14,7 @@
     </data>
    <RelativeLayout
        android:onClick="@{handler::ClicEvent}"
-      style="@style/IntegerLayoutStyle">
+      style="@style/MediumLayoutStyle">
        <TextView
            android:id="@+id/first"
            android:layout_width="wrap_content"

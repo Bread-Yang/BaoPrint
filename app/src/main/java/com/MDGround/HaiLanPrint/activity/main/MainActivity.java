@@ -58,25 +58,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initData() {
-        GlobalRestful.getInstance().GetBannerPhotoList(new Callback<ResponseData>() {
-            @Override
-            public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
-                if (ResponseCode.isSuccess(response.body())) {
-                    ArrayList<MDImage> tempImagesList = response.body().getContent(new TypeToken<ArrayList<MDImage>>() {
-                    });
-
-                        mImagesList.addAll(tempImagesList);
-
-                    mDataBinding.simpleImageBanner
-                            .setSource(mImagesList).startScroll();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<ResponseData> call, Throwable t) {
-
-            }
-        });
+        getPhotoTypeExplainListRequest();
+        getBannerPhotoListRequest();
 
         mDataBinding.viewPager.setAdapter(new MainAdapter());
     }
@@ -189,6 +172,28 @@ public class MainActivity extends AppCompatActivity {
             public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
                 MDGroundApplication.mPhotoTypeExplainArrayList = response.body().getContent(new TypeToken<ArrayList<PhotoTypeExplain>>() {
                 });
+            }
+
+            @Override
+            public void onFailure(Call<ResponseData> call, Throwable t) {
+
+            }
+        });
+    }
+
+    private void getBannerPhotoListRequest() {
+        GlobalRestful.getInstance().GetBannerPhotoList(new Callback<ResponseData>() {
+            @Override
+            public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
+                if (ResponseCode.isSuccess(response.body())) {
+                    ArrayList<MDImage> tempImagesList = response.body().getContent(new TypeToken<ArrayList<MDImage>>() {
+                    });
+
+                    mImagesList.addAll(tempImagesList);
+
+                    mDataBinding.simpleImageBanner
+                            .setSource(mImagesList).startScroll();
+                }
             }
 
             @Override

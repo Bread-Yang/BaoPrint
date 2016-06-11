@@ -9,7 +9,7 @@ public class Measurement {
 
     private int AutoID;
 
-    private float Price;
+    private int Price;
 
     private String PriceDesc;
 
@@ -31,11 +31,11 @@ public class Measurement {
         AutoID = autoID;
     }
 
-    public float getPrice() {
+    public int getPrice() {
         return Price;
     }
 
-    public void setPrice(float price) {
+    public void setPrice(int price) {
         Price = price;
     }
 

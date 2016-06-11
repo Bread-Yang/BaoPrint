@@ -1,21 +1,21 @@
-package com.MDGround.HaiLanPrint.activity.calendar;
+package com.MDGround.HaiLanPrint.activity.template;
 
 import android.view.View;
 
 import com.MDGround.HaiLanPrint.R;
 import com.MDGround.HaiLanPrint.activity.base.ToolbarActivity;
 import com.MDGround.HaiLanPrint.application.MDGroundApplication;
-import com.MDGround.HaiLanPrint.databinding.ActivityCalendarTemplateDetailBinding;
+import com.MDGround.HaiLanPrint.databinding.ActivityTemplateStartCreateBinding;
 import com.MDGround.HaiLanPrint.utils.NavUtils;
 
 /**
  * Created by yoghourt on 5/11/16.
  */
-public class CalendarTemplateDetailActivity extends ToolbarActivity<ActivityCalendarTemplateDetailBinding> {
+public class TemplateStartCreateActivity extends ToolbarActivity<ActivityTemplateStartCreateBinding> {
 
     @Override
     protected int getContentLayout() {
-        return R.layout.activity_calendar_template_detail;
+        return R.layout.activity_template_start_create;
     }
 
     @Override

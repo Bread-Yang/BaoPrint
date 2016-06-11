@@ -186,8 +186,8 @@
     <string name="price_rmb">价格: ¥%s</string>
     <string name="page_count">%dP</string>
 
-    <!-- 个性日历 -->
-    <string name="calendar">个性日历</string>
+    <!-- 个性月历 -->
+    <string name="calendar">个性月历</string>
     <string name="create_immediately">马上制作</string>
     <string name="product_detail">产品详情</string>
     <string name="template_name">模版: %s</string>
@@ -203,8 +203,8 @@
     <string name="plastic">塑料</string>
     <string name="price">价格</string>
 
-    <!-- 扑克 -->
-    <string name="poker">扑克</string>
+    <!-- 扑克牌 -->
+    <string name="poker">扑克牌</string>
 
     <!-- 拼图 -->
     <string name="puzzle">拼图</string>
@@ -237,7 +237,7 @@
     <string name="go_pay">去支付</string>
     <string name="alipay_pay">支付宝支付</string>
     <string name="wechat_pay">微信支付</string>
-    <string name="receivables">应付金额: ¥%f</string>
+    <string name="receivables">应付金额: ¥%s</string>
     <string name="rmb">¥</string>
     <string name="yuan_amount">¥%s</string>
     <string name="yuan_unit">元</string>
@@ -245,6 +245,8 @@
     <string name="available_num">%d张可用</string>
     <string name="credit">积分</string>
     <string name="add_address_first">请先添加地址</string>
+    <string name="amount">总额</string>
+    <string name="freight">运费</string>
 
     <!-- 支付成功 -->
     <string name="payment_success">支付成功</string>

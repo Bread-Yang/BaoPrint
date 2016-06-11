@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <import type="com.MDGround.HaiLanPrint.utils.StringUtil"/>
+
+        <variable name="orderWork" type="com.MDGround.HaiLanPrint.models.OrderWork"/>
     </data>
 
     <RelativeLayout
@@ -72,9 +76,9 @@
                         android:layout_height="wrap_content"
                         android:layout_alignLeft="@+id/tvName"
                         android:layout_centerVertical="true"
-                        android:textSize="@dimen/text_size_16"
                         android:layout_toRightOf="@+id/ivLocationLogo"
-                        android:text="@string/choose_delivery_address_first"/>
+                        android:text="@string/choose_delivery_address_first"
+                        android:textSize="@dimen/text_size_16"/>
 
                     <ImageView
                         android:id="@+id/ivArrow"
@@ -100,7 +104,8 @@
                     <ImageView
                         android:id="@+id/ivImage"
                         android:layout_width="80dp"
-                        android:layout_height="80dp"/>
+                        android:layout_height="80dp"
+                        app:loadImageByPhotoSID="@{orderWork.photoCover}"/>
 
                     <TextView
                         android:id="@+id/tvProductType"
@@ -109,6 +114,7 @@
                         android:layout_marginLeft="@dimen/margin_8"
                         android:layout_marginTop="@dimen/margin_15"
                         android:layout_toRightOf="@+id/ivImage"
+                        android:text="@{orderWork.workMaterial + orderWork.typeName}"
                         tools:text="照片冲洗"/>
 
                     <TextView
@@ -119,12 +125,14 @@
                         android:layout_marginLeft="@dimen/margin_8"
                         android:layout_marginTop="@dimen/margin_15"
                         android:layout_toRightOf="@+id/ivImage"
+                        android:text="@{@string/num_with_colon(orderWork.photoCount)}"
                         tools:text="数量 : 2"/>
 
                     <TextView
                         style="@style/OrangeTextStyle"
                         android:layout_alignBottom="@+id/tvNum"
                         android:layout_toLeftOf="@+id/tvYuan"
+                        android:text="@{@string/yuan_amount(StringUtil.toYuanWithoutUnit(orderWork.price))}"
                         tools:text="¥276.00"/>
 
                     <TextView
@@ -151,7 +159,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/margin_8"
-                        tools:text="@string/coupon"/>
+                        android:text="@string/coupon"/>
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -160,9 +168,9 @@
                         android:layout_toRightOf="@+id/tvCoupon"
                         android:background="@drawable/ripple_button_round_angle_orange"
                         android:gravity="center"
+                        android:text="0张可用"
                         android:textColor="@color/color_white"
-                        android:textSize="@dimen/text_size_12"
-                        tools:text="1张可用"/>
+                        android:textSize="@dimen/text_size_12"/>
 
                     <TextView
                         android:id="@+id/tvCouponYuan"
@@ -170,7 +178,7 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
                         android:layout_marginLeft="@dimen/margin_8"
-                        tools:text="已抵用10.00元"/>
+                        android:text="已抵用0.00元"/>
 
                 </RelativeLayout>
 
@@ -201,8 +209,8 @@
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="@dimen/margin_8"
                         android:layout_toRightOf="@+id/cbUseCredit"
-                        android:textColor="@color/color_f88e11"
-                        tools:text="233积分"/>
+                        android:text="0积分"
+                        android:textColor="@color/color_f88e11"/>
 
                     <TextView
                         android:id="@+id/tvCreditYuan"
@@ -211,7 +219,7 @@
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="@dimen/margin_8"
-                        tools:text="已抵用10.00元"/>
+                        android:text="已抵用0.00元"/>
 
                 </RelativeLayout>
 
@@ -220,7 +228,81 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/margin_8"
+                    android:layout_marginTop="@dimen/margin_8"
                     android:orientation="vertical">
+
+                    <RelativeLayout
+                        style="@style/NormalLayoutStyle"
+                        android:gravity="center_vertical"
+                        android:onClick="toChooseCouponActivityAction">
+
+                        <TextView
+                            style="@style/NormalTextStyle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/amount"/>
+
+                        <TextView
+                            style="@style/OrangeTextStyle"
+                            android:layout_toLeftOf="@+id/tvYuan"
+                            android:text="@{@string/yuan_amount(StringUtil.toYuanWithoutUnit(orderWork.price * orderWork.photoCount))}"
+                            tools:text="¥276.00"/>
+
+                        <TextView
+                            android:id="@+id/tvYuan"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:text="@string/yuan_unit"/>
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        style="@style/NormalLayoutStyle"
+                        android:gravity="center_vertical"
+                        android:onClick="toChooseCouponActivityAction">
+
+                        <TextView
+                            style="@style/NormalTextStyle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/coupon"/>
+
+                        <TextView
+                            style="@style/OrangeTextStyle"
+                            android:layout_toLeftOf="@+id/tvYuan"
+                            android:text="¥0.00"/>
+
+                        <TextView
+                            android:id="@+id/tvYuan"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:text="@string/yuan_unit"/>
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        style="@style/NormalLayoutStyle"
+                        android:gravity="center_vertical"
+                        android:onClick="toChooseCouponActivityAction">
+
+                        <TextView
+                            style="@style/NormalTextStyle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/freight"/>
+
+                        <TextView
+                            style="@style/OrangeTextStyle"
+                            android:layout_toLeftOf="@+id/tvYuan"
+                            android:text="¥0.00"/>
+
+                        <TextView
+                            android:id="@+id/tvYuan"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:text="@string/yuan_unit"/>
+                    </RelativeLayout>
 
                 </LinearLayout>
 
@@ -232,11 +314,11 @@
 
                     <RadioButton
                         android:id="@+id/rbAplipay"
-                        style="@style/FixHeightLayoutStyle"
+                        style="@style/MediumLayoutStyle"
                         android:layout_marginBottom="-1dp"
                         android:button="@null"
                         android:checked="true"
-                        android:drawableLeft="@drawable/icon_login_wx"
+                        android:drawableLeft="@drawable/icon_pay_pay"
                         android:drawableRight="@drawable/selector_rb_bg_check"
                         android:text="@string/alipay_pay"/>
 
@@ -244,7 +326,7 @@
 
                     <RadioButton
                         android:id="@+id/rbWechatPay"
-                        style="@style/FixHeightLayoutStyle"
+                        style="@style/MediumLayoutStyle"
                         android:button="@null"
                         android:drawableLeft="@drawable/icon_login_wx"
                         android:drawableRight="@drawable/selector_rb_bg_check"
@@ -276,9 +358,10 @@
                 android:checked="false"
                 android:gravity="center_vertical"
                 android:paddingLeft="@dimen/margin_10"
-                android:text="@string/receivables"
+                android:text="@{@string/receivables(StringUtil.toYuanWithoutUnit(orderWork.price * orderWork.photoCount))}"
                 android:textColor="@color/color_f88e11"
-                android:textSize="@dimen/text_size_16"/>
+                android:textSize="@dimen/text_size_16"
+                tools:text="@string/receivables"/>
 
             <Button
                 android:id="@+id/btnOperation"
@@ -286,10 +369,10 @@
                 android:layout_height="match_parent"
                 android:layout_alignParentRight="true"
                 android:layout_gravity="center_horizontal"
-                android:onClick="payAction"
                 android:layout_weight="3"
                 android:background="@drawable/ripple_button_right_angle_orange"
                 android:gravity="center"
+                android:onClick="payAction"
                 android:text="@string/go_pay"
                 android:textColor="@color/color_white"
                 android:textSize="@dimen/text_size_20"/>

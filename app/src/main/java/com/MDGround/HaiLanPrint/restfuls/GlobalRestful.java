@@ -11,6 +11,8 @@ import com.MDGround.HaiLanPrint.models.OrderInfo;
 import com.MDGround.HaiLanPrint.models.OrderWork;
 import com.MDGround.HaiLanPrint.models.OrderWorkPhoto;
 import com.MDGround.HaiLanPrint.models.User;
+import com.MDGround.HaiLanPrint.models.WorkInfo;
+import com.MDGround.HaiLanPrint.models.WorkPhoto;
 import com.MDGround.HaiLanPrint.restfuls.bean.Device;
 import com.MDGround.HaiLanPrint.restfuls.bean.ResponseData;
 import com.MDGround.HaiLanPrint.utils.DeviceUtil;
@@ -232,6 +234,32 @@ public class GlobalRestful extends BaseRestful {
         }
 
         asynchronousPost("SaveOrder", obj.toString(), callback);
+    }
+
+    public void SaveUserWork(WorkInfo workInfo, Callback<ResponseData> callback) {
+        JSONObject obj = new JSONObject();
+        try {
+            String jsonString = convertObjectToString(workInfo);
+            JSONObject object = new JSONObject(jsonString);
+            obj.put("WorkInfo", object);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        asynchronousPost("SaveUserWork", obj.toString(), callback);
+    }
+
+    public void SaveUserWorkPhotoList(List<WorkPhoto> workPhotoList, Callback<ResponseData> callback) {
+        JSONObject obj = new JSONObject();
+        try {
+            String jsonString = convertObjectToString(workPhotoList);
+            JSONArray array = new JSONArray(jsonString);
+            obj.put("WorkPhotoList", array);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        asynchronousPost("SaveUserWorkPhotoList", obj.toString(), callback);
     }
 
     // 保存订单作品接口

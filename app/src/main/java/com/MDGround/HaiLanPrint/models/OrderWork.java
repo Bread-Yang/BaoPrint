@@ -1,10 +1,13 @@
 package com.MDGround.HaiLanPrint.models;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 /**
  * Created by yoghourt on 5/24/16.
  */
 
-public class OrderWork {
+public class OrderWork implements Parcelable {
 
     private String CreateTime;
 
@@ -37,6 +40,34 @@ public class OrderWork {
         WorkFormat = "";
         WorkStyle = "";
     }
+
+    protected OrderWork(Parcel in) {
+        CreateTime = in.readString();
+        OrderCount = in.readInt();
+        OrderID = in.readInt();
+        PhotoCount = in.readInt();
+        PhotoCover = in.readInt();
+        Price = in.readInt();
+        TemplateID = in.readInt();
+        TypeID = in.readInt();
+        TypeName = in.readString();
+        WorkFormat = in.readString();
+        WorkMaterial = in.readString();
+        WorkOID = in.readInt();
+        WorkStyle = in.readString();
+    }
+
+    public static final Creator<OrderWork> CREATOR = new Creator<OrderWork>() {
+        @Override
+        public OrderWork createFromParcel(Parcel in) {
+            return new OrderWork(in);
+        }
+
+        @Override
+        public OrderWork[] newArray(int size) {
+            return new OrderWork[size];
+        }
+    };
 
     public String getCreateTime() {
         return CreateTime;
@@ -140,5 +171,27 @@ public class OrderWork {
 
     public void setWorkStyle(String workStyle) {
         WorkStyle = workStyle;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(CreateTime);
+        dest.writeInt(OrderCount);
+        dest.writeInt(OrderID);
+        dest.writeInt(PhotoCount);
+        dest.writeInt(PhotoCover);
+        dest.writeInt(Price);
+        dest.writeInt(TemplateID);
+        dest.writeInt(TypeID);
+        dest.writeString(TypeName);
+        dest.writeString(WorkFormat);
+        dest.writeString(WorkMaterial);
+        dest.writeInt(WorkOID);
+        dest.writeString(WorkStyle);
     }
 }
