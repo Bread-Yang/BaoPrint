@@ -1,5 +1,6 @@
 package com.MDGround.HaiLanPrint.activity.personalcenter;
 
+import android.databinding.DataBindingUtil;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -9,11 +10,13 @@ import android.view.ViewGroup;
 import com.MDGround.HaiLanPrint.R;
 import com.MDGround.HaiLanPrint.activity.base.ToolbarActivity;
 import com.MDGround.HaiLanPrint.databinding.ActivityPersonalMyworksBinding;
+import com.MDGround.HaiLanPrint.databinding.ItemMyworksBinding;
 import com.MDGround.HaiLanPrint.enumobject.restfuls.ResponseCode;
 import com.MDGround.HaiLanPrint.models.WorksInfo;
 import com.MDGround.HaiLanPrint.restfuls.GlobalRestful;
 import com.MDGround.HaiLanPrint.restfuls.bean.ResponseData;
 import com.MDGround.HaiLanPrint.utils.StringUtil;
+import com.MDGround.HaiLanPrint.utils.ViewUtils;
 import com.google.gson.reflect.TypeToken;
 import com.socks.library.KLog;
 
@@ -51,10 +54,12 @@ public class MyWorksActivity extends ToolbarActivity<ActivityPersonalMyworksBind
     protected void initData() {
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        mDataBinding.rvWorksList.setLayoutManager(layoutManager);
+        mDataBinding.myworksrecyclerView.setLayoutManager(layoutManager);
         mAdapter = new MyWorksAdapter();
-        mDataBinding.rvWorksList.setAdapter(mAdapter);
+        mDataBinding.myworksrecyclerView.setAdapter(mAdapter);
+        ViewUtils.loading(this);
         GlobalRestful.getInstance().GetUserWorkList(new Callback<ResponseData>() {
+
             @Override
             public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
                 if (ResponseCode.isSuccess(response.body())) {
@@ -66,25 +71,8 @@ public class MyWorksActivity extends ToolbarActivity<ActivityPersonalMyworksBind
                         mWorksInfoList = StringUtil.getInstanceByJsonString(worksInfos, new TypeToken<List<WorksInfo>>() {
                         });
                         KLog.e(TAG, mWorksInfoList.size());
-
-//                        for (WorksInfo worksInfo : worksInfoList) {
-//                            if (worksInfo.getTypeID() == Constants.ART_BOOK_TYPE_ID) {
-//                                mArtBookList.add(worksInfo);
-//                            } else if (worksInfo.getTypeID() == Constants.MAGIC_CUP_TYPE_ID) {
-//                                mMagicCupList.add(worksInfo);
-//                            } else if (worksInfo.getTypeID() == Constants.MAGAZINE_B00k_TYPE_ID) {
-//                                mMagazineList.add(worksInfo);
-//                            } else if (worksInfo.getTypeID() == Constants.LOMO_CARD_TYPE_ID) {
-//                                mLOMOCardList.add(worksInfo);
-//                            } else if (worksInfo.getTypeID() == Constants.POST_CARD_TYPE_ID) {
-//                                mPostCardList.add(worksInfo);
-//                            }
-//                        }
-//                        KLog.e(TAG, mPostCardList.size());
-//                        KLog.e(TAG, mLOMOCardList.size());
-//                        KLog.e(TAG, mArtBookList.size());
-//                        KLog.e(TAG, mMagazineList.size());
-
+                        mAdapter.notifyDataSetChanged();
+                        ViewUtils.dismiss();
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -117,6 +105,11 @@ public class MyWorksActivity extends ToolbarActivity<ActivityPersonalMyworksBind
 
         @Override
         public void onBindViewHolder(MyViewHolder holder, int position) {
+            WorksInfo worksInfo = mWorksInfoList.get(position);
+            holder.itemMyworksBinding.setWorksInfo(worksInfo);
+            holder.itemMyworksBinding.setShowHeader(isShowHeader(position));
+//            holder.itemMyworksBinding.setWorksInfo(worksInfo);
+//            holder.itemMyworksBinding.setShowHeader(isShowHeader(position));
 
         }
 
@@ -128,15 +121,22 @@ public class MyWorksActivity extends ToolbarActivity<ActivityPersonalMyworksBind
         public boolean isShowHeader(int positon) {
             if (positon == 0) {
                 return true;
-            }else {
-
+            } else {
+                WorksInfo currentWorksInfo = mWorksInfoList.get(positon);
+                WorksInfo previousWorkInfo = mWorksInfoList.get(positon - 1);
+                if (currentWorksInfo.getTypeID() != previousWorkInfo.getTypeID()) {
+                    return true;
+                }
             }
-              return  false;
+            return false;
         }
 
         class MyViewHolder extends RecyclerView.ViewHolder {
+            public ItemMyworksBinding itemMyworksBinding;
+
             public MyViewHolder(View itemView) {
                 super(itemView);
+                itemMyworksBinding = DataBindingUtil.bind(itemView);
             }
         }
     }

@@ -2,6 +2,16 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <variable
+            name="worksInfo"
+            type="com.MDGround.HaiLanPrint.models.WorksInfo"></variable>
+        <variable
+            name="showHeader"
+            type="boolean"></variable>
+
+        <import type="android.view.View"></import>
+    </data>
    <LinearLayout
        android:layout_width="match_parent"
        android:layout_height="wrap_content"
@@ -12,12 +22,14 @@
            android:layout_height="@dimen/size_44"
            android:gravity="center_vertical"
            android:paddingLeft="@dimen/margin_10"
+
            android:background="@color/color_white"
+           android:visibility="@{showHeader ? View.VISIBLE : View.GONE}"
            >
            <CheckBox
 
                style="@style/ClickableTextStyle"
-               android:text="@string/allSelect"
+               android:text="@{worksInfo.typeName}"
                android:layout_marginLeft="@dimen/margin_10"
                android:button="@drawable/selector_cb_bg_auto_login" />
 
@@ -46,6 +58,7 @@
             android:layout_gravity="center_vertical"
             android:layout_margin="@dimen/margin_6"
             android:scaleType="centerCrop"
+            app:loadImageByPhotoSID="@{worksInfo.photoCover}"
             tools:src="@drawable/bg_pic"/>
 
         <RelativeLayout
@@ -59,6 +72,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
                 android:textSize="@dimen/text_size_18"
+                android:text="@{worksInfo.typeName}"
                 tools:text="照片书"/>
 
             <TextView
