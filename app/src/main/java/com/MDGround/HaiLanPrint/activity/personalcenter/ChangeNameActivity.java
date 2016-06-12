@@ -42,7 +42,7 @@ public class ChangeNameActivity extends ToolbarActivity<ActivityChangeNameBindin
         tvRight.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String newName = mDataBinding.etName.getText().toString();
+                final String newName = mDataBinding.etName.getText().toString();
                 User user=MDGroundApplication.mLoginUser;
                 user.setUserNickName(newName);
                 if (!"".equals(newName)) {
@@ -51,7 +51,8 @@ public class ChangeNameActivity extends ToolbarActivity<ActivityChangeNameBindin
                         public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
                             KLog.e("kkkkk"+response.body());
                                 if(ResponseCode.isSuccess(response.body())){
-
+                                    MDGroundApplication.mLoginUser.setUserNickName(newName);
+                                     finish();
                                 }
                         }
                         @Override

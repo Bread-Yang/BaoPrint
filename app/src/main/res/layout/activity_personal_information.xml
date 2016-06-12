@@ -42,13 +42,15 @@
             style="@style/DividerHorizontalMarginSytle"/>
 
         <RelativeLayout
-            style="@style/FixHeightLayoutStyle">
+            style="@style/FixHeightLayoutStyle"
+            android:onClick="toChangeNameAction"
+            >
 
             <TextView
                 style="@style/NormalTextStyle"
                 android:layout_centerVertical="true"
                 android:text="@string/nickname"
-                android:onClick="toChangeNameAction"
+
                 android:textSize="@dimen/text_size_16"/>
 
             <TextView

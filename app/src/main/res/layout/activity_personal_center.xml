@@ -55,6 +55,7 @@
             android:gravity="center"
             android:orientation="horizontal">
             <TextView
+                android:id="@+id/tvCity"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:drawableLeft="@drawable/icon_place_percenter_mywork"
@@ -68,6 +69,7 @@
                 android:drawableLeft="@drawable/icon_tel_percenter_mywork"
                 android:gravity="center"
                 android:textSize="@dimen/text_size_14"
+                android:id="@+id/tvPhoneNume"
                 tools:text="广州天河区"/>
         </LinearLayout>
 
@@ -92,7 +94,6 @@
                     android:layout_weight="1"
                     android:gravity="center"
                     android:orientation="vertical"
-                    android:onClick="toMyWorksActivity"
                     app:ratio="0.5">
                     <ImageView
                         android:layout_width="wrap_content"

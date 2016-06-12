@@ -10,6 +10,7 @@ import com.MDGround.HaiLanPrint.activity.orders.MyOrdersActivity;
 import com.MDGround.HaiLanPrint.application.MDGroundApplication;
 import com.MDGround.HaiLanPrint.databinding.ActivityPersonalCenterBinding;
 import com.MDGround.HaiLanPrint.models.MDImage;
+import com.MDGround.HaiLanPrint.models.User;
 import com.MDGround.HaiLanPrint.utils.GlideUtil;
 
 /**
@@ -26,18 +27,31 @@ public class PersonalCenterActivity extends ToolbarActivity<ActivityPersonalCent
     @Override
     protected void initData() {
         // 用户头像
-        MDImage mdImage = new MDImage();
-        mdImage.setPhotoID(MDGroundApplication.mLoginUser.getPhotoID());
-        mdImage.setPhotoSID(MDGroundApplication.mLoginUser.getPhotoSID());
-        GlideUtil.loadImageByMDImage(mDataBinding.civAvatar, mdImage);
+//        MDImage mdImage = new MDImage();
+//        mdImage.setPhotoID(MDGroundApplication.mLoginUser.getPhotoID());
+//        mdImage.setPhotoSID(MDGroundApplication.mLoginUser.getPhotoSID());
+//        GlideUtil.loadImageByMDImage(mDataBinding.civAvatar, mdImage);
 
         // 用户名
-      mDataBinding.tvName.setText(MDGroundApplication.mLoginUser.getUserName());
+     // mDataBinding.tvName.setText(MDGroundApplication.mLoginUser.getUserName());
     }
 
     @Override
     protected void setListener() {
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        User user=MDGroundApplication.mLoginUser;
+        MDImage mdImage= new MDImage();;
+        mdImage.setPhotoID(user.getPhotoID());
+        mdImage.setPhotoSID(user.getPhotoSID());
+        GlideUtil.loadImageByMDImage(mDataBinding.civAvatar, mdImage);
+        mDataBinding.tvName.setText(user.getUserNickName());
+       mDataBinding.tvPhoneNume.setText(user.getPhone());
+        //mDataBinding.tvCity.setText(user.getChildSchool());//
     }
 
     //region ACTION

@@ -68,6 +68,18 @@ public class PersonalInformationActivity extends ToolbarActivity<ActivityPersona
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        User user=MDGroundApplication.mLoginUser;
+        mDataBinding.tvNickname.setText(user.getUserNickName());
+        MDImage mdImage= new MDImage();;
+        mdImage.setPhotoID(user.getPhotoID());
+        mdImage.setPhotoSID(user.getPhotoSID());
+        GlideUtil.loadImageByMDImage(mDataBinding.civAvatar, mdImage);
+
+    }
+
+    @Override
     protected void setListener() {
 
     }
