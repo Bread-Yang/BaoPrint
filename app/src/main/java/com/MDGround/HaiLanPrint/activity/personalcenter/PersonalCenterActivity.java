@@ -66,9 +66,10 @@ public class PersonalCenterActivity extends ToolbarActivity<ActivityPersonalCent
           Intent intent=new Intent(this,MyCreditActivity.class);
         startActivity(intent);
     }
-    public void toMyWorksActivity(View view){
-        Intent intent =new Intent(this,MyWorksActivity.class);
-        startActivity(intent);
-    }
+    //我的作品未完善
+//    public void toMyWorksActivity(View view){
+//        Intent intent =new Intent(this,MyWorksActivity.class);
+//        startActivity(intent);
+//    }
 
 }

@@ -295,4 +295,6 @@
     <string name="tatal">合计</string>
     <string name="yuan">元</string>
     <string name="buy">购买</string>
+    <string name="explain">昵称最长为8个汉字，或者16个数字，字母</string>
+    <string name="changeName">修改昵称</string>
 </resources>

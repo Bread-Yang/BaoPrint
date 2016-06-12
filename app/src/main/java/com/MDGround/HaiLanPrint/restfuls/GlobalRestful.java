@@ -417,6 +417,18 @@ public class GlobalRestful extends BaseRestful {
         asynchronousPost("GetUserWorkList", null, callback);
     }
 
+    //修改用户昵称
+    public void SaveUserInfo(User user, Callback<ResponseData> callback) {
+        JSONObject object = new JSONObject();
+        try {
+            String jsonString = convertObjectToString(user);
+            JSONObject jsonObject = new JSONObject(jsonString);
+            object.put("UserInfo", jsonObject);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        asynchronousPost("SaveUserInfo", object.toString(), callback);
+    }
 
 
 }
