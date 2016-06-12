@@ -4,15 +4,18 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 
 import com.MDGround.HaiLanPrint.R;
 import com.MDGround.HaiLanPrint.activity.base.ToolbarActivity;
 import com.MDGround.HaiLanPrint.application.MDGroundApplication;
 import com.MDGround.HaiLanPrint.databinding.ActivityPersonalInformationBinding;
+import com.MDGround.HaiLanPrint.enumobject.restfuls.ResponseCode;
 import com.MDGround.HaiLanPrint.models.MDImage;
 import com.MDGround.HaiLanPrint.models.User;
 import com.MDGround.HaiLanPrint.restfuls.FileRestful;
+import com.MDGround.HaiLanPrint.restfuls.GlobalRestful;
 import com.MDGround.HaiLanPrint.restfuls.bean.ResponseData;
 import com.MDGround.HaiLanPrint.utils.GlideUtil;
 import com.MDGround.HaiLanPrint.views.dialog.SelectSingleImageDialog;
@@ -42,7 +45,7 @@ public class PersonalInformationActivity extends ToolbarActivity<ActivityPersona
 
     @Override
     protected void initData() {
-        mSelectSingleImageDialog = new SelectSingleImageDialog(this);
+        mSelectSingleImageDialog = new SelectSingleImageDialog(PersonalInformationActivity.this);
 
         User user = MDGroundApplication.mLoginUser;
 
@@ -92,21 +95,43 @@ public class PersonalInformationActivity extends ToolbarActivity<ActivityPersona
         if (resultCode == RESULT_OK) {
             if (requestCode == SelectSingleImageDialog.PHOTO_REQUEST_GALLERY) {// 从相册返回的数据
                 Uri uri = data.getData();
-
                 String[] filePathColumn = {MediaStore.Images.Media.DATA};
-
                 Cursor cursor = getContentResolver().query(uri,
                         filePathColumn, null, null, null);
                 cursor.moveToFirst();
-
-                int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+                int columnIndex = cursor.getColumnIndexOrThrow(filePathColumn[0]);
                 String picturePath = cursor.getString(columnIndex);
-                KLog.e("picturePath : " + picturePath);
+                Log.d("picturePathss : " , picturePath);
+                //
+                File poto=new File(picturePath);
+                User userInfo=MDGroundApplication.mLoginUser;
+                int UserID=MDGroundApplication.mLoginUser.getUserID();
+                GlobalRestful.getInstance().SaveUserPhotos(UserID, poto, userInfo, null, new Callback<ResponseData>() {
+                    @Override
+                    public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
+                        if(ResponseCode.isSuccess(response.body())){
+                             String jsonStr=response.body().getContent();
+                             KLog.e("反回来的数据是"+jsonStr);
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<ResponseData> call, Throwable t) {
+
+                    }
+                });
             } else if (requestCode == SelectSingleImageDialog.PHOTO_REQUEST_CAREMA) {// 从相机返回的数据
                 Uri uri = data.getData();
                 String[] filePathColumn = {MediaStore.Images.Media.DATA};
+                Cursor cursor = getContentResolver().query(uri,
+                        filePathColumn, null, null, null);
+                cursor.moveToFirst();
+                int columnIndex = cursor.getColumnIndexOrThrow(filePathColumn[0]);
+                String picturePath = cursor.getString(columnIndex);
+                Log.d("picturePathss : " , picturePath);
             }
         }
+
     }
 
     //region ACTION

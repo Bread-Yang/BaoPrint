@@ -1,5 +1,8 @@
 package com.MDGround.HaiLanPrint.restfuls;
 
+import android.graphics.Bitmap;
+import android.util.Base64;
+
 import com.MDGround.HaiLanPrint.ProductType;
 import com.MDGround.HaiLanPrint.application.MDGroundApplication;
 import com.MDGround.HaiLanPrint.constants.Constants;
@@ -13,14 +16,21 @@ import com.MDGround.HaiLanPrint.models.OrderWorkPhoto;
 import com.MDGround.HaiLanPrint.models.User;
 import com.MDGround.HaiLanPrint.models.WorkInfo;
 import com.MDGround.HaiLanPrint.models.WorkPhoto;
+import com.MDGround.HaiLanPrint.restfuls.Interceptor.ProgressRequestBody;
 import com.MDGround.HaiLanPrint.restfuls.bean.Device;
 import com.MDGround.HaiLanPrint.restfuls.bean.ResponseData;
 import com.MDGround.HaiLanPrint.utils.DeviceUtil;
+import com.MDGround.HaiLanPrint.utils.ViewUtils;
+import com.socks.library.KLog;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -411,8 +421,48 @@ public class GlobalRestful extends BaseRestful {
     public void GetUserIntegralInfo(Callback<ResponseData> callback) {
         asynchronousPost("GetUserIntegralInfo", null, callback);
     }
+
     //获取我的作品列表接口
-    public void GetUserWorkList(Callback<ResponseData> callback){
-        asynchronousPost("GetUserWorkList",null,callback);
+    public void GetUserWorkList(Callback<ResponseData> callback) {
+        asynchronousPost("GetUserWorkList", null, callback);
+    }
+
+
+    //上传头像的接口
+    public void SaveUserPhotos(final int UserID, final File photo, final User userInfo, final ProgressRequestBody.UploadCallbacks uploadCallbacks,
+                               final Callback<ResponseData> callback) {
+        if (photo == null) {
+            KLog.e("photo是空");
+            return;
+        }
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                long fileSize = photo.length();
+                Bitmap bitmap = ViewUtils.getSmallBitmap(photo.getPath());
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 50, baos);
+                String dataStr = Base64.encodeToString(baos.toByteArray(), Base64.DEFAULT);
+                String fileName = photo.getName();
+                try {
+                    dataStr = URLEncoder.encode(dataStr, "UTF-8");
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
+                JSONObject obj = new JSONObject();
+                try {
+                    obj.put("UserID", UserID);
+                    obj.put("PhotoData ", dataStr);
+                    String jsonString = convertObjectToString(userInfo);
+                    JSONObject jsonObject = new JSONObject(jsonString);
+                    obj.put("UserInfo", jsonObject);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+               uploadImagePost("SaveUserPhotos ",obj.toString(),uploadCallbacks,callback);
+            }
+        }
+
+        ).start();
     }
 }

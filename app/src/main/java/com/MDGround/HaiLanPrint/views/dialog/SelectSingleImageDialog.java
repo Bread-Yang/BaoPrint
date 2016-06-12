@@ -85,9 +85,9 @@ public class SelectSingleImageDialog extends Dialog {
         dismiss();
         Intent intent = new Intent(Intent.ACTION_GET_CONTENT, null);
         intent.setType("image/*");
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, mImageUri);
+    //    intent.putExtra(MediaStore.EXTRA_OUTPUT, mImageUri);
         mActivity.startActivityForResult(intent, PHOTO_REQUEST_GALLERY);
-    }
+}
 
     /*
 	 * 从相机获取
