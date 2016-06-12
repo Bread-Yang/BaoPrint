@@ -6,6 +6,7 @@ import android.util.Base64;
 import com.MDGround.HaiLanPrint.constants.Constants;
 import com.MDGround.HaiLanPrint.enumobject.UploadType;
 import com.MDGround.HaiLanPrint.enumobject.restfuls.BusinessType;
+import com.MDGround.HaiLanPrint.models.User;
 import com.MDGround.HaiLanPrint.restfuls.Interceptor.ProgressRequestBody;
 import com.MDGround.HaiLanPrint.restfuls.bean.ResponseData;
 import com.MDGround.HaiLanPrint.utils.ViewUtils;
@@ -124,6 +125,44 @@ public class FileRestful extends BaseRestful {
                 uploadImagePost("UploadCloudPhoto", obj.toString(), null, callback);
             }
         }).start();
+    }
+    //上传头像的接口
+    public void SaveUserPhoto(final int UserID, final File photo, final User userInfo, final ProgressRequestBody.UploadCallbacks uploadCallbacks,
+                               final Callback<ResponseData> callback) {
+        if (photo == null) {
+            KLog.e("photo是空");
+            return;
+        }
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                long fileSize = photo.length();
+                Bitmap bitmap = ViewUtils.getSmallBitmap(photo.getPath());
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 50, baos);
+                String dataStr = Base64.encodeToString(baos.toByteArray(), Base64.DEFAULT);
+                try {
+                    dataStr = URLEncoder.encode(dataStr, "UTF-8");
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
+                JSONObject obj = new JSONObject();
+                try {
+                    obj.put("UserID", UserID);
+                    obj.put("PhotoData", dataStr);
+                    String jsonString = convertObjectToString(userInfo);
+                    KLog.e("userInfo是   "+jsonString);
+                    JSONObject jsonObject = new JSONObject(jsonString);
+                    obj.put("UserInfo", jsonObject);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                KLog.e("上传的JSON"+obj.toString());
+                uploadImagePost("SaveUserPhoto ",obj.toString(),uploadCallbacks,callback);
+            }
+        }
+
+        ).start();
     }
 }
 
