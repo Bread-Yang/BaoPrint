@@ -10,6 +10,7 @@ import android.widget.RadioGroup;
 
 import com.MDGround.HaiLanPrint.R;
 import com.MDGround.HaiLanPrint.activity.base.ToolbarActivity;
+import com.MDGround.HaiLanPrint.application.MDGroundApplication;
 import com.MDGround.HaiLanPrint.databinding.ActivityPrintPhotoChoosePaperNumBinding;
 import com.MDGround.HaiLanPrint.databinding.ItemPrintPhotoChoosePagerNumBinding;
 import com.MDGround.HaiLanPrint.enumobject.ProductMaterial;
@@ -76,7 +77,7 @@ public class PrintPhotoChoosePaperNumActivity extends ToolbarActivity<ActivityPr
             workMaterial = ProductMaterial.PrintPhoto_Matte.getText();
         }
 
-        OrderUtils orderUtils = new OrderUtils(this, workMaterial);
+        OrderUtils orderUtils = new OrderUtils(this, MDGroundApplication.mChoosedMeasurement.getPrice(), workMaterial);
         orderUtils.uploadImageRequest(0);
     }
     //endregion

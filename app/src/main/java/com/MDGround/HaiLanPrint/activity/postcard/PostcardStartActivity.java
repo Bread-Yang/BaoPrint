@@ -42,11 +42,6 @@ public class PostcardStartActivity extends ToolbarActivity<ActivityPostcardStart
 
     @Override
     protected void initData() {
-        getSpecificationRequest();
-    }
-
-    @Override
-    protected void setListener() {
         for (PhotoTypeExplain photoTypeExplain : mPhotoTypeExplainArrayList) {
             if (photoTypeExplain.getExplainType() == PhotoExplainTypeEnum.IntroductionPage.value()
                     && photoTypeExplain.getTypeID() == ProductType.Postcard.value()) {
@@ -54,12 +49,17 @@ public class PostcardStartActivity extends ToolbarActivity<ActivityPostcardStart
                 MDImage mdImage = new MDImage();
                 mdImage.setPhotoSID(photoTypeExplain.getPhotoSID());
 
-//                GlideUtil.loadImageByPhotoSID(mDataBinding.ivBanner, photoTypeExplain.getPhotoSID());
-
                 Glide.with(this).load(mdImage).into(mDataBinding.ivIntroductionPage);
                 break;
             }
         }
+
+        getSpecificationRequest();
+    }
+
+    @Override
+    protected void setListener() {
+
     }
 
     //region ACTION

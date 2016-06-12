@@ -1,15 +1,16 @@
-package com.MDGround.HaiLanPrint.activity.pictureframe;
+package com.MDGround.HaiLanPrint.activity.phoneshell;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.view.View;
+import android.widget.SeekBar;
 
 import com.MDGround.HaiLanPrint.R;
 import com.MDGround.HaiLanPrint.activity.base.ToolbarActivity;
 import com.MDGround.HaiLanPrint.activity.selectimage.SelectAlbumWhenEditActivity;
 import com.MDGround.HaiLanPrint.application.MDGroundApplication;
 import com.MDGround.HaiLanPrint.constants.Constants;
-import com.MDGround.HaiLanPrint.databinding.ActivityPictureFrameEditBinding;
+import com.MDGround.HaiLanPrint.databinding.ActivityPhoneShellEditBinding;
 import com.MDGround.HaiLanPrint.models.MDImage;
 import com.MDGround.HaiLanPrint.utils.OrderUtils;
 import com.MDGround.HaiLanPrint.utils.SelectImageUtil;
@@ -22,21 +23,16 @@ import com.bumptech.glide.request.target.SimpleTarget;
 /**
  * Created by yoghourt on 5/18/16.
  */
-public class PictureFrameEditActivity extends ToolbarActivity<ActivityPictureFrameEditBinding> {
+public class PhoneShellEditActivity extends ToolbarActivity<ActivityPhoneShellEditBinding> {
 
     @Override
     protected int getContentLayout() {
-        return R.layout.activity_picture_frame_edit;
+        return R.layout.activity_phone_shell_edit;
     }
 
     @Override
     protected void initData() {
-        MDGroundApplication.mChoosedTemplate.setPageCount(1);
-
-        mDataBinding.setTemplate(MDGroundApplication.mChoosedTemplate);
-
         showImageToGPUImageView();
-
     }
 
     @Override
@@ -44,19 +40,42 @@ public class PictureFrameEditActivity extends ToolbarActivity<ActivityPictureFra
         mDataBinding.bgiImage.setOnSingleTouchListener(new BaoGPUImage.OnSingleTouchListener() {
             @Override
             public void onSingleTouch() {
-                Intent intent = new Intent(PictureFrameEditActivity.this, SelectAlbumWhenEditActivity.class);
+                Intent intent = new Intent(PhoneShellEditActivity.this, SelectAlbumWhenEditActivity.class);
                 startActivityForResult(intent, 0);
+            }
+        });
+
+        mDataBinding.seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+
+                mDataBinding.tvPercent.setText(getString(R.string.percent, progress) + "%");
+
+                mDataBinding.bgiImage.mBrightnessFilter.setBrightness(progress / 100f);
+                mDataBinding.bgiImage.requestRender();
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
             }
         });
     }
 
     private void showImageToGPUImageView() {
         if (SelectImageUtil.mTemplateImage.size() > 0) {
-            // 模版图片加载
-            Glide.with(MDGroundApplication.mInstance)
-                    .load(SelectImageUtil.mTemplateImage.get(0))
-                    .dontAnimate()
-                    .into(mDataBinding.ivTemplate);
+            if (SelectImageUtil.mTemplateImage.size() > 0) {
+                // 模版图片加载
+                Glide.with(MDGroundApplication.mInstance)
+                        .load(SelectImageUtil.mTemplateImage.get(0))
+                        .dontAnimate()
+                        .into(mDataBinding.ivTemplate);
+            }
         }
 
         // 用户选择的图片加载
@@ -85,26 +104,12 @@ public class PictureFrameEditActivity extends ToolbarActivity<ActivityPictureFra
     }
 
     //region ACTION
-    public void minusNumAction(View view) {
-        int photoCount = MDGroundApplication.mChoosedTemplate.getPageCount();
-
-        if (photoCount == 1) {
-            return;
-        }
-
-        MDGroundApplication.mChoosedTemplate.setPageCount(--photoCount);
-    }
-
-    public void addNumAction(View view) {
-        int photoCount = MDGroundApplication.mChoosedTemplate.getPageCount();
-
-        MDGroundApplication.mChoosedTemplate.setPageCount(++photoCount);
-    }
-
-    public void purchaseAction(View view) {
+    public void nextStepAction(View view) {
         ViewUtils.loading(this);
+
         OrderUtils orderUtils = new OrderUtils(this, MDGroundApplication.mChoosedTemplate.getPrice(), null);
         orderUtils.saveOrderRequest();
     }
     //endregion
+
 }

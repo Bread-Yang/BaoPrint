@@ -46,7 +46,7 @@ public class GlideUtil {
             Glide.with(MDGroundApplication.mInstance)
                     .load(mdImage)
                     .diskCacheStrategy(DiskCacheStrategy.SOURCE)
-                    .centerCrop()
+//                    .centerCrop()
                     .thumbnail(0.1f)
                     .placeholder(R.drawable.layerlist_image_placeholder)
                     .error(R.drawable.layerlist_image_placeholder)

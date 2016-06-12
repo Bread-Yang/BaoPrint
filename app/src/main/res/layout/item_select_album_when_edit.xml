@@ -7,19 +7,19 @@
     <data>
 
         <variable
-            name="handlers"
-            type="com.MDGround.HaiLanPrint.activity.cloudphotos.CloudOverviewActivity.BindingHandler"/>
+            name="album"
+            type="com.MDGround.HaiLanPrint.models.Album"/>
 
         <variable
-            name="image"
-            type="com.MDGround.HaiLanPrint.models.MDImage"/>
+            name="viewHolder"
+            type="com.MDGround.HaiLanPrint.activity.selectimage.SelectAlbumWhenEditActivity.AlbumAdapter.ViewHolder"/>
     </data>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
-        android:onClick="@{handlers::toCloudDetailActivityAction}"
+        android:onClick="@{viewHolder::toSelectImageActivityAction}"
         android:orientation="horizontal"
         android:paddingBottom="@dimen/margin_8"
         android:paddingLeft="@dimen/margin_8"
@@ -37,7 +37,7 @@
                 android:layout_height="@dimen/album_size"
                 android:layout_centerInParent="true"
                 android:scaleType="centerCrop"
-                app:loadImageByMDImage="@{image}"
+                app:loadImageByMDImage="@{album.images[0]}"
                 tools:src="@drawable/ic_placeholder"/>
         </RelativeLayout>
 
@@ -52,14 +52,14 @@
                 android:id="@+id/tvAlbumName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{image.shared ? @string/share_album : @string/personal_album}"
+                android:text="@{album.name}"
                 tools:text="所有图片"/>
 
             <TextView
                 android:id="@+id/tvImageCount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{@string/image_num(image.PhotoCount)}"
+                android:text="@{@string/image_num(album.imageNum)}"
                 tools:text="12 张"/>
         </LinearLayout>
 
@@ -67,5 +67,4 @@
             android:id="@+id/ivArrow"
             style="@style/ArrowIconStyle"/>
     </LinearLayout>
-
 </layout>

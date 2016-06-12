@@ -82,11 +82,19 @@
             android:label="@string/select_photos_upload"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".activity.selectimage.SelectAlbumActivity"
+            android:name=".activity.selectimage.SelectAlbumBeforeEditActivity"
             android:label="@string/choose_photo"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".activity.selectimage.SelectImageActivity"
+            android:name=".activity.selectimage.SelectImageBeforeEditActivity"
+            android:label="@string/choose_photo"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activity.selectimage.SelectAlbumWhenEditActivity"
+            android:label="@string/choose_photo"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activity.selectimage.SelectImageWhenEditActivity"
             android:label="@string/choose_photo"
             android:screenOrientation="portrait"/>
 
@@ -154,12 +162,20 @@
             android:label="@string/select_phone_model"
             android:screenOrientation="portrait"/>
         <activity
+            android:name=".activity.phoneshell.PhoneShellEditActivity"
+            android:label="@string/edit"
+            android:screenOrientation="portrait"/>
+        <activity
             android:name=".activity.poker.PokerChooseInchActivity"
             android:label="@string/poker"
             android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.puzzle.PuzzleStartActivity"
             android:label="@string/puzzle"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activity.puzzle.PuzzleEditActivity"
+            android:label="@string/edit"
             android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.magiccup.MagicCupChooseColorActivity"

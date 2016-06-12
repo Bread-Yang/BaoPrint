@@ -14,8 +14,8 @@ import com.MDGround.HaiLanPrint.activity.base.ToolbarActivity;
 import com.MDGround.HaiLanPrint.adapter.SelectedImageAdapter;
 import com.MDGround.HaiLanPrint.application.MDGroundApplication;
 import com.MDGround.HaiLanPrint.constants.Constants;
-import com.MDGround.HaiLanPrint.databinding.ActivitySelectAlbumBinding;
-import com.MDGround.HaiLanPrint.databinding.ItemSelectAlbumBinding;
+import com.MDGround.HaiLanPrint.databinding.ActivitySelectAlbumBeforeEditBinding;
+import com.MDGround.HaiLanPrint.databinding.ItemSelectAlbumBeforeEditBinding;
 import com.MDGround.HaiLanPrint.enumobject.restfuls.ResponseCode;
 import com.MDGround.HaiLanPrint.models.Album;
 import com.MDGround.HaiLanPrint.models.MDImage;
@@ -39,7 +39,7 @@ import retrofit2.Response;
 /**
  * Created by yoghourt on 5/11/16.
  */
-public class SelectAlbumActivity extends ToolbarActivity<ActivitySelectAlbumBinding> {
+public class SelectAlbumBeforeEditActivity extends ToolbarActivity<ActivitySelectAlbumBeforeEditBinding> {
 
     private int mMaxSelectImageNum = 0;
 
@@ -51,7 +51,7 @@ public class SelectAlbumActivity extends ToolbarActivity<ActivitySelectAlbumBind
 
     @Override
     protected int getContentLayout() {
-        return R.layout.activity_select_album;
+        return R.layout.activity_select_album_before_edit;
     }
 
     @Override
@@ -62,8 +62,6 @@ public class SelectAlbumActivity extends ToolbarActivity<ActivitySelectAlbumBind
 
     @Override
     protected void initData() {
-        SelectImageUtil.mAlreadySelectImage.clear(); // 清空之前选中的图片
-
         // 相册
         LinearLayoutManager albumLayoutManager = new LinearLayoutManager(this);
         albumLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -84,7 +82,7 @@ public class SelectAlbumActivity extends ToolbarActivity<ActivitySelectAlbumBind
 //        SpannableString spannable = new SpannableString(text);
 //        spannable.setSpan(new ForegroundColorSpan(colorBlue), 0, text.length(), 0);
 
-        new LocalMediaLoader(SelectAlbumActivity.this, LocalMediaLoader.TYPE_IMAGE).loadAllImage(new LocalMediaLoader.LocalMediaLoadListener() {
+        new LocalMediaLoader(SelectAlbumBeforeEditActivity.this, LocalMediaLoader.TYPE_IMAGE).loadAllImage(new LocalMediaLoader.LocalMediaLoadListener() {
 
             @Override
             public void loadComplete(List<Album> albums) {
@@ -96,11 +94,12 @@ public class SelectAlbumActivity extends ToolbarActivity<ActivitySelectAlbumBind
                     case MagazineAlbum:
                     case ArtAlbum:
                     case Calendar:
-                        mMaxSelectImageNum = MDGroundApplication.mChoosedTemplate.getPageCount();
-                        changeTips();
-                        break;
+//                        mMaxSelectImageNum = MDGroundApplication.mChoosedTemplate.getPageCount();
+//                        changeTips();
+//                        break;
                     case Postcard:
                     case Poker:
+                    case Puzzle:
                     case MagicCup:
                     case LOMOCard:
                         getPhotoTemplateListRequest();  // 模版图片
@@ -238,7 +237,7 @@ public class SelectAlbumActivity extends ToolbarActivity<ActivitySelectAlbumBind
 
         @Override
         public AlbumAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_select_album, parent, false);
+            View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_select_album_before_edit, parent, false);
             AlbumAdapter.ViewHolder holder = new AlbumAdapter.ViewHolder(itemView);
             return holder;
         }
@@ -258,7 +257,7 @@ public class SelectAlbumActivity extends ToolbarActivity<ActivitySelectAlbumBind
 
         public class ViewHolder extends RecyclerView.ViewHolder {
 
-            private ItemSelectAlbumBinding viewDataBinding;
+            private ItemSelectAlbumBeforeEditBinding viewDataBinding;
 
             public ViewHolder(View itemView) {
                 super(itemView);
@@ -268,7 +267,7 @@ public class SelectAlbumActivity extends ToolbarActivity<ActivitySelectAlbumBind
             public void toSelectImageActivityAction(View view) {
                 Album album = mAlbumsList.get(getAdapterPosition());
 
-                Intent intent = new Intent(SelectAlbumActivity.this, SelectImageActivity.class);
+                Intent intent = new Intent(SelectAlbumBeforeEditActivity.this, SelectImageBeforeEditActivity.class);
                 intent.putExtra(Constants.KEY_ALBUM, album);
                 intent.putExtra(Constants.KEY_MAX_IMAGE_NUM, mMaxSelectImageNum);
                 startActivity(intent);

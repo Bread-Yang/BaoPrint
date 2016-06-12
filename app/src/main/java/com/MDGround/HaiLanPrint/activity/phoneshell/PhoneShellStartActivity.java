@@ -133,6 +133,8 @@ public class PhoneShellStartActivity extends ToolbarActivity<ActivityPhoneShellS
                             if (templateList.size() > 0) {
                                 Template template = templateList.get(0);
 
+                                MDGroundApplication.mChoosedTemplate = template;
+
                                 mDataBinding.tvPhoneModel.setText(measurement.getTitle() + "-" + template.getTemplateName());
                                 mDataBinding.tvPrice.setText(StringUtil.toYuanWithUnit(template.getPrice()));
                             }

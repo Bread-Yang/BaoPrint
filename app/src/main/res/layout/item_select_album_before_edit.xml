@@ -12,7 +12,7 @@
 
         <variable
             name="viewHolder"
-            type="com.MDGround.HaiLanPrint.activity.selectimage.SelectAlbumActivity.AlbumAdapter.ViewHolder"/>
+            type="com.MDGround.HaiLanPrint.activity.selectimage.SelectAlbumBeforeEditActivity.AlbumAdapter.ViewHolder"/>
     </data>
 
     <LinearLayout
@@ -36,6 +36,7 @@
                 android:layout_width="@dimen/album_size"
                 android:layout_height="@dimen/album_size"
                 android:layout_centerInParent="true"
+                android:scaleType="centerCrop"
                 app:loadImageByMDImage="@{album.images[0]}"
                 tools:src="@drawable/ic_placeholder"/>
         </RelativeLayout>

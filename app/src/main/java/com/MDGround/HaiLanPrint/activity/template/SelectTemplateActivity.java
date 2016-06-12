@@ -15,6 +15,7 @@ import com.MDGround.HaiLanPrint.activity.base.ToolbarActivity;
 import com.MDGround.HaiLanPrint.application.MDGroundApplication;
 import com.MDGround.HaiLanPrint.databinding.ActivitySelectTemplateBinding;
 import com.MDGround.HaiLanPrint.databinding.ItemSelectTemplateBinding;
+import com.MDGround.HaiLanPrint.enumobject.restfuls.ResponseCode;
 import com.MDGround.HaiLanPrint.models.MDImage;
 import com.MDGround.HaiLanPrint.models.Template;
 import com.MDGround.HaiLanPrint.restfuls.GlobalRestful;
@@ -71,7 +72,12 @@ public class SelectTemplateActivity extends ToolbarActivity<ActivitySelectTempla
         mAdapter = new SelectTemplateAdapter();
         mDataBinding.recyclerView.setAdapter(mAdapter);
 
-        getPhotoTemplateListByTypeRequest();
+        if (MDGroundApplication.mChoosedProductType == ProductType.PictureFrame) {
+            getPhotoTemplateListByTypeRequest();
+        } else {
+            getPhotoTemplateListRequest();
+        }
+
     }
 
     @Override
@@ -111,7 +117,7 @@ public class SelectTemplateActivity extends ToolbarActivity<ActivitySelectTempla
         GlobalRestful.getInstance().GetPhotoTemplateListByType(MDGroundApplication.mChoosedProductType, new Callback<ResponseData>() {
             @Override
             public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
-                mAllTemplateArrayList = response.body().getContent(new TypeToken<ArrayList<com.MDGround.HaiLanPrint.models.Template>>() {
+                mAllTemplateArrayList = response.body().getContent(new TypeToken<ArrayList<Template>>() {
                 });
 
                 mShowTemplateArrayList.addAll(mAllTemplateArrayList);
@@ -124,6 +130,30 @@ public class SelectTemplateActivity extends ToolbarActivity<ActivitySelectTempla
 
             }
         });
+    }
+
+    private void getPhotoTemplateListRequest() {
+        ViewUtils.loading(this);
+        GlobalRestful.getInstance().GetPhotoTemplateList(MDGroundApplication.mChoosedMeasurement.getTypeDescID(),
+                new Callback<ResponseData>() {
+                    @Override
+                    public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
+                        ViewUtils.dismiss();
+                        if (ResponseCode.isSuccess(response.body())) {
+                            mAllTemplateArrayList = response.body().getContent(new TypeToken<ArrayList<Template>>() {
+                            });
+
+                            mShowTemplateArrayList.addAll(mAllTemplateArrayList);
+
+                            mAdapter.notifyDataSetChanged();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<ResponseData> call, Throwable t) {
+                        ViewUtils.dismiss();
+                    }
+                });
     }
     //endregion
 
@@ -182,6 +212,7 @@ public class SelectTemplateActivity extends ToolbarActivity<ActivitySelectTempla
 
                 switch (MDGroundApplication.mChoosedProductType) {
                     case MagazineAlbum:
+                    case ArtAlbum:
                     case Calendar:
                         Intent intent = new Intent(SelectTemplateActivity.this, TemplateStartCreateActivity.class);
                         startActivity(intent);

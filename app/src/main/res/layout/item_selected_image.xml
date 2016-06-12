@@ -23,6 +23,7 @@
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:layout_margin="@dimen/margin_8"
+            android:scaleType="centerCrop"
             app:loadImageByMDImage="@{image}"/>
 
         <ImageView

@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 import android.util.Base64;
 
 import com.MDGround.HaiLanPrint.constants.Constants;
+import com.MDGround.HaiLanPrint.enumobject.UploadType;
 import com.MDGround.HaiLanPrint.enumobject.restfuls.BusinessType;
 import com.MDGround.HaiLanPrint.models.User;
 import com.MDGround.HaiLanPrint.restfuls.Interceptor.ProgressRequestBody;
@@ -50,6 +51,18 @@ public class FileRestful extends BaseRestful {
         return mIntance;
     }
 
+    private String bitmapToString(Bitmap bitmap) {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 50, baos);
+        String dataStr = Base64.encodeToString(baos.toByteArray(), Base64.DEFAULT);
+        try {
+            dataStr = URLEncoder.encode(dataStr, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        return dataStr;
+    }
+
     // 获取图片
     public ResponseData GetPhoto(int PhotoID) {
         JSONObject obj = new JSONObject();
@@ -62,7 +75,7 @@ public class FileRestful extends BaseRestful {
         return synchronousPost("GetPhoto", obj.toString());
     }
 
-    // 上传图片
+    // 上传图片到云相册
     public void UploadCloudPhoto(final boolean isShare, final File photo,
                                  final ProgressRequestBody.UploadCallbacks uploadCallbacks,
                                  final Callback<ResponseData> callback) {
@@ -74,68 +87,42 @@ public class FileRestful extends BaseRestful {
         new Thread(new Runnable() {
             @Override
             public void run() {
-
-                long fileSize = photo.length();
-
-//        byte[] buffer = null;
-//        FileInputStream in = null;
-//        try {
-//            // 一次读多个字节
-//            in = new FileInputStream(photo);
-//            buffer = new byte[(int) fileSize];
-//            int offset = 0;
-//            int numRead = 0;
-//
-//            while (offset < buffer.length && (numRead = in.read(buffer, offset, buffer.length - offset)) >= 0) {
-//                offset += numRead;
-//            }
-//            // 确保所有数据均被读取
-//            if (offset != buffer.length) {
-//                throw new IOException("Could not completely read uploadFile " + photo.getName());
-//            }
-//        } catch (FileNotFoundException e) {
-//            e.printStackTrace();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        } finally {
-//            if (in != null) {
-//                try {
-//                    in.close();
-//                } catch (IOException e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//        }
-//
-//        if (buffer == null || buffer.length == 0) {
-//            KLog.e("读取图片失败");
-//            return;
-//        }
-//                String dataStr = Base64.encodeToString(buffer, Base64.DEFAULT);
-
                 Bitmap bitmap = ViewUtils.getSmallBitmap(photo.getPath());
-                ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                bitmap.compress(Bitmap.CompressFormat.JPEG, 50, baos);
-                String dataStr = Base64.encodeToString(baos.toByteArray(), Base64.DEFAULT);
-
+                String photoData = bitmapToString(bitmap);
                 String fileName = photo.getName();
-
-                try {
-                    dataStr = URLEncoder.encode(dataStr, "UTF-8");
-                } catch (UnsupportedEncodingException e) {
-                    e.printStackTrace();
-                }
 
                 JSONObject obj = new JSONObject();
                 try {
                     obj.put("Shared", isShare);
-                    obj.put("PhotoData", dataStr);
+                    obj.put("PhotoData", photoData);
                     obj.put("FileName", fileName);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
 
                 uploadImagePost("UploadCloudPhoto", obj.toString(), uploadCallbacks, callback);
+            }
+        }).start();
+    }
+
+    // 上传照片使用接口(云相册除外）
+    public void UploadPhoto(final UploadType uploadType,
+                            final Bitmap bitmap,
+                            final Callback<ResponseData> callback) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                String photoData = bitmapToString(bitmap);
+
+                JSONObject obj = new JSONObject();
+                try {
+                    obj.put("UploadType", uploadType.value());
+                    obj.put("PhotoData", photoData);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                uploadImagePost("UploadCloudPhoto", obj.toString(), null, callback);
             }
         }).start();
     }

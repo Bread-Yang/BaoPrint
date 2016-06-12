@@ -1,7 +1,6 @@
 package com.MDGround.HaiLanPrint.utils;
 
 import android.app.Activity;
-import android.support.annotation.NonNull;
 
 import com.MDGround.HaiLanPrint.ProductType;
 import com.MDGround.HaiLanPrint.application.MDGroundApplication;
@@ -32,10 +31,13 @@ public class OrderUtils {
 
     private Activity mActivity;
 
+    private int mPrice;
+
     private String mWorkMaterial = "";
 
-    public OrderUtils(Activity activity, @NonNull String workMaterial) {
+    public OrderUtils(Activity activity, int price, String workMaterial) {
         this.mActivity = activity;
+        mPrice = price;
         if (workMaterial != null) {
             this.mWorkMaterial = workMaterial;
         }
@@ -154,7 +156,6 @@ public class OrderUtils {
         });
     }
 
-
     public void saveOrderRequest() {
         GlobalRestful.getInstance().SaveOrder(0, new Callback<ResponseData>() {
             @Override
@@ -182,8 +183,8 @@ public class OrderUtils {
         orderWork.setOrderID(orderID);
         orderWork.setPhotoCount(SelectImageUtil.mAlreadySelectImage.size());
         orderWork.setPhotoCover(SelectImageUtil.mAlreadySelectImage.get(0).getPhotoSID()); //封面，第一张照片的缩略图ID
-        orderWork.setPrice(MDGroundApplication.mChoosedMeasurement.getPrice());
-        orderWork.setTypeID(MDGroundApplication.mChoosedMeasurement.getTypeID()); //作品类型（getPhotoType接口返回的TypeID）
+        orderWork.setPrice(mPrice);
+        orderWork.setTypeID(MDGroundApplication.mChoosedProductType.value()); //作品类型（getPhotoType接口返回的TypeID）
         orderWork.setTypeName(ProductType.getProductName(MDGroundApplication.mChoosedProductType)); //Title（getPhotoType接口返回的Title）
         orderWork.setWorkMaterial(mWorkMaterial);
 

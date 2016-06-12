@@ -14,6 +14,7 @@
     <string name="network_unavailable">网络不可用,确保wifi或者移动网络是否已经打开</string>
     <string name="request_timeout">请求超时</string>
     <string name="request_fail">请求失败</string>
+    <string name="not_add_image">第%d页还没有添加照片,是否继续下一步?</string>
 
     <!-- 登录 -->
     <string name="login">登录</string>

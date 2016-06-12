@@ -6,14 +6,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.MDGround.HaiLanPrint.BR;
 import com.MDGround.HaiLanPrint.R;
 import com.MDGround.HaiLanPrint.databinding.ItemTemplateImageBinding;
 import com.MDGround.HaiLanPrint.models.MDImage;
-import com.MDGround.HaiLanPrint.utils.SelectImageUtil;
 import com.socks.library.KLog;
 
-import static com.MDGround.HaiLanPrint.utils.SelectImageUtil.mAlreadySelectImage;
+import static com.MDGround.HaiLanPrint.utils.SelectImageUtil.mTemplateImage;
 
 /**
  * Created by yoghourt on 5/17/16.
@@ -36,13 +34,13 @@ public class TemplageImageAdapter extends RecyclerView.Adapter<TemplageImageAdap
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        holder.viewDataBinding.setVariable(BR.image, mAlreadySelectImage.get(position));
-        holder.viewDataBinding.setVariable(BR.viewHolder, holder);
+        holder.viewDataBinding.setImage(mTemplateImage.get(position));
+        holder.viewDataBinding.setViewHolder(holder);
     }
 
     @Override
     public int getItemCount() {
-        return mAlreadySelectImage.size();
+        return mTemplateImage.size();
     }
 
     public TemplageImageAdapter.onSelectImageLisenter getOnSelectImageLisenter() {
@@ -67,8 +65,8 @@ public class TemplageImageAdapter extends RecyclerView.Adapter<TemplageImageAdap
 
             KLog.e("position : " + position);
 
-            if (position < mAlreadySelectImage.size()) {
-                MDImage mdImage = SelectImageUtil.mAlreadySelectImage.get(position);
+            if (position < mTemplateImage.size()) {
+                MDImage mdImage = mTemplateImage.get(position);
 
                 if (onSelectImageLisenter != null) {
                     onSelectImageLisenter.selectImage(position, mdImage);
