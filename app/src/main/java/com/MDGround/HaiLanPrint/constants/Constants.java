@@ -27,6 +27,7 @@ public final class Constants {
     public static final String KEY_NEW_USER = "key_new_user";
     public static final String KEY_PHONE = "key_phone";
     public static final String KEY_CLOUD_IMAGE = "key_cloud_image";
+    public static final String KEY_SELECT_IMAGE = "key_select_image";
     public static final String KEY_ALBUM = "key_album";
     public static final String KEY_DELIVERY_ADDRESS = "key_delivery_address";
     public static final String KEY_MAX_IMAGE_NUM = "key_max_image_num";
@@ -36,7 +37,7 @@ public final class Constants {
 
     public static int ITEM_LEFT_TO_LOAD_MORE = 3;
 
-    public static int PRINT_PHOTO_MAX_SELECT_IMAGE_NUM = 10; // 冲印相片最多选择10张
+    public static int PRINT_PHOTO_MAX_SELECT_IMAGE_NUM = 100; // 冲印相片最多选择10张
     public static int PICTURE_FRAME_MAX_SELECT_IMAGE_NUM = 1; // 相框
     public static int MAGIC_CUP_MAX_SELECT_IMAGE_NUM = 1; // 魔术杯最多选择一张
     public static int PUZZLEL_MAX_SELECT_IMAGE_NUM = 1; // 拼图最多选择一张

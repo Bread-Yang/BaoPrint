@@ -10,7 +10,7 @@ import com.MDGround.HaiLanPrint.activity.base.ToolbarActivity;
 import com.MDGround.HaiLanPrint.adapter.ChooseImageListAdapter;
 import com.MDGround.HaiLanPrint.adapter.SelectedImageAdapter;
 import com.MDGround.HaiLanPrint.constants.Constants;
-import com.MDGround.HaiLanPrint.databinding.ActivitySelectImageBinding;
+import com.MDGround.HaiLanPrint.databinding.ActivitySelectImageBeforeEditBinding;
 import com.MDGround.HaiLanPrint.models.Album;
 import com.MDGround.HaiLanPrint.models.MDImage;
 import com.MDGround.HaiLanPrint.restfuls.GlobalRestful;
@@ -33,7 +33,7 @@ import retrofit2.Response;
 /**
  * Created by yoghourt on 5/11/16.
  */
-public class SelectImageActivity extends ToolbarActivity<ActivitySelectImageBinding> {
+public class SelectImageBeforeEditActivity extends ToolbarActivity<ActivitySelectImageBeforeEditBinding> {
 
     private ChooseImageListAdapter mImageAdapter;
 
@@ -53,7 +53,7 @@ public class SelectImageActivity extends ToolbarActivity<ActivitySelectImageBind
 
     @Override
     protected int getContentLayout() {
-        return R.layout.activity_select_image;
+        return R.layout.activity_select_image_before_edit;
     }
 
     @Override

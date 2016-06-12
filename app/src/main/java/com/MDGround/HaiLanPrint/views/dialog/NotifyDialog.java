@@ -2,105 +2,96 @@ package com.MDGround.HaiLanPrint.views.dialog;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
-import android.widget.TextView;
 
 import com.MDGround.HaiLanPrint.R;
+import com.MDGround.HaiLanPrint.databinding.DialogNotifyBinding;
 
 
 /**
  * 提示消息
- * 
- * @author Vincent
- * 
+ *
+ * @author yoghourt
  */
-public class NotifyDialog extends Dialog implements View.OnClickListener {
+public class NotifyDialog extends Dialog {
 
-	private TextView tvTitle;
-	private TextView tvContent;
-	private TextView tvSure;
-	private TextView tvCancle;
-	private OnSureClickListener listener;
+    private DialogNotifyBinding mDataBinding;
 
-	public static interface OnSureClickListener {
-		public void onSureClick();
-	}
-	
+    private String mtips;
 
-	public NotifyDialog(Context context) {
-		this(context, R.style.customDialogStyle);
-	}
+    private OnSureClickListener mListener;
 
-	public NotifyDialog(Context context, int theme) {
-		super(context, theme);
-	}
+    public static interface OnSureClickListener {
+        public void onSureClick();
+    }
 
-	protected NotifyDialog(Context context, boolean cancelable, OnCancelListener cancelListener) {
-		super(context, cancelable, cancelListener);
-	}
+    public NotifyDialog(Context context, String tips) {
+        this(context, R.style.customDialogStyle);
+        this.mtips = tips;
+    }
 
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		View view = LinearLayout.inflate(getContext(), R.layout.dialog_notify, null);
-		tvTitle = (TextView) view.findViewById(R.id.tvTitle);
-		tvContent = (TextView) view.findViewById(R.id.tvContent);
-		tvSure = (TextView) view.findViewById(R.id.tvSure);
-		tvCancle = (TextView) view.findViewById(R.id.tvCancle);
-		tvSure.setOnClickListener(this);
-		tvCancle.setOnClickListener(this);
-		setContentView(view);
+    public NotifyDialog(Context context) {
+        this(context, R.style.customDialogStyle);
+    }
 
-		getWindow().setLayout(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-		setCanceledOnTouchOutside(false);
-	}
+    public NotifyDialog(Context context, int theme) {
+        super(context, theme);
+    }
 
-	@Override
-	public void onClick(View v) {
-		switch (v.getId()) {
-		case R.id.tvSure:
-			if (this.listener != null) {
-				this.listener.onSureClick();
-			} else {
-				dismiss();
-			}
-			break;
-		case R.id.tvCancle:
-			dismiss();
-			break;
+    protected NotifyDialog(Context context, boolean cancelable, OnCancelListener cancelListener) {
+        super(context, cancelable, cancelListener);
+    }
 
-		default:
-			break;
-		}
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
-	}
+        mDataBinding = DataBindingUtil.inflate(LayoutInflater.from(getContext()), R.layout.dialog_notify, null, false);
 
-	public void setOnSureClickListener(OnSureClickListener listener) {
-		this.listener = listener;
-	}
+        setContentView(mDataBinding.getRoot());
 
-	@Override
-	public void setTitle(CharSequence title) {
-		if (this.tvTitle == null) {
-			return;
-		}
-		this.tvTitle.setText(title);
-	}
+        getWindow().setLayout(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+        setCanceledOnTouchOutside(false);
 
-	public void setTvContent(CharSequence message) {
-		if (tvContent == null) {
-			return;
-		}
-		this.tvContent.setText(message);
-	}
+        if (mtips != null) {
+            mDataBinding.tvTips.setText(mtips);
+        }
 
-	public void setTvSure(CharSequence string) {
-		if (tvSure == null) {
-			return;
-		}
-		this.tvSure.setText(string);
-	}
+        mDataBinding.tvCancle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dismiss();
+            }
+        });
+
+        mDataBinding.tvSure.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mListener != null) {
+                    mListener.onSureClick();
+                }
+                dismiss();
+            }
+        });
+    }
+
+    public void setOnSureClickListener(OnSureClickListener listener) {
+        this.mListener = listener;
+    }
+
+    public void setTitle(CharSequence title) {
+        mDataBinding.tvTitle.setText(title);
+    }
+
+    public void setTvContent(CharSequence message) {
+        mDataBinding.tvTips.setText(message);
+    }
+
+    public void setTvSure(CharSequence string) {
+        mDataBinding.tvSure.setText(string);
+    }
 }

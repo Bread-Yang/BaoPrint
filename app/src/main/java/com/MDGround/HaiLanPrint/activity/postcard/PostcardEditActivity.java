@@ -1,30 +1,44 @@
 package com.MDGround.HaiLanPrint.activity.postcard;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 import android.widget.SeekBar;
 
-import com.MDGround.HaiLanPrint.ProductType;
 import com.MDGround.HaiLanPrint.R;
 import com.MDGround.HaiLanPrint.activity.base.ToolbarActivity;
+import com.MDGround.HaiLanPrint.activity.selectimage.SelectAlbumWhenEditActivity;
 import com.MDGround.HaiLanPrint.adapter.TemplageImageAdapter;
 import com.MDGround.HaiLanPrint.application.MDGroundApplication;
+import com.MDGround.HaiLanPrint.constants.Constants;
 import com.MDGround.HaiLanPrint.databinding.ActivityPostcardEditBinding;
 import com.MDGround.HaiLanPrint.models.MDImage;
+import com.MDGround.HaiLanPrint.models.WorkPhoto;
+import com.MDGround.HaiLanPrint.utils.NavUtils;
 import com.MDGround.HaiLanPrint.utils.OrderUtils;
 import com.MDGround.HaiLanPrint.utils.SelectImageUtil;
 import com.MDGround.HaiLanPrint.utils.ViewUtils;
+import com.MDGround.HaiLanPrint.views.BaoGPUImage;
+import com.MDGround.HaiLanPrint.views.dialog.NotifyDialog;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
+
+import java.util.ArrayList;
 
 /**
  * Created by yoghourt on 5/18/16.
  */
 public class PostcardEditActivity extends ToolbarActivity<ActivityPostcardEditBinding> {
 
-    private TemplageImageAdapter mAdapter;
+    private TemplageImageAdapter mTeplateImageAdapter;
+
+    private ArrayList<WorkPhoto> mWorkPhotoArrayList = new ArrayList<>();
+
+    private int mCurrentSelectIndex = 0;
+
+    private NotifyDialog mNotifyDialog;
 
     @Override
     protected int getContentLayout() {
@@ -33,21 +47,50 @@ public class PostcardEditActivity extends ToolbarActivity<ActivityPostcardEditBi
 
     @Override
     protected void initData() {
-        showImageToGPUImageView(0, SelectImageUtil.mAlreadySelectImage.get(0));
+        showImageToGPUImageView(0, SelectImageUtil.mTemplateImage.get(0));
+
+        for (int i = 0; i < SelectImageUtil.mTemplateImage.size(); i++) {
+            mWorkPhotoArrayList.add(new WorkPhoto());
+        }
 
         LinearLayoutManager imageLayoutManager = new LinearLayoutManager(this);
         imageLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         mDataBinding.templateRecyclerView.setLayoutManager(imageLayoutManager);
-        mAdapter = new TemplageImageAdapter();
-        mDataBinding.templateRecyclerView.setAdapter(mAdapter);
+        mTeplateImageAdapter = new TemplageImageAdapter();
+        mDataBinding.templateRecyclerView.setAdapter(mTeplateImageAdapter);
     }
 
     @Override
     protected void setListener() {
-        mAdapter.setOnSelectImageLisenter(new TemplageImageAdapter.onSelectImageLisenter() {
+        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                NavUtils.toMainActivity(PostcardEditActivity.this);
+            }
+        });
+
+        mDataBinding.bgiImage.setOnSingleTouchListener(new BaoGPUImage.OnSingleTouchListener() {
+            @Override
+            public void onSingleTouch() {
+                Intent intent = new Intent(PostcardEditActivity.this, SelectAlbumWhenEditActivity.class);
+                startActivityForResult(intent, 0);
+            }
+        });
+
+        mTeplateImageAdapter.setOnSelectImageLisenter(new TemplageImageAdapter.onSelectImageLisenter() {
             @Override
             public void selectImage(int position, MDImage mdImage) {
-                showImageToGPUImageView(position, mdImage);
+
+                if (mCurrentSelectIndex != position) {
+                    float scaleFactor = mDataBinding.bgiImage.getmScaleFactor();
+                    float rotateDegree = mDataBinding.bgiImage.getmRotationDegrees();
+
+                    WorkPhoto workPhoto = mWorkPhotoArrayList.get(mCurrentSelectIndex);
+                    workPhoto.setZoomSize(scaleFactor);
+                    workPhoto.setRotate(rotateDegree);
+
+                    showImageToGPUImageView(position, mdImage);
+                }
             }
         });
 
@@ -73,40 +116,82 @@ public class PostcardEditActivity extends ToolbarActivity<ActivityPostcardEditBi
         });
     }
 
-    private void showImageToGPUImageView(int position, MDImage mdImage) {
-        if (MDGroundApplication.mChoosedProductType == ProductType.Postcard) {
-            if (position < SelectImageUtil.mTemplateImage.size()) {
-                MDImage templateImage = SelectImageUtil.mTemplateImage.get(position);
+    private void showImageToGPUImageView(final int position, MDImage mdImage) {
+        mCurrentSelectIndex = position;
 
-                Glide.with(MDGroundApplication.mInstance)
-                        .load(templateImage)
-                        .dontAnimate()
-                        .into(mDataBinding.ivTemplate);
-            } else {
-                mDataBinding.ivTemplate.setImageBitmap(null);
-            }
-        }
-
-        Glide.with(this)
+        // 模版图片加载
+        Glide.with(MDGroundApplication.mInstance)
                 .load(mdImage)
-                .asBitmap()
-                .thumbnail(0.1f)
-                .into(new SimpleTarget<Bitmap>(200, 200) {
-                    @Override
-                    public void onResourceReady(Bitmap bitmap, GlideAnimation glideAnimation) {
-                        // do something with the bitmap
-                        // for demonstration purposes, let's just set it to an ImageView
-                        mDataBinding.bgiImage.loadNewImage(bitmap);
-                    }
-                });
+                .dontAnimate()
+                .into(mDataBinding.ivTemplate);
+
+
+        // 用户选择的图片加载
+        MDImage selectImage = SelectImageUtil.mAlreadySelectImage.get(position);
+        if (selectImage.getPhotoSID() != 0 || selectImage.getImageLocalPath() != null) {
+            Glide.with(this)
+                    .load(selectImage)
+                    .asBitmap()
+                    .thumbnail(0.1f)
+                    .into(new SimpleTarget<Bitmap>(200, 200) {
+                        @Override
+                        public void onResourceReady(Bitmap bitmap, GlideAnimation glideAnimation) {
+                            // do something with the bitmap
+                            // for demonstration purposes, let's just set it to an ImageView
+                            WorkPhoto workPhoto = mWorkPhotoArrayList.get(position);
+
+                            mDataBinding.bgiImage.loadNewImage(bitmap, workPhoto.getZoomSize(), workPhoto.getRotate());
+                        }
+                    });
+        } else {
+            mDataBinding.bgiImage.loadNewImage(null);
+        }
+    }
+
+    private void generateOrder() {
+        ViewUtils.loading(this);
+        // 生成订单
+        OrderUtils orderUtils = new OrderUtils(this, MDGroundApplication.mChoosedTemplate.getPrice(), null);
+        orderUtils.saveOrderRequest();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == RESULT_OK) {
+            MDImage mdImage = data.getParcelableExtra(Constants.KEY_SELECT_IMAGE);
+
+            SelectImageUtil.mAlreadySelectImage.set(mCurrentSelectIndex, mdImage);
+
+            mWorkPhotoArrayList.set(mCurrentSelectIndex, new WorkPhoto());
+
+            showImageToGPUImageView(mCurrentSelectIndex, SelectImageUtil.mTemplateImage.get(mCurrentSelectIndex));
+        }
     }
 
     //region ACTION
-    public void saveImageAction(View view) {
-        ViewUtils.loading(this);
+    public void nextStepAction(View view) {
+        for (int i = 0; i < SelectImageUtil.mAlreadySelectImage.size(); i++) {
+            MDImage selectImage = SelectImageUtil.mAlreadySelectImage.get(i);
 
-        OrderUtils orderUtils = new OrderUtils(this, null);
-        orderUtils.saveUserWorkReqeust();
+            if (selectImage.getPhotoSID() == 0 && selectImage.getImageLocalPath() == null) {
+                if (mNotifyDialog == null) {
+                    mNotifyDialog = new NotifyDialog(this);
+                    mNotifyDialog.setOnSureClickListener(new NotifyDialog.OnSureClickListener() {
+                        @Override
+                        public void onSureClick() {
+                            mNotifyDialog.dismiss();
+                            generateOrder();
+                        }
+                    });
+                }
+                mNotifyDialog.show();
+
+                mNotifyDialog.setTvContent(getString(R.string.not_add_image, i + 1));
+                return;
+            }
+        }
+
+        generateOrder();
     }
     //endregion
 

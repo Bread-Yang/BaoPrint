@@ -22,6 +22,12 @@ import jp.co.cyberagent.android.gpuimage.GPUImageView;
 
 public class BaoGPUImage extends GPUImageView {
 
+    public interface OnSingleTouchListener {
+        public void onSingleTouch();
+    }
+
+    private OnSingleTouchListener onSingleTouchListener;
+
     private GPUImageTransformFilter mTransformFilter;
 
     public GPUImageBrightnessFilter mBrightnessFilter;
@@ -37,6 +43,8 @@ public class BaoGPUImage extends GPUImageView {
     private ScaleGestureDetector mScaleDetector;
 
     private RotateGestureDetector mRotateDetector;
+
+    private boolean mIsMultiTouch = false;
 
     private class ScaleListener extends ScaleGestureDetector.SimpleOnScaleGestureListener {
         @Override
@@ -79,6 +87,23 @@ public class BaoGPUImage extends GPUImageView {
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
+
+        int action = event.getAction() & MotionEvent.ACTION_MASK;
+
+        if (action == MotionEvent.ACTION_POINTER_DOWN) {
+            mIsMultiTouch = true;
+        }
+
+        if ((action == MotionEvent.ACTION_UP) && (action != MotionEvent.ACTION_POINTER_UP)) {
+            if (!mIsMultiTouch) {
+                // Single touch
+                if (onSingleTouchListener != null) {
+                    onSingleTouchListener.onSingleTouch();
+                }
+            }
+            mIsMultiTouch = false;
+        }
+
         mScaleDetector.onTouchEvent(event);
         mRotateDetector.onTouchEvent(event);
 
@@ -86,8 +111,12 @@ public class BaoGPUImage extends GPUImageView {
     }
 
     public void loadNewImage(Bitmap bitmap) {
-        mScaleFactor = 1;
-        mRotationDegrees = 0;
+        loadNewImage(bitmap, 1, 0);
+    }
+
+    public void loadNewImage(Bitmap bitmap, float scaleFactor, float rotationDegrees) {
+        mScaleFactor = scaleFactor;
+        mRotationDegrees = rotationDegrees;
 
         mTransformFilter = new GPUImageTransformFilter();
         mBrightnessFilter = new GPUImageBrightnessFilter();
@@ -101,6 +130,24 @@ public class BaoGPUImage extends GPUImageView {
 
         getGPUImage().deleteImage();
         setImage(bitmap);
+
+        setTransformFactor(mScaleFactor, mRotationDegrees);
+//        requestRender();
+    }
+
+    public void setTransformFactor(float scaleFactor, float rotationDegree) {
+        mScaleFactor = scaleFactor;
+        rotationDegree = rotationDegree;
+
+        float[] transform = new float[16];
+        Matrix.setIdentityM(transform, 0);
+        Matrix.setRotateM(transform, 0, mRotationDegrees, 0, 0, 1.0f);
+        if (mScaleFactor < 0) {
+            mScaleFactor = 1;
+        }
+        Matrix.scaleM(transform, 0, mScaleFactor, mScaleFactor, 1.0f);
+
+        mTransformFilter.setTransform3D(transform);
         requestRender();
     }
 
@@ -123,19 +170,27 @@ public class BaoGPUImage extends GPUImageView {
         return blendBitmap;
     }
 
-    public void setTransformFactor(float scaleFactor, float rotationDegree) {
-        mScaleFactor = scaleFactor;
-        rotationDegree = rotationDegree;
+    public float getmScaleFactor() {
+        return mScaleFactor;
+    }
 
-        float[] transform = new float[16];
-        Matrix.setIdentityM(transform, 0);
-        Matrix.setRotateM(transform, 0, mRotationDegrees, 0, 0, 1.0f);
-        if (mScaleFactor < 0) {
-            mScaleFactor = 1;
-        }
-        Matrix.scaleM(transform, 0, mScaleFactor, mScaleFactor, 1.0f);
+    public void setmScaleFactor(float mScaleFactor) {
+        this.mScaleFactor = mScaleFactor;
+    }
 
-        mTransformFilter.setTransform3D(transform);
-        requestRender();
+    public float getmRotationDegrees() {
+        return mRotationDegrees;
+    }
+
+    public void setmRotationDegrees(float mRotationDegrees) {
+        this.mRotationDegrees = mRotationDegrees;
+    }
+
+    public OnSingleTouchListener getOnSingleTouchListener() {
+        return onSingleTouchListener;
+    }
+
+    public void setOnSingleTouchListener(OnSingleTouchListener onSingleTouchListener) {
+        this.onSingleTouchListener = onSingleTouchListener;
     }
 }

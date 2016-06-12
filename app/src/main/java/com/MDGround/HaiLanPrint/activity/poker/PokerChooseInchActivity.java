@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 import com.MDGround.HaiLanPrint.ProductType;
 import com.MDGround.HaiLanPrint.R;
 import com.MDGround.HaiLanPrint.activity.base.ToolbarActivity;
-import com.MDGround.HaiLanPrint.activity.selectimage.SelectAlbumActivity;
+import com.MDGround.HaiLanPrint.activity.selectimage.SelectAlbumBeforeEditActivity;
 import com.MDGround.HaiLanPrint.application.MDGroundApplication;
 import com.MDGround.HaiLanPrint.databinding.ActivityPokerChooseInchBinding;
 import com.MDGround.HaiLanPrint.databinding.ItemPokerChooseInchBinding;
@@ -147,7 +147,7 @@ public class PokerChooseInchActivity extends ToolbarActivity<ActivityPokerChoose
             public void toSelectAlbumActivityAction(View view) {
                 MDGroundApplication.mChoosedMeasurement = mSpecList.get(getAdapterPosition());
 
-                Intent intent = new Intent(PokerChooseInchActivity.this, SelectAlbumActivity.class);
+                Intent intent = new Intent(PokerChooseInchActivity.this, SelectAlbumBeforeEditActivity.class);
                 startActivity(intent);
             }
         }

@@ -19,10 +19,6 @@ import com.MDGround.HaiLanPrint.views.dialog.ShareDialog;
 import java.util.ArrayList;
 import java.util.List;
 
-import cn.sharesdk.onekeyshare.OnekeyShare;
-
-import static com.MDGround.HaiLanPrint.utils.ViewUtils.getString;
-
 /**
  * Created by yoghourt on 16/5/16.
  */
@@ -166,7 +162,7 @@ public class ChooseImageListAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                 contentHolder.contentView.setOnLongClickListener(new View.OnLongClickListener() {
                     @Override
                     public boolean onLongClick(View v) {
-                        String imagePath = SnapViewPicture.snapView(contentHolder.ivImage);
+                        String imagePath = SnapViewPicture.snapViewReturnLocalPath(contentHolder.ivImage);
 
 //                    OnekeyShare oks = new OnekeyShare();
 //                    // 分享时Notification的图标和文字  2.5.9以后的版本不调用此方法

@@ -8,7 +8,7 @@ import java.util.Date;
 /**
  * 生日日期选择，不能超过当前时间
  * 
- * @author Vincent
+ * @author yoghourt
  * 
  */
 public class BirthdayDatePickerDialog extends DatePickerDialog {

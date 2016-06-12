@@ -35,6 +35,7 @@ import com.MDGround.HaiLanPrint.models.MDImage;
 import com.MDGround.HaiLanPrint.models.PhotoTypeExplain;
 import com.MDGround.HaiLanPrint.restfuls.GlobalRestful;
 import com.MDGround.HaiLanPrint.restfuls.bean.ResponseData;
+import com.MDGround.HaiLanPrint.utils.SelectImageUtil;
 import com.google.gson.reflect.TypeToken;
 
 import java.util.ArrayList;
@@ -55,6 +56,13 @@ public class MainActivity extends AppCompatActivity {
         mDataBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
 
         initData();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        SelectImageUtil.mAlreadySelectImage.clear(); // 清空之前选中的图片
+        SelectImageUtil.mTemplateImage.clear(); // 清空之前的模版
     }
 
     private void initData() {

@@ -10,11 +10,12 @@ import com.MDGround.HaiLanPrint.activity.login.LoginActivity;
 import com.MDGround.HaiLanPrint.activity.magiccup.MagicCupPhotoEditActivity;
 import com.MDGround.HaiLanPrint.activity.main.MainActivity;
 import com.MDGround.HaiLanPrint.activity.payment.PaymentPreviewActivity;
-import com.MDGround.HaiLanPrint.activity.photoedit.PhotoEditActivity;
+import com.MDGround.HaiLanPrint.activity.phoneshell.PhoneShellEditActivity;
 import com.MDGround.HaiLanPrint.activity.photoprint.PrintPhotoChoosePaperNumActivity;
 import com.MDGround.HaiLanPrint.activity.pictureframe.PictureFrameEditActivity;
 import com.MDGround.HaiLanPrint.activity.postcard.PostcardEditActivity;
-import com.MDGround.HaiLanPrint.activity.selectimage.SelectAlbumActivity;
+import com.MDGround.HaiLanPrint.activity.puzzle.PuzzleEditActivity;
+import com.MDGround.HaiLanPrint.activity.selectimage.SelectAlbumBeforeEditActivity;
 import com.MDGround.HaiLanPrint.application.MDGroundApplication;
 import com.MDGround.HaiLanPrint.constants.Constants;
 import com.MDGround.HaiLanPrint.models.MDImage;
@@ -44,7 +45,7 @@ public class NavUtils {
     }
 
     public static void toSelectAlbumActivity(Context context) {
-        Intent intent = new Intent(context, SelectAlbumActivity.class);
+        Intent intent = new Intent(context, SelectAlbumBeforeEditActivity.class);
         context.startActivity(intent);
     }
 
@@ -62,27 +63,48 @@ public class NavUtils {
                 intent.setClass(context, PostcardEditActivity.class);
                 break;
             case MagazineAlbum:
-                intent.setClass(context, PhotoEditActivity.class);
+                intent.setClass(context, PostcardEditActivity.class);
+                break;
+            case ArtAlbum:
+                intent.setClass(context, PostcardEditActivity.class);
                 break;
             case PictureFrame:
                 intent.setClass(context, PictureFrameEditActivity.class);
                 break;
+            case Calendar:
+                intent.setClass(context, PostcardEditActivity.class);
+                break;
             case PhoneShell:
-                intent.setClass(context, PhotoEditActivity.class);
+                intent.setClass(context, PhoneShellEditActivity.class);
+                break;
+            case Poker:
+                intent.setClass(context, PostcardEditActivity.class);
+                break;
+            case Puzzle:
+                intent.setClass(context, PuzzleEditActivity.class);
                 break;
             case MagicCup:
                 intent.setClass(context, MagicCupPhotoEditActivity.class);
                 break;
-            case Puzzle:
-                intent.setClass(context, PhotoEditActivity.class);
-                break;
             case LOMOCard:
-                intent.setClass(context, PhotoEditActivity.class);
+                intent.setClass(context, PostcardEditActivity.class);
                 break;
             case Engraving:
                 intent.setClass(context, EngravingChoosePaperNumActivity.class);
                 break;
         }
+
+        if (SelectImageUtil.mTemplateImage != null) {
+            // 选择的图片数量小于模版的数量
+            if (SelectImageUtil.mAlreadySelectImage.size() < SelectImageUtil.mTemplateImage.size()) {
+                int difference = SelectImageUtil.mTemplateImage.size() - SelectImageUtil.mAlreadySelectImage.size();
+
+                for (int i = 0; i < difference; i++) {
+                    SelectImageUtil.mAlreadySelectImage.add(new MDImage());
+                }
+            }
+        }
+
         // 将所有选中图片的数量设为1
         for (MDImage mdImage : SelectImageUtil.mAlreadySelectImage) {
             mdImage.setPhotoCount(1);

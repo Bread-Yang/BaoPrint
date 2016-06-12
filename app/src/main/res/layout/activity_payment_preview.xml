@@ -243,6 +243,7 @@
                             android:text="@string/amount"/>
 
                         <TextView
+                            android:id="@+id/tvAmount"
                             style="@style/OrangeTextStyle"
                             android:layout_toLeftOf="@+id/tvYuan"
                             android:text="@{@string/yuan_amount(StringUtil.toYuanWithoutUnit(orderWork.price * orderWork.photoCount))}"
@@ -348,7 +349,7 @@
             android:gravity="center_vertical">
 
             <TextView
-                android:id="@+id/tvAmount"
+                android:id="@+id/tvReceivable"
                 style="@style/ClickableTextStyle"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
