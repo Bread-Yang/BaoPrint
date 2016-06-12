@@ -6,9 +6,8 @@ import android.view.View;
 import com.MDGround.HaiLanPrint.ProductType;
 import com.MDGround.HaiLanPrint.R;
 import com.MDGround.HaiLanPrint.activity.base.ToolbarActivity;
-import com.MDGround.HaiLanPrint.adapter.TemplageImageAdapter;
 import com.MDGround.HaiLanPrint.application.MDGroundApplication;
-import com.MDGround.HaiLanPrint.databinding.ActivityPictureFrameTemplateDetailBinding;
+import com.MDGround.HaiLanPrint.databinding.ActivityPictureFrameEditBinding;
 import com.MDGround.HaiLanPrint.models.MDImage;
 import com.MDGround.HaiLanPrint.utils.SelectImageUtil;
 import com.bumptech.glide.Glide;
@@ -18,15 +17,17 @@ import com.bumptech.glide.request.target.SimpleTarget;
 /**
  * Created by yoghourt on 5/18/16.
  */
-public class PictureFrameTempalteDetailActivity extends ToolbarActivity<ActivityPictureFrameTemplateDetailBinding> {
+public class PictureFrameEditActivity extends ToolbarActivity<ActivityPictureFrameEditBinding> {
 
     @Override
     protected int getContentLayout() {
-        return R.layout.activity_picture_frame_template_detail;
+        return R.layout.activity_picture_frame_edit;
     }
 
     @Override
     protected void initData() {
+        MDGroundApplication.mChoosedTemplate.setPageCount(1);
+
         mDataBinding.setTemplate(MDGroundApplication.mChoosedTemplate);
 
         showImageToGPUImageView(0, SelectImageUtil.mAlreadySelectImage.get(0));

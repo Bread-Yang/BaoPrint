@@ -5,8 +5,6 @@ import android.databinding.Bindable;
 
 import com.MDGround.HaiLanPrint.BR;
 
-import java.util.Date;
-
 /**
  * Created by yoghourt on 5/25/16.
  */
@@ -21,7 +19,7 @@ public class Template extends BaseObservable {
 
     private int ParentID;
 
-    private float Price;
+    private int Price;
 
     private String PriceString;
 
@@ -41,7 +39,7 @@ public class Template extends BaseObservable {
 
     private int TypeID;
 
-    private Date UpdatedTime;
+    private String UpdatedTime;
 
     public String getMaterialDesc() {
         return MaterialDesc;
@@ -77,11 +75,11 @@ public class Template extends BaseObservable {
         ParentID = parentID;
     }
 
-    public float getPrice() {
+    public int getPrice() {
         return Price;
     }
 
-    public void setPrice(float price) {
+    public void setPrice(int price) {
         Price = price;
     }
 
@@ -157,11 +155,11 @@ public class Template extends BaseObservable {
         TypeID = typeID;
     }
 
-    public Date getUpdatedTime() {
+    public String getUpdatedTime() {
         return UpdatedTime;
     }
 
-    public void setUpdatedTime(Date updatedTime) {
+    public void setUpdatedTime(String updatedTime) {
         UpdatedTime = updatedTime;
     }
 }

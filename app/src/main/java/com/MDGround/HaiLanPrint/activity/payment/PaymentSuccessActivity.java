@@ -1,12 +1,11 @@
 package com.MDGround.HaiLanPrint.activity.payment;
 
-import android.content.Intent;
 import android.view.View;
 
 import com.MDGround.HaiLanPrint.R;
 import com.MDGround.HaiLanPrint.activity.base.ToolbarActivity;
-import com.MDGround.HaiLanPrint.activity.coupon.ChooseCouponActivity;
 import com.MDGround.HaiLanPrint.databinding.ActivityPaymentPreviewBinding;
+import com.MDGround.HaiLanPrint.utils.NavUtils;
 
 /**
  * Created by yoghourt on 5/23/16.
@@ -29,8 +28,9 @@ public class PaymentSuccessActivity extends ToolbarActivity<ActivityPaymentPrevi
 
     }
 
-    public void toChooseCouponActivityAction(View view) {
-        Intent intent = new Intent(this, ChooseCouponActivity.class);
-        startActivity(intent);
+    //region ACTION
+    public void toMainActivityAction(View view) {
+        NavUtils.toMainActivity(this);
     }
+    //endregion
 }

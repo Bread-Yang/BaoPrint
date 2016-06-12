@@ -49,6 +49,7 @@
 
             <Button
                 style="@style/NormalButtonStyle"
+                android:onClick="toMainActivityAction"
                 android:text="@string/back_to_home"/>
 
             <Button
