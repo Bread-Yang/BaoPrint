@@ -12,7 +12,8 @@ import com.MDGround.HaiLanPrint.activity.main.MainActivity;
 import com.MDGround.HaiLanPrint.activity.payment.PaymentPreviewActivity;
 import com.MDGround.HaiLanPrint.activity.photoedit.PhotoEditActivity;
 import com.MDGround.HaiLanPrint.activity.photoprint.PrintPhotoChoosePaperNumActivity;
-import com.MDGround.HaiLanPrint.activity.pictureframe.PictureFrameTempalteDetailActivity;
+import com.MDGround.HaiLanPrint.activity.pictureframe.PictureFrameEditActivity;
+import com.MDGround.HaiLanPrint.activity.postcard.PostcardEditActivity;
 import com.MDGround.HaiLanPrint.activity.selectimage.SelectAlbumActivity;
 import com.MDGround.HaiLanPrint.application.MDGroundApplication;
 import com.MDGround.HaiLanPrint.constants.Constants;
@@ -58,13 +59,13 @@ public class NavUtils {
                 intent.setClass(context, PrintPhotoChoosePaperNumActivity.class);
                 break;
             case Postcard:
-                intent.setClass(context, PhotoEditActivity.class);
+                intent.setClass(context, PostcardEditActivity.class);
                 break;
             case MagazineAlbum:
                 intent.setClass(context, PhotoEditActivity.class);
                 break;
             case PictureFrame:
-                intent.setClass(context, PictureFrameTempalteDetailActivity.class);
+                intent.setClass(context, PictureFrameEditActivity.class);
                 break;
             case PhoneShell:
                 intent.setClass(context, PhotoEditActivity.class);
@@ -82,6 +83,11 @@ public class NavUtils {
                 intent.setClass(context, EngravingChoosePaperNumActivity.class);
                 break;
         }
+        // 将所有选中图片的数量设为1
+        for (MDImage mdImage : SelectImageUtil.mAlreadySelectImage) {
+            mdImage.setPhotoCount(1);
+        }
+
         context.startActivity(intent);
     }
 

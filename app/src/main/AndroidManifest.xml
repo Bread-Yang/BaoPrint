@@ -108,6 +108,10 @@
             android:label="@string/postcard"
             android:screenOrientation="portrait"/>
         <activity
+            android:name=".activity.postcard.PostcardEditActivity"
+            android:label="@string/edit"
+            android:screenOrientation="portrait"/>
+        <activity
             android:name=".activity.magazinealbum.MagazineAlbumChooseInchActivity"
             android:label="@string/magazine_album"
             android:screenOrientation="portrait"/>
@@ -132,7 +136,7 @@
             android:label="@string/choose_template"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".activity.pictureframe.PictureFrameTempalteDetailActivity"
+            android:name=".activity.pictureframe.PictureFrameEditActivity"
             android:label="@string/template_detail"
             android:screenOrientation="portrait"/>
 

@@ -91,7 +91,7 @@ public class MyCouponActivity extends ToolbarActivity<ActivityMyCouponBinding> {
         mShowCouponArrayList.clear();
         for (Coupon coupon : mAllCouponArrayList) {
             // 判断优惠券是否可用条件：当前时间在ActiveTime和ExpireTime 之间，并且 CouponStatus是0
-            boolean couponStatus = DateUtils.isWithinTwoDate(coupon.getActiveTime(), coupon.getExpireTime());
+            boolean couponStatus = DateUtils.isBeforeExpireTime(coupon.getExpireTime());
 
             if (couponStatus == mIsAvailable) {
                 mShowCouponArrayList.add(coupon);
@@ -147,7 +147,7 @@ public class MyCouponActivity extends ToolbarActivity<ActivityMyCouponBinding> {
                 int unavailableCount = 0;
 
                 for (Coupon coupon : mAllCouponArrayList) {
-                    boolean couponStatus = DateUtils.isWithinTwoDate(coupon.getActiveTime(), coupon.getExpireTime());
+                    boolean couponStatus = DateUtils.isBeforeExpireTime(coupon.getExpireTime());
                     if (couponStatus) {
                         availableCount++;
                     } else {

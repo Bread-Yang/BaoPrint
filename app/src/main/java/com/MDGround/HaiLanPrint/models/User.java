@@ -1,7 +1,6 @@
 package com.MDGround.HaiLanPrint.models;
 
 import java.io.Serializable;
-import java.util.Date;
 
 public class User implements Serializable {
 
@@ -25,7 +24,7 @@ public class User implements Serializable {
 
     public String UserNickName;
 
-    public Date DOB;
+    public String DOB;
 
     public int Gender;
 
@@ -45,9 +44,9 @@ public class User implements Serializable {
 
     public String InvitationCode;
 
-    public Date UpdatedTime;
+    public String UpdatedTime;
 
-    public Date CreatedTime;
+    public String CreatedTime;
 
     public int DeviceID;
 
@@ -146,11 +145,11 @@ public class User implements Serializable {
         UserNickName = userNickName;
     }
 
-    public Date getDOB() {
+    public String getDOB() {
         return DOB;
     }
 
-    public void setDOB(Date DOB) {
+    public void setDOB(String DOB) {
         this.DOB = DOB;
     }
 
@@ -226,19 +225,19 @@ public class User implements Serializable {
         InvitationCode = invitationCode;
     }
 
-    public Date getUpdatedTime() {
+    public String getUpdatedTime() {
         return UpdatedTime;
     }
 
-    public void setUpdatedTime(Date updatedTime) {
+    public void setUpdatedTime(String updatedTime) {
         UpdatedTime = updatedTime;
     }
 
-    public Date getCreatedTime() {
+    public String getCreatedTime() {
         return CreatedTime;
     }
 
-    public void setCreatedTime(Date createdTime) {
+    public void setCreatedTime(String createdTime) {
         CreatedTime = createdTime;
     }
 

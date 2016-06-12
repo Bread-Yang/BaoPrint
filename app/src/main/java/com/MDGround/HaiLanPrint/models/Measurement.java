@@ -1,7 +1,5 @@
 package com.MDGround.HaiLanPrint.models;
 
-import java.util.Date;
-
 /**
  * Created by yoghourt on 5/16/16.
  */
@@ -21,7 +19,7 @@ public class Measurement {
 
     private int TypeID;
 
-    private Date UpdatedTime;
+    private String UpdatedTime;
 
     public int getAutoID() {
         return AutoID;
@@ -79,11 +77,11 @@ public class Measurement {
         TypeID = typeID;
     }
 
-    public Date getUpdatedTime() {
+    public String getUpdatedTime() {
         return UpdatedTime;
     }
 
-    public void setUpdatedTime(Date updatedTime) {
+    public void setUpdatedTime(String updatedTime) {
         UpdatedTime = updatedTime;
     }
 }

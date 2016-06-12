@@ -653,4 +653,10 @@ public class DateUtils {
             return false;
         }
     }
+
+    public static boolean isBeforeExpireTime(String expireTimeDateString) {
+        DateTime expireTime = getDateByServerDateString(expireTimeDateString);
+        DateTime todayTime = new DateTime();
+        return todayTime.isBefore(expireTime);
+    }
 }

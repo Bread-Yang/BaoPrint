@@ -1,4 +1,4 @@
-package com.MDGround.HaiLanPrint.activity.magiccup;
+package com.MDGround.HaiLanPrint.activity.postcard;
 
 import android.graphics.Bitmap;
 import android.support.v7.widget.LinearLayoutManager;
@@ -10,7 +10,7 @@ import com.MDGround.HaiLanPrint.R;
 import com.MDGround.HaiLanPrint.activity.base.ToolbarActivity;
 import com.MDGround.HaiLanPrint.adapter.TemplageImageAdapter;
 import com.MDGround.HaiLanPrint.application.MDGroundApplication;
-import com.MDGround.HaiLanPrint.databinding.ActivityMagicCupEditBinding;
+import com.MDGround.HaiLanPrint.databinding.ActivityPostcardEditBinding;
 import com.MDGround.HaiLanPrint.models.MDImage;
 import com.MDGround.HaiLanPrint.utils.OrderUtils;
 import com.MDGround.HaiLanPrint.utils.SelectImageUtil;
@@ -22,13 +22,13 @@ import com.bumptech.glide.request.target.SimpleTarget;
 /**
  * Created by yoghourt on 5/18/16.
  */
-public class MagicCupPhotoEditActivity extends ToolbarActivity<ActivityMagicCupEditBinding> {
+public class PostcardEditActivity extends ToolbarActivity<ActivityPostcardEditBinding> {
 
     private TemplageImageAdapter mAdapter;
 
     @Override
     protected int getContentLayout() {
-        return R.layout.activity_magic_cup_edit;
+        return R.layout.activity_postcard_edit;
     }
 
     @Override
@@ -37,9 +37,9 @@ public class MagicCupPhotoEditActivity extends ToolbarActivity<ActivityMagicCupE
 
         LinearLayoutManager imageLayoutManager = new LinearLayoutManager(this);
         imageLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
-        mDataBinding.selectedImageRecyclerView.setLayoutManager(imageLayoutManager);
+        mDataBinding.templateRecyclerView.setLayoutManager(imageLayoutManager);
         mAdapter = new TemplageImageAdapter();
-        mDataBinding.selectedImageRecyclerView.setAdapter(mAdapter);
+        mDataBinding.templateRecyclerView.setAdapter(mAdapter);
     }
 
     @Override

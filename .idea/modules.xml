@@ -6,11 +6,8 @@
       <module fileurl="file://$PROJECT_DIR$/BaoPrint.iml" filepath="$PROJECT_DIR$/BaoPrint.iml" />
       <module fileurl="file://$PROJECT_DIR$/HailanPrint.iml" filepath="$PROJECT_DIR$/HailanPrint.iml" />
       <module fileurl="file://$PROJECT_DIR$/WheelviewLibrary/WheelviewLibrary.iml" filepath="$PROJECT_DIR$/WheelviewLibrary/WheelviewLibrary.iml" />
-      <module fileurl="file://$PROJECT_DIR$/WheelviewLibrary/WheelviewLibrary.iml" filepath="$PROJECT_DIR$/WheelviewLibrary/WheelviewLibrary.iml" />
       <module fileurl="file://$PROJECT_DIR$/aaa.iml" filepath="$PROJECT_DIR$/aaa.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/greendaogenerator/greendaogenerator.iml" filepath="$PROJECT_DIR$/greendaogenerator/greendaogenerator.iml" />
       <module fileurl="file://$PROJECT_DIR$/greendaogenerator/greendaogenerator.iml" filepath="$PROJECT_DIR$/greendaogenerator/greendaogenerator.iml" />
     </modules>
   </component>

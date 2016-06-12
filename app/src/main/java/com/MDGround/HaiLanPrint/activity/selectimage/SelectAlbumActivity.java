@@ -100,7 +100,6 @@ public class SelectAlbumActivity extends ToolbarActivity<ActivitySelectAlbumBind
                         changeTips();
                         break;
                     case Postcard:
-                    case PictureFrame:
                     case Poker:
                     case MagicCup:
                     case LOMOCard:
