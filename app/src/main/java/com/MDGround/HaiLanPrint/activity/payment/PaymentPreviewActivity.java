@@ -19,7 +19,6 @@ import com.MDGround.HaiLanPrint.models.UserIntegralList;
 import com.MDGround.HaiLanPrint.restfuls.GlobalRestful;
 import com.MDGround.HaiLanPrint.restfuls.bean.ResponseData;
 import com.MDGround.HaiLanPrint.utils.NavUtils;
-import com.MDGround.HaiLanPrint.utils.OrderUtils;
 import com.MDGround.HaiLanPrint.utils.StringUtil;
 import com.MDGround.HaiLanPrint.utils.ViewUtils;
 import com.google.gson.reflect.TypeToken;
@@ -55,7 +54,7 @@ public class PaymentPreviewActivity extends ToolbarActivity<ActivityPaymentPrevi
 
     @Override
     protected void initData() {
-        mOrderWork = mOrderutUtils.getmOrderWork();
+        mOrderWork = MDGroundApplication.mOrderutUtils.getmOrderWork();
 
         mDataBinding.setOrderWork(mOrderWork);
 

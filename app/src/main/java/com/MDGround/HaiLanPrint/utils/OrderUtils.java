@@ -53,6 +53,14 @@ public class OrderUtils implements Serializable {
         }
     }
 
+    public OrderInfo getmOrderInfo() {
+        return mOrderInfo;
+    }
+
+    public OrderWork getmOrderWork() {
+        return mOrderWork;
+    }
+
     public void uploadImageRequest(final int upload_image_index) {
         if (upload_image_index < SelectImageUtil.mAlreadySelectImage.size()) {
             final MDImage mdImage = SelectImageUtil.mAlreadySelectImage.get(upload_image_index);
