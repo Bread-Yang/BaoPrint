@@ -4,6 +4,9 @@ import android.app.Activity;
 
 import com.MDGround.HaiLanPrint.ProductType;
 import com.MDGround.HaiLanPrint.application.MDGroundApplication;
+import com.MDGround.HaiLanPrint.enumobject.OrderStatus;
+import com.MDGround.HaiLanPrint.enumobject.PayType;
+import com.MDGround.HaiLanPrint.models.DeliveryAddress;
 import com.MDGround.HaiLanPrint.models.MDImage;
 import com.MDGround.HaiLanPrint.models.OrderInfo;
 import com.MDGround.HaiLanPrint.models.OrderWork;
@@ -15,6 +18,7 @@ import com.MDGround.HaiLanPrint.restfuls.GlobalRestful;
 import com.MDGround.HaiLanPrint.restfuls.bean.ResponseData;
 
 import java.io.File;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -27,13 +31,19 @@ import retrofit2.Response;
  * Created by yoghourt on 6/12/16.
  */
 
-public class OrderUtils {
+public class OrderUtils implements Serializable {
 
     private Activity mActivity;
 
     private int mPrice;
 
     private String mWorkMaterial = "";
+
+    private OrderInfo mOrderInfo;
+
+    private OrderWork mOrderWork;
+
+    private List<OrderWorkPhoto> mOrderWorkPhotoList;
 
     public OrderUtils(Activity activity, int price, String workMaterial) {
         this.mActivity = activity;
@@ -161,12 +171,9 @@ public class OrderUtils {
             @Override
             public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
 
-                int orderID = 0;
+                mOrderInfo = response.body().getContent(OrderInfo.class);
 
-                OrderInfo orderInfo = response.body().getContent(OrderInfo.class);
-                orderID = orderInfo.getOrderID();
-
-                saveOrderWorkRequest(orderID);
+                saveOrderWorkRequest(mOrderInfo);
             }
 
             @Override
@@ -176,24 +183,24 @@ public class OrderUtils {
         });
     }
 
-    private void saveOrderWorkRequest(int orderID) {
-        OrderWork orderWork = new OrderWork();
-        orderWork.setCreateTime(DateUtils.getServerDateStringByDate(new Date()));
-        orderWork.setOrderCount(SelectImageUtil.getOrderCount());
-        orderWork.setOrderID(orderID);
-        orderWork.setPhotoCount(SelectImageUtil.mAlreadySelectImage.size());
-        orderWork.setPhotoCover(SelectImageUtil.mAlreadySelectImage.get(0).getPhotoSID()); //封面，第一张照片的缩略图ID
-        orderWork.setPrice(mPrice);
-        orderWork.setTypeID(MDGroundApplication.mChoosedProductType.value()); //作品类型（getPhotoType接口返回的TypeID）
-        orderWork.setTypeName(ProductType.getProductName(MDGroundApplication.mChoosedProductType)); //Title（getPhotoType接口返回的Title）
-        orderWork.setWorkMaterial(mWorkMaterial);
+    private void saveOrderWorkRequest(OrderInfo orderInfo) {
+        mOrderWork = new OrderWork();
+        mOrderWork.setCreateTime(DateUtils.getServerDateStringByDate(new Date()));
+        mOrderWork.setOrderCount(SelectImageUtil.getOrderCount());
+        mOrderWork.setOrderID(orderInfo.getOrderID());
+        mOrderWork.setPhotoCount(SelectImageUtil.mAlreadySelectImage.size());
+        mOrderWork.setPhotoCover(SelectImageUtil.mAlreadySelectImage.get(0).getPhotoSID()); //封面，第一张照片的缩略图ID
+        mOrderWork.setPrice(mPrice);
+        mOrderWork.setTypeID(MDGroundApplication.mChoosedProductType.value()); //作品类型（getPhotoType接口返回的TypeID）
+        mOrderWork.setTypeName(ProductType.getProductName(MDGroundApplication.mChoosedProductType)); //Title（getPhotoType接口返回的Title）
+        mOrderWork.setWorkMaterial(mWorkMaterial);
 
-        GlobalRestful.getInstance().SaveOrderWork(orderWork, new Callback<ResponseData>() {
+        GlobalRestful.getInstance().SaveOrderWork(mOrderWork, new Callback<ResponseData>() {
             @Override
             public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
-                OrderWork responseOrderWork = response.body().getContent(OrderWork.class);
+                mOrderWork = response.body().getContent(OrderWork.class);
 
-                saveOrderPhotoListAction(responseOrderWork);
+                saveOrderPhotoListRequest(mOrderWork);
             }
 
             @Override
@@ -203,8 +210,8 @@ public class OrderUtils {
         });
     }
 
-    private void saveOrderPhotoListAction(final OrderWork orderWork) {
-        List<OrderWorkPhoto> orderWorkPhotoList = new ArrayList<>();
+    private void saveOrderPhotoListRequest(final OrderWork orderWork) {
+        mOrderWorkPhotoList = new ArrayList<>();
 
         for (int i = 0; i < SelectImageUtil.mAlreadySelectImage.size(); i++) {
             MDImage mdImage = SelectImageUtil.mAlreadySelectImage.get(i);
@@ -216,10 +223,10 @@ public class OrderUtils {
             int index = i + 1;
             orderWorkPhoto.setPhotoIndex(index);
 
-            orderWorkPhotoList.add(orderWorkPhoto);
+            mOrderWorkPhotoList.add(orderWorkPhoto);
         }
 
-        GlobalRestful.getInstance().SaveOrderPhotoList(orderWorkPhotoList, new Callback<ResponseData>() {
+        GlobalRestful.getInstance().SaveOrderPhotoList(mOrderWorkPhotoList, new Callback<ResponseData>() {
             @Override
             public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
                 ViewUtils.dismiss();
@@ -229,6 +236,30 @@ public class OrderUtils {
             @Override
             public void onFailure(Call<ResponseData> call, Throwable t) {
                 ViewUtils.dismiss();
+            }
+        });
+    }
+
+    public void updateOrderPrepayRequest(DeliveryAddress deliveryAddress, PayType payType, int amountFee, int receivableFee) {
+        mOrderInfo.setAddressID(deliveryAddress.getAutoID());
+        mOrderInfo.setAddressReceipt(StringUtil.getCompleteAddress(deliveryAddress));
+        mOrderInfo.setCreatedTime(DateUtils.getServerDateStringByDate(new Date()));
+        mOrderInfo.setOrderStatus(OrderStatus.Paid.value());
+        mOrderInfo.setPayType(payType.value());
+        mOrderInfo.setPhone(deliveryAddress.getPhone());
+        mOrderInfo.setReceiver(deliveryAddress.getReceiver());
+        mOrderInfo.setTotalFee(amountFee);
+        mOrderInfo.setTotalFeeReal(receivableFee);
+
+        GlobalRestful.getInstance().UpdateOrderPrepay(mOrderInfo, new Callback<ResponseData>() {
+            @Override
+            public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
+
+            }
+
+            @Override
+            public void onFailure(Call<ResponseData> call, Throwable t) {
+
             }
         });
     }

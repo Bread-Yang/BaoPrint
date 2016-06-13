@@ -40,6 +40,8 @@ public class OrderInfo {
 
     private String RefundDetail;
 
+    private String RefundedTime;
+
     private String RefundID;
 
     private String RefundNo;
@@ -57,8 +59,6 @@ public class OrderInfo {
     private int RefundPhoto3SID;
 
     private String RefundReason;
-
-    private String RefundedTime;
 
     private int SaleID;
 

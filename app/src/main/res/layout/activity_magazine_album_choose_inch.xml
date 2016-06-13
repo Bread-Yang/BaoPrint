@@ -14,7 +14,7 @@
             android:id="@+id/ivBanner"
             android:layout_width="match_parent"
             android:layout_height="200dp"
-            android:scaleType="centerCrop"
+            android:scaleType="fitXY"
             android:onClick="toIllutrationActivityAction"
             android:src="@drawable/ic_placeholder"/>
 

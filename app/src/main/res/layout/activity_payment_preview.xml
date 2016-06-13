@@ -246,7 +246,6 @@
                             android:id="@+id/tvAmount"
                             style="@style/OrangeTextStyle"
                             android:layout_toLeftOf="@+id/tvYuan"
-                            android:text="@{@string/yuan_amount(StringUtil.toYuanWithoutUnit(orderWork.price * orderWork.photoCount))}"
                             tools:text="¥276.00"/>
 
                         <TextView
@@ -359,7 +358,6 @@
                 android:checked="false"
                 android:gravity="center_vertical"
                 android:paddingLeft="@dimen/margin_10"
-                android:text="@{@string/receivables(StringUtil.toYuanWithoutUnit(orderWork.price * orderWork.photoCount))}"
                 android:textColor="@color/color_f88e11"
                 android:textSize="@dimen/text_size_16"
                 tools:text="@string/receivables"/>

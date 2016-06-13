@@ -3,6 +3,8 @@ package com.MDGround.HaiLanPrint.models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.List;
+
 /**
  * Created by yoghourt on 5/24/16.
  */
@@ -14,6 +16,8 @@ public class OrderWork implements Parcelable {
     private int OrderCount;
 
     private int OrderID;
+
+    private List<OrderWorkPhoto> OrderWorkPhotos;
 
     private int PhotoCount;
 
@@ -45,6 +49,7 @@ public class OrderWork implements Parcelable {
         CreateTime = in.readString();
         OrderCount = in.readInt();
         OrderID = in.readInt();
+        OrderWorkPhotos = in.createTypedArrayList(OrderWorkPhoto.CREATOR);
         PhotoCount = in.readInt();
         PhotoCover = in.readInt();
         Price = in.readInt();
@@ -173,6 +178,7 @@ public class OrderWork implements Parcelable {
         WorkStyle = workStyle;
     }
 
+
     @Override
     public int describeContents() {
         return 0;
@@ -183,6 +189,7 @@ public class OrderWork implements Parcelable {
         dest.writeString(CreateTime);
         dest.writeInt(OrderCount);
         dest.writeInt(OrderID);
+        dest.writeTypedList(OrderWorkPhotos);
         dest.writeInt(PhotoCount);
         dest.writeInt(PhotoCover);
         dest.writeInt(Price);

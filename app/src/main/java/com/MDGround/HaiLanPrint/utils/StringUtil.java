@@ -2,6 +2,9 @@ package com.MDGround.HaiLanPrint.utils;
 
 import android.text.TextUtils;
 
+import com.MDGround.HaiLanPrint.application.MDGroundApplication;
+import com.MDGround.HaiLanPrint.greendao.Location;
+import com.MDGround.HaiLanPrint.models.DeliveryAddress;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
@@ -24,6 +27,16 @@ public class StringUtil {
 
     public static String toYuanWithUnit(float amount) {
         return String.format("%.02f", amount / 100) + "元";
+    }
+
+    public static String getCompleteAddress(DeliveryAddress deliveryAddress) {
+        Location province = MDGroundApplication.mDaoSession.getLocationDao().load(deliveryAddress.getProvinceID());
+        Location city = MDGroundApplication.mDaoSession.getLocationDao().load(deliveryAddress.getCityID());
+        Location county = MDGroundApplication.mDaoSession.getLocationDao().load(deliveryAddress.getDistrictID());
+
+        String completeAddress = province.getLocationName() + city.getLocationName() + county.getLocationName() + deliveryAddress.getStreet();
+
+        return completeAddress;
     }
 
     public static <T> T getInstanceByJsonString(String jsonString, TypeToken<T> type) {

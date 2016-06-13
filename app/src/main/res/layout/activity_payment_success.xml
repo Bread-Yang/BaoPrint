@@ -23,14 +23,14 @@
 
             <TextView
                 style="@style/NormalTextStyle"
-                android:textSize="@dimen/text_size_16"
-                android:text="@string/you_success_pay"/>
+                android:text="@string/you_success_pay"
+                android:textSize="@dimen/text_size_16"/>
 
             <TextView
                 style="@style/OrangeTextStyle"
                 android:layout_marginLeft="@dimen/margin_10"
-                android:textSize="@dimen/text_size_18"
                 android:text="¥0.00"
+                android:textSize="@dimen/text_size_18"
                 tools:text="@string/yuan_amount"/>
 
         </LinearLayout>
@@ -65,7 +65,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_28"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:visibility="invisible">
 
             <RelativeLayout
                 android:id="@+id/rltShareToWechat"

@@ -13,6 +13,7 @@ import com.MDGround.HaiLanPrint.models.Measurement;
 import com.MDGround.HaiLanPrint.models.PhotoTypeExplain;
 import com.MDGround.HaiLanPrint.models.Template;
 import com.MDGround.HaiLanPrint.models.User;
+import com.MDGround.HaiLanPrint.utils.OrderUtils;
 
 import java.util.ArrayList;
 
@@ -37,6 +38,8 @@ public class MDGroundApplication extends Application{
     public static Template mChoosedTemplate;
 
     public static ArrayList<PhotoTypeExplain> mPhotoTypeExplainArrayList = new ArrayList<PhotoTypeExplain>();
+
+    public static OrderUtils mOrderutUtils;
 
     @Override
     public void onCreate() {

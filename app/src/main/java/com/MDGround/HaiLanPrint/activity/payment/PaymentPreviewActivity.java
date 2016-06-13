@@ -19,6 +19,7 @@ import com.MDGround.HaiLanPrint.models.UserIntegralList;
 import com.MDGround.HaiLanPrint.restfuls.GlobalRestful;
 import com.MDGround.HaiLanPrint.restfuls.bean.ResponseData;
 import com.MDGround.HaiLanPrint.utils.NavUtils;
+import com.MDGround.HaiLanPrint.utils.OrderUtils;
 import com.MDGround.HaiLanPrint.utils.StringUtil;
 import com.MDGround.HaiLanPrint.utils.ViewUtils;
 import com.google.gson.reflect.TypeToken;
@@ -54,7 +55,7 @@ public class PaymentPreviewActivity extends ToolbarActivity<ActivityPaymentPrevi
 
     @Override
     protected void initData() {
-        mOrderWork = getIntent().getParcelableExtra(Constants.KEY_ORDER_WORK);
+        mOrderWork = mOrderutUtils.getmOrderWork();
 
         mDataBinding.setOrderWork(mOrderWork);
 
@@ -63,6 +64,12 @@ public class PaymentPreviewActivity extends ToolbarActivity<ActivityPaymentPrevi
         Measurement measurement = MDGroundApplication.mChoosedMeasurement;
 
         Template template = MDGroundApplication.mChoosedTemplate;
+
+        int amountFee = getAmountFee();
+        mDataBinding.tvAmount.setText(getString(R.string.yuan_amount, StringUtil.toYuanWithoutUnit(amountFee)));
+
+        int receivableFee = getReceivableFee();
+        mDataBinding.tvReceivable.setText(getString(R.string.receivables, StringUtil.toYuanWithoutUnit(receivableFee)));
 
         String showProductDetail = null;
         switch (MDGroundApplication.mChoosedProductType) {
@@ -94,6 +101,32 @@ public class PaymentPreviewActivity extends ToolbarActivity<ActivityPaymentPrevi
                 NavUtils.toMainActivity(PaymentPreviewActivity.this);
             }
         });
+    }
+
+    private int getAmountFee() {
+        int amountFee = 0;
+        switch (MDGroundApplication.mChoosedProductType) {
+            case PrintPhoto:
+            case PictureFrame:
+            case Engraving:
+                return mOrderWork.getPrice() * mOrderWork.getPhotoCount();
+            case Postcard:
+            case MagazineAlbum:
+            case ArtAlbum:
+            case Calendar:
+            case PhoneShell:
+            case Poker:
+            case Puzzle:
+            case MagicCup:
+            case LOMOCard:
+                return mOrderWork.getPrice();
+        }
+        return 0;
+    }
+
+    private int getReceivableFee() {
+        int amountFee = getAmountFee();
+        return amountFee;
     }
 
     @Override
