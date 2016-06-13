@@ -1,9 +1,9 @@
-package com.MDGround.HaiLanPrint.activity.engraving;
+package com.MDGround.HaiLanPrint.activity.lomocard;
 
 import com.MDGround.HaiLanPrint.ProductType;
 import com.MDGround.HaiLanPrint.R;
 import com.MDGround.HaiLanPrint.activity.base.ToolbarActivity;
-import com.MDGround.HaiLanPrint.databinding.ActivityEngravingMeasurementDescriptionBinding;
+import com.MDGround.HaiLanPrint.databinding.ActivityLomoCardIllustrationBinding;
 import com.MDGround.HaiLanPrint.enumobject.PhotoExplainTypeEnum;
 import com.MDGround.HaiLanPrint.models.MDImage;
 import com.MDGround.HaiLanPrint.models.PhotoTypeExplain;
@@ -15,22 +15,20 @@ import static com.MDGround.HaiLanPrint.application.MDGroundApplication.mPhotoTyp
  * Created by yoghourt on 5/23/16.
  */
 
-public class EngravingMeasurementDescription extends ToolbarActivity<ActivityEngravingMeasurementDescriptionBinding> {
+public class LomoCardIllustrationActivity extends ToolbarActivity<ActivityLomoCardIllustrationBinding> {
     @Override
     protected int getContentLayout() {
-        return R.layout.activity_engraving_measurement_description;
+        return R.layout.activity_lomo_card_illustration;
     }
 
     @Override
     protected void initData() {
         for (PhotoTypeExplain photoTypeExplain : mPhotoTypeExplainArrayList) {
-            if (photoTypeExplain.getExplainType() == PhotoExplainTypeEnum.MeasurementDescription.value()
-                    && photoTypeExplain.getTypeID() == ProductType.Engraving.value()) {
+            if (photoTypeExplain.getExplainType() == PhotoExplainTypeEnum.IntroductionPage.value()
+                    && photoTypeExplain.getTypeID() == ProductType.LOMOCard.value()) {
 
                 MDImage mdImage = new MDImage();
                 mdImage.setPhotoSID(photoTypeExplain.getPhotoSID());
-
-//                GlideUtil.loadImageByPhotoSID(mDataBinding.ivBanner, photoTypeExplain.getPhotoSID());
 
                 Glide.with(this).load(mdImage).into(mDataBinding.ivMeasurementDescription);
                 break;

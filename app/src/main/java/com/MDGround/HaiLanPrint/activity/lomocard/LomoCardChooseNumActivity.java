@@ -1,5 +1,6 @@
 package com.MDGround.HaiLanPrint.activity.lomocard;
 
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -81,6 +82,13 @@ public class LomoCardChooseNumActivity extends ToolbarActivity<ActivityLomoCardC
     @Override
     protected void setListener() {
     }
+
+    //region ACTION
+    public void toLomoCardIllutrationActivityAction(View view) {
+        Intent intent = new Intent(this, LomoCardIllustrationActivity.class);
+        startActivity(intent);
+    }
+    //endregion
 
     //region SERVER
     private void getSpecificationRequest() {

@@ -82,6 +82,13 @@ public class CalendarChooseOrientationActivity extends ToolbarActivity<ActivityC
     protected void setListener() {
     }
 
+    //region ACTION
+    public void toIllutrationActivityAction(View view) {
+        Intent intent = new Intent(this, CalendarIllustrationActivity.class);
+        startActivity(intent);
+    }
+    //endregion
+
     //region SERVER
     private void getSpecificationRequest() {
         ViewUtils.loading(this);

@@ -85,11 +85,18 @@ public class EngravingChooseInchActivity extends ToolbarActivity<ActivityEngravi
         tvRight.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(EngravingChooseInchActivity.this, EngravingMeasurementDescription.class);
+                Intent intent = new Intent(EngravingChooseInchActivity.this, EngravingMeasurementDescriptionActivity.class);
                 startActivity(intent);
             }
         });
     }
+
+    //region ACTION
+    public void toEngravingIllutrationActivityAction(View view) {
+        Intent intent = new Intent(this, EngravingIllustrationActivity.class);
+        startActivity(intent);
+    }
+    //endregion
 
     //region SERVER
     private void getSpecificationRequest() {

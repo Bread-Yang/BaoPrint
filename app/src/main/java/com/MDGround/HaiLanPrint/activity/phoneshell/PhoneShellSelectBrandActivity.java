@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 import com.MDGround.HaiLanPrint.ProductType;
 import com.MDGround.HaiLanPrint.R;
 import com.MDGround.HaiLanPrint.activity.base.ToolbarActivity;
-import com.MDGround.HaiLanPrint.activity.photoprint.PrintPhotoMeasurementDescription;
+import com.MDGround.HaiLanPrint.activity.photoprint.PrintPhotoMeasurementDescriptionActivity;
 import com.MDGround.HaiLanPrint.application.MDGroundApplication;
 import com.MDGround.HaiLanPrint.databinding.ActivityPhoneShellSelectBrandBinding;
 import com.MDGround.HaiLanPrint.databinding.ItemPhoneSheelSelectBrandBinding;
@@ -70,7 +70,7 @@ public class PhoneShellSelectBrandActivity extends ToolbarActivity<ActivityPhone
         tvRight.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(PhoneShellSelectBrandActivity.this, PrintPhotoMeasurementDescription.class);
+                Intent intent = new Intent(PhoneShellSelectBrandActivity.this, PrintPhotoMeasurementDescriptionActivity.class);
                 startActivity(intent);
             }
         });

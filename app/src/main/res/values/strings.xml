@@ -15,6 +15,7 @@
     <string name="request_timeout">请求超时</string>
     <string name="request_fail">请求失败</string>
     <string name="not_add_image">第%d页还没有添加照片,是否继续下一步?</string>
+    <string name="illustration">图文说明</string>
 
     <!-- 登录 -->
     <string name="login">登录</string>

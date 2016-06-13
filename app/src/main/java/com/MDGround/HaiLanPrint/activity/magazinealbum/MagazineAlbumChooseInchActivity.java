@@ -11,7 +11,6 @@ import android.view.ViewGroup;
 import com.MDGround.HaiLanPrint.ProductType;
 import com.MDGround.HaiLanPrint.R;
 import com.MDGround.HaiLanPrint.activity.base.ToolbarActivity;
-import com.MDGround.HaiLanPrint.activity.engraving.EngravingMeasurementDescription;
 import com.MDGround.HaiLanPrint.activity.template.SelectTemplateActivity;
 import com.MDGround.HaiLanPrint.application.MDGroundApplication;
 import com.MDGround.HaiLanPrint.databinding.ActivityMagazineAlbumChooseInchBinding;
@@ -70,8 +69,6 @@ public class MagazineAlbumChooseInchActivity extends ToolbarActivity<ActivityMag
             }
         }
 
-        tvRight.setText(R.string.measurement_description);
-
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         mDataBinding.recyclerView.setLayoutManager(layoutManager);
@@ -83,14 +80,14 @@ public class MagazineAlbumChooseInchActivity extends ToolbarActivity<ActivityMag
 
     @Override
     protected void setListener() {
-        tvRight.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MagazineAlbumChooseInchActivity.this, EngravingMeasurementDescription.class);
-                startActivity(intent);
-            }
-        });
     }
+
+    //region ACTION
+    public void toIllutrationActivityAction(View view) {
+        Intent intent = new Intent(this, MagazineIllustrationActivity.class);
+        startActivity(intent);
+    }
+    //endregion
 
     //region SERVER
     private void getSpecificationRequest() {

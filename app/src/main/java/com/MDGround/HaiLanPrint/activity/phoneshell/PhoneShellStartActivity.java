@@ -8,6 +8,7 @@ import com.MDGround.HaiLanPrint.R;
 import com.MDGround.HaiLanPrint.activity.base.ToolbarActivity;
 import com.MDGround.HaiLanPrint.application.MDGroundApplication;
 import com.MDGround.HaiLanPrint.databinding.ActivityPhoneShellStartBinding;
+import com.MDGround.HaiLanPrint.enumobject.MaterialType;
 import com.MDGround.HaiLanPrint.enumobject.PhotoExplainTypeEnum;
 import com.MDGround.HaiLanPrint.enumobject.restfuls.ResponseCode;
 import com.MDGround.HaiLanPrint.models.Measurement;
@@ -45,8 +46,6 @@ public class PhoneShellStartActivity extends ToolbarActivity<ActivityPhoneShellS
     @Override
     protected void onResume() {
         super.onResume();
-
-        getSpecificationRequest();
     }
 
     @Override
@@ -58,10 +57,28 @@ public class PhoneShellStartActivity extends ToolbarActivity<ActivityPhoneShellS
                 break;
             }
         }
+        getSpecificationRequest();
     }
 
     @Override
     protected void setListener() {
+    }
+
+    private void changeModelTextAndMaterialAvailable() {
+        mDataBinding.tvPhoneModel.setText(MDGroundApplication.mChoosedMeasurement.getTitle() + "-" + MDGroundApplication.mChoosedTemplate.getTemplateName());
+        mDataBinding.tvPrice.setText(StringUtil.toYuanWithUnit(MDGroundApplication.mChoosedTemplate.getPrice()));
+
+        if ((MDGroundApplication.mChoosedTemplate.getMaterialType() & MaterialType.Silicone.value()) != 0) {
+            mDataBinding.rbSilicone.setEnabled(true);
+        } else {
+            mDataBinding.rbSilicone.setEnabled(false);
+        }
+
+        if ((MDGroundApplication.mChoosedTemplate.getMaterialType() & MaterialType.Plastic.value()) != 0) {
+            mDataBinding.rbPlastic.setEnabled(true);
+        } else {
+            mDataBinding.rbPlastic.setEnabled(false);
+        }
     }
 
     @Override
@@ -69,11 +86,17 @@ public class PhoneShellStartActivity extends ToolbarActivity<ActivityPhoneShellS
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
             if (MDGroundApplication.mChoosedTemplate != null) {
-                mDataBinding.tvPhoneModel.setText(MDGroundApplication.mChoosedTemplate.getTemplateName());
-                mDataBinding.tvPrice.setText(StringUtil.toYuanWithUnit(MDGroundApplication.mChoosedTemplate.getPrice()));
+                changeModelTextAndMaterialAvailable();
             }
         }
     }
+
+    //region ACTION
+    public void toPhoneShellIllutrationActivityAction(View view) {
+        Intent intent = new Intent(this, PhoneShellIllustrationActivity.class);
+        startActivity(intent);
+    }
+    //endregion
 
     //region ACTION
     public void toSelectBrandActivityAction(View view) {
@@ -103,7 +126,8 @@ public class PhoneShellStartActivity extends ToolbarActivity<ActivityPhoneShellS
                         });
 
                         if (specList.size() > 0) {
-                            getPhotoTemplateListRequest(specList.get(0));
+                            MDGroundApplication.mChoosedMeasurement = specList.get(0);
+                            getPhotoTemplateListRequest();
                         }
 
                     } catch (JSONException e) {
@@ -119,9 +143,9 @@ public class PhoneShellStartActivity extends ToolbarActivity<ActivityPhoneShellS
         });
     }
 
-    private void getPhotoTemplateListRequest(final Measurement measurement) {
+    private void getPhotoTemplateListRequest() {
         ViewUtils.loading(this);
-        GlobalRestful.getInstance().GetPhotoTemplateList(measurement.getTypeDescID(),
+        GlobalRestful.getInstance().GetPhotoTemplateList(MDGroundApplication.mChoosedMeasurement.getTypeDescID(),
                 new Callback<ResponseData>() {
                     @Override
                     public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
@@ -135,8 +159,7 @@ public class PhoneShellStartActivity extends ToolbarActivity<ActivityPhoneShellS
 
                                 MDGroundApplication.mChoosedTemplate = template;
 
-                                mDataBinding.tvPhoneModel.setText(measurement.getTitle() + "-" + template.getTemplateName());
-                                mDataBinding.tvPrice.setText(StringUtil.toYuanWithUnit(template.getPrice()));
+                                changeModelTextAndMaterialAvailable();
                             }
                         }
                     }

@@ -12,7 +12,9 @@ import com.MDGround.HaiLanPrint.constants.Constants;
 import com.MDGround.HaiLanPrint.databinding.ActivityPaymentPreviewBinding;
 import com.MDGround.HaiLanPrint.greendao.Location;
 import com.MDGround.HaiLanPrint.models.DeliveryAddress;
+import com.MDGround.HaiLanPrint.models.Measurement;
 import com.MDGround.HaiLanPrint.models.OrderWork;
+import com.MDGround.HaiLanPrint.models.Template;
 import com.MDGround.HaiLanPrint.models.UserIntegralList;
 import com.MDGround.HaiLanPrint.restfuls.GlobalRestful;
 import com.MDGround.HaiLanPrint.restfuls.bean.ResponseData;
@@ -57,6 +59,31 @@ public class PaymentPreviewActivity extends ToolbarActivity<ActivityPaymentPrevi
         mDataBinding.setOrderWork(mOrderWork);
 
         getUserIntegralInfoRequest();
+
+        Measurement measurement = MDGroundApplication.mChoosedMeasurement;
+
+        Template template = MDGroundApplication.mChoosedTemplate;
+
+        String showProductDetail = null;
+        switch (MDGroundApplication.mChoosedProductType) {
+            case PrintPhoto:
+                showProductDetail = mOrderWork.getTypeName() + " (" + measurement.getTitle() + " " + mOrderWork.getWorkMaterial() + ")";
+                break;
+            case Postcard:
+                showProductDetail = mOrderWork.getTypeName();
+                break;
+            case MagazineAlbum:
+            case ArtAlbum:
+                showProductDetail = mOrderWork.getTypeName() + " (" + measurement.getTitle() + " " + template.getPageCount() + "P)";
+                break;
+            case Calendar:
+                showProductDetail = measurement.getTitle();
+                break;
+            case PhoneShell:
+
+                break;
+        }
+        mDataBinding.tvProductType.setText(showProductDetail);
     }
 
     @Override

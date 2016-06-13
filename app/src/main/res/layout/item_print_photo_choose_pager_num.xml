@@ -26,6 +26,7 @@
             android:layout_width="130dp"
             android:layout_height="130dp"
             android:layout_gravity="center_horizontal"
+            android:scaleType="centerCrop"
             app:loadImageByMDImage="@{image}"
             tools:src="@drawable/ic_wechat"/>
 

@@ -108,7 +108,7 @@
             android:label="@string/choose_paper_num"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".activity.photoprint.PrintPhotoMeasurementDescription"
+            android:name=".activity.photoprint.PrintPhotoMeasurementDescriptionActivity"
             android:label="@string/measurement_description"
             android:screenOrientation="portrait"/>
         <activity
@@ -124,8 +124,16 @@
             android:label="@string/magazine_album"
             android:screenOrientation="portrait"/>
         <activity
+            android:name=".activity.magazinealbum.MagazineIllustrationActivity"
+            android:label="@string/illustration"
+            android:screenOrientation="portrait"/>
+        <activity
             android:name=".activity.artalbum.ArtAlbumChooseInchActivity"
             android:label="@string/art_album"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activity.artalbum.ArtAlbumIllustrationActivity"
+            android:label="@string/illustration"
             android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.pictureframe.PictureFrameStartActivity"
@@ -134,6 +142,10 @@
         <activity
             android:name=".activity.calendar.CalendarChooseOrientationActivity"
             android:label="@string/calendar"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activity.calendar.CalendarIllustrationActivity"
+            android:label="@string/illustration"
             android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.template.TemplateStartCreateActivity"
@@ -154,6 +166,10 @@
             android:label="@string/phone_shell"
             android:screenOrientation="portrait"/>
         <activity
+            android:name=".activity.phoneshell.PhoneShellIllustrationActivity"
+            android:label="@string/illustration"
+            android:screenOrientation="portrait"/>
+        <activity
             android:name=".activity.phoneshell.PhoneShellSelectBrandActivity"
             android:label="@string/select_phone_brand"
             android:screenOrientation="portrait"/>
@@ -170,6 +186,10 @@
             android:label="@string/poker"
             android:screenOrientation="portrait"/>
         <activity
+            android:name=".activity.poker.PokerIllustrationActivity"
+            android:label="@string/illustration"
+            android:screenOrientation="portrait"/>
+        <activity
             android:name=".activity.puzzle.PuzzleStartActivity"
             android:label="@string/puzzle"
             android:screenOrientation="portrait"/>
@@ -182,6 +202,10 @@
             android:label="@string/magic_cup"
             android:screenOrientation="portrait"/>
         <activity
+            android:name=".activity.magiccup.MagicIllustrationActivity"
+            android:label="@string/illustration"
+            android:screenOrientation="portrait"/>
+        <activity
             android:name=".activity.magiccup.MagicCupPhotoEditActivity"
             android:label="@string/edit"
             android:screenOrientation="portrait"/>
@@ -190,11 +214,19 @@
             android:label="@string/lomo_card"
             android:screenOrientation="portrait"/>
         <activity
+            android:name=".activity.lomocard.LomoCardIllustrationActivity"
+            android:label="@string/illustration"
+            android:screenOrientation="portrait"/>
+        <activity
             android:name=".activity.engraving.EngravingChooseInchActivity"
             android:label="@string/engraving"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".activity.engraving.EngravingMeasurementDescription"
+            android:name=".activity.engraving.EngravingIllustrationActivity"
+            android:label="@string/illustration"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activity.engraving.EngravingMeasurementDescriptionActivity"
             android:label="@string/measurement_description"
             android:screenOrientation="portrait"/>
         <activity
@@ -243,12 +275,11 @@
             android:label="@string/my_orders"
             android:screenOrientation="portrait"/>
         <activity android:name=".activity.personalcenter.MyWorksActivity"
-            android:label="@string/my_works"
-            android:screenOrientation="portrait"
-           />
-         <activity android:name=".activity.personalcenter.ChangeNameActivity"
-             android:label="@string/changeName"
-             ></activity>
+                  android:label="@string/my_works"
+                  android:screenOrientation="portrait"/>
+        <activity android:name=".activity.personalcenter.ChangeNameActivity"
+                  android:label="@string/changeName"
+        ></activity>
         <activity
             android:name=".activity.orders.OrderDetailActivity"
             android:label="@string/order_detail"
