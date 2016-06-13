@@ -51,7 +51,7 @@ public class PersonalInformationActivity extends ToolbarActivity<ActivityPersona
 
     @Override
     protected void initData() {
-        mSelectSingleImageDialog = new SelectSingleImageDialog(PersonalInformationActivity.this);
+        mSelectSingleImageDialog = new SelectSingleImageDialog(PersonalInformationActivity.this,R.style.customDialogStyle);
 
         User user = MDGroundApplication.mLoginUser;
 

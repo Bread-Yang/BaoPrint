@@ -2,26 +2,46 @@
 <layout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
-        <EditText
-            android:layout_marginTop="@dimen/margin_12"
-            android:id="@+id/et_Name"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/size_60"
-            android:gravity="bottom"
-            android:paddingBottom="@dimen/_margin_8"
-            tools:text="我少时诵诗书"
-            android:textSize="@dimen/text_size_24"
+            android:layout_height="wrap_content"
+             android:orientation="horizontal"
+            android:layout_marginTop="@dimen/margin_16"
+            android:gravity="center_vertical"
             android:background="@color/color_white"
-            />
+            >
+            <EditText
+                android:id="@+id/et_Name"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/size_60"
+                android:gravity="bottom"
+                android:paddingBottom="@dimen/margin_16"
+                tools:text="我少时诵诗书"
+                android:textSize="@dimen/text_size_24"
+                android:paddingLeft="@dimen/margin_16"
+                android:layout_weight="1"
+                android:background="@color/color_white"
+                />
+                <ImageView
+                    android:id="@+id/imageDelete"
+                    android:onClick="deleteInputText"
+                    android:layout_marginRight="@dimen/margin_12"
+                    android:layout_width="@dimen/size_48"
+                    android:layout_height="@dimen/margin_48"
+                    android:src="@drawable/delete"
+                    />
+        </LinearLayout>
         <TextView
             android:layout_marginTop="@dimen/margin_12"
             android:layout_width="wrap_content"
+            android:layout_marginLeft="@dimen/margin_16"
             android:layout_height="wrap_content"
+            android:textColor="@color/color_999999"
+            android:textSize="@dimen/text_size_12"
             android:text="@string/explain"
             />
     </LinearLayout>

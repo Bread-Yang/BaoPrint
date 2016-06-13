@@ -25,19 +25,20 @@ import java.io.File;
  */
 
 public class SelectSingleImageDialog extends Dialog {
-
     public static final int PHOTO_REQUEST_GALLERY = 1;// 相册
     public static final int PHOTO_REQUEST_CAREMA = 2;// 拍照
     public static final int PHOTO_REQUEST_CUT = 3;// 剪切
-
     private DialogSelectSingleImageBinding mDataBinding;
-
     private Activity mActivity;
-
     private Uri mImageUri;
 
     public SelectSingleImageDialog(Activity activity) {
         super(activity);
+        mActivity = activity;
+    }
+
+    public SelectSingleImageDialog(Activity activity, int themeResId) {
+        super(activity, themeResId);
         mActivity = activity;
     }
 
@@ -50,7 +51,7 @@ public class SelectSingleImageDialog extends Dialog {
         setContentView(mDataBinding.getRoot());
 
         Window window = getWindow();
-        window.getDecorView().setPadding(0,0,0,0);
+        window.getDecorView().setPadding(0, 0, 0, 0);
         window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT); // 填充满屏幕的宽度
         window.setWindowAnimations(R.style.action_sheet_animation); // 添加动画
         WindowManager.LayoutParams wlp = window.getAttributes();
@@ -86,18 +87,18 @@ public class SelectSingleImageDialog extends Dialog {
         dismiss();
         Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
         intent.setType("image/*");
-        mActivity.startActivityForResult(intent,PHOTO_REQUEST_GALLERY);
-}
+        mActivity.startActivityForResult(intent, PHOTO_REQUEST_GALLERY);
+    }
 
     /*
-	 * 从相机获取
+     * 从相机获取
 	 */
     private void camera() {
         dismiss();
         if (isSdCardMounted()) {
             Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
             File file = new File(Environment.getExternalStorageDirectory(), "textphoto.jpg");
-            if(!file.exists()){
+            if (!file.exists()) {
                 file.mkdirs();
             }
             Uri outputFileUri = Uri.fromFile(file);
@@ -115,7 +116,7 @@ public class SelectSingleImageDialog extends Dialog {
 //            mActivity.startActivityForResult(intent, PHOTO_REQUEST_CAREMA);
 //
             //Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-            mActivity.startActivityForResult(intent,PHOTO_REQUEST_CAREMA);
+            mActivity.startActivityForResult(intent, PHOTO_REQUEST_CAREMA);
         } else {
             Toast.makeText(mActivity, "内存卡不存在", Toast.LENGTH_LONG).show();
         }

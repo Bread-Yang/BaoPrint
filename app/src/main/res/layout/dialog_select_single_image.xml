@@ -2,16 +2,12 @@
 <layout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-
     xmlns:tools="http://schemas.android.com/tools">
-
     <LinearLayout
-        style="@android:style/Theme.Holo.DialogWhenLarge"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#FF333333"
         android:orientation="vertical">
-
         <Button
             android:id="@+id/btnTakePicture"
             android:layout_width="match_parent"
@@ -21,7 +17,6 @@
             android:text="@string/take_picture"
             android:textColor="@drawable/selector_text_color_normal"
             android:textSize="16sp"/>
-
         <Button
             android:id="@+id/btnLocalImage"
             android:layout_width="match_parent"
@@ -32,7 +27,6 @@
             android:text="@string/local_image"
             android:textColor="@drawable/selector_text_color_normal"
             android:textSize="16sp"/>
-
         <Button
             android:id="@+id/btnCancel"
             android:layout_width="match_parent"
@@ -43,6 +37,5 @@
             android:text="@string/cancel"
             android:textColor="@drawable/selector_text_color_normal"
             android:textSize="16sp"/>
-
     </LinearLayout>
 </layout>
