@@ -28,7 +28,7 @@
     <dimen name="text_size_30">30dp</dimen>
     <dimen name="text_size_24">24dp</dimen>
     <dimen name="text_size_20">20dp</dimen>
-    <dimen name="text_size_18">18dp</dimen>
+    <dimen name="text_size_18">18sp</dimen>
     <dimen name="text_size_16">16dp</dimen>
     <dimen name="text_size_14">14dp</dimen>
     <dimen name="text_size_12">12dp</dimen>

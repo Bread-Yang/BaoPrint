@@ -37,9 +37,7 @@ public class EditDeliveryAddressActivity extends ToolbarActivity<ActivityEditDel
     @Override
     protected void initData() {
         mRegionPickerDialog = new RegionPickerDialog(this);
-
         mDeliveryAddress = getIntent().getParcelableExtra(Constants.KEY_DELIVERY_ADDRESS);
-
         if (mDeliveryAddress != null) {
             mDataBinding.cetConsignee.setText(mDeliveryAddress.getReceiver());
             mDataBinding.cetContactNumber.setText(mDeliveryAddress.getPhone());
@@ -72,7 +70,6 @@ public class EditDeliveryAddressActivity extends ToolbarActivity<ActivityEditDel
                 mDeliveryAddress.setProvinceID(province.getLocationID());
                 mDeliveryAddress.setCityID(city.getLocationID());
                 mDeliveryAddress.setDistrictID(county.getLocationID());
-
                 mDataBinding.tvRegion.setText(province.getLocationName() + city.getLocationName() + county.getLocationName());
             }
         });

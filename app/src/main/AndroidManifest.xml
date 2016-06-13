@@ -256,7 +256,9 @@
         <activity
             android:name=".activity.deliveryaddress.ChooseDeliveryAddressActivity"
             android:label="@string/delivery_address"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait">
+
+        </activity>
         <activity
             android:name=".activity.deliveryaddress.EditDeliveryAddressActivity"
             android:label="@string/edit_address"

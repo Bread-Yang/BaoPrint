@@ -58,18 +58,13 @@ public class ChooseDeliveryAddressActivity extends ToolbarActivity<ActivityChoos
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         mDataBinding.recyclerView.setLayoutManager(layoutManager);
 //        mDataBinding.recyclerView.addItemDecoration(new DividerItemDecoration(0));
-
         mAdapter = new DeliveryAddressAdapter();
         mDataBinding.recyclerView.setAdapter(mAdapter);
-
         getUserAddressListRequest();
     }
-
     @Override
     protected void setListener() {
-
     }
-
     //region ACTION
     public void toAddDeliveryAddressActivityAction(View view) {
         if (Constants.MAX_DELIVERY_ADDRESS - mAddressArrayList.size() > 0) {

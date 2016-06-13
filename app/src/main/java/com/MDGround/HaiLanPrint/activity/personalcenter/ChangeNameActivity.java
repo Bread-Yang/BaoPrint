@@ -10,7 +10,10 @@ import com.MDGround.HaiLanPrint.enumobject.restfuls.ResponseCode;
 import com.MDGround.HaiLanPrint.models.User;
 import com.MDGround.HaiLanPrint.restfuls.GlobalRestful;
 import com.MDGround.HaiLanPrint.restfuls.bean.ResponseData;
+import com.MDGround.HaiLanPrint.utils.DateUtils;
 import com.MDGround.HaiLanPrint.utils.ViewUtils;
+
+import java.util.Date;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -31,7 +34,8 @@ public class ChangeNameActivity extends ToolbarActivity<ActivityChangeNameBindin
         tvRight.setText("完成");
         tvRight.setVisibility(View.VISIBLE);
         String userNickName = MDGroundApplication.mLoginUser.getUserNickName();
-        mDataBinding.etName.setHint(userNickName);
+        mDataBinding.etName.setText(userNickName);
+        mDataBinding.etName.setSelection(userNickName.length());
     }
 
     @Override
@@ -47,6 +51,9 @@ public class ChangeNameActivity extends ToolbarActivity<ActivityChangeNameBindin
                     } else {
                         User user = MDGroundApplication.mLoginUser;
                         user.setUserNickName(newName);
+                        Date date=new Date(System.currentTimeMillis());
+                        String updateDate= DateUtils.getServerDateStringByDate(date);
+                        user.setUpdatedTime(updateDate);
                         GlobalRestful.getInstance().SaveUserInfo(user, new Callback<ResponseData>() {
                             @Override
                             public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
