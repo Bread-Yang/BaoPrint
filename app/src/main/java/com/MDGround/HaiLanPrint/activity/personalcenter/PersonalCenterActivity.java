@@ -9,6 +9,7 @@ import com.MDGround.HaiLanPrint.activity.coupon.MyCouponActivity;
 import com.MDGround.HaiLanPrint.activity.orders.MyOrdersActivity;
 import com.MDGround.HaiLanPrint.application.MDGroundApplication;
 import com.MDGround.HaiLanPrint.databinding.ActivityPersonalCenterBinding;
+import com.MDGround.HaiLanPrint.greendao.Location;
 import com.MDGround.HaiLanPrint.models.MDImage;
 import com.MDGround.HaiLanPrint.models.User;
 import com.MDGround.HaiLanPrint.utils.GlideUtil;
@@ -49,9 +50,11 @@ public class PersonalCenterActivity extends ToolbarActivity<ActivityPersonalCent
         mdImage.setPhotoID(user.getPhotoID());
         mdImage.setPhotoSID(user.getPhotoSID());
         GlideUtil.loadImageByMDImage(mDataBinding.civAvatar, mdImage);
+        Location city = MDGroundApplication.mDaoSession.getLocationDao().load((long)user.getCityID());
+        Location cunty = MDGroundApplication.mDaoSession.getLocationDao().load((long)user.getCountryID());
         mDataBinding.tvName.setText(user.getUserNickName());
        mDataBinding.tvPhoneNume.setText(user.getPhone());
-        //mDataBinding.tvCity.setText(user.getChildSchool());//
+        mDataBinding.tvCity.setText(city.getLocationName()+" "+cunty.getLocationName());//
     }
 
     //region ACTION

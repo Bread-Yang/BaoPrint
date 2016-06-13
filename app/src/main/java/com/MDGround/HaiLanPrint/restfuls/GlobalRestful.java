@@ -417,7 +417,7 @@ public class GlobalRestful extends BaseRestful {
         asynchronousPost("GetUserWorkList", null, callback);
     }
 
-    //修改用户昵称
+    //修改用户信息
     public void SaveUserInfo(User user, Callback<ResponseData> callback) {
         JSONObject object = new JSONObject();
         try {
