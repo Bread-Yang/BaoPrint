@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    >
+   <LinearLayout
+       android:layout_width="match_parent"
+       android:layout_height="@dimen/size_132"
+       android:orientation="vertical"
+       >
+
+    <LinearLayout
+        android:background="@color/color_white"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_marginTop="@dimen/text_size_16">
+
+       <LinearLayout
+           android:layout_width="match_parent"
+           android:layout_weight="5"
+           android:orientation="horizontal"
+           android:gravity="center_vertical"
+           android:layout_height="match_parent">
+
+          <ImageView
+              android:layout_marginLeft="@dimen/margin_12"
+              android:layout_width="@dimen/size_24"
+              android:src="@drawable/icon_person_place"
+              android:layout_height="@dimen/size_24" />
+
+           <TextView
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               tools:text="郑丽"
+               android:layout_marginLeft="@dimen/margin_6"
+               android:textSize="@dimen/text_size_16"
+               android:textColor="@color/color_333333" />
+
+           <ImageView
+               android:layout_marginLeft="@dimen/margin_80"
+               android:src="@drawable/icon_tel_place"
+               android:layout_width="@dimen/size_24"
+               android:layout_height="@dimen/size_24" />
+
+           <TextView
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               tools:text="131553113131"
+               android:textSize="@dimen/text_size_16"
+               android:textColor="@color/color_333333" />
+
+       </LinearLayout>
+
+        <LinearLayout
+           android:layout_width="match_parent"
+           android:layout_weight="4"
+           android:gravity="center_vertical"
+           android:layout_height="match_parent">
+
+           <TextView
+               android:paddingLeft="@dimen/margin_12"
+               android:paddingRight="@dimen/margin_12"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:lines="2"
+               android:gravity="center_vertical"
+                android:textSize="@dimen/text_size_16"
+               android:lineSpacingExtra="@dimen/margin_6"
+               tools:text="广州市天河区快快快，广州市天河区快快快快快快" />
+
+       </LinearLayout>
+
+        <View style="@style/DividerHorizontalStyle"></View>
+
+        <LinearLayout
+           android:layout_width="match_parent"
+           android:layout_weight="5"
+           android:gravity="center_vertical|right"
+           android:layout_height="match_parent">
+
+           <ImageView
+           android:layout_marginLeft="@dimen/margin_12"
+           android:layout_width="@dimen/size_24"
+           android:src="@drawable/icon_edit_place"
+           android:layout_height="@dimen/size_24" />
+
+           <TextView
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:text="@string/editor"
+               android:layout_marginLeft="@dimen/margin_6"
+               android:textSize="@dimen/text_size_16"
+               android:textColor="@color/color_333333" />
+
+            <ImageView
+               android:layout_marginLeft="@dimen/margin_40"
+               android:src="@drawable/icon_shoppingcart_place"
+               android:layout_width="@dimen/size_24"
+               android:layout_height="@dimen/size_24" />
+
+            <TextView
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+                android:text="@string/buy"
+               android:textSize="@dimen/text_size_16"
+               android:textColor="@color/color_333333"
+               android:layout_marginRight="@dimen/margin_12" />
+
+       </LinearLayout>
+
+    </LinearLayout>
+
+   </LinearLayout>
+</layout>

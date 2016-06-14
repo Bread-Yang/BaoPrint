@@ -137,6 +137,7 @@
         <RelativeLayout
             style="@style/FixHeightLayoutStyle"
             android:layout_marginTop="@dimen/margin_10"
+            android:onClick="toManageAddressActivity"
             android:orientation="horizontal">
 
             <TextView

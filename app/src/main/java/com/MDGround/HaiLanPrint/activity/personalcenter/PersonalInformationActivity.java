@@ -57,7 +57,6 @@ public class PersonalInformationActivity extends ToolbarActivity<ActivityPersona
         User user = MDGroundApplication.mLoginUser;
         // 用户头像
         MDImage mdImage = new MDImage();
-        ;
         mdImage.setPhotoID(user.getPhotoID());
         mdImage.setPhotoSID(user.getPhotoSID());
         GlideUtil.loadImageByMDImage(mDataBinding.civAvatar, mdImage);
@@ -108,7 +107,7 @@ public class PersonalInformationActivity extends ToolbarActivity<ActivityPersona
             }
         });
     }
-
+    //region SERVER
     private void uploadImageRequest(final int upload_image_index) {
         if (upload_image_index < mUploadImageLocalPathList.size()) {
 
@@ -132,7 +131,7 @@ public class PersonalInformationActivity extends ToolbarActivity<ActivityPersona
         } else {
         }
     }
-
+   //endregion
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_OK) {
@@ -155,7 +154,7 @@ public class PersonalInformationActivity extends ToolbarActivity<ActivityPersona
 
     }
 
-    //region Server
+    //region SERVER
     public void uploadAvatar(String Picturepath) {
         if (Picturepath != null) {
             ViewUtils.loading(this);
@@ -224,5 +223,12 @@ public class PersonalInformationActivity extends ToolbarActivity<ActivityPersona
         Intent intent =new Intent(this,ChildInformationActivity.class);
         startActivity(intent);
     }
+    //endregion
+
+    //region ACTION
+     public void toManageAddressActivity(View view){
+         Intent intent=new Intent(this,ManageAddressActivity.class);
+         startActivity(intent);
+     }
     //endregion
 }

@@ -9,11 +9,13 @@
       android:layout_height="match_parent"
       android:orientation="vertical"
       >
+
       <android.support.v7.widget.RecyclerView
           android:id="@+id/recyclerView"
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
-          ></android.support.v7.widget.RecyclerView>
+         />
+
       <TextView
           android:layout_marginTop="@dimen/margin_40"
           android:background="@drawable/rect_orange"
@@ -21,7 +23,10 @@
           android:layout_width="@dimen/size_180"
           android:text="新增地址"
           android:textColor="@color/color_white"
+          android:gravity="center"
           android:textSize="@dimen/margin_20"
           android:layout_height="@dimen/size_44" />
+
   </LinearLayout>
+
 </layout>
