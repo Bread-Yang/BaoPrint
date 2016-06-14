@@ -71,7 +71,7 @@ public class ManageAddressActivity extends ToolbarActivity<ActivityManageAddress
 
     public class BindingHandler{
         public  void onClickItem(View view){
-            int postion=view.getF
+
         }
     }
     //region ADAPTER
