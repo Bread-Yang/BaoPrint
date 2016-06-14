@@ -51,6 +51,7 @@
 
         </RelativeLayout>
 
+
         <com.MDGround.HaiLanPrint.views.SimpleImageBanner
             android:id="@+id/simpleImageBanner"
             android:layout_width="fill_parent"
