@@ -75,12 +75,14 @@
                     <RadioButton
                         android:id="@+id/rbSilicone"
                         style="@style/NormalRaidoButtonStyle"
+                        android:enabled="false"
                         android:text="@string/silicone"/>
 
                     <RadioButton
                         android:id="@+id/rbPlastic"
                         style="@style/NormalRaidoButtonStyle"
                         android:layout_marginLeft="@dimen/margin_15"
+                        android:enabled="false"
                         android:text="@string/plastic"/>
                 </RadioGroup>
 

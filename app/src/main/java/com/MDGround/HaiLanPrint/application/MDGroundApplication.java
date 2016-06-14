@@ -58,4 +58,10 @@ public class MDGroundApplication extends Application{
         DaoMaster daoMaster = new DaoMaster(db);
         mDaoSession = daoMaster.newSession();
     }
+
+    public static void resetData() {
+        mChoosedProductType = null;
+        mChoosedMeasurement = null;
+        mChoosedTemplate = null;
+    }
 }

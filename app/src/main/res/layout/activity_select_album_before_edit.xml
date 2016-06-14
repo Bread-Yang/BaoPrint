@@ -24,6 +24,15 @@
             android:background="@color/color_white">
 
             <TextView
+                android:id="@+id/tvPleaseChoose"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/margin_10"
+                tools:text="@string/please_choose_image"
+                android:textSize="@dimen/margin_12"/>
+
+            <TextView
                 android:id="@+id/tvChooseTips"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

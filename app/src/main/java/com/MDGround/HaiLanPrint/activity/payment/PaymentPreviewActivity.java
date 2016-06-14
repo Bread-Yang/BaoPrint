@@ -166,6 +166,8 @@ public class PaymentPreviewActivity extends ToolbarActivity<ActivityPaymentPrevi
                     break;
                 case REQEUST_CODE_SELECT_COUPON:
                     mSelectedCoupon = data.getParcelableExtra(Constants.KEY_SELECTED_COUPON);
+                    mDataBinding.tvCouponYuan.setText(getString(R.string.offset_fee, StringUtil.toYuanWithoutUnit(mSelectedCoupon.getPrice())));
+
                     break;
             }
         }

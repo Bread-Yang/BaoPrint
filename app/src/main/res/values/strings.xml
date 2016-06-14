@@ -90,6 +90,7 @@
     <string name="local_image">选择本地照片</string>
 
     <!-- 选择照片 -->
+    <string name="please_choose_image">请添加1至%d张图片 (0)</string>
     <string name="choose_image_tips">
         <![CDATA[
         已选<font color=#f88e11>%1$d</font>张照片,最多选择<font color=#f88e11>%2$d</font>张
@@ -205,6 +206,7 @@
     <string name="phone_brand">手机品牌</string>
     <string name="select_phone_brand">选择手机品牌</string>
     <string name="select_phone_model">选择手机型号</string>
+    <string name="please_select_phone_model">请选择手机型号</string>
     <string name="phone_material">手机材质壳</string>
     <string name="silicone">硅胶</string>
     <string name="plastic">塑料</string>
@@ -254,6 +256,7 @@
     <string name="add_address_first">请先添加地址</string>
     <string name="amount">总额</string>
     <string name="freight">运费</string>
+    <string name="offset_fee">已抵用%s元</string>
 
     <!-- 支付成功 -->
     <string name="payment_success">支付成功</string>

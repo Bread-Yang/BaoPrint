@@ -154,9 +154,21 @@ public class SelectImageBeforeEditActivity extends ToolbarActivity<ActivitySelec
     }
 
     private void changeTips() {
-        String tips = getString(R.string.choose_image_tips, SelectImageUtil.mAlreadySelectImage.size(), mMaxSelectImageNum);
+        if (SelectImageUtil.mAlreadySelectImage.size() > 0) {
+            String tips = getString(R.string.choose_image_tips, SelectImageUtil.mAlreadySelectImage.size(), mMaxSelectImageNum);
 
-        mDataBinding.tvChooseTips.setText(Html.fromHtml(tips));
+            mDataBinding.tvChooseTips.setText(Html.fromHtml(tips));
+
+            mDataBinding.tvPleaseChoose.setVisibility(View.INVISIBLE);
+            mDataBinding.tvChooseTips.setVisibility(View.VISIBLE);
+            mDataBinding.btnNextStep.setVisibility(View.VISIBLE);
+        } else {
+            mDataBinding.tvPleaseChoose.setText(getString(R.string.please_choose_image, mMaxSelectImageNum));
+
+            mDataBinding.tvPleaseChoose.setVisibility(View.VISIBLE);
+            mDataBinding.tvChooseTips.setVisibility(View.INVISIBLE);
+            mDataBinding.btnNextStep.setVisibility(View.INVISIBLE);
+        }
     }
 
     private void loadImageRequest() {
