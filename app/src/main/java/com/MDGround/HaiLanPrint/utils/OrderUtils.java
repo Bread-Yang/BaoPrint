@@ -196,7 +196,14 @@ public class OrderUtils implements Serializable {
         mOrderWork.setCreateTime(DateUtils.getServerDateStringByDate(new Date()));
         mOrderWork.setOrderCount(SelectImageUtil.getOrderCount());
         mOrderWork.setOrderID(orderInfo.getOrderID());
-        mOrderWork.setPhotoCount(SelectImageUtil.mAlreadySelectImage.size());
+        if (MDGroundApplication.mChoosedProductType == ProductType.PrintPhoto
+                || MDGroundApplication.mChoosedProductType == ProductType.Engraving) {
+            mOrderWork.setPhotoCount(SelectImageUtil.getOrderCount());
+        } else if (MDGroundApplication.mChoosedProductType == ProductType.PictureFrame) {
+            mOrderWork.setPhotoCount(MDGroundApplication.mChoosedTemplate.getPageCount());
+        } else {
+            mOrderWork.setPhotoCount(SelectImageUtil.mAlreadySelectImage.size());
+        }
         mOrderWork.setPhotoCover(SelectImageUtil.mAlreadySelectImage.get(0).getPhotoSID()); //封面，第一张照片的缩略图ID
         mOrderWork.setPrice(mPrice);
         mOrderWork.setTypeID(MDGroundApplication.mChoosedProductType.value()); //作品类型（getPhotoType接口返回的TypeID）

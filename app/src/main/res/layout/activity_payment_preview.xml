@@ -153,7 +153,6 @@
 
                 <RelativeLayout
                     style="@style/FixHeightLayoutStyle"
-                    android:gravity="center_vertical"
                     android:onClick="toChooseCouponActivityAction"
                     android:padding="@dimen/margin_8">
 
@@ -161,6 +160,7 @@
                         android:id="@+id/tvCoupon"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
                         android:layout_marginLeft="@dimen/margin_8"
                         android:text="@string/coupon"/>
 
@@ -168,19 +168,22 @@
                         android:id="@+id/tvAvailableCoupon"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:padding="@dimen/margin_4"
                         android:layout_marginLeft="@dimen/margin_8"
                         android:layout_toRightOf="@+id/tvCoupon"
                         android:background="@drawable/ripple_button_round_angle_orange"
                         android:gravity="center"
                         android:text="0张可用"
                         android:textColor="@color/color_white"
-                        android:textSize="@dimen/text_size_12"/>
+                        android:textSize="@dimen/text_size_10"/>
 
                     <TextView
                         android:id="@+id/tvCouponYuan"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
                         android:layout_marginLeft="@dimen/margin_8"
                         android:text="已抵用0.00元"/>
 

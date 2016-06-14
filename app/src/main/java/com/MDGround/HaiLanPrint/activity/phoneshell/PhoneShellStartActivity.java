@@ -57,7 +57,7 @@ public class PhoneShellStartActivity extends ToolbarActivity<ActivityPhoneShellS
                 break;
             }
         }
-        getSpecificationRequest();
+//        getSpecificationRequest();
     }
 
     @Override
@@ -70,12 +70,18 @@ public class PhoneShellStartActivity extends ToolbarActivity<ActivityPhoneShellS
 
         if ((MDGroundApplication.mChoosedTemplate.getMaterialType() & MaterialType.Silicone.value()) != 0) {
             mDataBinding.rbSilicone.setEnabled(true);
+            if (mDataBinding.rgMaterial.getCheckedRadioButtonId() == 0) {
+                mDataBinding.rbSilicone.setChecked(true);
+            }
         } else {
             mDataBinding.rbSilicone.setEnabled(false);
         }
 
         if ((MDGroundApplication.mChoosedTemplate.getMaterialType() & MaterialType.Plastic.value()) != 0) {
             mDataBinding.rbPlastic.setEnabled(true);
+            if (mDataBinding.rgMaterial.getCheckedRadioButtonId() == 0) {
+                mDataBinding.rbPlastic.setChecked(true);
+            }
         } else {
             mDataBinding.rbPlastic.setEnabled(false);
         }
@@ -105,6 +111,10 @@ public class PhoneShellStartActivity extends ToolbarActivity<ActivityPhoneShellS
     }
 
     public void nextStepAction(View view) {
+        if (MDGroundApplication.mChoosedTemplate == null) {
+            ViewUtils.toast(R.string.please_select_phone_model);
+            return;
+        }
         NavUtils.toSelectAlbumActivity(this);
     }
     //endregion
