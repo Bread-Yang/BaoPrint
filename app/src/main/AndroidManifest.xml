@@ -302,6 +302,9 @@
         <activity android:name=".activity.personalcenter.ChangeNameActivity"
                   android:label="@string/changeName"
         ></activity>
+        <activity android:name=".activity.personalcenter.ChildInformationActivity"
+                    android:label="@string/child_information"
+            ></activity>
         <activity
             android:name=".activity.orders.OrderDetailActivity"
             android:label="@string/order_detail"

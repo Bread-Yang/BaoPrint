@@ -301,4 +301,11 @@
     <string name="buy">购买</string>
     <string name="explain">昵称最长为8个汉字，或者16个数字，字母</string>
     <string name="changeName">修改昵称</string>
+    <string name="name">昵称</string>
+    <string name="birthday">出生年月</string>
+    <string name="school">学校</string>
+    <string name="Mclass">班级</string>
+    <string name="longtouschool">天河龙涛学校</string>
+    <string name="wuhuarou">五花肉</string>
+    <string name="treeClassTwo">三年二班</string>
 </resources>

@@ -1,8 +1,18 @@
 package com.MDGround.HaiLanPrint.models;
 
 import java.io.Serializable;
+import java.util.List;
 
 public class User implements Serializable {
+    List<UserKidList> UserKidList;
+
+    public List<com.MDGround.HaiLanPrint.models.UserKidList> getUserKidList() {
+        return UserKidList;
+    }
+
+    public void setUserKidList(List<com.MDGround.HaiLanPrint.models.UserKidList> userKidList) {
+        UserKidList = userKidList;
+    }
 
     public int UserID;
 

@@ -176,9 +176,10 @@ public class PersonalInformationActivity extends ToolbarActivity<ActivityPersona
                             String jsonStr = jsonObject.toString();
                             User user = StringUtil.getInstanceByJsonString(jsonStr, User.class);
                             KLog.e("userID是" + user.getPhotoSID());
-                            MDGroundApplication.mLoginUser = user;
+                            MDGroundApplication.mLoginUser .setPhotoID(user.getPhotoID());
+                            MDGroundApplication.mLoginUser.setPhotoSID(user.getPhotoSID());
+                            MDGroundApplication.mLoginUser.setUpdatedTime(user.getUpdatedTime());
                             MDImage mdImage = new MDImage();
-//                                mdImage.setImageLocalPath(finalPicturepath);
                             mdImage.setPhotoID(MDGroundApplication.mLoginUser.getPhotoID());
                             mdImage.setPhotoSID(MDGroundApplication.mLoginUser.getPhotoSID());
                             GlideUtil.loadImageByMDImage(mDataBinding.civAvatar, mdImage);
@@ -218,5 +219,10 @@ public class PersonalInformationActivity extends ToolbarActivity<ActivityPersona
         mRegionPickerDialog.show();
     }
     //endregion
-
+    //设置孩子资料
+    public void setChildData(View view){
+        Intent intent =new Intent(this,ChildInformationActivity.class);
+        startActivity(intent);
+    }
+    //endregion
 }

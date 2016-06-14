@@ -11,6 +11,7 @@
         <RelativeLayout
             android:id="@+id/rltAvatar"
             style="@style/NormalLayoutStyle"
+            android:onClick="selectSingleImageAction"
             android:layout_height="@dimen/size_88">
 
             <TextView
@@ -26,7 +27,6 @@
                 android:layout_centerVertical="true"
                 android:layout_margin="@dimen/margin_6"
                 android:layout_toLeftOf="@+id/ivArrow"
-                android:onClick="selectSingleImageAction"
                 app:civ_border_color="#FF000000"
                 app:civ_border_width="0dp"
                 tools:src="@drawable/bg_pic" />
@@ -121,6 +121,7 @@
         <RelativeLayout
             style="@style/FixHeightLayoutStyle"
             android:layout_marginTop="@dimen/margin_10"
+            android:onClick="setChildData"
             android:orientation="horizontal">
 
             <TextView
