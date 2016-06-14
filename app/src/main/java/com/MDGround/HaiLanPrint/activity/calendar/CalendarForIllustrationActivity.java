@@ -3,7 +3,6 @@ package com.MDGround.HaiLanPrint.activity.calendar;
 import com.MDGround.HaiLanPrint.ProductType;
 import com.MDGround.HaiLanPrint.R;
 import com.MDGround.HaiLanPrint.activity.base.ToolbarActivity;
-import com.MDGround.HaiLanPrint.databinding.ActivityArtAlbumIllustrationBinding;
 import com.MDGround.HaiLanPrint.databinding.ActivityCalendarIllustrationBinding;
 import com.MDGround.HaiLanPrint.enumobject.PhotoExplainTypeEnum;
 import com.MDGround.HaiLanPrint.models.MDImage;
@@ -16,7 +15,7 @@ import static com.MDGround.HaiLanPrint.application.MDGroundApplication.mPhotoTyp
  * Created by yoghourt on 5/23/16.
  */
 
-public class CalendarIllustrationActivity extends ToolbarActivity<ActivityCalendarIllustrationBinding> {
+public class CalendarForIllustrationActivity extends ToolbarActivity<ActivityCalendarIllustrationBinding> {
     @Override
     protected int getContentLayout() {
         return R.layout.activity_calendar_illustration;

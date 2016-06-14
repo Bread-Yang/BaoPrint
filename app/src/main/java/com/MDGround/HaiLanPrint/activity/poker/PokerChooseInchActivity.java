@@ -10,7 +10,6 @@ import android.view.ViewGroup;
 
 import com.MDGround.HaiLanPrint.ProductType;
 import com.MDGround.HaiLanPrint.R;
-import com.MDGround.HaiLanPrint.activity.artalbum.ArtAlbumIllustrationActivity;
 import com.MDGround.HaiLanPrint.activity.base.ToolbarActivity;
 import com.MDGround.HaiLanPrint.activity.selectimage.SelectAlbumBeforeEditActivity;
 import com.MDGround.HaiLanPrint.application.MDGroundApplication;
@@ -85,7 +84,7 @@ public class PokerChooseInchActivity extends ToolbarActivity<ActivityPokerChoose
 
     //region ACTION
     public void toPokerIllutrationActivityAction(View view) {
-        Intent intent = new Intent(this, PokerIllustrationActivity.class);
+        Intent intent = new Intent(this, PokerForIllustrationActivity.class);
         startActivity(intent);
     }
     //endregion

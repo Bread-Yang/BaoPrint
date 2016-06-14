@@ -32,7 +32,6 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-import jp.co.cyberagent.android.gpuimage.GPUImage;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -94,7 +93,7 @@ public class EngravingChooseInchActivity extends ToolbarActivity<ActivityEngravi
 
     //region ACTION
     public void toEngravingIllutrationActivityAction(View view) {
-        Intent intent = new Intent(this, EngravingIllustrationActivity.class);
+        Intent intent = new Intent(this, EngravingForIllustrationActivity.class);
         startActivity(intent);
     }
     //endregion

@@ -84,7 +84,7 @@ public class MagicCupChooseColorActivity extends ToolbarActivity<ActivityMagicCu
 
     //region ACTION
     public void toMagicIllutrationActivityAction(View view) {
-        Intent intent = new Intent(this, MagicIllustrationActivity.class);
+        Intent intent = new Intent(this, MagicForIllustrationActivity.class);
         startActivity(intent);
     }
     //endregion

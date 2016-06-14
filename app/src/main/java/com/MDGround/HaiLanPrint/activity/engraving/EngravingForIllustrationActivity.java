@@ -1,9 +1,9 @@
-package com.MDGround.HaiLanPrint.activity.magiccup;
+package com.MDGround.HaiLanPrint.activity.engraving;
 
 import com.MDGround.HaiLanPrint.ProductType;
 import com.MDGround.HaiLanPrint.R;
 import com.MDGround.HaiLanPrint.activity.base.ToolbarActivity;
-import com.MDGround.HaiLanPrint.databinding.ActivityMagicIllustrationBinding;
+import com.MDGround.HaiLanPrint.databinding.ActivityEngravingIllustrationBinding;
 import com.MDGround.HaiLanPrint.enumobject.PhotoExplainTypeEnum;
 import com.MDGround.HaiLanPrint.models.MDImage;
 import com.MDGround.HaiLanPrint.models.PhotoTypeExplain;
@@ -15,17 +15,17 @@ import static com.MDGround.HaiLanPrint.application.MDGroundApplication.mPhotoTyp
  * Created by yoghourt on 5/23/16.
  */
 
-public class MagicIllustrationActivity extends ToolbarActivity<ActivityMagicIllustrationBinding> {
+public class EngravingForIllustrationActivity extends ToolbarActivity<ActivityEngravingIllustrationBinding> {
     @Override
     protected int getContentLayout() {
-        return R.layout.activity_magic_illustration;
+        return R.layout.activity_engraving_illustration;
     }
 
     @Override
     protected void initData() {
         for (PhotoTypeExplain photoTypeExplain : mPhotoTypeExplainArrayList) {
             if (photoTypeExplain.getExplainType() == PhotoExplainTypeEnum.IntroductionPage.value()
-                    && photoTypeExplain.getTypeID() == ProductType.MagicCup.value()) {
+                    && photoTypeExplain.getTypeID() == ProductType.Engraving.value()) {
 
                 MDImage mdImage = new MDImage();
                 mdImage.setPhotoSID(photoTypeExplain.getPhotoSID());
