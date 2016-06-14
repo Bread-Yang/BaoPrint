@@ -4,14 +4,14 @@ import java.io.Serializable;
 import java.util.List;
 
 public class User implements Serializable {
-    List<UserKidList> UserKidList;
+    List<UserKid> UserKidList;
 
-    public List<com.MDGround.HaiLanPrint.models.UserKidList> getUserKidList() {
+    public List<UserKid> getUserKidList() {
         return UserKidList;
     }
 
-    public void setUserKidList(List<com.MDGround.HaiLanPrint.models.UserKidList> userKidList) {
-        UserKidList = userKidList;
+    public void setUserKidList(List<UserKid> userKid) {
+        UserKidList = userKid;
     }
 
     public int UserID;

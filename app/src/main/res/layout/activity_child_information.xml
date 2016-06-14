@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_marginTop="@dimen/margin_16"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/size_44"
+            android:background="@color/color_white"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingLeft="@dimen/margin_16"
+            android:paddingRight="@dimen/margin_16">
+            <ImageView
+                android:layout_width="@dimen/size_22"
+                android:layout_height="@dimen/size_22"
+                android:src="@drawable/icon_wszl_kid" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/margin_10"
+                android:text="@string/name"
+                android:textColor="@color/color_333333"
+                android:textSize="@dimen/text_size_16" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+            <EditText
+                android:id="@+id/et_ChildName"
+                android:layout_width="@dimen/margin_96"
+                android:layout_height="match_parent"
+                android:background="@null"
+                android:gravity="center_vertical|right"
+                android:textSize="@dimen/text_size_16"
+                android:singleLine="true"
+                android:hint="@string/wuhuarou"
+                />
+        </LinearLayout>
+        <View style="@style/DividerHorizontalMarginSytle"></View>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:id="@+id/ll_childDO"
+            android:layout_height="@dimen/size_44"
+            android:background="@color/color_white"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingLeft="@dimen/margin_16"
+            android:onClick="choseChildBirthDay"
+            android:paddingRight="@dimen/margin_16">
+            <ImageView
+                android:layout_width="@dimen/size_22"
+                android:layout_height="@dimen/size_22"
+                android:src="@drawable/icon_wszl_cake" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/margin_10"
+                android:text="@string/birthday"
+                android:textColor="@color/color_333333"
+                android:textSize="@dimen/text_size_16" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+            <TextView
+                android:id="@+id/et_ChildBirth"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:textSize="@dimen/text_size_16"
+                android:singleLine="true"
+                android:hint="2016-3-3"
+               />
+        </LinearLayout>
+
+        <View style="@style/DividerHorizontalMarginSytle"></View>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/size_44"
+            android:background="@color/color_white"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingLeft="@dimen/margin_16"
+            android:paddingRight="@dimen/margin_16">
+            <ImageView
+                android:layout_width="@dimen/size_22"
+                android:layout_height="@dimen/size_22"
+                android:src="@drawable/icon_wszl_school" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/margin_10"
+                android:text="@string/school"
+                android:textColor="@color/color_333333"
+                android:textSize="@dimen/text_size_16" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+            <EditText
+                android:id="@+id/et_School"
+                android:layout_width="@dimen/size_120"
+                android:background="@null"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical|right"
+                android:singleLine="true"
+                android:hint="@string/longtouschool"
+                android:textSize="@dimen/text_size_16"
+                />
+        </LinearLayout>
+        <View style="@style/DividerHorizontalMarginSytle"></View>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/size_44"
+            android:background="@color/color_white"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingLeft="@dimen/margin_16"
+            android:paddingRight="@dimen/margin_16">
+            <ImageView
+                android:layout_width="@dimen/size_22"
+                android:layout_height="@dimen/size_22"
+                android:src="@drawable/icon_wszl_class" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/margin_10"
+                android:text="@string/Mclass"
+                android:textColor="@color/color_333333"
+                android:textSize="@dimen/text_size_16" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+            <EditText
+                android:id="@+id/et_class"
+                android:layout_width="@dimen/margin_96"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical|right"
+                android:singleLine="true"
+                android:background="@null"
+                android:textSize="@dimen/text_size_16"
+                android:hint="@string/treeClassTwo"
+                 />
+        </LinearLayout>
+    </LinearLayout>
+</layout>
