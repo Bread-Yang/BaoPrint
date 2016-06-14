@@ -165,6 +165,7 @@
                         android:text="@string/coupon"/>
 
                     <TextView
+                        android:id="@+id/tvAvailableCoupon"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/margin_8"

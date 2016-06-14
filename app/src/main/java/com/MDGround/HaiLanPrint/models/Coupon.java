@@ -1,10 +1,13 @@
 package com.MDGround.HaiLanPrint.models;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 /**
  * Created by yoghourt on 6/1/16.
  */
 
-public class Coupon {
+public class Coupon implements Parcelable{
 
     private String ActiveTime;
 
@@ -27,6 +30,32 @@ public class Coupon {
     private int PriceLimit;
 
     private int UserID;
+
+    protected Coupon(Parcel in) {
+        ActiveTime = in.readString();
+        AutoID = in.readInt();
+        CouponID = in.readInt();
+        CouponName = in.readString();
+        CouponNo = in.readString();
+        CouponStatus = in.readInt();
+        CreatedTime = in.readString();
+        ExpireTime = in.readString();
+        Price = in.readInt();
+        PriceLimit = in.readInt();
+        UserID = in.readInt();
+    }
+
+    public static final Creator<Coupon> CREATOR = new Creator<Coupon>() {
+        @Override
+        public Coupon createFromParcel(Parcel in) {
+            return new Coupon(in);
+        }
+
+        @Override
+        public Coupon[] newArray(int size) {
+            return new Coupon[size];
+        }
+    };
 
     public String getActiveTime() {
         return ActiveTime;
@@ -114,5 +143,25 @@ public class Coupon {
 
     public void setUserID(int userID) {
         UserID = userID;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(ActiveTime);
+        dest.writeInt(AutoID);
+        dest.writeInt(CouponID);
+        dest.writeString(CouponName);
+        dest.writeString(CouponNo);
+        dest.writeInt(CouponStatus);
+        dest.writeString(CreatedTime);
+        dest.writeString(ExpireTime);
+        dest.writeInt(Price);
+        dest.writeInt(PriceLimit);
+        dest.writeInt(UserID);
     }
 }

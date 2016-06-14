@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 import com.MDGround.HaiLanPrint.R;
 import com.MDGround.HaiLanPrint.activity.base.ToolbarActivity;
 import com.MDGround.HaiLanPrint.databinding.ActivityMyCouponBinding;
-import com.MDGround.HaiLanPrint.databinding.ItemCouponBinding;
+import com.MDGround.HaiLanPrint.databinding.ItemMyCouponBinding;
 import com.MDGround.HaiLanPrint.models.Coupon;
 import com.MDGround.HaiLanPrint.restfuls.GlobalRestful;
 import com.MDGround.HaiLanPrint.restfuls.bean.ResponseData;
@@ -90,7 +90,7 @@ public class MyCouponActivity extends ToolbarActivity<ActivityMyCouponBinding> {
     private void refreshRecyclerView() {
         mShowCouponArrayList.clear();
         for (Coupon coupon : mAllCouponArrayList) {
-            // 判断优惠券是否可用条件：当前时间在ActiveTime和ExpireTime 之间，并且 CouponStatus是0
+            // 判断优惠券是否可用条件：当前时间在ExpireTime之前
             boolean couponStatus = DateUtils.isBeforeExpireTime(coupon.getExpireTime());
 
             if (couponStatus == mIsAvailable) {
@@ -177,7 +177,7 @@ public class MyCouponActivity extends ToolbarActivity<ActivityMyCouponBinding> {
         @Override
         public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             View itemView = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.item_coupon, parent, false);
+                    .inflate(R.layout.item_my_coupon, parent, false);
             ViewHolder holder = new ViewHolder(itemView);
             return holder;
         }
@@ -195,7 +195,7 @@ public class MyCouponActivity extends ToolbarActivity<ActivityMyCouponBinding> {
 
         public class ViewHolder extends RecyclerView.ViewHolder {
 
-            public ItemCouponBinding viewDataBinding;
+            public ItemMyCouponBinding viewDataBinding;
 
             public ViewHolder(View itemView) {
                 super(itemView);
