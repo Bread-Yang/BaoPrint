@@ -9,6 +9,7 @@ import com.MDGround.HaiLanPrint.activity.calendar.CalendarEditActivity;
 import com.MDGround.HaiLanPrint.activity.cloudphotos.CloudDetailActivity;
 import com.MDGround.HaiLanPrint.activity.engraving.EngravingChoosePaperNumActivity;
 import com.MDGround.HaiLanPrint.activity.login.LoginActivity;
+import com.MDGround.HaiLanPrint.activity.lomocard.LomoCardEditActivity;
 import com.MDGround.HaiLanPrint.activity.magazinealbum.MagazineEditActivity;
 import com.MDGround.HaiLanPrint.activity.magiccup.MagicCupPhotoEditActivity;
 import com.MDGround.HaiLanPrint.activity.main.MainActivity;

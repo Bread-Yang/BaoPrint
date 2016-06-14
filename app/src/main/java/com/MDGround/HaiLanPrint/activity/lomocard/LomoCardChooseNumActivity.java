@@ -8,7 +8,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.MDGround.HaiLanPrint.BR;
 import com.MDGround.HaiLanPrint.ProductType;
 import com.MDGround.HaiLanPrint.R;
 import com.MDGround.HaiLanPrint.activity.base.ToolbarActivity;
@@ -134,8 +133,8 @@ public class LomoCardChooseNumActivity extends ToolbarActivity<ActivityLomoCardC
 
         @Override
         public void onBindViewHolder(BindingHolder holder, int position) {
-            holder.viewDataBinding.setVariable(BR.measurement, mSpecList.get(position));
-            holder.viewDataBinding.setVariable(BR.handlers, holder);
+            holder.viewDataBinding.setMeasurement(mSpecList.get(position));
+            holder.viewDataBinding.setHandlers(holder);
         }
 
         @Override

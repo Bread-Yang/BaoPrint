@@ -8,7 +8,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.MDGround.HaiLanPrint.BR;
 import com.MDGround.HaiLanPrint.R;
 import com.MDGround.HaiLanPrint.activity.base.ToolbarActivity;
 import com.MDGround.HaiLanPrint.application.MDGroundApplication;
@@ -110,8 +109,8 @@ public class ChooseDeliveryAddressActivity extends ToolbarActivity<ActivityChoos
         public void onBindViewHolder(DeliveryAddressAdapter.ViewHolder holder, int position) {
             DeliveryAddress deliveryAddress = mAddressArrayList.get(position);
 
-            holder.viewDataBinding.setVariable(BR.deliveryAddress, deliveryAddress);
-            holder.viewDataBinding.setVariable(BR.handlers, holder);
+            holder.viewDataBinding.setDeliveryAddress(deliveryAddress);
+            holder.viewDataBinding.setHandlers(holder);
 
             Location province = MDGroundApplication.mDaoSession.getLocationDao().load(deliveryAddress.getProvinceID());
             Location city = MDGroundApplication.mDaoSession.getLocationDao().load(deliveryAddress.getCityID());
