@@ -26,11 +26,16 @@
 
                android:layout_width="wrap_content"
                android:layout_height="wrap_content"
-               android:textSize="17sp"
+               android:textSize="@dimen/text_size14"
                android:text="@string/tv_hold"
+               android:layout_marginBottom="@dimen/margin_4"
                android:textColor="@android:color/white"
                />
-
+            <View style="@style/DividerHorizontalMarginSytle"
+                android:background="@color/color_white"
+                android:layout_marginLeft="@dimen/margin_12"
+                android:layout_marginRight="@dimen/margin_12"
+                ></View>
            <TextView
                android:id="@+id/tvCredit"
                android:layout_width="wrap_content"

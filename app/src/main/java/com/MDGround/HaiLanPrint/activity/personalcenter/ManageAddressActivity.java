@@ -70,10 +70,12 @@ public class ManageAddressActivity extends ToolbarActivity<ActivityManageAddress
     }
 
     public class BindingHandler{
-        public  void onClickItem(View view){
+        public  void onClickItem(View view,int postion){
+//           int postion=
 
         }
     }
+    BindingHandler handler=new BindingHandler();
     //region ADAPTER
        public class ManageAddressAdatper extends RecyclerView.Adapter<ManageAddressAdatper.MyViewHolder>{
         @Override
@@ -87,14 +89,14 @@ public class ManageAddressActivity extends ToolbarActivity<ActivityManageAddress
         public void onBindViewHolder(MyViewHolder holder, int position) {
             DeliveryAddress address=mUserAddressList.get(position);
             viewItemBinding.setAddress(address);
-
+          //  viewItemBinding.set
         }
 
         @Override
         public int getItemCount() {
             return mUserAddressList.size();
         }
-               ItemManageAddressBinding viewItemBinding;
+             public  ItemManageAddressBinding viewItemBinding;
         class  MyViewHolder extends RecyclerView.ViewHolder{
               public MyViewHolder(View itemView) {
                   super(itemView);

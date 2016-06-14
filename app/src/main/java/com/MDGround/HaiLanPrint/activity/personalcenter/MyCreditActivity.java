@@ -129,7 +129,13 @@ public class MyCreditActivity extends ToolbarActivity<ActivityPersonalCreditBind
         public void onBindViewHolder(ViewHolder holder, int position) {
             BindHandler handler = new BindHandler();
             holder.itemIntegralQueryBinding.setHandler(handler);
+
             holder.itemIntegralQueryBinding.setCreditInfo(mUserCreditList.get(position));
+            if(Integer.valueOf(mUserCreditList.get(position).getAmount())<0){
+                holder.itemIntegralQueryBinding.tvIntegral.setTextColor(getResources().getColor(R.color.color_0ec100));
+            }else{
+                holder.itemIntegralQueryBinding.tvIntegral.setTextColor(getResources().getColor(R.color.colorRed));
+            }
         }
 
         @Override
