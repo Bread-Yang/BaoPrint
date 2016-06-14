@@ -66,6 +66,7 @@ public class ChildInformationActivity extends ToolbarActivity<ActivityChildInfor
                 User user= MDGroundApplication.mLoginUser;
                 List<UserKid> userKids =user.getUserKidList();
                 UserKid kid=new UserKid();
+                kid.setUserID(user.getUserID());
                 kid.setUpdatedTime(updateDate);
                 kid.setName(mChildName);
                 kid.setClass(mChildClass);

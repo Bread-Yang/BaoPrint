@@ -308,8 +308,9 @@
     <string name="birthday">出生年月</string>
     <string name="school">学校</string>
     <string name="Mclass">班级</string>
-    <string name="longtouschool">天河龙涛学校</string>
-    <string name="wuhuarou">五花肉</string>
-    <string name="treeClassTwo">三年二班</string>
+    <string name="longtouschool">请输入学校</string>
+    <string name="wuhuarou">请输入昵称</string>
+    <string name="treeClassTwo">请输入年级</string>
+    <string name="inputBirthday">请输入生日</string>
     <string name="editor">编辑</string>
 </resources>
