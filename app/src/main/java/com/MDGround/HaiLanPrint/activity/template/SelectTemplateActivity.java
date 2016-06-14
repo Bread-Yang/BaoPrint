@@ -58,6 +58,7 @@ public class SelectTemplateActivity extends ToolbarActivity<ActivitySelectTempla
     protected void initData() {
         if (MDGroundApplication.mChoosedProductType == ProductType.PictureFrame) {
             mDataBinding.tabLayout.setVisibility(View.GONE);
+            tvTitle.setText(R.string.choose_frame);
         } else {
             String[] titles = getResources().getStringArray(R.array.template_class_array);
 

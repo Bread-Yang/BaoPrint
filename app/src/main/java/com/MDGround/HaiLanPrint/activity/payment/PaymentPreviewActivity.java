@@ -58,6 +58,7 @@ public class PaymentPreviewActivity extends ToolbarActivity<ActivityPaymentPrevi
 
         mDataBinding.setOrderWork(mOrderWork);
 
+
         getUserIntegralInfoRequest();
 
         Measurement measurement = MDGroundApplication.mChoosedMeasurement;

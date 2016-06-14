@@ -128,12 +128,20 @@
             android:label="@string/illustration"
             android:screenOrientation="portrait"/>
         <activity
+            android:name=".activity.magazinealbum.MagazineEditActivity"
+            android:label="@string/edit"
+            android:screenOrientation="portrait"/>
+        <activity
             android:name=".activity.artalbum.ArtAlbumChooseInchActivity"
             android:label="@string/art_album"
             android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.artalbum.ArtAlbumIllustrationActivity"
             android:label="@string/illustration"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activity.artalbum.ArtAlbumEditActivity"
+            android:label="@string/edit"
             android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.pictureframe.PictureFrameStartActivity"
@@ -146,6 +154,10 @@
         <activity
             android:name=".activity.calendar.CalendarIllustrationActivity"
             android:label="@string/illustration"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activity.calendar.CalendarEditActivity"
+            android:label="@string/edit"
             android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.template.TemplateStartCreateActivity"
@@ -190,6 +202,10 @@
             android:label="@string/illustration"
             android:screenOrientation="portrait"/>
         <activity
+            android:name=".activity.poker.PokerEditActivity"
+            android:label="@string/edit"
+            android:screenOrientation="portrait"/>
+        <activity
             android:name=".activity.puzzle.PuzzleStartActivity"
             android:label="@string/puzzle"
             android:screenOrientation="portrait"/>
@@ -216,6 +232,10 @@
         <activity
             android:name=".activity.lomocard.LomoCardIllustrationActivity"
             android:label="@string/illustration"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activity.lomocard.LomoCardEditActivity"
+            android:label="@string/edit"
             android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.engraving.EngravingChooseInchActivity"

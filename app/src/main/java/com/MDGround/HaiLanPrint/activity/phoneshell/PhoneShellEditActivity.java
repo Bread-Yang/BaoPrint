@@ -107,8 +107,8 @@ public class PhoneShellEditActivity extends ToolbarActivity<ActivityPhoneShellEd
     public void nextStepAction(View view) {
         ViewUtils.loading(this);
 
-        OrderUtils orderUtils = new OrderUtils(this, MDGroundApplication.mChoosedTemplate.getPrice(), null);
-        orderUtils.saveOrderRequest();
+        MDGroundApplication.mOrderutUtils = new OrderUtils(this, MDGroundApplication.mChoosedTemplate.getPrice(), null);
+        MDGroundApplication.mOrderutUtils.saveOrderRequest();
     }
     //endregion
 

@@ -53,6 +53,8 @@ public class MagicCupPhotoEditActivity extends ToolbarActivity<ActivityMagicCupE
 
                 mDataBinding.bgiImage.mBrightnessFilter.setBrightness(progress / 100f);
                 mDataBinding.bgiImage.requestRender();
+
+//                mDataBinding.bgiImage.setmBrightness(progress / 100f);
             }
 
             @Override
@@ -105,8 +107,8 @@ public class MagicCupPhotoEditActivity extends ToolbarActivity<ActivityMagicCupE
     public void nextStepAction(View view) {
         ViewUtils.loading(this);
 
-        OrderUtils orderUtils = new OrderUtils(this, MDGroundApplication.mChoosedMeasurement.getPrice(), null);
-        orderUtils.saveOrderRequest();
+        MDGroundApplication.mOrderutUtils = new OrderUtils(this, MDGroundApplication.mChoosedMeasurement.getPrice(), null);
+        MDGroundApplication.mOrderutUtils.saveOrderRequest();
     }
     //endregion
 

@@ -165,6 +165,7 @@
 
     <!-- 明信片 -->
     <string name="postcard">明信片</string>
+    <string name="click_input">点击这里写点什么</string>
 
     <!-- 杂志册 -->
     <string name="magazine_album">杂志册</string>
@@ -184,6 +185,7 @@
 
     <!-- 选择模版 -->
     <string name="choose_template">选择模版</string>
+    <string name="choose_frame">选择相框</string>
     <string name="template_detail">模版详情</string>
     <string name="price_rmb">价格: ¥%s</string>
     <string name="page_count">%dP</string>

@@ -1,4 +1,4 @@
-package com.MDGround.HaiLanPrint.activity.postcard;
+package com.MDGround.HaiLanPrint.activity.calendar;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -12,7 +12,7 @@ import com.MDGround.HaiLanPrint.activity.selectimage.SelectAlbumWhenEditActivity
 import com.MDGround.HaiLanPrint.adapter.TemplageImageAdapter;
 import com.MDGround.HaiLanPrint.application.MDGroundApplication;
 import com.MDGround.HaiLanPrint.constants.Constants;
-import com.MDGround.HaiLanPrint.databinding.ActivityPostcardEditBinding;
+import com.MDGround.HaiLanPrint.databinding.ActivityCalendarEditBinding;
 import com.MDGround.HaiLanPrint.models.MDImage;
 import com.MDGround.HaiLanPrint.models.WorkPhoto;
 import com.MDGround.HaiLanPrint.utils.NavUtils;
@@ -30,7 +30,7 @@ import java.util.ArrayList;
 /**
  * Created by yoghourt on 5/18/16.
  */
-public class PostcardEditActivity extends ToolbarActivity<ActivityPostcardEditBinding> {
+public class CalendarEditActivity extends ToolbarActivity<ActivityCalendarEditBinding> {
 
     private TemplageImageAdapter mTeplateImageAdapter;
 
@@ -42,7 +42,7 @@ public class PostcardEditActivity extends ToolbarActivity<ActivityPostcardEditBi
 
     @Override
     protected int getContentLayout() {
-        return R.layout.activity_postcard_edit;
+        return R.layout.activity_calendar_edit;
     }
 
     @Override
@@ -65,14 +65,14 @@ public class PostcardEditActivity extends ToolbarActivity<ActivityPostcardEditBi
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                NavUtils.toMainActivity(PostcardEditActivity.this);
+                NavUtils.toMainActivity(CalendarEditActivity.this);
             }
         });
 
         mDataBinding.bgiImage.setOnSingleTouchListener(new BaoGPUImage.OnSingleTouchListener() {
             @Override
             public void onSingleTouch() {
-                Intent intent = new Intent(PostcardEditActivity.this, SelectAlbumWhenEditActivity.class);
+                Intent intent = new Intent(CalendarEditActivity.this, SelectAlbumWhenEditActivity.class);
                 startActivityForResult(intent, 0);
             }
         });

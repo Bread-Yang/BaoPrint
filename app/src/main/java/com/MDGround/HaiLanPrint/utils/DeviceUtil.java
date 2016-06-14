@@ -85,7 +85,10 @@ public class DeviceUtil {
 	}
 
 	public static void logoutUser() {
-		PreferenceUtils.setPrefString(Constants.KEY_PHONE, MDGroundApplication.mLoginUser.getPhone());
+		if (MDGroundApplication.mLoginUser != null) {
+			PreferenceUtils.setPrefString(Constants.KEY_PHONE, MDGroundApplication.mLoginUser.getPhone());
+		}
+
 		FileUtils.setObject(Constants.KEY_ALREADY_LOGIN_USER, null); // 清空之前的user,保留登录账号
 	}
 }

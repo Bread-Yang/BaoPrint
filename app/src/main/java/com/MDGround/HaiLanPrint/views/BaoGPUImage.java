@@ -36,6 +36,8 @@ public class BaoGPUImage extends GPUImageView {
 
     private Context mContext;
 
+    private Bitmap mBitmap;
+
     private float mScaleFactor = 1.0f;  // 放大缩小倍数
 
     private float mRotationDegrees = 0.f; // 旋转倍数
@@ -115,6 +117,8 @@ public class BaoGPUImage extends GPUImageView {
     }
 
     public void loadNewImage(Bitmap bitmap, float scaleFactor, float rotationDegrees) {
+        mBitmap = bitmap;
+
         mScaleFactor = scaleFactor;
         mRotationDegrees = rotationDegrees;
 
@@ -123,7 +127,7 @@ public class BaoGPUImage extends GPUImageView {
         mBrightnessFilter.setBrightness(0);
 
         mFilterGroup = new GPUImageFilterGroup();
-//        mFilterGroup.addFilter(mBrightnessFilter);
+        mFilterGroup.addFilter(mBrightnessFilter);
         mFilterGroup.addFilter(mTransformFilter);
 
         setFilter(mFilterGroup);
@@ -137,7 +141,7 @@ public class BaoGPUImage extends GPUImageView {
 
     public void setTransformFactor(float scaleFactor, float rotationDegree) {
         mScaleFactor = scaleFactor;
-        rotationDegree = rotationDegree;
+        mRotationDegrees = rotationDegree;
 
         float[] transform = new float[16];
         Matrix.setIdentityM(transform, 0);
@@ -149,6 +153,40 @@ public class BaoGPUImage extends GPUImageView {
 
         mTransformFilter.setTransform3D(transform);
         requestRender();
+    }
+
+    public GPUImageTransformFilter getTransformFilter(float scaleFactor, float rotationDegree) {
+        float[] transform = new float[16];
+        Matrix.setIdentityM(transform, 0);
+        Matrix.setRotateM(transform, 0, rotationDegree, 0, 0, 1.0f);
+        if (scaleFactor < 0) {
+            scaleFactor = 1;
+        }
+        Matrix.scaleM(transform, 0, scaleFactor, scaleFactor, 1.0f);
+
+        GPUImageTransformFilter transformFilter = new GPUImageTransformFilter();
+        transformFilter.setTransform3D(transform);
+        return transformFilter;
+    }
+
+    public void setmBrightness(float brightness) {
+        GPUImageTransformFilter transformFilter= getTransformFilter(mScaleFactor, mRotationDegrees);
+
+        GPUImageBrightnessFilter brightnessFilter = new GPUImageBrightnessFilter();
+        mBrightnessFilter.setBrightness(brightness);
+
+        GPUImageFilterGroup gpuImageFilterGroup = new GPUImageFilterGroup();
+        gpuImageFilterGroup.addFilter(brightnessFilter);
+        gpuImageFilterGroup.addFilter(transformFilter);
+
+        GPUImage gpuImage = new GPUImage(mContext);
+        gpuImage.setFilter(gpuImageFilterGroup);
+        gpuImage.setImage(mBitmap);
+
+        Bitmap bitmap = gpuImage.getBitmapWithFilterApplied();
+
+        getGPUImage().deleteImage();
+        setImage(bitmap);
     }
 
     public Bitmap addTemplate(Context context, Bitmap templateBitmap) {

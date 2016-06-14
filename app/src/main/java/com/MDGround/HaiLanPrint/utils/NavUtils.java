@@ -4,15 +4,19 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v4.content.IntentCompat;
 
+import com.MDGround.HaiLanPrint.activity.artalbum.ArtAlbumEditActivity;
+import com.MDGround.HaiLanPrint.activity.calendar.CalendarEditActivity;
 import com.MDGround.HaiLanPrint.activity.cloudphotos.CloudDetailActivity;
 import com.MDGround.HaiLanPrint.activity.engraving.EngravingChoosePaperNumActivity;
 import com.MDGround.HaiLanPrint.activity.login.LoginActivity;
+import com.MDGround.HaiLanPrint.activity.magazinealbum.MagazineEditActivity;
 import com.MDGround.HaiLanPrint.activity.magiccup.MagicCupPhotoEditActivity;
 import com.MDGround.HaiLanPrint.activity.main.MainActivity;
 import com.MDGround.HaiLanPrint.activity.payment.PaymentPreviewActivity;
 import com.MDGround.HaiLanPrint.activity.phoneshell.PhoneShellEditActivity;
 import com.MDGround.HaiLanPrint.activity.photoprint.PrintPhotoChoosePaperNumActivity;
 import com.MDGround.HaiLanPrint.activity.pictureframe.PictureFrameEditActivity;
+import com.MDGround.HaiLanPrint.activity.poker.PokerEditActivity;
 import com.MDGround.HaiLanPrint.activity.postcard.PostcardEditActivity;
 import com.MDGround.HaiLanPrint.activity.puzzle.PuzzleEditActivity;
 import com.MDGround.HaiLanPrint.activity.selectimage.SelectAlbumBeforeEditActivity;
@@ -63,22 +67,22 @@ public class NavUtils {
                 intent.setClass(context, PostcardEditActivity.class);
                 break;
             case MagazineAlbum:
-                intent.setClass(context, PostcardEditActivity.class);
+                intent.setClass(context, MagazineEditActivity.class);
                 break;
             case ArtAlbum:
-                intent.setClass(context, PostcardEditActivity.class);
+                intent.setClass(context, ArtAlbumEditActivity.class);
                 break;
             case PictureFrame:
                 intent.setClass(context, PictureFrameEditActivity.class);
                 break;
             case Calendar:
-                intent.setClass(context, PostcardEditActivity.class);
+                intent.setClass(context, CalendarEditActivity.class);
                 break;
             case PhoneShell:
                 intent.setClass(context, PhoneShellEditActivity.class);
                 break;
             case Poker:
-                intent.setClass(context, PostcardEditActivity.class);
+                intent.setClass(context, PokerEditActivity.class);
                 break;
             case Puzzle:
                 intent.setClass(context, PuzzleEditActivity.class);
@@ -87,7 +91,7 @@ public class NavUtils {
                 intent.setClass(context, MagicCupPhotoEditActivity.class);
                 break;
             case LOMOCard:
-                intent.setClass(context, PostcardEditActivity.class);
+                intent.setClass(context, LomoCardEditActivity.class);
                 break;
             case Engraving:
                 intent.setClass(context, EngravingChoosePaperNumActivity.class);
