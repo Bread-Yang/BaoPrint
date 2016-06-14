@@ -4,15 +4,8 @@ import java.io.Serializable;
 import java.util.List;
 
 public class User implements Serializable {
-    List<UserKid> UserKidList;
 
-    public List<UserKid> getUserKidList() {
-        return UserKidList;
-    }
-
-    public void setUserKidList(List<UserKid> userKid) {
-        UserKidList = userKid;
-    }
+    public List<UserKid> UserKidList;
 
     public int UserID;
 
@@ -73,6 +66,14 @@ public class User implements Serializable {
     public User() {
         InvitationCode = "";
         ChildDOB = "";
+    }
+
+    public List<UserKid> getUserKidList() {
+        return UserKidList;
+    }
+
+    public void setUserKidList(List<UserKid> userKid) {
+        UserKidList = userKid;
     }
 
     public int getUserID() {

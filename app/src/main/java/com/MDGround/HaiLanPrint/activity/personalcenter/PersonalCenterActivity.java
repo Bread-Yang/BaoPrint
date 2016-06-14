@@ -34,7 +34,7 @@ public class PersonalCenterActivity extends ToolbarActivity<ActivityPersonalCent
 //        GlideUtil.loadImageByMDImage(mDataBinding.civAvatar, mdImage);
 
         // 用户名
-     // mDataBinding.tvName.setText(MDGroundApplication.mLoginUser.getUserName());
+        // mDataBinding.tvName.setText(MDGroundApplication.mLoginUser.getUserName());
     }
 
     @Override
@@ -45,16 +45,19 @@ public class PersonalCenterActivity extends ToolbarActivity<ActivityPersonalCent
     @Override
     protected void onResume() {
         super.onResume();
-        User user=MDGroundApplication.mLoginUser;
-        MDImage mdImage= new MDImage();;
+        User user = MDGroundApplication.mLoginUser;
+        MDImage mdImage = new MDImage();
         mdImage.setPhotoID(user.getPhotoID());
         mdImage.setPhotoSID(user.getPhotoSID());
         GlideUtil.loadImageByMDImage(mDataBinding.civAvatar, mdImage);
-        Location city = MDGroundApplication.mDaoSession.getLocationDao().load((long)user.getCityID());
-        Location cunty = MDGroundApplication.mDaoSession.getLocationDao().load((long)user.getCountryID());
         mDataBinding.tvName.setText(user.getUserNickName());
-       mDataBinding.tvPhoneNume.setText(user.getPhone());
-        mDataBinding.tvCity.setText(city.getLocationName()+" "+cunty.getLocationName());//
+        mDataBinding.tvPhoneNume.setText(user.getPhone());
+
+        Location city = MDGroundApplication.mDaoSession.getLocationDao().load((long) user.getCityID());
+        Location county = MDGroundApplication.mDaoSession.getLocationDao().load((long) user.getCountryID());
+        if (city != null && county != null) {
+            mDataBinding.tvCity.setText(city.getLocationName() + " " + county.getLocationName());
+        }
     }
 
     //region ACTION
@@ -72,15 +75,17 @@ public class PersonalCenterActivity extends ToolbarActivity<ActivityPersonalCent
         Intent intent = new Intent(this, MyCouponActivity.class);
         startActivity(intent);
     }
+
     //设置
     public void toSettingActivityAction(View view) {
         Intent intent = new Intent(this, SettingActivity.class);
         startActivity(intent);
     }
+
     //endregion
     //积分查询
-    public void tOMyCreditActivity(View v){
-          Intent intent=new Intent(this,MyCreditActivity.class);
+    public void tOMyCreditActivity(View v) {
+        Intent intent = new Intent(this, MyCreditActivity.class);
         startActivity(intent);
     }
     //我的作品未完善

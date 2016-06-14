@@ -22,6 +22,7 @@ import com.MDGround.HaiLanPrint.restfuls.GlobalRestful;
 import com.MDGround.HaiLanPrint.restfuls.bean.ResponseData;
 import com.MDGround.HaiLanPrint.utils.GlideUtil;
 import com.MDGround.HaiLanPrint.utils.NavUtils;
+import com.MDGround.HaiLanPrint.utils.SelectImageUtil;
 import com.MDGround.HaiLanPrint.utils.ViewUtils;
 import com.MDGround.HaiLanPrint.views.itemdecoration.GridSpacingItemDecoration;
 import com.google.gson.reflect.TypeToken;
@@ -156,6 +157,29 @@ public class SelectTemplateActivity extends ToolbarActivity<ActivitySelectTempla
                     }
                 });
     }
+
+    private void getPhotoTemplateAttachListRequest(int templateID) {
+        ViewUtils.loading(this);
+        GlobalRestful.getInstance().GetPhotoTemplateAttachList(templateID, new Callback<ResponseData>() {
+            @Override
+            public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
+                SelectImageUtil.mTemplateImage.clear();
+
+                SelectImageUtil.mTemplateImage = response.body().getContent(new TypeToken<ArrayList<MDImage>>() {
+                });
+
+                Intent intent = new Intent(SelectTemplateActivity.this, TemplateStartCreateActivity.class);
+                startActivity(intent);
+                ViewUtils.dismiss();
+            }
+
+            @Override
+            public void onFailure(Call<ResponseData> call, Throwable t) {
+
+            }
+        });
+    }
+
     //endregion
 
     //region ADAPTER
@@ -215,8 +239,7 @@ public class SelectTemplateActivity extends ToolbarActivity<ActivitySelectTempla
                     case MagazineAlbum:
                     case ArtAlbum:
                     case Calendar:
-                        Intent intent = new Intent(SelectTemplateActivity.this, TemplateStartCreateActivity.class);
-                        startActivity(intent);
+                        getPhotoTemplateAttachListRequest(MDGroundApplication.mChoosedTemplate.getTemplateID());
                         break;
                     default:
                         NavUtils.toSelectAlbumActivity(view.getContext());

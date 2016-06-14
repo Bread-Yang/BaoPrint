@@ -21,6 +21,10 @@ public class StringUtil {
         return false;
     }
 
+    public static String toYuanWithInteger(int amount) {
+        return String.valueOf(amount / 100);
+    }
+
     public static String toYuanWithoutUnit(float amount) {
         return String.format("%.02f", amount / 100);
     }

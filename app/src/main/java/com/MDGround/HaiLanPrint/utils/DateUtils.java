@@ -181,6 +181,10 @@ public class DateUtils {
         return simpleDataFormat.format(date);
     }
 
+    public static String getYearMonthDayWithDash(String dateString) {
+        return getYearMonthDayWithDash(getDateByServerDateString(dateString).toDate());
+    }
+
     public static String getYearMonthDayWithDash(Date date) {
         SimpleDateFormat simpleDataFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.CHINA);
         return simpleDataFormat.format(date);

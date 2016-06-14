@@ -54,7 +54,7 @@
             android:textColor="@color/color_f88e11"/>
 
         <View
-            style="@style/DividerHorizontalMarginSytle"
+            style="@style/DividerHorizontalStyle"
             android:layout_height="10dp"
             android:layout_marginLeft="0dp"
             android:layout_marginRight="0dp"
