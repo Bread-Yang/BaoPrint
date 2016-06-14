@@ -11,6 +11,7 @@ import com.MDGround.HaiLanPrint.application.MDGroundApplication;
 import com.MDGround.HaiLanPrint.constants.Constants;
 import com.MDGround.HaiLanPrint.databinding.ActivityPaymentPreviewBinding;
 import com.MDGround.HaiLanPrint.greendao.Location;
+import com.MDGround.HaiLanPrint.models.Coupon;
 import com.MDGround.HaiLanPrint.models.DeliveryAddress;
 import com.MDGround.HaiLanPrint.models.Measurement;
 import com.MDGround.HaiLanPrint.models.OrderWork;
@@ -18,6 +19,7 @@ import com.MDGround.HaiLanPrint.models.Template;
 import com.MDGround.HaiLanPrint.models.UserIntegralList;
 import com.MDGround.HaiLanPrint.restfuls.GlobalRestful;
 import com.MDGround.HaiLanPrint.restfuls.bean.ResponseData;
+import com.MDGround.HaiLanPrint.utils.DateUtils;
 import com.MDGround.HaiLanPrint.utils.NavUtils;
 import com.MDGround.HaiLanPrint.utils.StringUtil;
 import com.MDGround.HaiLanPrint.utils.ViewUtils;
@@ -47,9 +49,20 @@ public class PaymentPreviewActivity extends ToolbarActivity<ActivityPaymentPrevi
 
     public ArrayList<UserIntegralList> mUserCreditArrayList = new ArrayList<>();
 
+    private ArrayList<Coupon> mAvailableCouponArrayList = new ArrayList<>();
+
+    private Coupon mSelectedCoupon;
+
     @Override
     protected int getContentLayout() {
         return R.layout.activity_payment_preview;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getUserIntegralInfoRequest();
+        getUserCouponListRequest();
     }
 
     @Override
@@ -57,9 +70,6 @@ public class PaymentPreviewActivity extends ToolbarActivity<ActivityPaymentPrevi
         mOrderWork = MDGroundApplication.mOrderutUtils.getmOrderWork();
 
         mDataBinding.setOrderWork(mOrderWork);
-
-
-        getUserIntegralInfoRequest();
 
         Measurement measurement = MDGroundApplication.mChoosedMeasurement;
 
@@ -155,7 +165,7 @@ public class PaymentPreviewActivity extends ToolbarActivity<ActivityPaymentPrevi
 
                     break;
                 case REQEUST_CODE_SELECT_COUPON:
-
+                    mSelectedCoupon = data.getParcelableExtra(Constants.KEY_SELECTED_COUPON);
                     break;
             }
         }
@@ -170,7 +180,9 @@ public class PaymentPreviewActivity extends ToolbarActivity<ActivityPaymentPrevi
 
     public void toChooseCouponActivityAction(View view) {
         Intent intent = new Intent(this, ChooseCouponActivity.class);
-        startActivity(intent);
+        intent.putExtra(Constants.KEY_SELECTED_COUPON, mSelectedCoupon);
+        intent.putExtra(Constants.KEY_COUPON_LIST, mAvailableCouponArrayList);
+        startActivityForResult(intent, REQEUST_CODE_SELECT_COUPON);
     }
 
     public void payAction(View view) {
@@ -206,5 +218,32 @@ public class PaymentPreviewActivity extends ToolbarActivity<ActivityPaymentPrevi
             }
         });
     }
+
+    private void getUserCouponListRequest() {
+        GlobalRestful.getInstance().GetUserCouponList(new Callback<ResponseData>() {
+            @Override
+            public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
+                ArrayList<Coupon> allCouponArrayList = response.body().getContent(new TypeToken<ArrayList<Coupon>>() {
+                });
+
+                mAvailableCouponArrayList.clear();
+                for (Coupon coupon : allCouponArrayList) {
+                    // 判断优惠券是否可用条件：当前时间在ExpireTime之前
+                    boolean isAvailable = DateUtils.isBeforeExpireTime(coupon.getExpireTime());
+
+                    if (isAvailable) {
+                        mAvailableCouponArrayList.add(coupon);
+                    }
+                }
+                mDataBinding.tvAvailableCoupon.setText(getString(R.string.available_num, mAvailableCouponArrayList.size()));
+            }
+
+            @Override
+            public void onFailure(Call<ResponseData> call, Throwable t) {
+
+            }
+        });
+    }
+
     //endregion
 }

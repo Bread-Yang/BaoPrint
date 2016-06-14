@@ -21,7 +21,7 @@ public class GlideUtil {
 //        if (mdImage.getImageLocalPath() != null && mdImage.getImageLocalPath().contains("storage")) {
 //            // 加载本地图片
 //            Glide.with(MDGroundApplication.mInstance)
-//                    .load(new File(mdImage.getImageLocalPath()))
+//                    .load(Uri.fromFile(new File(mdImage.getImageLocalPath())))
 //                    .centerCrop()
 //                    .placeholder(R.drawable.layerlist_image_placeholder)
 //                    .error(R.drawable.layerlist_image_placeholder)

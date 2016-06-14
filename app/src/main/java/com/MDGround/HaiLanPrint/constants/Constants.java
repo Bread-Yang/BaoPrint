@@ -32,6 +32,8 @@ public final class Constants {
     public static final String KEY_DELIVERY_ADDRESS = "key_delivery_address";
     public static final String KEY_MAX_IMAGE_NUM = "key_max_image_num";
     public static final String KEY_ORDER_WORK = "key_order_work";
+    public static final String KEY_SELECTED_COUPON = "key_selected_coupon";
+    public static final String KEY_COUPON_LIST = "key_coupon_list";
 
     public static int MAX_DELIVERY_ADDRESS = 10; // 最多十个收货地址
 
