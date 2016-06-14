@@ -77,11 +77,6 @@ public class SelectAlbumBeforeEditActivity extends ToolbarActivity<ActivitySelec
         mSelectedImageAdapter = new SelectedImageAdapter();
         mDataBinding.selectedImageRecyclerView.setAdapter(mSelectedImageAdapter);
 
-//        int colorBlue = getResources().getColor(R.color.blue);
-//        String text = getString(R.string.text);
-//        SpannableString spannable = new SpannableString(text);
-//        spannable.setSpan(new ForegroundColorSpan(colorBlue), 0, text.length(), 0);
-
         new LocalMediaLoader(SelectAlbumBeforeEditActivity.this, LocalMediaLoader.TYPE_IMAGE).loadAllImage(new LocalMediaLoader.LocalMediaLoadListener() {
 
             @Override
@@ -91,13 +86,10 @@ public class SelectAlbumBeforeEditActivity extends ToolbarActivity<ActivitySelec
                 getPhotoCountRequest();
 
                 switch (MDGroundApplication.mChoosedProductType) {
+                    case Postcard:
                     case MagazineAlbum:
                     case ArtAlbum:
                     case Calendar:
-//                        mMaxSelectImageNum = MDGroundApplication.mChoosedTemplate.getPageCount();
-//                        changeTips();
-//                        break;
-                    case Postcard:
                     case Poker:
                     case Puzzle:
                     case MagicCup:

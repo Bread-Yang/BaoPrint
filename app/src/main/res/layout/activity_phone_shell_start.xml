@@ -75,7 +75,6 @@
                     <RadioButton
                         android:id="@+id/rbSilicone"
                         style="@style/NormalRaidoButtonStyle"
-                        android:checked="true"
                         android:text="@string/silicone"/>
 
                     <RadioButton
