@@ -45,6 +45,7 @@ public class PersonalInformationActivity extends ToolbarActivity<ActivityPersona
     private SelectSingleImageDialog mSelectSingleImageDialog;
     private ArrayList<String> mUploadImageLocalPathList = new ArrayList<>();
     private RegionPickerDialog mRegionPickerDialog;
+
     @Override
     protected int getContentLayout() {
         return R.layout.activity_personal_information;
@@ -76,9 +77,12 @@ public class PersonalInformationActivity extends ToolbarActivity<ActivityPersona
         mdImage.setPhotoID(user.getPhotoID());
         mdImage.setPhotoSID(user.getPhotoSID());
         GlideUtil.loadImageByMDImage(mDataBinding.civAvatar, mdImage);
-       Location city = MDGroundApplication.mDaoSession.getLocationDao().load((long)user.getCityID());
-       Location cunty = MDGroundApplication.mDaoSession.getLocationDao().load((long)user.getCountryID());
-        mDataBinding.tvLocality.setText(city.getLocationName()+" "+cunty.getLocationName());
+
+        Location city = MDGroundApplication.mDaoSession.getLocationDao().load((long) user.getCityID());
+        Location county = MDGroundApplication.mDaoSession.getLocationDao().load((long) user.getCountryID());
+        if (city != null && county != null) {
+            mDataBinding.tvLocality.setText(city.getLocationName() + " " + county.getLocationName());
+        }
     }
 
     @Override
@@ -87,7 +91,7 @@ public class PersonalInformationActivity extends ToolbarActivity<ActivityPersona
         mRegionPickerDialog.setOnRegionSelectListener(new RegionPickerDialog.OnRegionSelectListener() {
             @Override
             public void onRegionSelect(Location province, final Location city, final Location county) {
-                  final User user = MDGroundApplication.mLoginUser;
+                final User user = MDGroundApplication.mLoginUser;
                 user.setProvinceID(Integer.parseInt(String.valueOf(province.getLocationID())));
                 user.setCityID(Integer.parseInt(String.valueOf(city.getLocationID())));
                 user.setCountryID(Integer.parseInt(String.valueOf(county.getLocationID())));
@@ -97,9 +101,10 @@ public class PersonalInformationActivity extends ToolbarActivity<ActivityPersona
                         KLog.e("返回来   " + response.body());
                         if (ResponseCode.isSuccess(response.body())) {
                             mDataBinding.tvLocality.setText(city.getLocationName() + county.getLocationName());
-                            MDGroundApplication.mLoginUser=user;
+                            MDGroundApplication.mLoginUser = user;
                         }
                     }
+
                     @Override
                     public void onFailure(Call<ResponseData> call, Throwable t) {
                     }
@@ -176,7 +181,7 @@ public class PersonalInformationActivity extends ToolbarActivity<ActivityPersona
                             String jsonStr = jsonObject.toString();
                             User user = StringUtil.getInstanceByJsonString(jsonStr, User.class);
                             KLog.e("userID是" + user.getPhotoSID());
-                            MDGroundApplication.mLoginUser .setPhotoID(user.getPhotoID());
+                            MDGroundApplication.mLoginUser.setPhotoID(user.getPhotoID());
                             MDGroundApplication.mLoginUser.setPhotoSID(user.getPhotoSID());
                             MDGroundApplication.mLoginUser.setUpdatedTime(user.getUpdatedTime());
                             MDImage mdImage = new MDImage();
@@ -218,10 +223,11 @@ public class PersonalInformationActivity extends ToolbarActivity<ActivityPersona
     public void selectAddress(View view) {
         mRegionPickerDialog.show();
     }
+
     //endregion
     //设置孩子资料
-    public void setChildData(View view){
-        Intent intent =new Intent(this,ChildInformationActivity.class);
+    public void setChildData(View view) {
+        Intent intent = new Intent(this, ChildInformationActivity.class);
         startActivity(intent);
     }
     //endregion

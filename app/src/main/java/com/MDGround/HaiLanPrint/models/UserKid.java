@@ -1,17 +1,21 @@
 package com.MDGround.HaiLanPrint.models;
 
+import java.io.Serializable;
+
 /**
  * Created by PC on 2016-06-13.
  */
 
-public class UserKid {
+public class UserKid implements Serializable {
+    
     private int AutoID;
-    static String Class;
-    private String  DOB;
+    public String Class;
+    private String DOB;
     private String Name;
     private String School;
     private String UpdatedTime;
     private int UserID;
+
     public int getAutoID() {
         return AutoID;
     }
@@ -23,6 +27,7 @@ public class UserKid {
     public void setClass(String aClass) {
         Class = aClass;
     }
+
     public String getDOB() {
         return DOB;
     }
