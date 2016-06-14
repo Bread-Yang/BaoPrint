@@ -84,7 +84,7 @@ public class LomoCardChooseNumActivity extends ToolbarActivity<ActivityLomoCardC
 
     //region ACTION
     public void toLomoCardIllutrationActivityAction(View view) {
-        Intent intent = new Intent(this, LomoCardIllustrationActivity.class);
+        Intent intent = new Intent(this, LomoCardForIllustrationActivity.class);
         startActivity(intent);
     }
     //endregion

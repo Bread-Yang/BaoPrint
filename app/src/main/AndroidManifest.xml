@@ -124,7 +124,7 @@
             android:label="@string/magazine_album"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".activity.magazinealbum.MagazineIllustrationActivity"
+            android:name=".activity.magazinealbum.MagazineForIllustrationActivity"
             android:label="@string/illustration"
             android:screenOrientation="portrait"/>
         <activity
@@ -136,7 +136,7 @@
             android:label="@string/art_album"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".activity.artalbum.ArtAlbumIllustrationActivity"
+            android:name=".activity.artalbum.ArtAlbumForIllustrationActivity"
             android:label="@string/illustration"
             android:screenOrientation="portrait"/>
         <activity
@@ -152,7 +152,7 @@
             android:label="@string/calendar"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".activity.calendar.CalendarIllustrationActivity"
+            android:name=".activity.calendar.CalendarForIllustrationActivity"
             android:label="@string/illustration"
             android:screenOrientation="portrait"/>
         <activity
@@ -178,7 +178,7 @@
             android:label="@string/phone_shell"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".activity.phoneshell.PhoneShellIllustrationActivity"
+            android:name=".activity.phoneshell.PhoneShellForIllustrationActivity"
             android:label="@string/illustration"
             android:screenOrientation="portrait"/>
         <activity
@@ -198,7 +198,7 @@
             android:label="@string/poker"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".activity.poker.PokerIllustrationActivity"
+            android:name=".activity.poker.PokerForIllustrationActivity"
             android:label="@string/illustration"
             android:screenOrientation="portrait"/>
         <activity
@@ -218,7 +218,7 @@
             android:label="@string/magic_cup"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".activity.magiccup.MagicIllustrationActivity"
+            android:name=".activity.magiccup.MagicForIllustrationActivity"
             android:label="@string/illustration"
             android:screenOrientation="portrait"/>
         <activity
@@ -230,7 +230,7 @@
             android:label="@string/lomo_card"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".activity.lomocard.LomoCardIllustrationActivity"
+            android:name=".activity.lomocard.LomoCardForIllustrationActivity"
             android:label="@string/illustration"
             android:screenOrientation="portrait"/>
         <activity
@@ -242,7 +242,7 @@
             android:label="@string/engraving"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".activity.engraving.EngravingIllustrationActivity"
+            android:name=".activity.engraving.EngravingForIllustrationActivity"
             android:label="@string/illustration"
             android:screenOrientation="portrait"/>
         <activity

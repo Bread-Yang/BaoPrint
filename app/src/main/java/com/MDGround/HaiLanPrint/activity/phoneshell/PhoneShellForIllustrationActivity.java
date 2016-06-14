@@ -1,9 +1,9 @@
-package com.MDGround.HaiLanPrint.activity.artalbum;
+package com.MDGround.HaiLanPrint.activity.phoneshell;
 
 import com.MDGround.HaiLanPrint.ProductType;
 import com.MDGround.HaiLanPrint.R;
 import com.MDGround.HaiLanPrint.activity.base.ToolbarActivity;
-import com.MDGround.HaiLanPrint.databinding.ActivityArtAlbumIllustrationBinding;
+import com.MDGround.HaiLanPrint.databinding.ActivityPhoneShellIllustrationBinding;
 import com.MDGround.HaiLanPrint.enumobject.PhotoExplainTypeEnum;
 import com.MDGround.HaiLanPrint.models.MDImage;
 import com.MDGround.HaiLanPrint.models.PhotoTypeExplain;
@@ -15,22 +15,20 @@ import static com.MDGround.HaiLanPrint.application.MDGroundApplication.mPhotoTyp
  * Created by yoghourt on 5/23/16.
  */
 
-public class ArtAlbumIllustrationActivity extends ToolbarActivity<ActivityArtAlbumIllustrationBinding> {
+public class PhoneShellForIllustrationActivity extends ToolbarActivity<ActivityPhoneShellIllustrationBinding> {
     @Override
     protected int getContentLayout() {
-        return R.layout.activity_art_album_illustration;
+        return R.layout.activity_phone_shell_illustration;
     }
 
     @Override
     protected void initData() {
         for (PhotoTypeExplain photoTypeExplain : mPhotoTypeExplainArrayList) {
             if (photoTypeExplain.getExplainType() == PhotoExplainTypeEnum.IntroductionPage.value()
-                    && photoTypeExplain.getTypeID() == ProductType.ArtAlbum.value()) {
+                    && photoTypeExplain.getTypeID() == ProductType.PhoneShell.value()) {
 
                 MDImage mdImage = new MDImage();
                 mdImage.setPhotoSID(photoTypeExplain.getPhotoSID());
-
-//                GlideUtil.loadImageByPhotoSID(mDataBinding.ivBanner, photoTypeExplain.getPhotoSID());
 
                 Glide.with(this).load(mdImage).into(mDataBinding.ivMeasurementDescription);
                 break;

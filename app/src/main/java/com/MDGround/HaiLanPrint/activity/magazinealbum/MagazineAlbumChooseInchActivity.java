@@ -84,7 +84,7 @@ public class MagazineAlbumChooseInchActivity extends ToolbarActivity<ActivityMag
 
     //region ACTION
     public void toIllutrationActivityAction(View view) {
-        Intent intent = new Intent(this, MagazineIllustrationActivity.class);
+        Intent intent = new Intent(this, MagazineForIllustrationActivity.class);
         startActivity(intent);
     }
     //endregion

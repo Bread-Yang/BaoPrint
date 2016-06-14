@@ -84,7 +84,7 @@ public class PokerChooseInchActivity extends ToolbarActivity<ActivityPokerChoose
 
     //region ACTION
     public void toPokerIllutrationActivityAction(View view) {
-        Intent intent = new Intent(this, PokerIllustrationActivity.class);
+        Intent intent = new Intent(this, PokerForIllustrationActivity.class);
         startActivity(intent);
     }
     //endregion

@@ -93,7 +93,7 @@ public class PhoneShellStartActivity extends ToolbarActivity<ActivityPhoneShellS
 
     //region ACTION
     public void toPhoneShellIllutrationActivityAction(View view) {
-        Intent intent = new Intent(this, PhoneShellIllustrationActivity.class);
+        Intent intent = new Intent(this, PhoneShellForIllustrationActivity.class);
         startActivity(intent);
     }
     //endregion

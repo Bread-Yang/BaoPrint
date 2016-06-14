@@ -1,9 +1,9 @@
-package com.MDGround.HaiLanPrint.activity.phoneshell;
+package com.MDGround.HaiLanPrint.activity.lomocard;
 
 import com.MDGround.HaiLanPrint.ProductType;
 import com.MDGround.HaiLanPrint.R;
 import com.MDGround.HaiLanPrint.activity.base.ToolbarActivity;
-import com.MDGround.HaiLanPrint.databinding.ActivityPhoneShellIllustrationBinding;
+import com.MDGround.HaiLanPrint.databinding.ActivityLomoCardIllustrationBinding;
 import com.MDGround.HaiLanPrint.enumobject.PhotoExplainTypeEnum;
 import com.MDGround.HaiLanPrint.models.MDImage;
 import com.MDGround.HaiLanPrint.models.PhotoTypeExplain;
@@ -15,17 +15,17 @@ import static com.MDGround.HaiLanPrint.application.MDGroundApplication.mPhotoTyp
  * Created by yoghourt on 5/23/16.
  */
 
-public class PhoneShellIllustrationActivity extends ToolbarActivity<ActivityPhoneShellIllustrationBinding> {
+public class LomoCardForIllustrationActivity extends ToolbarActivity<ActivityLomoCardIllustrationBinding> {
     @Override
     protected int getContentLayout() {
-        return R.layout.activity_phone_shell_illustration;
+        return R.layout.activity_lomo_card_illustration;
     }
 
     @Override
     protected void initData() {
         for (PhotoTypeExplain photoTypeExplain : mPhotoTypeExplainArrayList) {
             if (photoTypeExplain.getExplainType() == PhotoExplainTypeEnum.IntroductionPage.value()
-                    && photoTypeExplain.getTypeID() == ProductType.PhoneShell.value()) {
+                    && photoTypeExplain.getTypeID() == ProductType.LOMOCard.value()) {
 
                 MDImage mdImage = new MDImage();
                 mdImage.setPhotoSID(photoTypeExplain.getPhotoSID());

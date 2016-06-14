@@ -84,7 +84,7 @@ public class ArtAlbumChooseInchActivity extends ToolbarActivity<ActivityArtAlbum
 
     //region ACTION
     public void toIllutrationActivityAction(View view) {
-        Intent intent = new Intent(this, ArtAlbumIllustrationActivity.class);
+        Intent intent = new Intent(this, ArtAlbumForIllustrationActivity.class);
         startActivity(intent);
     }
     //endregion
