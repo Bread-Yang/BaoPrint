@@ -36,14 +36,39 @@ public class TemplateStartCreateActivity extends ToolbarActivity<ActivityTemplat
     protected void initData() {
         mDataBinding.setTemplate(MDGroundApplication.mChoosedTemplate);
 
+        if (SelectImageUtil.mTemplateImage.size() > 0) {
+            setCurrentPageTips(1);
+        } else {
+            setCurrentPageTips(0);
+        }
+
         mDataBinding.viewPager.setAdapter(new TemplateStartCreateAdapter());
     }
 
     @Override
     protected void setListener() {
-    }
+        mDataBinding.viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                setCurrentPageTips(position + 1);
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+    }
     //region ACTION
+
+    private void setCurrentPageTips(int currentIndex) {
+        tvTitle.setText(getString(R.string.current_page_index, currentIndex, SelectImageUtil.mTemplateImage.size()));
+    }
 
     public void nextStepAction(View view) {
         NavUtils.toSelectAlbumActivity(this);
