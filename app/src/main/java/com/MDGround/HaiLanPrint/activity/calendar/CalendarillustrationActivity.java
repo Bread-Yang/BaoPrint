@@ -3,7 +3,6 @@ package com.MDGround.HaiLanPrint.activity.calendar;
 import com.MDGround.HaiLanPrint.ProductType;
 import com.MDGround.HaiLanPrint.R;
 import com.MDGround.HaiLanPrint.activity.base.ToolbarActivity;
-import com.MDGround.HaiLanPrint.databinding.ActivityArtAlbumIllustrationBinding;
 import com.MDGround.HaiLanPrint.databinding.ActivityCalendarIllustrationBinding;
 import com.MDGround.HaiLanPrint.enumobject.PhotoExplainTypeEnum;
 import com.MDGround.HaiLanPrint.models.MDImage;

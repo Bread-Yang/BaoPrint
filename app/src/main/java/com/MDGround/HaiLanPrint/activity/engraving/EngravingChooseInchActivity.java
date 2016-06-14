@@ -32,7 +32,6 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-import jp.co.cyberagent.android.gpuimage.GPUImage;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
