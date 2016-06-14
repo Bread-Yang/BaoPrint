@@ -25,7 +25,17 @@ public class PaymentSuccessActivity extends ToolbarActivity<ActivityPaymentPrevi
 
     @Override
     protected void setListener() {
+        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                NavUtils.toMainActivity(PaymentSuccessActivity.this);
+            }
+        });
+    }
 
+    @Override
+    public void onBackPressed() {
+        NavUtils.toMainActivity(PaymentSuccessActivity.this);
     }
 
     //region ACTION

@@ -58,6 +58,8 @@ public class NavUtils {
         if (SelectImageUtil.mAlreadySelectImage.size() == 0) {
             return;
         }
+
+        boolean hasTemplate = false;
         Intent intent = new Intent();
         switch (MDGroundApplication.mChoosedProductType) {
             // pager 1
@@ -65,24 +67,29 @@ public class NavUtils {
                 intent.setClass(context, PrintPhotoChoosePaperNumActivity.class);
                 break;
             case Postcard:
+                hasTemplate = true;
                 intent.setClass(context, PostcardEditActivity.class);
                 break;
             case MagazineAlbum:
+                hasTemplate = true;
                 intent.setClass(context, MagazineEditActivity.class);
                 break;
             case ArtAlbum:
+                hasTemplate = true;
                 intent.setClass(context, ArtAlbumEditActivity.class);
                 break;
             case PictureFrame:
                 intent.setClass(context, PictureFrameEditActivity.class);
                 break;
             case Calendar:
+                hasTemplate = true;
                 intent.setClass(context, CalendarEditActivity.class);
                 break;
             case PhoneShell:
                 intent.setClass(context, PhoneShellEditActivity.class);
                 break;
             case Poker:
+                hasTemplate = true;
                 intent.setClass(context, PokerEditActivity.class);
                 break;
             case Puzzle:
@@ -92,6 +99,7 @@ public class NavUtils {
                 intent.setClass(context, MagicCupPhotoEditActivity.class);
                 break;
             case LOMOCard:
+                hasTemplate = true;
                 intent.setClass(context, LomoCardEditActivity.class);
                 break;
             case Engraving:
@@ -99,7 +107,14 @@ public class NavUtils {
                 break;
         }
 
-        if (SelectImageUtil.mTemplateImage != null) {
+        if (hasTemplate) {
+            // 服务器返回的模版数量少于pagecount
+            if (SelectImageUtil.mTemplateImage.size() < MDGroundApplication.mChoosedTemplate.getPageCount()) {
+                int difference = MDGroundApplication.mChoosedTemplate.getPageCount() - SelectImageUtil.mTemplateImage.size();
+                for (int i = 0; i < difference; i++) {
+                    SelectImageUtil.mTemplateImage.add(new MDImage());
+                }
+            }
             // 选择的图片数量小于模版的数量
             if (SelectImageUtil.mAlreadySelectImage.size() < SelectImageUtil.mTemplateImage.size()) {
                 int difference = SelectImageUtil.mTemplateImage.size() - SelectImageUtil.mAlreadySelectImage.size();
