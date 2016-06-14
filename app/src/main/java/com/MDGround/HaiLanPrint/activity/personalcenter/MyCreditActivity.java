@@ -134,6 +134,7 @@ public class MyCreditActivity extends ToolbarActivity<ActivityPersonalCreditBind
             if(Integer.valueOf(mUserCreditList.get(position).getAmount())<0){
                 holder.itemIntegralQueryBinding.tvIntegral.setTextColor(getResources().getColor(R.color.color_0ec100));
             }else{
+                 String plus="+ "+mUserCreditList.get(position).getAmount();
                 holder.itemIntegralQueryBinding.tvIntegral.setTextColor(getResources().getColor(R.color.colorRed));
             }
         }
