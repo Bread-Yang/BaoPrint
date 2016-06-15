@@ -83,15 +83,19 @@ public class FileRestful extends BaseRestful {
             @Override
             public void run() {
                 Bitmap bitmap = ViewUtils.getSmallBitmap(photo.getPath());
-                String photoData = bitmapToString(bitmap);
-                String fileName = photo.getName();
+                if (bitmap != null) {
+                    String photoData = bitmapToString(bitmap);
+                    String fileName = photo.getName();
 
-                JsonObject obj = new JsonObject();
-                obj.addProperty("Shared", isShare);
-                obj.addProperty("PhotoData", photoData);
-                obj.addProperty("FileName", fileName);
+                    JsonObject obj = new JsonObject();
+                    obj.addProperty("Shared", isShare);
+                    obj.addProperty("PhotoData", photoData);
+                    obj.addProperty("FileName", fileName);
 
-                uploadImagePost("UploadCloudPhoto", obj, uploadCallbacks, callback);
+                    uploadImagePost("UploadCloudPhoto", obj, uploadCallbacks, callback);
+                } else {
+                    callback.onResponse(null, null);
+                }
             }
         }).start();
     }

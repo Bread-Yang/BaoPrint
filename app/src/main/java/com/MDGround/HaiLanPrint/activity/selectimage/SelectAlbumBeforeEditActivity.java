@@ -90,6 +90,7 @@ public class SelectAlbumBeforeEditActivity extends ToolbarActivity<ActivitySelec
                     case ArtAlbum:
                     case Calendar:
                         mMaxSelectImageNum = SelectImageUtil.mTemplateImage.size();
+                        changeTips();
                         break;
                     case Postcard:
                     case Poker:
