@@ -257,6 +257,7 @@
     <string name="amount">总额</string>
     <string name="freight">运费</string>
     <string name="offset_fee">已抵用%s元</string>
+    <string name="credit_total">%s积分</string>
 
     <!-- 支付成功 -->
     <string name="payment_success">支付成功</string>
@@ -293,6 +294,7 @@
     <string name="region">所在地区</string>
     <string name="detailed_address">详细地址</string>
     <string name="input_detailed_address">请输入详细地址</string>
+
     <!--个人中心-->
     <string name="tv_points">................</string>
     <string name="tv_hold">持有积分</string>

@@ -43,6 +43,10 @@ public class OrderUtils implements Serializable {
 
     private OrderWork mOrderWork;
 
+    private String workFormat = "";
+
+    private String workStyle = "";
+
     private List<OrderWorkPhoto> mOrderWorkPhotoList;
 
     public OrderUtils(Activity activity, int price, String workMaterial) {
@@ -59,6 +63,22 @@ public class OrderUtils implements Serializable {
 
     public OrderWork getmOrderWork() {
         return mOrderWork;
+    }
+
+    public String getWorkFormat() {
+        return workFormat;
+    }
+
+    public void setWorkFormat(String workFormat) {
+        this.workFormat = workFormat;
+    }
+
+    public String getWorkStyle() {
+        return workStyle;
+    }
+
+    public void setWorkStyle(String workStyle) {
+        this.workStyle = workStyle;
     }
 
     public void uploadImageRequest(final int upload_image_index) {
@@ -208,7 +228,9 @@ public class OrderUtils implements Serializable {
         mOrderWork.setPrice(mPrice);
         mOrderWork.setTypeID(MDGroundApplication.mChoosedProductType.value()); //作品类型（getPhotoType接口返回的TypeID）
         mOrderWork.setTypeName(ProductType.getProductName(MDGroundApplication.mChoosedProductType)); //Title（getPhotoType接口返回的Title）
+        mOrderWork.setWorkFormat(workFormat);
         mOrderWork.setWorkMaterial(mWorkMaterial);
+        mOrderWork.setWorkStyle(workStyle);
 
         GlobalRestful.getInstance().SaveOrderWork(mOrderWork, new Callback<ResponseData>() {
             @Override

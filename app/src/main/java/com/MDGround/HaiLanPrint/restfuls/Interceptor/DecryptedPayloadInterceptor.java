@@ -28,7 +28,7 @@ public class DecryptedPayloadInterceptor implements Interceptor {
         if (originalRequest.body() != null) {
             String bodyContent = requestBodyToString(originalRequest.body());
 
-            KLog.e("\n" + bodyContent.replaceAll("\\\\", ""));
+//            KLog.e("\n" + bodyContent.replaceAll("\\\\", ""));
             try {
                 bodyContent = EncryptUtil.encrypt(bodyContent);  // 加密
                 bodyContent = URLEncoder.encode(bodyContent, "UTF-8");
@@ -71,10 +71,6 @@ public class DecryptedPayloadInterceptor implements Interceptor {
         }
 
         ResponseData mResponseData = new GsonBuilder().create().fromJson(responseContent, ResponseData.class);
-        KLog.e("Response是 : " + "\n" + "{"
-                + "\"Code\" :" + mResponseData.getCode() + ","
-                + "\"Message\" :" + mResponseData.getMessage() + ","
-                + "\"Content\" : " + mResponseData.getContent() + "}" + "\n");
 
         Response newResponse = originalResponse.newBuilder().body(ResponseBody.create(originalResponse.body().contentType(), responseContent)).build();
 

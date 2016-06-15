@@ -142,12 +142,15 @@ public abstract class BaseRestful {
     }
 
     // 普通接口请求(异步)
-    protected void asynchronousPost(String functionName, String queryData, final Callback<ResponseData> secondCallback) {
-        KLog.e("请求接口 \"" + functionName + "\" 的json数据:");
-
+    protected void asynchronousPost(final String functionName, String queryData, final Callback<ResponseData> secondCallback) {
         Callback firstCallback = new Callback<ResponseData>() {
             @Override
             public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
+                KLog.e("\n\"" + functionName + "\"接口返回的Response是 : " + "\n" + "{"
+                        + "\"Code\" :" + response.body().getCode() + ","
+                        + "\"Message\" :" + response.body().getMessage() + ","
+                        + "\"Content\" : " + response.body().getContent() + "}" + "\n");
+
                 if (response.body().getCode() == ResponseCode.InvalidToken.getValue()) { // 请求token失效,重新登录
                     DeviceUtil.logoutUser();
                     NavUtils.toLoginActivity(mContext);
@@ -176,6 +179,8 @@ public abstract class BaseRestful {
 
             Call<ResponseData> call = null;
             if (getBusinessType() == BusinessType.Global) {
+                KLog.e("\n\"" + functionName + "\"接口请求json数据:" + "\n" + new Gson().toJson(createRequestData(functionName, queryData)));
+
                 call = baseService.normalRequest(requestBody);
             } else if (getBusinessType() == BusinessType.FILE) {
                 call = baseService.fileRequest(requestBody);

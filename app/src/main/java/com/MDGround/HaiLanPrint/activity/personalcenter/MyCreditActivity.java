@@ -13,7 +13,7 @@ import com.MDGround.HaiLanPrint.activity.base.ToolbarActivity;
 import com.MDGround.HaiLanPrint.databinding.ActivityPersonalCreditBinding;
 import com.MDGround.HaiLanPrint.databinding.ItemCreditQueryBinding;
 import com.MDGround.HaiLanPrint.enumobject.restfuls.ResponseCode;
-import com.MDGround.HaiLanPrint.models.UserIntegralList;
+import com.MDGround.HaiLanPrint.models.UserIntegral;
 import com.MDGround.HaiLanPrint.restfuls.GlobalRestful;
 import com.MDGround.HaiLanPrint.restfuls.bean.ResponseData;
 import com.MDGround.HaiLanPrint.utils.StringUtil;
@@ -37,7 +37,7 @@ import retrofit2.Response;
 public class MyCreditActivity extends ToolbarActivity<ActivityPersonalCreditBinding> {
     public static final String TAG = "MyCredit";
     public String mTotalAmount;
-    public ArrayList<UserIntegralList> mUserCreditList = new ArrayList<>();
+    public ArrayList<UserIntegral> mUserCreditList = new ArrayList<>();
 
     MyCreditadapter mAdapter;
 
@@ -85,7 +85,7 @@ public class MyCreditActivity extends ToolbarActivity<ActivityPersonalCreditBind
                         mTotalAmount = jsonObject.getString("TotalAmount");
                         KLog.e(TAG, mTotalAmount);
                         String UserIntegralList = jsonObject.getString("UserIntegralList");
-                        mUserCreditList = StringUtil.getInstanceByJsonString(UserIntegralList, new TypeToken<ArrayList<UserIntegralList>>() {
+                        mUserCreditList = StringUtil.getInstanceByJsonString(UserIntegralList, new TypeToken<ArrayList<UserIntegral>>() {
                         });
 
                         mDataBinding.tvCredit.setText(mTotalAmount);

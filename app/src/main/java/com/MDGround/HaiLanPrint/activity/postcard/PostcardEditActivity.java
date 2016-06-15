@@ -53,6 +53,7 @@ public class PostcardEditActivity extends ToolbarActivity<ActivityPostcardEditBi
             mWorkPhotoArrayList.add(new WorkPhoto());
         }
 
+        mDataBinding.templateRecyclerView.setHasFixedSize(true);
         LinearLayoutManager imageLayoutManager = new LinearLayoutManager(this);
         imageLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         mDataBinding.templateRecyclerView.setLayoutManager(imageLayoutManager);

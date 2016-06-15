@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <import type="android.view.View"/>
 
         <variable
             name="viewHolder"
@@ -12,20 +14,46 @@
         <variable
             name="image"
             type="com.MDGround.HaiLanPrint.models.MDImage"/>
+
+        <variable name="isSelected" type="boolean"/>
+        <variable name="index" type="int"/>
     </data>
 
-    <com.MDGround.HaiLanPrint.views.FlexibleRelativeLayout
-        android:layout_width="90dp"
-        android:layout_height="90dp"
-        android:onClick="@{viewHolder::selectImageAction}">
+    <LinearLayout
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:onClick="@{viewHolder::selectImageAction}"
+        android:orientation="vertical">
 
         <ImageView
-            android:id="@+id/ivImage"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:scaleType="fitXY"
-            android:layout_margin="@dimen/margin_8"
-            app:loadImageByMDImage="@{image}"/>
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/triangle"
+            android:visibility="@{isSelected ? View.VISIBLE : View.INVISIBLE}"/>
 
-    </com.MDGround.HaiLanPrint.views.FlexibleRelativeLayout>
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="-10dp"
+            android:background='@{isSelected ? @drawable/shape_template_bg : @drawable/shape_transparent}'
+            tools:background="@drawable/shape_template_bg">
+            <ImageView
+                android:id="@+id/ivImage"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_margin="@dimen/margin_1"
+                android:scaleType="fitXY"
+                app:loadImageByMDImage="@{image}"
+                tools:src="@drawable/bg_pic"/>
+        </RelativeLayout>
+
+        <TextView
+            style="@style/NormalTextStyle"
+            android:layout_marginTop="@dimen/margin_4"
+            android:text="@{String.valueOf(index)}"
+            tools:text="1"/>
+
+    </LinearLayout>
 </layout>

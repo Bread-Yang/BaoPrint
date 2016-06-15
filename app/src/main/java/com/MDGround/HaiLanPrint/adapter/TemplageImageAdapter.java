@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 import com.MDGround.HaiLanPrint.R;
 import com.MDGround.HaiLanPrint.databinding.ItemTemplateImageBinding;
 import com.MDGround.HaiLanPrint.models.MDImage;
-import com.socks.library.KLog;
 
 import static com.MDGround.HaiLanPrint.utils.SelectImageUtil.mTemplateImage;
 
@@ -17,6 +16,8 @@ import static com.MDGround.HaiLanPrint.utils.SelectImageUtil.mTemplateImage;
  * Created by yoghourt on 5/17/16.
  */
 public class TemplageImageAdapter extends RecyclerView.Adapter<TemplageImageAdapter.ViewHolder> {
+
+    private int mCurrentSelectedIndex = 0;
 
     public interface onSelectImageLisenter {
         void selectImage(int position, MDImage mdImage);
@@ -36,6 +37,8 @@ public class TemplageImageAdapter extends RecyclerView.Adapter<TemplageImageAdap
     public void onBindViewHolder(ViewHolder holder, int position) {
         holder.viewDataBinding.setImage(mTemplateImage.get(position));
         holder.viewDataBinding.setViewHolder(holder);
+        holder.viewDataBinding.setIndex(position + 1);
+        holder.viewDataBinding.setIsSelected(position == mCurrentSelectedIndex);
     }
 
     @Override
@@ -62,8 +65,10 @@ public class TemplageImageAdapter extends RecyclerView.Adapter<TemplageImageAdap
 
         public void selectImageAction(View view) {
             int position = getAdapterPosition();
-
-            KLog.e("position : " + position);
+            int lastSelectIndex = mCurrentSelectedIndex;
+            mCurrentSelectedIndex = position;
+            notifyItemChanged(lastSelectIndex);
+            notifyItemChanged(mCurrentSelectedIndex);
 
             if (position < mTemplateImage.size()) {
                 MDImage mdImage = mTemplateImage.get(position);

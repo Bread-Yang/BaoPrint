@@ -12,12 +12,13 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:padding="@dimen/margin_10"
             android:background="@color/colorOrange">
 
             <ImageView
                 android:id="@+id/ivLogo"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:src="@drawable/icon_login_logo"/>
 
             <TextView
@@ -45,7 +46,6 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:layout_marginRight="@dimen/margin_15"
                 android:onClick="toPersonalCenterActivityAction"
                 android:src="@drawable/icon_pr_home"/>
 

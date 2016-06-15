@@ -16,7 +16,7 @@ import com.MDGround.HaiLanPrint.models.DeliveryAddress;
 import com.MDGround.HaiLanPrint.models.Measurement;
 import com.MDGround.HaiLanPrint.models.OrderWork;
 import com.MDGround.HaiLanPrint.models.Template;
-import com.MDGround.HaiLanPrint.models.UserIntegralList;
+import com.MDGround.HaiLanPrint.models.UserIntegral;
 import com.MDGround.HaiLanPrint.restfuls.GlobalRestful;
 import com.MDGround.HaiLanPrint.restfuls.bean.ResponseData;
 import com.MDGround.HaiLanPrint.utils.DateUtils;
@@ -47,7 +47,7 @@ public class PaymentPreviewActivity extends ToolbarActivity<ActivityPaymentPrevi
 
     private DeliveryAddress mDeliveryAddress;
 
-    public ArrayList<UserIntegralList> mUserCreditArrayList = new ArrayList<>();
+    public ArrayList<UserIntegral> mUserCreditArrayList = new ArrayList<>();
 
     private ArrayList<Coupon> mAvailableCouponArrayList = new ArrayList<>();
 
@@ -93,9 +93,12 @@ public class PaymentPreviewActivity extends ToolbarActivity<ActivityPaymentPrevi
             case ArtAlbum:
                 showProductDetail = mOrderWork.getTypeName() + " (" + measurement.getTitle() + " " + template.getPageCount() + "P)";
                 break;
+            case PictureFrame:
+                break;
             case Calendar:
                 showProductDetail = measurement.getTitle();
                 break;
+
             case PhoneShell:
 
                 break;
@@ -206,8 +209,11 @@ public class PaymentPreviewActivity extends ToolbarActivity<ActivityPaymentPrevi
                 ViewUtils.dismiss();
                 try {
                     JSONObject jsonObject = new JSONObject(response.body().getContent());
+                    int totalAmount = jsonObject.getInt("TotalAmount");
+                    mDataBinding.tvCredit.setText(getString(R.string.credit_total, StringUtil.toYuanWithoutUnit(totalAmount)));
+
                     String UserIntegralList = jsonObject.getString("UserIntegralList");
-                    mUserCreditArrayList = StringUtil.getInstanceByJsonString(UserIntegralList, new TypeToken<ArrayList<UserIntegralList>>() {
+                    mUserCreditArrayList = StringUtil.getInstanceByJsonString(UserIntegralList, new TypeToken<ArrayList<UserIntegral>>() {
                     });
                 } catch (JSONException e) {
                     e.printStackTrace();
