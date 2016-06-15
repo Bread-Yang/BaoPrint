@@ -3,9 +3,8 @@
   <component name="GradleSettings">
     <option name="linkedExternalProjectsSettings">
       <GradleProjectSettings>
-        <option name="distributionType" value="LOCAL" />
+        <option name="distributionType" value="DEFAULT_WRAPPED" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
-        <option name="gradleHome" value="D:\android-studio\gradle\gradle-2.10" />
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
@@ -14,7 +13,10 @@
             <option value="$PROJECT_DIR$/greendaogenerator" />
           </set>
         </option>
+<<<<<<< HEAD
         <option name="resolveModulePerSourceSet" value="false" />
+=======
+>>>>>>> e3c8f6a7806fb6d1f7811ce9fd7cad6c30f46fe8
       </GradleProjectSettings>
     </option>
   </component>

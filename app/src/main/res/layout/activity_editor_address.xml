@@ -1,121 +1,129 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    >
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
     <LinearLayout
 
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        >
-    <LinearLayout
-        android:layout_marginTop="@dimen/margin_15"
-        android:background="@color/color_white"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        >
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/size_60"
-            android:orientation="horizontal"
+        android:orientation="vertical">
 
-            >
-            <TextView
-                android:layout_width="@dimen/size_120"
-                android:layout_height="match_parent"
-                android:text="@string/receiver"
-                android:gravity="center_vertical|left"
-                android:paddingLeft="@dimen/margin_12"
-                android:textSize="@dimen/text_size_16"
-                />
-            <EditText
-                android:id="@+id/et_reciever"
-                android:background="@color/color_white"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-        </LinearLayout>
-        <View style="@style/DividerHorizontalMarginSytle"/>
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/size_60"
-            android:orientation="horizontal"
-            >
-            <TextView
-                android:layout_width="@dimen/size_120"
-                android:layout_height="match_parent"
-                android:text="@string/contacts"
-                android:gravity="center_vertical|left"
-                android:paddingLeft="@dimen/margin_12"
-                android:textSize="@dimen/text_size_16"
-                />
-            <EditText
-                android:numeric="integer"
-                android:id="@+id/et_contacts"
-                android:background="@color/color_white"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_15"
+            android:background="@color/color_white"
+            android:orientation="vertical">
+
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="@dimen/size_60"
+                android:orientation="horizontal"
+
+                >
+
+                <TextView
+                    android:layout_width="@dimen/size_120"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical|left"
+                    android:paddingLeft="@dimen/margin_12"
+                    android:text="@string/receiver"
+                    android:textSize="@dimen/text_size_16" />
+
+                <EditText
+                    android:id="@+id/et_reciever"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/color_white" />
+            </LinearLayout>
+
+            <View style="@style/DividerHorizontalMarginSytle" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/size_60"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="@dimen/size_120"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical|left"
+                    android:paddingLeft="@dimen/margin_12"
+                    android:text="@string/contacts"
+                    android:textSize="@dimen/text_size_16" />
+
+                <EditText
+                    android:id="@+id/et_contacts"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/color_white"
+                    android:numeric="integer" />
+            </LinearLayout>
+
+            <View style="@style/DividerHorizontalMarginSytle" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/size_60"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="@dimen/size_120"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical|left"
+                    android:paddingLeft="@dimen/margin_12"
+                    android:text="@string/region"
+                    android:textSize="@dimen/text_size_16" />
+
+                <TextView
+                    android:id="@+id/et_regio"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/color_white"
+                    android:gravity="center_vertical"
+                    android:onClick="selectRegio"
+                    tools:text="北就来访的技术" />
+            </LinearLayout>
+
+            <View style="@style/DividerHorizontalMarginSytle" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/size_60"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="@dimen/size_120"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical|left"
+                    android:paddingLeft="@dimen/margin_12"
+                    android:text="@string/detailed_address"
+                    android:textSize="@dimen/text_size_16" />
+
+                <EditText
+                    android:id="@+id/et_address"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/color_white" />
+            </LinearLayout>
         </LinearLayout>
-        <View style="@style/DividerHorizontalMarginSytle"/>
+
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/size_60"
-            android:orientation="horizontal"
-            >
-            <TextView
-                android:layout_width="@dimen/size_120"
-                android:layout_height="match_parent"
-                android:text="@string/region"
-                android:gravity="center_vertical|left"
-                android:paddingLeft="@dimen/margin_12"
-                android:textSize="@dimen/text_size_16"
-                />
-            <TextView
-                android:id="@+id/et_regio"
-                android:onClick="selectRegio"
-                android:background="@color/color_white"
-                android:layout_width="match_parent"
-                android:gravity="center_vertical"
-                tools:text="北就来访的技术"
-                android:layout_height="match_parent" />
-        </LinearLayout>
-        <View style="@style/DividerHorizontalMarginSytle"/>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/size_60"
-            android:orientation="horizontal"
-            >
-            <TextView
-                android:layout_width="@dimen/size_120"
-                android:layout_height="match_parent"
-                android:text="@string/detailed_address"
-                android:gravity="center_vertical|left"
-                android:paddingLeft="@dimen/margin_12"
-                android:textSize="@dimen/text_size_16"
-                />
-            <EditText
-                android:id="@+id/et_address"
-                android:background="@color/color_white"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-        </LinearLayout>
-    </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:gravity="center"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:gravity="center">
+
             <TextView
                 android:id="@+id/tv_addAddress"
+                android:layout_width="@dimen/size_180"
+                android:layout_height="@dimen/size_44"
+                android:layout_gravity="center"
                 android:layout_marginTop="@dimen/margin_40"
                 android:background="@drawable/rect_orange"
-                android:layout_gravity="center"
-                android:layout_width="@dimen/size_180"
+                android:gravity="center"
                 android:text="@string/saveAddress"
                 android:textColor="@color/color_white"
-                android:gravity="center"
-                android:textSize="@dimen/margin_20"
-                android:layout_height="@dimen/size_44" />-->
+                android:textSize="@dimen/margin_20" />-->
         </LinearLayout>
     </LinearLayout>
 
