@@ -154,6 +154,7 @@
 
         <RelativeLayout
             style="@style/FixHeightLayoutStyle"
+            android:onClick="toSetPassword"
             android:orientation="horizontal">
 
             <TextView

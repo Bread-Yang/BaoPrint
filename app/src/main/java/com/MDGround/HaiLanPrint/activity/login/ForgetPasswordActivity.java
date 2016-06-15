@@ -8,6 +8,7 @@ import android.widget.Toast;
 
 import com.MDGround.HaiLanPrint.R;
 import com.MDGround.HaiLanPrint.activity.base.ToolbarActivity;
+import com.MDGround.HaiLanPrint.activity.personalcenter.PersonalInformationActivity;
 import com.MDGround.HaiLanPrint.constants.Constants;
 import com.MDGround.HaiLanPrint.databinding.ActivityForgetPasswordBinding;
 import com.MDGround.HaiLanPrint.enumobject.restfuls.ResponseCode;
@@ -36,8 +37,12 @@ public class ForgetPasswordActivity extends ToolbarActivity<ActivityForgetPasswo
 
     @Override
     protected void initData() {
-        mDataBinding.cetAccount.append(getIntent().getStringExtra(Constants.KEY_PHONE));
-
+        int fro_where = getIntent().getIntExtra(PersonalInformationActivity.SET_PASSWORD, 0);
+        if (fro_where == PersonalInformationActivity.FRO_PERSON) {
+            tvTitle.setText("修改密码");
+        } else {
+            mDataBinding.cetAccount.append(getIntent().getStringExtra(Constants.KEY_PHONE));
+        }
         SMSSDK.initSDK(this, Constants.SMS_APP_KEY, Constants.SMS_APP_SECRECT);
         SMSSDK.registerEventHandler(mEventHandler);
     }

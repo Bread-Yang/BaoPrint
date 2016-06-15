@@ -321,4 +321,5 @@
     <string name="receiver">收货人</string>
     <string name="contacts">联系电话</string>
     <string name="saveAddress">保存地址</string>
+    <string name="input_you_phone">请输入你的手机号码</string>
 </resources>

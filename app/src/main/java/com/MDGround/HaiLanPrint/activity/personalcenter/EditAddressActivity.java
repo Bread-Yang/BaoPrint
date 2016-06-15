@@ -27,10 +27,12 @@ public class EditAddressActivity extends ToolbarActivity<ActivityEditorAddressBi
     DeliveryAddress address;
     private RegionPickerDialog mRegionPickerDialog;
     boolean isUpdate = false;
+
     @Override
     protected int getContentLayout() {
         return R.layout.activity_editor_address;
     }
+
     @Override
     protected void initData() {
         Intent intent = getIntent();

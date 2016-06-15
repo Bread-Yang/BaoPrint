@@ -9,6 +9,7 @@ import android.view.View;
 
 import com.MDGround.HaiLanPrint.R;
 import com.MDGround.HaiLanPrint.activity.base.ToolbarActivity;
+import com.MDGround.HaiLanPrint.activity.login.ForgetPasswordActivity;
 import com.MDGround.HaiLanPrint.application.MDGroundApplication;
 import com.MDGround.HaiLanPrint.databinding.ActivityPersonalInformationBinding;
 import com.MDGround.HaiLanPrint.enumobject.restfuls.ResponseCode;
@@ -42,9 +43,12 @@ import retrofit2.Response;
  */
 
 public class PersonalInformationActivity extends ToolbarActivity<ActivityPersonalInformationBinding> {
+    public static final String SET_PASSWORD = "SetPassWord";
+    public static final int FRO_PERSON = 1;
     private SelectSingleImageDialog mSelectSingleImageDialog;
     private ArrayList<String> mUploadImageLocalPathList = new ArrayList<>();
     private RegionPickerDialog mRegionPickerDialog;
+
 
     @Override
     protected int getContentLayout() {
@@ -112,6 +116,7 @@ public class PersonalInformationActivity extends ToolbarActivity<ActivityPersona
             }
         });
     }
+
     //region SERVER
     private void uploadImageRequest(final int upload_image_index) {
         if (upload_image_index < mUploadImageLocalPathList.size()) {
@@ -136,7 +141,8 @@ public class PersonalInformationActivity extends ToolbarActivity<ActivityPersona
         } else {
         }
     }
-   //endregion
+
+    //endregion
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_OK) {
@@ -232,9 +238,15 @@ public class PersonalInformationActivity extends ToolbarActivity<ActivityPersona
     //endregion
 
     //region ACTION
-     public void toManageAddressActivity(View view){
-         Intent intent=new Intent(this,ManageAddressActivity.class);
-         startActivity(intent);
-     }
+    public void toManageAddressActivity(View view) {
+        Intent intent = new Intent(this, ManageAddressActivity.class);
+        startActivity(intent);
+    }
+
+    public void toSetPassword(View view) {
+        Intent intent = new Intent(this, ForgetPasswordActivity.class);
+        intent.putExtra(SET_PASSWORD, FRO_PERSON);
+        startActivity(intent);
+    }
     //endregion
 }
