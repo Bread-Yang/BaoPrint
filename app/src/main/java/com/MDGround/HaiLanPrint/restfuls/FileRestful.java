@@ -10,10 +10,9 @@ import com.MDGround.HaiLanPrint.models.User;
 import com.MDGround.HaiLanPrint.restfuls.Interceptor.ProgressRequestBody;
 import com.MDGround.HaiLanPrint.restfuls.bean.ResponseData;
 import com.MDGround.HaiLanPrint.utils.ViewUtils;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import com.socks.library.KLog;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -65,14 +64,10 @@ public class FileRestful extends BaseRestful {
 
     // 获取图片
     public ResponseData GetPhoto(int PhotoID) {
-        JSONObject obj = new JSONObject();
-        try {
-            obj.put("PhotoID", PhotoID);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+        JsonObject obj = new JsonObject();
+        obj.addProperty("PhotoID", PhotoID);
 
-        return synchronousPost("GetPhoto", obj.toString());
+        return synchronousPost("GetPhoto", obj);
     }
 
     // 上传图片到云相册
@@ -91,16 +86,12 @@ public class FileRestful extends BaseRestful {
                 String photoData = bitmapToString(bitmap);
                 String fileName = photo.getName();
 
-                JSONObject obj = new JSONObject();
-                try {
-                    obj.put("Shared", isShare);
-                    obj.put("PhotoData", photoData);
-                    obj.put("FileName", fileName);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+                JsonObject obj = new JsonObject();
+                obj.addProperty("Shared", isShare);
+                obj.addProperty("PhotoData", photoData);
+                obj.addProperty("FileName", fileName);
 
-                uploadImagePost("UploadCloudPhoto", obj.toString(), uploadCallbacks, callback);
+                uploadImagePost("UploadCloudPhoto", obj, uploadCallbacks, callback);
             }
         }).start();
     }
@@ -114,21 +105,18 @@ public class FileRestful extends BaseRestful {
             public void run() {
                 String photoData = bitmapToString(bitmap);
 
-                JSONObject obj = new JSONObject();
-                try {
-                    obj.put("UploadType", uploadType.value());
-                    obj.put("PhotoData", photoData);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+                JsonObject obj = new JsonObject();
+                obj.addProperty("UploadType", uploadType.value());
+                obj.addProperty("PhotoData", photoData);
 
-                uploadImagePost("UploadCloudPhoto", obj.toString(), null, callback);
+                uploadImagePost("UploadCloudPhoto", obj, null, callback);
             }
         }).start();
     }
+
     //上传头像的接口
     public void SaveUserPhoto(final int UserID, final File photo, final User userInfo, final ProgressRequestBody.UploadCallbacks uploadCallbacks,
-                               final Callback<ResponseData> callback) {
+                              final Callback<ResponseData> callback) {
         if (photo == null) {
             KLog.e("photo是空");
             return;
@@ -146,19 +134,14 @@ public class FileRestful extends BaseRestful {
                 } catch (UnsupportedEncodingException e) {
                     e.printStackTrace();
                 }
-                JSONObject obj = new JSONObject();
-                try {
-                    obj.put("UserID", UserID);
-                    obj.put("PhotoData", dataStr);
-                    String jsonString = convertObjectToString(userInfo);
-                    KLog.e("userInfo是   "+jsonString);
-                    JSONObject jsonObject = new JSONObject(jsonString);
-                    obj.put("UserInfo", jsonObject);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                KLog.e("上传的JSON"+obj.toString());
-                uploadImagePost("SaveUserPhoto ",obj.toString(),uploadCallbacks,callback);
+
+                JsonObject obj = new JsonObject();
+                obj.addProperty("UserID", UserID);
+                obj.addProperty("PhotoData", dataStr);
+                obj.add("UserInfo", new Gson().toJsonTree(userInfo));
+
+                KLog.e("上传的JSON" + obj.toString());
+                uploadImagePost("SaveUserPhoto ", obj, uploadCallbacks, callback);
             }
         }
 

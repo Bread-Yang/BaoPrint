@@ -52,7 +52,7 @@
         <TextView
             style="@style/NormalTextStyle"
             android:layout_marginTop="@dimen/margin_4"
-            android:text="@{String.valueOf(index)}"
+            android:text="@{index == 0 ? @string/cover : String.valueOf(index)}"
             tools:text="1"/>
 
     </LinearLayout>

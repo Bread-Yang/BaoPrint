@@ -16,6 +16,7 @@
     <string name="request_fail">请求失败</string>
     <string name="not_add_image">第%d页还没有添加照片,是否继续下一步?</string>
     <string name="illustration">图文说明</string>
+    <string name="cover">封面</string>
 
     <!-- 登录 -->
     <string name="login">登录</string>
@@ -166,7 +167,7 @@
 
     <!-- 明信片 -->
     <string name="postcard">明信片</string>
-    <string name="click_input">点击这里写点什么</string>
+    <string name="click_input">点击这里写点什么，限30字</string>
 
     <!-- 杂志册 -->
     <string name="magazine_album">杂志册</string>

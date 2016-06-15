@@ -37,7 +37,7 @@ public class TemplageImageAdapter extends RecyclerView.Adapter<TemplageImageAdap
     public void onBindViewHolder(ViewHolder holder, int position) {
         holder.viewDataBinding.setImage(mTemplateImage.get(position));
         holder.viewDataBinding.setViewHolder(holder);
-        holder.viewDataBinding.setIndex(position + 1);
+        holder.viewDataBinding.setIndex(position);
         holder.viewDataBinding.setIsSelected(position == mCurrentSelectedIndex);
     }
 
