@@ -45,6 +45,7 @@
                 android:drawablePadding="@dimen/margin_8"
                 android:hint="@string/click_input"
                 android:longClickable="false"
+                android:maxEms="30"
                 android:paddingLeft="@dimen/margin_10"
                 android:textColorHint="@color/color_999999"
                 android:textSize="@dimen/text_size_16"/>

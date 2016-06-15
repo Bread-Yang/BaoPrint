@@ -19,6 +19,7 @@ import com.MDGround.HaiLanPrint.utils.ToolNetwork;
 import com.MDGround.HaiLanPrint.utils.ViewUtils;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonObject;
 import com.socks.library.KLog;
 
 import java.io.IOException;
@@ -99,10 +100,12 @@ public abstract class BaseRestful {
         baseService = retrofit.create(BaseService.class);
     }
 
-    private RequestData createRequestData(String functionName, String queryData) {
+    private RequestData createRequestData(String functionName, JsonObject queryData) {
         RequestData requestData = new RequestData();
 
-        requestData.setQueryData(queryData);
+        if (queryData != null) {
+            requestData.setQueryData(queryData.toString());
+        }
         requestData.setFunctionName(functionName);
         requestData.setCulture(DeviceUtil.getLanguage(mContext));
 //        requestData.setBusinessCode(getBusinessType().getType());
@@ -124,7 +127,7 @@ public abstract class BaseRestful {
         return requestData;
     }
 
-    private RequestBody createRequestBody(String functionName, String queryData) {
+    private RequestBody createRequestBody(String functionName, JsonObject queryData) {
         RequestData requestData = createRequestData(functionName, queryData);
 
         String json = new Gson().toJson(requestData);
@@ -133,7 +136,7 @@ public abstract class BaseRestful {
         return requestBody;
     }
 
-    private ProgressRequestBody createProgressRequestBody(String functionName, String queryData, ProgressRequestBody.UploadCallbacks uploadCallbacks) {
+    private ProgressRequestBody createProgressRequestBody(String functionName, JsonObject queryData, ProgressRequestBody.UploadCallbacks uploadCallbacks) {
         RequestData requestData = createRequestData(functionName, queryData);
 
         String json = new Gson().toJson(requestData);
@@ -142,7 +145,7 @@ public abstract class BaseRestful {
     }
 
     // 普通接口请求(异步)
-    protected void asynchronousPost(final String functionName, String queryData, final Callback<ResponseData> secondCallback) {
+    protected void asynchronousPost(final String functionName, JsonObject queryData, final Callback<ResponseData> secondCallback) {
         Callback firstCallback = new Callback<ResponseData>() {
             @Override
             public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
@@ -194,7 +197,7 @@ public abstract class BaseRestful {
     }
 
     // 请求文件/图片等请求(同步)
-    protected ResponseData synchronousPost(String functionName, String queryData) {
+    protected ResponseData synchronousPost(String functionName, JsonObject queryData) {
         RequestBody requestBody = createRequestBody(functionName, queryData);
 
         Call<ResponseData> call = baseService.fileRequest(requestBody);
@@ -207,7 +210,7 @@ public abstract class BaseRestful {
     }
 
     // 上传图片
-    protected void uploadImagePost(String functionName, String queryData,
+    protected void uploadImagePost(String functionName, JsonObject queryData,
                                    ProgressRequestBody.UploadCallbacks uploadCallbacks,
                                    Callback<ResponseData> callback) {
         ProgressRequestBody requestBody = createProgressRequestBody(functionName, queryData, uploadCallbacks);

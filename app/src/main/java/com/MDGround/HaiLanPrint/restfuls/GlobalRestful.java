@@ -16,10 +16,8 @@ import com.MDGround.HaiLanPrint.models.WorkPhoto;
 import com.MDGround.HaiLanPrint.restfuls.bean.Device;
 import com.MDGround.HaiLanPrint.restfuls.bean.ResponseData;
 import com.MDGround.HaiLanPrint.utils.DeviceUtil;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -61,16 +59,12 @@ public class GlobalRestful extends BaseRestful {
         device.setDeviceToken("abc");   // 信鸽的token, XGPushConfig.getToken(this);
         device.setDeviceID(DeviceUtil.getDeviceId());
 
-        JSONObject obj = new JSONObject();
-        try {
-            obj.put("LoginID", loginID);
-            obj.put("Pwd", pwd);
-            obj.put("Device", new JSONObject(convertObjectToString(device)));
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+        JsonObject obj = new JsonObject();
+        obj.addProperty("LoginID", loginID);
+        obj.addProperty("Pwd", pwd);
+        obj.add("Device", new Gson().toJsonTree(device));
 
-        asynchronousPost("LoginUser", obj.toString(), callback);
+        asynchronousPost("LoginUser", obj, callback);
     }
 
     public void LoginUserByThirdParty(ThirdPartyLoginType loginType, String openID,
@@ -80,71 +74,55 @@ public class GlobalRestful extends BaseRestful {
         device.setDeviceToken("abc");   // 信鸽的token, XGPushConfig.getToken(this);
         device.setDeviceID(DeviceUtil.getDeviceId());
 
-        JSONObject obj = new JSONObject();
-        try {
-            switch (loginType) {
-                case Wechat:
-                    obj.put("WXOpenID", openID);
-                    break;
-                case QQ:
-                    obj.put("QQOpenID", openID);
-                    break;
-                case Weibo:
-                    obj.put("WBUID", openID);
-                    break;
-            }
-            obj.put("PhotoUrl", PhotoUrl);
-            obj.put("UserNickName", UserNickName);
-            obj.put("UserName", UserName);
-            obj.put("Device", new JSONObject(convertObjectToString(device)));
-        } catch (JSONException e) {
-            e.printStackTrace();
+        JsonObject obj = new JsonObject();
+        switch (loginType) {
+            case Wechat:
+                obj.addProperty("WXOpenID", openID);
+                break;
+            case QQ:
+                obj.addProperty("QQOpenID", openID);
+                break;
+            case Weibo:
+                obj.addProperty("WBUID", openID);
+                break;
         }
+        obj.addProperty("PhotoUrl", PhotoUrl);
+        obj.addProperty("UserNickName", UserNickName);
+        obj.addProperty("UserName", UserName);
+        obj.add("Device", new Gson().toJsonTree(device));
 
-        asynchronousPost("LoginUserByThirdParty", obj.toString(), callback);
+        asynchronousPost("LoginUserByThirdParty", obj, callback);
     }
 
     public void CheckUserPhone(String phone, Callback<ResponseData> callback) {
-        JSONObject obj = new JSONObject();
-        try {
-            obj.put("Phone", phone);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+        JsonObject obj = new JsonObject();
+        obj.addProperty("Phone", phone);
 
-        asynchronousPost("CheckUserPhone", obj.toString(), callback);
+        asynchronousPost("CheckUserPhone", obj, callback);
     }
 
     // 用户注册
     public void RegisterUser(User user, Callback<ResponseData> callback) {
-        JSONObject obj = new JSONObject();
-        try {
-            obj.put("Phone", user.getPhone());
-            obj.put("Pwd", user.getPassword());
-            obj.put("UserName", user.getUserName());
-            obj.put("ChildDOB", user.getChildDOB());
-            obj.put("ChildName", user.getChildName());
-            obj.put("ChildSchool", user.getChildSchool());
-            obj.put("ChildClass", user.getChildClass());
-            obj.put("InvitationCode", user.getInvitationCode());
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+        JsonObject obj = new JsonObject();
+        obj.addProperty("Phone", user.getPhone());
+        obj.addProperty("Pwd", user.getPassword());
+        obj.addProperty("UserName", user.getUserName());
+        obj.addProperty("ChildDOB", user.getChildDOB());
+        obj.addProperty("ChildName", user.getChildName());
+        obj.addProperty("ChildSchool", user.getChildSchool());
+        obj.addProperty("ChildClass", user.getChildClass());
+        obj.addProperty("InvitationCode", user.getInvitationCode());
 
-        asynchronousPost("RegisterUser", obj.toString(), callback);
+        asynchronousPost("RegisterUser", obj, callback);
     }
 
     // 找回密码
     public void ChangeUserPassword(String phone, String password, Callback<ResponseData> callback) {
-        JSONObject obj = new JSONObject();
-        try {
-            obj.put("Phone", phone);
-            obj.put("Password", password);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+        JsonObject obj = new JsonObject();
+        obj.addProperty("Phone", phone);
+        obj.addProperty("Password", password);
 
-        asynchronousPost("ChangeUserPassword", obj.toString(), callback);
+        asynchronousPost("ChangeUserPassword", obj, callback);
     }
 
     // 获取云相册统计接口
@@ -154,56 +132,36 @@ public class GlobalRestful extends BaseRestful {
 
     // 获取云相册所有图片
     public void GetCloudPhoto(int PageIndex, boolean IsShared, Callback<ResponseData> callback) {
-        JSONObject obj = new JSONObject();
-        try {
-            obj.put("PageIndex", PageIndex);
-            obj.put("IsShared", IsShared);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+        JsonObject obj = new JsonObject();
+        obj.addProperty("PageIndex", PageIndex);
+        obj.addProperty("IsShared", IsShared);
 
-        asynchronousPost("GetCloudPhoto", obj.toString(), callback);
+        asynchronousPost("GetCloudPhoto", obj, callback);
     }
 
     // 删除个人云相册接口
     public void DeleteCloudPhoto(ArrayList<Integer> AutoIDList, Callback<ResponseData> callback) {
-        JSONObject obj = new JSONObject();
-        try {
-            String jsonString = convertObjectToString(AutoIDList);
-            JSONArray array = new JSONArray(jsonString);
-            obj.put("AutoIDList", array);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+        JsonObject obj = new JsonObject();
+        obj.add("AutoIDList", new Gson().toJsonTree(AutoIDList));
 
-        asynchronousPost("DeleteCloudPhoto", obj.toString(), callback);
+        asynchronousPost("DeleteCloudPhoto", obj, callback);
     }
 
     //转存到个人相册
     public void TransferCloudPhoto(boolean IsShared, ArrayList<Integer> AutoIDList, Callback<ResponseData> callback) {
-        JSONObject obj = new JSONObject();
-        try {
-            String jsonString = convertObjectToString(AutoIDList);
-            JSONArray array = new JSONArray(jsonString);
-            obj.put("IsShared", IsShared);
-            obj.put("AutoIDList", array);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+        JsonObject obj = new JsonObject();
+        obj.addProperty("IsShared", IsShared);
+        obj.add("AutoIDList", new Gson().toJsonTree(AutoIDList));
 
-        asynchronousPost("TransferCloudPhoto", obj.toString(), callback);
+        asynchronousPost("TransferCloudPhoto", obj, callback);
     }
 
     // 获取获取产品类型信息以及规格明细
     public void GetPhotoType(ProductType productType, Callback<ResponseData> callback) {
-        JSONObject obj = new JSONObject();
-        try {
-            obj.put("ProductType", productType.value());
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+        JsonObject obj = new JsonObject();
+        obj.addProperty("ProductType", productType.value());
 
-        asynchronousPost("GetPhotoType", obj.toString(), callback);
+        asynchronousPost("GetPhotoType", obj, callback);
     }
 
     // 获取首页轮播图片列表
@@ -213,81 +171,45 @@ public class GlobalRestful extends BaseRestful {
 
     // 用于获取所有类型图片说明/Banner图/介绍页
     public void GetPhotoTypeExplainList(Callback<ResponseData> callback) {
-//        JSONObject obj = new JSONObject();
-//        try {
-//            obj.put("TypeID", productType.value());
-//            obj.put("ExplainType", photoExplainType.value());
-//        } catch (JSONException e) {
-//            e.printStackTrace();
-//        }
-
         asynchronousPost("GetPhotoTypeExplainList", null, callback);
     }
 
     // 保存订单接口
     public void SaveOrder(int OrderID, Callback<ResponseData> callback) {
-        JSONObject obj = new JSONObject();
-        try {
-            obj.put("OrderID", OrderID);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+        JsonObject obj = new JsonObject();
+        obj.addProperty("OrderID", OrderID);
 
-        asynchronousPost("SaveOrder", obj.toString(), callback);
+        asynchronousPost("SaveOrder", obj, callback);
     }
 
     public void SaveUserWork(WorkInfo workInfo, Callback<ResponseData> callback) {
-        JSONObject obj = new JSONObject();
-        try {
-            String jsonString = convertObjectToString(workInfo);
-            JSONObject object = new JSONObject(jsonString);
-            obj.put("WorkInfo", object);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+        JsonObject obj = new JsonObject();
+        obj.add("WorkInfo", new Gson().toJsonTree(workInfo));
 
-        asynchronousPost("SaveUserWork", obj.toString(), callback);
+        asynchronousPost("SaveUserWork", obj, callback);
     }
 
     public void SaveUserWorkPhotoList(List<WorkPhoto> workPhotoList, Callback<ResponseData> callback) {
-        JSONObject obj = new JSONObject();
-        try {
-            String jsonString = convertObjectToString(workPhotoList);
-            JSONArray array = new JSONArray(jsonString);
-            obj.put("WorkPhotoList", array);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+        JsonObject obj = new JsonObject();
+        obj.add("WorkPhotoList", new Gson().toJsonTree(workPhotoList));
 
-        asynchronousPost("SaveUserWorkPhotoList", obj.toString(), callback);
+        asynchronousPost("SaveUserWorkPhotoList", obj, callback);
     }
 
     // 保存订单作品接口
     public void SaveOrderWork(OrderWork orderWork, Callback<ResponseData> callback) {
-        JSONObject obj = new JSONObject();
-        try {
-            String jsonString = convertObjectToString(orderWork);
-            JSONObject object = new JSONObject(jsonString);
-            obj.put("OrderWork", object);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+        JsonObject obj = new JsonObject();
+        obj.add("OrderWork", new Gson().toJsonTree(orderWork));
 
-        asynchronousPost("SaveOrderWork", obj.toString(), callback);
+        asynchronousPost("SaveOrderWork", obj, callback);
     }
 
     // 保存作品与相片关系接口
     public void SaveOrderPhotoList(List<OrderWorkPhoto> OrderWorkPhotoList, Callback<ResponseData> callback) {
-        JSONObject obj = new JSONObject();
-        try {
-            String jsonString = convertObjectToString(OrderWorkPhotoList);
-            JSONArray array = new JSONArray(jsonString);
-            obj.put("OrderWorkPhotoList", array);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+        JsonObject obj = new JsonObject();
+        obj.add("OrderWorkPhotoList", new Gson().toJsonTree(OrderWorkPhotoList));
 
-        asynchronousPost("SaveOrderPhotoList", obj.toString(), callback);
+        asynchronousPost("SaveOrderPhotoList", obj, callback);
     }
 
     public void GetUserAddressList(Callback<ResponseData> callback) {
@@ -295,71 +217,45 @@ public class GlobalRestful extends BaseRestful {
     }
 
     public void SaveUserAddress(DeliveryAddress deliveryAddress, Callback<ResponseData> callback) {
-        JSONObject obj = new JSONObject();
-        try {
-            String jsonString = convertObjectToString(deliveryAddress);
-            JSONObject object = new JSONObject(jsonString);
-            obj.put("UserAddress", object);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+        JsonObject obj = new JsonObject();
+        obj.add("UserAddress", new Gson().toJsonTree(deliveryAddress));
 
-        asynchronousPost("SaveUserAddress", obj.toString(), callback);
+        asynchronousPost("SaveUserAddress", obj, callback);
     }
 
     public void GetPhotoTemplateList(int typeDescID, Callback<ResponseData> callback) {
-        JSONObject obj = new JSONObject();
-        try {
-            obj.put("TypeDescID", typeDescID);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+        JsonObject obj = new JsonObject();
+        obj.addProperty("TypeDescID", typeDescID);
 
-        asynchronousPost("GetPhotoTemplateList", obj.toString(), callback);
+        asynchronousPost("GetPhotoTemplateList", obj, callback);
     }
 
     public void GetPhotoTemplateListByType(ProductType productType, Callback<ResponseData> callback) {
-        JSONObject obj = new JSONObject();
-        try {
-            obj.put("ProductType", productType.value());
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+        JsonObject obj = new JsonObject();
+        obj.addProperty("ProductType", productType.value());
 
-        asynchronousPost("GetPhotoTemplateListByType", obj.toString(), callback);
+        asynchronousPost("GetPhotoTemplateListByType", obj, callback);
     }
 
     public void GetPhotoTemplateAttachList(int templateID, Callback<ResponseData> callback) {
-        JSONObject obj = new JSONObject();
-        try {
-            obj.put("TemplateID", templateID);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+        JsonObject obj = new JsonObject();
+        obj.addProperty("TemplateID", templateID);
 
-        asynchronousPost("GetPhotoTemplateAttachList", obj.toString(), callback);
+        asynchronousPost("GetPhotoTemplateAttachList", obj, callback);
     }
 
     public void GetUserOrderList(OrderStatus orderStatus, Callback<ResponseData> callback) {
-        JSONObject obj = new JSONObject();
-        try {
-            obj.put("OrderStatus", orderStatus.value());
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+        JsonObject obj = new JsonObject();
+        obj.addProperty("OrderStatus", orderStatus.value());
 
-        asynchronousPost("GetUserOrderList", obj.toString(), callback);
+        asynchronousPost("GetUserOrderList", obj, callback);
     }
 
     public void ActivatingCoupon(String activationCode, Callback<ResponseData> callback) {
-        JSONObject obj = new JSONObject();
-        try {
-            obj.put("ActivationCode", activationCode);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+        JsonObject obj = new JsonObject();
+        obj.addProperty("ActivationCode", activationCode);
 
-        asynchronousPost("ActivatingCoupon", obj.toString(), callback);
+        asynchronousPost("ActivatingCoupon", obj, callback);
     }
 
     public void GetUserCouponList(Callback<ResponseData> callback) {
@@ -368,42 +264,26 @@ public class GlobalRestful extends BaseRestful {
 
     // 确认支付调用接口（返回微信prepayid 给sdk调用）//支付宝暂时没做，后续做的话会改动
     public void UpdateOrderPrepay(OrderInfo orderInfo, Callback<ResponseData> callback) {
-        JSONObject obj = new JSONObject();
-        try {
-            String jsonString = convertObjectToString(orderInfo);
-            JSONObject object = new JSONObject(jsonString);
-            obj.put("OrderInfo", object);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+        JsonObject obj = new JsonObject();
+        obj.add("OrderInfo", new Gson().toJsonTree(orderInfo));
 
-        asynchronousPost("UpdateOrderRefunding", obj.toString(), callback);
+        asynchronousPost("UpdateOrderRefunding", obj, callback);
     }
 
     // 确认收货接口
     public void UpdateOrderFinished(int orderID, Callback<ResponseData> callback) {
-        JSONObject obj = new JSONObject();
-        try {
-            obj.put("OrderID", orderID);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+        JsonObject obj = new JsonObject();
+        obj.addProperty("OrderID", orderID);
 
-        asynchronousPost("UpdateOrderFinished", obj.toString(), callback);
+        asynchronousPost("UpdateOrderFinished", obj, callback);
     }
 
     // 申请退款接口
     public void UpdateOrderRefunding(OrderInfo orderInfo, Callback<ResponseData> callback) {
-        JSONObject obj = new JSONObject();
-        try {
-            String jsonString = convertObjectToString(orderInfo);
-            JSONObject object = new JSONObject(jsonString);
-            obj.put("OrderInfo", object);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+        JsonObject obj = new JsonObject();
+        obj.add("OrderInfo", new Gson().toJsonTree(orderInfo));
 
-        asynchronousPost("UpdateOrderRefunding", obj.toString(), callback);
+        asynchronousPost("UpdateOrderRefunding", obj, callback);
     }
 
 
@@ -419,25 +299,18 @@ public class GlobalRestful extends BaseRestful {
 
     //修改用户信息
     public void SaveUserInfo(User user, Callback<ResponseData> callback) {
-        JSONObject object = new JSONObject();
-        try {
-            String jsonString = convertObjectToString(user);
-            JSONObject jsonObject = new JSONObject(jsonString);
-            object.put("UserInfo", jsonObject);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        asynchronousPost("SaveUserInfo", object.toString(), callback);
+        JsonObject object = new JsonObject();
+        object.add("UserInfo", new Gson().toJsonTree(user));
+
+        asynchronousPost("SaveUserInfo", object, callback);
     }
-   //删除收货地址
-    public void DeleteUserAddress(int AutoID,Callback<ResponseData> callback){
-        JSONObject obj = new JSONObject();
-        try {
-            obj.put("AutoID",AutoID);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        asynchronousPost("DeleteUserAddress", obj.toString(), callback);
+
+    //删除收货地址
+    public void DeleteUserAddress(int AutoID, Callback<ResponseData> callback) {
+        JsonObject obj = new JsonObject();
+        obj.addProperty("AutoID", AutoID);
+
+        asynchronousPost("DeleteUserAddress", obj, callback);
     }
     //意见反馈接口
     public void SaveUserSuggestion(String Phone,String Suggestion,Callback<ResponseData> callback){

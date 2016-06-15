@@ -34,6 +34,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static com.MDGround.HaiLanPrint.application.MDGroundApplication.mChoosedTemplate;
+
 /**
  * Created by yoghourt on 5/23/16.
  */
@@ -73,7 +75,7 @@ public class PaymentPreviewActivity extends ToolbarActivity<ActivityPaymentPrevi
 
         Measurement measurement = MDGroundApplication.mChoosedMeasurement;
 
-        Template template = MDGroundApplication.mChoosedTemplate;
+        Template template = mChoosedTemplate;
 
         int amountFee = getAmountFee();
         mDataBinding.tvAmount.setText(getString(R.string.yuan_amount, StringUtil.toYuanWithoutUnit(amountFee)));
@@ -90,6 +92,7 @@ public class PaymentPreviewActivity extends ToolbarActivity<ActivityPaymentPrevi
                 showProductDetail = mOrderWork.getTypeName();
                 break;
             case MagazineAlbum:
+                break;
             case ArtAlbum:
                 showProductDetail = mOrderWork.getTypeName() + " (" + measurement.getTitle() + " " + template.getPageCount() + "P)";
                 break;
@@ -98,9 +101,23 @@ public class PaymentPreviewActivity extends ToolbarActivity<ActivityPaymentPrevi
             case Calendar:
                 showProductDetail = measurement.getTitle();
                 break;
-
             case PhoneShell:
-
+                showProductDetail = mOrderWork.getTypeName() + " (" + measurement.getTitle() + template.getTemplateName() + ")";
+                break;
+            case Poker:
+                showProductDetail = mOrderWork.getTypeName() + " (" + measurement.getTitle() + ")";
+                break;
+            case Puzzle:
+                showProductDetail = mOrderWork.getTypeName();
+                break;
+            case MagicCup:
+                showProductDetail = mOrderWork.getTypeName() + " (" + measurement.getTitle() + ")";
+                break;
+            case LOMOCard:
+                showProductDetail = mOrderWork.getTypeName() + " (" + measurement.getTitle() + ")";
+                break;
+            case Engraving:
+                showProductDetail = mOrderWork.getWorkMaterial() + mOrderWork.getTypeName();
                 break;
         }
         mDataBinding.tvProductType.setText(showProductDetail);
