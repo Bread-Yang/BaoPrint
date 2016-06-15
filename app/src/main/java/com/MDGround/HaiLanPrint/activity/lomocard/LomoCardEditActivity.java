@@ -53,6 +53,7 @@ public class LomoCardEditActivity extends ToolbarActivity<ActivityLomoCardEditBi
             mWorkPhotoArrayList.add(new WorkPhoto());
         }
 
+        mDataBinding.templateRecyclerView.setHasFixedSize(true);
         LinearLayoutManager imageLayoutManager = new LinearLayoutManager(this);
         imageLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         mDataBinding.templateRecyclerView.setLayoutManager(imageLayoutManager);
