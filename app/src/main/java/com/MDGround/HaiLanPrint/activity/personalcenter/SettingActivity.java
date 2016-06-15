@@ -1,5 +1,6 @@
 package com.MDGround.HaiLanPrint.activity.personalcenter;
 
+import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.view.View;
@@ -60,6 +61,12 @@ public class SettingActivity extends ToolbarActivity<ActivitySettingBinding> {
     public void logoutAction(View view) {
         DeviceUtil.logoutUser();
         NavUtils.toLoginActivity(this);
+    }
+    //endregion
+    //region ACTION
+    public void toAboutUsActivity(View view){
+        Intent intent=new Intent(this,AboutUsAcctivity.class);
+        startActivity(intent);
     }
     //endregion
 }

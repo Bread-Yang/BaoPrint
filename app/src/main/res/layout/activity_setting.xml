@@ -69,7 +69,9 @@
         <View style="@style/DividerHorizontalMarginSytle"/>
 
         <RelativeLayout
-            style="@style/FixHeightLayoutStyle">
+            style="@style/FixHeightLayoutStyle"
+            android:onClick="toAboutUsActivity"
+            >
             <TextView
                 style="@style/NormalTextStyle"
                 android:layout_centerVertical="true"

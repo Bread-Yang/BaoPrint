@@ -319,7 +319,15 @@
             android:name=".activity.orders.ApplyRefundActivity"
             android:label="@string/apply_refund"
             android:screenOrientation="portrait" />
-
+        <activity
+            android:name=".activity.personalcenter.AboutUsAcctivity"
+            android:label="@string/about_us" />
+        <activity
+            android:name=".activity.personalcenter.TermServerActivity"
+            android:label="@string/gvrp" />
+        <activity
+            android:name=".activity.personalcenter.FeedBackActivity"
+            android:label="@string/feedback"></activity>
         <activity
             android:name=".activity.personalcenter.PersonalInformationActivity"
             android:label="@string/personal_information"
