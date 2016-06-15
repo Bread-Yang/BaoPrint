@@ -8,9 +8,10 @@
             name="Address"
             type="com.MDGround.HaiLanPrint.models.DeliveryAddress">
         </variable>
-        <!--<variable-->
-            <!--name="handler"-->
-            <!--type=""></variable>-->
+        <variable
+            name="handler"
+            type="com.MDGround.HaiLanPrint.activity.personalcenter.ManageAddressActivity.BindingHandler">
+        </variable>
     </data>
    <LinearLayout
        android:layout_width="match_parent"
@@ -90,34 +91,47 @@
            android:layout_weight="5"
            android:gravity="center_vertical|right"
            android:layout_height="match_parent">
+         <LinearLayout
+             android:onClick="@{handler::onEidtorItem}"
+             android:layout_width="wrap_content"
+             android:orientation="horizontal"
+             android:layout_height="wrap_content">
+             <ImageView
+                 android:layout_marginLeft="@dimen/margin_12"
+                 android:layout_width="@dimen/size_24"
+                 android:src="@drawable/icon_edit_place"
+                 android:layout_height="@dimen/size_24" />
 
-           <ImageView
-           android:layout_marginLeft="@dimen/margin_12"
-           android:layout_width="@dimen/size_24"
-           android:src="@drawable/icon_edit_place"
-           android:layout_height="@dimen/size_24" />
+             <TextView
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:text="@string/editor"
+                 android:layout_marginLeft="@dimen/margin_6"
+                 android:textSize="@dimen/text_size_16"
+                 android:textColor="@color/color_333333" />
 
-           <TextView
-               android:layout_width="wrap_content"
-               android:layout_height="wrap_content"
-               android:text="@string/editor"
-               android:layout_marginLeft="@dimen/margin_6"
-               android:textSize="@dimen/text_size_16"
-               android:textColor="@color/color_333333" />
+         </LinearLayout>
+            <LinearLayout
+                android:onClick="@{handler::onDeleteItem}"
+                android:layout_width="wrap_content"
+                android:orientation="horizontal"
+                android:layout_height="wrap_content">
+                <ImageView
+                    android:layout_marginLeft="@dimen/margin_40"
+                    android:src="@drawable/icon_shoppingcart_place"
+                    android:layout_width="@dimen/size_24"
+                    android:layout_height="@dimen/size_24" />
 
-            <ImageView
-               android:layout_marginLeft="@dimen/margin_40"
-               android:src="@drawable/icon_shoppingcart_place"
-               android:layout_width="@dimen/size_24"
-               android:layout_height="@dimen/size_24" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/buy"
+                    android:textSize="@dimen/text_size_16"
+                    android:textColor="@color/color_333333"
+                    android:layout_marginRight="@dimen/margin_12" />
+            </LinearLayout>
 
-            <TextView
-               android:layout_width="wrap_content"
-               android:layout_height="wrap_content"
-                android:text="@string/buy"
-               android:textSize="@dimen/text_size_16"
-               android:textColor="@color/color_333333"
-               android:layout_marginRight="@dimen/margin_12" />
+
 
        </LinearLayout>
 

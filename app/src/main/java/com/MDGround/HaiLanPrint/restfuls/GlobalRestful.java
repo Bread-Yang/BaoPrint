@@ -429,6 +429,15 @@ public class GlobalRestful extends BaseRestful {
         }
         asynchronousPost("SaveUserInfo", object.toString(), callback);
     }
-
+   //删除收货地址
+    public void DeleteUserAddress(int AutoID,Callback<ResponseData> callback){
+        JSONObject obj = new JSONObject();
+        try {
+            obj.put("AutoID",AutoID);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        asynchronousPost("DeleteUserAddress", obj.toString(), callback);
+    }
 
 }

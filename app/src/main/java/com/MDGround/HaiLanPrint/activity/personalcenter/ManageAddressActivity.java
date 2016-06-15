@@ -1,5 +1,6 @@
 package com.MDGround.HaiLanPrint.activity.personalcenter;
 
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -11,9 +12,11 @@ import com.MDGround.HaiLanPrint.R;
 import com.MDGround.HaiLanPrint.activity.base.ToolbarActivity;
 import com.MDGround.HaiLanPrint.databinding.ActivityManageAddressBinding;
 import com.MDGround.HaiLanPrint.databinding.ItemManageAddressBinding;
+import com.MDGround.HaiLanPrint.enumobject.restfuls.ResponseCode;
 import com.MDGround.HaiLanPrint.models.DeliveryAddress;
 import com.MDGround.HaiLanPrint.restfuls.GlobalRestful;
 import com.MDGround.HaiLanPrint.restfuls.bean.ResponseData;
+import com.MDGround.HaiLanPrint.utils.ViewUtils;
 
 import java.util.ArrayList;
 
@@ -25,9 +28,14 @@ import retrofit2.Response;
  * Created by PC on 2016-06-14.
  */
 public class ManageAddressActivity extends ToolbarActivity<ActivityManageAddressBinding> {
+    public static final String FROM_HERE="FROM_HERE";
+    public static final  String ADDRESS="ADDRESS";
+    public static final int FOR_UPATE=1;
+    public static final  int FOR_SAVE=2;
     private ArrayList<DeliveryAddress> mUserAddressList=new ArrayList<>();
     private DeliveryAddress mUserAddress;
     private  ManageAddressAdatper adatper;
+    private View view;
     @Override
     protected int getContentLayout() {
         return R.layout.activity_manage_address;
@@ -43,8 +51,10 @@ public class ManageAddressActivity extends ToolbarActivity<ActivityManageAddress
         LinearLayoutManager  linearLayoutManager=new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         mDataBinding.recyclerView.setLayoutManager(linearLayoutManager);
+        View view=LayoutInflater.from(this).inflate(R.layout.item_address_foot,null);
         adatper=new ManageAddressAdatper();
         mDataBinding.recyclerView.setAdapter(adatper);
+//        adatper.addFooter()
         getUserAddressListRequest();
 
     }
@@ -70,10 +80,18 @@ public class ManageAddressActivity extends ToolbarActivity<ActivityManageAddress
     }
 
     public class BindingHandler{
-        public  void onClickItem(View view,int postion){
-//           int postion=
+        public  void onEidtorItem(View view){
+//            int position = mDataBinding.recyclerView.getChildAdapterPosition(view);
+//            DeliveryAddress deliveryAddress=mUserAddressList.get(position);
 
         }
+        public void onDeleteItem(View view){
+//            int position = mDataBinding.recyclerView.getChildAdapterPosition(view);;
+//            DeliveryAddress address=mUserAddressList.get(position);
+//            int AutoID=address.getAutoID();
+//            deleteAddress(AutoID);
+        }
+
     }
     BindingHandler handler=new BindingHandler();
     //region ADAPTER
@@ -89,7 +107,8 @@ public class ManageAddressActivity extends ToolbarActivity<ActivityManageAddress
         public void onBindViewHolder(MyViewHolder holder, int position) {
             DeliveryAddress address=mUserAddressList.get(position);
             viewItemBinding.setAddress(address);
-          //  viewItemBinding.set
+            viewItemBinding.setHandler(handler);
+
         }
 
         @Override
@@ -104,5 +123,32 @@ public class ManageAddressActivity extends ToolbarActivity<ActivityManageAddress
               }
           }
     }
-    //enregion
+    //enregion SERVER
+    //编辑地址
+    public void updateAddress(DeliveryAddress address){
+       Intent intent=new Intent(this,EditAddressActivity.class);
+        intent.putExtra(FROM_HERE,FOR_UPATE);
+        intent.putExtra(ADDRESS,address);
+        startActivity(intent);
+    }
+    //删除地址
+    public void  deleteAddress(int AutoID){
+        ViewUtils.loading(this);
+        GlobalRestful.getInstance().DeleteUserAddress(AutoID, new Callback<ResponseData>() {
+            @Override
+            public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
+               if(ResponseCode.isSuccess(response.body())){
+                    ViewUtils.dismiss();
+                };
+            }
+
+            @Override
+            public void onFailure(Call<ResponseData> call, Throwable t) {
+                    ViewUtils.dismiss();
+                    ViewUtils.toast("删除失败");
+            }
+        });
+    }
+    //endregion
+
 }

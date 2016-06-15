@@ -316,4 +316,7 @@
     <string name="treeClassTwo">请输入年级</string>
     <string name="inputBirthday">请输入生日</string>
     <string name="editor">编辑</string>
+    <string name="receiver">收货人</string>
+    <string name="contacts">联系电话</string>
+    <string name="saveAddress">保存地址</string>
 </resources>

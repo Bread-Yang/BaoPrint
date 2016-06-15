@@ -312,6 +312,9 @@
             android:name=".activity.orders.OrderDetailActivity"
             android:label="@string/order_detail"
             android:screenOrientation="portrait"/>
+        <activity android:name=".activity.personalcenter.EditAddressActivity"
+                android:label="@string/edit_address"
+            />
 
         <activity
             android:name=".activity.orders.ApplyRefundActivity"

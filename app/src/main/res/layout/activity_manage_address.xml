@@ -16,16 +16,7 @@
           android:layout_height="wrap_content"
          />
 
-      <TextView
-          android:layout_marginTop="@dimen/margin_40"
-          android:background="@drawable/rect_orange"
-          android:layout_gravity="center_horizontal"
-          android:layout_width="@dimen/size_180"
-          android:text="新增地址"
-          android:textColor="@color/color_white"
-          android:gravity="center"
-          android:textSize="@dimen/margin_20"
-          android:layout_height="@dimen/size_44" />
+
 
   </LinearLayout>
 
