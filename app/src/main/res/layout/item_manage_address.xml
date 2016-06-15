@@ -8,10 +8,6 @@
             name="Address"
             type="com.MDGround.HaiLanPrint.models.DeliveryAddress">
         </variable>
-        <variable
-            name="handler"
-            type="com.MDGround.HaiLanPrint.activity.personalcenter.ManageAddressActivity.BindingHandler">
-        </variable>
     </data>
    <LinearLayout
        android:layout_width="match_parent"
@@ -92,7 +88,7 @@
            android:gravity="center_vertical|right"
            android:layout_height="match_parent">
          <LinearLayout
-             android:onClick="@{handler::onEidtorItem}"
+             android:id="@+id/tvEditor"
              android:layout_width="wrap_content"
              android:orientation="horizontal"
              android:layout_height="wrap_content">
@@ -107,26 +103,31 @@
                  android:layout_height="wrap_content"
                  android:text="@string/editor"
                  android:layout_marginLeft="@dimen/margin_6"
+                 android:layout_gravity="bottom"
                  android:textSize="@dimen/text_size_16"
                  android:textColor="@color/color_333333" />
-
+         <TextView
+             android:layout_width="@dimen/margin_24"
+             android:layout_height="match_parent" />
          </LinearLayout>
             <LinearLayout
-                android:onClick="@{handler::onDeleteItem}"
+                android:id="@+id/tvDelete"
                 android:layout_width="wrap_content"
                 android:orientation="horizontal"
                 android:layout_height="wrap_content">
                 <ImageView
-                    android:layout_marginLeft="@dimen/margin_40"
-                    android:src="@drawable/icon_shoppingcart_place"
+                    android:layout_marginLeft="@dimen/margin_16"
+                    android:src="@drawable/icon_delete"
                     android:layout_width="@dimen/size_24"
                     android:layout_height="@dimen/size_24" />
 
                 <TextView
+
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/buy"
+                    android:text="@string/delete"
                     android:textSize="@dimen/text_size_16"
+                    android:layout_gravity="bottom"
                     android:textColor="@color/color_333333"
                     android:layout_marginRight="@dimen/margin_12" />
             </LinearLayout>
