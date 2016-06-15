@@ -7,7 +7,7 @@
     <data>
         <variable
             name="creditInfo"
-            type="com.MDGround.HaiLanPrint.models.UserIntegralList"/>
+            type="com.MDGround.HaiLanPrint.models.UserIntegral"/>
         <variable
             name="handler"
             type="com.MDGround.HaiLanPrint.activity.personalcenter.MyCreditActivity.BindHandler"/>

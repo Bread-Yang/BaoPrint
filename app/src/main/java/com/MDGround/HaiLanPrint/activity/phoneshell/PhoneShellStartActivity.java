@@ -68,6 +68,8 @@ public class PhoneShellStartActivity extends ToolbarActivity<ActivityPhoneShellS
         mDataBinding.tvPhoneModel.setText(MDGroundApplication.mChoosedMeasurement.getTitle() + "-" + MDGroundApplication.mChoosedTemplate.getTemplateName());
         mDataBinding.tvPrice.setText(StringUtil.toYuanWithUnit(MDGroundApplication.mChoosedTemplate.getPrice()));
 
+        mDataBinding.rgMaterial.clearCheck();
+
         if ((MDGroundApplication.mChoosedTemplate.getMaterialType() & MaterialType.Silicone.value()) != 0) {
             mDataBinding.rbSilicone.setEnabled(true);
             if (mDataBinding.rgMaterial.getCheckedRadioButtonId() == 0) {

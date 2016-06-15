@@ -112,12 +112,10 @@
 
                     <TextView
                         android:id="@+id/tvProductType"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        style="@style/NormalTextStyle"
                         android:layout_marginLeft="@dimen/margin_8"
-                        android:layout_marginTop="@dimen/margin_15"
                         android:layout_toRightOf="@+id/ivImage"
-                        android:text="@{orderWork.workMaterial + orderWork.typeName}"
+                        android:textSize="@dimen/text_size_16"
                         tools:text="照片冲洗"/>
 
                     <TextView
@@ -126,14 +124,14 @@
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/tvProductType"
                         android:layout_marginLeft="@dimen/margin_8"
-                        android:layout_marginTop="@dimen/margin_15"
+                        android:layout_marginTop="@dimen/margin_10"
                         android:layout_toRightOf="@+id/ivImage"
                         android:text="@{@string/num_with_colon(orderWork.photoCount)}"
                         tools:text="数量 : 2"/>
 
                     <TextView
                         style="@style/OrangeTextStyle"
-                        android:layout_alignBottom="@+id/tvNum"
+                        android:layout_alignBottom="@+id/ivImage"
                         android:layout_toLeftOf="@+id/tvYuan"
                         android:text="@{@string/yuan_amount(StringUtil.toYuanWithoutUnit(orderWork.price))}"
                         tools:text="¥276.00"/>
@@ -142,7 +140,7 @@
                         android:id="@+id/tvYuan"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignBottom="@+id/tvNum"
+                        android:layout_alignBottom="@+id/ivImage"
                         android:layout_alignParentRight="true"
                         android:layout_marginTop="@dimen/margin_15"
                         android:text="@string/yuan_unit"/>
@@ -169,20 +167,18 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
-                        android:padding="@dimen/margin_4"
                         android:layout_marginLeft="@dimen/margin_8"
                         android:layout_toRightOf="@+id/tvCoupon"
                         android:background="@drawable/ripple_button_round_angle_orange"
                         android:gravity="center"
+                        android:padding="@dimen/margin_4"
                         android:text="0张可用"
                         android:textColor="@color/color_white"
                         android:textSize="@dimen/text_size_10"/>
 
                     <TextView
                         android:id="@+id/tvCouponYuan"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
+                        style="@style/WithArrowIconDimTextStyle"
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="@dimen/margin_8"
                         android:text="已抵用0.00元"/>
@@ -216,8 +212,8 @@
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="@dimen/margin_8"
                         android:layout_toRightOf="@+id/cbUseCredit"
-                        android:text="0积分"
-                        android:textColor="@color/color_f88e11"/>
+                        android:textColor="@color/color_f88e11"
+                        tools:text="0积分"/>
 
                     <TextView
                         android:id="@+id/tvCreditYuan"

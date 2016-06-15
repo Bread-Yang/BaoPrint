@@ -4,7 +4,7 @@ package com.MDGround.HaiLanPrint.models;
  * Created by PC on 2016-06-08.
  */
 
-public class UserIntegralList {
+public class UserIntegral {
     private String CreatedTime;
     private String Amount;
 
