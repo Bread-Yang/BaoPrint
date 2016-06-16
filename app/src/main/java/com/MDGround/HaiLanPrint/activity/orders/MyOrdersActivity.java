@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 
 import com.MDGround.HaiLanPrint.R;
 import com.MDGround.HaiLanPrint.activity.base.ToolbarActivity;
+import com.MDGround.HaiLanPrint.constants.Constants;
 import com.MDGround.HaiLanPrint.databinding.ActivityMyOrdersBinding;
 import com.MDGround.HaiLanPrint.databinding.ItemMyOrderBinding;
 import com.MDGround.HaiLanPrint.enumobject.OrderStatus;
@@ -19,6 +20,7 @@ import com.MDGround.HaiLanPrint.models.OrderInfo;
 import com.MDGround.HaiLanPrint.models.OrderWork;
 import com.MDGround.HaiLanPrint.restfuls.GlobalRestful;
 import com.MDGround.HaiLanPrint.restfuls.bean.ResponseData;
+import com.MDGround.HaiLanPrint.utils.NavUtils;
 import com.MDGround.HaiLanPrint.utils.ViewUtils;
 import com.google.gson.reflect.TypeToken;
 
@@ -45,6 +47,8 @@ public class MyOrdersActivity extends ToolbarActivity<ActivityMyOrdersBinding> {
 
     private OrderStatus mOrderStatus = OrderStatus.All;
 
+    private boolean mIsBackToMainActivity = false;
+
     @Override
     protected int getContentLayout() {
         return R.layout.activity_my_orders;
@@ -52,6 +56,10 @@ public class MyOrdersActivity extends ToolbarActivity<ActivityMyOrdersBinding> {
 
     @Override
     protected void initData() {
+        if (getIntent() != null) {
+            mIsBackToMainActivity = getIntent().getBooleanExtra(Constants.KEY_FROM_PAYMENT_SUCCESS, false);
+        }
+
         String[] titles = getResources().getStringArray(R.array.order_status_array);
 
         for (String title : titles) {
@@ -70,6 +78,17 @@ public class MyOrdersActivity extends ToolbarActivity<ActivityMyOrdersBinding> {
 
     @Override
     protected void setListener() {
+        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mIsBackToMainActivity) {
+                    NavUtils.toMainActivity(MyOrdersActivity.this);
+                } else {
+                    finish();
+                }
+            }
+        });
+
         mDataBinding.tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
@@ -258,6 +277,7 @@ public class MyOrdersActivity extends ToolbarActivity<ActivityMyOrdersBinding> {
                 switch (orderStatus) {
                     case Paid:      // 已付款
                         Intent intent = new Intent(MyOrdersActivity.this, ApplyRefundActivity.class);
+                        intent.putExtra(Constants.KEY_ORDER_INFO, orderInfo);
                         startActivity(intent);
                         break;
                     case Delivered: // 已发货

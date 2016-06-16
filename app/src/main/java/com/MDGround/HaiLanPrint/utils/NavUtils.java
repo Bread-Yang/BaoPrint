@@ -108,14 +108,14 @@ public class NavUtils {
         }
 
         if (hasTemplate) {
-            // 服务器返回的模版数量少于pagecount
+            // 服务器返回的模板数量少于pagecount
             if (SelectImageUtil.mTemplateImage.size() < MDGroundApplication.mChoosedTemplate.getPageCount()) {
                 int difference = MDGroundApplication.mChoosedTemplate.getPageCount() - SelectImageUtil.mTemplateImage.size();
                 for (int i = 0; i < difference; i++) {
                     SelectImageUtil.mTemplateImage.add(new MDImage());
                 }
             }
-            // 选择的图片数量小于模版的数量
+            // 选择的图片数量小于模板的数量
             if (SelectImageUtil.mAlreadySelectImage.size() < SelectImageUtil.mTemplateImage.size()) {
                 int difference = SelectImageUtil.mTemplateImage.size() - SelectImageUtil.mAlreadySelectImage.size();
 

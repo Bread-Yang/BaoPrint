@@ -120,7 +120,7 @@ public class ArtAlbumEditActivity extends ToolbarActivity<ActivityArtAlbumEditBi
     private void showImageToGPUImageView(final int position, MDImage mdImage) {
         mCurrentSelectIndex = position;
 
-        // 模版图片加载
+        // 模板图片加载
         Glide.with(MDGroundApplication.mInstance)
                 .load(mdImage)
                 .dontAnimate()

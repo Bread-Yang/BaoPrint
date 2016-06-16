@@ -18,6 +18,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_1"
             android:background="@color/color_white"
             android:orientation="vertical">
 
@@ -33,6 +34,10 @@
 
             </com.MDGround.HaiLanPrint.views.FlexibleRelativeLayout>
 
+            <View
+                style="@style/DividerHorizontalMarginSytle"
+                android:layout_above="@+id/btnNextStep"/>
+
             <TextView
                 style="@style/NormalTextStyle"
                 android:layout_gravity="center_vertical"
@@ -40,7 +45,7 @@
                 android:paddingTop="@dimen/margin_12"
                 android:text="@{@string/template_name(template.templateName)}"
                 android:textSize="@dimen/text_size_16"
-                tools:text="模版: 花语"/>
+                tools:text="模板: 花语"/>
 
             <RelativeLayout
                 style="@style/FixHeightLayoutStyle">

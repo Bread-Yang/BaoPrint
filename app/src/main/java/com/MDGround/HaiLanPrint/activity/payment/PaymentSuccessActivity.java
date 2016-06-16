@@ -1,17 +1,22 @@
 package com.MDGround.HaiLanPrint.activity.payment;
 
+import android.content.Intent;
 import android.view.View;
 
 import com.MDGround.HaiLanPrint.R;
 import com.MDGround.HaiLanPrint.activity.base.ToolbarActivity;
-import com.MDGround.HaiLanPrint.databinding.ActivityPaymentPreviewBinding;
+import com.MDGround.HaiLanPrint.activity.orders.MyOrdersActivity;
+import com.MDGround.HaiLanPrint.constants.Constants;
+import com.MDGround.HaiLanPrint.databinding.ActivityPaymentSuccessBinding;
+import com.MDGround.HaiLanPrint.models.OrderInfo;
 import com.MDGround.HaiLanPrint.utils.NavUtils;
+import com.MDGround.HaiLanPrint.utils.StringUtil;
 
 /**
  * Created by yoghourt on 5/23/16.
  */
 
-public class PaymentSuccessActivity extends ToolbarActivity<ActivityPaymentPreviewBinding> {
+public class PaymentSuccessActivity extends ToolbarActivity<ActivityPaymentSuccessBinding> {
 
     @Override
     protected int getContentLayout() {
@@ -20,7 +25,10 @@ public class PaymentSuccessActivity extends ToolbarActivity<ActivityPaymentPrevi
 
     @Override
     protected void initData() {
+        OrderInfo orderInfo = getIntent().getParcelableExtra(Constants.KEY_ORDER_INFO);
 
+        mDataBinding.tvPaidAmount.setText(getString(R.string.yuan_amount, StringUtil.toYuanWithoutUnit(orderInfo.getTotalFeeReal())));
+        mDataBinding.tvOrderNum.setText(getString(R.string.order_number, orderInfo.getOrderNo()));
     }
 
     @Override
@@ -41,6 +49,12 @@ public class PaymentSuccessActivity extends ToolbarActivity<ActivityPaymentPrevi
     //region ACTION
     public void toMainActivityAction(View view) {
         NavUtils.toMainActivity(this);
+    }
+
+    public void toMyOrdersActivityAction(View view) {
+        Intent intent = new Intent(this, MyOrdersActivity.class);
+        intent.putExtra(Constants.KEY_FROM_PAYMENT_SUCCESS, true);
+        startActivity(intent);
     }
     //endregion
 }

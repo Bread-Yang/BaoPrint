@@ -29,6 +29,7 @@
             <TextView
                 style="@style/OrangeTextStyle"
                 android:layout_marginLeft="@dimen/margin_10"
+                android:id="@+id/tvPaidAmount"
                 android:text="¥0.00"
                 android:textSize="@dimen/text_size_18"
                 tools:text="@string/yuan_amount"/>
@@ -37,6 +38,7 @@
 
         <TextView
             style="@style/DimTextStyle"
+            android:id="@+id/tvOrderNum"
             android:layout_marginTop="@dimen/text_size_16"
             android:text="订单编号: 000232832838283283238"
             tools:text="@string/order_number"/>

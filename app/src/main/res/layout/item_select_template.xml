@@ -58,7 +58,7 @@
             android:layout_marginTop="@dimen/margin_10"
             android:text='@{@string/template + ": "+ template.templateName}'
             android:textSize="@dimen/text_size_16"
-            tools:text="模版: 花语"/>
+            tools:text="模板: 花语"/>
 
         <TextView
             android:id="@+id/tvPrice"

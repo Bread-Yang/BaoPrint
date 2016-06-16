@@ -70,7 +70,7 @@ public class PhoneShellEditActivity extends ToolbarActivity<ActivityPhoneShellEd
     private void showImageToGPUImageView() {
         if (SelectImageUtil.mTemplateImage.size() > 0) {
             if (SelectImageUtil.mTemplateImage.size() > 0) {
-                // 模版图片加载
+                // 模板图片加载
                 Glide.with(MDGroundApplication.mInstance)
                         .load(SelectImageUtil.mTemplateImage.get(0))
                         .dontAnimate()

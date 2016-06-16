@@ -175,9 +175,9 @@ public class GlobalRestful extends BaseRestful {
     }
 
     // 保存订单接口
-    public void SaveOrder(int OrderID, Callback<ResponseData> callback) {
+    public void SaveOrder(ProductType productType, Callback<ResponseData> callback) {
         JsonObject obj = new JsonObject();
-        obj.addProperty("OrderID", OrderID);
+        obj.addProperty("TypeID", productType.value());
 
         asynchronousPost("SaveOrder", obj, callback);
     }

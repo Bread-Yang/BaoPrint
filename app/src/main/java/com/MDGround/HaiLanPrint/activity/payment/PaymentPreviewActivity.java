@@ -10,6 +10,7 @@ import com.MDGround.HaiLanPrint.activity.deliveryaddress.ChooseDeliveryAddressAc
 import com.MDGround.HaiLanPrint.application.MDGroundApplication;
 import com.MDGround.HaiLanPrint.constants.Constants;
 import com.MDGround.HaiLanPrint.databinding.ActivityPaymentPreviewBinding;
+import com.MDGround.HaiLanPrint.enumobject.PayType;
 import com.MDGround.HaiLanPrint.greendao.Location;
 import com.MDGround.HaiLanPrint.models.Coupon;
 import com.MDGround.HaiLanPrint.models.DeliveryAddress;
@@ -54,6 +55,8 @@ public class PaymentPreviewActivity extends ToolbarActivity<ActivityPaymentPrevi
     private ArrayList<Coupon> mAvailableCouponArrayList = new ArrayList<>();
 
     private Coupon mSelectedCoupon;
+
+    private int mUnitFee, mAmountFee, mCouponFee, mCreditFee, mReceivableFee, mFreightFee;
 
     @Override
     protected int getContentLayout() {
@@ -155,7 +158,7 @@ public class PaymentPreviewActivity extends ToolbarActivity<ActivityPaymentPrevi
     }
 
     private int getReceivableFee() {
-        int amountFee = getAmountFee();
+        int amountFee = getAmountFee() - mCouponFee - mCreditFee + mFreightFee;
         return amountFee;
     }
 
@@ -212,8 +215,12 @@ public class PaymentPreviewActivity extends ToolbarActivity<ActivityPaymentPrevi
             ViewUtils.toast(R.string.add_address_first);
             return;
         }
-        Intent intent = new Intent(this, PaymentSuccessActivity.class);
-        startActivity(intent);
+        PayType payType = PayType.Alipay;
+        if (mDataBinding.rgPayment.getCheckedRadioButtonId() == R.id.rbWechatPay) {
+            payType = PayType.WeChat;
+        }
+        MDGroundApplication.mOrderutUtils.updateOrderPrepayRequest(PaymentPreviewActivity.this,
+                mDeliveryAddress, payType, getAmountFee(), getReceivableFee());
     }
     //endregion
 

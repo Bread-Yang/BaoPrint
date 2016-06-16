@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.databinding.DataBindingUtil;
 import android.net.Uri;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -13,9 +14,12 @@ import android.view.ViewGroup;
 
 import com.MDGround.HaiLanPrint.R;
 import com.MDGround.HaiLanPrint.activity.base.ToolbarActivity;
+import com.MDGround.HaiLanPrint.constants.Constants;
 import com.MDGround.HaiLanPrint.databinding.ActivityApplyRefundBinding;
 import com.MDGround.HaiLanPrint.databinding.ItemApplyRefundBinding;
 import com.MDGround.HaiLanPrint.models.MDImage;
+import com.MDGround.HaiLanPrint.models.OrderInfo;
+import com.MDGround.HaiLanPrint.utils.StringUtil;
 import com.MDGround.HaiLanPrint.utils.ViewUtils;
 import com.MDGround.HaiLanPrint.views.dialog.SelectSingleImageDialog;
 import com.MDGround.HaiLanPrint.views.itemdecoration.GridSpacingItemDecoration;
@@ -35,6 +39,8 @@ public class ApplyRefundActivity extends ToolbarActivity<ActivityApplyRefundBind
 
     private ArrayList<MDImage> mUploadImageArrayList = new ArrayList<>();
 
+    private OrderInfo mOrderInfo;
+
     @Override
     protected int getContentLayout() {
         return R.layout.activity_apply_refund;
@@ -42,6 +48,10 @@ public class ApplyRefundActivity extends ToolbarActivity<ActivityApplyRefundBind
 
     @Override
     protected void initData() {
+        mOrderInfo = getIntent().getParcelableExtra(Constants.KEY_ORDER_INFO);
+
+        mDataBinding.cetContactNumber.setHint(getString(R.string.at_most_yuan, StringUtil.toYuanWithoutUnit(mOrderInfo.getTotalFeeReal())));
+
         mSelectSingleImageDialog = new SelectSingleImageDialog(this);
 
         mDataBinding.recyclerView.setHasFixedSize(true);
@@ -62,21 +72,31 @@ public class ApplyRefundActivity extends ToolbarActivity<ActivityApplyRefundBind
         if (resultCode == RESULT_OK) {
             if (requestCode == SelectSingleImageDialog.PHOTO_REQUEST_GALLERY) {// 从相册返回的数据
                 Uri uri = data.getData();
-
                 String[] filePathColumn = {MediaStore.Images.Media.DATA};
-
-                Cursor cursor = getContentResolver().query(uri,
-                        filePathColumn, null, null, null);
+                Cursor cursor = managedQuery(uri, filePathColumn, null, null, null);
+                int columnIndex = cursor.getColumnIndexOrThrow(filePathColumn[0]);
                 cursor.moveToFirst();
 
-                int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
                 String picturePath = cursor.getString(columnIndex);
-                KLog.e("picturePath : " + picturePath);
+                KLog.e("picturePath" + picturePath);
+
+                MDImage mdImage = new MDImage();
+                mdImage.setImageLocalPath(picturePath);
+
+                mUploadImageArrayList.add(mdImage);
+                mAdapter.notifyDataSetChanged();
             } else if (requestCode == SelectSingleImageDialog.PHOTO_REQUEST_CAREMA) {// 从相机返回的数据
+                KLog.e("相机返回数据");
+                String picturePath = Environment.getExternalStorageDirectory() + "/textphoto.jpg";
+
                 Uri uri = data.getData();
                 String[] filePathColumn = {MediaStore.Images.Media.DATA};
             }
         }
+    }
+
+    public void sumitAction(View view) {
+
     }
 
     //region SERVER
