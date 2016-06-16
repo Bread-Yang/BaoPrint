@@ -18,7 +18,10 @@ public final class Constants {
 
     // 数据库名字
     public static final String DATABASE_NAME = "mdground";
-
+    //照片储存文件夹
+    public static final String  PHOTO_FILE="/baoprint";
+    //临时相机拍完后照片的名字
+    public static final String PHOTO_NAME="textbaoprint.jpg";
     // 短信接口参数
     public static final String SMS_APP_KEY = "fdd3cf873a60";
     public static final String SMS_APP_SECRECT = "bb31da16613ce49ba8cb815ccf5afe7d";
