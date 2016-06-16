@@ -134,6 +134,7 @@
     <string name="actual_payment_with_colon">实付款:</string>
     <string name="order_time_with_colon">下单时间:%s</string>
     <string name="confirm_receive">确认收货</string>
+    <string name="empty_order_tips">非常抱歉,没有找到相关的订单</string>
 
     <!-- 订单详情 -->
     <string name="order_detail">订单详情</string>

@@ -1,5 +1,6 @@
 package com.MDGround.HaiLanPrint.activity.orders;
 
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -18,11 +19,17 @@ import com.MDGround.HaiLanPrint.enumobject.OrderStatus;
 import com.MDGround.HaiLanPrint.models.MDImage;
 import com.MDGround.HaiLanPrint.models.OrderInfo;
 import com.MDGround.HaiLanPrint.models.OrderWork;
+import com.MDGround.HaiLanPrint.restfuls.GlobalRestful;
+import com.MDGround.HaiLanPrint.restfuls.bean.ResponseData;
 import com.MDGround.HaiLanPrint.utils.StringUtil;
 import com.MDGround.HaiLanPrint.utils.ViewUtils;
 import com.MDGround.HaiLanPrint.views.itemdecoration.GridSpacingItemDecoration;
 
 import java.util.ArrayList;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Created by yoghourt on 5/30/16.
@@ -30,6 +37,8 @@ import java.util.ArrayList;
 public class OrderDetailActivity extends ToolbarActivity<ActivityOrderDetailBinding> {
 
     private OrderInfo mOrderInfo;
+
+    private OrderStatus mOrderStatus;
 
     private ArrayList<OrderWork> mOrderWorkArrayList = new ArrayList<>();
 
@@ -58,10 +67,10 @@ public class OrderDetailActivity extends ToolbarActivity<ActivityOrderDetailBind
         mDataBinding.tvAddress.setText(mOrderInfo.getAddressReceipt());
         mDataBinding.tvOrder.setText(mOrderInfo.getOrderNo());
 
-        OrderStatus orderStatus = OrderStatus.fromValue(mOrderInfo.getOrderStatus());
-        mDataBinding.tvOrderStatus.setText(OrderStatus.getOrderStatus(this, orderStatus));
+        mOrderStatus = OrderStatus.fromValue(mOrderInfo.getOrderStatus());
+        mDataBinding.tvOrderStatus.setText(OrderStatus.getOrderStatus(this, mOrderStatus));
 
-        switch (orderStatus) {
+        switch (mOrderStatus) {
             case Paid:
                 mDataBinding.lltMoreDetail.setVisibility(View.GONE);
                 mDataBinding.btnOperation.setVisibility(View.GONE);
@@ -74,6 +83,15 @@ public class OrderDetailActivity extends ToolbarActivity<ActivityOrderDetailBind
                 mDataBinding.tvDetail2.setText(mOrderInfo.getExpressNo());
 
                 mDataBinding.rltUploadImage.setVisibility(View.GONE);
+
+                mDataBinding.btnApplyRefund.setText("");
+                mDataBinding.btnApplyRefund.setEnabled(false);
+
+                mDataBinding.btnOperation.setText(R.string.confirm_receive);
+                break;
+            case Finished:
+                mDataBinding.lltMoreDetail.setVisibility(View.GONE);
+                mDataBinding.lltOperation.setVisibility(View.GONE);
                 break;
             case Refunding:
                 mDataBinding.tvOrderStatusLogo.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.icon_refund_pay),
@@ -131,7 +149,44 @@ public class OrderDetailActivity extends ToolbarActivity<ActivityOrderDetailBind
 
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == RESULT_OK) {
+            finish();
+        }
+    }
+
+    //region ACTION
+    public void btnOperationAction(View view) {
+        switch (mOrderStatus) {
+            case Paid:
+                Intent intent = new Intent(OrderDetailActivity.this, ApplyRefundActivity.class);
+                intent.putExtra(Constants.KEY_ORDER_INFO, mOrderInfo);
+                startActivityForResult(intent, 0);
+                break;
+            case Delivered:
+                updateOrderFinishedRequest(mOrderInfo.getOrderID());
+                break;
+        }
+    }
+    //endregion
+
     //region SERVER
+    private void updateOrderFinishedRequest(int orderID) {
+        ViewUtils.loading(this);
+        GlobalRestful.getInstance().UpdateOrderFinished(orderID, new Callback<ResponseData>() {
+            @Override
+            public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
+                ViewUtils.dismiss();
+                finish();
+            }
+
+            @Override
+            public void onFailure(Call<ResponseData> call, Throwable t) {
+
+            }
+        });
+    }
     //endregion
 
     //region ADAPTER

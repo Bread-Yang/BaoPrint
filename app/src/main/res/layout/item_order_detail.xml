@@ -34,7 +34,6 @@
                 android:id="@+id/tvProductType"
                 style="@style/NormalTextStyle"
                 android:layout_marginLeft="@dimen/margin_8"
-                android:layout_marginTop="@dimen/margin_12"
                 android:layout_toRightOf="@+id/ivImage"
                 android:text="@{orderWork.typeName}"
                 android:textSize="@dimen/text_size_16"

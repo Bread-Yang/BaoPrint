@@ -9,7 +9,7 @@
         <variable name="orderInfo" type="com.MDGround.HaiLanPrint.models.OrderInfo"/>
     </data>
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
@@ -17,7 +17,8 @@
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_above="@+id/lltOperation">
+            android:layout_above="@+id/viewDivider"
+            android:layout_weight="1">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -123,8 +124,8 @@
                     <RelativeLayout
                         style="@style/NormalLayoutStyle"
                         android:gravity="center_vertical"
-                        android:paddingTop="@dimen/margin_6"
-                        android:onClick="toChooseCouponActivityAction">
+                        android:onClick="toChooseCouponActivityAction"
+                        android:paddingTop="@dimen/margin_6">
 
                         <TextView
                             style="@style/DimTextStyle"
@@ -174,8 +175,8 @@
                     <RelativeLayout
                         style="@style/NormalLayoutStyle"
                         android:gravity="center_vertical"
-                        android:paddingBottom="@dimen/margin_6"
-                        android:onClick="toChooseCouponActivityAction">
+                        android:onClick="toChooseCouponActivityAction"
+                        android:paddingBottom="@dimen/margin_6">
 
                         <TextView
                             style="@style/DimTextStyle"
@@ -211,8 +212,8 @@
                     <TextView
                         android:id="@+id/tvRealFee"
                         style="@style/OrangeTextStyle"
-                        android:textSize="@dimen/text_size_18"
                         android:layout_centerVertical="true"
+                        android:textSize="@dimen/text_size_18"
                         tools:text="@string/actual_payment_with_colon"/>
 
                     <TextView
@@ -280,10 +281,10 @@
                     </LinearLayout>
 
                     <RelativeLayout
+                        android:id="@+id/rltUploadImage"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/margin_8"
-                        android:id="@+id/rltUploadImage"
                         android:background="@color/color_white"
                         android:orientation="horizontal"
                         android:paddingBottom="@dimen/margin_15">
@@ -308,6 +309,9 @@
             </LinearLayout>
 
         </ScrollView>
+
+        <View
+            style="@style/DividerHorizontalStyle"/>
 
         <LinearLayout
             android:id="@+id/lltOperation"
@@ -339,6 +343,7 @@
                 android:layout_alignParentRight="true"
                 android:layout_gravity="center_horizontal"
                 android:layout_weight="1"
+                android:onClick="btnOperationAction"
                 android:background="@drawable/ripple_button_right_angle_orange"
                 android:gravity="center"
                 android:text="@string/go_pay"
@@ -346,5 +351,5 @@
                 android:textSize="@dimen/text_size_18"/>
         </LinearLayout>
 
-    </RelativeLayout>
+    </LinearLayout>
 </layout>

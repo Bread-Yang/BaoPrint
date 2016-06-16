@@ -18,12 +18,28 @@
             app:tabSelectedTextColor="@color/color_white"
             app:tabTextColor="@color/color_white"/>
 
-        <com.malinskiy.superrecyclerview.SuperRecyclerView
-            android:id="@+id/recyclerView"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_above="@+id/lltOperation"
-            android:scrollbars="none"/>
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/tvEmptyTips"
+                style="@style/DimTextStyle"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="@dimen/margin_48"
+                android:drawableTop="@drawable/empty_order"
+                android:text="@string/empty_order_tips"
+                android:textSize="@dimen/text_size_16"/>
+
+            <com.malinskiy.superrecyclerview.SuperRecyclerView
+                android:id="@+id/recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_above="@+id/lltOperation"
+                android:scrollbars="none"
+                android:visibility="gone"/>
+
+        </RelativeLayout>
 
     </LinearLayout>
 </layout>

@@ -69,7 +69,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="@dimen/text_size14"
+                    android:textSize="@dimen/text_size_14"
                     android:text="@string/yuan"/>
                     </LinearLayout>
             </LinearLayout>

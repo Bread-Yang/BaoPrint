@@ -147,7 +147,14 @@ public class MyOrdersActivity extends ToolbarActivity<ActivityMyOrdersBinding> {
                     mOrderWorkArrayList.addAll(order.getOrderWorkList());
                 }
 
-                mAdapter.notifyDataSetChanged();
+                if (mOrderWorkArrayList.size() > 0) {
+                    mDataBinding.tvEmptyTips.setVisibility(View.GONE);
+                    mDataBinding.recyclerView.setVisibility(View.VISIBLE);
+                    mAdapter.notifyDataSetChanged();
+                } else {
+                    mDataBinding.tvEmptyTips.setVisibility(View.VISIBLE);
+                    mDataBinding.recyclerView.setVisibility(View.GONE);
+                }
 
                 ViewUtils.dismiss();
             }
@@ -200,6 +207,8 @@ public class MyOrdersActivity extends ToolbarActivity<ActivityMyOrdersBinding> {
             OrderStatus orderStatus = OrderStatus.fromValue(orderInfo.getOrderStatus());
 
             holder.viewDataBinding.btnOperation.setVisibility(View.VISIBLE);
+            holder.viewDataBinding.btnOperation.setBackgroundResource(R.drawable.shape_rb_normal);
+            holder.viewDataBinding.btnOperation.setTextColor(getResources().getColor(R.color.color_333333));
             holder.viewDataBinding.tvOrderStatus.setText(OrderStatus.getOrderStatus(getApplicationContext(), orderStatus));
             switch (orderStatus) {
                 case Paid:      // 已付款
@@ -207,6 +216,8 @@ public class MyOrdersActivity extends ToolbarActivity<ActivityMyOrdersBinding> {
                     break;
                 case Delivered: // 已发货
                     holder.viewDataBinding.btnOperation.setText(R.string.confirm_receive);
+                    holder.viewDataBinding.btnOperation.setBackgroundResource(R.drawable.shape_rb_highlight);
+                    holder.viewDataBinding.btnOperation.setTextColor(getResources().getColor(R.color.color_f88e11));
                     break;
                 case Finished:  // 已完成
                     holder.viewDataBinding.btnOperation.setVisibility(View.GONE);

@@ -110,6 +110,7 @@ public class ApplyRefundActivity extends ToolbarActivity<ActivityApplyRefundBind
 
     //region SERVER
     private void UploadPhotoRequest() {
+        ViewUtils.loading(this);
         FileRestful.getInstance().UploadPhoto(UploadType.Order, mUploadImageArrayList, new FileRestful.OnUploadSuccessListener() {
             @Override
             public void onUploadSuccess(ArrayList<MDImage> mdImageArrayList) {
@@ -139,6 +140,8 @@ public class ApplyRefundActivity extends ToolbarActivity<ActivityApplyRefundBind
                 GlobalRestful.getInstance().UpdateOrderRefunding(mOrderInfo, new Callback<ResponseData>() {
                     @Override
                     public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
+                        ViewUtils.dismiss();
+                        setResult(RESULT_OK);
                         finish();
                     }
 
