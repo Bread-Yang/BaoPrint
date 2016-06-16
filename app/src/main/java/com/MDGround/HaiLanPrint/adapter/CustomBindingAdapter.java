@@ -13,7 +13,7 @@ public class CustomBindingAdapter {
 
     @BindingAdapter("bind:loadImageByMDImage")
     public static void
-        loadImageByMDImage(ImageView imageView, MDImage mdImage) {
+    loadImageByMDImage(ImageView imageView, MDImage mdImage) {
         GlideUtil.loadImageByMDImage(imageView, mdImage);
     }
 

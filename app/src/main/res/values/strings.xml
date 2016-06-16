@@ -323,4 +323,14 @@
     <string name="contacts">联系电话</string>
     <string name="saveAddress">保存地址</string>
     <string name="input_you_phone">请输入你的手机号码</string>
+    <string name="logo">海岚冲印</string>
+    <string name="procol_tile">海岚冲印注册协议</string>
+    <string name="hotline">服务热线</string>
+    <string name="www">官方网站</string>
+    <string name="gvrp">注册协议</string>
+    <string name="hotlineNume">123-456-789</string>
+    <string name="realmname">www.baidu.com</string>
+    <string name="term">服务条款</string>
+    <string name="prompt">你的要求是我们努力的方向，期待听到您的声音。</string>
+    <string name="feedback">意见反馈</string>
 </resources>
