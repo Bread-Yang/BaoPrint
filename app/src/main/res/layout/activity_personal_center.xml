@@ -94,6 +94,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:gravity="center"
                 android:background="@color/color_window_bg"
                 android:orientation="horizontal">
 
@@ -140,6 +141,7 @@
             <View style="@style/DividerHorizontalStyle" />
 
             <LinearLayout
+                android:gravity="center"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -189,6 +191,7 @@
             <View style="@style/DividerHorizontalStyle" />
 
             <LinearLayout
+                android:gravity="center"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
