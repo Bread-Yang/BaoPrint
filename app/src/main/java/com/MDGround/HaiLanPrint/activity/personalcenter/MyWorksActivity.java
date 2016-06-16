@@ -70,7 +70,6 @@ public class MyWorksActivity extends ToolbarActivity<ActivityPersonalMyworksBind
                         String worksInfos = jsonObject.toString();
                         mWorksInfoList = StringUtil.getInstanceByJsonString(worksInfos, new TypeToken<List<WorksInfo>>() {
                         });
-                        mAllWorkInfoList = mWorksInfoList;
                         KLog.e(TAG, mWorksInfoList.size());
                         mAdapter.notifyDataSetChanged();
                         ViewUtils.dismiss();
@@ -89,16 +88,20 @@ public class MyWorksActivity extends ToolbarActivity<ActivityPersonalMyworksBind
 
     //region ACTION
     //选中同一组内的作品
-    public void selectAlikeType(View view) {
+    public void selectAlikeType(View view, boolean b) {
+        mAllWorkInfoList.clear();
         int position = mDataBinding.myworksrecyclerView.getChildAdapterPosition(view);
         int type = mWorksInfoList.get(position).getTypeID();
-        KLog.e("typeId--->"+type);
-//        for (int i = 0; i < mWorksInfoList.size(); i++) {
-//            if (mWorksInfoList.get(i).getTypeID() == type) {
-//                mAdapter.getIsSelected().put(i, b);
-//            }
-//        }
-      //  mAdapter.notifyDataSetChanged();
+        // KLog.e("typeId--->"+type);
+        for (int i = 0; i < mWorksInfoList.size(); i++) {
+            if (mWorksInfoList.get(i).getTypeID() == type) {
+//
+                i++;
+                KLog.e("---->" + i);
+            }
+
+        }
+        mAdapter.notifyDataSetChanged();
     }
 
 
@@ -124,18 +127,16 @@ public class MyWorksActivity extends ToolbarActivity<ActivityPersonalMyworksBind
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
-                    for (int i = 0; i < mWorksInfoList.size(); i++) {
-                        mAdapter.getIsSelected().put(i, true);
-                    }
+                    mAllWorkInfoList = new ArrayList<WorksInfo>(mWorksInfoList);
                 } else {
-                    for (int i = 0; i < mWorksInfoList.size(); i++) {
-                        mAdapter.getIsSelected().put(i, false);
-                    }
+                    mAllWorkInfoList.clear();
+                    KLog.e("mAllWorkInfoListSize+"+mWorksInfoList.size());
                 }
                 mAdapter.notifyDataSetChanged();
             }
         });
     }
+
     //endregion
 
     public class MyWorksAdapter extends RecyclerView.Adapter<MyWorksAdapter.MyViewHolder> {
@@ -161,8 +162,29 @@ public class MyWorksActivity extends ToolbarActivity<ActivityPersonalMyworksBind
             WorksInfo worksInfo = mWorksInfoList.get(position);
             holder.itemMyworksBinding.setWorksInfo(worksInfo);
             holder.itemMyworksBinding.setShowHeader(isShowHeader(position));
-            holder.itemMyworksBinding.cbItem.setChecked(getIsSelected().get(position));
-            holder.itemMyworksBinding.cbTitle.setChecked(getIsSelected().get(position));
+            holder.itemMyworksBinding.cbItem.setChecked(false);
+            holder.itemMyworksBinding.cbTitle.setChecked(false);
+            if (mAllWorkInfoList.size() >0) {
+                for (int i = 0; i < mAllWorkInfoList.size(); i++) {
+                    for (int j = 0; j < mWorksInfoList.size(); j++) {
+                        if (mAllWorkInfoList.get(i).getWorkID() == mWorksInfoList.get(j).getWorkID())
+                              if(position==j){
+                                  holder.itemMyworksBinding.cbItem.setChecked(true);
+                                  holder.itemMyworksBinding.cbTitle.setChecked(true);
+                              }
+                    }
+                }
+            }
+//            if (flag) {
+//                holder.itemMyworksBinding.cbItem.setChecked(true);
+//                holder.itemMyworksBinding.cbTitle.setChecked(true);
+//
+//            }else{
+//                holder.itemMyworksBinding.cbItem.setChecked(false);
+//                holder.itemMyworksBinding.cbTitle.setChecked(false);
+//            }
+//            holder.itemMyworksBinding.cbItem.setChecked(getIsSelected().get(position));
+//            holder.itemMyworksBinding.cbTitle.setChecked(getIsSelected().get(position));
         }
 
         @Override
@@ -202,7 +224,7 @@ public class MyWorksActivity extends ToolbarActivity<ActivityPersonalMyworksBind
                 itemMyworksBinding.cbTitle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                     @Override
                     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                      selectAlikeType(itemView);
+                        //   selectAlikeType(itemView,isChecked);
                     }
                 });
                 itemMyworksBinding.cbItem.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
