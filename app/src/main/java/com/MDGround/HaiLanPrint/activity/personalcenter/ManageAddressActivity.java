@@ -10,15 +10,16 @@ import android.view.ViewGroup;
 
 import com.MDGround.HaiLanPrint.R;
 import com.MDGround.HaiLanPrint.activity.base.ToolbarActivity;
+import com.MDGround.HaiLanPrint.application.MDGroundApplication;
 import com.MDGround.HaiLanPrint.databinding.ActivityManageAddressBinding;
 import com.MDGround.HaiLanPrint.databinding.ItemManageAddressBinding;
 import com.MDGround.HaiLanPrint.enumobject.restfuls.ResponseCode;
+import com.MDGround.HaiLanPrint.greendao.Location;
 import com.MDGround.HaiLanPrint.models.DeliveryAddress;
 import com.MDGround.HaiLanPrint.restfuls.GlobalRestful;
 import com.MDGround.HaiLanPrint.restfuls.bean.ResponseData;
 import com.MDGround.HaiLanPrint.utils.Bookends;
 import com.MDGround.HaiLanPrint.utils.ViewUtils;
-import com.socks.library.KLog;
 
 import java.util.ArrayList;
 
@@ -70,10 +71,13 @@ public class ManageAddressActivity extends ToolbarActivity<ActivityManageAddress
         GlobalRestful.getInstance().GetUserAddressList(new Callback<ResponseData>() {
             @Override
             public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
-                mUserAddressList = response.body().getContent(new com.google.gson.reflect.TypeToken<ArrayList<DeliveryAddress>>() {
+                mUserAddressList.clear();
+                ArrayList<DeliveryAddress> tempList = response.body().getContent(new com.google.gson.reflect.TypeToken<ArrayList<DeliveryAddress>>() {
                 });
+                mUserAddressList.addAll(tempList);
                 bookends.notifyDataSetChanged();
                 adatper.notifyDataSetChanged();
+
                 ViewUtils.dismiss();
             }
 
@@ -102,7 +106,7 @@ public class ManageAddressActivity extends ToolbarActivity<ActivityManageAddress
     public void onEidtorItem(View view) {
         int position = mDataBinding.recyclerView.getChildAdapterPosition(view);
         DeliveryAddress deliveryAddress = mUserAddressList.get(position);
-        KLog.e("第几个" + position);
+       // KLog.e("第几个" + position);
         updateAddress(deliveryAddress);
 
     }
@@ -110,9 +114,8 @@ public class ManageAddressActivity extends ToolbarActivity<ActivityManageAddress
     public void onDeleteItem(View view) {
 
         int position = mDataBinding.recyclerView.getChildAdapterPosition(view);
-        ;
         DeliveryAddress address = mUserAddressList.get(position);
-        KLog.e("第几个" + position);
+ //       KLog.e("第几个" + position);
         int AutoID = address.getAutoID();
         deleteAddress(AutoID, position, view);
     }
@@ -126,11 +129,15 @@ public class ManageAddressActivity extends ToolbarActivity<ActivityManageAddress
             MyViewHolder holder = new MyViewHolder(view);
             return holder;
         }
-
         @Override
         public void onBindViewHolder(MyViewHolder holder, int position) {
             DeliveryAddress address = mUserAddressList.get(position);
-            viewItemBinding.setAddress(address);
+            Location province = MDGroundApplication.mDaoSession.getLocationDao().load(address.getProvinceID());
+           Location city = MDGroundApplication.mDaoSession.getLocationDao().load(address.getCityID());
+            Location county = MDGroundApplication.mDaoSession.getLocationDao().load(address.getCountryID());
+            holder.viewItemBinding.tvAddress.setText(province.getLocationName() +" "+ city.getLocationName() +" "+county.getLocationName() +" "+ address.getStreet());
+            holder.viewItemBinding.tvName.setText(address.getReceiver());
+            holder.viewItemBinding.tvNume.setText(address.getPhone());
         }
 
         @Override
@@ -138,9 +145,10 @@ public class ManageAddressActivity extends ToolbarActivity<ActivityManageAddress
             return mUserAddressList.size();
         }
 
-        public ItemManageAddressBinding viewItemBinding;
+
 
         class MyViewHolder extends RecyclerView.ViewHolder {
+            public ItemManageAddressBinding viewItemBinding;
             public MyViewHolder(final View itemView) {
                 super(itemView);
                 viewItemBinding = DataBindingUtil.bind(itemView);

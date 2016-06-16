@@ -1,142 +1,138 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    >
-    <data>
-        <variable
-            name="Address"
-            type="com.MDGround.HaiLanPrint.models.DeliveryAddress">
-        </variable>
-    </data>
-   <LinearLayout
-       android:layout_width="match_parent"
-       android:layout_height="@dimen/size_132"
-       android:orientation="vertical"
-       >
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <LinearLayout
-        android:background="@color/color_white"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:layout_marginTop="@dimen/text_size_16">
-
-       <LinearLayout
-           android:layout_width="match_parent"
-           android:layout_weight="5"
-           android:orientation="horizontal"
-           android:gravity="center_vertical"
-           android:layout_height="match_parent">
-
-          <ImageView
-              android:layout_marginLeft="@dimen/margin_12"
-              android:layout_width="@dimen/size_24"
-              android:src="@drawable/icon_person_place"
-              android:layout_height="@dimen/size_24" />
-
-           <TextView
-               android:layout_width="wrap_content"
-               android:layout_height="wrap_content"
-               tools:text="郑丽"
-               android:text="@{Address.receiver}"
-               android:layout_marginLeft="@dimen/margin_6"
-               android:textSize="@dimen/text_size_16"
-               android:textColor="@color/color_333333" />
-
-           <ImageView
-               android:layout_marginLeft="@dimen/margin_80"
-               android:src="@drawable/icon_tel_place"
-               android:layout_width="@dimen/size_24"
-               android:layout_height="@dimen/size_24" />
-
-           <TextView
-               android:layout_width="wrap_content"
-               android:layout_height="wrap_content"
-               tools:text="131553113131"
-               android:textSize="@dimen/text_size_16"
-               android:text="@{Address.phone}"
-               android:textColor="@color/color_333333" />
-
-       </LinearLayout>
+        android:layout_height="@dimen/size_132"
+        android:orientation="vertical">
 
         <LinearLayout
-           android:layout_width="match_parent"
-           android:layout_weight="4"
-           android:gravity="center_vertical"
-           android:layout_height="match_parent">
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/text_size_16"
+            android:background="@color/color_white"
+            android:orientation="vertical">
 
-           <TextView
-               android:paddingLeft="@dimen/margin_12"
-               android:paddingRight="@dimen/margin_12"
-               android:layout_width="wrap_content"
-               android:layout_height="wrap_content"
-               android:lines="2"
-               android:gravity="center_vertical"
-                android:textSize="@dimen/text_size_16"
-               android:text="@{Address.street}"
-               android:lineSpacingExtra="@dimen/margin_6"
-               tools:text="广州市天河区快快快，广州市天河区快快快快快快" />
-
-       </LinearLayout>
-
-        <View style="@style/DividerHorizontalStyle"></View>
-
-        <LinearLayout
-           android:layout_width="match_parent"
-           android:layout_weight="5"
-           android:gravity="center_vertical|right"
-           android:layout_height="match_parent">
-         <LinearLayout
-             android:id="@+id/tvEditor"
-             android:layout_width="wrap_content"
-             android:orientation="horizontal"
-             android:layout_height="wrap_content">
-             <ImageView
-                 android:layout_marginLeft="@dimen/margin_12"
-                 android:layout_width="@dimen/size_24"
-                 android:src="@drawable/icon_edit_place"
-                 android:layout_height="@dimen/size_24" />
-
-             <TextView
-                 android:layout_width="wrap_content"
-                 android:layout_height="wrap_content"
-                 android:text="@string/editor"
-                 android:layout_marginLeft="@dimen/margin_6"
-                 android:layout_gravity="bottom"
-                 android:textSize="@dimen/text_size_16"
-                 android:textColor="@color/color_333333" />
-         <TextView
-             android:layout_width="@dimen/margin_24"
-             android:layout_height="match_parent" />
-         </LinearLayout>
             <LinearLayout
-                android:id="@+id/tvDelete"
-                android:layout_width="wrap_content"
-                android:orientation="horizontal"
-                android:layout_height="wrap_content">
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="5"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
                 <ImageView
-                    android:layout_marginLeft="@dimen/margin_16"
-                    android:src="@drawable/icon_delete"
                     android:layout_width="@dimen/size_24"
-                    android:layout_height="@dimen/size_24" />
+                    android:layout_height="@dimen/size_24"
+                    android:layout_marginLeft="@dimen/margin_12"
+                    android:src="@drawable/icon_person_place" />
 
                 <TextView
-
+                    android:id="@+id/tvName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/delete"
-                    android:textSize="@dimen/text_size_16"
-                    android:layout_gravity="bottom"
+                    android:layout_marginLeft="@dimen/margin_6"
                     android:textColor="@color/color_333333"
-                    android:layout_marginRight="@dimen/margin_12" />
+                    android:textSize="@dimen/text_size_16"
+                    tools:text="郑丽" />
+
+                <ImageView
+                    android:layout_width="@dimen/size_24"
+                    android:layout_height="@dimen/size_24"
+                    android:layout_marginLeft="@dimen/margin_80"
+                    android:src="@drawable/icon_tel_place" />
+
+                <TextView
+                    android:id="@+id/tvNume"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/color_333333"
+                    android:textSize="@dimen/text_size_16"
+                    tools:text="131553113131" />
+
             </LinearLayout>
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="4"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:id="@+id/tvAddress"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:lineSpacingExtra="@dimen/margin_6"
+                    android:lines="2"
+                    android:paddingLeft="@dimen/margin_12"
+                    android:paddingRight="@dimen/margin_12"
+                    android:textSize="@dimen/text_size_16"
+                    tools:text="广州市天河区快快快，广州市天河区快快快快快快" />
+
+            </LinearLayout>
+
+            <View style="@style/DividerHorizontalStyle"></View>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="5"
+                android:gravity="center_vertical|right">
+
+                <LinearLayout
+                    android:id="@+id/tvEditor"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="@dimen/size_24"
+                        android:layout_height="@dimen/size_24"
+                        android:layout_marginLeft="@dimen/margin_12"
+                        android:src="@drawable/icon_edit_place" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom"
+                        android:layout_marginLeft="@dimen/margin_6"
+                        android:text="@string/editor"
+                        android:textColor="@color/color_333333"
+                        android:textSize="@dimen/text_size_16" />
+
+                    <TextView
+                        android:layout_width="@dimen/margin_24"
+                        android:layout_height="match_parent" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/tvDelete"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="@dimen/size_24"
+                        android:layout_height="@dimen/size_24"
+                        android:layout_marginLeft="@dimen/margin_16"
+                        android:src="@drawable/icon_delete" />
+
+                    <TextView
+
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom"
+                        android:layout_marginRight="@dimen/margin_12"
+                        android:text="@string/delete"
+                        android:textColor="@color/color_333333"
+                        android:textSize="@dimen/text_size_16" />
+                </LinearLayout>
 
 
-       </LinearLayout>
+            </LinearLayout>
+
+        </LinearLayout>
 
     </LinearLayout>
-
-   </LinearLayout>
 </layout>

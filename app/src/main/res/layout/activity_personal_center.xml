@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <variable name="user" type="com.MDGround.HaiLanPrint.models.User"/>
+
+        <variable
+            name="user"
+            type="com.MDGround.HaiLanPrint.models.User" />
     </data>
 
     <RelativeLayout
@@ -20,21 +22,21 @@
             android:layout_height="140dp"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="@dimen/margin_30"
-            android:src="@drawable/avatar_circle"/>
+            android:src="@drawable/avatar_circle" />
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/civAvatar"
             android:layout_width="128dp"
             android:layout_height="128dp"
-            android:onClick="toPersonalInformationAction"
             android:layout_alignBottom="@+id/ivAvatarCircle"
             android:layout_alignLeft="@+id/ivAvatarCircle"
             android:layout_alignRight="@+id/ivAvatarCircle"
             android:layout_alignTop="@+id/ivAvatarCircle"
             android:layout_margin="@dimen/margin_6"
-            tools:src="@drawable/bg_pic"
+            android:onClick="toPersonalInformationAction"
             app:civ_border_color="#FF000000"
-            app:civ_border_width="0dp"/>
+            app:civ_border_width="0dp"
+            tools:src="@drawable/bg_pic" />
 
         <TextView
             android:id="@+id/tvName"
@@ -44,7 +46,7 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="@dimen/margin_10"
             android:textSize="@dimen/text_size_18"
-            tools:text="MISOi"/>
+            tools:text="MISOi" />
 
         <LinearLayout
             android:id="@+id/llt_contact"
@@ -54,23 +56,30 @@
             android:layout_marginTop="@dimen/margin_20"
             android:gravity="center"
             android:orientation="horizontal">
+
             <TextView
                 android:id="@+id/tvCity"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/icon_place_percenter_mywork"
                 android:gravity="center"
                 android:textSize="@dimen/text_size_14"
-                tools:text="广州天河区"/>
-            <TextView
+                tools:text="广州天河区" />
+
+            <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/margin_40"
+                android:layout_marginRight="@dimen/margin_20"
+                android:src="@drawable/icon_place_percenter_mywork" />
+
+            <TextView
+                android:id="@+id/tvPhoneNume"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/margin_20"
                 android:drawableLeft="@drawable/icon_tel_percenter_mywork"
                 android:gravity="center"
                 android:textSize="@dimen/text_size_14"
-                android:id="@+id/tvPhoneNume"
-                tools:text="广州天河区"/>
+                tools:text="广州天河区" />
         </LinearLayout>
 
 
@@ -95,36 +104,40 @@
                     android:gravity="center"
                     android:orientation="vertical"
                     app:ratio="0.5">
+
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/icon_mywork"/>
+                        android:src="@drawable/icon_mywork" />
+
                     <TextView
                         style="@style/NormalTextStyle"
-                        android:text="@string/my_works"/>
+                        android:text="@string/my_works" />
                 </com.MDGround.HaiLanPrint.views.FlexibleLinearLayout>
 
-                <View style="@style/DividerVerticalStyle"/>
+                <View style="@style/DividerVerticalStyle" />
 
                 <com.MDGround.HaiLanPrint.views.FlexibleLinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:onClick="toMyOrdersActivityAction"
                     android:gravity="center"
+                    android:onClick="toMyOrdersActivityAction"
                     android:orientation="vertical"
                     app:ratio="0.5">
+
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/icon_mywork_news"/>
+                        android:src="@drawable/icon_mywork_news" />
+
                     <TextView
                         style="@style/NormalTextStyle"
-                        android:text="@string/my_orders"/>
+                        android:text="@string/my_orders" />
                 </com.MDGround.HaiLanPrint.views.FlexibleLinearLayout>
             </LinearLayout>
 
-            <View style="@style/DividerHorizontalStyle"/>
+            <View style="@style/DividerHorizontalStyle" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -139,16 +152,18 @@
                     android:gravity="center"
                     android:orientation="vertical"
                     app:ratio="0.5">
+
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/icon_mywork_album"/>
+                        android:src="@drawable/icon_mywork_album" />
+
                     <TextView
                         style="@style/NormalTextStyle"
-                        android:text="@string/cloud_album"/>
+                        android:text="@string/cloud_album" />
                 </com.MDGround.HaiLanPrint.views.FlexibleLinearLayout>
 
-                <View style="@style/DividerVerticalStyle"/>
+                <View style="@style/DividerVerticalStyle" />
 
                 <com.MDGround.HaiLanPrint.views.FlexibleLinearLayout
                     android:layout_width="match_parent"
@@ -158,17 +173,19 @@
                     android:onClick="tOMyCreditActivity"
                     android:orientation="vertical"
                     app:ratio="0.5">
+
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/icon_mywork_integral"/>
+                        android:src="@drawable/icon_mywork_integral" />
+
                     <TextView
                         style="@style/NormalTextStyle"
-                        android:text="@string/my_credits"/>
+                        android:text="@string/my_credits" />
                 </com.MDGround.HaiLanPrint.views.FlexibleLinearLayout>
             </LinearLayout>
 
-            <View style="@style/DividerHorizontalStyle"/>
+            <View style="@style/DividerHorizontalStyle" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -179,21 +196,23 @@
                 <com.MDGround.HaiLanPrint.views.FlexibleLinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:onClick="toMyCouponActivityAction"
                     android:layout_weight="1"
                     android:gravity="center"
+                    android:onClick="toMyCouponActivityAction"
                     android:orientation="vertical"
                     app:ratio="0.5">
+
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/icon_mywork_coupon"/>
+                        android:src="@drawable/icon_mywork_coupon" />
+
                     <TextView
                         style="@style/NormalTextStyle"
-                        android:text="@string/my_coupons"/>
+                        android:text="@string/my_coupons" />
                 </com.MDGround.HaiLanPrint.views.FlexibleLinearLayout>
 
-                <View style="@style/DividerVerticalStyle"/>
+                <View style="@style/DividerVerticalStyle" />
 
                 <com.MDGround.HaiLanPrint.views.FlexibleLinearLayout
                     android:id="@+id/flltSetting"
@@ -204,13 +223,15 @@
                     android:onClick="toSettingActivityAction"
                     android:orientation="vertical"
                     app:ratio="0.5">
+
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/icon_mywork_percen"/>
+                        android:src="@drawable/icon_mywork_percen" />
+
                     <TextView
                         style="@style/NormalTextStyle"
-                        android:text="@string/setting"/>
+                        android:text="@string/setting" />
                 </com.MDGround.HaiLanPrint.views.FlexibleLinearLayout>
             </LinearLayout>
         </LinearLayout>
