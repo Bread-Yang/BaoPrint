@@ -17,8 +17,10 @@ import com.MDGround.HaiLanPrint.activity.base.ToolbarActivity;
 import com.MDGround.HaiLanPrint.constants.Constants;
 import com.MDGround.HaiLanPrint.databinding.ActivityApplyRefundBinding;
 import com.MDGround.HaiLanPrint.databinding.ItemApplyRefundBinding;
+import com.MDGround.HaiLanPrint.enumobject.UploadType;
 import com.MDGround.HaiLanPrint.models.MDImage;
 import com.MDGround.HaiLanPrint.models.OrderInfo;
+import com.MDGround.HaiLanPrint.restfuls.FileRestful;
 import com.MDGround.HaiLanPrint.utils.StringUtil;
 import com.MDGround.HaiLanPrint.utils.ViewUtils;
 import com.MDGround.HaiLanPrint.views.dialog.SelectSingleImageDialog;
@@ -100,6 +102,32 @@ public class ApplyRefundActivity extends ToolbarActivity<ActivityApplyRefundBind
     }
 
     //region SERVER
+    private void UploadPhotoRequest(final int upload_image_index) {
+        FileRestful.getInstance().UploadPhoto(UploadType.Order, mUploadImageArrayList, new FileRestful.OnUploadSuccessListener() {
+            @Override
+            public void onUploadSuccess(ArrayList<MDImage> mdImageArrayList) {
+                for (int i = 0; i < mdImageArrayList.size(); i++) {
+                    MDImage mdImage = mdImageArrayList.get(i);
+                    int photoID = mdImage.getPhotoID();
+                    int photoSID = mdImage.getPhotoSID();
+                    switch (i) {
+                        case 0 :
+                            mOrderInfo.setRefundPhoto1ID(photoID);
+                            mOrderInfo.setRefundPhoto1SID(photoSID);
+                            break;
+                        case 1:
+                            mOrderInfo.setRefundPhoto2ID(photoID);
+                            mOrderInfo.setRefundPhoto2SID(photoSID);
+                            break;
+                        case 2:
+                            mOrderInfo.setRefundPhoto3ID(photoID);
+                            mOrderInfo.setRefundPhoto3SID(photoSID);
+                            break;
+                    }
+                }
+            }
+        });
+    }
     //endregion
 
     //region ADAPTER

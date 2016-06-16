@@ -112,11 +112,26 @@ public class ChooseDeliveryAddressActivity extends ToolbarActivity<ActivityChoos
             holder.viewDataBinding.setDeliveryAddress(deliveryAddress);
             holder.viewDataBinding.setHandlers(holder);
 
-            Location province = MDGroundApplication.mDaoSession.getLocationDao().load(deliveryAddress.getProvinceID());
-            Location city = MDGroundApplication.mDaoSession.getLocationDao().load(deliveryAddress.getCityID());
-            Location county = MDGroundApplication.mDaoSession.getLocationDao().load(deliveryAddress.getDistrictID());
+            Location provinceLocation = MDGroundApplication.mDaoSession.getLocationDao().load(deliveryAddress.getProvinceID());
+            Location cityLocation = MDGroundApplication.mDaoSession.getLocationDao().load(deliveryAddress.getCityID());
+            Location countyLocation = MDGroundApplication.mDaoSession.getLocationDao().load(deliveryAddress.getDistrictID());
 
-            holder.viewDataBinding.tvAddress.setText(province.getLocationName() + city.getLocationName() + county.getLocationName() + deliveryAddress.getStreet());
+            String province = "";
+            if (provinceLocation != null) {
+                province = provinceLocation.getLocationName();
+            }
+
+            String city = "";
+            if (provinceLocation != null) {
+                city = cityLocation.getLocationName();
+            }
+
+            String county = "";
+            if (countyLocation != null) {
+                county = countyLocation.getLocationName();
+            }
+
+            holder.viewDataBinding.tvAddress.setText(province + city + county + deliveryAddress.getStreet());
 
             if (mDeliveryAddress != null && mDeliveryAddress.getAutoID() == deliveryAddress.getAutoID()) {
                 holder.viewDataBinding.ivLocationLogo.setVisibility(View.VISIBLE);
