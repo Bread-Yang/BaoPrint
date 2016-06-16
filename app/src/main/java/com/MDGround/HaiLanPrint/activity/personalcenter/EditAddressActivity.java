@@ -48,7 +48,9 @@ public class EditAddressActivity extends ToolbarActivity<ActivityEditorAddressBi
             Location city = MDGroundApplication.mDaoSession.getLocationDao().load((long) address.getCityID());
             Location country = MDGroundApplication.mDaoSession.getLocationDao().load((long) address.getCountryID());
             mDataBinding.etRegio.setText(province.getLocationName() + "" + city.getLocationName() + "" + country.getLocationName());
+            //
 
+//
         } else {
             isUpdate = false;
             tvTitle.setText("新增地址");
@@ -81,7 +83,9 @@ public class EditAddressActivity extends ToolbarActivity<ActivityEditorAddressBi
                 addOrdeleteAddress(address);
             }
         });
+
         mRegionPickerDialog.setOnRegionSelectListener(new RegionPickerDialog.OnRegionSelectListener() {
+
             @Override
             public void onRegionSelect(Location province, final Location city, final Location county) {
                 address.setProvinceID(Integer.parseInt(String.valueOf(province.getLocationID())));
@@ -118,8 +122,15 @@ public class EditAddressActivity extends ToolbarActivity<ActivityEditorAddressBi
 
     //endgion
     //region ACTION
-    public void selectRegio(View view) {
-        mRegionPickerDialog.show();
-    }
+//    public void selectRegio(View view) {
+//            mRegionPickerDialog.show();
+//           mRegionPickerDialog.setOnShowListener(new DialogInterface.OnShowListener() {
+//               @Override
+//               public void onShow(DialogInterface dialog) {
+//                   Location p=mRegionPickerDialog.findViewById(R.id.regionWheelview).onS;
+//               }
+//           });
+
+    //}
     //endregion
 }

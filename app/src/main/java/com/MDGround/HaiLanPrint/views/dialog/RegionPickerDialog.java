@@ -28,6 +28,11 @@ public class RegionPickerDialog extends Dialog {
         super(context, R.style.customDialogStyle);
     }
 
+//    public RegionPickerDialog(Context context, DeliveryAddress address) {
+//        super(context, R.style.customDialogStyle);
+
+//    }
+
     public RegionPickerDialog(Context context, int themeResId) {
         super(context, themeResId);
     }
