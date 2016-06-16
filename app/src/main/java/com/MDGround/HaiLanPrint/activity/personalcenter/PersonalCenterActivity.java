@@ -82,18 +82,16 @@ public class PersonalCenterActivity extends ToolbarActivity<ActivityPersonalCent
         startActivity(intent);
     }
 
+    //endregion
     //积分查询
     public void tOMyCreditActivity(View v) {
         Intent intent = new Intent(this, MyCreditActivity.class);
         startActivity(intent);
     }
-    
     //我的作品未完善
-//    public void toMyWorksActivity(View view){
-//        Intent intent =new Intent(this,MyWorksActivity.class);
-//        startActivity(intent);
-//    }
-    //endregion
-
+    public void toMyWorksActivity(View view){
+        Intent intent =new Intent(this,MyWorksActivity.class);
+        startActivity(intent);
+    }
 
 }

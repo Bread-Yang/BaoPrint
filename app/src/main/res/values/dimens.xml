@@ -34,7 +34,6 @@
     <dimen name="text_size_12">12dp</dimen>
     <dimen name="text_size_10">10dp</dimen>
     <dimen name="text_size_8">8dp</dimen>
-
     <dimen name="size_140">140dp</dimen>
     <dimen name="size_130">130dp</dimen>
     <dimen name="size_120">120dp</dimen>
@@ -58,4 +57,5 @@
     <dimen name="size_6">6dp</dimen>
     <dimen name="size_90">90dp</dimen>
     <dimen name="size_160">160dp</dimen>
+    <dimen name="size_18">18dp</dimen>
 </resources>

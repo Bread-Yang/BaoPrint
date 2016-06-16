@@ -41,10 +41,10 @@
         <TextView
             android:id="@+id/tvName"
             style="@style/NormalTextStyle"
-            android:layout_below="@+id/civAvatar"
+            android:layout_below="@+id/ivAvatarCircle"
             android:layout_centerHorizontal="true"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="@dimen/margin_10"
+            android:layout_marginBottom="@dimen/margin_24"
             android:textSize="@dimen/text_size_18"
             tools:text="MISOi" />
 
@@ -52,32 +52,30 @@
             android:id="@+id/llt_contact"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_above="@+id/llt_item"
-            android:layout_marginTop="@dimen/margin_20"
-            android:gravity="center"
+            android:layout_below="@+id/tvName"
+            android:layout_marginTop="@dimen/margin_24"
             android:orientation="horizontal">
 
             <TextView
                 android:id="@+id/tvCity"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center"
+                android:layout_weight="1"
+                android:drawableLeft="@drawable/icon_place_percenter_mywork"
+                android:gravity="center_vertical"
+                android:paddingLeft="@dimen/margin_40"
                 android:textSize="@dimen/text_size_14"
                 tools:text="广州天河区" />
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="@dimen/margin_20"
-                android:src="@drawable/icon_place_percenter_mywork" />
 
             <TextView
                 android:id="@+id/tvPhoneNume"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/margin_20"
+                android:layout_weight="1"
                 android:drawableLeft="@drawable/icon_tel_percenter_mywork"
-                android:gravity="center"
+                android:gravity="center_vertical"
+                android:paddingLeft="@dimen/margin_40"
                 android:textSize="@dimen/text_size_14"
                 tools:text="广州天河区" />
         </LinearLayout>
@@ -86,20 +84,23 @@
         <LinearLayout
             android:id="@+id/llt_item"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_alignParentBottom="true"
+            android:layout_below="@+id/llt_contact"
             android:layout_marginTop="@dimen/margin_10"
             android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
                 android:background="@color/color_window_bg"
                 android:orientation="horizontal">
 
                 <com.MDGround.HaiLanPrint.views.FlexibleLinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:gravity="center"
                     android:orientation="vertical"
@@ -140,8 +141,10 @@
             <View style="@style/DividerHorizontalStyle" />
 
             <LinearLayout
+                android:gravity="center"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:background="@color/color_window_bg"
                 android:orientation="horizontal">
 
@@ -188,8 +191,10 @@
             <View style="@style/DividerHorizontalStyle" />
 
             <LinearLayout
+                android:gravity="center"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:background="@color/color_window_bg"
                 android:orientation="horizontal">
 
@@ -235,6 +240,7 @@
                 </com.MDGround.HaiLanPrint.views.FlexibleLinearLayout>
             </LinearLayout>
         </LinearLayout>
+
 
     </RelativeLayout>
 </layout>

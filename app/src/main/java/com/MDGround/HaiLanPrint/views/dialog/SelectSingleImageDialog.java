@@ -16,6 +16,7 @@ import android.view.WindowManager;
 import android.widget.Toast;
 
 import com.MDGround.HaiLanPrint.R;
+import com.MDGround.HaiLanPrint.constants.Constants;
 import com.MDGround.HaiLanPrint.databinding.DialogSelectSingleImageBinding;
 
 import java.io.File;
@@ -97,25 +98,14 @@ public class SelectSingleImageDialog extends Dialog {
         dismiss();
         if (isSdCardMounted()) {
             Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-            File file = new File(Environment.getExternalStorageDirectory(), "textphoto.jpg");
-            if (!file.exists()) {
-                file.mkdirs();
+            String path = Environment.getExternalStorageDirectory().toString() + Constants.PHOTO_FILE;
+            File paht1 = new File(path);
+            if (!paht1.exists()) {
+                paht1.mkdir();
             }
+            File file = new File(paht1, Constants.PHOTO_NAME);
             Uri outputFileUri = Uri.fromFile(file);
             intent.putExtra(MediaStore.EXTRA_OUTPUT, outputFileUri);
-//            Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-//            /***
-//             * 需要说明一下，以下操作使用照相机拍照，拍照后的图片会存放在相册中的
-//             * 这里使用的这种方式有一个好处就是获取的图片是拍照后的原图
-//             * 如果不实用ContentValues存放照片路径的话
-//             * ，拍照后获取的图片为缩略图不清晰
-//             */
-//            Uri imageUri = Uri.fromFile(new File(Environment.getExternalStorageDirectory(),"image.jpg"));
-//        //    mImageUri = mActivity.getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, new ContentValues());
-//            intent.putExtra(android.provider.MediaStore.EXTRA_OUTPUT, mImageUri);
-//            mActivity.startActivityForResult(intent, PHOTO_REQUEST_CAREMA);
-//
-            //Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
             mActivity.startActivityForResult(intent, PHOTO_REQUEST_CAREMA);
         } else {
             Toast.makeText(mActivity, "内存卡不存在", Toast.LENGTH_LONG).show();

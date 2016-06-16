@@ -59,7 +59,6 @@ public class MyWorksActivity extends ToolbarActivity<ActivityPersonalMyworksBind
         mDataBinding.myworksrecyclerView.setAdapter(mAdapter);
         ViewUtils.loading(this);
         GlobalRestful.getInstance().GetUserWorkList(new Callback<ResponseData>() {
-
             @Override
             public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
                 if (ResponseCode.isSuccess(response.body())) {
@@ -79,45 +78,32 @@ public class MyWorksActivity extends ToolbarActivity<ActivityPersonalMyworksBind
 
                 }
             }
-
             @Override
             public void onFailure(Call<ResponseData> call, Throwable t) {
-
             }
         });
-
     }
-
     @Override
     protected void setListener() {
-
     }
 
     public class MyWorksAdapter extends RecyclerView.Adapter<MyWorksAdapter.MyViewHolder> {
-
-
         @Override
         public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_myworks, parent, false);
             MyViewHolder viewHolder = new MyViewHolder(view);
             return viewHolder;
         }
-
         @Override
         public void onBindViewHolder(MyViewHolder holder, int position) {
             WorksInfo worksInfo = mWorksInfoList.get(position);
             holder.itemMyworksBinding.setWorksInfo(worksInfo);
             holder.itemMyworksBinding.setShowHeader(isShowHeader(position));
-//            holder.itemMyworksBinding.setWorksInfo(worksInfo);
-//            holder.itemMyworksBinding.setShowHeader(isShowHeader(position));
-
         }
-
         @Override
         public int getItemCount() {
             return mWorksInfoList.size();
         }
-
         public boolean isShowHeader(int positon) {
             if (positon == 0) {
                 return true;
@@ -130,10 +116,8 @@ public class MyWorksActivity extends ToolbarActivity<ActivityPersonalMyworksBind
             }
             return false;
         }
-
         class MyViewHolder extends RecyclerView.ViewHolder {
             public ItemMyworksBinding itemMyworksBinding;
-
             public MyViewHolder(View itemView) {
                 super(itemView);
                 itemMyworksBinding = DataBindingUtil.bind(itemView);

@@ -27,8 +27,7 @@
            android:visibility="@{showHeader ? View.VISIBLE : View.GONE}"
            >
            <CheckBox
-
-               style="@style/ClickableTextStyle"
+               style="@style/WorksCheckBoxTextStyle"
                android:text="@{worksInfo.typeName}"
                android:layout_marginLeft="@dimen/margin_10"
                android:button="@drawable/selector_cb_bg_auto_login" />
