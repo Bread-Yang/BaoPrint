@@ -227,7 +227,7 @@ public class PaymentPreviewActivity extends ToolbarActivity<ActivityPaymentPrevi
                 try {
                     JSONObject jsonObject = new JSONObject(response.body().getContent());
                     int totalAmount = jsonObject.getInt("TotalAmount");
-                    mDataBinding.tvCredit.setText(getString(R.string.credit_total, StringUtil.toYuanWithoutUnit(totalAmount)));
+                    mDataBinding.tvCredit.setText(getString(R.string.credit_total, String.valueOf(totalAmount)));
 
                     String UserIntegralList = jsonObject.getString("UserIntegralList");
                     mUserCreditArrayList = StringUtil.getInstanceByJsonString(UserIntegralList, new TypeToken<ArrayList<UserIntegral>>() {

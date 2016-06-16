@@ -2,10 +2,13 @@ package com.MDGround.HaiLanPrint.views;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.opengl.GLSurfaceView;
 import android.opengl.Matrix;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
+import android.view.ViewGroup;
+import android.widget.FrameLayout;
 
 import com.MDGround.HaiLanPrint.views.gesture.RotateGestureDetector;
 
@@ -14,13 +17,15 @@ import jp.co.cyberagent.android.gpuimage.GPUImageBrightnessFilter;
 import jp.co.cyberagent.android.gpuimage.GPUImageFilterGroup;
 import jp.co.cyberagent.android.gpuimage.GPUImageNormalBlendFilter;
 import jp.co.cyberagent.android.gpuimage.GPUImageTransformFilter;
-import jp.co.cyberagent.android.gpuimage.GPUImageView;
 
 /**
  * Created by yoghourt on 5/19/16.
  */
 
-public class BaoGPUImage extends GPUImageView {
+public class BaoCustomGPUImage extends FrameLayout {
+
+    private GLSurfaceView mGLSurfaceView;
+    private GPUImage mGPUImage;
 
     public interface OnSingleTouchListener {
         public void onSingleTouch();
@@ -35,8 +40,6 @@ public class BaoGPUImage extends GPUImageView {
     private GPUImageFilterGroup mFilterGroup;
 
     private Context mContext;
-
-    private Bitmap mBitmap;
 
     private float mScaleFactor = 1.0f;  // 放大缩小倍数
 
@@ -68,20 +71,29 @@ public class BaoGPUImage extends GPUImageView {
         }
     }
 
-    public BaoGPUImage(Context context) {
+    public BaoCustomGPUImage(Context context) {
         super(context);
-        init(context);
+        init(context, null);
     }
 
-    public BaoGPUImage(Context context, AttributeSet attrs) {
+    public BaoCustomGPUImage(Context context, AttributeSet attrs) {
         super(context, attrs);
-        init(context);
+        init(context, attrs);
     }
 
-    private void init(Context context) {
+    private void init(Context context, AttributeSet attrs) {
         mContext = context;
 
-//        setScaleType(GPUImage.ScaleType.CENTER_INSIDE);
+        mGLSurfaceView = new GLSurfaceView(context, attrs);
+
+        mGPUImage = new GPUImage(context);
+
+//        mGPUImage.setScaleType(GPUImage.ScaleType.CENTER_INSIDE);
+
+        mGPUImage.setGLSurfaceView(mGLSurfaceView);
+
+        mGLSurfaceView.setLayoutParams(new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT));
+        addView(mGLSurfaceView);
 
         mScaleDetector = new ScaleGestureDetector(context, new ScaleListener());
         mRotateDetector = new RotateGestureDetector(context, new RotateListener());
@@ -117,8 +129,6 @@ public class BaoGPUImage extends GPUImageView {
     }
 
     public void loadNewImage(Bitmap bitmap, float scaleFactor, float rotationDegrees) {
-        mBitmap = bitmap;
-
         mScaleFactor = scaleFactor;
         mRotationDegrees = rotationDegrees;
 
@@ -130,9 +140,9 @@ public class BaoGPUImage extends GPUImageView {
         mFilterGroup.addFilter(mBrightnessFilter);
         mFilterGroup.addFilter(mTransformFilter);
 
-        setFilter(mFilterGroup);
+        mGPUImage.setFilter(mFilterGroup);
 
-        getGPUImage().deleteImage();
+        mGPUImage.deleteImage();
         setImage(bitmap);
 
         setTransformFactor(mScaleFactor, mRotationDegrees);
@@ -169,33 +179,13 @@ public class BaoGPUImage extends GPUImageView {
         return transformFilter;
     }
 
-    public void setmBrightness(float brightness) {
-        GPUImageTransformFilter transformFilter= getTransformFilter(mScaleFactor, mRotationDegrees);
-
-        GPUImageBrightnessFilter brightnessFilter = new GPUImageBrightnessFilter();
-        mBrightnessFilter.setBrightness(brightness);
-
-        GPUImageFilterGroup gpuImageFilterGroup = new GPUImageFilterGroup();
-        gpuImageFilterGroup.addFilter(brightnessFilter);
-        gpuImageFilterGroup.addFilter(transformFilter);
-
-        GPUImage gpuImage = new GPUImage(mContext);
-        gpuImage.setFilter(gpuImageFilterGroup);
-        gpuImage.setImage(mBitmap);
-
-        Bitmap bitmap = gpuImage.getBitmapWithFilterApplied();
-
-        getGPUImage().deleteImage();
-        setImage(bitmap);
-    }
-
     public Bitmap addTemplate(Context context, Bitmap templateBitmap) {
         GPUImageNormalBlendFilter blendFilter = new GPUImageNormalBlendFilter();
 
         blendFilter.setBitmap(templateBitmap);
 
         GPUImage blendImage = new GPUImage(context);
-        blendImage.setImage(getGPUImage().getBitmapWithFilterApplied());
+        blendImage.setImage(mGPUImage.getBitmapWithFilterApplied());
         blendImage.setFilter(blendFilter);
 
         Bitmap blendBitmap = blendImage.getBitmapWithFilterApplied();
@@ -206,6 +196,14 @@ public class BaoGPUImage extends GPUImageView {
 
 
         return blendBitmap;
+    }
+
+    public void requestRender() {
+        mGPUImage.requestRender();
+    }
+
+    public void setImage(Bitmap bitmap) {
+        mGPUImage.setImage(bitmap);
     }
 
     public float getmScaleFactor() {
