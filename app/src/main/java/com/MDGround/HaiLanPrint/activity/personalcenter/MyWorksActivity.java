@@ -6,7 +6,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CompoundButton;
 
 import com.MDGround.HaiLanPrint.R;
 import com.MDGround.HaiLanPrint.activity.base.ToolbarActivity;
@@ -16,6 +15,7 @@ import com.MDGround.HaiLanPrint.enumobject.restfuls.ResponseCode;
 import com.MDGround.HaiLanPrint.models.WorksInfo;
 import com.MDGround.HaiLanPrint.restfuls.GlobalRestful;
 import com.MDGround.HaiLanPrint.restfuls.bean.ResponseData;
+import com.MDGround.HaiLanPrint.utils.GlideUtil;
 import com.MDGround.HaiLanPrint.utils.StringUtil;
 import com.MDGround.HaiLanPrint.utils.ViewUtils;
 import com.google.gson.reflect.TypeToken;
@@ -25,7 +25,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import retrofit2.Call;
@@ -43,6 +42,7 @@ public class MyWorksActivity extends ToolbarActivity<ActivityPersonalMyworksBind
     public List<WorksInfo> mBlankWorkInfoList = new ArrayList<>();
     private MyWorksAdapter mAdapter;
     private boolean isEditor = false;
+    private boolean flag = false;
 
     @Override
     protected int getContentLayout() {
@@ -89,21 +89,68 @@ public class MyWorksActivity extends ToolbarActivity<ActivityPersonalMyworksBind
     //region ACTION
     //选中同一组内的作品
     public void selectAlikeType(View view, boolean b) {
-        mAllWorkInfoList.clear();
-        int position = mDataBinding.myworksrecyclerView.getChildAdapterPosition(view);
-        int type = mWorksInfoList.get(position).getTypeID();
-        // KLog.e("typeId--->"+type);
-        for (int i = 0; i < mWorksInfoList.size(); i++) {
-            if (mWorksInfoList.get(i).getTypeID() == type) {
-//
-                i++;
-                KLog.e("---->" + i);
-            }
 
+        if (b) {
+            int position = mDataBinding.myworksrecyclerView.getChildAdapterPosition(view);
+            int type = mWorksInfoList.get(position).getTypeID();
+            for (int i = 0; i < mAllWorkInfoList.size(); i++) {
+                if (mAllWorkInfoList.get(i).getTypeID() == type) {
+                    mAllWorkInfoList.remove(i);
+                    i--;
+                }
+            }
+            for (int i = 0; i < mWorksInfoList.size(); i++) {
+                if (mWorksInfoList.get(i).getTypeID() == type) {
+                    WorksInfo worksInfo = mWorksInfoList.get(i);
+                    KLog.e("--->" + worksInfo.getWorkID());
+                    mAllWorkInfoList.add(worksInfo);
+                }
+            }
+            if(mAllWorkInfoList.size()==mWorksInfoList.size()){
+                mDataBinding.cbSelectAll.setChecked(true);
+            }
+        } else {
+            mDataBinding.cbSelectAll.setChecked(false);
+            int position = mDataBinding.myworksrecyclerView.getChildAdapterPosition(view);
+            int type = mWorksInfoList.get(position).getTypeID();
+            for (int i = 0; i < mAllWorkInfoList.size(); i++) {
+                if (mAllWorkInfoList.get(i).getTypeID() == type) {
+                    mAllWorkInfoList.remove(i);
+                    i--;
+                }
+            }
         }
         mAdapter.notifyDataSetChanged();
     }
 
+    //region ACTION
+    //选择指定作品
+    public void selectPlaces(View view, boolean b) {
+        int postion = mDataBinding.myworksrecyclerView.getChildPosition(view);
+        int workID = mWorksInfoList.get(postion).getWorkID();
+        if (b) {
+            for (int i = 0; i < mAllWorkInfoList.size(); i++) {
+                if (mAllWorkInfoList.get(i).getWorkID() == workID) {
+                    return;
+                }
+            }
+            KLog.e("？有没有加进来");
+            WorksInfo worksInfo = mWorksInfoList.get(postion);
+            mAllWorkInfoList.add(worksInfo);
+            if(mAllWorkInfoList.size()==mWorksInfoList.size()){
+                mDataBinding.cbSelectAll.setChecked(true);
+            }
+        } else {
+            mDataBinding.cbSelectAll.setChecked(false);
+            for (int i = 0; i < mAllWorkInfoList.size(); i++) {
+                if (mAllWorkInfoList.get(i).getWorkID() == workID) {
+                    mAllWorkInfoList.remove(i);
+                    return;
+                }
+            }
+        }
+    }
+    //endregion
 
     //endregio
     @Override
@@ -123,38 +170,28 @@ public class MyWorksActivity extends ToolbarActivity<ActivityPersonalMyworksBind
 
         //region ACTION
         //全选按钮
-        mDataBinding.cbSelectAll.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        mDataBinding.cbSelectAll.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
+            public void onClick(View v) {
+                if (mDataBinding.cbSelectAll.isChecked()) {
                     mAllWorkInfoList = new ArrayList<WorksInfo>(mWorksInfoList);
                 } else {
                     mAllWorkInfoList.clear();
-                    KLog.e("mAllWorkInfoListSize+"+mWorksInfoList.size());
                 }
                 mAdapter.notifyDataSetChanged();
             }
         });
+
+
+        //endregion
     }
 
-    //endregion
-
     public class MyWorksAdapter extends RecyclerView.Adapter<MyWorksAdapter.MyViewHolder> {
-        public HashMap<Integer, Boolean> isSelected;
-
         @Override
         public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_myworks, parent, false);
             MyViewHolder viewHolder = new MyViewHolder(view);
-            isSelected = new HashMap<Integer, Boolean>();
-            init();
             return viewHolder;
-        }
-
-        private void init() {
-            for (int i = 0; i < mWorksInfoList.size(); i++) {
-                getIsSelected().put(i, false);
-            }
         }
 
         @Override
@@ -162,29 +199,31 @@ public class MyWorksActivity extends ToolbarActivity<ActivityPersonalMyworksBind
             WorksInfo worksInfo = mWorksInfoList.get(position);
             holder.itemMyworksBinding.setWorksInfo(worksInfo);
             holder.itemMyworksBinding.setShowHeader(isShowHeader(position));
-            holder.itemMyworksBinding.cbItem.setChecked(false);
             holder.itemMyworksBinding.cbTitle.setChecked(false);
-            if (mAllWorkInfoList.size() >0) {
+            holder.itemMyworksBinding.cbItem.setChecked(false);
+            //解决界面notifysetdatechage界面闪烁问题
+            int photoPath = worksInfo.getPhotoCover();
+            if (!String.valueOf(photoPath).equals(String.valueOf(holder.itemMyworksBinding.ivImage.getTag()))) {
+                holder.itemMyworksBinding.ivImage.setTag(String.valueOf(photoPath));
+                GlideUtil.loadImageByPhotoSID(holder.itemMyworksBinding.ivImage, photoPath);
+                KLog.e("又加载了么");
+            }
+            if (mAllWorkInfoList.size() > 0) {
                 for (int i = 0; i < mAllWorkInfoList.size(); i++) {
-                    for (int j = 0; j < mWorksInfoList.size(); j++) {
-                        if (mAllWorkInfoList.get(i).getWorkID() == mWorksInfoList.get(j).getWorkID())
-                              if(position==j){
-                                  holder.itemMyworksBinding.cbItem.setChecked(true);
-                                  holder.itemMyworksBinding.cbTitle.setChecked(true);
-                              }
+                    if (mAllWorkInfoList.get(i).getWorkID() == worksInfo.getWorkID()) {
+                        holder.itemMyworksBinding.cbItem.setChecked(true);
+                        holder.itemMyworksBinding.cbTitle.setChecked(true);
+                        break;
                     }
+//                    for (int j = 0; j < mWorksInfoList.size(); j++) {
+//                        if (mAllWorkInfoList.get(i).getWorkID() == mWorksInfoList.get(j).getWorkID())
+//                            if (position == j) {
+//                                holder.itemMyworksBinding.cbItem.setChecked(true);
+//                                holder.itemMyworksBinding.cbTitle.setChecked(true);
+//                            }
+//                    }
                 }
             }
-//            if (flag) {
-//                holder.itemMyworksBinding.cbItem.setChecked(true);
-//                holder.itemMyworksBinding.cbTitle.setChecked(true);
-//
-//            }else{
-//                holder.itemMyworksBinding.cbItem.setChecked(false);
-//                holder.itemMyworksBinding.cbTitle.setChecked(false);
-//            }
-//            holder.itemMyworksBinding.cbItem.setChecked(getIsSelected().get(position));
-//            holder.itemMyworksBinding.cbTitle.setChecked(getIsSelected().get(position));
         }
 
         @Override
@@ -205,32 +244,32 @@ public class MyWorksActivity extends ToolbarActivity<ActivityPersonalMyworksBind
             return false;
         }
 
-        //获取它的状态
-        public HashMap<Integer, Boolean> getIsSelected() {
-            return isSelected;
-        }
-
-        //设置它的状态
-        public void setIsSelected(HashMap<Integer, Boolean> isSelected) {
-            this.isSelected = isSelected;
-        }
-
         class MyViewHolder extends RecyclerView.ViewHolder {
             public ItemMyworksBinding itemMyworksBinding;
 
             public MyViewHolder(final View itemView) {
                 super(itemView);
                 itemMyworksBinding = DataBindingUtil.bind(itemView);
-                itemMyworksBinding.cbTitle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                itemMyworksBinding.cbTitle.setOnClickListener(new View.OnClickListener() {
                     @Override
-                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                        //   selectAlikeType(itemView,isChecked);
+                    public void onClick(View v) {
+                        if (itemMyworksBinding.cbTitle.isChecked()) {
+                            KLog.e("选中");
+                            selectAlikeType(itemView, true);
+                        } else {
+                            KLog.e("取消");
+                            selectAlikeType(itemView, false);
+                        }
                     }
                 });
-                itemMyworksBinding.cbItem.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                itemMyworksBinding.cbItem.setOnClickListener(new View.OnClickListener() {
                     @Override
-                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-
+                    public void onClick(View v) {
+                        if (itemMyworksBinding.cbItem.isChecked()) {
+                            selectPlaces(itemView, true);
+                        } else {
+                            selectPlaces(itemView, false);
+                        }
                     }
                 });
             }
