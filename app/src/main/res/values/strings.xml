@@ -25,6 +25,7 @@
     <string name="not_account">还没有账号?</string>
     <string name="sign_up_immediately">立即注册</string>
     <string name="input_phone_number">请输入手机号码</string>
+    <string name="input_local_region">请输入所在地区</string>
     <string name="input_your_phone_number">请输入您的手机号码</string>
     <string name="input_password">请输入密码</string>
     <string name="input_invite_code">请输入邀请码(选填)</string>
