@@ -16,6 +16,7 @@ import static com.MDGround.HaiLanPrint.application.MDGroundApplication.mPhotoTyp
  */
 
 public class MagicForIllustrationActivity extends ToolbarActivity<ActivityMagicIllustrationBinding> {
+
     @Override
     protected int getContentLayout() {
         return R.layout.activity_magic_illustration;

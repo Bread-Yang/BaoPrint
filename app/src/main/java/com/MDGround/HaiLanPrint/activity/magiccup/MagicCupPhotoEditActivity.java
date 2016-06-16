@@ -15,7 +15,7 @@ import com.MDGround.HaiLanPrint.models.MDImage;
 import com.MDGround.HaiLanPrint.utils.OrderUtils;
 import com.MDGround.HaiLanPrint.utils.SelectImageUtil;
 import com.MDGround.HaiLanPrint.utils.ViewUtils;
-import com.MDGround.HaiLanPrint.views.BaoGPUImage;
+import com.MDGround.HaiLanPrint.views.BaoCustomGPUImage;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
@@ -37,7 +37,7 @@ public class MagicCupPhotoEditActivity extends ToolbarActivity<ActivityMagicCupE
 
     @Override
     protected void setListener() {
-        mDataBinding.bgiImage.setOnSingleTouchListener(new BaoGPUImage.OnSingleTouchListener() {
+        mDataBinding.bgiCustomImage.setOnSingleTouchListener(new BaoCustomGPUImage.OnSingleTouchListener() {
             @Override
             public void onSingleTouch() {
                 Intent intent = new Intent(MagicCupPhotoEditActivity.this, SelectAlbumWhenEditActivity.class);
@@ -51,8 +51,8 @@ public class MagicCupPhotoEditActivity extends ToolbarActivity<ActivityMagicCupE
 
                 mDataBinding.tvPercent.setText(getString(R.string.percent, progress) + "%");
 
-                mDataBinding.bgiImage.mBrightnessFilter.setBrightness(progress / 100f);
-                mDataBinding.bgiImage.requestRender();
+                mDataBinding.bgiCustomImage.mBrightnessFilter.setBrightness(progress / 100f);
+                mDataBinding.bgiCustomImage.requestRender();
 
 //                mDataBinding.bgiImage.setmBrightness(progress / 100f);
             }
@@ -82,12 +82,12 @@ public class MagicCupPhotoEditActivity extends ToolbarActivity<ActivityMagicCupE
         Glide.with(this)
                 .load(SelectImageUtil.mAlreadySelectImage.get(0))
                 .asBitmap()
-                .thumbnail(0.1f)
-                .into(new SimpleTarget<Bitmap>(200, 200) {
+//                .thumbnail(0.1f)
+                .into(new SimpleTarget<Bitmap>() {
                     @Override
-                    public void onResourceReady(Bitmap bitmap, GlideAnimation glideAnimation) {
+                    public void onResourceReady(final Bitmap bitmap, GlideAnimation glideAnimation) {
 
-                        mDataBinding.bgiImage.loadNewImage(bitmap);
+                        mDataBinding.bgiCustomImage.loadNewImage(bitmap);
                     }
                 });
     }
