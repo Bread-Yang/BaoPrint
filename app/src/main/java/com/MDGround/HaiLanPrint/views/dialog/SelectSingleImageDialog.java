@@ -33,7 +33,7 @@ public class SelectSingleImageDialog extends Dialog {
     private Uri mImageUri;
 
     public SelectSingleImageDialog(Activity activity) {
-        super(activity, R.style.customDialogStyle);
+        super(activity, R.style.customDialogStyle); 
         mActivity = activity;
     }
 
