@@ -158,7 +158,7 @@ public class PersonalInformationActivity extends ToolbarActivity<ActivityPersona
                 uploadAvatar(Picturepath);
             } else if (requestCode == SelectSingleImageDialog.PHOTO_REQUEST_CAREMA) {// 从相机返回的数据
                 KLog.e("相机返回数据");
-                String Picturepath = Environment.getExternalStorageDirectory() + "/textphoto.jpg";
+                String Picturepath = Environment.getExternalStorageDirectory() + Constants.PHOTO_FILE + "/" + Constants.PHOTO_NAME;
                 uploadAvatar(Picturepath);
             }
 
