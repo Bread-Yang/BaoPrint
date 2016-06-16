@@ -1,14 +1,19 @@
 package com.MDGround.HaiLanPrint.models;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 /**
  * Created by yoghourt on 6/2/16.
  */
 
-public class OrderInfo {
+public class OrderInfo implements Parcelable {
 
     private int AddressID;
 
     private String AddressReceipt;
+
+    private int AgentCommissionAmount;
 
     private int CouponFee;
 
@@ -62,6 +67,8 @@ public class OrderInfo {
 
     private int SaleID;
 
+    private int SalesCommissionAmount;
+
     private int TotalFee;
 
     private int TotalFeeReal;
@@ -72,7 +79,61 @@ public class OrderInfo {
 
     private String TransactionID;
 
+    private int TypeID;
+
     private int UserID;
+
+    protected OrderInfo(Parcel in) {
+        AddressID = in.readInt();
+        AddressReceipt = in.readString();
+        AgentCommissionAmount = in.readInt();
+        CouponFee = in.readInt();
+        CouponID = in.readInt();
+        CreatedTime = in.readString();
+        DeliveryFee = in.readInt();
+        ExpressCompany = in.readString();
+        ExpressNo = in.readString();
+        IntegralFee = in.readInt();
+        OrderID = in.readInt();
+        OrderNo = in.readString();
+        OrderStatus = in.readInt();
+        PayType = in.readInt();
+        Phone = in.readString();
+        PrepayID = in.readString();
+        Receiver = in.readString();
+        RefundDetail = in.readString();
+        RefundedTime = in.readString();
+        RefundID = in.readString();
+        RefundNo = in.readString();
+        RefundPhoto1ID = in.readInt();
+        RefundPhoto1SID = in.readInt();
+        RefundPhoto2ID = in.readInt();
+        RefundPhoto2SID = in.readInt();
+        RefundPhoto3ID = in.readInt();
+        RefundPhoto3SID = in.readInt();
+        RefundReason = in.readString();
+        SaleID = in.readInt();
+        SalesCommissionAmount = in.readInt();
+        TotalFee = in.readInt();
+        TotalFeeReal = in.readInt();
+        TradeExpriedTime = in.readString();
+        TradeTime = in.readString();
+        TransactionID = in.readString();
+        TypeID = in.readInt();
+        UserID = in.readInt();
+    }
+
+    public static final Creator<OrderInfo> CREATOR = new Creator<OrderInfo>() {
+        @Override
+        public OrderInfo createFromParcel(Parcel in) {
+            return new OrderInfo(in);
+        }
+
+        @Override
+        public OrderInfo[] newArray(int size) {
+            return new OrderInfo[size];
+        }
+    };
 
     public int getAddressID() {
         return AddressID;
@@ -88,6 +149,14 @@ public class OrderInfo {
 
     public void setAddressReceipt(String addressReceipt) {
         AddressReceipt = addressReceipt;
+    }
+
+    public int getAgentCommissionAmount() {
+        return AgentCommissionAmount;
+    }
+
+    public void setAgentCommissionAmount(int agentCommissionAmount) {
+        AgentCommissionAmount = agentCommissionAmount;
     }
 
     public int getCouponFee() {
@@ -298,6 +367,14 @@ public class OrderInfo {
         SaleID = saleID;
     }
 
+    public int getSalesCommissionAmount() {
+        return SalesCommissionAmount;
+    }
+
+    public void setSalesCommissionAmount(int salesCommissionAmount) {
+        SalesCommissionAmount = salesCommissionAmount;
+    }
+
     public int getTotalFee() {
         return TotalFee;
     }
@@ -338,11 +415,65 @@ public class OrderInfo {
         TransactionID = transactionID;
     }
 
+    public int getTypeID() {
+        return TypeID;
+    }
+
+    public void setTypeID(int typeID) {
+        TypeID = typeID;
+    }
+
     public int getUserID() {
         return UserID;
     }
 
     public void setUserID(int userID) {
         UserID = userID;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(AddressID);
+        dest.writeString(AddressReceipt);
+        dest.writeInt(AgentCommissionAmount);
+        dest.writeInt(CouponFee);
+        dest.writeInt(CouponID);
+        dest.writeString(CreatedTime);
+        dest.writeInt(DeliveryFee);
+        dest.writeString(ExpressCompany);
+        dest.writeString(ExpressNo);
+        dest.writeInt(IntegralFee);
+        dest.writeInt(OrderID);
+        dest.writeString(OrderNo);
+        dest.writeInt(OrderStatus);
+        dest.writeInt(PayType);
+        dest.writeString(Phone);
+        dest.writeString(PrepayID);
+        dest.writeString(Receiver);
+        dest.writeString(RefundDetail);
+        dest.writeString(RefundedTime);
+        dest.writeString(RefundID);
+        dest.writeString(RefundNo);
+        dest.writeInt(RefundPhoto1ID);
+        dest.writeInt(RefundPhoto1SID);
+        dest.writeInt(RefundPhoto2ID);
+        dest.writeInt(RefundPhoto2SID);
+        dest.writeInt(RefundPhoto3ID);
+        dest.writeInt(RefundPhoto3SID);
+        dest.writeString(RefundReason);
+        dest.writeInt(SaleID);
+        dest.writeInt(SalesCommissionAmount);
+        dest.writeInt(TotalFee);
+        dest.writeInt(TotalFeeReal);
+        dest.writeString(TradeExpriedTime);
+        dest.writeString(TradeTime);
+        dest.writeString(TransactionID);
+        dest.writeInt(TypeID);
+        dest.writeInt(UserID);
     }
 }

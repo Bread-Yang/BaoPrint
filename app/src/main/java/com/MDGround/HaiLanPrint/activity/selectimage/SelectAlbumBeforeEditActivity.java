@@ -97,7 +97,7 @@ public class SelectAlbumBeforeEditActivity extends ToolbarActivity<ActivitySelec
                     case Puzzle:
                     case MagicCup:
                     case LOMOCard:
-                        getPhotoTemplateListRequest();  // 模版图片
+                        getPhotoTemplateListRequest();  // 模板图片
                         break;
                     default:
                         mMaxSelectImageNum = SelectImageUtil.getMaxSelectImageNum(MDGroundApplication.mChoosedProductType);

@@ -177,7 +177,7 @@
 
     <!-- 相框 -->
     <string name="picture_frame">相框</string>
-    <string name="template">模版</string>
+    <string name="template">模板</string>
     <string name="landscape">横版</string>
     <string name="portrait">竖版</string>
     <string name="purchase">购买</string>
@@ -185,18 +185,18 @@
     <string name="choose_style">选择样式</string>
     <string name="choose_quantity">选择数量</string>
 
-    <!-- 选择模版 -->
-    <string name="choose_template">选择模版</string>
+    <!-- 选择模板 -->
+    <string name="choose_template">选择模板</string>
     <string name="choose_frame">选择相框</string>
-    <string name="template_detail">模版详情</string>
+    <string name="template_detail">模板详情</string>
     <string name="price_rmb">价格: ¥%s</string>
     <string name="page_count">%dP</string>
 
-    <!-- 模版详情 -->
+    <!-- 模板详情 -->
     <string name="current_page_index">%1$d/%2$d</string>
     <string name="create_immediately">马上创作</string>
     <string name="product_detail">产品详情</string>
-    <string name="template_name">模版: %s</string>
+    <string name="template_name">模板: %s</string>
     <string name="page_num">页数: %dP</string>
 
     <!-- 个性月历 -->

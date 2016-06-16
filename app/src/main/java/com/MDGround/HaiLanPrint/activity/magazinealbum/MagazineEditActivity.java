@@ -120,11 +120,20 @@ public class MagazineEditActivity extends ToolbarActivity<ActivityMagazineEditBi
     private void showImageToGPUImageView(final int position, MDImage mdImage) {
         mCurrentSelectIndex = position;
 
-        // 模版图片加载
+        // 模板图片加载
         Glide.with(MDGroundApplication.mInstance)
                 .load(mdImage)
-                .dontAnimate()
-                .into(mDataBinding.ivTemplate);
+                .asBitmap()
+                .into(new SimpleTarget<Bitmap>() {
+                    @Override
+                    public void onResourceReady(Bitmap bitmap, GlideAnimation glideAnimation) {
+                        // do something with the bitmap
+                        // for demonstration purposes, let's just set it to an ImageView
+                        mDataBinding.ivTemplate.setMinimumWidth(bitmap.getWidth());
+                        mDataBinding.ivTemplate.setMinimumHeight(bitmap.getHeight());
+                        mDataBinding.ivTemplate.setImageBitmap(bitmap);
+                    }
+                });
 
 
         // 用户选择的图片加载
@@ -133,8 +142,7 @@ public class MagazineEditActivity extends ToolbarActivity<ActivityMagazineEditBi
             Glide.with(this)
                     .load(selectImage)
                     .asBitmap()
-                    .thumbnail(0.1f)
-                    .into(new SimpleTarget<Bitmap>(200, 200) {
+                    .into(new SimpleTarget<Bitmap>() {
                         @Override
                         public void onResourceReady(Bitmap bitmap, GlideAnimation glideAnimation) {
                             // do something with the bitmap

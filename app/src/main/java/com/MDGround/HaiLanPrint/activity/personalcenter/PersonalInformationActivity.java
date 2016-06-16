@@ -58,7 +58,7 @@ public class PersonalInformationActivity extends ToolbarActivity<ActivityPersona
     @Override
     protected void initData() {
         mRegionPickerDialog = new RegionPickerDialog(this);
-        mSelectSingleImageDialog = new SelectSingleImageDialog(PersonalInformationActivity.this, R.style.customDialogStyle);
+        mSelectSingleImageDialog = new SelectSingleImageDialog(this);
         User user = MDGroundApplication.mLoginUser;
         // 用户头像
         MDImage mdImage = new MDImage();
@@ -101,7 +101,6 @@ public class PersonalInformationActivity extends ToolbarActivity<ActivityPersona
                 GlobalRestful.getInstance().SaveUserInfo(user, new Callback<ResponseData>() {
                     @Override
                     public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
-                        KLog.e("返回来   " + response.body());
                         if (ResponseCode.isSuccess(response.body())) {
                             mDataBinding.tvLocality.setText(city.getLocationName() + county.getLocationName());
                             MDGroundApplication.mLoginUser = user;
@@ -152,15 +151,14 @@ public class PersonalInformationActivity extends ToolbarActivity<ActivityPersona
                 Cursor cursor = managedQuery(uri, pro, null, null, null);
                 int Column_index = cursor.getColumnIndexOrThrow(pro[0]);
                 cursor.moveToFirst();
-                String Picturepath = cursor.getString(Column_index);
-                KLog.e("picturePath" + Picturepath);
-                uploadAvatar(Picturepath);
+                String picturePath = cursor.getString(Column_index);
+                KLog.e("picturePath" + picturePath);
+                uploadAvatar(picturePath);
             } else if (requestCode == SelectSingleImageDialog.PHOTO_REQUEST_CAREMA) {// 从相机返回的数据
                 KLog.e("相机返回数据");
-                String Picturepath = Environment.getExternalStorageDirectory() + "/textphoto.jpg";
-                uploadAvatar(Picturepath);
+                String picturePath = Environment.getExternalStorageDirectory() + "/textphoto.jpg";
+                uploadAvatar(picturePath);
             }
-
         }
 
     }

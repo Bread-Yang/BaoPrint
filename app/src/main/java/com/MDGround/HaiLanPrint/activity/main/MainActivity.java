@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         SelectImageUtil.mAlreadySelectImage.clear(); // 清空之前选中的图片
-        SelectImageUtil.mTemplateImage.clear(); // 清空之前的模版
+        SelectImageUtil.mTemplateImage.clear(); // 清空之前的模板
         MDGroundApplication.resetData();
     }
 

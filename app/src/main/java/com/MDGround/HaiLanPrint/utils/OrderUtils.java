@@ -1,9 +1,12 @@
 package com.MDGround.HaiLanPrint.utils;
 
 import android.app.Activity;
+import android.content.Intent;
 
 import com.MDGround.HaiLanPrint.ProductType;
+import com.MDGround.HaiLanPrint.activity.payment.PaymentSuccessActivity;
 import com.MDGround.HaiLanPrint.application.MDGroundApplication;
+import com.MDGround.HaiLanPrint.constants.Constants;
 import com.MDGround.HaiLanPrint.enumobject.OrderStatus;
 import com.MDGround.HaiLanPrint.enumobject.PayType;
 import com.MDGround.HaiLanPrint.models.DeliveryAddress;
@@ -18,7 +21,6 @@ import com.MDGround.HaiLanPrint.restfuls.GlobalRestful;
 import com.MDGround.HaiLanPrint.restfuls.bean.ResponseData;
 
 import java.io.File;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -31,7 +33,7 @@ import retrofit2.Response;
  * Created by yoghourt on 6/12/16.
  */
 
-public class OrderUtils implements Serializable {
+public class OrderUtils {
 
     private Activity mActivity;
 
@@ -195,7 +197,7 @@ public class OrderUtils implements Serializable {
     }
 
     public void saveOrderRequest() {
-        GlobalRestful.getInstance().SaveOrder(0, new Callback<ResponseData>() {
+        GlobalRestful.getInstance().SaveOrder(MDGroundApplication.mChoosedProductType, new Callback<ResponseData>() {
             @Override
             public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
 
@@ -277,7 +279,8 @@ public class OrderUtils implements Serializable {
         });
     }
 
-    public void updateOrderPrepayRequest(DeliveryAddress deliveryAddress, PayType payType, int amountFee, int receivableFee) {
+    public void updateOrderPrepayRequest(final Activity activity, DeliveryAddress deliveryAddress, PayType payType, int amountFee, int receivableFee) {
+        ViewUtils.loading(activity);
         mOrderInfo.setAddressID(deliveryAddress.getAutoID());
         mOrderInfo.setAddressReceipt(StringUtil.getCompleteAddress(deliveryAddress));
         mOrderInfo.setCreatedTime(DateUtils.getServerDateStringByDate(new Date()));
@@ -291,7 +294,10 @@ public class OrderUtils implements Serializable {
         GlobalRestful.getInstance().UpdateOrderPrepay(mOrderInfo, new Callback<ResponseData>() {
             @Override
             public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
-
+                ViewUtils.dismiss();
+                Intent intent = new Intent(activity, PaymentSuccessActivity.class);
+                intent.putExtra(Constants.KEY_ORDER_INFO, mOrderInfo);
+                activity.startActivity(intent);
             }
 
             @Override

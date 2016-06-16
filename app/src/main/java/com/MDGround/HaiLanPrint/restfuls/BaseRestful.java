@@ -11,6 +11,7 @@ import com.MDGround.HaiLanPrint.models.User;
 import com.MDGround.HaiLanPrint.restfuls.Interceptor.DecryptedPayloadInterceptor;
 import com.MDGround.HaiLanPrint.restfuls.Interceptor.ProgressRequestBody;
 import com.MDGround.HaiLanPrint.restfuls.bean.RequestData;
+import com.MDGround.HaiLanPrint.restfuls.bean.RequestDataForLogOnly;
 import com.MDGround.HaiLanPrint.restfuls.bean.ResponseData;
 import com.MDGround.HaiLanPrint.utils.DeviceUtil;
 import com.MDGround.HaiLanPrint.utils.EncryptUtil;
@@ -127,6 +128,31 @@ public abstract class BaseRestful {
         return requestData;
     }
 
+    private String createRequestDataForLogOnly(String functionName, JsonObject queryData) {
+        RequestDataForLogOnly requestDataForLogOnly = new RequestDataForLogOnly();
+
+        requestDataForLogOnly.setQueryData(queryData);
+        requestDataForLogOnly.setFunctionName(functionName);
+        requestDataForLogOnly.setCulture(DeviceUtil.getLanguage(mContext));
+//        requestData.setBusinessCode(getBusinessType().getType());
+        requestDataForLogOnly.setBusinessCode(BusinessType.Global.getType()); // 全部用1
+        requestDataForLogOnly.setActionTimeSpan(System.currentTimeMillis() / 1000);
+        requestDataForLogOnly.setPlatform(getPlatform());
+
+        String serviceToken = "";
+        requestDataForLogOnly.setDeviceID(DeviceUtil.getDeviceId());
+
+        User user = MDGroundApplication.mLoginUser;
+        if (user != null) {
+            serviceToken = user.getServiceToken();
+            requestDataForLogOnly.setUserID(user.getUserID());
+        }
+        requestDataForLogOnly.setServiceToken("测试,只是为了log");
+        requestDataForLogOnly.setSign("测试,只是为了log");
+
+        return new Gson().toJson(requestDataForLogOnly);
+    }
+
     private RequestBody createRequestBody(String functionName, JsonObject queryData) {
         RequestData requestData = createRequestData(functionName, queryData);
 
@@ -149,10 +175,10 @@ public abstract class BaseRestful {
         Callback firstCallback = new Callback<ResponseData>() {
             @Override
             public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
-                KLog.e("\n\"" + functionName + "\"接口返回的Response是 : " + "\n" + "{"
+                KLog.e("\n\n\"" + functionName + "\"  ---  返回的Response是 : " + "\n" + "{"
                         + "\"Code\" :" + response.body().getCode() + ","
                         + "\"Message\" :" + response.body().getMessage() + ","
-                        + "\"Content\" : " + response.body().getContent() + "}" + "\n");
+                        + "\"Content\" : " + response.body().getContent() + "}" + "\n\n");
 
                 if (response.body().getCode() == ResponseCode.InvalidToken.getValue()) { // 请求token失效,重新登录
                     DeviceUtil.logoutUser();
@@ -182,7 +208,8 @@ public abstract class BaseRestful {
 
             Call<ResponseData> call = null;
             if (getBusinessType() == BusinessType.Global) {
-                KLog.e("\n\"" + functionName + "\"接口请求json数据:" + "\n" + new Gson().toJson(createRequestData(functionName, queryData)));
+                KLog.e("\n\n\"" + functionName + "\"  ---  请求json数据:" + "\n" + createRequestDataForLogOnly(functionName, queryData)
+                + "\n\n");
 
                 call = baseService.normalRequest(requestBody);
             } else if (getBusinessType() == BusinessType.FILE) {
