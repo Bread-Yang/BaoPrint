@@ -267,7 +267,7 @@ public class GlobalRestful extends BaseRestful {
         JsonObject obj = new JsonObject();
         obj.add("OrderInfo", new Gson().toJsonTree(orderInfo));
 
-        asynchronousPost("UpdateOrderRefunding", obj, callback);
+        asynchronousPost("UpdateOrderPrepay", obj, callback);
     }
 
     // 确认收货接口

@@ -1,5 +1,9 @@
 package com.MDGround.HaiLanPrint.enumobject;
 
+import android.content.Context;
+
+import com.MDGround.HaiLanPrint.R;
+
 /**
  * Created by yoghourt on 5/16/16.
  */
@@ -31,6 +35,27 @@ public enum OrderStatus {
                 return type;
             }
         }
-        return null;
+     return null;
+    }
+
+    public static String getOrderStatus(Context context, OrderStatus orderStatus) {
+        switch (orderStatus) {
+            case UnPaid:
+                return context.getString(R.string.not_paid);
+            case Paid:
+                return context.getString(R.string.already_paid);
+            case Delivered:
+                return context.getString(R.string.already_delivered);
+            case Finished:
+                return context.getString(R.string.already_finished);
+            case Refunding:
+                return context.getString(R.string.refunding);
+            case Refunded:
+                return context.getString(R.string.already_refunded);
+            case RefundFail:
+                return context.getString(R.string.refundFail);
+
+        }
+        return "";
     }
 }

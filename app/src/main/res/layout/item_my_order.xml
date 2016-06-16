@@ -21,6 +21,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:onClick="@{handlers::itemClickToOrderDetailAction}"
         android:orientation="vertical">
 
         <RelativeLayout
@@ -35,13 +36,13 @@
 
             <TextView
                 android:id="@+id/tvOrderTitle"
-                style="@style/NormalTextStyle"
+                style="@style/DimTextStyle"
                 android:layout_marginLeft="@dimen/margin_8"
                 android:text="@string/order_no_with_colon"/>
 
             <TextView
                 android:id="@+id/tvOrder"
-                style="@style/NormalTextStyle"
+                style="@style/DimTextStyle"
                 android:layout_marginLeft="@dimen/margin_8"
                 android:layout_toRightOf="@+id/tvOrderTitle"
                 android:gravity="center"
@@ -83,7 +84,6 @@
                 android:id="@+id/tvProductType"
                 style="@style/NormalTextStyle"
                 android:layout_marginLeft="@dimen/margin_8"
-                android:layout_marginTop="@dimen/margin_12"
                 android:layout_toRightOf="@+id/ivImage"
                 android:text="@{orderWork.typeName}"
                 android:textSize="@dimen/text_size_16"
@@ -150,6 +150,8 @@
             <Button
                 android:id="@+id/btnOperation"
                 style="@style/NormalRaidoButtonStyle"
+                android:paddingTop="0dp"
+                android:paddingBottom="0dp"
                 android:layout_alignParentRight="true"
                 android:onClick="@{handlers::btnOperationAction}"
                 tools:text="@string/confirm_receive"/>

@@ -57,7 +57,7 @@
                 android:textSize="@dimen/text_size_16"/>
 
             <com.MDGround.HaiLanPrint.views.ClearEditText
-                android:id="@+id/cetContactNumber"
+                android:id="@+id/cetRefundFee"
                 style="@style/FixHeightTextStyle"
                 android:layout_width="match_parent"
                 android:layout_weight="1"
@@ -88,7 +88,7 @@
                 android:textSize="@dimen/text_size_16"/>
 
             <EditText
-                android:id="@+id/etDetailedAddress"
+                android:id="@+id/etRefundReason"
                 style="@style/FixHeightTextStyle"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/size_88"

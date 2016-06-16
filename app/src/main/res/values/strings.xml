@@ -17,6 +17,7 @@
     <string name="not_add_image">第%d页还没有添加照片,是否继续下一步?</string>
     <string name="illustration">图文说明</string>
     <string name="cover">封面</string>
+    <string name="error_msg">程序出错了</string>
 
     <!-- 登录 -->
     <string name="login">登录</string>
@@ -87,6 +88,7 @@
     <string name="message_max_num">你最多可以选择%1$s张图片</string>
     <string name="upload">上传</string>
     <string name="upload_image">上传图片</string>
+    <string name="upload_image_with_colon">上传图片:</string>
     <string name="upload_num">上传(%d)</string>
     <string name="current_cellular_network">您当前使用的是手机流量,上传图片会消耗大量的流量,是否继续?</string>
     <string name="local_image">选择本地照片</string>
@@ -121,6 +123,7 @@
     <!-- 我的订单 -->
     <string name="order_no_with_colon">订单号:</string>
     <string name="num_with_colon">数量: %d</string>
+    <string name="not_paid">未付款</string>
     <string name="already_paid">已付款</string>
     <string name="already_delivered">已发货</string>
     <string name="already_finished">已完成</string>
@@ -128,22 +131,25 @@
     <string name="already_refunded">已退款</string>
     <string name="refundFail">退款失败</string>
     <string name="actual_payment_with_colon">实付款:</string>
-    <string name="order_time_with_colon">下单时间:</string>
+    <string name="order_time_with_colon">下单时间:%s</string>
     <string name="confirm_receive">确认收货</string>
 
     <!-- 订单详情 -->
     <string name="order_detail">订单详情</string>
     <string name="logistics_information">物流信息</string>
-    <string name="express_company_with_colon">快递公司: %s</string>
-    <string name="express_number_with_colon">快递单号: %s</string>
+    <string name="express_company_with_colon">快递公司:</string>
+    <string name="express_number_with_colon">快递单号:</string>
 
     <!-- 申请退款 -->
     <string name="apply_refund">申请退款</string>
+    <string name="refund_info">退款信息</string>
     <string name="refund_reason">退款原因</string>
     <string name="select_refund_reason">请选择退款原因</string>
     <string name="refund_amount">退款金额</string>
+    <string name="refund_amount_with_colon">退款金额:</string>
     <string name="at_most_yuan">最多%s元</string>
     <string name="refund_detail">退款说明</string>
+    <string name="refund_detail_with_colon">退款说明:</string>
     <string name="input_refund_detail">请输入退款详细说明</string>
     <string name="submit_refund_application">提交退款申请</string>
 

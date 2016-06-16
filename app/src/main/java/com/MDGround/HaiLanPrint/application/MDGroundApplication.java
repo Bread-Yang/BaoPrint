@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.MDGround.HaiLanPrint.ProductType;
+import com.MDGround.HaiLanPrint.R;
 import com.MDGround.HaiLanPrint.constants.Constants;
 import com.MDGround.HaiLanPrint.greendao.DaoMaster;
 import com.MDGround.HaiLanPrint.greendao.DaoSession;
@@ -15,6 +16,10 @@ import com.MDGround.HaiLanPrint.models.Template;
 import com.MDGround.HaiLanPrint.models.User;
 import com.MDGround.HaiLanPrint.utils.OrderUtils;
 
+import org.acra.ACRA;
+import org.acra.ReportingInteractionMode;
+import org.acra.annotation.ReportsCrashes;
+
 import java.util.ArrayList;
 
 import cn.sharesdk.framework.ShareSDK;
@@ -22,9 +27,17 @@ import cn.sharesdk.framework.ShareSDK;
 /**
  * Created by yoghourt on 5/6/16.
  */
-public class MDGroundApplication extends Application{
+@ReportsCrashes(
+        mailTo = "449088680@qq.com",
+        mode = ReportingInteractionMode.TOAST,
+        forceCloseDialogAfterToast = false, // optional, default false
+        resToastText = R.string.error_msg
+)
+public class MDGroundApplication extends Application {
 
-    /** 对外提供整个应用生命周期的Context **/
+    /**
+     * 对外提供整个应用生命周期的Context
+     **/
     public static Context mInstance;
 
     public static DaoSession mDaoSession;
@@ -48,6 +61,7 @@ public class MDGroundApplication extends Application{
 
         initDataBase();
 
+        ACRA.init(this);
         ShareSDK.initSDK(this);
 
     }

@@ -10,14 +10,13 @@ import android.view.ViewGroup;
 
 import com.MDGround.HaiLanPrint.R;
 import com.MDGround.HaiLanPrint.activity.base.ToolbarActivity;
-import com.MDGround.HaiLanPrint.application.MDGroundApplication;
 import com.MDGround.HaiLanPrint.constants.Constants;
 import com.MDGround.HaiLanPrint.databinding.ActivityChooseDeliveryAddressBinding;
 import com.MDGround.HaiLanPrint.databinding.ItemDeliveryAddressBinding;
-import com.MDGround.HaiLanPrint.greendao.Location;
 import com.MDGround.HaiLanPrint.models.DeliveryAddress;
 import com.MDGround.HaiLanPrint.restfuls.GlobalRestful;
 import com.MDGround.HaiLanPrint.restfuls.bean.ResponseData;
+import com.MDGround.HaiLanPrint.utils.StringUtil;
 import com.google.gson.reflect.TypeToken;
 
 import java.util.ArrayList;
@@ -112,26 +111,7 @@ public class ChooseDeliveryAddressActivity extends ToolbarActivity<ActivityChoos
             holder.viewDataBinding.setDeliveryAddress(deliveryAddress);
             holder.viewDataBinding.setHandlers(holder);
 
-            Location provinceLocation = MDGroundApplication.mDaoSession.getLocationDao().load(deliveryAddress.getProvinceID());
-            Location cityLocation = MDGroundApplication.mDaoSession.getLocationDao().load(deliveryAddress.getCityID());
-            Location countyLocation = MDGroundApplication.mDaoSession.getLocationDao().load(deliveryAddress.getDistrictID());
-
-            String province = "";
-            if (provinceLocation != null) {
-                province = provinceLocation.getLocationName();
-            }
-
-            String city = "";
-            if (provinceLocation != null) {
-                city = cityLocation.getLocationName();
-            }
-
-            String county = "";
-            if (countyLocation != null) {
-                county = countyLocation.getLocationName();
-            }
-
-            holder.viewDataBinding.tvAddress.setText(province + city + county + deliveryAddress.getStreet());
+            holder.viewDataBinding.tvAddress.setText(StringUtil.getCompleteAddress(deliveryAddress));
 
             if (mDeliveryAddress != null && mDeliveryAddress.getAutoID() == deliveryAddress.getAutoID()) {
                 holder.viewDataBinding.ivLocationLogo.setVisibility(View.VISIBLE);

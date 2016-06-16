@@ -129,6 +129,9 @@ public class FileRestful extends BaseRestful {
                 UploadPhoto(uploadType, file, new Callback<ResponseData>() {
                     @Override
                     public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
+                        MDImage responseImage = response.body().getContent(MDImage.class);
+                        responseImageArrayList.add(responseImage);
+
                         UploadPhoto(uploadType, uploadImageArrayList, nextUploadIndex, responseImageArrayList, callback);
                     }
 
