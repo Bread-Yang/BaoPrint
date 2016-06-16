@@ -89,6 +89,7 @@
     <string name="upload">上传</string>
     <string name="upload_image">上传图片</string>
     <string name="upload_image_with_colon">上传图片:</string>
+    <string name="message_center">消息中心</string>
     <string name="upload_num">上传(%d)</string>
     <string name="current_cellular_network">您当前使用的是手机流量,上传图片会消耗大量的流量,是否继续?</string>
     <string name="local_image">选择本地照片</string>
@@ -340,4 +341,5 @@
     <string name="term">服务条款</string>
     <string name="prompt">你的要求是我们努力的方向，期待听到您的声音。</string>
     <string name="feedback">意见反馈</string>
+    <string name="allselecte">全选</string>
 </resources>

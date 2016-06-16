@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
 
 import com.MDGround.HaiLanPrint.R;
 import com.MDGround.HaiLanPrint.activity.base.ToolbarActivity;
@@ -24,6 +25,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import retrofit2.Call;
@@ -37,13 +39,10 @@ import retrofit2.Response;
 public class MyWorksActivity extends ToolbarActivity<ActivityPersonalMyworksBinding> {
     public static final String TAG = "MyWorksActivity";
     public List<WorksInfo> mWorksInfoList = new ArrayList<>();
-    public MyWorksAdapter mAdapter;
-//    public List<WorksInfo> mMagazineList = new ArrayList<>();
-//    public List<WorksInfo> mPostCardList = new ArrayList<>();
-//    public List<WorksInfo> mArtBookList = new ArrayList<>();
-//    public List<WorksInfo> mLOMOCardList = new ArrayList<>();
-//    public List<WorksInfo> mMagicCupList = new ArrayList<>();
-
+    public List<WorksInfo> mAllWorkInfoList = new ArrayList<>();
+    public List<WorksInfo> mBlankWorkInfoList = new ArrayList<>();
+    private MyWorksAdapter mAdapter;
+    private boolean isEditor = false;
 
     @Override
     protected int getContentLayout() {
@@ -52,6 +51,8 @@ public class MyWorksActivity extends ToolbarActivity<ActivityPersonalMyworksBind
 
     @Override
     protected void initData() {
+        tvRight.setText("编辑");
+        tvRight.setVisibility(View.VISIBLE);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         mDataBinding.myworksrecyclerView.setLayoutManager(layoutManager);
@@ -69,6 +70,7 @@ public class MyWorksActivity extends ToolbarActivity<ActivityPersonalMyworksBind
                         String worksInfos = jsonObject.toString();
                         mWorksInfoList = StringUtil.getInstanceByJsonString(worksInfos, new TypeToken<List<WorksInfo>>() {
                         });
+                        mAllWorkInfoList = mWorksInfoList;
                         KLog.e(TAG, mWorksInfoList.size());
                         mAdapter.notifyDataSetChanged();
                         ViewUtils.dismiss();
@@ -78,32 +80,96 @@ public class MyWorksActivity extends ToolbarActivity<ActivityPersonalMyworksBind
 
                 }
             }
+
             @Override
             public void onFailure(Call<ResponseData> call, Throwable t) {
             }
         });
     }
-    @Override
-    protected void setListener() {
+
+    //region ACTION
+    //选中同一组内的作品
+    public void selectAlikeType(View view) {
+        int position = mDataBinding.myworksrecyclerView.getChildAdapterPosition(view);
+        int type = mWorksInfoList.get(position).getTypeID();
+        KLog.e("typeId--->"+type);
+//        for (int i = 0; i < mWorksInfoList.size(); i++) {
+//            if (mWorksInfoList.get(i).getTypeID() == type) {
+//                mAdapter.getIsSelected().put(i, b);
+//            }
+//        }
+      //  mAdapter.notifyDataSetChanged();
     }
 
+
+    //endregio
+    @Override
+    protected void setListener() {
+        tvRight.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!isEditor) {
+                    isEditor = true;
+                    tvRight.setText("完成");
+                } else {
+                    isEditor = false;
+                    tvRight.setText("编辑");
+                }
+            }
+        });
+
+        //region ACTION
+        //全选按钮
+        mDataBinding.cbSelectAll.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    for (int i = 0; i < mWorksInfoList.size(); i++) {
+                        mAdapter.getIsSelected().put(i, true);
+                    }
+                } else {
+                    for (int i = 0; i < mWorksInfoList.size(); i++) {
+                        mAdapter.getIsSelected().put(i, false);
+                    }
+                }
+                mAdapter.notifyDataSetChanged();
+            }
+        });
+    }
+    //endregion
+
     public class MyWorksAdapter extends RecyclerView.Adapter<MyWorksAdapter.MyViewHolder> {
+        public HashMap<Integer, Boolean> isSelected;
+
         @Override
         public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_myworks, parent, false);
             MyViewHolder viewHolder = new MyViewHolder(view);
+            isSelected = new HashMap<Integer, Boolean>();
+            init();
             return viewHolder;
         }
+
+        private void init() {
+            for (int i = 0; i < mWorksInfoList.size(); i++) {
+                getIsSelected().put(i, false);
+            }
+        }
+
         @Override
         public void onBindViewHolder(MyViewHolder holder, int position) {
             WorksInfo worksInfo = mWorksInfoList.get(position);
             holder.itemMyworksBinding.setWorksInfo(worksInfo);
             holder.itemMyworksBinding.setShowHeader(isShowHeader(position));
+            holder.itemMyworksBinding.cbItem.setChecked(getIsSelected().get(position));
+            holder.itemMyworksBinding.cbTitle.setChecked(getIsSelected().get(position));
         }
+
         @Override
         public int getItemCount() {
             return mWorksInfoList.size();
         }
+
         public boolean isShowHeader(int positon) {
             if (positon == 0) {
                 return true;
@@ -116,12 +182,39 @@ public class MyWorksActivity extends ToolbarActivity<ActivityPersonalMyworksBind
             }
             return false;
         }
+
+        //获取它的状态
+        public HashMap<Integer, Boolean> getIsSelected() {
+            return isSelected;
+        }
+
+        //设置它的状态
+        public void setIsSelected(HashMap<Integer, Boolean> isSelected) {
+            this.isSelected = isSelected;
+        }
+
         class MyViewHolder extends RecyclerView.ViewHolder {
             public ItemMyworksBinding itemMyworksBinding;
-            public MyViewHolder(View itemView) {
+
+            public MyViewHolder(final View itemView) {
                 super(itemView);
                 itemMyworksBinding = DataBindingUtil.bind(itemView);
+                itemMyworksBinding.cbTitle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                      selectAlikeType(itemView);
+                    }
+                });
+                itemMyworksBinding.cbItem.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+
+                    }
+                });
             }
         }
+
     }
+
+
 }

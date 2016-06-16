@@ -42,11 +42,9 @@ public class EditDeliveryAddressActivity extends ToolbarActivity<ActivityEditDel
             mDataBinding.cetConsignee.setText(mDeliveryAddress.getReceiver());
             mDataBinding.cetContactNumber.setText(mDeliveryAddress.getPhone());
             mDataBinding.etDetailedAddress.setText(mDeliveryAddress.getStreet());
-
             Location province = MDGroundApplication.mDaoSession.getLocationDao().load(mDeliveryAddress.getProvinceID());
             Location city = MDGroundApplication.mDaoSession.getLocationDao().load(mDeliveryAddress.getCityID());
             Location county = MDGroundApplication.mDaoSession.getLocationDao().load(mDeliveryAddress.getDistrictID());
-
             mDataBinding.tvRegion.setText(province.getLocationName() + city.getLocationName() + county.getLocationName());
         } else {
             mDeliveryAddress = new DeliveryAddress();
@@ -55,9 +53,7 @@ public class EditDeliveryAddressActivity extends ToolbarActivity<ActivityEditDel
             mDeliveryAddress.setCityID(110100);
             mDeliveryAddress.setDistrictID(110101);
             mDeliveryAddress.setUserID(MDGroundApplication.mLoginUser.getUserID());
-
             mDataBinding.tvRegion.setText("北京北京市东城区");
-
             tvTitle.setText(R.string.add_address);
         }
     }
