@@ -160,11 +160,11 @@
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/icon_mywork_album" />
+                        android:src="@drawable/icon_mesage_center" />
 
                     <TextView
                         style="@style/NormalTextStyle"
-                        android:text="@string/cloud_album" />
+                        android:text="@string/message_center" />
                 </com.MDGround.HaiLanPrint.views.FlexibleLinearLayout>
 
                 <View style="@style/DividerVerticalStyle" />

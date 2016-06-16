@@ -18,6 +18,7 @@
        android:orientation="vertical"
        >
        <RelativeLayout
+           android:layout_marginTop="@dimen/margin_20"
            android:layout_width="match_parent"
            android:layout_height="@dimen/size_44"
            android:background="@color/color_white"
@@ -25,10 +26,19 @@
            >
            <CheckBox
                android:layout_centerVertical="true"
-               android:text="@{worksInfo.typeName}"
+               android:id="@+id/cb_title"
                style="@style/WorksCheckBoxTextStyle"
                android:layout_marginLeft="@dimen/margin_20"
                android:button="@drawable/selector_works_checkbox" />
+           <TextView
+               android:layout_toRightOf="@id/cb_title"
+               android:text="@{worksInfo.typeName}"
+               android:layout_centerVertical="true"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:textSize="@dimen/text_size_18"
+               tools:text="我来例"
+               />
            <View style="@style/DividerHorizontalStyle"
                   android:layout_alignParentBottom="true"
                ></View>
@@ -48,10 +58,12 @@
 
 
              <CheckBox
+                 android:id="@+id/cb_item"
                  android:layout_gravity="center_vertical"
                  style="@style/WorksCheckBoxTextStyle"
                  android:layout_marginLeft="@dimen/margin_10"
-                 android:button="@drawable/selector_works_checkbox" />
+                 android:button="@drawable/selector_works_checkbox"
+                 />
 
              <ImageView
                  android:id="@+id/ivImage"

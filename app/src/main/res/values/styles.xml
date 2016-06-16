@@ -86,9 +86,8 @@
     </style>
 
     <style name="WorksCheckBoxTextStyle">
-        <item name="android:layout_width">@dimen/size_18</item>
-        <item name="android:layout_height">@dimen/size_18</item>
-        <item name="android:textSize">@dimen/text_size_16</item>
+        <item name="android:layout_width">@dimen/size_36</item>
+        <item name="android:layout_height">@dimen/size_36</item>
     </style>
 
     <style name="DimTextStyle">

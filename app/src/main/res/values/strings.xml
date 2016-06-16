@@ -87,6 +87,7 @@
     <string name="message_max_num">你最多可以选择%1$s张图片</string>
     <string name="upload">上传</string>
     <string name="upload_image">上传图片</string>
+    <string name="message_center">消息中心</string>
     <string name="upload_num">上传(%d)</string>
     <string name="current_cellular_network">您当前使用的是手机流量,上传图片会消耗大量的流量,是否继续?</string>
     <string name="local_image">选择本地照片</string>

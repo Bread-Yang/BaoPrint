@@ -21,20 +21,26 @@
             ></android.support.v7.widget.RecyclerView>
 
         <LinearLayout
+            android:background="@color/color_white"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:orientation="horizontal"
             
                         >
             <CheckBox
+                android:id="@+id/cb_selectAll"
                 android:layout_marginLeft="@dimen/margin_20"
                 style="@style/WorksCheckBoxTextStyle"
-                android:text="@string/allselecte"
-                android:textColor="@color/color_666666"
                 android:button="@drawable/selector_works_checkbox"
                 android:layout_gravity="center_vertical"
                 />
-
+              <TextView
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:text="@string/allSelect"
+                  android:layout_gravity="center_vertical"
+                  android:textColor="@color/color_666666"
+                  />
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_weight="1"
@@ -46,7 +52,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/text_size_12"
-                    android:layout_gravity=""
+                    android:layout_gravity="right"
                     android:text="@string/tatal"/>
                 <LinearLayout
                     android:layout_width="wrap_content"

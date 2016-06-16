@@ -51,7 +51,7 @@
     <dimen name="size_180">180dp</dimen>
     <dimen name="size_132">132dp</dimen>
     <dimen name="size_24">24dp</dimen>
-
+    <dimen name="size_36">36dp</dimen>
     <dimen name="text_size14">14sp</dimen>
     <dimen name="size_300">300dp</dimen>
     <dimen name="size_6">6dp</dimen>

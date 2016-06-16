@@ -1,5 +1,7 @@
 package com.MDGround.HaiLanPrint.activity.personalcenter;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -59,8 +61,23 @@ public class SettingActivity extends ToolbarActivity<ActivitySettingBinding> {
 
     //region ACTION
     public void logoutAction(View view) {
-        DeviceUtil.logoutUser();
-        NavUtils.toLoginActivity(this);
+        AlertDialog.Builder builder=new AlertDialog.Builder(this);
+        builder.setMessage("是否确认要退出登录");
+        builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                  return;
+            }
+        });
+        builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                DeviceUtil.logoutUser();
+                NavUtils.toLoginActivity(SettingActivity.this);
+            }
+        });
+        builder.show();
+
     }
     //endregion
     //region ACTION
