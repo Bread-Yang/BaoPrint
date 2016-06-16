@@ -58,4 +58,8 @@
     <dimen name="size_90">90dp</dimen>
     <dimen name="size_160">160dp</dimen>
     <dimen name="size_18">18dp</dimen>
+    <dimen name="size_72">72dp</dimen>
+    <dimen name="size_142">142dp</dimen>
+    <dimen name="size_122">122dp</dimen>
+    <dimen name="text_size_28">28sp</dimen>
 </resources>

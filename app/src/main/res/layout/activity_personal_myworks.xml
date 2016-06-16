@@ -27,19 +27,26 @@
             
                         >
             <CheckBox
-                style="@style/ClickableTextStyle"
+                android:layout_marginLeft="@dimen/margin_20"
+                style="@style/WorksCheckBoxTextStyle"
+                android:text="@string/allselecte"
+                android:textColor="@color/color_666666"
+                android:button="@drawable/selector_works_checkbox"
                 android:layout_gravity="center_vertical"
                 />
+
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_weight="1"
                 android:orientation="vertical"
-                android:gravity="right"
+                android:gravity="right|center_vertical"
                 android:layout_height="match_parent">
                 <TextView
+                    android:layout_marginTop="@dimen/margin_10"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="20sp"
+                    android:textSize="@dimen/text_size_12"
+                    android:layout_gravity=""
                     android:text="@string/tatal"/>
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -49,16 +56,19 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="20sp"
+                    android:textSize="@dimen/text_size_12"
+
+                    android:textColor="@color/colorOrange"
                     tools:text="22222"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="20sp"
+                    android:textSize="@dimen/text_size14"
                     android:text="@string/yuan"/>
                     </LinearLayout>
             </LinearLayout>
-          <LinearLayout
+
+            <LinearLayout
               android:layout_width="100dp"
               android:layout_height="match_parent"
               android:background="@color/colorOrange"
