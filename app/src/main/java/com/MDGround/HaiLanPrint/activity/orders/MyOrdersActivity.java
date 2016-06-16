@@ -39,8 +39,6 @@ public class MyOrdersActivity extends ToolbarActivity<ActivityMyOrdersBinding> {
 
     private MyOrdersAdapter mAdapter;
 
-    private ArrayList<Order> mOrdersArrayList = new ArrayList<>();
-
     private ArrayList<OrderWork> mOrderWorkArrayList = new ArrayList<>();
 
     private HashMap<Integer, OrderInfo> mOrderInfoHashMap = new HashMap<>();
@@ -52,6 +50,12 @@ public class MyOrdersActivity extends ToolbarActivity<ActivityMyOrdersBinding> {
     @Override
     protected int getContentLayout() {
         return R.layout.activity_my_orders;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getUserOrderListRequest();
     }
 
     @Override
@@ -72,8 +76,6 @@ public class MyOrdersActivity extends ToolbarActivity<ActivityMyOrdersBinding> {
 
         mAdapter = new MyOrdersAdapter();
         mDataBinding.recyclerView.setAdapter(mAdapter);
-
-        getUserOrderListRequest();
     }
 
     @Override
@@ -134,18 +136,25 @@ public class MyOrdersActivity extends ToolbarActivity<ActivityMyOrdersBinding> {
         GlobalRestful.getInstance().GetUserOrderList(mOrderStatus, new Callback<ResponseData>() {
             @Override
             public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
-                mOrdersArrayList = response.body().getContent(new TypeToken<ArrayList<Order>>() {
+                ArrayList<Order> ordersArrayList = response.body().getContent(new TypeToken<ArrayList<Order>>() {
                 });
 
                 mOrderInfoHashMap.clear();
                 mOrderWorkArrayList.clear();
-                for (Order order : mOrdersArrayList) {
+                for (Order order : ordersArrayList) {
                     mOrderInfoHashMap.put(order.getOrderInfo().getOrderID(), order.getOrderInfo());
 
                     mOrderWorkArrayList.addAll(order.getOrderWorkList());
                 }
 
-                mAdapter.notifyDataSetChanged();
+                if (mOrderWorkArrayList.size() > 0) {
+                    mDataBinding.tvEmptyTips.setVisibility(View.GONE);
+                    mDataBinding.recyclerView.setVisibility(View.VISIBLE);
+                    mAdapter.notifyDataSetChanged();
+                } else {
+                    mDataBinding.tvEmptyTips.setVisibility(View.VISIBLE);
+                    mDataBinding.recyclerView.setVisibility(View.GONE);
+                }
 
                 ViewUtils.dismiss();
             }
@@ -198,25 +207,25 @@ public class MyOrdersActivity extends ToolbarActivity<ActivityMyOrdersBinding> {
             OrderStatus orderStatus = OrderStatus.fromValue(orderInfo.getOrderStatus());
 
             holder.viewDataBinding.btnOperation.setVisibility(View.VISIBLE);
+            holder.viewDataBinding.btnOperation.setBackgroundResource(R.drawable.shape_rb_normal);
+            holder.viewDataBinding.btnOperation.setTextColor(getResources().getColor(R.color.color_333333));
+            holder.viewDataBinding.tvOrderStatus.setText(OrderStatus.getOrderStatus(getApplicationContext(), orderStatus));
             switch (orderStatus) {
                 case Paid:      // 已付款
-                    holder.viewDataBinding.tvOrderStatus.setText(R.string.already_paid);
                     holder.viewDataBinding.btnOperation.setText(R.string.apply_refund);
                     break;
                 case Delivered: // 已发货
-                    holder.viewDataBinding.tvOrderStatus.setText(R.string.already_delivered);
                     holder.viewDataBinding.btnOperation.setText(R.string.confirm_receive);
+                    holder.viewDataBinding.btnOperation.setBackgroundResource(R.drawable.shape_rb_highlight);
+                    holder.viewDataBinding.btnOperation.setTextColor(getResources().getColor(R.color.color_f88e11));
                     break;
                 case Finished:  // 已完成
-                    holder.viewDataBinding.tvOrderStatus.setText(R.string.already_finished);
                     holder.viewDataBinding.btnOperation.setVisibility(View.GONE);
                     break;
                 case Refunding: // 退款中
-                    holder.viewDataBinding.tvOrderStatus.setText(R.string.refunding);
                     holder.viewDataBinding.btnOperation.setVisibility(View.GONE);
                     break;
                 case Refunded:  // 已退款
-                    holder.viewDataBinding.tvOrderStatus.setText(R.string.already_refunded);
                     holder.viewDataBinding.btnOperation.setVisibility(View.GONE);
                     break;
                 case RefundFail: // 退款失败
@@ -292,6 +301,23 @@ public class MyOrdersActivity extends ToolbarActivity<ActivityMyOrdersBinding> {
                     case RefundFail: // 退款失败
                         break;
                 }
+            }
+
+            public void itemClickToOrderDetailAction(View view) {
+                OrderWork selectedOrderWork = mOrderWorkArrayList.get(getAdapterPosition());
+                OrderInfo selectedOrderInfo = mOrderInfoHashMap.get(selectedOrderWork.getOrderID());
+
+                ArrayList<OrderWork> passOrderWorkArrayList = new ArrayList<>();
+                for (OrderWork orderWork : mOrderWorkArrayList) {
+                    if (orderWork.getOrderID() == selectedOrderWork.getOrderID()) {
+                        passOrderWorkArrayList.add(orderWork);
+                    }
+                }
+
+                Intent intent = new Intent(MyOrdersActivity.this, OrderDetailActivity.class);
+                intent.putExtra(Constants.KEY_ORDER_INFO, selectedOrderInfo);
+                intent.putExtra(Constants.KEY_ORDER_WORK_LIST, passOrderWorkArrayList);
+                startActivity(intent);
             }
             //endregion
         }

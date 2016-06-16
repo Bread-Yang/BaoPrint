@@ -47,6 +47,8 @@ public class OrderInfo implements Parcelable {
 
     private String RefundedTime;
 
+    private int RefundFee;
+
     private String RefundID;
 
     private String RefundNo;
@@ -103,6 +105,7 @@ public class OrderInfo implements Parcelable {
         Receiver = in.readString();
         RefundDetail = in.readString();
         RefundedTime = in.readString();
+        RefundFee = in.readInt();
         RefundID = in.readString();
         RefundNo = in.readString();
         RefundPhoto1ID = in.readInt();
@@ -279,6 +282,22 @@ public class OrderInfo implements Parcelable {
         RefundDetail = refundDetail;
     }
 
+    public String getRefundedTime() {
+        return RefundedTime;
+    }
+
+    public void setRefundedTime(String refundedTime) {
+        RefundedTime = refundedTime;
+    }
+
+    public int getRefundFee() {
+        return RefundFee;
+    }
+
+    public void setRefundFee(int refundFee) {
+        RefundFee = refundFee;
+    }
+
     public String getRefundID() {
         return RefundID;
     }
@@ -349,14 +368,6 @@ public class OrderInfo implements Parcelable {
 
     public void setRefundReason(String refundReason) {
         RefundReason = refundReason;
-    }
-
-    public String getRefundedTime() {
-        return RefundedTime;
-    }
-
-    public void setRefundedTime(String refundedTime) {
-        RefundedTime = refundedTime;
     }
 
     public int getSaleID() {
@@ -457,6 +468,7 @@ public class OrderInfo implements Parcelable {
         dest.writeString(Receiver);
         dest.writeString(RefundDetail);
         dest.writeString(RefundedTime);
+        dest.writeInt(RefundFee);
         dest.writeString(RefundID);
         dest.writeString(RefundNo);
         dest.writeInt(RefundPhoto1ID);

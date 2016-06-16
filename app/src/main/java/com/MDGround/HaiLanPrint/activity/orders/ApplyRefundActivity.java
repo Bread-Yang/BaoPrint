@@ -21,6 +21,8 @@ import com.MDGround.HaiLanPrint.enumobject.UploadType;
 import com.MDGround.HaiLanPrint.models.MDImage;
 import com.MDGround.HaiLanPrint.models.OrderInfo;
 import com.MDGround.HaiLanPrint.restfuls.FileRestful;
+import com.MDGround.HaiLanPrint.restfuls.GlobalRestful;
+import com.MDGround.HaiLanPrint.restfuls.bean.ResponseData;
 import com.MDGround.HaiLanPrint.utils.StringUtil;
 import com.MDGround.HaiLanPrint.utils.ViewUtils;
 import com.MDGround.HaiLanPrint.views.dialog.SelectSingleImageDialog;
@@ -28,6 +30,10 @@ import com.MDGround.HaiLanPrint.views.itemdecoration.GridSpacingItemDecoration;
 import com.socks.library.KLog;
 
 import java.util.ArrayList;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Created by yoghourt on 5/30/16.
@@ -52,7 +58,8 @@ public class ApplyRefundActivity extends ToolbarActivity<ActivityApplyRefundBind
     protected void initData() {
         mOrderInfo = getIntent().getParcelableExtra(Constants.KEY_ORDER_INFO);
 
-        mDataBinding.cetContactNumber.setHint(getString(R.string.at_most_yuan, StringUtil.toYuanWithoutUnit(mOrderInfo.getTotalFeeReal())));
+        mDataBinding.cetRefundFee.setHint(getString(R.string.at_most_yuan, StringUtil.toYuanWithoutUnit(mOrderInfo.getTotalFeeReal())));
+        mDataBinding.cetRefundFee.setmMaxInputFee(mOrderInfo.getTotalFeeReal() / 100f);
 
         mSelectSingleImageDialog = new SelectSingleImageDialog(this);
 
@@ -98,11 +105,12 @@ public class ApplyRefundActivity extends ToolbarActivity<ActivityApplyRefundBind
     }
 
     public void sumitAction(View view) {
-
+        UploadPhotoRequest();
     }
 
     //region SERVER
-    private void UploadPhotoRequest(final int upload_image_index) {
+    private void UploadPhotoRequest() {
+        ViewUtils.loading(this);
         FileRestful.getInstance().UploadPhoto(UploadType.Order, mUploadImageArrayList, new FileRestful.OnUploadSuccessListener() {
             @Override
             public void onUploadSuccess(ArrayList<MDImage> mdImageArrayList) {
@@ -111,7 +119,7 @@ public class ApplyRefundActivity extends ToolbarActivity<ActivityApplyRefundBind
                     int photoID = mdImage.getPhotoID();
                     int photoSID = mdImage.getPhotoSID();
                     switch (i) {
-                        case 0 :
+                        case 0:
                             mOrderInfo.setRefundPhoto1ID(photoID);
                             mOrderInfo.setRefundPhoto1SID(photoSID);
                             break;
@@ -125,6 +133,23 @@ public class ApplyRefundActivity extends ToolbarActivity<ActivityApplyRefundBind
                             break;
                     }
                 }
+
+                mOrderInfo.setRefundFee(mDataBinding.cetRefundFee.getInputTextToInteger());
+                mOrderInfo.setRefundReason(mDataBinding.etRefundReason.getText().toString());
+
+                GlobalRestful.getInstance().UpdateOrderRefunding(mOrderInfo, new Callback<ResponseData>() {
+                    @Override
+                    public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
+                        ViewUtils.dismiss();
+                        setResult(RESULT_OK);
+                        finish();
+                    }
+
+                    @Override
+                    public void onFailure(Call<ResponseData> call, Throwable t) {
+
+                    }
+                });
             }
         });
     }

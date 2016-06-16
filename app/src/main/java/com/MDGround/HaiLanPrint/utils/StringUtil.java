@@ -34,11 +34,26 @@ public class StringUtil {
     }
 
     public static String getCompleteAddress(DeliveryAddress deliveryAddress) {
-        Location province = MDGroundApplication.mDaoSession.getLocationDao().load(deliveryAddress.getProvinceID());
-        Location city = MDGroundApplication.mDaoSession.getLocationDao().load(deliveryAddress.getCityID());
-        Location county = MDGroundApplication.mDaoSession.getLocationDao().load(deliveryAddress.getDistrictID());
+        Location provinceLocation = MDGroundApplication.mDaoSession.getLocationDao().load(deliveryAddress.getProvinceID());
+        Location cityLocation = MDGroundApplication.mDaoSession.getLocationDao().load(deliveryAddress.getCityID());
+        Location countyLocation = MDGroundApplication.mDaoSession.getLocationDao().load(deliveryAddress.getDistrictID());
 
-        String completeAddress = province.getLocationName() + city.getLocationName() + county.getLocationName() + deliveryAddress.getStreet();
+        String province = "";
+        if (provinceLocation != null) {
+            province = provinceLocation.getLocationName();
+        }
+
+        String city = "";
+        if (provinceLocation != null) {
+            city = cityLocation.getLocationName();
+        }
+
+        String county = "";
+        if (countyLocation != null) {
+            county = countyLocation.getLocationName();
+        }
+
+        String completeAddress = province + city + county + deliveryAddress.getStreet();
 
         return completeAddress;
     }
