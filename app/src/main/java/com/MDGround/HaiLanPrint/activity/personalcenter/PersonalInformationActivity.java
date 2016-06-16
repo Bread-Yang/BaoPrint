@@ -111,7 +111,6 @@ public class PersonalInformationActivity extends ToolbarActivity<ActivityPersona
                     public void onFailure(Call<ResponseData> call, Throwable t) {
                     }
                 });
-
             }
         });
     }

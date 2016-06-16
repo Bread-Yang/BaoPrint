@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
         <variable
@@ -21,9 +21,10 @@
 
         <ImageView
             android:id="@+id/ivImage"
-            app:loadImageByMDImage="@{image}"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            app:loadImageByMDImage="@{image}"/>
 
     </com.MDGround.HaiLanPrint.views.FlexibleRelativeLayout>
 </layout>

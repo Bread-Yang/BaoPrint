@@ -79,16 +79,24 @@ public class ApplyRefundActivity extends ToolbarActivity<ActivityApplyRefundBind
 
                 String picturePath = cursor.getString(columnIndex);
                 KLog.e("picturePath" + picturePath);
-                uploadAvatar(picturePath);
+
+                MDImage mdImage = new MDImage();
+                mdImage.setImageLocalPath(picturePath);
+
+                mUploadImageArrayList.add(mdImage);
+                mAdapter.notifyDataSetChanged();
             } else if (requestCode == SelectSingleImageDialog.PHOTO_REQUEST_CAREMA) {// 从相机返回的数据
                 KLog.e("相机返回数据");
                 String picturePath = Environment.getExternalStorageDirectory() + "/textphoto.jpg";
 
                 Uri uri = data.getData();
                 String[] filePathColumn = {MediaStore.Images.Media.DATA};
-                uploadAvatar(picturePath);
             }
         }
+    }
+
+    public void sumitAction(View view) {
+
     }
 
     //region SERVER
