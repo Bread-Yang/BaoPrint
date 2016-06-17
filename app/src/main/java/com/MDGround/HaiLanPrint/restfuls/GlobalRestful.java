@@ -262,6 +262,10 @@ public class GlobalRestful extends BaseRestful {
         asynchronousPost("GetUserCouponList", null, callback);
     }
 
+    public void GetSystemSetting(Callback<ResponseData> callback) {
+        asynchronousPost("GetSystemSetting", null, callback);
+    }
+
     // 确认支付调用接口（返回微信prepayid 给sdk调用）//支付宝暂时没做，后续做的话会改动
     public void UpdateOrderPrepay(OrderInfo orderInfo, Callback<ResponseData> callback) {
         JsonObject obj = new JsonObject();

@@ -12,6 +12,7 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/margin_1"
         android:background="@color/color_white"
         android:minHeight="?attr/actionBarSize"
         app:titleTextColor="@color/colorOrange">
@@ -22,8 +23,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:textSize="@dimen/text_size_18"
             android:textColor="@color/color_424242"
+            android:textSize="@dimen/text_size_18"
             tools:text="Toolbar Title"/>
 
         <TextView
@@ -32,9 +33,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="right"
-            android:textSize="@dimen/text_size_18"
             android:layout_marginRight="10dp"
             android:textColor="@color/colorOrange"
+            android:textSize="@dimen/text_size_18"
             tools:text="save"/>
 
     </android.support.v7.widget.Toolbar>

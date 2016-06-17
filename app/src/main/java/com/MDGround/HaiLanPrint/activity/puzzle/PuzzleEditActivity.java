@@ -80,7 +80,7 @@ public class PuzzleEditActivity extends ToolbarActivity<ActivityPuzzleEditBindin
         Glide.with(this)
                 .load(SelectImageUtil.mAlreadySelectImage.get(0))
                 .asBitmap()
-                .thumbnail(0.1f)
+//                .thumbnail(0.1f)
                 .into(new SimpleTarget<Bitmap>(200, 200) {
                     @Override
                     public void onResourceReady(Bitmap bitmap, GlideAnimation glideAnimation) {

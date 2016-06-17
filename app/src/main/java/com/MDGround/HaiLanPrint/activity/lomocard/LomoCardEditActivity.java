@@ -133,8 +133,8 @@ public class LomoCardEditActivity extends ToolbarActivity<ActivityLomoCardEditBi
             Glide.with(this)
                     .load(selectImage)
                     .asBitmap()
-                    .thumbnail(0.1f)
-                    .into(new SimpleTarget<Bitmap>(200, 200) {
+//                    .thumbnail(0.1f)
+                    .into(new SimpleTarget<Bitmap>() {
                         @Override
                         public void onResourceReady(Bitmap bitmap, GlideAnimation glideAnimation) {
                             // do something with the bitmap

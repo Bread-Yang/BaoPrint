@@ -1,5 +1,6 @@
 package com.MDGround.HaiLanPrint.utils;
 
+import android.graphics.Bitmap;
 import android.widget.ImageView;
 
 import com.MDGround.HaiLanPrint.R;
@@ -7,6 +8,8 @@ import com.MDGround.HaiLanPrint.application.MDGroundApplication;
 import com.MDGround.HaiLanPrint.models.MDImage;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
 
 import java.io.File;
 import java.util.LinkedList;
@@ -45,9 +48,9 @@ public class GlideUtil {
 
             Glide.with(MDGroundApplication.mInstance)
                     .load(mdImage)
-                    .diskCacheStrategy(DiskCacheStrategy.RESULT)
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
 //                    .centerCrop()
-                    .thumbnail(0.1f)
+//                    .thumbnail(0.1f)
                     .placeholder(R.drawable.layerlist_image_placeholder)
                     .error(R.drawable.layerlist_image_placeholder)
                     .dontAnimate()
@@ -56,10 +59,31 @@ public class GlideUtil {
         }
     }
 
+    public static void loadImageByMDImageWithDialog(final ImageView imageView, MDImage mdImage) {
+        ViewUtils.loading(imageView.getContext());
+        Glide.with(imageView.getContext())
+                .load(mdImage)
+                .asBitmap()
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .into(new SimpleTarget<Bitmap>() {
+                    @Override
+                    public void onResourceReady(Bitmap bitmap, GlideAnimation glideAnimation) {
+                        imageView.setImageBitmap(bitmap);
+                        ViewUtils.dismiss();
+                    }
+                });
+    }
+
     public static void loadImageByPhotoSID(ImageView imageView, int photoSID) {
         MDImage mdImage = new MDImage();
         mdImage.setPhotoSID(photoSID);
         GlideUtil.loadImageByMDImage(imageView, mdImage);
+    }
+
+    public static void loadImageByPhotoSIDWithDialog(ImageView imageView, int photoSID) {
+        MDImage mdImage = new MDImage();
+        mdImage.setPhotoSID(photoSID);
+        GlideUtil.loadImageByMDImageWithDialog(imageView, mdImage);
     }
 
     public static long getFileSize(final File file) {

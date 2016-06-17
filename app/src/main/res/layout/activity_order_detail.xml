@@ -28,7 +28,6 @@
                 <RelativeLayout
                     style="@style/NormalLayoutStyle"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_1"
                     android:paddingBottom="@dimen/margin_15"
                     android:paddingTop="@dimen/margin_15">
 
@@ -331,6 +330,7 @@
                 android:background="@null"
                 android:checked="false"
                 android:gravity="center"
+                android:onClick="btnOperationAction"
                 android:paddingLeft="@dimen/margin_10"
                 android:text="@string/apply_refund"
                 android:textColor="@color/color_f88e11"
@@ -343,9 +343,9 @@
                 android:layout_alignParentRight="true"
                 android:layout_gravity="center_horizontal"
                 android:layout_weight="1"
-                android:onClick="btnOperationAction"
                 android:background="@drawable/ripple_button_right_angle_orange"
                 android:gravity="center"
+                android:onClick="btnOperationAction"
                 android:text="@string/go_pay"
                 android:textColor="@color/color_white"
                 android:textSize="@dimen/text_size_18"/>

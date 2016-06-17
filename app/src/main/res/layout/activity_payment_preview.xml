@@ -200,7 +200,7 @@
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="@dimen/margin_10"
                         android:button="@drawable/selector_cb_bg_auto_login"
-                        android:checked="false"
+                        android:checked="true"
                         android:paddingLeft="@dimen/margin_10"
                         android:text="@string/credit"
                         android:textSize="@dimen/text_size_16"/>
