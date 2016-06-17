@@ -11,7 +11,9 @@ public class WorksInfo {
     private int TemplateID;
     private int PhotoCount;
     private String TypeName;
-
+    private String WorkMaterial;
+    private String WorkFormat;
+    private String WorkStyle;
     public int getTypeID() {
         return TypeID;
     }
@@ -85,5 +87,28 @@ public class WorksInfo {
 
     public void setWorkID(int workID) {
         WorkID = workID;
+    }
+    public String getWorkMaterial() {
+        return WorkMaterial;
+    }
+
+    public void setWorkMaterial(String workMaterial) {
+        WorkMaterial = workMaterial;
+    }
+
+    public String getWorkStyle() {
+        return WorkStyle;
+    }
+
+    public void setWorkStyle(String workStyle) {
+        WorkStyle = workStyle;
+    }
+
+    public String getWorkFormat() {
+        return WorkFormat;
+    }
+
+    public void setWorkFormat(String workFormat) {
+        WorkFormat = workFormat;
     }
 }

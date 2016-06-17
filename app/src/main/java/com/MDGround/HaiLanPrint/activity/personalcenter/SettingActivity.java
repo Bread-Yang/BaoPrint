@@ -79,11 +79,11 @@ public class SettingActivity extends ToolbarActivity<ActivitySettingBinding> {
         builder.show();
 
     }
-    //endregion
-    //region ACTION
+
     public void toAboutUsActivity(View view){
         Intent intent=new Intent(this,AboutUsAcctivity.class);
         startActivity(intent);
     }
     //endregion
+
 }

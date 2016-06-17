@@ -25,10 +25,10 @@ public class AboutUsAcctivity extends ToolbarActivity<ActivityAboutUsBinding>{
     @Override
     protected void setListener() {
     }
+
     //region ACTION
     //拨打电话
     public void  toCallPhone(View view){
-      //  String phoneNume=mDataBinding.tvNume.getText().toString();
         Uri uri=Uri.parse("tel:123456");
         Intent intent=new Intent(Intent.ACTION_DIAL,uri);
         startActivity(intent);

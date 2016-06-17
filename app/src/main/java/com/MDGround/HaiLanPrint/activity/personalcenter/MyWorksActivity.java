@@ -80,9 +80,9 @@ public class MyWorksActivity extends ToolbarActivity<ActivityPersonalMyworksBind
                     i--;
                 }
             }
-            for (int i = 0; i < mWorksInfoList.size(); i++) {
-                if (mWorksInfoList.get(i).getTypeID() == type) {
-                    WorksInfo worksInfo = mWorksInfoList.get(i);
+            for (int j = 0; j < mWorksInfoList.size(); j++) {
+                if (mWorksInfoList.get(j).getTypeID() == type) {
+                    WorksInfo worksInfo = mWorksInfoList.get(j);
                     KLog.e("--->" + worksInfo.getWorkID());
                     mAllWorkInfoList.add(worksInfo);
                 }
@@ -118,7 +118,6 @@ public class MyWorksActivity extends ToolbarActivity<ActivityPersonalMyworksBind
                     return;
                 }
             }
-            KLog.e("？有没有加进来");
             WorksInfo worksInfo = mWorksInfoList.get(postion);
             mAllWorkInfoList.add(worksInfo);
             if(mAllWorkInfoList.size()==mWorksInfoList.size()){

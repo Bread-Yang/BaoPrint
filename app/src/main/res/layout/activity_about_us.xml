@@ -50,7 +50,7 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/tv_nume"
+                    android:id="@+id/tvNume"
                     android:layout_width="wrap_content"
                     android:layout_height="@dimen/size_44"
                     android:layout_marginRight="@dimen/size_44"
@@ -86,10 +86,10 @@
                     android:textSize="@dimen/text_size_16" />
 
                 <TextView
-                    android:id="@+id/tv_realm"
+                    android:id="@+id/tvRealm"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/realmname"
+                    android:text="@string/realm_name"
                     android:textSize="@dimen/text_size_16" />
             </LinearLayout>
 
@@ -101,11 +101,11 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:onClick="toRegisterProtocol"
                     android:layout_width="wrap_content"
                     android:layout_height="@dimen/size_44"
                     android:layout_weight="1"
                     android:gravity="center_vertical"
+                    android:onClick="toRegisterProtocol"
                     android:paddingLeft="@dimen/margin_16"
                     android:text="@string/term"
                     android:textColor="@color/color_333333"
@@ -128,7 +128,6 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/textView2"
                     android:layout_width="wrap_content"
                     android:layout_height="@dimen/size_44"
                     android:layout_weight="1"

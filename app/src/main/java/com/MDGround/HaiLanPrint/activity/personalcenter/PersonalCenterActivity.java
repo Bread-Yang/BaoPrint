@@ -27,14 +27,6 @@ public class PersonalCenterActivity extends ToolbarActivity<ActivityPersonalCent
 
     @Override
     protected void initData() {
-        // 用户头像
-//        MDImage mdImage = new MDImage();
-//        mdImage.setPhotoID(MDGroundApplication.mLoginUser.getPhotoID());
-//        mdImage.setPhotoSID(MDGroundApplication.mLoginUser.getPhotoSID());
-//        GlideUtil.loadImageByMDImage(mDataBinding.civAvatar, mdImage);
-
-        // 用户名
-        // mDataBinding.tvName.setText(MDGroundApplication.mLoginUser.getUserName());
     }
 
     @Override
@@ -82,7 +74,6 @@ public class PersonalCenterActivity extends ToolbarActivity<ActivityPersonalCent
         startActivity(intent);
     }
 
-    //endregion
     //积分查询
     public void tOMyCreditActivity(View v) {
         Intent intent = new Intent(this, MyCreditActivity.class);
@@ -93,10 +84,11 @@ public class PersonalCenterActivity extends ToolbarActivity<ActivityPersonalCent
         Intent intent =new Intent(this,MyWorksActivity.class);
         startActivity(intent);
     }
-    //
+    //去消息中心
     public void toMessageCenter(View view){
-        Intent intent=new Intent(this,NoFindMMessageActivity.class);
+        Intent intent=new Intent(this,NoFindMessageActivity.class);
         startActivity(intent);
     }
+    //endregion
 
 }

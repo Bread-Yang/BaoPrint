@@ -15,14 +15,14 @@ import java.io.UnsupportedEncodingException;
  * */  
 public class MaxLengthWatcher implements TextWatcher {  
   
-    private int maxLen = 0;  
-    private EditText editText = null;
+    private int mMaxLen = 0;
+    private EditText mEditText = null;
     private Context mContext;
       
       
-    public MaxLengthWatcher(int maxLen, EditText editText, Context context) {  
-        this.maxLen = maxLen;  
-        this.editText = editText;
+    public MaxLengthWatcher(int mMaxLen, EditText mEditText, Context context) {
+        this.mMaxLen = mMaxLen;
+        this.mEditText = mEditText;
         this.mContext = context;
     }  
   
@@ -32,8 +32,8 @@ public class MaxLengthWatcher implements TextWatcher {
 			String limitSubstring = getLimitSubstring(s.toString());
 			if (!TextUtils.isEmpty(limitSubstring)) {
 				if (!limitSubstring.equals(s.toString())) {
-					editText.setText(limitSubstring);
-					editText.setSelection(limitSubstring.length());
+					mEditText.setText(limitSubstring);
+					mEditText.setSelection(limitSubstring.length());
 				}
 			}
 		}
@@ -66,7 +66,7 @@ public class MaxLengthWatcher implements TextWatcher {
 			} catch (UnsupportedEncodingException e) {
 				e.printStackTrace();
 			}
-			if (resultLen > maxLen) {
+			if (resultLen > mMaxLen) {
 				Toast.makeText(mContext, "字数超过限制", Toast.LENGTH_LONG).show();
 				return inputStr.substring(0, i);
 			}

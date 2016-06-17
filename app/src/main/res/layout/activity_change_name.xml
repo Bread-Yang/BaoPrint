@@ -15,13 +15,12 @@
             android:background="@color/color_white"
             >
             <EditText
-                android:id="@+id/et_Name"
+                android:id="@+id/etName"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/size_60"
                 android:gravity="bottom"
                 android:paddingBottom="@dimen/margin_16"
                 android:maxLength="16"
-                tools:text="我少时诵诗书"
                 android:textSize="@dimen/text_size_16"
                 android:paddingLeft="@dimen/size_18"
                 android:layout_weight="1"

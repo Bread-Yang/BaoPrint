@@ -286,7 +286,7 @@
             android:name=".activity.personalcenter.PersonalCenterActivity"
             android:label="@string/personal_center"
             android:screenOrientation="portrait"></activity>
-         <activity android:name=".activity.personalcenter.NoFindMMessageActivity"
+         <activity android:name=".activity.personalcenter.NoFindMessageActivity"
                     android:label="@string/message_center"
              />
         <activity
