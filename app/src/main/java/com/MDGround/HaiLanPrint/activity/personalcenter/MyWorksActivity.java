@@ -20,6 +20,7 @@ import com.MDGround.HaiLanPrint.utils.ViewUtils;
 import com.google.gson.reflect.TypeToken;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
@@ -245,6 +246,8 @@ public class MyWorksActivity extends ToolbarActivity<ActivityPersonalMyworksBind
                 if (ResponseCode.isSuccess(response.body())) {
                     mAllWorkInfoList = response.body().getContent(new TypeToken<List<WorkInfo>>() {
                     });
+
+                    Collections.sort(mAllWorkInfoList);
 
                     if (mAllWorkInfoList.size() > 0) {
                         tvRight.setText(R.string.edit);

@@ -4,7 +4,7 @@ package com.MDGround.HaiLanPrint.models;
  * Created by yoghourt on 6/11/16.
  */
 
-public class WorkInfo {
+public class WorkInfo implements Comparable<WorkInfo> {
 
     private int UserID;
 
@@ -104,5 +104,10 @@ public class WorkInfo {
 
     public void setPhotoCount(int photoCount) {
         PhotoCount = photoCount;
+    }
+
+    @Override
+    public int compareTo(WorkInfo another) {
+        return (this.TypeID - another.TypeID);
     }
 }
