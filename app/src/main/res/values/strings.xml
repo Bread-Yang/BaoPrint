@@ -108,7 +108,7 @@
     <string name="my_orders">我的订单</string>
     <string name="my_credits">我的积分</string>
     <string name="my_coupons">我的优惠劵</string>
-
+    <string name="nofind_message">非常抱歉，没有找到相关消息</string>
     <!-- 个人资料 -->
     <string name="personal_information">个人资料</string>
     <string name="avatar">头像</string>

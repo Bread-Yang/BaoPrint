@@ -36,6 +36,7 @@ public class ChangeNameActivity extends ToolbarActivity<ActivityChangeNameBindin
         String userNickName = MDGroundApplication.mLoginUser.getUserNickName();
         mDataBinding.etName.setText(userNickName);
         mDataBinding.etName.setSelection(userNickName.length());
+        mDataBinding.etName.addTextChangedListener(new MaxLengthWatcher(12,mDataBinding.etName,ChangeNameActivity.this));
     }
 
     @Override
