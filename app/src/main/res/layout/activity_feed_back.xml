@@ -19,7 +19,7 @@
             android:paddingTop="@dimen/margin_12">
 
             <EditText
-                android:id="@+id/addContent"
+                android:id="@+id/etContext"
                 android:layout_width="fill_parent"
                 android:layout_height="@dimen/size_160"
                 android:background="@drawable/shape_round_corner_area_grey_bg"
@@ -35,7 +35,7 @@
         </LinearLayout>
 
         <TextView
-            android:onClick="toSumit"
+            android:onClick="toSumbit"
             android:layout_width="@dimen/size_180"
             android:layout_height="@dimen/size_44"
             android:layout_gravity="center"

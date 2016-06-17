@@ -8,7 +8,7 @@ import com.MDGround.HaiLanPrint.databinding.ActivityNofindRelatedBinding;
  * Created by PC on 2016-06-17.
  */
 
-public class NoFindMMessageActivity extends ToolbarActivity<ActivityNofindRelatedBinding> {
+public class NoFindMessageActivity extends ToolbarActivity<ActivityNofindRelatedBinding> {
     @Override
     protected int getContentLayout() {
         return R.layout.activity_nofind_related;

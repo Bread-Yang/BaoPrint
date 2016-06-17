@@ -35,8 +35,8 @@ public class FeedBackActivity extends ToolbarActivity<ActivityFeedBackBinding>{
 
     }
     //region ACTION
-    public void toSumit(View view){
-        String  suggestion=mDataBinding.addContent.getText().toString();
+    public void toSumbit(View view){
+        String  suggestion=mDataBinding.etContext.getText().toString();
         String phone= MDGroundApplication.mLoginUser.getPhone();
         ViewUtils.loading(this);
         GlobalRestful.getInstance().SaveUserSuggestion(phone, suggestion, new Callback<ResponseData>() {
@@ -44,7 +44,7 @@ public class FeedBackActivity extends ToolbarActivity<ActivityFeedBackBinding>{
             public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
                 if(ResponseCode.isSuccess(response.body())){
                     ViewUtils.dismiss();
-                    ViewUtils.toast("提交成功");
+                    ViewUtils.toast(getString(R.string.submit_success));
                     finish();
                 }
 
@@ -52,7 +52,7 @@ public class FeedBackActivity extends ToolbarActivity<ActivityFeedBackBinding>{
 
             @Override
             public void onFailure(Call<ResponseData> call, Throwable t) {
-                    ViewUtils.toast("提交失败");
+                    ViewUtils.toast(getString(R.string.fail_sumbit));
             }
         });
     }

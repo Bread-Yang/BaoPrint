@@ -20,7 +20,6 @@ import com.MDGround.HaiLanPrint.utils.StringUtil;
 import com.MDGround.HaiLanPrint.utils.ViewUtils;
 import com.MDGround.HaiLanPrint.views.itemdecoration.DividerItemDecoration;
 import com.google.gson.reflect.TypeToken;
-import com.socks.library.KLog;
 
 import org.json.JSONObject;
 
@@ -35,7 +34,6 @@ import retrofit2.Response;
  */
 
 public class MyCreditActivity extends ToolbarActivity<ActivityPersonalCreditBinding> {
-    public static final String TAG = "MyCredit";
     public String mTotalAmount;
     public ArrayList<UserIntegral> mUserCreditList = new ArrayList<>();
 
@@ -63,7 +61,6 @@ public class MyCreditActivity extends ToolbarActivity<ActivityPersonalCreditBind
     public class BindHandler {
         public void ClicEvent(View v) {
             int position = mDataBinding.recyclerView.getChildAdapterPosition(v);
-            //  Toast.makeText(MyCreditActivity.this,position+"",Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -78,12 +75,10 @@ public class MyCreditActivity extends ToolbarActivity<ActivityPersonalCreditBind
         GlobalRestful.getInstance().GetUserIntegralInfo(new Callback<ResponseData>() {
             @Override
             public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
-                KLog.e(TAG, response.body().toString());
                 if (ResponseCode.isSuccess(response.body())) {
                     try {
                         JSONObject jsonObject = new JSONObject(response.body().getContent());
                         mTotalAmount = jsonObject.getString("TotalAmount");
-                        KLog.e(TAG, mTotalAmount);
                         String UserIntegralList = jsonObject.getString("UserIntegralList");
                         mUserCreditList = StringUtil.getInstanceByJsonString(UserIntegralList, new TypeToken<ArrayList<UserIntegral>>() {
                         });
@@ -91,7 +86,6 @@ public class MyCreditActivity extends ToolbarActivity<ActivityPersonalCreditBind
                         mDataBinding.tvCredit.setText(mTotalAmount);
                         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(MyCreditActivity.this);
                         mDataBinding.recyclerView.setLayoutManager(linearLayoutManager);
-                      //  mDataBinding.recyclerView.addItemDecoration(new DividerItemDecoration(0));
                         mDataBinding.recyclerView.addItemDecoration(new DividerItemDecoration(12));
                         mAdapter = new MyCreditadapter(MyCreditActivity.this);
                         mDataBinding.recyclerView.setAdapter(mAdapter);
@@ -110,7 +104,9 @@ public class MyCreditActivity extends ToolbarActivity<ActivityPersonalCreditBind
 
 
     }
+    //endregion
 
+    //region ADAPTER
     public class MyCreditadapter extends RecyclerView.Adapter<MyCreditadapter.ViewHolder> {
         Context context;
 
@@ -153,4 +149,5 @@ public class MyCreditActivity extends ToolbarActivity<ActivityPersonalCreditBind
             }
         }
     }
+    //endregion
 }

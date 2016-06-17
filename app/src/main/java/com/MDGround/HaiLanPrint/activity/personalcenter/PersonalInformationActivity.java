@@ -212,11 +212,6 @@ public class PersonalInformationActivity extends ToolbarActivity<ActivityPersona
     }
 
     //enregion
-    //region ACTION
-    public void selectSingleImageAction(View view) {
-        mSelectSingleImageDialog.show();
-    }
-    //endregion
 
     //region ACTION
     //修改昵称
@@ -225,20 +220,22 @@ public class PersonalInformationActivity extends ToolbarActivity<ActivityPersona
         startActivity(intent);
     }
 
-    //修改所在地
-    public void selectAddress(View view) {
-        mRegionPickerDialog.show();
+    public void selectSingleImageAction(View view) {
+        mSelectSingleImageDialog.show();
     }
 
-    //endregion
     //设置孩子资料
     public void setChildData(View view) {
         Intent intent = new Intent(this, ChildInformationActivity.class);
         startActivity(intent);
     }
-    //endregion
 
-    //region ACTION
+
+    //修改所在地
+    public void selectAddress(View view) {
+        mRegionPickerDialog.show();
+    }
+
     public void toManageAddressActivity(View view) {
         Intent intent = new Intent(this, ManageAddressActivity.class);
         startActivity(intent);
@@ -249,5 +246,7 @@ public class PersonalInformationActivity extends ToolbarActivity<ActivityPersona
         intent.putExtra(SET_PASSWORD, FRO_PERSON);
         startActivity(intent);
     }
+
     //endregion
+
 }

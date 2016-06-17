@@ -36,10 +36,7 @@ public class ManageAddressActivity extends ToolbarActivity<ActivityManageAddress
     public static final int FOR_SAVE = 2;
     private ArrayList<DeliveryAddress> mUserAddressList = new ArrayList<>();
     private DeliveryAddress mUserAddress;
-    private ManageAddressAdatper adatper;
-//    private View footView;
-//    private Bookends<ManageAddressAdatper> bookends;
-
+    private ManageAddressAdatper mAdapter;
     @Override
     protected int getContentLayout() {
         return R.layout.activity_manage_address;
@@ -56,12 +53,8 @@ public class ManageAddressActivity extends ToolbarActivity<ActivityManageAddress
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         mDataBinding.recyclerView.setLayoutManager(linearLayoutManager);
-        adatper = new ManageAddressAdatper();
-//        bookends = new Bookends<>(adatper);
-//        footView = LayoutInflater.from(this).inflate(R.layout.item_address_foot, null);
-//        bookends.addFooter(footView);
-        getUserAddressListRequest();
-        mDataBinding.recyclerView.setAdapter(adatper);
+        mAdapter = new ManageAddressAdatper();
+        mDataBinding.recyclerView.setAdapter(mAdapter);
     }
 
     //region SERVER
@@ -74,12 +67,9 @@ public class ManageAddressActivity extends ToolbarActivity<ActivityManageAddress
                 ArrayList<DeliveryAddress> tempList = response.body().getContent(new com.google.gson.reflect.TypeToken<ArrayList<DeliveryAddress>>() {
                 });
                 mUserAddressList.addAll(tempList);
-//                bookends.notifyDataSetChanged();
-                adatper.notifyDataSetChanged();
-
+                mAdapter.notifyDataSetChanged();
                 ViewUtils.dismiss();
             }
-
             @Override
             public void onFailure(Call<ResponseData> call, Throwable t) {
                 ViewUtils.toast("请求失败");
@@ -88,7 +78,26 @@ public class ManageAddressActivity extends ToolbarActivity<ActivityManageAddress
         });
     }
 
+    //删除地址
+    public void deleteAddressRequest(int AutoID, final int postion, final View view) {
+        GlobalRestful.getInstance().DeleteUserAddress(AutoID, new Callback<ResponseData>() {
+            @Override
+            public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
+                if (ResponseCode.isSuccess(response.body())) {
+                    getUserAddressListRequest();
+                }
+                ;
+            }
+
+            @Override
+            public void onFailure(Call<ResponseData> call, Throwable t) {
+                ViewUtils.dismiss();
+                ViewUtils.toast("删除失败");
+            }
+        });
+    }
     //endregion
+
     @Override
     protected void setListener() {
         mDataBinding.tvAddAddress.setOnClickListener(new View.OnClickListener() {
@@ -101,25 +110,7 @@ public class ManageAddressActivity extends ToolbarActivity<ActivityManageAddress
         });
     }
 
-    //region ACTION
-    public void onEidtorItem(View view) {
-        int position = mDataBinding.recyclerView.getChildAdapterPosition(view);
-        DeliveryAddress deliveryAddress = mUserAddressList.get(position);
-       // KLog.e("第几个" + position);
-        updateAddress(deliveryAddress);
 
-    }
-
-    public void onDeleteItem(View view) {
-
-        int position = mDataBinding.recyclerView.getChildAdapterPosition(view);
-        DeliveryAddress address = mUserAddressList.get(position);
- //       KLog.e("第几个" + position);
-        int AutoID = address.getAutoID();
-        deleteAddress(AutoID, position, view);
-    }
-
-    //endregion
     //region ADAPTER
     public class ManageAddressAdatper extends RecyclerView.Adapter<ManageAddressAdatper.MyViewHolder> {
         @Override
@@ -166,8 +157,9 @@ public class ManageAddressActivity extends ToolbarActivity<ActivityManageAddress
             }
         }
     }
+    //endregion
 
-    //enregion SERVER
+    //region ACTION
     //编辑地址
     public void updateAddress(DeliveryAddress address) {
         Intent intent = new Intent(this, EditAddressActivity.class);
@@ -176,24 +168,24 @@ public class ManageAddressActivity extends ToolbarActivity<ActivityManageAddress
         startActivity(intent);
     }
 
-    //删除地址
-    public void deleteAddress(int AutoID, final int postion, final View view) {
-        GlobalRestful.getInstance().DeleteUserAddress(AutoID, new Callback<ResponseData>() {
-            @Override
-            public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
-                if (ResponseCode.isSuccess(response.body())) {
-                    getUserAddressListRequest();
-                }
-                ;
-            }
 
-            @Override
-            public void onFailure(Call<ResponseData> call, Throwable t) {
-                ViewUtils.dismiss();
-                ViewUtils.toast("删除失败");
-            }
-        });
+     //Item编辑的方法
+    public void onEidtorItem(View view) {
+        int position = mDataBinding.recyclerView.getChildAdapterPosition(view);
+        DeliveryAddress deliveryAddress = mUserAddressList.get(position);
+        // KLog.e("第几个" + position);
+        updateAddress(deliveryAddress);
     }
+
+     //删除事件
+    public void onDeleteItem(View view) {
+
+        int position = mDataBinding.recyclerView.getChildAdapterPosition(view);
+        DeliveryAddress address = mUserAddressList.get(position);
+        int AutoID = address.getAutoID();
+        deleteAddressRequest(AutoID, position, view);
+    }
+
     //endregion
 
 }

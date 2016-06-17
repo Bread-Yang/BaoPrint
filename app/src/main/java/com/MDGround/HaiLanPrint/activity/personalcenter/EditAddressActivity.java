@@ -24,9 +24,9 @@ import retrofit2.Response;
  * Created by PC on 2016-06-14.
  */
 public class EditAddressActivity extends ToolbarActivity<ActivityEditorAddressBinding> {
-    DeliveryAddress address;
+    DeliveryAddress mAddresss;
     private RegionPickerDialog mRegionPickerDialog;
-    boolean isUpdate = false;
+    boolean mIsUpdate = false;
 
     @Override
     protected int getContentLayout() {
@@ -39,21 +39,20 @@ public class EditAddressActivity extends ToolbarActivity<ActivityEditorAddressBi
         mRegionPickerDialog = new RegionPickerDialog(this);
         int fromWhere = intent.getIntExtra(ManageAddressActivity.FROM_HERE, 0);
         if (fromWhere == (ManageAddressActivity.FOR_UPATE)) {
-            isUpdate = true;
-            address = intent.getParcelableExtra(ManageAddressActivity.ADDRESS);
-            mDataBinding.etContacts.setText(address.getPhone());
-            mDataBinding.etReciever.setText(address.getReceiver());
-            mDataBinding.etAddress.setText(address.getStreet());
-            mDataBinding.etReciever.setSelection(address.getReceiver().length());
-            Location province = MDGroundApplication.mDaoSession.getLocationDao().load((long) address.getProvinceID());
-            Location city = MDGroundApplication.mDaoSession.getLocationDao().load((long) address.getCityID());
-            Location country = MDGroundApplication.mDaoSession.getLocationDao().load((long) address.getCountryID());
+            mIsUpdate = true;
+            mAddresss = intent.getParcelableExtra(ManageAddressActivity.ADDRESS);
+            mDataBinding.etContacts.setText(mAddresss.getPhone());
+            mDataBinding.etReceiverName.setText(mAddresss.getReceiver());
+            mDataBinding.etAddress.setText(mAddresss.getStreet());
+            mDataBinding.etReceiverName.setSelection(mAddresss.getReceiver().length());
+            Location province = MDGroundApplication.mDaoSession.getLocationDao().load((long) mAddresss.getProvinceID());
+            Location city = MDGroundApplication.mDaoSession.getLocationDao().load((long) mAddresss.getCityID());
+            Location country = MDGroundApplication.mDaoSession.getLocationDao().load((long) mAddresss.getCountryID());
             mDataBinding.etRegio.setText(province.getLocationName() + " " + city.getLocationName() + "" + country.getLocationName());
-            //
         } else {
-            isUpdate = false;
-            tvTitle.setText("新增地址");
-            address = new DeliveryAddress();
+            mIsUpdate = false;
+            tvTitle.setText(getString(R.string.add_address));
+            mAddresss = new DeliveryAddress();
         }
 
     }
@@ -63,8 +62,8 @@ public class EditAddressActivity extends ToolbarActivity<ActivityEditorAddressBi
         mDataBinding.tvAddAddress.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                address.setReceiver(mDataBinding.etReciever.getText().toString());
-                address.setUserID(MDGroundApplication.mLoginUser.getUserID());
+                mAddresss.setReceiver(mDataBinding.etReceiverName.getText().toString());
+                mAddresss.setUserID(MDGroundApplication.mLoginUser.getUserID());
                 if (StringUtil.isEmpty(mDataBinding.etContacts.getText().toString())) {
                     ViewUtils.toast(R.string.input_phone_number);
                     return;
@@ -73,17 +72,17 @@ public class EditAddressActivity extends ToolbarActivity<ActivityEditorAddressBi
                     ViewUtils.toast(R.string.input_corrent_phone);
                     return;
                 }
-                address.setPhone(mDataBinding.etContacts.getText().toString());
+                mAddresss.setPhone(mDataBinding.etContacts.getText().toString());
                 if (StringUtil.isEmpty(mDataBinding.etAddress.getText().toString())) {
                     ViewUtils.toast(R.string.input_detailed_address);
                     return;
                 }
-                address.setStreet(mDataBinding.etAddress.getText().toString());
+                mAddresss.setStreet(mDataBinding.etAddress.getText().toString());
                 if (StringUtil.isEmpty(mDataBinding.etRegio.getText().toString())) {
                     ViewUtils.toast(R.string.input_local_region);
                     return;
                 }
-                addOrdeleteAddress(address);
+                addOrdeleteAddress(mAddresss);
             }
         });
 
@@ -91,9 +90,9 @@ public class EditAddressActivity extends ToolbarActivity<ActivityEditorAddressBi
 
             @Override
             public void onRegionSelect(Location province, final Location city, final Location county) {
-                address.setProvinceID(Integer.parseInt(String.valueOf(province.getLocationID())));
-                address.setCityID(Integer.parseInt(String.valueOf(city.getLocationID())));
-                address.setCountryID(Integer.parseInt(String.valueOf(county.getLocationID())));
+                mAddresss.setProvinceID(Integer.parseInt(String.valueOf(province.getLocationID())));
+                mAddresss.setCityID(Integer.parseInt(String.valueOf(city.getLocationID())));
+                mAddresss.setCountryID(Integer.parseInt(String.valueOf(county.getLocationID())));
                 mDataBinding.etRegio.setText(province.getLocationName() + "" + city.getLocationName() + " " + county.getLocationName());
             }
 
@@ -102,13 +101,14 @@ public class EditAddressActivity extends ToolbarActivity<ActivityEditorAddressBi
     }
 
     //region SERVER
+
     public void addOrdeleteAddress(final DeliveryAddress address) {
         GlobalRestful.getInstance().SaveUserAddress(address, new Callback<ResponseData>() {
             @Override
             public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
                 if (ResponseCode.isSuccess(response.body())) {
-                    if (isUpdate) {
-                        ViewUtils.toast("修改成功");
+                    if (mIsUpdate) {
+                        ViewUtils.toast(getString(R.string.update_success));
                     } else {
                         ViewUtils.toast("添加成功");
                     }
@@ -123,6 +123,7 @@ public class EditAddressActivity extends ToolbarActivity<ActivityEditorAddressBi
 
     }
 
+    //endregion
 
     //region ACTION
     public void selectRegio(View view) {

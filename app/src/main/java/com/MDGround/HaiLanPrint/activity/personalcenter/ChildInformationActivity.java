@@ -19,6 +19,8 @@ import com.MDGround.HaiLanPrint.utils.DateUtils;
 import com.MDGround.HaiLanPrint.utils.ViewUtils;
 import com.MDGround.HaiLanPrint.views.dialog.BirthdayDatePickerDialog;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -32,70 +34,39 @@ import retrofit2.Response;
  */
 
 public class ChildInformationActivity extends ToolbarActivity<ActivityChildInformationBinding>
-        implements DatePickerDialog.OnDateSetListener,OnFocusChangeListener{
+        implements DatePickerDialog.OnDateSetListener, OnFocusChangeListener {
     @Override
     protected int getContentLayout() {
         return R.layout.activity_child_information;
     }
+
     @Override
     protected void initData() {
-        tvRight.setText("保存");
+        tvRight.setText(R.string.save);
         tvRight.setVisibility(View.VISIBLE);
-        List<UserKid> userKids=MDGroundApplication.mLoginUser.getUserKidList();
-        if(userKids.size()>0){
-        int lastKid=userKids.size()-1;
-         UserKid userKid=userKids.get(lastKid);
-        mDataBinding.etChildName.setText(userKid.getName());
-        mDataBinding.etChildBirth.setText(userKid.getDOB());
-        mDataBinding.etSchool.setText(userKid.getSchool());
-        mDataBinding.etClass.setText(userKid.Class);
-        mDataBinding.etChildName.setOnFocusChangeListener(this);
-        mDataBinding.etSchool.setOnFocusChangeListener(this);
-        mDataBinding.etClass.setOnFocusChangeListener(this);}
-    }
-    //region ACTION
-    public void choseChildBirthDay(View view) {
-        Calendar calendar = Calendar.getInstance();
-        new BirthdayDatePickerDialog(this, this, calendar.get(Calendar.YEAR),
-                calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH)).show();
-    }
-    //engion
-    @Override
-    protected void setListener() {
-        tvRight.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String mChildName = mDataBinding.etChildName.getText().toString();
-                String mChildBirth = mDataBinding.etChildBirth.getText().toString();
-                String mChildSchool = mDataBinding.etSchool.getText().toString();
-                String mChildClass = mDataBinding.etClass.getText().toString();
-                Date date = new Date(System.currentTimeMillis());
-                String updateDate = DateUtils.getServerDateStringByDate(date);
-                User user= MDGroundApplication.mLoginUser;
-                List<UserKid> userKids =user.getUserKidList();
-                UserKid kid=new UserKid();
-                kid.setUserID(user.getUserID());
-                kid.setUpdatedTime(updateDate);
-                kid.setName(mChildName);
-                kid.setClass(mChildClass);
-                kid.setSchool(mChildSchool);
-                kid.setDOB(mChildBirth);
-                userKids.add(kid);
-                GlobalRestful.getInstance().SaveUserInfo(user, new Callback<ResponseData>() {
-                    @Override
-                    public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
-                        if (ResponseCode.isSuccess(response.body())) {
-                            ViewUtils.toast("保存成功");
-                           finish();
-                        }
-                    }
-                    @Override
-                    public void onFailure(Call<ResponseData> call, Throwable t) {
-                    }
-                });
+        List<UserKid> userKids = MDGroundApplication.mLoginUser.getUserKidList();
+        if (userKids.size() > 0) {
+
+            int lastKid = userKids.size() - 1;
+            UserKid userKid = userKids.get(lastKid);
+            mDataBinding.etChildName.setText(userKid.getName());
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            Date date = null;
+            try {
+                date = format.parse(userKid.getDOB());
+            } catch (ParseException e) {
+                e.printStackTrace();
             }
-        });
+            String DOB = DateUtils.getDateStringBySpecificFormat(date, new SimpleDateFormat("yyyy-MM-dd"));
+            mDataBinding.etChildBirth.setText(DOB);
+            mDataBinding.etSchool.setText(userKid.getSchool());
+            mDataBinding.etClass.setText(userKid.Class);
+            mDataBinding.etChildName.setOnFocusChangeListener(this);
+            mDataBinding.etSchool.setOnFocusChangeListener(this);
+            mDataBinding.etClass.setOnFocusChangeListener(this);
+        }
     }
+
     @Override
     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
         mDataBinding.etChildBirth.setText(year + "-" + (monthOfYear + 1) + "-" + dayOfMonth);
@@ -113,4 +84,50 @@ public class ChildInformationActivity extends ToolbarActivity<ActivityChildInfor
         }
     }
 
+    @Override
+    protected void setListener() {
+
+        tvRight.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String mChildName = mDataBinding.etChildName.getText().toString();
+                String mChildBirth = mDataBinding.etChildBirth.getText().toString();
+                String mChildSchool = mDataBinding.etSchool.getText().toString();
+                String mChildClass = mDataBinding.etClass.getText().toString();
+                Date date = new Date(System.currentTimeMillis());
+                String updateDate = DateUtils.getServerDateStringByDate(date);
+                User user = MDGroundApplication.mLoginUser;
+                List<UserKid> userKids = user.getUserKidList();
+                UserKid kid = new UserKid();
+                kid.setUserID(user.getUserID());
+                kid.setUpdatedTime(updateDate);
+                kid.setName(mChildName);
+                kid.setClass(mChildClass);
+                kid.setSchool(mChildSchool);
+                kid.setDOB(mChildBirth);
+                userKids.add(kid);
+                GlobalRestful.getInstance().SaveUserInfo(user, new Callback<ResponseData>() {
+                    @Override
+                    public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
+                        if (ResponseCode.isSuccess(response.body())) {
+                            ViewUtils.toast("保存成功");
+                            finish();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<ResponseData> call, Throwable t) {
+                    }
+                });
+            }
+        });
+    }
+
+    //region ACTION
+    public void choseChildBirthDay(View view) {
+        Calendar calendar = Calendar.getInstance();
+        new BirthdayDatePickerDialog(this, this, calendar.get(Calendar.YEAR),
+                calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH)).show();
+    }
+    //endregion
 }

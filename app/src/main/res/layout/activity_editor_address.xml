@@ -31,7 +31,7 @@
                     android:textSize="@dimen/text_size_16" />
 
                 <EditText
-                    android:id="@+id/et_reciever"
+                    android:id="@+id/etReceiverName"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:textSize="@dimen/text_size_18"
@@ -56,7 +56,7 @@
                     android:textSize="@dimen/text_size_16" />
 
                 <EditText
-                    android:id="@+id/et_contacts"
+                    android:id="@+id/etContacts"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@color/color_white"
@@ -82,7 +82,7 @@
                     android:textSize="@dimen/text_size_16" />
 
                 <TextView
-                    android:id="@+id/et_regio"
+                    android:id="@+id/etRegio"
                     android:layout_width="wrap_content"
                     android:layout_weight="1"
                     android:layout_height="match_parent"
@@ -117,7 +117,7 @@
                     android:textSize="@dimen/text_size_16" />
 
                 <EditText
-                    android:id="@+id/et_address"
+                    android:id="@+id/etAddress"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:textSize="@dimen/text_size_18"
@@ -133,7 +133,7 @@
             android:gravity="center">
 
             <TextView
-                android:id="@+id/tv_addAddress"
+                android:id="@+id/tvAddAddress"
                 android:layout_width="@dimen/size_180"
                 android:layout_height="@dimen/size_44"
                 android:layout_gravity="center"

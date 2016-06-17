@@ -31,12 +31,12 @@ public class ChangeNameActivity extends ToolbarActivity<ActivityChangeNameBindin
 
     @Override
     protected void initData() {
-        tvRight.setText("完成");
+        tvRight.setText(R.string.finished);
         tvRight.setVisibility(View.VISIBLE);
         String userNickName = MDGroundApplication.mLoginUser.getUserNickName();
         mDataBinding.etName.setText(userNickName);
         mDataBinding.etName.setSelection(userNickName.length());
-        mDataBinding.etName.addTextChangedListener(new MaxLengthWatcher(12,mDataBinding.etName,ChangeNameActivity.this));
+        mDataBinding.etName.addTextChangedListener(new MaxLengthWatcher(16,mDataBinding.etName,ChangeNameActivity.this));
     }
 
     @Override
@@ -70,12 +70,13 @@ public class ChangeNameActivity extends ToolbarActivity<ActivityChangeNameBindin
                         });
                     }
                 } else {
-                    ViewUtils.toast("昵称不能为空");
+                    ViewUtils.toast(getString(R.string.name_not_null));
                 }
             }
         });
-        //endregion
+
     }
+
     //region  ACTION
     public void deleteInputText(View view) {
         mDataBinding.etName.setText("");

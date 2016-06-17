@@ -344,9 +344,16 @@
     <string name="www">官方网站</string>
     <string name="gvrp">服务条款</string>
     <string name="hotlineNume">123-456-789</string>
-    <string name="realmname">www.baidu.com</string>
+    <string name="realm_name">www.baidu.com</string>
     <string name="term">服务条款</string>
     <string name="prompt">你的要求是我们努力的方向，期待听到您的声音。</string>
     <string name="feedback">意见反馈</string>
     <string name="allselecte">全选</string>
+    <string name="no_select_goods">没有选中商品</string>
+    <string name="finished">完成</string>
+    <string name="name_not_null">昵称不能为空</string>
+    <string name="submit_success">提交成功</string>
+    <string name="fail_sumbit">提交失败</string>
+    <string name="update_success">修改成功</string>
+    <string name="save">保存</string>
 </resources>
