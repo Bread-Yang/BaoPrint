@@ -268,6 +268,7 @@
     <string name="freight">运费</string>
     <string name="offset_fee">已抵用%s元</string>
     <string name="credit_total">%s积分</string>
+    <string name="quantity">数量</string>
 
     <!-- 支付成功 -->
     <string name="payment_success">支付成功</string>

@@ -1,7 +1,11 @@
 package com.MDGround.HaiLanPrint.models;
 
+import android.databinding.BaseObservable;
+import android.databinding.Bindable;
 import android.os.Parcel;
 import android.os.Parcelable;
+
+import com.MDGround.HaiLanPrint.BR;
 
 import java.util.List;
 
@@ -9,7 +13,7 @@ import java.util.List;
  * Created by yoghourt on 5/24/16.
  */
 
-public class OrderWork implements Parcelable {
+public class OrderWork extends BaseObservable implements Parcelable {
 
     private String CreateTime;
 
@@ -82,12 +86,14 @@ public class OrderWork implements Parcelable {
         CreateTime = createTime;
     }
 
+    @Bindable
     public int getOrderCount() {
         return OrderCount;
     }
 
     public void setOrderCount(int orderCount) {
         OrderCount = orderCount;
+        notifyPropertyChanged(BR.orderCount);
     }
 
     public int getOrderID() {

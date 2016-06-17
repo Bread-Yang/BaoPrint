@@ -150,7 +150,8 @@ public class PokerEditActivity extends ToolbarActivity<ActivityPokerEditBinding>
     private void generateOrder() {
         ViewUtils.loading(this);
         // 生成订单
-        MDGroundApplication.mOrderutUtils = new OrderUtils(this, MDGroundApplication.mChoosedTemplate.getPrice(), null);
+        MDGroundApplication.mOrderutUtils = new OrderUtils(this,
+                1, MDGroundApplication.mChoosedTemplate.getPrice(), null);
         MDGroundApplication.mOrderutUtils.saveOrderRequest();
     }
 

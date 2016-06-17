@@ -9,15 +9,14 @@ import com.MDGround.HaiLanPrint.application.MDGroundApplication;
 import com.MDGround.HaiLanPrint.databinding.ActivityPostcardStartBinding;
 import com.MDGround.HaiLanPrint.enumobject.PhotoExplainTypeEnum;
 import com.MDGround.HaiLanPrint.enumobject.restfuls.ResponseCode;
-import com.MDGround.HaiLanPrint.models.MDImage;
 import com.MDGround.HaiLanPrint.models.Measurement;
 import com.MDGround.HaiLanPrint.models.PhotoTypeExplain;
 import com.MDGround.HaiLanPrint.restfuls.GlobalRestful;
 import com.MDGround.HaiLanPrint.restfuls.bean.ResponseData;
+import com.MDGround.HaiLanPrint.utils.GlideUtil;
 import com.MDGround.HaiLanPrint.utils.NavUtils;
 import com.MDGround.HaiLanPrint.utils.StringUtil;
 import com.MDGround.HaiLanPrint.utils.ViewUtils;
-import com.bumptech.glide.Glide;
 import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONException;
@@ -46,10 +45,7 @@ public class PostcardStartActivity extends ToolbarActivity<ActivityPostcardStart
             if (photoTypeExplain.getExplainType() == PhotoExplainTypeEnum.IntroductionPage.value()
                     && photoTypeExplain.getTypeID() == ProductType.Postcard.value()) {
 
-                MDImage mdImage = new MDImage();
-                mdImage.setPhotoSID(photoTypeExplain.getPhotoSID());
-
-                Glide.with(this).load(mdImage).into(mDataBinding.ivIntroductionPage);
+                GlideUtil.loadImageByPhotoSIDWithDialog(mDataBinding.ivIntroductionPage, photoTypeExplain.getPhotoSID());
                 break;
             }
         }

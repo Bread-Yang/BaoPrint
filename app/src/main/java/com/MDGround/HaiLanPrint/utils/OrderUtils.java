@@ -29,6 +29,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static com.MDGround.HaiLanPrint.utils.SelectImageUtil.mAlreadySelectImage;
+
 /**
  * Created by yoghourt on 6/12/16.
  */
@@ -37,50 +39,35 @@ public class OrderUtils {
 
     private Activity mActivity;
 
-    private int mPrice;
+    public int mOrderCount;
 
-    private String mWorkMaterial = "";
+    public int mPrice;
 
-    private OrderInfo mOrderInfo;
+    public String mWorkMaterial = "";
 
-    private OrderWork mOrderWork;
+    public OrderInfo mOrderInfo;
 
-    private String workFormat = "";
+    public String workFormat = "";
 
-    private String workStyle = "";
+    public String workStyle = "";
 
-    private List<OrderWorkPhoto> mOrderWorkPhotoList;
+    public ArrayList<OrderWork> mOrderWorkArrayList = new ArrayList<>();
 
-    public OrderUtils(Activity activity, int price, String workMaterial) {
+    public OrderUtils(Activity activity, int orderCount, int price, String workMaterial) {
         this.mActivity = activity;
+        mOrderCount = orderCount;
         mPrice = price;
         if (workMaterial != null) {
             this.mWorkMaterial = workMaterial;
         }
     }
 
-    public OrderInfo getmOrderInfo() {
-        return mOrderInfo;
-    }
-
-    public OrderWork getmOrderWork() {
-        return mOrderWork;
-    }
-
-    public String getWorkFormat() {
-        return workFormat;
-    }
-
-    public void setWorkFormat(String workFormat) {
-        this.workFormat = workFormat;
-    }
-
-    public String getWorkStyle() {
-        return workStyle;
-    }
-
-    public void setWorkStyle(String workStyle) {
-        this.workStyle = workStyle;
+    private int getPrintPhotoOrEngravingOrderCount() {
+        int count = 0;
+        for (MDImage mdImage : mAlreadySelectImage) {
+            count += mdImage.getPhotoCount();
+        }
+        return count;
     }
 
     public void uploadImageRequest(final int upload_image_index) {
@@ -203,7 +190,9 @@ public class OrderUtils {
 
                 mOrderInfo = response.body().getContent(OrderInfo.class);
 
-                saveOrderWorkRequest(mOrderInfo);
+                OrderWork orderWork = createOrderWork(mOrderInfo);
+                mOrderWorkArrayList.add(orderWork);
+                saveOrderWorkRequest(0);
             }
 
             @Override
@@ -213,33 +202,36 @@ public class OrderUtils {
         });
     }
 
-    private void saveOrderWorkRequest(OrderInfo orderInfo) {
-        mOrderWork = new OrderWork();
-        mOrderWork.setCreateTime(DateUtils.getServerDateStringByDate(new Date()));
-        mOrderWork.setOrderCount(SelectImageUtil.getOrderCount());
-        mOrderWork.setOrderID(orderInfo.getOrderID());
+    private OrderWork createOrderWork(OrderInfo orderInfo) {
+        OrderWork orderWork = new OrderWork();
+        orderWork.setCreateTime(DateUtils.getServerDateStringByDate(new Date()));
+        orderWork.setOrderCount(mOrderCount);
+        orderWork.setOrderID(orderInfo.getOrderID());
         if (MDGroundApplication.mChoosedProductType == ProductType.PrintPhoto
                 || MDGroundApplication.mChoosedProductType == ProductType.Engraving) {
-            mOrderWork.setPhotoCount(SelectImageUtil.getOrderCount());
-        } else if (MDGroundApplication.mChoosedProductType == ProductType.PictureFrame) {
-            mOrderWork.setPhotoCount(MDGroundApplication.mChoosedTemplate.getPageCount());
+            orderWork.setPhotoCount(getPrintPhotoOrEngravingOrderCount());
         } else {
-            mOrderWork.setPhotoCount(SelectImageUtil.mAlreadySelectImage.size());
+            orderWork.setPhotoCount(SelectImageUtil.mAlreadySelectImage.size());
         }
-        mOrderWork.setPhotoCover(SelectImageUtil.mAlreadySelectImage.get(0).getPhotoSID()); //封面，第一张照片的缩略图ID
-        mOrderWork.setPrice(mPrice);
-        mOrderWork.setTypeID(MDGroundApplication.mChoosedProductType.value()); //作品类型（getPhotoType接口返回的TypeID）
-        mOrderWork.setTypeName(ProductType.getProductName(MDGroundApplication.mChoosedProductType)); //Title（getPhotoType接口返回的Title）
-        mOrderWork.setWorkFormat(workFormat);
-        mOrderWork.setWorkMaterial(mWorkMaterial);
-        mOrderWork.setWorkStyle(workStyle);
+        orderWork.setPhotoCover(SelectImageUtil.mAlreadySelectImage.get(0).getPhotoSID()); //封面，第一张照片的缩略图ID
+        orderWork.setPrice(mPrice);
+        orderWork.setTypeID(MDGroundApplication.mChoosedProductType.value()); //作品类型（getPhotoType接口返回的TypeID）
+        orderWork.setTypeName(ProductType.getProductName(MDGroundApplication.mChoosedProductType)); //Title（getPhotoType接口返回的Title）
+        orderWork.setWorkFormat(workFormat);
+        orderWork.setWorkMaterial(mWorkMaterial);
+        orderWork.setWorkStyle(workStyle);
 
-        GlobalRestful.getInstance().SaveOrderWork(mOrderWork, new Callback<ResponseData>() {
+        return orderWork;
+    }
+
+    public void saveOrderWorkRequest(final int saveIndex) {
+        GlobalRestful.getInstance().SaveOrderWork(mOrderWorkArrayList.get(saveIndex), new Callback<ResponseData>() {
             @Override
             public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
-                mOrderWork = response.body().getContent(OrderWork.class);
+                OrderWork responseOrderWork = response.body().getContent(OrderWork.class);
+                mOrderWorkArrayList.set(saveIndex, responseOrderWork);
 
-                saveOrderPhotoListRequest(mOrderWork);
+                saveOrderPhotoListRequest(responseOrderWork);
             }
 
             @Override
@@ -250,7 +242,7 @@ public class OrderUtils {
     }
 
     private void saveOrderPhotoListRequest(final OrderWork orderWork) {
-        mOrderWorkPhotoList = new ArrayList<>();
+        List<OrderWorkPhoto> orderWorkPhotoList = new ArrayList<>();
 
         for (int i = 0; i < SelectImageUtil.mAlreadySelectImage.size(); i++) {
             MDImage mdImage = SelectImageUtil.mAlreadySelectImage.get(i);
@@ -262,10 +254,10 @@ public class OrderUtils {
             int index = i + 1;
             orderWorkPhoto.setPhotoIndex(index);
 
-            mOrderWorkPhotoList.add(orderWorkPhoto);
+            orderWorkPhotoList.add(orderWorkPhoto);
         }
 
-        GlobalRestful.getInstance().SaveOrderPhotoList(mOrderWorkPhotoList, new Callback<ResponseData>() {
+        GlobalRestful.getInstance().SaveOrderPhotoList(orderWorkPhotoList, new Callback<ResponseData>() {
             @Override
             public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
                 ViewUtils.dismiss();
