@@ -53,9 +53,9 @@ public class PaymentPreviewActivity extends ToolbarActivity<ActivityPaymentPrevi
 
     private DeliveryAddress mDeliveryAddress;
 
-    public ArrayList<OrderWork> mOrderWorkArrayList;
+    private ArrayList<OrderWork> mOrderWorkArrayList;
 
-    public ArrayList<UserIntegral> mUserCreditArrayList = new ArrayList<>();
+    private ArrayList<UserIntegral> mUserCreditArrayList = new ArrayList<>();
 
     private ArrayList<Coupon> mAvailableCouponArrayList = new ArrayList<>();
 
