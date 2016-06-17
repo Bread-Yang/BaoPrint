@@ -225,6 +225,7 @@
 
                         <TextView
                             style="@style/OrangeTextStyle"
+                            android:id="@+id/tvCouponFee"
                             android:layout_toLeftOf="@+id/tvYuan"
                             android:text="¥0.00"/>
 

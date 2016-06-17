@@ -6,7 +6,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.MDGround.HaiLanPrint.ProductType;
 import com.MDGround.HaiLanPrint.R;
+import com.MDGround.HaiLanPrint.application.MDGroundApplication;
 import com.MDGround.HaiLanPrint.databinding.ItemTemplateImageBinding;
 import com.MDGround.HaiLanPrint.models.MDImage;
 
@@ -37,8 +39,19 @@ public class TemplageImageAdapter extends RecyclerView.Adapter<TemplageImageAdap
     public void onBindViewHolder(ViewHolder holder, int position) {
         holder.viewDataBinding.setImage(mTemplateImage.get(position));
         holder.viewDataBinding.setViewHolder(holder);
-        holder.viewDataBinding.setIndex(position);
         holder.viewDataBinding.setIsSelected(position == mCurrentSelectedIndex);
+
+        String indexString = null;
+        if (MDGroundApplication.mChoosedProductType == ProductType.LOMOCard) {
+            indexString = String.valueOf(position + 1);
+        } else {
+            if (position == 0) {
+                indexString = holder.viewDataBinding.tvIndex.getContext().getString(R.string.cover);
+            } else {
+                indexString = String.valueOf(position);
+            }
+        }
+        holder.viewDataBinding.tvIndex.setText(indexString);
     }
 
     @Override

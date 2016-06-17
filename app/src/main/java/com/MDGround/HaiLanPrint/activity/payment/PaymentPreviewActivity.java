@@ -20,7 +20,6 @@ import com.MDGround.HaiLanPrint.databinding.ActivityPaymentPreviewBinding;
 import com.MDGround.HaiLanPrint.databinding.ItemPaymentPreviewBinding;
 import com.MDGround.HaiLanPrint.enumobject.PayType;
 import com.MDGround.HaiLanPrint.enumobject.SettingType;
-import com.MDGround.HaiLanPrint.greendao.Location;
 import com.MDGround.HaiLanPrint.models.Coupon;
 import com.MDGround.HaiLanPrint.models.DeliveryAddress;
 import com.MDGround.HaiLanPrint.models.OrderWork;
@@ -64,7 +63,7 @@ public class PaymentPreviewActivity extends ToolbarActivity<ActivityPaymentPrevi
 
     private Coupon mSelectedCoupon;
 
-    private int mUnitFee, mAmountFee, mCouponFee, mCredit, mReceivableFee, mFreightFee;
+    private int mUnitFee, mAmountFee, mCredit, mReceivableFee, mFreightFee;
 
     private boolean mHadChangedOrderCount;
 
@@ -183,7 +182,16 @@ public class PaymentPreviewActivity extends ToolbarActivity<ActivityPaymentPrevi
         for (OrderWork orderWork : mOrderWorkArrayList) {
             amountFee += getSingleOrderWorkAmountFee(orderWork);
         }
+
         return amountFee;
+    }
+
+    private int getCouponFee() {
+        int couponFee = 0;
+        if (mSelectedCoupon != null) {
+            couponFee = mSelectedCoupon.getPrice();
+        }
+        return couponFee;
     }
 
     private int getCreditFee() {
@@ -195,7 +203,7 @@ public class PaymentPreviewActivity extends ToolbarActivity<ActivityPaymentPrevi
     }
 
     private int getReceivableFee() {
-        int amountFee = getAllOrderWorkAmountFee() - mCouponFee - getCreditFee() + mFreightFee;
+        int amountFee = getAllOrderWorkAmountFee() - getCouponFee() - getCreditFee() + mFreightFee;
         if (amountFee < 0) {
             amountFee = 0;
         }
@@ -205,9 +213,28 @@ public class PaymentPreviewActivity extends ToolbarActivity<ActivityPaymentPrevi
     private void refreshDisplayFee() {
         mHadChangedOrderCount = true;
 
+        // 总额
         int amountFee = getAllOrderWorkAmountFee();
         mDataBinding.tvAmount.setText(getString(R.string.yuan_amount, StringUtil.toYuanWithoutUnit(amountFee)));
 
+        int matchLimitCoupon = 0;
+        for (Coupon coupon : mAvailableCouponArrayList) {
+            if (coupon.getPriceLimit() <= getAllOrderWorkAmountFee()) {
+                matchLimitCoupon++;
+            }
+        }
+
+        mDataBinding.tvAvailableCoupon.setText(getString(R.string.available_num, matchLimitCoupon));
+
+        // 优惠劵
+        int couponFee = 0;
+        if (mSelectedCoupon != null) {
+            couponFee = mSelectedCoupon.getPrice();
+        }
+        mDataBinding.tvCouponYuan.setText(getString(R.string.offset_fee, StringUtil.toYuanWithoutUnit(couponFee)));
+        mDataBinding.tvCouponFee.setText(getString(R.string.yuan_amount, StringUtil.toYuanWithoutUnit(couponFee)));
+
+        // 应付金额
         int receivableFee = getReceivableFee();
         mDataBinding.tvReceivable.setText(getString(R.string.receivables, StringUtil.toYuanWithoutUnit(receivableFee)));
     }
@@ -223,11 +250,7 @@ public class PaymentPreviewActivity extends ToolbarActivity<ActivityPaymentPrevi
                         mDataBinding.tvName.setText(mDeliveryAddress.getReceiver());
                         mDataBinding.tvPhone.setText(mDeliveryAddress.getPhone());
 
-                        Location province = MDGroundApplication.mDaoSession.getLocationDao().load(mDeliveryAddress.getProvinceID());
-                        Location city = MDGroundApplication.mDaoSession.getLocationDao().load(mDeliveryAddress.getCityID());
-                        Location county = MDGroundApplication.mDaoSession.getLocationDao().load(mDeliveryAddress.getDistrictID());
-
-                        mDataBinding.tvAddress.setText(province.getLocationName() + city.getLocationName() + county.getLocationName() + mDeliveryAddress.getStreet());
+                        mDataBinding.tvAddress.setText(StringUtil.getCompleteAddress(mDeliveryAddress));
 
                         mDataBinding.tvChooseFirst.setVisibility(View.GONE);
                         mDataBinding.tvName.setVisibility(View.VISIBLE);
@@ -239,8 +262,8 @@ public class PaymentPreviewActivity extends ToolbarActivity<ActivityPaymentPrevi
                     break;
                 case REQEUST_CODE_SELECT_COUPON:
                     mSelectedCoupon = data.getParcelableExtra(Constants.KEY_SELECTED_COUPON);
-                    mDataBinding.tvCouponYuan.setText(getString(R.string.offset_fee, StringUtil.toYuanWithoutUnit(mSelectedCoupon.getPrice())));
 
+                    refreshDisplayFee();
                     break;
             }
         }
@@ -267,6 +290,7 @@ public class PaymentPreviewActivity extends ToolbarActivity<ActivityPaymentPrevi
         Intent intent = new Intent(this, ChooseCouponActivity.class);
         intent.putExtra(Constants.KEY_SELECTED_COUPON, mSelectedCoupon);
         intent.putExtra(Constants.KEY_COUPON_LIST, mAvailableCouponArrayList);
+        intent.putExtra(Constants.KEY_ORDER_AMOUNT_FEE, getAllOrderWorkAmountFee());
         startActivityForResult(intent, REQEUST_CODE_SELECT_COUPON);
     }
 
@@ -345,11 +369,11 @@ public class PaymentPreviewActivity extends ToolbarActivity<ActivityPaymentPrevi
                     // 判断优惠券是否可用条件：当前时间在ExpireTime之前
                     boolean isAvailable = DateUtils.isBeforeExpireTime(coupon.getExpireTime());
 
-                    if (isAvailable && coupon.getPriceLimit() <= getAllOrderWorkAmountFee()) {
+                    if (isAvailable) {
                         mAvailableCouponArrayList.add(coupon);
                     }
                 }
-                mDataBinding.tvAvailableCoupon.setText(getString(R.string.available_num, mAvailableCouponArrayList.size()));
+                refreshDisplayFee();
             }
 
             @Override
@@ -441,6 +465,7 @@ public class PaymentPreviewActivity extends ToolbarActivity<ActivityPaymentPrevi
 
                     orderWork.setOrderCount(--orderCount);
 
+                    mSelectedCoupon = null;
                     refreshDisplayFee();
                 }
             });
@@ -453,6 +478,7 @@ public class PaymentPreviewActivity extends ToolbarActivity<ActivityPaymentPrevi
 
                     orderWork.setOrderCount(++orderCount);
 
+                    mSelectedCoupon = null;
                     refreshDisplayFee();
                 }
             });

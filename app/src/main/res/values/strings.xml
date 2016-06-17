@@ -281,6 +281,7 @@
 
     <!-- 选择优惠劵 -->
     <string name="choose_coupon">选择优惠劵</string>
+    <string name="not_match_coupon_condition">不满足使用金额条件</string>
     <string name="no_coupon">很抱歉,没有找到您的优惠劵</string>
 
     <!-- 我的优惠劵 -->
