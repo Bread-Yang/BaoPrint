@@ -21,6 +21,7 @@
             android:layout_height="wrap_content"
             android:text="@string/nofind_message"
             android:layout_marginTop="@dimen/margin_48"
+            android:textColor="@color/color_666666"
             android:layout_gravity="center_horizontal"
             />
     </LinearLayout>

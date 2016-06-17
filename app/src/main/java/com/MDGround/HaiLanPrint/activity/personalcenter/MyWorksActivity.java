@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewStub;
 
 import com.MDGround.HaiLanPrint.R;
 import com.MDGround.HaiLanPrint.activity.base.ToolbarActivity;
@@ -49,8 +50,7 @@ public class MyWorksActivity extends ToolbarActivity<ActivityPersonalMyworksBind
 
     @Override
     protected void initData() {
-        tvRight.setText("编辑");
-        tvRight.setVisibility(View.VISIBLE);
+
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         mDataBinding.myworksrecyclerView.setLayoutManager(layoutManager);
@@ -70,7 +70,18 @@ public class MyWorksActivity extends ToolbarActivity<ActivityPersonalMyworksBind
                         mWorksInfoList = StringUtil.getInstanceByJsonString(worksInfos, new TypeToken<List<WorksInfo>>() {
                         });
                         KLog.e(TAG, mWorksInfoList.size());
-                        mAdapter.notifyDataSetChanged();
+                        if(mWorksInfoList.size()>0){
+                            tvRight.setText("编辑");
+                            tvRight.setVisibility(View.VISIBLE);
+                            mDataBinding.llEnough.setVisibility(View.VISIBLE);
+                            mDataBinding.llBlank.setVisibility(ViewStub.GONE);
+                            mAdapter.notifyDataSetChanged();
+                        }else{
+                            tvRight.setVisibility(View.GONE);
+                            mDataBinding.llBlank.setVisibility(View.VISIBLE);
+                            mDataBinding.llEnough.setVisibility(View.GONE);
+                        }
+
                         ViewUtils.dismiss();
                     } catch (JSONException e) {
                         e.printStackTrace();
