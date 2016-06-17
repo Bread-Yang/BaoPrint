@@ -49,6 +49,12 @@ public class MyWorksActivity extends ToolbarActivity<ActivityPersonalMyworksBind
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        getWorksList();
+    }
+
+    @Override
     protected void initData() {
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
@@ -58,42 +64,7 @@ public class MyWorksActivity extends ToolbarActivity<ActivityPersonalMyworksBind
         mDataBinding.myworksrecyclerView.setAdapter(mAdapter);
         CountPriceAndAmunt();
         ViewUtils.loading(this);
-        GlobalRestful.getInstance().GetUserWorkList(new Callback<ResponseData>() {
-            @Override
-            public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
-                if (ResponseCode.isSuccess(response.body())) {
-                    KLog.e(TAG, response.body().toString());
-                    try {
-                        JSONArray jsonObject = new JSONArray(response.body().getContent());
-                        KLog.e(TAG, jsonObject.toString());
-                        String worksInfos = jsonObject.toString();
-                        mWorksInfoList = StringUtil.getInstanceByJsonString(worksInfos, new TypeToken<List<WorksInfo>>() {
-                        });
-                        KLog.e(TAG, mWorksInfoList.size());
-                        if(mWorksInfoList.size()>0){
-                            tvRight.setText("编辑");
-                            tvRight.setVisibility(View.VISIBLE);
-                            mDataBinding.llEnough.setVisibility(View.VISIBLE);
-                            mDataBinding.llBlank.setVisibility(ViewStub.GONE);
-                            mAdapter.notifyDataSetChanged();
-                        }else{
-                            tvRight.setVisibility(View.GONE);
-                            mDataBinding.llBlank.setVisibility(View.VISIBLE);
-                            mDataBinding.llEnough.setVisibility(View.GONE);
-                        }
-
-                        ViewUtils.dismiss();
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-
-                }
-            }
-
-            @Override
-            public void onFailure(Call<ResponseData> call, Throwable t) {
-            }
-        });
+        getWorksList();
     }
 
     //region ACTION
@@ -171,6 +142,7 @@ public class MyWorksActivity extends ToolbarActivity<ActivityPersonalMyworksBind
     //endregio
     @Override
     protected void setListener() {
+        //编辑按钮
         tvRight.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -189,8 +161,6 @@ public class MyWorksActivity extends ToolbarActivity<ActivityPersonalMyworksBind
                 }
             }
         });
-
-
         //region ACTION
         //全选按钮
         mDataBinding.cbSelectAll.setOnClickListener(new View.OnClickListener() {
@@ -321,6 +291,72 @@ public class MyWorksActivity extends ToolbarActivity<ActivityPersonalMyworksBind
         }
 
     }
+    //region SERVEER
+    //获取作品列表
+    public void getWorksList(){
+        GlobalRestful.getInstance().GetUserWorkList(new Callback<ResponseData>() {
+            @Override
+            public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
+                if (ResponseCode.isSuccess(response.body())) {
+                    KLog.e(TAG, response.body().toString());
+                    try {
+                        JSONArray jsonObject = new JSONArray(response.body().getContent());
+                        KLog.e(TAG, jsonObject.toString());
+                        String worksInfos = jsonObject.toString();
+                        mWorksInfoList = StringUtil.getInstanceByJsonString(worksInfos, new TypeToken<List<WorksInfo>>() {
+                        });
+                        KLog.e(TAG, mWorksInfoList.size());
+                        if(mWorksInfoList.size()>0){
+                            tvRight.setText("编辑");
+                            tvRight.setVisibility(View.VISIBLE);
+                            mDataBinding.llEnough.setVisibility(View.VISIBLE);
+                            mDataBinding.llBlank.setVisibility(ViewStub.GONE);
+                            mAdapter.notifyDataSetChanged();
+                        }else{
+                            tvRight.setVisibility(View.GONE);
+                            mDataBinding.llBlank.setVisibility(View.VISIBLE);
+                            mDataBinding.llEnough.setVisibility(View.GONE);
+                        }
 
+                        ViewUtils.dismiss();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
 
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseData> call, Throwable t) {
+            }
+        });
+    }
+    //endregion
+    //region SEVER
+    //删除掉选中列表
+    public void DeleteUserWork(List<Integer> WorkIDList){
+        GlobalRestful.getInstance().DeleteUserWork(WorkIDList, new Callback<ResponseData>() {
+            @Override
+            public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
+
+            }
+
+            @Override
+            public void onFailure(Call<ResponseData> call, Throwable t) {
+
+            }
+        });
+    }
+    //endregion
+
+    //region ACITON
+    //购买或者删除按钮
+    public void toBuyOrDelete(View view){
+        if(isEditor){
+
+        }else{
+
+        }
+    }
+    //endregion
 }
