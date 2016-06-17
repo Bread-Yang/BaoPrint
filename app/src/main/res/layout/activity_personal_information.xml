@@ -9,6 +9,7 @@
         android:orientation="vertical">
 
         <RelativeLayout
+            android:layout_marginTop="@dimen/margin_10"
             style="@style/NormalLayoutStyle"
             android:onClick="selectSingleImageAction"
             android:layout_height="@dimen/size_88">

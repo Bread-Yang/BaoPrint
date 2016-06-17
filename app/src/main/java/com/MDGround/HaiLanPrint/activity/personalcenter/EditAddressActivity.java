@@ -44,10 +44,11 @@ public class EditAddressActivity extends ToolbarActivity<ActivityEditorAddressBi
             mDataBinding.etContacts.setText(address.getPhone());
             mDataBinding.etReciever.setText(address.getReceiver());
             mDataBinding.etAddress.setText(address.getStreet());
+            mDataBinding.etReciever.setSelection(address.getReceiver().length());
             Location province = MDGroundApplication.mDaoSession.getLocationDao().load((long) address.getProvinceID());
             Location city = MDGroundApplication.mDaoSession.getLocationDao().load((long) address.getCityID());
             Location country = MDGroundApplication.mDaoSession.getLocationDao().load((long) address.getCountryID());
-            mDataBinding.etRegio.setText(province.getLocationName() + "" + city.getLocationName() + "" + country.getLocationName());
+            mDataBinding.etRegio.setText(province.getLocationName() + " " + city.getLocationName() + "" + country.getLocationName());
             //
         } else {
             isUpdate = false;
@@ -128,4 +129,6 @@ public class EditAddressActivity extends ToolbarActivity<ActivityEditorAddressBi
         mRegionPickerDialog.show();
     }
     //endregion
-}
+
+
+    }

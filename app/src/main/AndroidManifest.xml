@@ -1,33 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest package="com.MDGround.HaiLanPrint"
-          xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.MDGround.HaiLanPrint">
 
     <!-- To auto-complete the email text field in the login form with the user's emails -->
-    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"/>
-    <uses-permission android:name="android.permission.GET_ACCOUNTS"/>
-    <uses-permission android:name="android.permission.READ_PROFILE"/>
-    <uses-permission android:name="android.permission.READ_CONTACTS"/>
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
-    <uses-permission android:name="android.permission.BROADCAST_STICKY"/>
-    <uses-permission android:name="android.permission.CALL_PHONE"/>
-    <uses-permission android:name="android.permission.GET_TASKS"/>
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.INTERACT_ACROSS_USERS_FULL"/>
-    <uses-permission android:name="android.permission.KILL_BACKGROUND_PROCESSES"/>
-    <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.WAKE_LOCK"/>
-    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
-    <uses-permission android:name="android.permission.RECEIVE_USER_PRESENT"/>
-    <uses-permission android:name="android.permission.RECEIVE_SMS"/>
-    <uses-permission android:name="android.permission.READ_LOGS"/>
-    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
-    <uses-permission android:name="android.permission.VIBRATE"/>
-    <uses-permission android:name="android.permission.CAMERA"/>
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
-    <uses-permission android:name="android.permission.MANAGE_USERS"/>
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.READ_PROFILE" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.BROADCAST_STICKY" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.GET_TASKS" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.INTERACT_ACROSS_USERS_FULL" />
+    <uses-permission android:name="android.permission.KILL_BACKGROUND_PROCESSES" />
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.RECEIVE_USER_PRESENT" />
+    <uses-permission android:name="android.permission.RECEIVE_SMS" />
+    <uses-permission android:name="android.permission.READ_LOGS" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.MANAGE_USERS" />
 
     <application
         android:name=".application.MDGroundApplication"
@@ -40,238 +40,238 @@
             android:name=".activity.welcome.StartingActivity"
             android:screenOrientation="portrait">
             <intent-filter android:label="@string/app_name">
-                <action android:name="android.intent.action.MAIN"/>
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
             android:name=".activity.login.LoginActivity"
             android:label="@string/login"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.login.ForgetPasswordActivity"
             android:label="@string/forget_password"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.login.SignUpActivity"
             android:label="@string/sign_up"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.login.ProtocolActivity"
             android:label="@string/sign_up_protocol"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.login.ImproveInformationActivity"
             android:label="@string/improve_information"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.main.MainActivity"
             android:label="@string/main_activity"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.cloudphotos.CloudOverviewActivity"
             android:label="@string/cloud_album"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.cloudphotos.CloudDetailActivity"
             android:label="@string/cloud_album"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.uploadimage.UploadImageActivity"
             android:label="@string/select_photos_upload"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.selectimage.SelectAlbumBeforeEditActivity"
             android:label="@string/choose_photo"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.selectimage.SelectImageBeforeEditActivity"
             android:label="@string/choose_photo"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.selectimage.SelectAlbumWhenEditActivity"
             android:label="@string/choose_photo"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.selectimage.SelectImageWhenEditActivity"
             android:label="@string/choose_photo"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
 
         <!-- 首页pager1的功能 -->
         <activity
             android:name=".activity.photoprint.PrintPhotoChooseInchActivity"
             android:label="@string/print_photo"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.photoprint.PrintPhotoChoosePaperNumActivity"
             android:label="@string/choose_paper_num"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.photoprint.PrintPhotoMeasurementDescriptionActivity"
             android:label="@string/measurement_description"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.postcard.PostcardStartActivity"
             android:label="@string/postcard"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.postcard.PostcardEditActivity"
             android:label="@string/edit"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.magazinealbum.MagazineAlbumChooseInchActivity"
             android:label="@string/magazine_album"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.magazinealbum.MagazineForIllustrationActivity"
             android:label="@string/illustration"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.magazinealbum.MagazineEditActivity"
             android:label="@string/edit"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.artalbum.ArtAlbumChooseInchActivity"
             android:label="@string/art_album"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.artalbum.ArtAlbumForIllustrationActivity"
             android:label="@string/illustration"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.artalbum.ArtAlbumEditActivity"
             android:label="@string/edit"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.pictureframe.PictureFrameStartActivity"
             android:label="@string/picture_frame"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.calendar.CalendarChooseOrientationActivity"
             android:label="@string/calendar"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.calendar.CalendarForIllustrationActivity"
             android:label="@string/illustration"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.calendar.CalendarEditActivity"
             android:label="@string/edit"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.template.TemplateStartCreateActivity"
             android:label="@string/calendar"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.template.SelectTemplateActivity"
             android:label="@string/choose_template"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.pictureframe.PictureFrameEditActivity"
             android:label="@string/template_detail"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
 
         <!-- 首页pager2的功能 -->
         <activity
             android:name=".activity.phoneshell.PhoneShellStartActivity"
             android:label="@string/phone_shell"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.phoneshell.PhoneShellForIllustrationActivity"
             android:label="@string/illustration"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.phoneshell.PhoneShellSelectBrandActivity"
             android:label="@string/select_phone_brand"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.phoneshell.PhoneShellSelectModelActivity"
             android:label="@string/select_phone_model"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.phoneshell.PhoneShellEditActivity"
             android:label="@string/edit"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.poker.PokerChooseInchActivity"
             android:label="@string/poker"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.poker.PokerForIllustrationActivity"
             android:label="@string/illustration"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.poker.PokerEditActivity"
             android:label="@string/edit"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.puzzle.PuzzleStartActivity"
             android:label="@string/puzzle"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.puzzle.PuzzleEditActivity"
             android:label="@string/edit"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.magiccup.MagicCupChooseColorActivity"
             android:label="@string/magic_cup"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.magiccup.MagicForIllustrationActivity"
             android:label="@string/illustration"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.magiccup.MagicCupPhotoEditActivity"
             android:label="@string/edit"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.lomocard.LomoCardChooseNumActivity"
             android:label="@string/lomo_card"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.lomocard.LomoCardForIllustrationActivity"
             android:label="@string/illustration"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.lomocard.LomoCardEditActivity"
             android:label="@string/edit"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.engraving.EngravingChooseInchActivity"
             android:label="@string/engraving"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.engraving.EngravingForIllustrationActivity"
             android:label="@string/illustration"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.engraving.EngravingMeasurementDescriptionActivity"
             android:label="@string/measurement_description"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.engraving.EngravingChoosePaperNumActivity"
             android:label="@string/choose_paper_num"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.photoedit.PhotoEditActivity"
             android:label="@string/edit"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.payment.PaymentPreviewActivity"
             android:label="@string/pay"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.payment.PaymentSuccessActivity"
             android:label="@string/payment_success"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.coupon.ChooseCouponActivity"
             android:label="@string/choose_coupon"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.coupon.MyCouponActivity"
             android:label="@string/my_coupons"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.deliveryaddress.ChooseDeliveryAddressActivity"
             android:label="@string/delivery_address"
@@ -281,61 +281,63 @@
         <activity
             android:name=".activity.deliveryaddress.EditDeliveryAddressActivity"
             android:label="@string/edit_address"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.personalcenter.PersonalCenterActivity"
             android:label="@string/personal_center"
             android:screenOrientation="portrait"></activity>
-
+         <activity android:name=".activity.personalcenter.NoFindMMessageActivity"
+                    android:label="@string/message_center"
+             />
         <activity
             android:name=".activity.personalcenter.MyCreditActivity"
             android:label="@string/mycredit"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.orders.MyOrdersActivity"
             android:label="@string/my_orders"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.personalcenter.MyWorksActivity"
             android:label="@string/my_works"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.personalcenter.ChangeNameActivity"
-            android:label="@string/changeName"/>
+            android:label="@string/changeName" />
         <activity
             android:name=".activity.personalcenter.ChildInformationActivity"
-            android:label="@string/child_information"/>
+            android:label="@string/child_information" />
         <activity
             android:name=".activity.personalcenter.ManageAddressActivity"
-            android:label="@string/address_management"/>
+            android:label="@string/myaddress" />
         <activity
             android:name=".activity.orders.OrderDetailActivity"
             android:label="@string/order_detail"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.personalcenter.EditAddressActivity"
-            android:label="@string/edit_address"/>
+            android:label="@string/edit_address" />
         <activity
             android:name=".activity.orders.ApplyRefundActivity"
             android:label="@string/apply_refund"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.personalcenter.AboutUsAcctivity"
-            android:label="@string/about_us"/>
+            android:label="@string/about_us" />
         <activity
             android:name=".activity.personalcenter.TermServerActivity"
-            android:label="@string/gvrp"/>
+            android:label="@string/gvrp" />
         <activity
             android:name=".activity.personalcenter.FeedBackActivity"
             android:label="@string/feedback"></activity>
         <activity
             android:name=".activity.personalcenter.PersonalInformationActivity"
             android:label="@string/personal_information"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.personalcenter.SettingActivity"
             android:label="@string/setting"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
 
         <!-- ShareSDK -->
         <activity
@@ -345,19 +347,19 @@
             android:theme="@android:style/Theme.Translucent.NoTitleBar"
             android:windowSoftInputMode="stateHidden|adjustResize">
             <intent-filter>
-                <data android:scheme="tencent1105309113"/>
+                <data android:scheme="tencent1105309113" />
 
-                <action android:name="android.intent.action.VIEW"/>
+                <action android:name="android.intent.action.VIEW" />
 
-                <category android:name="android.intent.category.BROWSABLE"/>
-                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE" />
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
 
             <!-- 调用新浪原生SDK，需要注册的回调activity -->
             <intent-filter>
-                <action android:name="com.sina.weibo.sdk.action.ACTION_SDK_REQ_ACTIVITY"/>
+                <action android:name="com.sina.weibo.sdk.action.ACTION_SDK_REQ_ACTIVITY" />
 
-                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
         <!-- 微信分享回调 -->
@@ -366,12 +368,12 @@
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:exported="true"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
 
         <!-- 自定义Glide Module注册 -->
         <meta-data
             android:name="com.MDGround.HaiLanPrint.glide.MDGroundGlideModule"
-            android:value="GlideModule"/>
+            android:value="GlideModule" />
 
     </application>
 

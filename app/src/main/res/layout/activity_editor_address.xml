@@ -34,6 +34,9 @@
                     android:id="@+id/et_reciever"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:textSize="@dimen/text_size_18"
+                    android:textColor="@color/color_333333"
+                    android:hint="@string/input_consignee"
                     android:background="@color/color_white" />
             </LinearLayout>
 
@@ -57,6 +60,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@color/color_white"
+                    android:textSize="@dimen/text_size_18"
+                    android:textColor="@color/color_333333"
+                    android:hint="@string/input_phone"
                     android:numeric="integer" />
             </LinearLayout>
 
@@ -77,12 +83,22 @@
 
                 <TextView
                     android:id="@+id/et_regio"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
+                    android:layout_weight="1"
                     android:layout_height="match_parent"
                     android:background="@color/color_white"
                     android:gravity="center_vertical"
                     android:onClick="selectRegio"
-                    tools:text="北就来访的技术" />
+                    android:textSize="@dimen/text_size_18"
+                    android:textColor="@color/color_333333"
+                     />
+                     <ImageView
+                         android:layout_width="wrap_content"
+                         android:layout_height="wrap_content"
+                          android:layout_gravity="center_vertical"
+                         android:src="@drawable/icon_neet"
+                         android:layout_marginRight="@dimen/margin_16"
+                         />
             </LinearLayout>
 
             <View style="@style/DividerHorizontalMarginSytle" />
@@ -104,6 +120,9 @@
                     android:id="@+id/et_address"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:textSize="@dimen/text_size_18"
+                    android:textColor="@color/color_333333"
+                    android:hint="@string/input_detailed_address"
                     android:background="@color/color_white" />
             </LinearLayout>
         </LinearLayout>

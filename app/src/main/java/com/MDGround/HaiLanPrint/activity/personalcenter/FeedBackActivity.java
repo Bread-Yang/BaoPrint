@@ -45,6 +45,7 @@ public class FeedBackActivity extends ToolbarActivity<ActivityFeedBackBinding>{
                 if(ResponseCode.isSuccess(response.body())){
                     ViewUtils.dismiss();
                     ViewUtils.toast("提交成功");
+                    finish();
                 }
 
             }

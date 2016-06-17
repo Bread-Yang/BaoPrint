@@ -108,7 +108,8 @@
     <string name="my_orders">我的订单</string>
     <string name="my_credits">我的积分</string>
     <string name="my_coupons">我的优惠劵</string>
-
+    <string name="nofind_message">非常抱歉，没有找到相关消息</string>
+    <string name="nofind_works">非常抱歉，没有找到相关作品</string>
     <!-- 个人资料 -->
     <string name="personal_information">个人资料</string>
     <string name="avatar">头像</string>
@@ -118,6 +119,7 @@
     <string name="registrant_name">注册人姓名</string>
     <string name="child_information">孩子资料</string>
     <string name="address_management">地址管理</string>
+    <string name="myaddress">我的地址</string>
     <string name="account_security">账户安全</string>
     <string name="can_change_password">可修改密码</string>
 
@@ -302,9 +304,11 @@
     <string name="consignee">收货人</string>
     <string name="input_consignee">请输入收货人姓名</string>
     <string name="contact_number">联系电话</string>
+    <string name="input_phone">请输入手机号码</string>
     <string name="region">所在地区</string>
     <string name="detailed_address">详细地址</string>
     <string name="input_detailed_address">请输入详细地址</string>
+    <string name="defalut_address">北京 北京市 东城区</string>
 
     <!--个人中心-->
     <string name="tv_points">................</string>
@@ -337,7 +341,7 @@
     <string name="procol_tile">海岚冲印注册协议</string>
     <string name="hotline">服务热线</string>
     <string name="www">官方网站</string>
-    <string name="gvrp">注册协议</string>
+    <string name="gvrp">服务条款</string>
     <string name="hotlineNume">123-456-789</string>
     <string name="realmname">www.baidu.com</string>
     <string name="term">服务条款</string>

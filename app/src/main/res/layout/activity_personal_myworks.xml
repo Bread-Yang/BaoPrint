@@ -3,110 +3,139 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-
-        android:orientation="vertical">
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/myworksrecyclerView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"></android.support.v7.widget.RecyclerView>
-
+        android:orientation="vertical"
+        >
         <LinearLayout
+            android:id="@+id/ll_blank"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/size_60"
-            android:background="@color/color_white"
             android:orientation="vertical"
-            >
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:layout_marginTop="@dimen/margin_48"
+                android:layout_gravity="center_horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/icon_nofind_works"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/nofind_works"
+                android:textColor="@color/color_666666"
+                android:layout_marginTop="@dimen/margin_48"
+                android:layout_gravity="center_horizontal"
+                />
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/ll_enough"
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/myworksrecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"></android.support.v7.widget.RecyclerView>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/size_60"
                 android:background="@color/color_white"
-                android:orientation="horizontal"
+                android:orientation="vertical"
                 >
-                <CheckBox
-                    android:id="@+id/cb_selectAll"
-                    style="@style/WorksCheckBoxTextStyle"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="@dimen/margin_20"
-                    android:button="@drawable/selector_works_checkbox" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:text="@string/allSelect"
-                    android:textColor="@color/color_666666" />
 
                 <LinearLayout
-                    android:id="@+id/ll_totalprice"
-                    android:paddingRight="@dimen/margin_8"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:gravity="right|center_vertical"
-                    android:orientation="vertical">
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/size_60"
+                    android:background="@color/color_white"
+                    android:orientation="horizontal"
+                    >
+                    <CheckBox
+                        android:id="@+id/cb_selectAll"
+                        style="@style/WorksCheckBoxTextStyle"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="@dimen/margin_20"
+                        android:button="@drawable/selector_works_checkbox" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="right"
-                        android:layout_marginTop="@dimen/margin_10"
-                        android:text="@string/tatal"
-                        android:textColor="@color/color_666666"
-                        android:textSize="@dimen/text_size_12" />
+                        android:layout_gravity="center_vertical"
+                        android:text="@string/allSelect"
+                        android:textColor="@color/color_666666" />
 
                     <LinearLayout
+                        android:id="@+id/ll_totalprice"
+                        android:paddingRight="@dimen/margin_8"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:id="@+id/tv_totalPrice"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textColor="@color/colorOrange"
-                            android:textSize="@dimen/text_size_12"
-                            tools:text="22222" />
+                        android:gravity="right|center_vertical"
+                        android:orientation="vertical">
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/yuan"
+                            android:layout_gravity="right"
+                            android:layout_marginTop="@dimen/margin_10"
+                            android:text="@string/tatal"
                             android:textColor="@color/color_666666"
-                            android:textSize="@dimen/text_size_14" />
+                            android:textSize="@dimen/text_size_12" />
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:id="@+id/tv_totalPrice"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/colorOrange"
+                                android:textSize="@dimen/text_size_12"
+                                tools:text="22222" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/yuan"
+                                android:textColor="@color/color_666666"
+                                android:textSize="@dimen/text_size_14" />
+                        </LinearLayout>
                     </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/ll_amunt"
+                        android:layout_width="100dp"
+                        android:layout_height="match_parent"
+                        android:background="@color/colorOrange"
+                        android:gravity="center">
+
+                        <TextView
+                            android:id="@+id/tv_buy"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/buy"
+                            android:textColor="@android:color/white"
+                            android:textSize="@dimen/text_size_16" />
+
+                        <TextView
+                            android:id="@+id/tv_amunt"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@android:color/white"
+                            android:textSize="@dimen/text_size_12"
+                            tools:text="(2)" />
+                    </LinearLayout>
+
                 </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/ll_amunt"
-                    android:layout_width="100dp"
-                    android:layout_height="match_parent"
-                    android:background="@color/colorOrange"
-                    android:gravity="center">
-
-                    <TextView
-                        android:id="@+id/tv_buy"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/buy"
-                        android:textColor="@android:color/white"
-                        android:textSize="@dimen/text_size_16" />
-
-                    <TextView
-                        android:id="@+id/tv_amunt"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="@android:color/white"
-                        android:textSize="@dimen/text_size_12"
-                        tools:text="(2)" />
-            </LinearLayout>
 
             </LinearLayout>
 
