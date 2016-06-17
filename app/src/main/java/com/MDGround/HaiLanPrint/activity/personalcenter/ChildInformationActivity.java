@@ -42,12 +42,7 @@ public class ChildInformationActivity extends ToolbarActivity<ActivityChildInfor
         tvRight.setText("保存");
         tvRight.setVisibility(View.VISIBLE);
         List<UserKid> userKids=MDGroundApplication.mLoginUser.getUserKidList();
-//        KLog.e("多少个孩子---》"+userKids.size());
-//        if(userKids.size()>0){
-//           for(int i=0;i<userKids.size();i++){
-//               KLog.e("孩子名字"+userKids.get(i).getName());;
-//           }
-//        }
+        if(userKids.size()>0){
         int lastKid=userKids.size()-1;
          UserKid userKid=userKids.get(lastKid);
         mDataBinding.etChildName.setText(userKid.getName());
@@ -56,7 +51,7 @@ public class ChildInformationActivity extends ToolbarActivity<ActivityChildInfor
         mDataBinding.etClass.setText(userKid.Class);
         mDataBinding.etChildName.setOnFocusChangeListener(this);
         mDataBinding.etSchool.setOnFocusChangeListener(this);
-        mDataBinding.etClass.setOnFocusChangeListener(this);
+        mDataBinding.etClass.setOnFocusChangeListener(this);}
     }
     //region ACTION
     public void choseChildBirthDay(View view) {

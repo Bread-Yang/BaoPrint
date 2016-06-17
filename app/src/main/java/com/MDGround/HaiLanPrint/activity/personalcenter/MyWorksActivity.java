@@ -41,9 +41,7 @@ public class MyWorksActivity extends ToolbarActivity<ActivityPersonalMyworksBind
     public List<WorksInfo> mAllWorkInfoList = new ArrayList<>();
     public List<WorksInfo> mBlankWorkInfoList = new ArrayList<>();
     private MyWorksAdapter mAdapter;
-    private boolean isEditor = false;
-    private boolean flag = false;
-
+    private boolean isEditor = true;
     @Override
     protected int getContentLayout() {
         return R.layout.activity_personal_myworks;
@@ -58,6 +56,7 @@ public class MyWorksActivity extends ToolbarActivity<ActivityPersonalMyworksBind
         mDataBinding.myworksrecyclerView.setLayoutManager(layoutManager);
         mAdapter = new MyWorksAdapter();
         mDataBinding.myworksrecyclerView.setAdapter(mAdapter);
+        CountPriceAndAmunt();
         ViewUtils.loading(this);
         GlobalRestful.getInstance().GetUserWorkList(new Callback<ResponseData>() {
             @Override
@@ -109,6 +108,7 @@ public class MyWorksActivity extends ToolbarActivity<ActivityPersonalMyworksBind
             if(mAllWorkInfoList.size()==mWorksInfoList.size()){
                 mDataBinding.cbSelectAll.setChecked(true);
             }
+            CountPriceAndAmunt();
         } else {
             mDataBinding.cbSelectAll.setChecked(false);
             int position = mDataBinding.myworksrecyclerView.getChildAdapterPosition(view);
@@ -119,7 +119,9 @@ public class MyWorksActivity extends ToolbarActivity<ActivityPersonalMyworksBind
                     i--;
                 }
             }
+            CountPriceAndAmunt();
         }
+
         mAdapter.notifyDataSetChanged();
     }
 
@@ -140,15 +142,18 @@ public class MyWorksActivity extends ToolbarActivity<ActivityPersonalMyworksBind
             if(mAllWorkInfoList.size()==mWorksInfoList.size()){
                 mDataBinding.cbSelectAll.setChecked(true);
             }
+            CountPriceAndAmunt();
         } else {
             mDataBinding.cbSelectAll.setChecked(false);
             for (int i = 0; i < mAllWorkInfoList.size(); i++) {
                 if (mAllWorkInfoList.get(i).getWorkID() == workID) {
                     mAllWorkInfoList.remove(i);
+                    CountPriceAndAmunt();
                     return;
                 }
             }
         }
+
     }
     //endregion
 
@@ -160,13 +165,20 @@ public class MyWorksActivity extends ToolbarActivity<ActivityPersonalMyworksBind
             public void onClick(View v) {
                 if (!isEditor) {
                     isEditor = true;
-                    tvRight.setText("完成");
+                    tvRight.setText(R.string.finish);
+                    mDataBinding.llTotalprice.setVisibility(View.VISIBLE);
+                    mDataBinding.tvBuy.setText(R.string.purchase);
+                    mDataBinding.llAmunt.setBackgroundResource(R.color.colorOrange);
                 } else {
                     isEditor = false;
-                    tvRight.setText("编辑");
+                    tvRight.setText(R.string.edit);
+                    mDataBinding.llTotalprice.setVisibility(View.INVISIBLE);
+                    mDataBinding.tvBuy.setText(R.string.delete);
+                    mDataBinding.llAmunt.setBackgroundResource(R.color.colorRed);
                 }
             }
         });
+
 
         //region ACTION
         //全选按钮
@@ -175,9 +187,16 @@ public class MyWorksActivity extends ToolbarActivity<ActivityPersonalMyworksBind
             public void onClick(View v) {
                 if (mDataBinding.cbSelectAll.isChecked()) {
                     mAllWorkInfoList = new ArrayList<WorksInfo>(mWorksInfoList);
+                    float totalPrice=0;
+                    for(int i=0;i<mAllWorkInfoList.size();i++){
+
+                    }
                 } else {
                     mAllWorkInfoList.clear();
+                    mDataBinding.tvTotalPrice.setText("0.00");
+                    mDataBinding.tvAmunt.setText("(0)");
                 }
+                CountPriceAndAmunt();
                 mAdapter.notifyDataSetChanged();
             }
         });
@@ -186,6 +205,21 @@ public class MyWorksActivity extends ToolbarActivity<ActivityPersonalMyworksBind
         //endregion
     }
 
+    //计算价格和数量并显示
+    public void CountPriceAndAmunt(){
+        if(mAllWorkInfoList.size()>0){
+            float total=0;
+            int amunt=0;
+            for (int i=0;i<mAllWorkInfoList.size();i++){
+                total=mAllWorkInfoList.get(i).getPrice()+total;
+            }
+            mDataBinding.tvAmunt.setText("("+mAllWorkInfoList.size()+")");
+            mDataBinding.tvTotalPrice.setText(StringUtil.toYuanWithoutUnit(total));
+        }else{
+            mDataBinding.tvAmunt.setText("(0)");
+            mDataBinding.tvTotalPrice.setText("0.00");
+        }
+    }
     public class MyWorksAdapter extends RecyclerView.Adapter<MyWorksAdapter.MyViewHolder> {
         @Override
         public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -199,6 +233,7 @@ public class MyWorksActivity extends ToolbarActivity<ActivityPersonalMyworksBind
             WorksInfo worksInfo = mWorksInfoList.get(position);
             holder.itemMyworksBinding.setWorksInfo(worksInfo);
             holder.itemMyworksBinding.setShowHeader(isShowHeader(position));
+            holder.itemMyworksBinding.tvWorksPice.setText(StringUtil.toYuanWithoutUnit(worksInfo.getPrice()));
             holder.itemMyworksBinding.cbTitle.setChecked(false);
             holder.itemMyworksBinding.cbItem.setChecked(false);
             //解决界面notifysetdatechage界面闪烁问题
@@ -246,7 +281,6 @@ public class MyWorksActivity extends ToolbarActivity<ActivityPersonalMyworksBind
 
         class MyViewHolder extends RecyclerView.ViewHolder {
             public ItemMyworksBinding itemMyworksBinding;
-
             public MyViewHolder(final View itemView) {
                 super(itemView);
                 itemMyworksBinding = DataBindingUtil.bind(itemView);

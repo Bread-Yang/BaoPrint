@@ -47,15 +47,14 @@
                 style="@style/DividerHorizontalStyle"
                 android:layout_alignParentBottom="true"></View>
         </RelativeLayout>
-
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="135dp"
             android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/size_122"
+                android:layout_height="134dp"
                 android:background="@android:color/white"
                 android:orientation="horizontal"
                 android:paddingLeft="@dimen/margin_10">
@@ -70,18 +69,18 @@
 
                 <ImageView
                     android:id="@+id/ivImage"
-                    android:layout_width="@dimen/size_72"
-                    android:layout_height="@dimen/size_72"
+                    android:layout_width="@dimen/margin_80"
+                    android:layout_height="@dimen/margin_80"
                     android:layout_gravity="center_vertical"
                     android:layout_marginLeft="@dimen/margin_16"
                     android:scaleType="centerCrop"
                     tools:src="@drawable/bg_pic" />
 
                 <RelativeLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="@dimen/margin_12"
+                    android:layout_marginLeft="@dimen/margin_16"
                     android:paddingTop="@dimen/size_24">
 
                     <TextView
@@ -104,23 +103,37 @@
                         android:textSize="@dimen/text_size_14"
                         tools:text="照片书10*23" />
 
-                    <TextView
-                        android:id="@+id/tv_worksPice"
+                    <LinearLayout
+                        android:layout_below="@id/tv_worksSizee"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentBottom="true"
-                        android:layout_marginBottom="@dimen/margin_24"
-                        android:layout_marginRight="@dimen/margin_20"
-                        android:gravity="right"
-                        android:textColor="@color/colorOrange"
-                        android:textSize="@dimen/size_22"
-                        tools:text="1213元" />
+                        android:orientation="horizontal"
+                        android:layout_marginRight="@dimen/margin_16"
+                        android:layout_marginTop="@dimen/margin_16"
+
+                        >
+                        <TextView
+                            android:id="@+id/tv_worksPice"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="right"
+                            android:textColor="@color/colorOrange"
+                            android:textSize="@dimen/size_22"
+                            tools:text="1213" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:gravity="right"
+                            android:layout_height="wrap_content"
+                            android:text="@string/yuan"
+                            android:textColor="@color/color_666666"
+                            />
+                    </LinearLayout>
+
 
                 </RelativeLayout>
-
             </LinearLayout>
-
-            <View style="@style/DividerHorizontalMarginSytle"></View>
+           <View style="@style/DividerHorizontalMarginSytle"></View>
         </LinearLayout>
 
 
