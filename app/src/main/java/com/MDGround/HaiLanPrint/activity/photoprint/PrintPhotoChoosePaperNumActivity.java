@@ -77,7 +77,10 @@ public class PrintPhotoChoosePaperNumActivity extends ToolbarActivity<ActivityPr
             workMaterial = ProductMaterial.PrintPhoto_Matte.getText();
         }
 
-        MDGroundApplication.mOrderutUtils = new OrderUtils(this, MDGroundApplication.mChoosedMeasurement.getPrice(), workMaterial);
+        MDGroundApplication.mOrderutUtils = new OrderUtils(this,
+                1,
+                MDGroundApplication.mChoosedMeasurement.getPrice(),
+                workMaterial);
         MDGroundApplication.mOrderutUtils.uploadImageRequest(0);
     }
     //endregion

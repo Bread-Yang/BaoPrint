@@ -96,7 +96,7 @@
                 android:layout_marginLeft="@dimen/margin_8"
                 android:layout_marginTop="@dimen/margin_10"
                 android:layout_toRightOf="@+id/ivImage"
-                android:text="@{@string/num_with_colon(orderWork.photoCount)}"
+                android:text="@{@string/num_with_colon(orderWork.orderCount)}"
                 tools:text="数量 : 2"/>
 
             <TextView

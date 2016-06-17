@@ -3,6 +3,8 @@ package com.MDGround.HaiLanPrint.models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.List;
+
 /**
  * Created by yoghourt on 6/2/16.
  */
@@ -32,6 +34,8 @@ public class OrderInfo implements Parcelable {
     private int OrderID;
 
     private String OrderNo;
+
+    private List<OrderWork> OrderWorkList;
 
     private int OrderStatus;
 
@@ -84,59 +88,6 @@ public class OrderInfo implements Parcelable {
     private int TypeID;
 
     private int UserID;
-
-    protected OrderInfo(Parcel in) {
-        AddressID = in.readInt();
-        AddressReceipt = in.readString();
-        AgentCommissionAmount = in.readInt();
-        CouponFee = in.readInt();
-        CouponID = in.readInt();
-        CreatedTime = in.readString();
-        DeliveryFee = in.readInt();
-        ExpressCompany = in.readString();
-        ExpressNo = in.readString();
-        IntegralFee = in.readInt();
-        OrderID = in.readInt();
-        OrderNo = in.readString();
-        OrderStatus = in.readInt();
-        PayType = in.readInt();
-        Phone = in.readString();
-        PrepayID = in.readString();
-        Receiver = in.readString();
-        RefundDetail = in.readString();
-        RefundedTime = in.readString();
-        RefundFee = in.readInt();
-        RefundID = in.readString();
-        RefundNo = in.readString();
-        RefundPhoto1ID = in.readInt();
-        RefundPhoto1SID = in.readInt();
-        RefundPhoto2ID = in.readInt();
-        RefundPhoto2SID = in.readInt();
-        RefundPhoto3ID = in.readInt();
-        RefundPhoto3SID = in.readInt();
-        RefundReason = in.readString();
-        SaleID = in.readInt();
-        SalesCommissionAmount = in.readInt();
-        TotalFee = in.readInt();
-        TotalFeeReal = in.readInt();
-        TradeExpriedTime = in.readString();
-        TradeTime = in.readString();
-        TransactionID = in.readString();
-        TypeID = in.readInt();
-        UserID = in.readInt();
-    }
-
-    public static final Creator<OrderInfo> CREATOR = new Creator<OrderInfo>() {
-        @Override
-        public OrderInfo createFromParcel(Parcel in) {
-            return new OrderInfo(in);
-        }
-
-        @Override
-        public OrderInfo[] newArray(int size) {
-            return new OrderInfo[size];
-        }
-    };
 
     public int getAddressID() {
         return AddressID;
@@ -232,6 +183,14 @@ public class OrderInfo implements Parcelable {
 
     public void setOrderNo(String orderNo) {
         OrderNo = orderNo;
+    }
+
+    public List<OrderWork> getOrderWorkList() {
+        return OrderWorkList;
+    }
+
+    public void setOrderWorkList(List<OrderWork> orderWorkList) {
+        OrderWorkList = orderWorkList;
     }
 
     public int getOrderStatus() {
@@ -442,6 +401,60 @@ public class OrderInfo implements Parcelable {
         UserID = userID;
     }
 
+    protected OrderInfo(Parcel in) {
+        AddressID = in.readInt();
+        AddressReceipt = in.readString();
+        AgentCommissionAmount = in.readInt();
+        CouponFee = in.readInt();
+        CouponID = in.readInt();
+        CreatedTime = in.readString();
+        DeliveryFee = in.readInt();
+        ExpressCompany = in.readString();
+        ExpressNo = in.readString();
+        IntegralFee = in.readInt();
+        OrderID = in.readInt();
+        OrderNo = in.readString();
+        OrderWorkList = in.createTypedArrayList(OrderWork.CREATOR);
+        OrderStatus = in.readInt();
+        PayType = in.readInt();
+        Phone = in.readString();
+        PrepayID = in.readString();
+        Receiver = in.readString();
+        RefundDetail = in.readString();
+        RefundedTime = in.readString();
+        RefundFee = in.readInt();
+        RefundID = in.readString();
+        RefundNo = in.readString();
+        RefundPhoto1ID = in.readInt();
+        RefundPhoto1SID = in.readInt();
+        RefundPhoto2ID = in.readInt();
+        RefundPhoto2SID = in.readInt();
+        RefundPhoto3ID = in.readInt();
+        RefundPhoto3SID = in.readInt();
+        RefundReason = in.readString();
+        SaleID = in.readInt();
+        SalesCommissionAmount = in.readInt();
+        TotalFee = in.readInt();
+        TotalFeeReal = in.readInt();
+        TradeExpriedTime = in.readString();
+        TradeTime = in.readString();
+        TransactionID = in.readString();
+        TypeID = in.readInt();
+        UserID = in.readInt();
+    }
+
+    public static final Creator<OrderInfo> CREATOR = new Creator<OrderInfo>() {
+        @Override
+        public OrderInfo createFromParcel(Parcel in) {
+            return new OrderInfo(in);
+        }
+
+        @Override
+        public OrderInfo[] newArray(int size) {
+            return new OrderInfo[size];
+        }
+    };
+
     @Override
     public int describeContents() {
         return 0;
@@ -461,6 +474,7 @@ public class OrderInfo implements Parcelable {
         dest.writeInt(IntegralFee);
         dest.writeInt(OrderID);
         dest.writeString(OrderNo);
+        dest.writeTypedList(OrderWorkList);
         dest.writeInt(OrderStatus);
         dest.writeInt(PayType);
         dest.writeString(Phone);

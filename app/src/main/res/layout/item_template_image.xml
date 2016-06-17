@@ -16,7 +16,6 @@
             type="com.MDGround.HaiLanPrint.models.MDImage"/>
 
         <variable name="isSelected" type="boolean"/>
-        <variable name="index" type="int"/>
     </data>
 
     <LinearLayout
@@ -50,9 +49,9 @@
         </RelativeLayout>
 
         <TextView
+            android:id="@+id/tvIndex"
             style="@style/NormalTextStyle"
             android:layout_marginTop="@dimen/margin_4"
-            android:text="@{index == 0 ? @string/cover : String.valueOf(index)}"
             tools:text="1"/>
 
     </LinearLayout>

@@ -87,15 +87,6 @@ public class SelectImageUtil {
         return 0;
     }
 
-    // 作品数量
-    public static int getOrderCount() {
-        int count = 0;
-        for (MDImage mdImage : mAlreadySelectImage) {
-            count += mdImage.getPhotoCount();
-        }
-        return count;
-    }
-
     private static void uploadImageRequest(final int upload_image_index) {
         if (upload_image_index < SelectImageUtil.mAlreadySelectImage.size()) {
             final MDImage mdImage = SelectImageUtil.mAlreadySelectImage.get(upload_image_index);

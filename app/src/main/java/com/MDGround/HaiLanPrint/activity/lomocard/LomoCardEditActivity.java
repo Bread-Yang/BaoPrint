@@ -152,7 +152,8 @@ public class LomoCardEditActivity extends ToolbarActivity<ActivityLomoCardEditBi
     private void generateOrder() {
         ViewUtils.loading(this);
         // 生成订单
-        MDGroundApplication.mOrderutUtils = new OrderUtils(this, MDGroundApplication.mChoosedTemplate.getPrice(), null);
+        MDGroundApplication.mOrderutUtils = new OrderUtils(this,
+                1, MDGroundApplication.mChoosedTemplate.getPrice(), null);
         MDGroundApplication.mOrderutUtils.saveOrderRequest();
     }
 

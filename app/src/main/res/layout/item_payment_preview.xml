@@ -72,6 +72,49 @@
 
         <View style="@style/DividerHorizontalStyle"/>
 
+        <RelativeLayout
+            android:id="@+id/rltQuantity"
+            style="@style/FixHeightLayoutStyle">
+
+            <TextView
+                style="@style/DimTextStyle"
+                android:layout_centerVertical="true"
+                android:text="@string/quantity"
+                android:textSize="@dimen/text_size_16"/>
+
+            <ImageView
+                android:id="@+id/ivMinus"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/margin_8"
+                android:layout_toLeftOf="@+id/tvQuantity"
+                android:src="@drawable/icon_reduce_pay"/>
+
+            <TextView
+                android:id="@+id/tvQuantity"
+                style="@style/NormalTextStyle"
+                android:layout_width="@dimen/size_24"
+                android:layout_centerInParent="true"
+                android:layout_marginRight="@dimen/margin_8"
+                android:layout_toLeftOf="@+id/ivAdd"
+                android:gravity="center"
+                android:text="@{String.valueOf(orderWork.orderCount)}"
+                android:textSize="@dimen/text_size_16"
+                tools:text="1"/>
+
+            <ImageView
+                android:id="@+id/ivAdd"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/icon_addition_pay"/>
+
+        </RelativeLayout>
+
+        <View style="@style/DividerHorizontalStyle"/>
+
     </LinearLayout>
 
 </layout>

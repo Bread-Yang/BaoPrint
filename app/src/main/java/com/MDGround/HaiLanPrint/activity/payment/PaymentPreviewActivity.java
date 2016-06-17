@@ -1,9 +1,15 @@
 package com.MDGround.HaiLanPrint.activity.payment;
 
 import android.content.Intent;
+import android.databinding.DataBindingUtil;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.CompoundButton;
 
+import com.MDGround.HaiLanPrint.ProductType;
 import com.MDGround.HaiLanPrint.R;
 import com.MDGround.HaiLanPrint.activity.base.ToolbarActivity;
 import com.MDGround.HaiLanPrint.activity.coupon.ChooseCouponActivity;
@@ -11,15 +17,13 @@ import com.MDGround.HaiLanPrint.activity.deliveryaddress.ChooseDeliveryAddressAc
 import com.MDGround.HaiLanPrint.application.MDGroundApplication;
 import com.MDGround.HaiLanPrint.constants.Constants;
 import com.MDGround.HaiLanPrint.databinding.ActivityPaymentPreviewBinding;
+import com.MDGround.HaiLanPrint.databinding.ItemPaymentPreviewBinding;
 import com.MDGround.HaiLanPrint.enumobject.PayType;
 import com.MDGround.HaiLanPrint.enumobject.SettingType;
-import com.MDGround.HaiLanPrint.greendao.Location;
 import com.MDGround.HaiLanPrint.models.Coupon;
 import com.MDGround.HaiLanPrint.models.DeliveryAddress;
-import com.MDGround.HaiLanPrint.models.Measurement;
 import com.MDGround.HaiLanPrint.models.OrderWork;
 import com.MDGround.HaiLanPrint.models.SystemSetting;
-import com.MDGround.HaiLanPrint.models.Template;
 import com.MDGround.HaiLanPrint.models.UserIntegral;
 import com.MDGround.HaiLanPrint.restfuls.GlobalRestful;
 import com.MDGround.HaiLanPrint.restfuls.bean.ResponseData;
@@ -38,8 +42,6 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static com.MDGround.HaiLanPrint.application.MDGroundApplication.mChoosedTemplate;
-
 /**
  * Created by yoghourt on 5/23/16.
  */
@@ -49,11 +51,11 @@ public class PaymentPreviewActivity extends ToolbarActivity<ActivityPaymentPrevi
     private final int REQEUST_CODE_SELECT_DELIVERY_ADDRESS = 0x11;
     private final int REQEUST_CODE_SELECT_COUPON = 0x12;
 
-    private OrderWork mOrderWork;
-
     private DeliveryAddress mDeliveryAddress;
 
-    public ArrayList<UserIntegral> mUserCreditArrayList = new ArrayList<>();
+    private ArrayList<OrderWork> mOrderWorkArrayList;
+
+    private ArrayList<UserIntegral> mUserCreditArrayList = new ArrayList<>();
 
     private ArrayList<Coupon> mAvailableCouponArrayList = new ArrayList<>();
 
@@ -61,7 +63,9 @@ public class PaymentPreviewActivity extends ToolbarActivity<ActivityPaymentPrevi
 
     private Coupon mSelectedCoupon;
 
-    private int mUnitFee, mAmountFee, mCouponFee, mCredit, mReceivableFee, mFreightFee;
+    private int mUnitFee, mAmountFee, mCredit, mReceivableFee, mFreightFee;
+
+    private boolean mHadChangedOrderCount;
 
     @Override
     protected int getContentLayout() {
@@ -78,58 +82,16 @@ public class PaymentPreviewActivity extends ToolbarActivity<ActivityPaymentPrevi
 
     @Override
     protected void initData() {
-        mOrderWork = MDGroundApplication.mOrderutUtils.getmOrderWork();
+        mOrderWorkArrayList = MDGroundApplication.mOrderutUtils.mOrderWorkArrayList;
 
-        mDataBinding.setOrderWork(mOrderWork);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        mDataBinding.productRecyclerView.setLayoutManager(layoutManager);
 
-        Measurement measurement = MDGroundApplication.mChoosedMeasurement;
+        PaymentPreviewAdapter paymentPreviewAdapter = new PaymentPreviewAdapter();
+        mDataBinding.productRecyclerView.setAdapter(paymentPreviewAdapter);
 
-        Template template = mChoosedTemplate;
-
-        int amountFee = getAmountFee();
-        mDataBinding.tvAmount.setText(getString(R.string.yuan_amount, StringUtil.toYuanWithoutUnit(amountFee)));
-
-        int receivableFee = getReceivableFee();
-        mDataBinding.tvReceivable.setText(getString(R.string.receivables, StringUtil.toYuanWithoutUnit(receivableFee)));
-
-        String showProductDetail = null;
-        switch (MDGroundApplication.mChoosedProductType) {
-            case PrintPhoto:
-                showProductDetail = mOrderWork.getTypeName() + " (" + measurement.getTitle() + " " + mOrderWork.getWorkMaterial() + ")";
-                break;
-            case Postcard:
-                showProductDetail = mOrderWork.getTypeName();
-                break;
-            case MagazineAlbum:
-                break;
-            case ArtAlbum:
-                showProductDetail = mOrderWork.getTypeName() + " (" + measurement.getTitle() + " " + template.getPageCount() + "P)";
-                break;
-            case PictureFrame:
-                break;
-            case Calendar:
-                showProductDetail = measurement.getTitle();
-                break;
-            case PhoneShell:
-                showProductDetail = mOrderWork.getTypeName() + " (" + measurement.getTitle() + template.getTemplateName() + ")";
-                break;
-            case Poker:
-                showProductDetail = mOrderWork.getTypeName() + " (" + measurement.getTitle() + ")";
-                break;
-            case Puzzle:
-                showProductDetail = mOrderWork.getTypeName();
-                break;
-            case MagicCup:
-                showProductDetail = mOrderWork.getTypeName() + " (" + measurement.getTitle() + ")";
-                break;
-            case LOMOCard:
-                showProductDetail = mOrderWork.getTypeName() + " (" + measurement.getTitle() + ")";
-                break;
-            case Engraving:
-                showProductDetail = mOrderWork.getWorkMaterial() + mOrderWork.getTypeName();
-                break;
-        }
-        mDataBinding.tvProductType.setText(showProductDetail);
+        refreshDisplayFee();
     }
 
     @Override
@@ -153,25 +115,83 @@ public class PaymentPreviewActivity extends ToolbarActivity<ActivityPaymentPrevi
         });
     }
 
-    private int getAmountFee() {
-        int amountFee = 0;
-        switch (MDGroundApplication.mChoosedProductType) {
+    private void setShowFee() {
+        String showProductDetail = null;
+//        switch (MDGroundApplication.mChoosedProductType) {
+//            case PrintPhoto:
+//                showProductDetail = mOrderWork.getTypeName() + " (" + measurement.getTitle() + " " + mOrderWork.getWorkMaterial() + ")";
+//                break;
+//            case Postcard:
+//                showProductDetail = mOrderWork.getTypeName();
+//                break;
+//            case MagazineAlbum:
+//                break;
+//            case ArtAlbum:
+//                showProductDetail = mOrderWork.getTypeName() + " (" + measurement.getTitle() + " " + template.getPageCount() + "P)";
+//                break;
+//            case PictureFrame:
+//                break;
+//            case Calendar:
+//                showProductDetail = measurement.getTitle();
+//                break;
+//            case PhoneShell:
+//                showProductDetail = mOrderWork.getTypeName() + " (" + measurement.getTitle() + template.getTemplateName() + ")";
+//                break;
+//            case Poker:
+//                showProductDetail = mOrderWork.getTypeName() + " (" + measurement.getTitle() + ")";
+//                break;
+//            case Puzzle:
+//                showProductDetail = mOrderWork.getTypeName();
+//                break;
+//            case MagicCup:
+//                showProductDetail = mOrderWork.getTypeName() + " (" + measurement.getTitle() + ")";
+//                break;
+//            case LOMOCard:
+//                showProductDetail = mOrderWork.getTypeName() + " (" + measurement.getTitle() + ")";
+//                break;
+//            case Engraving:
+//                showProductDetail = mOrderWork.getWorkMaterial() + mOrderWork.getTypeName();
+//                break;
+//        }
+    }
+
+    private int getSingleOrderWorkAmountFee(OrderWork orderWork) {
+        ProductType productType = ProductType.fromValue(orderWork.getTypeID());
+
+        switch (productType) {
             case PrintPhoto:
-            case PictureFrame:
             case Engraving:
-                return mOrderWork.getPrice() * mOrderWork.getPhotoCount();
+                return orderWork.getPrice() * orderWork.getPhotoCount();
             case Postcard:
             case MagazineAlbum:
             case ArtAlbum:
+            case PictureFrame:
             case Calendar:
             case PhoneShell:
             case Poker:
             case Puzzle:
             case MagicCup:
             case LOMOCard:
-                return mOrderWork.getPrice();
+                return orderWork.getPrice() * orderWork.getOrderCount();
         }
         return 0;
+    }
+
+    private int getAllOrderWorkAmountFee() {
+        int amountFee = 0;
+        for (OrderWork orderWork : mOrderWorkArrayList) {
+            amountFee += getSingleOrderWorkAmountFee(orderWork);
+        }
+
+        return amountFee;
+    }
+
+    private int getCouponFee() {
+        int couponFee = 0;
+        if (mSelectedCoupon != null) {
+            couponFee = mSelectedCoupon.getPrice();
+        }
+        return couponFee;
     }
 
     private int getCreditFee() {
@@ -183,11 +203,40 @@ public class PaymentPreviewActivity extends ToolbarActivity<ActivityPaymentPrevi
     }
 
     private int getReceivableFee() {
-        int amountFee = getAmountFee() - mCouponFee - getCreditFee() + mFreightFee;
+        int amountFee = getAllOrderWorkAmountFee() - getCouponFee() - getCreditFee() + mFreightFee;
         if (amountFee < 0) {
             amountFee = 0;
         }
         return amountFee;
+    }
+
+    private void refreshDisplayFee() {
+        mHadChangedOrderCount = true;
+
+        // 总额
+        int amountFee = getAllOrderWorkAmountFee();
+        mDataBinding.tvAmount.setText(getString(R.string.yuan_amount, StringUtil.toYuanWithoutUnit(amountFee)));
+
+        int matchLimitCoupon = 0;
+        for (Coupon coupon : mAvailableCouponArrayList) {
+            if (coupon.getPriceLimit() <= getAllOrderWorkAmountFee()) {
+                matchLimitCoupon++;
+            }
+        }
+
+        mDataBinding.tvAvailableCoupon.setText(getString(R.string.available_num, matchLimitCoupon));
+
+        // 优惠劵
+        int couponFee = 0;
+        if (mSelectedCoupon != null) {
+            couponFee = mSelectedCoupon.getPrice();
+        }
+        mDataBinding.tvCouponYuan.setText(getString(R.string.offset_fee, StringUtil.toYuanWithoutUnit(couponFee)));
+        mDataBinding.tvCouponFee.setText(getString(R.string.yuan_amount, StringUtil.toYuanWithoutUnit(couponFee)));
+
+        // 应付金额
+        int receivableFee = getReceivableFee();
+        mDataBinding.tvReceivable.setText(getString(R.string.receivables, StringUtil.toYuanWithoutUnit(receivableFee)));
     }
 
     @Override
@@ -201,11 +250,7 @@ public class PaymentPreviewActivity extends ToolbarActivity<ActivityPaymentPrevi
                         mDataBinding.tvName.setText(mDeliveryAddress.getReceiver());
                         mDataBinding.tvPhone.setText(mDeliveryAddress.getPhone());
 
-                        Location province = MDGroundApplication.mDaoSession.getLocationDao().load(mDeliveryAddress.getProvinceID());
-                        Location city = MDGroundApplication.mDaoSession.getLocationDao().load(mDeliveryAddress.getCityID());
-                        Location county = MDGroundApplication.mDaoSession.getLocationDao().load(mDeliveryAddress.getDistrictID());
-
-                        mDataBinding.tvAddress.setText(province.getLocationName() + city.getLocationName() + county.getLocationName() + mDeliveryAddress.getStreet());
+                        mDataBinding.tvAddress.setText(StringUtil.getCompleteAddress(mDeliveryAddress));
 
                         mDataBinding.tvChooseFirst.setVisibility(View.GONE);
                         mDataBinding.tvName.setVisibility(View.VISIBLE);
@@ -217,11 +262,21 @@ public class PaymentPreviewActivity extends ToolbarActivity<ActivityPaymentPrevi
                     break;
                 case REQEUST_CODE_SELECT_COUPON:
                     mSelectedCoupon = data.getParcelableExtra(Constants.KEY_SELECTED_COUPON);
-                    mDataBinding.tvCouponYuan.setText(getString(R.string.offset_fee, StringUtil.toYuanWithoutUnit(mSelectedCoupon.getPrice())));
 
+                    refreshDisplayFee();
                     break;
             }
         }
+    }
+
+    private void updateOrderPrepay() {
+        PayType payType = PayType.Alipay;
+        if (mDataBinding.rgPayment.getCheckedRadioButtonId() == R.id.rbWechatPay) {
+            payType = PayType.WeChat;
+        }
+
+        MDGroundApplication.mOrderutUtils.updateOrderPrepayRequest(PaymentPreviewActivity.this,
+                mDeliveryAddress, payType, getAllOrderWorkAmountFee(), getReceivableFee());
     }
 
     //region ACTION
@@ -235,6 +290,7 @@ public class PaymentPreviewActivity extends ToolbarActivity<ActivityPaymentPrevi
         Intent intent = new Intent(this, ChooseCouponActivity.class);
         intent.putExtra(Constants.KEY_SELECTED_COUPON, mSelectedCoupon);
         intent.putExtra(Constants.KEY_COUPON_LIST, mAvailableCouponArrayList);
+        intent.putExtra(Constants.KEY_ORDER_AMOUNT_FEE, getAllOrderWorkAmountFee());
         startActivityForResult(intent, REQEUST_CODE_SELECT_COUPON);
     }
 
@@ -243,12 +299,34 @@ public class PaymentPreviewActivity extends ToolbarActivity<ActivityPaymentPrevi
             ViewUtils.toast(R.string.add_address_first);
             return;
         }
-        PayType payType = PayType.Alipay;
-        if (mDataBinding.rgPayment.getCheckedRadioButtonId() == R.id.rbWechatPay) {
-            payType = PayType.WeChat;
+
+        if (mHadChangedOrderCount) {
+            saveOrderWorkRequest(0);
+        } else {
+            updateOrderPrepay();
         }
-        MDGroundApplication.mOrderutUtils.updateOrderPrepayRequest(PaymentPreviewActivity.this,
-                mDeliveryAddress, payType, getAmountFee(), getReceivableFee());
+    }
+
+    public void itemMinusNumAction(View view) {
+        int position = mDataBinding.productRecyclerView.getChildAdapterPosition(view);
+
+        OrderWork orderWork = mOrderWorkArrayList.get(position);
+        int orderCount = orderWork.getOrderCount();
+
+        if (orderCount == 1) {
+            return;
+        }
+
+        orderWork.setOrderCount(--orderCount);
+    }
+
+    public void itemAddNumAction(View view) {
+        int position = mDataBinding.productRecyclerView.getChildAdapterPosition(view);
+
+        OrderWork orderWork = mOrderWorkArrayList.get(position);
+        int orderCount = orderWork.getOrderCount();
+
+        orderWork.setOrderCount(++orderCount);
     }
     //endregion
 
@@ -291,11 +369,11 @@ public class PaymentPreviewActivity extends ToolbarActivity<ActivityPaymentPrevi
                     // 判断优惠券是否可用条件：当前时间在ExpireTime之前
                     boolean isAvailable = DateUtils.isBeforeExpireTime(coupon.getExpireTime());
 
-                    if (isAvailable && coupon.getPriceLimit() <= getAmountFee()) {
+                    if (isAvailable) {
                         mAvailableCouponArrayList.add(coupon);
                     }
                 }
-                mDataBinding.tvAvailableCoupon.setText(getString(R.string.available_num, mAvailableCouponArrayList.size()));
+                refreshDisplayFee();
             }
 
             @Override
@@ -329,5 +407,98 @@ public class PaymentPreviewActivity extends ToolbarActivity<ActivityPaymentPrevi
             }
         });
     }
+
+    private void saveOrderWorkRequest(final int saveIndex) {
+        if (saveIndex < mOrderWorkArrayList.size()) {
+            GlobalRestful.getInstance().SaveOrderWork(mOrderWorkArrayList.get(saveIndex), new Callback<ResponseData>() {
+                @Override
+                public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
+                    int nextSaveIndex = saveIndex + 1;
+                    saveOrderWorkRequest(nextSaveIndex);
+                }
+
+                @Override
+                public void onFailure(Call<ResponseData> call, Throwable t) {
+                    ViewUtils.dismiss();
+                }
+            });
+        } else {
+            updateOrderPrepay();
+        }
+    }
     //endregion
+
+    //region ADAPTER
+    public class PaymentPreviewAdapter extends RecyclerView.Adapter<PaymentPreviewAdapter.ViewHolder> {
+
+        @Override
+        public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            View itemView = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.item_payment_preview, parent, false);
+            ViewHolder holder = new ViewHolder(itemView);
+            return holder;
+        }
+
+        @Override
+        public void onBindViewHolder(ViewHolder holder, final int position) {
+            OrderWork orderWork = mOrderWorkArrayList.get(position);
+
+            holder.viewDataBinding.setOrderWork(orderWork);
+
+            ProductType productType = ProductType.fromValue(orderWork.getTypeID());
+            switch (productType) {
+                case PrintPhoto:
+                case Engraving:
+                    holder.viewDataBinding.rltQuantity.setVisibility(View.GONE);
+                    break;
+            }
+
+            holder.viewDataBinding.ivMinus.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    OrderWork orderWork = mOrderWorkArrayList.get(position);
+                    int orderCount = orderWork.getOrderCount();
+
+                    if (orderCount == 1) {
+                        return;
+                    }
+
+                    orderWork.setOrderCount(--orderCount);
+
+                    mSelectedCoupon = null;
+                    refreshDisplayFee();
+                }
+            });
+
+            holder.viewDataBinding.ivAdd.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    OrderWork orderWork = mOrderWorkArrayList.get(position);
+                    int orderCount = orderWork.getOrderCount();
+
+                    orderWork.setOrderCount(++orderCount);
+
+                    mSelectedCoupon = null;
+                    refreshDisplayFee();
+                }
+            });
+        }
+
+        @Override
+        public int getItemCount() {
+            return mOrderWorkArrayList.size();
+        }
+
+        public class ViewHolder extends RecyclerView.ViewHolder {
+
+            public ItemPaymentPreviewBinding viewDataBinding;
+
+            public ViewHolder(View itemView) {
+                super(itemView);
+                viewDataBinding = DataBindingUtil.bind(itemView);
+            }
+        }
+    }
+    //endregion
+
 }

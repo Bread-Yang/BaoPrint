@@ -105,7 +105,8 @@ public class PuzzleEditActivity extends ToolbarActivity<ActivityPuzzleEditBindin
     public void nextStepAction(View view) {
         ViewUtils.loading(this);
 
-        MDGroundApplication.mOrderutUtils = new OrderUtils(this, MDGroundApplication.mChoosedTemplate.getPrice(), null);
+        MDGroundApplication.mOrderutUtils = new OrderUtils(this,
+                1, MDGroundApplication.mChoosedTemplate.getPrice(), null);
         MDGroundApplication.mOrderutUtils.saveOrderRequest();
     }
     //endregion

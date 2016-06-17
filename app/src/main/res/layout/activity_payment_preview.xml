@@ -7,7 +7,6 @@
     <data>
         <import type="com.MDGround.HaiLanPrint.utils.StringUtil"/>
 
-        <variable name="orderWork" type="com.MDGround.HaiLanPrint.models.OrderWork"/>
     </data>
 
     <RelativeLayout
@@ -95,59 +94,12 @@
                     android:src="@drawable/bitmap_address"
                     android:visibility="gone"/>
 
-                <RelativeLayout
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/productRecyclerView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_8"
-                    android:background="@color/color_white"
-                    android:orientation="vertical"
-                    android:padding="@dimen/margin_8">
-
-                    <ImageView
-                        android:id="@+id/ivImage"
-                        android:layout_width="80dp"
-                        android:layout_height="80dp"
-                        android:scaleType="centerCrop"
-                        app:loadImageByPhotoSID="@{orderWork.photoCover}"/>
-
-                    <TextView
-                        android:id="@+id/tvProductType"
-                        style="@style/NormalTextStyle"
-                        android:layout_marginLeft="@dimen/margin_8"
-                        android:layout_toRightOf="@+id/ivImage"
-                        android:textSize="@dimen/text_size_16"
-                        tools:text="照片冲洗"/>
-
-                    <TextView
-                        android:id="@+id/tvNum"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/tvProductType"
-                        android:layout_marginLeft="@dimen/margin_8"
-                        android:layout_marginTop="@dimen/margin_10"
-                        android:layout_toRightOf="@+id/ivImage"
-                        android:text="@{@string/num_with_colon(orderWork.photoCount)}"
-                        tools:text="数量 : 2"/>
-
-                    <TextView
-                        style="@style/OrangeTextStyle"
-                        android:layout_alignBottom="@+id/ivImage"
-                        android:layout_toLeftOf="@+id/tvYuan"
-                        android:text="@{@string/yuan_amount(StringUtil.toYuanWithoutUnit(orderWork.price))}"
-                        tools:text="¥276.00"/>
-
-                    <TextView
-                        android:id="@+id/tvYuan"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignBottom="@+id/ivImage"
-                        android:layout_alignParentRight="true"
-                        android:layout_marginTop="@dimen/margin_15"
-                        android:text="@string/yuan_unit"/>
-
-                </RelativeLayout>
-
-                <View style="@style/DividerHorizontalStyle"/>
+                    android:background="@color/color_white"/>
 
                 <RelativeLayout
                     style="@style/FixHeightLayoutStyle"
@@ -237,6 +189,7 @@
                     <RelativeLayout
                         style="@style/NormalLayoutStyle"
                         android:gravity="center_vertical"
+                        android:paddingTop="@dimen/margin_6"
                         android:onClick="toChooseCouponActivityAction">
 
                         <TextView
@@ -272,6 +225,7 @@
 
                         <TextView
                             style="@style/OrangeTextStyle"
+                            android:id="@+id/tvCouponFee"
                             android:layout_toLeftOf="@+id/tvYuan"
                             android:text="¥0.00"/>
 
@@ -286,6 +240,7 @@
                     <RelativeLayout
                         style="@style/NormalLayoutStyle"
                         android:gravity="center_vertical"
+                        android:paddingBottom="@dimen/margin_6"
                         android:onClick="toChooseCouponActivityAction">
 
                         <TextView

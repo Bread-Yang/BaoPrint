@@ -29,8 +29,8 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="@dimen/margin_10"
-                tools:text="@string/please_choose_image"
-                android:textSize="@dimen/margin_12"/>
+                android:textSize="@dimen/margin_12"
+                tools:text="@string/please_choose_image"/>
 
             <TextView
                 android:id="@+id/tvChooseTips"
@@ -38,8 +38,9 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="@dimen/margin_10"
-                tools:text="@string/choose_image_tips"
-                android:textSize="@dimen/margin_12"/>
+                android:textSize="@dimen/margin_12"
+                android:visibility="invisible"
+                tools:text="@string/choose_image_tips"/>
 
             <Button
                 android:id="@+id/btnNextStep"
@@ -54,7 +55,8 @@
                 android:gravity="center"
                 android:onClick="nextStepAction"
                 android:text="@string/next_step"
-                android:textColor="@color/color_white"/>
+                android:textColor="@color/color_white"
+                android:visibility="invisible"/>
         </RelativeLayout>
 
         <android.support.v7.widget.RecyclerView

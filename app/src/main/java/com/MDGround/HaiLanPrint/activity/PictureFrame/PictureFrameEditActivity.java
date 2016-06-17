@@ -103,7 +103,10 @@ public class PictureFrameEditActivity extends ToolbarActivity<ActivityPictureFra
 
     public void purchaseAction(View view) {
         ViewUtils.loading(this);
-        MDGroundApplication.mOrderutUtils = new OrderUtils(this, MDGroundApplication.mChoosedTemplate.getPrice(), null);
+        MDGroundApplication.mOrderutUtils = new OrderUtils(this,
+                MDGroundApplication.mChoosedTemplate.getPageCount(),
+                MDGroundApplication.mChoosedTemplate.getPrice(),
+                null);
         MDGroundApplication.mOrderutUtils.saveOrderRequest();
     }
     //endregion

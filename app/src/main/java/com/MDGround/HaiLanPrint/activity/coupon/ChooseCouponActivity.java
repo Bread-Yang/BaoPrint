@@ -14,6 +14,7 @@ import com.MDGround.HaiLanPrint.constants.Constants;
 import com.MDGround.HaiLanPrint.databinding.ActivityChooseCouponBinding;
 import com.MDGround.HaiLanPrint.databinding.ItemChooseCouponBinding;
 import com.MDGround.HaiLanPrint.models.Coupon;
+import com.MDGround.HaiLanPrint.utils.ViewUtils;
 
 import java.util.ArrayList;
 
@@ -29,6 +30,8 @@ public class ChooseCouponActivity extends ToolbarActivity<ActivityChooseCouponBi
 
     private Coupon mSelectedCoupon;
 
+    private int mOrderAmountFee;
+
     @Override
     protected int getContentLayout() {
         return R.layout.activity_choose_coupon;
@@ -36,15 +39,16 @@ public class ChooseCouponActivity extends ToolbarActivity<ActivityChooseCouponBi
 
     @Override
     protected void initData() {
+        mSelectedCoupon = getIntent().getParcelableExtra(Constants.KEY_SELECTED_COUPON);
+        mAvailableCouponArrayList = getIntent().getParcelableArrayListExtra(Constants.KEY_COUPON_LIST);
+        mOrderAmountFee = getIntent().getIntExtra(Constants.KEY_ORDER_AMOUNT_FEE, 0);
+
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         mDataBinding.recyclerView.setLayoutManager(layoutManager);
 
         mAdapter = new ChooseCouponAdapter();
         mDataBinding.recyclerView.setAdapter(mAdapter);
-
-        mSelectedCoupon = getIntent().getParcelableExtra(Constants.KEY_SELECTED_COUPON);
-        mAvailableCouponArrayList = getIntent().getParcelableArrayListExtra(Constants.KEY_COUPON_LIST);
 
         refreshRecyclerView(mAvailableCouponArrayList);
     }
@@ -71,10 +75,14 @@ public class ChooseCouponActivity extends ToolbarActivity<ActivityChooseCouponBi
         int position = mDataBinding.recyclerView.getChildAdapterPosition(view);
 
         Coupon coupon = mAvailableCouponArrayList.get(position);
-        Intent intent = new Intent();
-        intent.putExtra(Constants.KEY_SELECTED_COUPON, coupon);
-        setResult(RESULT_OK, intent);
-        finish();
+        if (coupon.getPriceLimit() <= mOrderAmountFee) {
+            Intent intent = new Intent();
+            intent.putExtra(Constants.KEY_SELECTED_COUPON, coupon);
+            setResult(RESULT_OK, intent);
+            finish();
+        } else {
+            ViewUtils.toast(R.string.not_match_coupon_condition);
+        }
     }
     //endregion
 
