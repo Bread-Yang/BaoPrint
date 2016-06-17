@@ -52,6 +52,7 @@ public class StartingActivity extends AppCompatActivity {
 
 //                    loginRequest(MDGroundApplication.mLoginUser);
                     NavUtils.toMainActivity(StartingActivity.this);
+                    finish();
                 } else {
                     toLoginActivity();
                 }

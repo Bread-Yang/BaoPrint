@@ -89,7 +89,7 @@ public class PhotoEditActivity extends ToolbarActivity<ActivityPhotoEditBinding>
         Glide.with(this)
                 .load(mdImage)
                 .asBitmap()
-                .thumbnail(0.1f)
+//                .thumbnail(0.1f)
                 .into(new SimpleTarget<Bitmap>(200, 200) {
                     @Override
                     public void onResourceReady(Bitmap bitmap, GlideAnimation glideAnimation) {

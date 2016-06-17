@@ -6,6 +6,7 @@ import android.view.View;
 import com.MDGround.HaiLanPrint.R;
 import com.MDGround.HaiLanPrint.activity.base.ToolbarActivity;
 import com.MDGround.HaiLanPrint.activity.orders.MyOrdersActivity;
+import com.MDGround.HaiLanPrint.application.MDGroundApplication;
 import com.MDGround.HaiLanPrint.constants.Constants;
 import com.MDGround.HaiLanPrint.databinding.ActivityPaymentSuccessBinding;
 import com.MDGround.HaiLanPrint.models.OrderInfo;
@@ -29,6 +30,15 @@ public class PaymentSuccessActivity extends ToolbarActivity<ActivityPaymentSucce
 
         mDataBinding.tvPaidAmount.setText(getString(R.string.yuan_amount, StringUtil.toYuanWithoutUnit(orderInfo.getTotalFeeReal())));
         mDataBinding.tvOrderNum.setText(getString(R.string.order_number, orderInfo.getOrderNo()));
+
+        switch (MDGroundApplication.mChoosedProductType) {
+            case PrintPhoto:
+            case PictureFrame:
+            case Engraving:
+                mDataBinding.lltShare.setVisibility(View.GONE);
+                break;
+        }
+
     }
 
     @Override

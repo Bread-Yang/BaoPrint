@@ -39,6 +39,7 @@
             android:layout_marginBottom="@dimen/margin_12"
             android:layout_marginLeft="@dimen/margin_12"
             android:text="@{measurement.titleSub}"
+            android:textSize="@dimen/text_size_14"
             tools:text="(2)"/>
 
         <TextView

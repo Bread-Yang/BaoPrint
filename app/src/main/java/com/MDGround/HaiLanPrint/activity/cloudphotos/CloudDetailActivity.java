@@ -1,7 +1,6 @@
 package com.MDGround.HaiLanPrint.activity.cloudphotos;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.support.v7.widget.GridLayoutManager;
 import android.view.View;
 import android.widget.CompoundButton;
@@ -26,6 +25,7 @@ import com.google.gson.reflect.TypeToken;
 import com.malinskiy.superrecyclerview.OnMoreListener;
 import com.socks.library.KLog;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -220,10 +220,9 @@ public class CloudDetailActivity extends ToolbarActivity<ActivityCloudDetailBind
                     for (MDImage mdImage : tempImagesList) {
                         Glide.with(CloudDetailActivity.this)
                                 .load(mdImage)
-                                .asBitmap()
-                                .into(new SimpleTarget<Bitmap>() {
+                                .downloadOnly(new SimpleTarget<File>() {
                                     @Override
-                                    public void onResourceReady(final Bitmap bitmap, GlideAnimation glideAnimation) {
+                                    public void onResourceReady(File resource, GlideAnimation<? super File> glideAnimation) {
                                         KLog.e("下载完成");
                                     }
                                 });

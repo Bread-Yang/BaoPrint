@@ -2,6 +2,7 @@ package com.MDGround.HaiLanPrint.activity.payment;
 
 import android.content.Intent;
 import android.view.View;
+import android.widget.CompoundButton;
 
 import com.MDGround.HaiLanPrint.R;
 import com.MDGround.HaiLanPrint.activity.base.ToolbarActivity;
@@ -11,11 +12,13 @@ import com.MDGround.HaiLanPrint.application.MDGroundApplication;
 import com.MDGround.HaiLanPrint.constants.Constants;
 import com.MDGround.HaiLanPrint.databinding.ActivityPaymentPreviewBinding;
 import com.MDGround.HaiLanPrint.enumobject.PayType;
+import com.MDGround.HaiLanPrint.enumobject.SettingType;
 import com.MDGround.HaiLanPrint.greendao.Location;
 import com.MDGround.HaiLanPrint.models.Coupon;
 import com.MDGround.HaiLanPrint.models.DeliveryAddress;
 import com.MDGround.HaiLanPrint.models.Measurement;
 import com.MDGround.HaiLanPrint.models.OrderWork;
+import com.MDGround.HaiLanPrint.models.SystemSetting;
 import com.MDGround.HaiLanPrint.models.Template;
 import com.MDGround.HaiLanPrint.models.UserIntegral;
 import com.MDGround.HaiLanPrint.restfuls.GlobalRestful;
@@ -54,9 +57,11 @@ public class PaymentPreviewActivity extends ToolbarActivity<ActivityPaymentPrevi
 
     private ArrayList<Coupon> mAvailableCouponArrayList = new ArrayList<>();
 
+    private SystemSetting mSystemSetting;
+
     private Coupon mSelectedCoupon;
 
-    private int mUnitFee, mAmountFee, mCouponFee, mCreditFee, mReceivableFee, mFreightFee;
+    private int mUnitFee, mAmountFee, mCouponFee, mCredit, mReceivableFee, mFreightFee;
 
     @Override
     protected int getContentLayout() {
@@ -68,6 +73,7 @@ public class PaymentPreviewActivity extends ToolbarActivity<ActivityPaymentPrevi
         super.onResume();
         getUserIntegralInfoRequest();
         getUserCouponListRequest();
+        getSystemSettingRequest();
     }
 
     @Override
@@ -134,6 +140,17 @@ public class PaymentPreviewActivity extends ToolbarActivity<ActivityPaymentPrevi
                 NavUtils.toMainActivity(PaymentPreviewActivity.this);
             }
         });
+
+        mDataBinding.cbUseCredit.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    mDataBinding.tvCreditYuan.setText(getString(R.string.offset_fee, StringUtil.toYuanWithoutUnit(getCreditFee())));
+                } else {
+                    mDataBinding.tvCreditYuan.setText(getString(R.string.offset_fee, "0.00"));
+                }
+            }
+        });
     }
 
     private int getAmountFee() {
@@ -157,8 +174,19 @@ public class PaymentPreviewActivity extends ToolbarActivity<ActivityPaymentPrevi
         return 0;
     }
 
+    private int getCreditFee() {
+        int creditFee = 0;
+        if (mSystemSetting != null) {
+            creditFee = mCredit * mSystemSetting.getValue();
+        }
+        return creditFee;
+    }
+
     private int getReceivableFee() {
-        int amountFee = getAmountFee() - mCouponFee - mCreditFee + mFreightFee;
+        int amountFee = getAmountFee() - mCouponFee - getCreditFee() + mFreightFee;
+        if (amountFee < 0) {
+            amountFee = 0;
+        }
         return amountFee;
     }
 
@@ -233,8 +261,8 @@ public class PaymentPreviewActivity extends ToolbarActivity<ActivityPaymentPrevi
                 ViewUtils.dismiss();
                 try {
                     JSONObject jsonObject = new JSONObject(response.body().getContent());
-                    int totalAmount = jsonObject.getInt("TotalAmount");
-                    mDataBinding.tvCredit.setText(getString(R.string.credit_total, String.valueOf(totalAmount)));
+                    mCredit = jsonObject.getInt("TotalAmount");
+                    mDataBinding.tvCredit.setText(getString(R.string.credit_total, String.valueOf(mCredit)));
 
                     String UserIntegralList = jsonObject.getString("UserIntegralList");
                     mUserCreditArrayList = StringUtil.getInstanceByJsonString(UserIntegralList, new TypeToken<ArrayList<UserIntegral>>() {
@@ -263,7 +291,7 @@ public class PaymentPreviewActivity extends ToolbarActivity<ActivityPaymentPrevi
                     // 判断优惠券是否可用条件：当前时间在ExpireTime之前
                     boolean isAvailable = DateUtils.isBeforeExpireTime(coupon.getExpireTime());
 
-                    if (isAvailable) {
+                    if (isAvailable && coupon.getPriceLimit() <= getAmountFee()) {
                         mAvailableCouponArrayList.add(coupon);
                     }
                 }
@@ -277,5 +305,29 @@ public class PaymentPreviewActivity extends ToolbarActivity<ActivityPaymentPrevi
         });
     }
 
+    private void getSystemSettingRequest() {
+        GlobalRestful.getInstance().GetSystemSetting(new Callback<ResponseData>() {
+            @Override
+            public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
+                ArrayList<SystemSetting> systemSettingArrayList = response.body().getContent(new TypeToken<ArrayList<SystemSetting>>() {
+                });
+
+                for (SystemSetting systemSetting : systemSettingArrayList) {
+                    SettingType settingType = SettingType.fromValue(systemSetting.getSettingType());
+                    if (settingType == SettingType.PayIntegralAmount) {
+                        mSystemSetting = systemSetting;
+
+                        mDataBinding.cbUseCredit.setChecked(false);
+                        break;
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseData> call, Throwable t) {
+
+            }
+        });
+    }
     //endregion
 }

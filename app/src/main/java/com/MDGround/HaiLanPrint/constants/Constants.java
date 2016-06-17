@@ -38,6 +38,7 @@ public final class Constants {
     public static final String KEY_ORDER_WORK_LIST = "key_order_work_list";
     public static final String KEY_ORDER_INFO = "key_order_info";
     public static final String KEY_SELECTED_COUPON = "key_selected_coupon";
+    public static final String KEY_COUPON_PRICE_LIMIT = "key_coupon_price_limit";
     public static final String KEY_COUPON_LIST = "key_coupon_list";
     public static final String KEY_FROM_PAYMENT_SUCCESS = "key_from_payment_success";
 
