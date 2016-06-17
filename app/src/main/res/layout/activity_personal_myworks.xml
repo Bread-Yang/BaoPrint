@@ -9,37 +9,37 @@
         android:orientation="vertical"
         >
         <LinearLayout
-            android:visibility="gone"
             android:id="@+id/ll_blank"
             android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:orientation="vertical"
-            android:layout_height="match_parent">
+            android:visibility="gone">
 
             <ImageView
-                android:layout_marginTop="@dimen/margin_48"
-                android:layout_gravity="center_horizontal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/margin_48"
                 android:src="@drawable/icon_nofind_works"
                 />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/margin_48"
                 android:text="@string/nofind_works"
                 android:textColor="@color/color_666666"
-                android:layout_marginTop="@dimen/margin_48"
-                android:layout_gravity="center_horizontal"
                 />
         </LinearLayout>
         <LinearLayout
             android:id="@+id/ll_enough"
-            android:visibility="visible"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:visibility="visible">
 
             <android.support.v7.widget.RecyclerView
-                android:id="@+id/myworksrecyclerView"
+                android:id="@+id/myworksRecyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"></android.support.v7.widget.RecyclerView>
@@ -62,23 +62,23 @@
                         style="@style/WorksCheckBoxTextStyle"
                         android:layout_gravity="center_vertical"
                         android:layout_marginLeft="@dimen/margin_20"
-                        android:button="@drawable/selector_works_checkbox" />
+                        android:button="@drawable/selector_works_checkbox"/>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:text="@string/allSelect"
-                        android:textColor="@color/color_666666" />
+                        android:textColor="@color/color_666666"/>
 
                     <LinearLayout
                         android:id="@+id/ll_totalprice"
-                        android:paddingRight="@dimen/margin_8"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:gravity="right|center_vertical"
-                        android:orientation="vertical">
+                        android:orientation="vertical"
+                        android:paddingRight="@dimen/margin_8">
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -87,7 +87,7 @@
                             android:layout_marginTop="@dimen/margin_10"
                             android:text="@string/tatal"
                             android:textColor="@color/color_666666"
-                            android:textSize="@dimen/text_size_12" />
+                            android:textSize="@dimen/text_size_12"/>
 
                         <LinearLayout
                             android:layout_width="wrap_content"
@@ -101,24 +101,24 @@
                                 android:layout_height="wrap_content"
                                 android:textColor="@color/colorOrange"
                                 android:textSize="@dimen/text_size_12"
-                                tools:text="22222" />
+                                tools:text="22222"/>
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="@string/yuan"
                                 android:textColor="@color/color_666666"
-                                android:textSize="@dimen/text_size_14" />
+                                android:textSize="@dimen/text_size_14"/>
                         </LinearLayout>
                     </LinearLayout>
 
                     <LinearLayout
                         android:id="@+id/ll_amunt"
-                        android:onClick="toBuyOrDelete"
                         android:layout_width="100dp"
                         android:layout_height="match_parent"
                         android:background="@color/colorOrange"
-                        android:gravity="center">
+                        android:gravity="center"
+                        android:onClick="toBuyOrDelete">
 
                         <TextView
                             android:id="@+id/tv_buy"
@@ -126,7 +126,7 @@
                             android:layout_height="wrap_content"
                             android:text="@string/buy"
                             android:textColor="@android:color/white"
-                            android:textSize="@dimen/text_size_16" />
+                            android:textSize="@dimen/text_size_16"/>
 
                         <TextView
                             android:id="@+id/tv_amunt"
@@ -134,7 +134,7 @@
                             android:layout_height="wrap_content"
                             android:textColor="@android:color/white"
                             android:textSize="@dimen/text_size_12"
-                            tools:text="(2)" />
+                            tools:text="(2)"/>
                     </LinearLayout>
 
                 </LinearLayout>

@@ -26,6 +26,12 @@ public class WorkInfo {
 
     private int PhotoCount;
 
+    private String WorkMaterial;
+
+    private String WorkFormat;
+
+    private String WorkStyle;
+
     public int getUserID() {
         return UserID;
     }
@@ -104,5 +110,29 @@ public class WorkInfo {
 
     public void setPhotoCount(int photoCount) {
         PhotoCount = photoCount;
+    }
+
+    public String getWorkStyle() {
+        return WorkStyle;
+    }
+
+    public void setWorkStyle(String workStyle) {
+        WorkStyle = workStyle;
+    }
+
+    public String getWorkFormat() {
+        return WorkFormat;
+    }
+
+    public void setWorkFormat(String workFormat) {
+        WorkFormat = workFormat;
+    }
+
+    public String getWorkMaterial() {
+        return WorkMaterial;
+    }
+
+    public void setWorkMaterial(String workMaterial) {
+        WorkMaterial = workMaterial;
     }
 }
