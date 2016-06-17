@@ -18,7 +18,6 @@ import com.MDGround.HaiLanPrint.greendao.Location;
 import com.MDGround.HaiLanPrint.models.DeliveryAddress;
 import com.MDGround.HaiLanPrint.restfuls.GlobalRestful;
 import com.MDGround.HaiLanPrint.restfuls.bean.ResponseData;
-import com.MDGround.HaiLanPrint.utils.Bookends;
 import com.MDGround.HaiLanPrint.utils.ViewUtils;
 
 import java.util.ArrayList;
@@ -38,8 +37,8 @@ public class ManageAddressActivity extends ToolbarActivity<ActivityManageAddress
     private ArrayList<DeliveryAddress> mUserAddressList = new ArrayList<>();
     private DeliveryAddress mUserAddress;
     private ManageAddressAdatper adatper;
-    private View footView;
-    private Bookends<ManageAddressAdatper> bookends;
+//    private View footView;
+//    private Bookends<ManageAddressAdatper> bookends;
 
     @Override
     protected int getContentLayout() {
@@ -58,11 +57,11 @@ public class ManageAddressActivity extends ToolbarActivity<ActivityManageAddress
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         mDataBinding.recyclerView.setLayoutManager(linearLayoutManager);
         adatper = new ManageAddressAdatper();
-        bookends = new Bookends<>(adatper);
-        footView = LayoutInflater.from(this).inflate(R.layout.item_address_foot, null);
-        bookends.addFooter(footView);
+//        bookends = new Bookends<>(adatper);
+//        footView = LayoutInflater.from(this).inflate(R.layout.item_address_foot, null);
+//        bookends.addFooter(footView);
         getUserAddressListRequest();
-        mDataBinding.recyclerView.setAdapter(bookends);
+        mDataBinding.recyclerView.setAdapter(adatper);
     }
 
     //region SERVER
@@ -75,7 +74,7 @@ public class ManageAddressActivity extends ToolbarActivity<ActivityManageAddress
                 ArrayList<DeliveryAddress> tempList = response.body().getContent(new com.google.gson.reflect.TypeToken<ArrayList<DeliveryAddress>>() {
                 });
                 mUserAddressList.addAll(tempList);
-                bookends.notifyDataSetChanged();
+//                bookends.notifyDataSetChanged();
                 adatper.notifyDataSetChanged();
 
                 ViewUtils.dismiss();
@@ -92,7 +91,7 @@ public class ManageAddressActivity extends ToolbarActivity<ActivityManageAddress
     //endregion
     @Override
     protected void setListener() {
-        footView.findViewById(R.id.tv_addAddress).setOnClickListener(new View.OnClickListener() {
+        mDataBinding.tvAddAddress.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(ManageAddressActivity.this, EditAddressActivity.class);

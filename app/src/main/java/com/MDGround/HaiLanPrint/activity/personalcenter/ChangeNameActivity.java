@@ -47,7 +47,7 @@ public class ChangeNameActivity extends ToolbarActivity<ActivityChangeNameBindin
                 final String newName = mDataBinding.etName.getText().toString();
                 if (!"".equals(newName)) {
                     if (newName.equals(MDGroundApplication.mLoginUser.getUserNickName())) {
-                        ViewUtils.toast("你输入的昵称没有改变");
+                        finish();
                     } else {
                         User user = MDGroundApplication.mLoginUser;
                         user.setUserNickName(newName);

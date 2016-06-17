@@ -16,7 +16,7 @@
             android:paddingBottom="@dimen/margin_30"
             android:paddingLeft="@dimen/margin_12"
             android:paddingRight="@dimen/margin_12"
-            android:paddingTop="@dimen/margin_16">
+            android:paddingTop="@dimen/margin_12">
 
             <EditText
                 android:id="@+id/addContent"
@@ -26,6 +26,7 @@
                 android:enabled="true"
                 android:gravity="top"
                 android:hint="@string/prompt"
+                android:textColorHint="#cccccc"
                 android:inputType="textMultiLine"
                 android:minLines="10"
                 android:padding="@dimen/margin_12"

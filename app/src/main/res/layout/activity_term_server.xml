@@ -17,17 +17,17 @@
             android:paddingRight="@dimen/margin_12"
             android:orientation="vertical">
             <TextView
-                android:layout_marginTop="@dimen/margin_12"
-                android:layout_width="wrap_content"
-                android:textSize="@dimen/margin_20"
-                android:textStyle="bold"
-                android:layout_gravity="center_horizontal"
-                android:text="@string/procol_tile"
-                android:layout_height="wrap_content" />
-            <TextView
-                android:layout_marginTop="@dimen/margin_12"
+                android:layout_marginTop="18dp"
                 android:layout_width="wrap_content"
                 android:textSize="@dimen/text_size_20"
+                android:layout_gravity="center_horizontal"
+                android:text="@string/procol_tile"
+                android:textColor="@color/color_333333"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:layout_marginTop="@dimen/size_22"
+                android:layout_width="wrap_content"
+                android:textSize="@dimen/text_size_16"
                 android:layout_gravity="center_horizontal"
                 android:text="@string/protocol_tips"
                 android:lineSpacingExtra="@dimen/margin_8"

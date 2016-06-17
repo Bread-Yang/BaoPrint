@@ -307,7 +307,7 @@
             android:label="@string/child_information" />
         <activity
             android:name=".activity.personalcenter.ManageAddressActivity"
-            android:label="@string/address_management" />
+            android:label="@string/myaddress" />
         <activity
             android:name=".activity.orders.OrderDetailActivity"
             android:label="@string/order_detail"

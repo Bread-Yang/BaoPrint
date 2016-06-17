@@ -20,9 +20,10 @@
                 android:layout_height="@dimen/size_60"
                 android:gravity="bottom"
                 android:paddingBottom="@dimen/margin_16"
+                android:maxLength="16"
                 tools:text="我少时诵诗书"
-                android:textSize="@dimen/text_size_24"
-                android:paddingLeft="@dimen/margin_16"
+                android:textSize="@dimen/text_size_16"
+                android:paddingLeft="@dimen/size_18"
                 android:layout_weight="1"
                 android:textColor="@color/color_999999"
                 android:background="@color/color_white"
@@ -37,12 +38,12 @@
                     />
         </LinearLayout>
         <TextView
-            android:layout_marginTop="@dimen/margin_12"
+            android:layout_marginTop="@dimen/size_18"
             android:layout_width="wrap_content"
-            android:layout_marginLeft="@dimen/margin_16"
+            android:layout_marginLeft="@dimen/size_18"
             android:layout_height="wrap_content"
             android:textColor="@color/color_999999"
-            android:textSize="@dimen/text_size_12"
+            android:textSize="@dimen/text_size_14"
             android:text="@string/explain"
             />
     </LinearLayout>
