@@ -143,10 +143,27 @@ public class MyWorksActivity extends ToolbarActivity<ActivityPersonalMyworksBind
 
     //购买或者删除按钮
     public void toBuyOrDelete(View view) {
-        if (mIsEditor) {
+        if (mIsEditor){
 
         } else {
+            List<Integer> workIDList=new ArrayList<>();
+            for(int i=0;i<mSelectedWorkInfoList.size();i++){
+                int workID=mSelectedWorkInfoList.get(i).getWorkID();
+                workIDList.add(workID);
+            }
+            GlobalRestful.getInstance().DeleteUserWork(workIDList, new Callback<ResponseData>() {
+                @Override
+                public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
+                    if(ResponseCode.isSuccess(response.body())){
+                        getUserWorkListRequest();
+                    }
+                }
 
+                @Override
+                public void onFailure(Call<ResponseData> call, Throwable t) {
+
+                }
+            });
         }
     }
 
