@@ -34,6 +34,8 @@ public class MDImage extends BaseObservable implements Parcelable {
 
     private long lastUpdateAt;
 
+    private WorkPhoto workPhoto;
+
     public MDImage() {}
 
     public MDImage(String imageLocalPath, long lastUpdateAt, long duration) {
@@ -170,5 +172,13 @@ public class MDImage extends BaseObservable implements Parcelable {
 
     public void setSyntheticImageLocalPath(String syntheticImageLocalPath) {
         this.syntheticImageLocalPath = syntheticImageLocalPath;
+    }
+
+    public WorkPhoto getWorkPhoto() {
+        return workPhoto;
+    }
+
+    public void setWorkPhoto(WorkPhoto workPhoto) {
+        this.workPhoto = workPhoto;
     }
 }

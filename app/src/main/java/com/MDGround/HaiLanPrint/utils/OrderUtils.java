@@ -3,7 +3,6 @@ package com.MDGround.HaiLanPrint.utils;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
 
 import com.MDGround.HaiLanPrint.ProductType;
 import com.MDGround.HaiLanPrint.activity.payment.PaymentSuccessActivity;
@@ -22,17 +21,12 @@ import com.MDGround.HaiLanPrint.models.WorkPhoto;
 import com.MDGround.HaiLanPrint.restfuls.FileRestful;
 import com.MDGround.HaiLanPrint.restfuls.GlobalRestful;
 import com.MDGround.HaiLanPrint.restfuls.bean.ResponseData;
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.animation.GlideAnimation;
-import com.bumptech.glide.request.target.SimpleTarget;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import jp.co.cyberagent.android.gpuimage.GPUImage;
-import jp.co.cyberagent.android.gpuimage.GPUImageNormalBlendFilter;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -91,25 +85,6 @@ public class OrderUtils {
             if (templateImage.getPhotoSID() != 0
                     && (selectImage.getImageLocalPath() != null || selectImage.getPhotoSID() != 0)) { // 模版图片存在,并且用户选择的图片存在
 
-                Glide.with(context).load(templateImage).asBitmap().into(new SimpleTarget<Bitmap>() {
-                    @Override
-                    public void onResourceReady(final Bitmap templateBitmap, GlideAnimation<? super Bitmap> glideAnimation) {
-                        Glide.with(context).load(selectImage).asBitmap().into(new SimpleTarget<Bitmap>() {
-                            @Override
-                            public void onResourceReady(Bitmap selectBitmap, GlideAnimation<? super Bitmap> glideAnimation) {
-                                GPUImageNormalBlendFilter blendFilter = new GPUImageNormalBlendFilter();
-
-                                blendFilter.setBitmap(templateBitmap);
-
-                                GPUImage blendImage = new GPUImage(context);
-                                blendImage.setImage(selectBitmap);
-                                blendImage.setFilter(blendFilter);
-
-                                Bitmap blendBitmap = blendImage.getBitmapWithFilterApplied();
-                            }
-                        });
-                    }
-                });
             }
         }
         for (MDImage mdImage : SelectImageUtil.mAlreadySelectImage) {
@@ -117,14 +92,22 @@ public class OrderUtils {
         }
     }
 
+    private Runnable uploadSyntheticImage = new Runnable() {
+        @Override
+        public void run() {
+
+        }
+    };
+
     public void uploadImageRequest(final int upload_image_index) {
         if (upload_image_index < SelectImageUtil.mAlreadySelectImage.size()) {
-            final MDImage mdImage = SelectImageUtil.mAlreadySelectImage.get(upload_image_index);
+            final MDImage selectImage = SelectImageUtil.mAlreadySelectImage.get(upload_image_index);
+            MDImage templateImage = SelectImageUtil.mTemplateImage.get(upload_image_index);
 
             final int nextUploadIndex = upload_image_index + 1;
 
-            if (mdImage.getImageLocalPath() != null && !StringUtil.isEmpty(mdImage.getImageLocalPath())) { // 本地图片
-                File file = new File(mdImage.getImageLocalPath());
+            if (selectImage.getImageLocalPath() != null && !StringUtil.isEmpty(selectImage.getImageLocalPath())) { // 本地图片
+                File file = new File(selectImage.getImageLocalPath());
 
                 // 上传本地照片
                 FileRestful.getInstance().UploadPhoto(UploadType.Order, file, new Callback<ResponseData>() {
@@ -133,10 +116,10 @@ public class OrderUtils {
                         final MDImage responseImage = response.body().getContent(MDImage.class);
 
                         if (responseImage != null) {
-                            responseImage.setPhotoCount(mdImage.getPhotoCount());
+                            responseImage.setPhotoCount(selectImage.getPhotoCount());
 
-                            if (mdImage.getSyntheticImageLocalPath() != null && !StringUtil.isEmpty(mdImage.getSyntheticImageLocalPath())) { // 合成图片
-                                File syntheticFile = new File(mdImage.getSyntheticImageLocalPath());
+                            if (selectImage.getSyntheticImageLocalPath() != null && !StringUtil.isEmpty(selectImage.getSyntheticImageLocalPath())) { // 合成图片
+                                File syntheticFile = new File(selectImage.getSyntheticImageLocalPath());
 
                                 // 上传合成图片
                                 FileRestful.getInstance().UploadCloudPhoto(false, syntheticFile, null, new Callback<ResponseData>() {
