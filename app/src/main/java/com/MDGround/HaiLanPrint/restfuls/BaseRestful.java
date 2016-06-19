@@ -60,6 +60,9 @@ public abstract class BaseRestful {
 
         @POST("Api/RpcInternalService.ashx/")
         Call<ResponseData> imageUploadRequest(@Body ProgressRequestBody requestBody);    // 图片请求地址
+
+//        @POST("Api/RShareWorkPhoto.aspx/")
+//        Call<ResponseData> imageUploadRequest(@Body ProgressRequestBody requestBody);
     }
 
     private int getPlatform() {

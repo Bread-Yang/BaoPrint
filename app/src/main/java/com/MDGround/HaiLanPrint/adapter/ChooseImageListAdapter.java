@@ -180,7 +180,7 @@ public class ChooseImageListAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 //                    // site是分享此内容的网站名称，仅在QQ空间使用
 //                    oks.setSite(getString(R.string.app_name));
 //                    // siteUrl是分享此内容的网站地址，仅在QQ空间使用
-//                    oks.setSiteUrl("http://sharesdk.cn");
+          //          oks.setSiteUrl("http://sharesdk.cn");
 //                    // 启动分享GUI
 //                    oks.show(mContext);
 

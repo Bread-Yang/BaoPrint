@@ -10,6 +10,9 @@ import com.MDGround.HaiLanPrint.databinding.ActivityWorksDetailsBinding;
 import com.MDGround.HaiLanPrint.models.WorkInfo;
 import com.MDGround.HaiLanPrint.utils.DateUtils;
 import com.MDGround.HaiLanPrint.utils.GlideUtil;
+import com.MDGround.HaiLanPrint.utils.MD5Util;
+import com.MDGround.HaiLanPrint.utils.StringUtil;
+import com.MDGround.HaiLanPrint.views.dialog.ShareDialog;
 import com.socks.library.KLog;
 
 import java.text.ParseException;
@@ -22,7 +25,7 @@ import java.util.Date;
 
 public class WorkDetailsActivity extends ToolbarActivity<ActivityWorksDetailsBinding> {
     private WorkInfo mWorkInfo;
-
+    private ShareDialog mShareDialog;
     @Override
     protected int getContentLayout() {
         return R.layout.activity_works_details;
@@ -33,9 +36,9 @@ public class WorkDetailsActivity extends ToolbarActivity<ActivityWorksDetailsBin
         Intent intent = this.getIntent();
         mWorkInfo = (WorkInfo) intent.getSerializableExtra(Constants.KEY_WORKS_DETAILS);
         KLog.e("mWorkInfoID" + mWorkInfo.getWorkID());
-        GlideUtil.loadImageByPhotoSID(mDataBinding.ivImage, mWorkInfo.getPhotoCover());
+        GlideUtil.loadImageByPhotoSID(mDataBinding.ivImage, mWorkInfo.getPhotoCover(),true);
         mDataBinding.tvWorksname.setText(String.valueOf(mWorkInfo.getTypeName()));
-        mDataBinding.tvWorksPice.setText(getString(R.string.rmb) + String.valueOf(String.valueOf(mWorkInfo.getPrice())));
+        mDataBinding.tvWorksPice.setText(getString(R.string.rmb) + String.valueOf(StringUtil.toYuanWithoutUnit(mWorkInfo.getPrice())));
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date date = null;
         try {
@@ -51,7 +54,21 @@ public class WorkDetailsActivity extends ToolbarActivity<ActivityWorksDetailsBin
 
     @Override
     protected void setListener() {
-
+        tvRight.setVisibility(View.VISIBLE);
+        tvRight.setBackgroundResource(R.drawable.icon_share_mywork);
+        tvRight.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                 int workId=mWorkInfo.getWorkID();
+                 int userId=mWorkInfo.getUserID();
+                String shareUrl=shareURL(String.valueOf(workId),String.valueOf(userId));
+                if (mShareDialog == null) {
+                    mShareDialog = new ShareDialog(WorkDetailsActivity.this);
+                }
+               mShareDialog.initShareUri(shareUrl);
+                mShareDialog.show();
+            }
+        });
     }
 
     //region ACTION
@@ -64,5 +81,25 @@ public class WorkDetailsActivity extends ToolbarActivity<ActivityWorksDetailsBin
     public void onShoppingWorks(View view) {
 
     }
+    //分享链接
+    public String shareURL(String workId,String userId){
+        String shareUrl=null;
+        StringBuffer sb = new StringBuffer(workId);
+        sb.append("@2O!5");
+        String workid=sb.toString();
+        StringBuffer sbr = new StringBuffer(userId);
+        sbr.append("@2O!5");
+        String userid=sbr.toString();
+        String workID= MD5Util.MD5(workid);
+        String userID=MD5Util.MD5(userid);
+        KLog.e("ssss"+workID);
+//        if(!"".equals(workID)&&!"".equals(userID)){
+            shareUrl="http://psuat.yideguan.com/ShareWorkPhoto.aspx?workId="+workID+"&userId="+userID;
+            KLog.e("url--》"+shareUrl);
+//        }
+        return  shareUrl;
+    }
     //endregion
+
+
 }
