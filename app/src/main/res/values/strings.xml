@@ -214,7 +214,12 @@
     <string name="product_detail">产品详情</string>
     <string name="template_name">模板: %s</string>
     <string name="page_num">页数: %dP</string>
-
+    <string name="recently_edited">最接近编辑： %s</string>
+    <string name="template_name_">模板：</string>
+    <string name="recently_edited_">最接近编辑</string>
+    <string name="page_num_">页数: </string>
+    <string name="recently_edit">"最近编辑时间: "</string>
+    <string name="letter_P">P</string>
     <!-- 个性月历 -->
     <string name="calendar">个性月历</string>
 
@@ -361,4 +366,5 @@
     <string name="fail_sumbit">提交失败</string>
     <string name="update_success">修改成功</string>
     <string name="save">保存</string>
+
 </resources>
