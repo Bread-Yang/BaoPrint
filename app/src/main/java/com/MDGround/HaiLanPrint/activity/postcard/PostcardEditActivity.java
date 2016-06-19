@@ -150,8 +150,8 @@ public class PostcardEditActivity extends ToolbarActivity<ActivityPostcardEditBi
         // 生成订单
         MDGroundApplication.mOrderutUtils = new OrderUtils(this,
                 1, MDGroundApplication.mChoosedTemplate.getPrice(), null);
-//        MDGroundApplication.mOrderutUtils.saveOrderRequest();
-        MDGroundApplication.mOrderutUtils.uploadImageRequest(0);
+        MDGroundApplication.mOrderutUtils.saveOrderRequest();
+//        MDGroundApplication.mOrderutUtils.uploadImageRequest(0);
     }
 
     @Override

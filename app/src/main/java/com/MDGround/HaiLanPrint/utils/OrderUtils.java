@@ -1,7 +1,9 @@
 package com.MDGround.HaiLanPrint.utils;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 
 import com.MDGround.HaiLanPrint.ProductType;
 import com.MDGround.HaiLanPrint.activity.payment.PaymentSuccessActivity;
@@ -20,12 +22,17 @@ import com.MDGround.HaiLanPrint.models.WorkPhoto;
 import com.MDGround.HaiLanPrint.restfuls.FileRestful;
 import com.MDGround.HaiLanPrint.restfuls.GlobalRestful;
 import com.MDGround.HaiLanPrint.restfuls.bean.ResponseData;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import jp.co.cyberagent.android.gpuimage.GPUImage;
+import jp.co.cyberagent.android.gpuimage.GPUImageNormalBlendFilter;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -76,8 +83,38 @@ public class OrderUtils {
         return count;
     }
 
-    public void createSyntheticImage() {
+    // 生成合成图片到本地
+    public void createSyntheticImage(final Context context) {
+        for (int i = 0; i < SelectImageUtil.mAlreadySelectImage.size(); i++) {
+            final MDImage selectImage = SelectImageUtil.mAlreadySelectImage.get(i);
+            MDImage templateImage = SelectImageUtil.mTemplateImage.get(i);
+            if (templateImage.getPhotoSID() != 0
+                    && (selectImage.getImageLocalPath() != null || selectImage.getPhotoSID() != 0)) { // 模版图片存在,并且用户选择的图片存在
 
+                Glide.with(context).load(templateImage).asBitmap().into(new SimpleTarget<Bitmap>() {
+                    @Override
+                    public void onResourceReady(final Bitmap templateBitmap, GlideAnimation<? super Bitmap> glideAnimation) {
+                        Glide.with(context).load(selectImage).asBitmap().into(new SimpleTarget<Bitmap>() {
+                            @Override
+                            public void onResourceReady(Bitmap selectBitmap, GlideAnimation<? super Bitmap> glideAnimation) {
+                                GPUImageNormalBlendFilter blendFilter = new GPUImageNormalBlendFilter();
+
+                                blendFilter.setBitmap(templateBitmap);
+
+                                GPUImage blendImage = new GPUImage(context);
+                                blendImage.setImage(selectBitmap);
+                                blendImage.setFilter(blendFilter);
+
+                                Bitmap blendBitmap = blendImage.getBitmapWithFilterApplied();
+                            }
+                        });
+                    }
+                });
+            }
+        }
+        for (MDImage mdImage : SelectImageUtil.mAlreadySelectImage) {
+
+        }
     }
 
     public void uploadImageRequest(final int upload_image_index) {
