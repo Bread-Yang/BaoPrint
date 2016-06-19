@@ -93,10 +93,10 @@ public class WorkDetailsActivity extends ToolbarActivity<ActivityWorksDetailsBin
         String workID= MD5Util.MD5(workid);
         String userID=MD5Util.MD5(userid);
         KLog.e("ssss"+workID);
-//        if(!"".equals(workID)&&!"".equals(userID)){
+        if(!"".equals(workID)&&!"".equals(userID)){
             shareUrl="http://psuat.yideguan.com/ShareWorkPhoto.aspx?workId="+workID+"&userId="+userID;
             KLog.e("url--》"+shareUrl);
-//        }
+        }
         return  shareUrl;
     }
     //endregion
