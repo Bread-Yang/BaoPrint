@@ -1,10 +1,12 @@
 package com.MDGround.HaiLanPrint.models;
 
+import java.io.Serializable;
+
 /**
  * Created by yoghourt on 6/11/16.
  */
 
-public class WorkInfo implements Comparable<WorkInfo> {
+public class WorkInfo implements Serializable,Comparable<WorkInfo> {
 
     private int UserID;
 

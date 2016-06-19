@@ -286,9 +286,9 @@
             android:name=".activity.personalcenter.PersonalCenterActivity"
             android:label="@string/personal_center"
             android:screenOrientation="portrait"></activity>
-         <activity android:name=".activity.personalcenter.NoFindMessageActivity"
-                    android:label="@string/message_center"
-             />
+        <activity
+            android:name=".activity.personalcenter.NoFindMessageActivity"
+            android:label="@string/message_center" />
         <activity
             android:name=".activity.personalcenter.MyCreditActivity"
             android:label="@string/mycredit"
@@ -321,6 +321,9 @@
             android:name=".activity.orders.ApplyRefundActivity"
             android:label="@string/apply_refund"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.personalcenter.WorkDetailsActivity"
+            android:label="@string/my_works"></activity>
         <activity
             android:name=".activity.personalcenter.AboutUsAcctivity"
             android:label="@string/about_us" />

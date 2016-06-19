@@ -1,6 +1,8 @@
 package com.MDGround.HaiLanPrint.activity.personalcenter;
 
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
+import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -9,6 +11,7 @@ import android.view.ViewGroup;
 
 import com.MDGround.HaiLanPrint.R;
 import com.MDGround.HaiLanPrint.activity.base.ToolbarActivity;
+import com.MDGround.HaiLanPrint.constants.Constants;
 import com.MDGround.HaiLanPrint.databinding.ActivityPersonalMyworksBinding;
 import com.MDGround.HaiLanPrint.databinding.ItemMyworksBinding;
 import com.MDGround.HaiLanPrint.enumobject.restfuls.ResponseCode;
@@ -239,6 +242,14 @@ public class MyWorksActivity extends ToolbarActivity<ActivityPersonalMyworksBind
         mAdapter.notifyDataSetChanged();
     }
 
+    //跳到作品详情页
+    private void toWorkDetailsActivity(WorkInfo workInfo){
+        Intent intent =new Intent(this,WorkDetailsActivity.class);
+        Bundle bundle=new Bundle();
+        bundle.putSerializable(Constants.KEY_WORKS_DETAILS,workInfo);
+        intent.putExtras(bundle);
+        startActivity(intent);
+    }
     //region SEVER
     //删除掉选中列表
     public void deleteUserWorkRequest(List<Integer> WorkIDList) {
@@ -364,6 +375,13 @@ public class MyWorksActivity extends ToolbarActivity<ActivityPersonalMyworksBind
                         WorkInfo workInfo = mAllWorkInfoList.get(getAdapterPosition());
 
                         selectSingleWork(workInfo, itemMyworksBinding.cbItem.isChecked());
+                    }
+                });
+                itemMyworksBinding.lltDetails.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        WorkInfo workInfo=mAllWorkInfoList.get(getAdapterPosition());
+                        toWorkDetailsActivity(workInfo);
                     }
                 });
             }
