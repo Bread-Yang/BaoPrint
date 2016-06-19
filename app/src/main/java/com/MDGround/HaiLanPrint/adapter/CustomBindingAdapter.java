@@ -15,12 +15,12 @@ public class CustomBindingAdapter {
     public static void
 
     loadImageByMDImage(ImageView imageView, MDImage mdImage) {
-        GlideUtil.loadImageByMDImage(imageView, mdImage);
+        GlideUtil.loadImageByMDImage(imageView, mdImage, true);
     }
 
     @BindingAdapter("bind:loadImageByPhotoSID")
     public static void loadImageByPhotoSID(ImageView imageView, int photoSID) {
-        GlideUtil.loadImageByPhotoSID(imageView, photoSID);
+        GlideUtil.loadImageByPhotoSID(imageView, photoSID, true);
     }
 }
 

@@ -207,7 +207,7 @@ public class SelectTemplateActivity extends ToolbarActivity<ActivitySelectTempla
                     mTemplateAttachListHashMap.put(template.getTemplateID(), templateImageArrayList);
 
                     if (templateImageArrayList.size() > 0) {
-                        GlideUtil.loadImageByMDImage(holder.viewDataBinding.ivImage, templateImageArrayList.get(0));
+                        GlideUtil.loadImageByMDImage(holder.viewDataBinding.ivImage, templateImageArrayList.get(0), true);
                     }
                 }
 

@@ -142,7 +142,7 @@ public class MagazineEditActivity extends ToolbarActivity<ActivityMagazineEditBi
             Glide.with(this)
                     .load(selectImage)
                     .asBitmap()
-                    .into(new SimpleTarget<Bitmap>() {
+                    .into(new SimpleTarget<Bitmap>(200, 200) {
                         @Override
                         public void onResourceReady(Bitmap bitmap, GlideAnimation glideAnimation) {
                             // do something with the bitmap

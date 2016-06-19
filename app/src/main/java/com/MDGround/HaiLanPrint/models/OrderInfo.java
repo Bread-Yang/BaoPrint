@@ -3,8 +3,6 @@ package com.MDGround.HaiLanPrint.models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import java.util.List;
-
 /**
  * Created by yoghourt on 6/2/16.
  */
@@ -34,8 +32,6 @@ public class OrderInfo implements Parcelable {
     private int OrderID;
 
     private String OrderNo;
-
-    private List<OrderWork> OrderWorkList;
 
     private int OrderStatus;
 
@@ -183,14 +179,6 @@ public class OrderInfo implements Parcelable {
 
     public void setOrderNo(String orderNo) {
         OrderNo = orderNo;
-    }
-
-    public List<OrderWork> getOrderWorkList() {
-        return OrderWorkList;
-    }
-
-    public void setOrderWorkList(List<OrderWork> orderWorkList) {
-        OrderWorkList = orderWorkList;
     }
 
     public int getOrderStatus() {
@@ -414,7 +402,6 @@ public class OrderInfo implements Parcelable {
         IntegralFee = in.readInt();
         OrderID = in.readInt();
         OrderNo = in.readString();
-        OrderWorkList = in.createTypedArrayList(OrderWork.CREATOR);
         OrderStatus = in.readInt();
         PayType = in.readInt();
         Phone = in.readString();
@@ -474,7 +461,6 @@ public class OrderInfo implements Parcelable {
         dest.writeInt(IntegralFee);
         dest.writeInt(OrderID);
         dest.writeString(OrderNo);
-        dest.writeTypedList(OrderWorkList);
         dest.writeInt(OrderStatus);
         dest.writeInt(PayType);
         dest.writeString(Phone);

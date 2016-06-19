@@ -1,7 +1,9 @@
 package com.MDGround.HaiLanPrint.utils;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 
 import com.MDGround.HaiLanPrint.ProductType;
 import com.MDGround.HaiLanPrint.activity.payment.PaymentSuccessActivity;
@@ -9,6 +11,7 @@ import com.MDGround.HaiLanPrint.application.MDGroundApplication;
 import com.MDGround.HaiLanPrint.constants.Constants;
 import com.MDGround.HaiLanPrint.enumobject.OrderStatus;
 import com.MDGround.HaiLanPrint.enumobject.PayType;
+import com.MDGround.HaiLanPrint.enumobject.UploadType;
 import com.MDGround.HaiLanPrint.models.DeliveryAddress;
 import com.MDGround.HaiLanPrint.models.MDImage;
 import com.MDGround.HaiLanPrint.models.OrderInfo;
@@ -19,12 +22,17 @@ import com.MDGround.HaiLanPrint.models.WorkPhoto;
 import com.MDGround.HaiLanPrint.restfuls.FileRestful;
 import com.MDGround.HaiLanPrint.restfuls.GlobalRestful;
 import com.MDGround.HaiLanPrint.restfuls.bean.ResponseData;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import jp.co.cyberagent.android.gpuimage.GPUImage;
+import jp.co.cyberagent.android.gpuimage.GPUImageNormalBlendFilter;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -53,6 +61,11 @@ public class OrderUtils {
 
     public ArrayList<OrderWork> mOrderWorkArrayList = new ArrayList<>();
 
+    public OrderUtils(OrderInfo orderInfo, ArrayList<OrderWork> orderWorkArrayList) {
+        mOrderInfo = orderInfo;
+        mOrderWorkArrayList = orderWorkArrayList;
+    }
+
     public OrderUtils(Activity activity, int orderCount, int price, String workMaterial) {
         this.mActivity = activity;
         mOrderCount = orderCount;
@@ -70,6 +83,40 @@ public class OrderUtils {
         return count;
     }
 
+    // 生成合成图片到本地
+    public void createSyntheticImage(final Context context) {
+        for (int i = 0; i < SelectImageUtil.mAlreadySelectImage.size(); i++) {
+            final MDImage selectImage = SelectImageUtil.mAlreadySelectImage.get(i);
+            MDImage templateImage = SelectImageUtil.mTemplateImage.get(i);
+            if (templateImage.getPhotoSID() != 0
+                    && (selectImage.getImageLocalPath() != null || selectImage.getPhotoSID() != 0)) { // 模版图片存在,并且用户选择的图片存在
+
+                Glide.with(context).load(templateImage).asBitmap().into(new SimpleTarget<Bitmap>() {
+                    @Override
+                    public void onResourceReady(final Bitmap templateBitmap, GlideAnimation<? super Bitmap> glideAnimation) {
+                        Glide.with(context).load(selectImage).asBitmap().into(new SimpleTarget<Bitmap>() {
+                            @Override
+                            public void onResourceReady(Bitmap selectBitmap, GlideAnimation<? super Bitmap> glideAnimation) {
+                                GPUImageNormalBlendFilter blendFilter = new GPUImageNormalBlendFilter();
+
+                                blendFilter.setBitmap(templateBitmap);
+
+                                GPUImage blendImage = new GPUImage(context);
+                                blendImage.setImage(selectBitmap);
+                                blendImage.setFilter(blendFilter);
+
+                                Bitmap blendBitmap = blendImage.getBitmapWithFilterApplied();
+                            }
+                        });
+                    }
+                });
+            }
+        }
+        for (MDImage mdImage : SelectImageUtil.mAlreadySelectImage) {
+
+        }
+    }
+
     public void uploadImageRequest(final int upload_image_index) {
         if (upload_image_index < SelectImageUtil.mAlreadySelectImage.size()) {
             final MDImage mdImage = SelectImageUtil.mAlreadySelectImage.get(upload_image_index);
@@ -80,35 +127,40 @@ public class OrderUtils {
                 File file = new File(mdImage.getImageLocalPath());
 
                 // 上传本地照片
-                FileRestful.getInstance().UploadCloudPhoto(false, file, null, new Callback<ResponseData>() {
+                FileRestful.getInstance().UploadPhoto(UploadType.Order, file, new Callback<ResponseData>() {
                     @Override
                     public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
                         final MDImage responseImage = response.body().getContent(MDImage.class);
-                        responseImage.setPhotoCount(mdImage.getPhotoCount());
 
-                        if (mdImage.getSyntheticImageLocalPath() != null && !StringUtil.isEmpty(mdImage.getSyntheticImageLocalPath())) { // 合成图片
-                            File syntheticFile = new File(mdImage.getSyntheticImageLocalPath());
+                        if (responseImage != null) {
+                            responseImage.setPhotoCount(mdImage.getPhotoCount());
 
-                            // 上传合成图片
-                            FileRestful.getInstance().UploadCloudPhoto(false, syntheticFile, null, new Callback<ResponseData>() {
-                                @Override
-                                public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
-                                    MDImage responseSyntheticImage = response.body().getContent(MDImage.class);
+                            if (mdImage.getSyntheticImageLocalPath() != null && !StringUtil.isEmpty(mdImage.getSyntheticImageLocalPath())) { // 合成图片
+                                File syntheticFile = new File(mdImage.getSyntheticImageLocalPath());
 
-                                    responseImage.setSyntheticPhotoID(responseSyntheticImage.getPhotoID());
-                                    responseImage.setSyntheticPhotoSID(responseSyntheticImage.getPhotoSID());
+                                // 上传合成图片
+                                FileRestful.getInstance().UploadCloudPhoto(false, syntheticFile, null, new Callback<ResponseData>() {
+                                    @Override
+                                    public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
+                                        MDImage responseSyntheticImage = response.body().getContent(MDImage.class);
 
-                                    SelectImageUtil.mAlreadySelectImage.set(upload_image_index, responseImage);
-                                    uploadImageRequest(nextUploadIndex);
-                                }
+                                        responseImage.setSyntheticPhotoID(responseSyntheticImage.getPhotoID());
+                                        responseImage.setSyntheticPhotoSID(responseSyntheticImage.getPhotoSID());
 
-                                @Override
-                                public void onFailure(Call<ResponseData> call, Throwable t) {
+                                        SelectImageUtil.mAlreadySelectImage.set(upload_image_index, responseImage);
+                                        uploadImageRequest(nextUploadIndex);
+                                    }
 
-                                }
-                            });
+                                    @Override
+                                    public void onFailure(Call<ResponseData> call, Throwable t) {
+
+                                    }
+                                });
+                            } else {
+                                SelectImageUtil.mAlreadySelectImage.set(upload_image_index, responseImage);
+                                uploadImageRequest(nextUploadIndex);
+                            }
                         } else {
-                            SelectImageUtil.mAlreadySelectImage.set(upload_image_index, responseImage);
                             uploadImageRequest(nextUploadIndex);
                         }
                     }
@@ -261,7 +313,7 @@ public class OrderUtils {
             @Override
             public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
                 ViewUtils.dismiss();
-                NavUtils.toPaymentPreviewActivity(mActivity, orderWork);
+                NavUtils.toPaymentPreviewActivity(mActivity);
             }
 
             @Override

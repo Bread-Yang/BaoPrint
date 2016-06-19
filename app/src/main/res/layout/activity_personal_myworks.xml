@@ -118,7 +118,7 @@
                         android:layout_height="match_parent"
                         android:background="@color/colorOrange"
                         android:gravity="center"
-                        android:onClick="toBuyOrDelete">
+                        android:onClick="toBuyOrDeleteAction">
 
                         <TextView
                             android:id="@+id/tv_buy"

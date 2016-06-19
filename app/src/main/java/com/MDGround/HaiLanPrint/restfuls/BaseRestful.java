@@ -237,14 +237,44 @@ public abstract class BaseRestful {
     }
 
     // 上传图片
-    protected void uploadImagePost(String functionName, JsonObject queryData,
+    protected void uploadImagePost(final String functionName, JsonObject queryData,
                                    ProgressRequestBody.UploadCallbacks uploadCallbacks,
-                                   Callback<ResponseData> callback) {
+                                   final Callback<ResponseData> secondCallback) {
+        Callback firstCallback = new Callback<ResponseData>() {
+            @Override
+            public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
+                KLog.e("\n\n\"" + functionName + "\"  ---  返回的Response是 : " + "\n" + "{"
+                        + "\"Code\" :" + response.body().getCode() + ","
+                        + "\"Message\" :" + response.body().getMessage() + ","
+                        + "\"Content\" : " + response.body().getContent() + "}" + "\n\n");
+                if (response.body().getCode() == ResponseCode.InvalidToken.getValue()) { // 请求token失效,重新登录
+                    DeviceUtil.logoutUser();
+                    NavUtils.toLoginActivity(mContext);
+                } else if (response.body().getCode() == ResponseCode.SystemError.getValue()) {
+                    ViewUtils.toast(R.string.request_fail);  // 请求超时
+                    ViewUtils.dismiss();
+                } else {
+                    if (secondCallback != null) {
+                        secondCallback.onResponse(call, response);
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseData> call, Throwable t) {
+                ViewUtils.toast(R.string.request_timeout);  // 请求超时
+                ViewUtils.dismiss();
+                if (secondCallback != null) {
+                    secondCallback.onFailure(call, t);
+                }
+            }
+        };
+
         ProgressRequestBody requestBody = createProgressRequestBody(functionName, queryData, uploadCallbacks);
 
         Call<ResponseData> call = null;
         call = baseService.imageUploadRequest(requestBody);
-        call.enqueue(callback);
+        call.enqueue(firstCallback);
     }
 
     protected String convertObjectToString(Object object) {

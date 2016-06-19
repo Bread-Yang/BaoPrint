@@ -24,12 +24,20 @@ import com.MDGround.HaiLanPrint.activity.selectimage.SelectAlbumBeforeEditActivi
 import com.MDGround.HaiLanPrint.application.MDGroundApplication;
 import com.MDGround.HaiLanPrint.constants.Constants;
 import com.MDGround.HaiLanPrint.models.MDImage;
-import com.MDGround.HaiLanPrint.models.OrderWork;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
+
+import java.io.File;
+
+import static com.MDGround.HaiLanPrint.utils.SelectImageUtil.mTemplateImage;
 
 /**
  * Created by yoghourt on 5/12/16.
  */
 public class NavUtils {
+
+    private static int mLoadCompleteCount = 0;
 
     public static void toLoginActivity(Context context) {
         Intent intent = new Intent(context, LoginActivity.class);
@@ -54,13 +62,14 @@ public class NavUtils {
         context.startActivity(intent);
     }
 
-    public static void toPhotoEditActivity(Context context) {
+    public static void toPhotoEditActivity(final Context context) {
+        ViewUtils.loading(context);
         if (SelectImageUtil.mAlreadySelectImage.size() == 0) {
             return;
         }
 
         boolean hasTemplate = false;
-        Intent intent = new Intent();
+        final Intent intent = new Intent();
         switch (MDGroundApplication.mChoosedProductType) {
             // pager 1
             case PrintPhoto:
@@ -107,35 +116,52 @@ public class NavUtils {
                 break;
         }
 
-        if (hasTemplate) {
-            // 服务器返回的模板数量少于pagecount
-            if (SelectImageUtil.mTemplateImage.size() < MDGroundApplication.mChoosedTemplate.getPageCount()) {
-                int difference = MDGroundApplication.mChoosedTemplate.getPageCount() - SelectImageUtil.mTemplateImage.size();
-                for (int i = 0; i < difference; i++) {
-                    SelectImageUtil.mTemplateImage.add(new MDImage());
-                }
-            }
-            // 选择的图片数量小于模板的数量
-            if (SelectImageUtil.mAlreadySelectImage.size() < SelectImageUtil.mTemplateImage.size()) {
-                int difference = SelectImageUtil.mTemplateImage.size() - SelectImageUtil.mAlreadySelectImage.size();
-
-                for (int i = 0; i < difference; i++) {
-                    SelectImageUtil.mAlreadySelectImage.add(new MDImage());
-                }
-            }
-        }
-
         // 将所有选中图片的数量设为1
         for (MDImage mdImage : SelectImageUtil.mAlreadySelectImage) {
             mdImage.setPhotoCount(1);
         }
 
-        context.startActivity(intent);
+        if (hasTemplate) {
+            // 先加载全部模版图片,再进入编辑界面
+            mLoadCompleteCount = 0;
+            for (MDImage mdImage : mTemplateImage) {
+                Glide.with(context)
+                        .load(mdImage)
+                        .downloadOnly(new SimpleTarget<File>() {
+                            @Override
+                            public void onResourceReady(File resource, GlideAnimation<? super File> glideAnimation) {
+                                mLoadCompleteCount++;
+                                if (mLoadCompleteCount == mTemplateImage.size()) {
+                                    // 服务器返回的模板数量少于pagecount
+                                    if (mTemplateImage.size() < MDGroundApplication.mChoosedTemplate.getPageCount()) {
+                                        int difference = MDGroundApplication.mChoosedTemplate.getPageCount() - mTemplateImage.size();
+                                        for (int i = 0; i < difference; i++) {
+                                            mTemplateImage.add(new MDImage());
+                                        }
+                                    }
+                                    // 选择的图片数量小于模板的数量
+                                    if (SelectImageUtil.mAlreadySelectImage.size() < mTemplateImage.size()) {
+                                        int difference = mTemplateImage.size() - SelectImageUtil.mAlreadySelectImage.size();
+
+                                        for (int i = 0; i < difference; i++) {
+                                            SelectImageUtil.mAlreadySelectImage.add(new MDImage());
+                                        }
+                                    }
+                                    ViewUtils.dismiss();
+                                    context.startActivity(intent);
+
+                                }
+                            }
+                        });
+            }
+        } else {
+            ViewUtils.dismiss();
+            context.startActivity(intent);
+        }
     }
 
-    public static void toPaymentPreviewActivity(Context context, OrderWork orderWork) {
+    public static void toPaymentPreviewActivity(Context context) {
         Intent intent = new Intent(context, PaymentPreviewActivity.class);
-        intent.putExtra(Constants.KEY_ORDER_WORK, orderWork);
         context.startActivity(intent);
     }
 

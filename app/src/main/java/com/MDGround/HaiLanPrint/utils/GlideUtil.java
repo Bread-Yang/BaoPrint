@@ -20,7 +20,7 @@ import java.util.List;
  */
 public class GlideUtil {
 
-    public static void loadImageByMDImage(ImageView imageView, MDImage mdImage) {
+    public static void loadImageByMDImage(ImageView imageView, MDImage mdImage, boolean showPlaceHolder) {
 //        if (mdImage.getImageLocalPath() != null && mdImage.getImageLocalPath().contains("storage")) {
 //            // 加载本地图片
 //            Glide.with(MDGroundApplication.mInstance)
@@ -49,9 +49,7 @@ public class GlideUtil {
             Glide.with(MDGroundApplication.mInstance)
                     .load(mdImage)
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
-//                    .centerCrop()
-//                    .thumbnail(0.1f)
-                    .placeholder(R.drawable.layerlist_image_placeholder)
+                    .placeholder(showPlaceHolder ? R.drawable.layerlist_image_placeholder : 0)
                     .error(R.drawable.layerlist_image_placeholder)
                     .dontAnimate()
                     .into(imageView);
@@ -74,10 +72,10 @@ public class GlideUtil {
                 });
     }
 
-    public static void loadImageByPhotoSID(ImageView imageView, int photoSID) {
+    public static void loadImageByPhotoSID(ImageView imageView, int photoSID, boolean showPlaceHolder) {
         MDImage mdImage = new MDImage();
         mdImage.setPhotoSID(photoSID);
-        GlideUtil.loadImageByMDImage(imageView, mdImage);
+        GlideUtil.loadImageByMDImage(imageView, mdImage, showPlaceHolder);
     }
 
     public static void loadImageByPhotoSIDWithDialog(ImageView imageView, int photoSID) {

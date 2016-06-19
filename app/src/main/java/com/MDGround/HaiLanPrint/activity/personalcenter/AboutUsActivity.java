@@ -12,7 +12,7 @@ import com.MDGround.HaiLanPrint.databinding.ActivityAboutUsBinding;
  * Created by PC on 2016-06-15.
  */
 
-public class AboutUsAcctivity extends ToolbarActivity<ActivityAboutUsBinding>{
+public class AboutUsActivity extends ToolbarActivity<ActivityAboutUsBinding> {
     @Override
     protected int getContentLayout() {
         return R.layout.activity_about_us;
@@ -28,26 +28,29 @@ public class AboutUsAcctivity extends ToolbarActivity<ActivityAboutUsBinding>{
 
     //region ACTION
     //拨打电话
-    public void  toCallPhone(View view){
-        Uri uri=Uri.parse("tel:123456");
-        Intent intent=new Intent(Intent.ACTION_DIAL,uri);
+    public void toCallPhone(View view) {
+        Uri uri = Uri.parse("tel:123456");
+        Intent intent = new Intent(Intent.ACTION_DIAL, uri);
         startActivity(intent);
     }
+
     //打开网站
-    public void toUsWeb(View view){
-       String realm=mDataBinding.tvRealm.getText().toString();
-        Uri uri=Uri.parse("http://"+realm);
-        Intent intent=new Intent(Intent.ACTION_VIEW,uri);
+    public void toUsWeb(View view) {
+        String realm = mDataBinding.tvRealm.getText().toString();
+        Uri uri = Uri.parse("http://" + realm);
+        Intent intent = new Intent(Intent.ACTION_VIEW, uri);
         startActivity(intent);
     }
+
     //服务条款
-    public void toRegisterProtocol(View view){
-        Intent intent=new Intent(this,TermServerActivity.class);
+    public void toRegisterProtocol(View view) {
+        Intent intent = new Intent(this, TermServerActivity.class);
         startActivity(intent);
     }
+
     //意见反馈
-    public void  toFeedBack(View view){
-        Intent intent=new Intent(this,FeedBackActivity.class);
+    public void toFeedBack(View view) {
+        Intent intent = new Intent(this, FeedBackActivity.class);
         startActivity(intent);
     }
     //endregion

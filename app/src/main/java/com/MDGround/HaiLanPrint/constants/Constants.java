@@ -15,6 +15,8 @@ public final class Constants {
     public static final String APP_PATH = "/mdground_hailan_print";
     // Preference文件名
     public static String PREFERENCE = "hailan_print";
+    // glide图片缓存文件夹
+    public static String GLIDE_DISK_CACHE_FILE_NAME = "Glide_cache_image";
 
     // 数据库名字
     public static final String DATABASE_NAME = "mdground";
@@ -52,11 +54,5 @@ public final class Constants {
     public static int PUZZLEL_MAX_SELECT_IMAGE_NUM = 1; // 拼图最多选择一张
     public static int PHONE_SHELL_MAX_SELECT_IMAGE_NUM = 1; // 手机壳
     public static int ENGRAVING_MAX_SELECT_IMAGE_NUM = 100; // 版画
-
-    public static int MAGIC_CUP_TYPE_ID = 10;//我的作品列表中魔术杯的类型ID
-    public static int MAGAZINE_B00k_TYPE_ID = 10;//我的作品列表中杂志册的类型ID
-    public static int ART_BOOK_TYPE_ID = 10;//我的作品列表中艺术册的类型ID
-    public static int LOMO_CARD_TYPE_ID = 10;//我的作品列表中LOMO卡的类型ID
-    public static int POST_CARD_TYPE_ID = 10;//我的作品列表中明信片的类型ID
 
 }

@@ -110,6 +110,7 @@
     <string name="my_coupons">我的优惠劵</string>
     <string name="nofind_message">非常抱歉，没有找到相关消息</string>
     <string name="nofind_works">非常抱歉，没有找到相关作品</string>
+
     <!-- 个人资料 -->
     <string name="personal_information">个人资料</string>
     <string name="avatar">头像</string>
@@ -122,6 +123,9 @@
     <string name="myaddress">我的地址</string>
     <string name="account_security">账户安全</string>
     <string name="can_change_password">可修改密码</string>
+
+    <!-- 我的作品 -->
+    <string name="please_select_same_type">请选择相同类型</string>
 
     <!-- 我的订单 -->
     <string name="order_no_with_colon">订单号:</string>
@@ -162,6 +166,7 @@
     <string name="only_update_in_wifi">仅在WIFI下更新</string>
     <string name="version">版本号</string>
     <string name="clear_cache">清除缓存</string>
+    <string name="confirm_clear_cache">确定清除本地缓存</string>
     <string name="about_us">关于我们</string>
     <string name="log_out">退出登录</string>
 

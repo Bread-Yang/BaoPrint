@@ -3,6 +3,7 @@ package com.MDGround.HaiLanPrint.glide;
 import android.content.Context;
 
 import com.MDGround.HaiLanPrint.R;
+import com.MDGround.HaiLanPrint.constants.Constants;
 import com.MDGround.HaiLanPrint.models.MDImage;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.GlideBuilder;
@@ -22,10 +23,10 @@ public class MDGroundGlideModule implements GlideModule {
         ViewTarget.setTagId(R.id.glide_tag_id); // 设置别的get/set tag id，以免占用View默认的
         builder.setDecodeFormat(DecodeFormat.PREFER_ARGB_8888); // 设置图片质量为高质量
 
-        int cacheSize100MegaBytes = 104857600;
+        int cacheSize200MegaBytes = 209715200;
 
         builder.setDiskCache(
-                new InternalCacheDiskCacheFactory(context, cacheSize100MegaBytes)
+                new InternalCacheDiskCacheFactory(context, Constants.GLIDE_DISK_CACHE_FILE_NAME, cacheSize200MegaBytes)
         );
     }
 

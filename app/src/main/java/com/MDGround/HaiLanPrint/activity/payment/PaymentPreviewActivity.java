@@ -239,6 +239,16 @@ public class PaymentPreviewActivity extends ToolbarActivity<ActivityPaymentPrevi
         mDataBinding.tvReceivable.setText(getString(R.string.receivables, StringUtil.toYuanWithoutUnit(receivableFee)));
     }
 
+    private void updateOrderPrepay() {
+        PayType payType = PayType.Alipay;
+        if (mDataBinding.rgPayment.getCheckedRadioButtonId() == R.id.rbWechatPay) {
+            payType = PayType.WeChat;
+        }
+
+        MDGroundApplication.mOrderutUtils.updateOrderPrepayRequest(PaymentPreviewActivity.this,
+                mDeliveryAddress, payType, getAllOrderWorkAmountFee(), getReceivableFee());
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_OK) {
@@ -269,14 +279,9 @@ public class PaymentPreviewActivity extends ToolbarActivity<ActivityPaymentPrevi
         }
     }
 
-    private void updateOrderPrepay() {
-        PayType payType = PayType.Alipay;
-        if (mDataBinding.rgPayment.getCheckedRadioButtonId() == R.id.rbWechatPay) {
-            payType = PayType.WeChat;
-        }
-
-        MDGroundApplication.mOrderutUtils.updateOrderPrepayRequest(PaymentPreviewActivity.this,
-                mDeliveryAddress, payType, getAllOrderWorkAmountFee(), getReceivableFee());
+    @Override
+    public void onBackPressed() {
+        NavUtils.toMainActivity(PaymentPreviewActivity.this);
     }
 
     //region ACTION

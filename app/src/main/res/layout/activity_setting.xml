@@ -50,6 +50,7 @@
         <View style="@style/DividerHorizontalMarginSytle"/>
 
         <RelativeLayout
+            android:onClick="clearCacheAction"
             style="@style/FixHeightLayoutStyle">
             <TextView
                 style="@style/NormalTextStyle"
