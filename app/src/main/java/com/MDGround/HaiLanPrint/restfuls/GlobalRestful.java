@@ -320,13 +320,21 @@ public class GlobalRestful extends BaseRestful {
     public void SaveUserSuggestion(String Phone, String Suggestion, Callback<ResponseData> callback) {
         JsonObject obj = new JsonObject();
         obj.addProperty("Phone", Phone);
-        obj.addProperty("Suggestion",Suggestion);
-        asynchronousPost("SaveUserSuggestion",obj, callback);
+        obj.addProperty("Suggestion", Suggestion);
+        asynchronousPost("SaveUserSuggestion", obj, callback);
     }
-    //删除作品
-    public void DeleteUserWork(List<Integer> WorkIDList , Callback<ResponseData> callback){
+
+    // 删除我的作品
+    public void DeleteUserWork(List<Integer> WorkIDList, Callback<ResponseData> callback) {
         JsonObject obj = new JsonObject();
         obj.add("WorkIDList", new Gson().toJsonTree(WorkIDList));
-        asynchronousPost("DeleteUserWork",obj,callback);
+        asynchronousPost("DeleteUserWork", obj, callback);
+    }
+
+    // 购买我的作品
+    public void SaveOrderByWork(List<Integer> workIDList, Callback<ResponseData> callback) {
+        JsonObject obj = new JsonObject();
+        obj.add("WorkIDList", new Gson().toJsonTree(workIDList));
+        asynchronousPost("SaveOrderByWork", obj, callback);
     }
 }

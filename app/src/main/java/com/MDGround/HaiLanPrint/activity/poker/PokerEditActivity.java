@@ -123,7 +123,7 @@ public class PokerEditActivity extends ToolbarActivity<ActivityPokerEditBinding>
         mCurrentSelectIndex = position;
 
         // 模板图片加载
-        GlideUtil.loadImageByMDImage(mDataBinding.ivTemplate, mdImage);
+        GlideUtil.loadImageByMDImage(mDataBinding.ivTemplate, mdImage,false);
 
         // 用户选择的图片加载
         MDImage selectImage = SelectImageUtil.mAlreadySelectImage.get(position);

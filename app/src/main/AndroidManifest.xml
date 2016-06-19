@@ -322,7 +322,7 @@
             android:label="@string/apply_refund"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.personalcenter.AboutUsAcctivity"
+            android:name=".activity.personalcenter.AboutUsActivity"
             android:label="@string/about_us" />
         <activity
             android:name=".activity.personalcenter.TermServerActivity"

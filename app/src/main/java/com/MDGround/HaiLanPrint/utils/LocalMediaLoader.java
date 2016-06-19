@@ -1,6 +1,7 @@
 package com.MDGround.HaiLanPrint.utils;
 
 import android.database.Cursor;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.FragmentActivity;
@@ -81,7 +82,7 @@ public class LocalMediaLoader {
                         do {
                             String path = data.getString(data.getColumnIndexOrThrow(IMAGE_PROJECTION[0]));
                             // 如原图路径不存在或者路径存在但文件不存在,就结束当前循环
-                            if (TextUtils.isEmpty(path) || !new File(path).exists()) {
+                            if (TextUtils.isEmpty(path) || !new File(path).exists() || !isImage(new File(path))) {
                                 continue;
                             }
                             String name = data.getString(data.getColumnIndexOrThrow(IMAGE_PROJECTION[1]));
@@ -116,6 +117,18 @@ public class LocalMediaLoader {
             public void onLoaderReset(Loader<Cursor> loader) {
             }
         });
+    }
+
+
+
+    public static boolean isImage(File file) {
+        if (file == null || !file.exists()) {
+            return false;
+        }
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inJustDecodeBounds = true;
+        BitmapFactory.decodeFile(file.getPath(), options);
+        return options.outWidth != 0 && options.outHeight != 0;
     }
 
     private void sortFolder(List<Album> imageFolders) {

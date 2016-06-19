@@ -66,11 +66,9 @@ public class PostcardStartActivity extends ToolbarActivity<ActivityPostcardStart
 
     //region SERVER
     private void getSpecificationRequest() {
-        ViewUtils.loading(this);
         GlobalRestful.getInstance().GetPhotoType(ProductType.Postcard, new Callback<ResponseData>() {
             @Override
             public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
-                ViewUtils.dismiss();
                 if (ResponseCode.isSuccess(response.body())) {
                     try {
                         JSONObject jsonObject = new JSONObject(response.body().getContent());

@@ -168,13 +168,17 @@ public class FileRestful extends BaseRestful {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                String photoData = bitmapToString(bitmap);
+                if (bitmap != null) {
+                    String photoData = bitmapToString(bitmap);
 
-                JsonObject obj = new JsonObject();
-                obj.addProperty("UploadType", uploadType.value());
-                obj.addProperty("PhotoData", photoData);
+                    JsonObject obj = new JsonObject();
+                    obj.addProperty("UploadType", uploadType.value());
+                    obj.addProperty("PhotoData", photoData);
 
-                uploadImagePost("UploadCloudPhoto", obj, null, callback);
+                    uploadImagePost("UploadCloudPhoto", obj, null, callback);
+                } else {
+                    callback.onResponse(null, null);
+                }
             }
         }).start();
     }

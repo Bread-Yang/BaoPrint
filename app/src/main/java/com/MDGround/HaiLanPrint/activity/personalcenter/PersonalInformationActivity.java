@@ -65,7 +65,7 @@ public class PersonalInformationActivity extends ToolbarActivity<ActivityPersona
         MDImage mdImage = new MDImage();
         mdImage.setPhotoID(user.getPhotoID());
         mdImage.setPhotoSID(user.getPhotoSID());
-        GlideUtil.loadImageByMDImage(mDataBinding.civAvatar, mdImage);
+        GlideUtil.loadImageByMDImage(mDataBinding.civAvatar, mdImage, false);
         // 昵称
         mDataBinding.tvNickname.setText(user.getUserNickName());
         mDataBinding.tvPhone.setText(user.getPhone());
@@ -80,7 +80,7 @@ public class PersonalInformationActivity extends ToolbarActivity<ActivityPersona
         MDImage mdImage = new MDImage();
         mdImage.setPhotoID(user.getPhotoID());
         mdImage.setPhotoSID(user.getPhotoSID());
-        GlideUtil.loadImageByMDImage(mDataBinding.civAvatar, mdImage);
+        GlideUtil.loadImageByMDImage(mDataBinding.civAvatar, mdImage, false);
 
         Location city = MDGroundApplication.mDaoSession.getLocationDao().load((long) user.getCityID());
         Location county = MDGroundApplication.mDaoSession.getLocationDao().load((long) user.getCountryID());
@@ -193,7 +193,7 @@ public class PersonalInformationActivity extends ToolbarActivity<ActivityPersona
                             MDImage mdImage = new MDImage();
                             mdImage.setPhotoID(MDGroundApplication.mLoginUser.getPhotoID());
                             mdImage.setPhotoSID(MDGroundApplication.mLoginUser.getPhotoSID());
-                            GlideUtil.loadImageByMDImage(mDataBinding.civAvatar, mdImage);
+                            GlideUtil.loadImageByMDImage(mDataBinding.civAvatar, mdImage,false);
                             //GlideUtil.loadImageByPhotoSID(mDataBinding.civAvatar,user.getPhotoSID());
                         } catch (JSONException e) {
                             e.printStackTrace();

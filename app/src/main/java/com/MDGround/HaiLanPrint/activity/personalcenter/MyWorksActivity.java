@@ -9,15 +9,23 @@ import android.view.ViewGroup;
 
 import com.MDGround.HaiLanPrint.R;
 import com.MDGround.HaiLanPrint.activity.base.ToolbarActivity;
+import com.MDGround.HaiLanPrint.application.MDGroundApplication;
 import com.MDGround.HaiLanPrint.databinding.ActivityPersonalMyworksBinding;
 import com.MDGround.HaiLanPrint.databinding.ItemMyworksBinding;
 import com.MDGround.HaiLanPrint.enumobject.restfuls.ResponseCode;
+import com.MDGround.HaiLanPrint.models.OrderInfo;
+import com.MDGround.HaiLanPrint.models.OrderWork;
 import com.MDGround.HaiLanPrint.models.WorkInfo;
 import com.MDGround.HaiLanPrint.restfuls.GlobalRestful;
 import com.MDGround.HaiLanPrint.restfuls.bean.ResponseData;
+import com.MDGround.HaiLanPrint.utils.NavUtils;
+import com.MDGround.HaiLanPrint.utils.OrderUtils;
 import com.MDGround.HaiLanPrint.utils.StringUtil;
 import com.MDGround.HaiLanPrint.utils.ViewUtils;
 import com.google.gson.reflect.TypeToken;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -36,7 +44,7 @@ public class MyWorksActivity extends ToolbarActivity<ActivityPersonalMyworksBind
     private List<WorkInfo> mAllWorkInfoList = new ArrayList<>();
     private List<WorkInfo> mSelectedWorkInfoList = new ArrayList<>();
     private MyWorksAdapter mAdapter;
-    private boolean mIsEditor = true;
+    private boolean mIsEditMode = true;
 
     @Override
     protected int getContentLayout() {
@@ -66,14 +74,14 @@ public class MyWorksActivity extends ToolbarActivity<ActivityPersonalMyworksBind
         tvRight.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!mIsEditor) {
-                    mIsEditor = true;
+                if (!mIsEditMode) {
+                    mIsEditMode = true;
                     tvRight.setText(R.string.finish);
                     mDataBinding.llTotalprice.setVisibility(View.VISIBLE);
                     mDataBinding.tvBuy.setText(R.string.purchase);
                     mDataBinding.llAmunt.setBackgroundResource(R.color.colorOrange);
                 } else {
-                    mIsEditor = false;
+                    mIsEditMode = false;
                     tvRight.setText(R.string.edit);
                     mDataBinding.llTotalprice.setVisibility(View.INVISIBLE);
                     mDataBinding.tvBuy.setText(R.string.delete);
@@ -138,33 +146,6 @@ public class MyWorksActivity extends ToolbarActivity<ActivityPersonalMyworksBind
             return true;
         } else {
             return false;
-        }
-    }
-
-    //购买或者删除按钮
-    public void toBuyOrDelete(View view) {
-        if (mIsEditor) {
-            //购买功能
-        } else {
-            //删除功能
-            List<Integer> workIDList = new ArrayList<>();
-            for (int i = 0; i < mSelectedWorkInfoList.size(); i++) {
-                int workID = mSelectedWorkInfoList.get(i).getWorkID();
-                workIDList.add(workID);
-            }
-            GlobalRestful.getInstance().DeleteUserWork(workIDList, new Callback<ResponseData>() {
-                @Override
-                public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
-                    if (ResponseCode.isSuccess(response.body())) {
-                        getUserWorkListRequest();
-                    }
-                }
-
-                @Override
-                public void onFailure(Call<ResponseData> call, Throwable t) {
-
-                }
-            });
         }
     }
 
@@ -239,13 +220,53 @@ public class MyWorksActivity extends ToolbarActivity<ActivityPersonalMyworksBind
         mAdapter.notifyDataSetChanged();
     }
 
+    //region ACTION
+    //购买或者删除按钮
+    public void toBuyOrDeleteAction(View view) {
+        if (mIsEditMode) {
+            //购买功能
+            boolean isAllSameType = true;
+            for (int i = 1; i < mSelectedWorkInfoList.size(); i++) {
+                if (mSelectedWorkInfoList.get(i - 1).getTypeID() != mSelectedWorkInfoList.get(i).getTypeID()) {
+                    isAllSameType = false;
+                    break;
+                }
+            }
+
+            if (!isAllSameType) {
+                ViewUtils.toast(R.string.please_select_same_type);
+                return;
+            }
+
+            List<Integer> workIDList = new ArrayList<>();
+            for (int i = 0; i < mSelectedWorkInfoList.size(); i++) {
+                int workID = mSelectedWorkInfoList.get(i).getWorkID();
+                workIDList.add(workID);
+            }
+
+            saveOrderByWorkRequest(workIDList);
+        } else {
+            //删除功能
+            List<Integer> workIDList = new ArrayList<>();
+            for (int i = 0; i < mSelectedWorkInfoList.size(); i++) {
+                int workID = mSelectedWorkInfoList.get(i).getWorkID();
+                workIDList.add(workID);
+            }
+
+            deleteUserWorkRequest(workIDList);
+        }
+    }
+    //endregion
+
     //region SEVER
     //删除掉选中列表
     public void deleteUserWorkRequest(List<Integer> WorkIDList) {
         GlobalRestful.getInstance().DeleteUserWork(WorkIDList, new Callback<ResponseData>() {
             @Override
             public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
-
+                if (ResponseCode.isSuccess(response.body())) {
+                    getUserWorkListRequest();
+                }
             }
 
             @Override
@@ -285,6 +306,38 @@ public class MyWorksActivity extends ToolbarActivity<ActivityPersonalMyworksBind
 
             @Override
             public void onFailure(Call<ResponseData> call, Throwable t) {
+            }
+        });
+    }
+
+    private void saveOrderByWorkRequest(List<Integer> workIDList) {
+        ViewUtils.loading(this);
+        GlobalRestful.getInstance().SaveOrderByWork(workIDList, new Callback<ResponseData>() {
+            @Override
+            public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
+                if (ResponseCode.isSuccess(response.body())) {
+                    try {
+                        JSONObject jsonObject = new JSONObject(response.body().getContent());
+
+                        OrderInfo orderInfo = StringUtil.getInstanceByJsonString(jsonObject.getString("OrderInfo"),
+                                OrderInfo.class);
+                        ArrayList<OrderWork> orderWorkArrayList = StringUtil.getInstanceByJsonString(
+                                jsonObject.getString("OrderWorkList"),
+                                new TypeToken<ArrayList<OrderWork>>() {
+                                });
+
+                        MDGroundApplication.mOrderutUtils = new OrderUtils(orderInfo, orderWorkArrayList);
+
+                        NavUtils.toPaymentPreviewActivity(MyWorksActivity.this);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseData> call, Throwable t) {
+
             }
         });
     }

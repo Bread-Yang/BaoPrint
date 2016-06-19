@@ -15,6 +15,7 @@ import com.MDGround.HaiLanPrint.constants.Constants;
 import com.MDGround.HaiLanPrint.databinding.ActivityPostcardEditBinding;
 import com.MDGround.HaiLanPrint.models.MDImage;
 import com.MDGround.HaiLanPrint.models.WorkPhoto;
+import com.MDGround.HaiLanPrint.utils.GlideUtil;
 import com.MDGround.HaiLanPrint.utils.NavUtils;
 import com.MDGround.HaiLanPrint.utils.OrderUtils;
 import com.MDGround.HaiLanPrint.utils.SelectImageUtil;
@@ -121,11 +122,7 @@ public class PostcardEditActivity extends ToolbarActivity<ActivityPostcardEditBi
         mCurrentSelectIndex = position;
 
         // 模板图片加载
-        Glide.with(MDGroundApplication.mInstance)
-                .load(mdImage)
-                .dontAnimate()
-                .into(mDataBinding.ivTemplate);
-
+        GlideUtil.loadImageByMDImage(mDataBinding.ivTemplate, mdImage, false);
 
         // 用户选择的图片加载
         MDImage selectImage = SelectImageUtil.mAlreadySelectImage.get(position);
@@ -133,7 +130,6 @@ public class PostcardEditActivity extends ToolbarActivity<ActivityPostcardEditBi
             Glide.with(this)
                     .load(selectImage)
                     .asBitmap()
-//                    .thumbnail(0.1f)
                     .into(new SimpleTarget<Bitmap>(200, 200) {
                         @Override
                         public void onResourceReady(Bitmap bitmap, GlideAnimation glideAnimation) {
@@ -154,7 +150,8 @@ public class PostcardEditActivity extends ToolbarActivity<ActivityPostcardEditBi
         // 生成订单
         MDGroundApplication.mOrderutUtils = new OrderUtils(this,
                 1, MDGroundApplication.mChoosedTemplate.getPrice(), null);
-        MDGroundApplication.mOrderutUtils.saveOrderRequest();
+//        MDGroundApplication.mOrderutUtils.saveOrderRequest();
+        MDGroundApplication.mOrderutUtils.uploadImageRequest(0);
     }
 
     @Override

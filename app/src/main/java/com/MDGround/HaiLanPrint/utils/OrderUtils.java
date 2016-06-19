@@ -9,6 +9,7 @@ import com.MDGround.HaiLanPrint.application.MDGroundApplication;
 import com.MDGround.HaiLanPrint.constants.Constants;
 import com.MDGround.HaiLanPrint.enumobject.OrderStatus;
 import com.MDGround.HaiLanPrint.enumobject.PayType;
+import com.MDGround.HaiLanPrint.enumobject.UploadType;
 import com.MDGround.HaiLanPrint.models.DeliveryAddress;
 import com.MDGround.HaiLanPrint.models.MDImage;
 import com.MDGround.HaiLanPrint.models.OrderInfo;
@@ -53,6 +54,11 @@ public class OrderUtils {
 
     public ArrayList<OrderWork> mOrderWorkArrayList = new ArrayList<>();
 
+    public OrderUtils(OrderInfo orderInfo, ArrayList<OrderWork> orderWorkArrayList) {
+        mOrderInfo = orderInfo;
+        mOrderWorkArrayList = orderWorkArrayList;
+    }
+
     public OrderUtils(Activity activity, int orderCount, int price, String workMaterial) {
         this.mActivity = activity;
         mOrderCount = orderCount;
@@ -70,6 +76,10 @@ public class OrderUtils {
         return count;
     }
 
+    public void createSyntheticImage() {
+
+    }
+
     public void uploadImageRequest(final int upload_image_index) {
         if (upload_image_index < SelectImageUtil.mAlreadySelectImage.size()) {
             final MDImage mdImage = SelectImageUtil.mAlreadySelectImage.get(upload_image_index);
@@ -80,35 +90,40 @@ public class OrderUtils {
                 File file = new File(mdImage.getImageLocalPath());
 
                 // 上传本地照片
-                FileRestful.getInstance().UploadCloudPhoto(false, file, null, new Callback<ResponseData>() {
+                FileRestful.getInstance().UploadPhoto(UploadType.Order, file, new Callback<ResponseData>() {
                     @Override
                     public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
                         final MDImage responseImage = response.body().getContent(MDImage.class);
-                        responseImage.setPhotoCount(mdImage.getPhotoCount());
 
-                        if (mdImage.getSyntheticImageLocalPath() != null && !StringUtil.isEmpty(mdImage.getSyntheticImageLocalPath())) { // 合成图片
-                            File syntheticFile = new File(mdImage.getSyntheticImageLocalPath());
+                        if (responseImage != null) {
+                            responseImage.setPhotoCount(mdImage.getPhotoCount());
 
-                            // 上传合成图片
-                            FileRestful.getInstance().UploadCloudPhoto(false, syntheticFile, null, new Callback<ResponseData>() {
-                                @Override
-                                public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
-                                    MDImage responseSyntheticImage = response.body().getContent(MDImage.class);
+                            if (mdImage.getSyntheticImageLocalPath() != null && !StringUtil.isEmpty(mdImage.getSyntheticImageLocalPath())) { // 合成图片
+                                File syntheticFile = new File(mdImage.getSyntheticImageLocalPath());
 
-                                    responseImage.setSyntheticPhotoID(responseSyntheticImage.getPhotoID());
-                                    responseImage.setSyntheticPhotoSID(responseSyntheticImage.getPhotoSID());
+                                // 上传合成图片
+                                FileRestful.getInstance().UploadCloudPhoto(false, syntheticFile, null, new Callback<ResponseData>() {
+                                    @Override
+                                    public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
+                                        MDImage responseSyntheticImage = response.body().getContent(MDImage.class);
 
-                                    SelectImageUtil.mAlreadySelectImage.set(upload_image_index, responseImage);
-                                    uploadImageRequest(nextUploadIndex);
-                                }
+                                        responseImage.setSyntheticPhotoID(responseSyntheticImage.getPhotoID());
+                                        responseImage.setSyntheticPhotoSID(responseSyntheticImage.getPhotoSID());
 
-                                @Override
-                                public void onFailure(Call<ResponseData> call, Throwable t) {
+                                        SelectImageUtil.mAlreadySelectImage.set(upload_image_index, responseImage);
+                                        uploadImageRequest(nextUploadIndex);
+                                    }
 
-                                }
-                            });
+                                    @Override
+                                    public void onFailure(Call<ResponseData> call, Throwable t) {
+
+                                    }
+                                });
+                            } else {
+                                SelectImageUtil.mAlreadySelectImage.set(upload_image_index, responseImage);
+                                uploadImageRequest(nextUploadIndex);
+                            }
                         } else {
-                            SelectImageUtil.mAlreadySelectImage.set(upload_image_index, responseImage);
                             uploadImageRequest(nextUploadIndex);
                         }
                     }
@@ -261,7 +276,7 @@ public class OrderUtils {
             @Override
             public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
                 ViewUtils.dismiss();
-                NavUtils.toPaymentPreviewActivity(mActivity, orderWork);
+                NavUtils.toPaymentPreviewActivity(mActivity);
             }
 
             @Override

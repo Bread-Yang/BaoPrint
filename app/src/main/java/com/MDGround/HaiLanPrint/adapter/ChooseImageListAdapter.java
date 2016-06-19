@@ -128,7 +128,7 @@ public class ChooseImageListAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             final ViewHolder contentHolder = (ViewHolder) holder;
             final MDImage mdImage = mImages.get(showCamera ? position - 1 : position);
 
-            GlideUtil.loadImageByMDImage(contentHolder.ivImage, mdImage);
+            GlideUtil.loadImageByMDImage(contentHolder.ivImage, mdImage, true);
 
             if (selectMode == MODE_SINGLE) {
                 contentHolder.ivCheck.setVisibility(View.GONE);

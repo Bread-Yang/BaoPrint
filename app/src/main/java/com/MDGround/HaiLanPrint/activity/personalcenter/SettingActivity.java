@@ -10,16 +10,25 @@ import android.widget.CompoundButton;
 
 import com.MDGround.HaiLanPrint.R;
 import com.MDGround.HaiLanPrint.activity.base.ToolbarActivity;
+import com.MDGround.HaiLanPrint.constants.Constants;
 import com.MDGround.HaiLanPrint.databinding.ActivitySettingBinding;
 import com.MDGround.HaiLanPrint.utils.DeviceUtil;
+import com.MDGround.HaiLanPrint.utils.FileUtils;
 import com.MDGround.HaiLanPrint.utils.NavUtils;
+import com.MDGround.HaiLanPrint.views.dialog.NotifyDialog;
+import com.bumptech.glide.Glide;
+
+import java.io.File;
+import java.text.DecimalFormat;
 
 /**
  * Created by yoghourt on 5/30/16.
  */
 
 public class SettingActivity extends ToolbarActivity<ActivitySettingBinding> {
-   // 13924010907
+
+    private NotifyDialog mNotifyDialog;
+
     @Override
     protected int getContentLayout() {
         return R.layout.activity_setting;
@@ -28,6 +37,7 @@ public class SettingActivity extends ToolbarActivity<ActivitySettingBinding> {
     @Override
     protected void initData() {
         mDataBinding.tvVersion.setText("V " + getVersion());
+        mDataBinding.tvCache.setText(getCacheSize());
     }
 
     @Override
@@ -45,13 +55,11 @@ public class SettingActivity extends ToolbarActivity<ActivitySettingBinding> {
      *
      * @return 当前应用的版本号
      */
-    public String getVersion() {
+    private String getVersion() {
         try {
             PackageManager manager = this.getPackageManager();
             PackageInfo info = manager.getPackageInfo(this.getPackageName(), 0);
             String version = info.versionName;
-//			int versionCode = info.versionCode;
-//			return version + "." + versionCode;
             return version;
         } catch (Exception e) {
             e.printStackTrace();
@@ -59,14 +67,62 @@ public class SettingActivity extends ToolbarActivity<ActivitySettingBinding> {
         }
     }
 
+    private String getCacheSize() {
+        String applicationDirectory = getApplicationInfo().dataDir;
+        String glideCacheDirectory = applicationDirectory + File.separator + "cache" + File.separator + Constants.GLIDE_DISK_CACHE_FILE_NAME;
+        File file = new File(glideCacheDirectory);
+        if (file != null && file.exists()) {
+            long fileSizeInBytes = FileUtils.getFileSize(file);
+            long fileSizeInKB = fileSizeInBytes / 1024;
+            long fileSizeInMB = fileSizeInKB / 1024;
+            DecimalFormat form = new DecimalFormat("0.00");
+            return form.format(fileSizeInMB) + "M";
+        } else {
+            return "0M";
+        }
+    }
+
     //region ACTION
+    public void clearCacheAction(View view) {
+        if (mNotifyDialog == null) {
+            mNotifyDialog = new NotifyDialog(this);
+            mNotifyDialog.setOnSureClickListener(new NotifyDialog.OnSureClickListener() {
+                @Override
+                public void onSureClick() {
+                    mNotifyDialog.dismiss();
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Glide.get(SettingActivity.this).clearDiskCache();
+
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    mDataBinding.tvCache.setText(getCacheSize());
+                                }
+                            });
+                        }
+                    }).start();
+                }
+            });
+            mNotifyDialog.show();
+
+            mNotifyDialog.setTvContent(getString(R.string.confirm_clear_cache));
+        }
+    }
+
+    public void toAboutUsActivity(View view) {
+        Intent intent = new Intent(this, AboutUsActivity.class);
+        startActivity(intent);
+    }
+
     public void logoutAction(View view) {
-        AlertDialog.Builder builder=new AlertDialog.Builder(this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage("是否确认要退出登录");
         builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                  return;
+                return;
             }
         });
         builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
@@ -78,11 +134,6 @@ public class SettingActivity extends ToolbarActivity<ActivitySettingBinding> {
         });
         builder.show();
 
-    }
-
-    public void toAboutUsActivity(View view){
-        Intent intent=new Intent(this,AboutUsAcctivity.class);
-        startActivity(intent);
     }
     //endregion
 

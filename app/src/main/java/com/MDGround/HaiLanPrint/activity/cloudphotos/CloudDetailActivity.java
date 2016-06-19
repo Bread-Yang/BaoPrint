@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.support.v7.widget.GridLayoutManager;
 import android.view.View;
 import android.widget.CompoundButton;
-import android.widget.ImageView;
 
 import com.MDGround.HaiLanPrint.R;
 import com.MDGround.HaiLanPrint.activity.base.ToolbarActivity;
@@ -18,14 +17,9 @@ import com.MDGround.HaiLanPrint.restfuls.bean.ResponseData;
 import com.MDGround.HaiLanPrint.utils.StringUtil;
 import com.MDGround.HaiLanPrint.utils.ViewUtils;
 import com.MDGround.HaiLanPrint.views.itemdecoration.GridSpacingItemDecoration;
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.animation.GlideAnimation;
-import com.bumptech.glide.request.target.SimpleTarget;
 import com.google.gson.reflect.TypeToken;
 import com.malinskiy.superrecyclerview.OnMoreListener;
-import com.socks.library.KLog;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -216,18 +210,6 @@ public class CloudDetailActivity extends ToolbarActivity<ActivityCloudDetailBind
                     ArrayList<MDImage> tempImagesList = response.body().getContent(new TypeToken<ArrayList<MDImage>>() {
                     });
 
-                    ImageView imageView = new ImageView(CloudDetailActivity.this);
-                    for (MDImage mdImage : tempImagesList) {
-                        Glide.with(CloudDetailActivity.this)
-                                .load(mdImage)
-                                .downloadOnly(new SimpleTarget<File>() {
-                                    @Override
-                                    public void onResourceReady(File resource, GlideAnimation<? super File> glideAnimation) {
-                                        KLog.e("下载完成");
-                                    }
-                                });
-                    }
-
                     mImagesList.addAll(tempImagesList);
                     mImageAdapter.bindImages(mImagesList);
                 }
@@ -302,6 +284,8 @@ public class CloudDetailActivity extends ToolbarActivity<ActivityCloudDetailBind
             @Override
             public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
                 ViewUtils.toast("转存成功");
+
+                mImageAdapter.selectAllImage(false);
 
                 ViewUtils.dismiss();
             }

@@ -31,14 +31,15 @@ public class PaymentSuccessActivity extends ToolbarActivity<ActivityPaymentSucce
         mDataBinding.tvPaidAmount.setText(getString(R.string.yuan_amount, StringUtil.toYuanWithoutUnit(orderInfo.getTotalFeeReal())));
         mDataBinding.tvOrderNum.setText(getString(R.string.order_number, orderInfo.getOrderNo()));
 
-        switch (MDGroundApplication.mChoosedProductType) {
-            case PrintPhoto:
-            case PictureFrame:
-            case Engraving:
-                mDataBinding.lltShare.setVisibility(View.GONE);
-                break;
+        if (MDGroundApplication.mChoosedMeasurement != null) {
+            switch (MDGroundApplication.mChoosedProductType) {
+                case PrintPhoto:
+                case PictureFrame:
+                case Engraving:
+                    mDataBinding.lltShare.setVisibility(View.GONE);
+                    break;
+            }
         }
-
     }
 
     @Override

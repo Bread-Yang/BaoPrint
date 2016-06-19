@@ -133,7 +133,6 @@ public class ArtAlbumEditActivity extends ToolbarActivity<ActivityArtAlbumEditBi
             Glide.with(this)
                     .load(selectImage)
                     .asBitmap()
-//                    .thumbnail(0.1f)
                     .into(new SimpleTarget<Bitmap>(200, 200) {
                         @Override
                         public void onResourceReady(Bitmap bitmap, GlideAnimation glideAnimation) {

@@ -41,7 +41,7 @@ public class PersonalCenterActivity extends ToolbarActivity<ActivityPersonalCent
         MDImage mdImage = new MDImage();
         mdImage.setPhotoID(user.getPhotoID());
         mdImage.setPhotoSID(user.getPhotoSID());
-        GlideUtil.loadImageByMDImage(mDataBinding.civAvatar, mdImage);
+        GlideUtil.loadImageByMDImage(mDataBinding.civAvatar, mdImage, false);
         mDataBinding.tvName.setText(user.getUserNickName());
         mDataBinding.tvPhoneNume.setText(user.getPhone());
 
