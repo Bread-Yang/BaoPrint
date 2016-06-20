@@ -9,12 +9,13 @@ import com.MDGround.HaiLanPrint.constants.Constants;
 import com.MDGround.HaiLanPrint.databinding.ActivityWorksDetailsBinding;
 import com.MDGround.HaiLanPrint.models.WorkInfo;
 import com.MDGround.HaiLanPrint.utils.DateUtils;
+import com.MDGround.HaiLanPrint.utils.EncryptUtil;
 import com.MDGround.HaiLanPrint.utils.GlideUtil;
-import com.MDGround.HaiLanPrint.utils.MD5Util;
 import com.MDGround.HaiLanPrint.utils.StringUtil;
 import com.MDGround.HaiLanPrint.views.dialog.ShareDialog;
 import com.socks.library.KLog;
 
+import java.net.URLEncoder;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -55,6 +56,7 @@ public class WorkDetailsActivity extends ToolbarActivity<ActivityWorksDetailsBin
     @Override
     protected void setListener() {
         tvRight.setVisibility(View.VISIBLE);
+        tvRight.setTextSize(0);
         tvRight.setBackgroundResource(R.drawable.icon_share_mywork);
         tvRight.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -84,20 +86,18 @@ public class WorkDetailsActivity extends ToolbarActivity<ActivityWorksDetailsBin
     //分享链接
     public String shareURL(String workId,String userId){
         String shareUrl=null;
-        StringBuffer sb = new StringBuffer(workId);
-        sb.append("@2O!5");
-        String workid=sb.toString();
-        KLog.e("workid="+workid);
-        StringBuffer sbr = new StringBuffer(userId);
-        sbr.append("@2O!5");
-        String userid=sbr.toString();
-        KLog.e("userid="+userid);
-        String workID= MD5Util.MD5(workid);
-        String userID=MD5Util.MD5(userid);
-        KLog.e("ssss"+workID);
+        String workID= null;
+        String userID=null;
+        try {
+            workID = EncryptUtil.encrypt(workId);
+            userID=EncryptUtil.encrypt(userId);
+            workID= URLEncoder.encode(workID, "UTF-8");
+            userID=URLEncoder.encode(userID,"UTF-8");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         if(!"".equals(workID)&&!"".equals(userID)){
             shareUrl="http://psuat.yideguan.com/ShareWorkPhoto.aspx?workId="+workID+"&userId="+userID;
-//            KLog.e("url--》"+shareUrl);
         }
         return  shareUrl;
     }
