@@ -87,15 +87,17 @@ public class WorkDetailsActivity extends ToolbarActivity<ActivityWorksDetailsBin
         StringBuffer sb = new StringBuffer(workId);
         sb.append("@2O!5");
         String workid=sb.toString();
+        KLog.e("workid="+workid);
         StringBuffer sbr = new StringBuffer(userId);
         sbr.append("@2O!5");
         String userid=sbr.toString();
+        KLog.e("userid="+userid);
         String workID= MD5Util.MD5(workid);
         String userID=MD5Util.MD5(userid);
         KLog.e("ssss"+workID);
         if(!"".equals(workID)&&!"".equals(userID)){
             shareUrl="http://psuat.yideguan.com/ShareWorkPhoto.aspx?workId="+workID+"&userId="+userID;
-            KLog.e("url--》"+shareUrl);
+//            KLog.e("url--》"+shareUrl);
         }
         return  shareUrl;
     }

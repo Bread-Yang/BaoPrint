@@ -337,6 +337,9 @@
             android:name=".activity.personalcenter.PersonalInformationActivity"
             android:label="@string/personal_information"
             android:screenOrientation="portrait" />
+        <activity android:name=".activity.personalcenter.AboutUsActivity"
+                 android:label="@string/about_us"
+            ></activity>
         <activity
             android:name=".activity.personalcenter.SettingActivity"
             android:label="@string/setting"

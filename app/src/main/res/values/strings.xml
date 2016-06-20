@@ -325,7 +325,7 @@
     <string name="tv_points">................</string>
     <string name="tv_hold">持有积分</string>
     <string name="tv_intergral_details">积分收支明细</string>
-    <string name="tv_integral_motagage">积分抵押</string>
+    <string name="tv_integral_motagage">积分抵扣</string>
     <string name="mycredit">我的积分</string>
     <string name="photobook">照片书</string>
     <string name="mypostcard">个性明信片</string>
