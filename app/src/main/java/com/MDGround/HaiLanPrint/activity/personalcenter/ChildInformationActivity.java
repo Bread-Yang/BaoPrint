@@ -16,11 +16,11 @@ import com.MDGround.HaiLanPrint.models.UserKid;
 import com.MDGround.HaiLanPrint.restfuls.GlobalRestful;
 import com.MDGround.HaiLanPrint.restfuls.bean.ResponseData;
 import com.MDGround.HaiLanPrint.utils.DateUtils;
-import com.MDGround.HaiLanPrint.utils.ViewUtils;
 import com.MDGround.HaiLanPrint.views.dialog.BirthdayDatePickerDialog;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -45,26 +45,29 @@ public class ChildInformationActivity extends ToolbarActivity<ActivityChildInfor
         tvRight.setText(R.string.save);
         tvRight.setVisibility(View.VISIBLE);
         List<UserKid> userKids = MDGroundApplication.mLoginUser.getUserKidList();
-        if (userKids.size() > 0) {
+        if(userKids!=null){
+            if (userKids.size() > 0) {
 
-            int lastKid = userKids.size() - 1;
-            UserKid userKid = userKids.get(lastKid);
-            mDataBinding.etChildName.setText(userKid.getName());
-            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            Date date = null;
-            try {
-                date = format.parse(userKid.getDOB());
-            } catch (ParseException e) {
-                e.printStackTrace();
+                int lastKid = userKids.size() - 1;
+                UserKid userKid = userKids.get(lastKid);
+                mDataBinding.etChildName.setText(userKid.getName());
+                SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                Date date = null;
+                try {
+                    date = format.parse(userKid.getDOB());
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                String DOB = DateUtils.getDateStringBySpecificFormat(date, new SimpleDateFormat("yyyy-MM-dd"));
+                mDataBinding.etChildBirth.setText(DOB);
+                mDataBinding.etSchool.setText(userKid.getSchool());
+                mDataBinding.etClass.setText(userKid.Class);
+                mDataBinding.etChildName.setOnFocusChangeListener(this);
+                mDataBinding.etSchool.setOnFocusChangeListener(this);
+                mDataBinding.etClass.setOnFocusChangeListener(this);
             }
-            String DOB = DateUtils.getDateStringBySpecificFormat(date, new SimpleDateFormat("yyyy-MM-dd"));
-            mDataBinding.etChildBirth.setText(DOB);
-            mDataBinding.etSchool.setText(userKid.getSchool());
-            mDataBinding.etClass.setText(userKid.Class);
-            mDataBinding.etChildName.setOnFocusChangeListener(this);
-            mDataBinding.etSchool.setOnFocusChangeListener(this);
-            mDataBinding.etClass.setOnFocusChangeListener(this);
         }
+
     }
 
     @Override
@@ -97,6 +100,10 @@ public class ChildInformationActivity extends ToolbarActivity<ActivityChildInfor
                 Date date = new Date(System.currentTimeMillis());
                 String updateDate = DateUtils.getServerDateStringByDate(date);
                 User user = MDGroundApplication.mLoginUser;
+                if(user.getUserKidList()==null){
+                    List<UserKid> userKidList=new ArrayList<UserKid>();
+                     user.setUserKidList(userKidList);
+                }
                 List<UserKid> userKids = user.getUserKidList();
                 UserKid kid = new UserKid();
                 kid.setUserID(user.getUserID());
@@ -106,11 +113,11 @@ public class ChildInformationActivity extends ToolbarActivity<ActivityChildInfor
                 kid.setSchool(mChildSchool);
                 kid.setDOB(mChildBirth);
                 userKids.add(kid);
+
                 GlobalRestful.getInstance().SaveUserInfo(user, new Callback<ResponseData>() {
                     @Override
                     public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
                         if (ResponseCode.isSuccess(response.body())) {
-                            ViewUtils.toast("保存成功");
                             finish();
                         }
                     }

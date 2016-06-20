@@ -48,6 +48,7 @@ public class MyWorksActivity extends ToolbarActivity<ActivityPersonalMyworksBind
     private List<WorkInfo> mSelectedWorkInfoList = new ArrayList<>();
     private MyWorksAdapter mAdapter;
     private boolean mIsEditMode = true;
+    private boolean mFlag = false;//用于标记显示哪一张头部背景图
 
     @Override
     protected int getContentLayout() {
@@ -224,13 +225,14 @@ public class MyWorksActivity extends ToolbarActivity<ActivityPersonalMyworksBind
     }
 
     //跳到作品详情页
-    private void toWorkDetailsActivity(WorkInfo workInfo){
-        Intent intent =new Intent(this,WorkDetailsActivity.class);
-        Bundle bundle=new Bundle();
-        bundle.putSerializable(Constants.KEY_WORKS_DETAILS,workInfo);
+    private void toWorkDetailsActivity(WorkInfo workInfo) {
+        Intent intent = new Intent(this, WorkDetailsActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(Constants.KEY_WORKS_DETAILS, workInfo);
         intent.putExtras(bundle);
         startActivity(intent);
     }
+
     //region ACTION
     //购买或者删除按钮
     public void toBuyOrDeleteAction(View view) {
@@ -366,9 +368,19 @@ public class MyWorksActivity extends ToolbarActivity<ActivityPersonalMyworksBind
         public void onBindViewHolder(ViewHolder holder, int position) {
             WorkInfo workInfo = mAllWorkInfoList.get(position);
             holder.itemMyworksBinding.setWorkInfo(workInfo);
-            holder.itemMyworksBinding.setShowHeader(isShowHeader(position));
             holder.itemMyworksBinding.tvWorksPice.setText(StringUtil.toYuanWithoutUnit(workInfo.getPrice()));
-
+            if (isShowHeader(position)) {
+                holder.itemMyworksBinding.rltHeader.setVisibility(View.VISIBLE);
+                if (mFlag) {
+                    mFlag = false;
+                    holder.itemMyworksBinding.ivHeaderBack.setImageResource(R.drawable.bg_work_onehedr);
+                } else {
+                    mFlag = true;
+                    holder.itemMyworksBinding.ivHeaderBack.setImageResource(R.drawable.bg_work_twoheader);
+                }
+            } else {
+                holder.itemMyworksBinding.rltHeader.setVisibility(View.GONE);
+            }
             holder.itemMyworksBinding.cbItem.setChecked(false);
             for (WorkInfo item : mSelectedWorkInfoList) {
                 if (item.getWorkID() == workInfo.getWorkID()) {
@@ -431,7 +443,7 @@ public class MyWorksActivity extends ToolbarActivity<ActivityPersonalMyworksBind
                 itemMyworksBinding.lltDetails.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        WorkInfo workInfo=mAllWorkInfoList.get(getAdapterPosition());
+                        WorkInfo workInfo = mAllWorkInfoList.get(getAdapterPosition());
                         toWorkDetailsActivity(workInfo);
                     }
                 });

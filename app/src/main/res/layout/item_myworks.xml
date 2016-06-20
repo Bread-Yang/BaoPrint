@@ -11,9 +11,6 @@
             name="workInfo"
             type="com.MDGround.HaiLanPrint.models.WorkInfo" />
 
-        <variable
-            name="showHeader"
-            type="boolean" />
     </data>
 
     <LinearLayout
@@ -22,11 +19,12 @@
         android:orientation="vertical">
 
         <RelativeLayout
+            android:id="@+id/rltHeader"
             android:layout_width="match_parent"
             android:layout_height="@dimen/size_44"
             android:layout_marginTop="@dimen/margin_20"
             android:background="@color/color_white"
-            android:visibility="@{showHeader ? View.VISIBLE : View.GONE}">
+            >
 
             <CheckBox
                 android:id="@+id/cbHeader"
@@ -43,7 +41,13 @@
                 android:text="@{workInfo.typeName}"
                 android:textSize="@dimen/text_size_18"
                 tools:text="我来例" />
-
+            <ImageView
+                android:id="@+id/ivHeaderBack"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/bg_work_onehedr"
+                android:layout_alignParentRight="true"
+                />
             <View
                 style="@style/DividerHorizontalStyle"
                 android:layout_alignParentBottom="true"></View>

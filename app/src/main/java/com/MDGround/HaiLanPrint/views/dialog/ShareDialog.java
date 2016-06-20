@@ -85,11 +85,12 @@ public class ShareDialog extends Dialog {
         mShareParams.setShareType(Platform.SHARE_IMAGE);
 //        mShareParams.setImageData(bitmap);
     }
+    //分享链接
     public void initShareUri(String url){
         mShareParams = new Platform.ShareParams();
-        mShareParams.setTitle("海派海印");
-        mShareParams.setText("海派海印");
-        mShareParams.setUrl(url);
+        mShareParams.setText(url);
+          mShareParams.setTitleUrl(url);
+       mShareParams.setUrl(url);
         mShareParams.setShareType(Platform.SHARE_WEBPAGE);
     }
 
