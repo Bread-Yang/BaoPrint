@@ -76,7 +76,6 @@ public class ShareDialog extends Dialog {
 
     public void initShareParams(String imagePath) {
         mShareImageLocalPath = imagePath;
-
         mShareParams = new Platform.ShareParams();
         mShareParams.setTitle("海派海印");
         mShareParams.setText("海派海印");
@@ -90,7 +89,6 @@ public class ShareDialog extends Dialog {
         mShareParams = new Platform.ShareParams();
         mShareParams.setTitle("海派海印");
         mShareParams.setText(url);
-        //mShareParams.setImagePath();
         mShareParams.setTitleUrl(url);
          mShareParams.setUrl(url);
         mShareParams.setSite(mContext.getString(R.string.app_name));
