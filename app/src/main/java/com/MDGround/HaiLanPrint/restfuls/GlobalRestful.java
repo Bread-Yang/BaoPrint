@@ -337,4 +337,11 @@ public class GlobalRestful extends BaseRestful {
         obj.add("WorkIDList", new Gson().toJsonTree(workIDList));
         asynchronousPost("SaveOrderByWork", obj, callback);
     }
+
+    //消息中心
+    public void GetUserMessageList(int PageIndex, Callback<ResponseData> callback){
+        JsonObject jsonObject=new JsonObject();
+        jsonObject.addProperty("PageIndex",PageIndex);
+        asynchronousPost("GetUserMessageList",jsonObject, callback);
+    }
 }

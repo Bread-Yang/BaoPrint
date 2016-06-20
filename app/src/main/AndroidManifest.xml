@@ -287,7 +287,7 @@
             android:label="@string/personal_center"
             android:screenOrientation="portrait"></activity>
         <activity
-            android:name=".activity.personalcenter.NoFindMessageActivity"
+            android:name=".activity.personalcenter.InformationCenterActivity"
             android:label="@string/message_center" />
         <activity
             android:name=".activity.personalcenter.MyCreditActivity"
@@ -379,7 +379,11 @@
         <!-- 自定义Glide Module注册 -->
         <meta-data
             android:name="com.MDGround.HaiLanPrint.glide.MDGroundGlideModule"
-            android:value="GlideModule" />
+            android:value="GlideModule" /><!-- ATTENTION: This was auto-generated to add Google Play services to your project for
+     App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information. -->
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
 
     </application>
 

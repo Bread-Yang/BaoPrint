@@ -86,7 +86,7 @@ public class PersonalCenterActivity extends ToolbarActivity<ActivityPersonalCent
     }
     //去消息中心
     public void toMessageCenter(View view){
-        Intent intent=new Intent(this,NoFindMessageActivity.class);
+        Intent intent=new Intent(this,InformationCenterActivity.class);
         startActivity(intent);
     }
     //endregion
