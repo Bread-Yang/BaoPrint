@@ -72,7 +72,7 @@ public class PhoneShellStartActivity extends ToolbarActivity<ActivityPhoneShellS
 
         if ((MDGroundApplication.mChoosedTemplate.getMaterialType() & MaterialType.Silicone.value()) != 0) {
             mDataBinding.rbSilicone.setEnabled(true);
-            if (mDataBinding.rgMaterial.getCheckedRadioButtonId() == 0) {
+            if (mDataBinding.rgMaterial.getCheckedRadioButtonId() == -1) {
                 mDataBinding.rbSilicone.setChecked(true);
             }
         } else {
@@ -81,7 +81,7 @@ public class PhoneShellStartActivity extends ToolbarActivity<ActivityPhoneShellS
 
         if ((MDGroundApplication.mChoosedTemplate.getMaterialType() & MaterialType.Plastic.value()) != 0) {
             mDataBinding.rbPlastic.setEnabled(true);
-            if (mDataBinding.rgMaterial.getCheckedRadioButtonId() == 0) {
+            if (mDataBinding.rgMaterial.getCheckedRadioButtonId() == -1) {
                 mDataBinding.rbPlastic.setChecked(true);
             }
         } else {

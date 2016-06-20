@@ -3,6 +3,7 @@ package com.MDGround.HaiLanPrint.utils;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 
 import com.MDGround.HaiLanPrint.ProductType;
 import com.MDGround.HaiLanPrint.activity.payment.PaymentSuccessActivity;
@@ -21,12 +22,18 @@ import com.MDGround.HaiLanPrint.models.WorkPhoto;
 import com.MDGround.HaiLanPrint.restfuls.FileRestful;
 import com.MDGround.HaiLanPrint.restfuls.GlobalRestful;
 import com.MDGround.HaiLanPrint.restfuls.bean.ResponseData;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
+import com.socks.library.KLog;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import jp.co.cyberagent.android.gpuimage.GPUImage;
+import jp.co.cyberagent.android.gpuimage.GPUImageNormalBlendFilter;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -99,52 +106,150 @@ public class OrderUtils {
         }
     };
 
-    public void uploadImageRequest(final int upload_image_index) {
+//    public void uploadImageRequest(final int upload_image_index) {
+//        if (upload_image_index < SelectImageUtil.mAlreadySelectImage.size()) {
+//            final MDImage selectImage = SelectImageUtil.mAlreadySelectImage.get(upload_image_index);
+//
+//            final int nextUploadIndex = upload_image_index + 1;
+//
+//            if (selectImage.getImageLocalPath() != null && !StringUtil.isEmpty(selectImage.getImageLocalPath())) { // 本地图片
+//                File file = new File(selectImage.getImageLocalPath());
+//
+//                // 上传本地照片
+//                FileRestful.getInstance().UploadPhoto(UploadType.Order, file, new Callback<ResponseData>() {
+//                    @Override
+//                    public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
+//                        final MDImage responseImage = response.body().getContent(MDImage.class);
+//
+//                        if (responseImage != null) {
+//                            responseImage.setPhotoCount(selectImage.getPhotoCount());
+//
+//                            if (selectImage.getSyntheticImageLocalPath() != null && !StringUtil.isEmpty(selectImage.getSyntheticImageLocalPath())) { // 合成图片
+//                                File syntheticFile = new File(selectImage.getSyntheticImageLocalPath());
+//
+//                                // 上传合成图片
+//                                FileRestful.getInstance().UploadCloudPhoto(false, syntheticFile, null, new Callback<ResponseData>() {
+//                                    @Override
+//                                    public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
+//                                        MDImage responseSyntheticImage = response.body().getContent(MDImage.class);
+//
+//                                        responseImage.setSyntheticPhotoID(responseSyntheticImage.getPhotoID());
+//                                        responseImage.setSyntheticPhotoSID(responseSyntheticImage.getPhotoSID());
+//
+//                                        SelectImageUtil.mAlreadySelectImage.set(upload_image_index, responseImage);
+//                                        uploadImageRequest(nextUploadIndex);
+//                                    }
+//
+//                                    @Override
+//                                    public void onFailure(Call<ResponseData> call, Throwable t) {
+//
+//                                    }
+//                                });
+//                            } else {
+//                                SelectImageUtil.mAlreadySelectImage.set(upload_image_index, responseImage);
+//                                uploadImageRequest(nextUploadIndex);
+//                            }
+//                        } else {
+//                            uploadImageRequest(nextUploadIndex);
+//                        }
+//                    }
+//
+//                    @Override
+//                    public void onFailure(Call<ResponseData> call, Throwable t) {
+//                    }
+//                });
+//            } else {
+//                uploadImageRequest(nextUploadIndex);
+//            }
+//        } else {
+//            // 全部图片上传完之后,生成订单
+//            saveOrderRequest();
+//        }
+//    }
+
+    public void uploadImageRequest(final Context context, final int upload_image_index) {
         if (upload_image_index < SelectImageUtil.mAlreadySelectImage.size()) {
             final MDImage selectImage = SelectImageUtil.mAlreadySelectImage.get(upload_image_index);
-            MDImage templateImage = SelectImageUtil.mTemplateImage.get(upload_image_index);
+
+            MDImage tempTemplateImage = null;
+            if (upload_image_index < SelectImageUtil.mTemplateImage.size()) {
+                tempTemplateImage = SelectImageUtil.mTemplateImage.get(upload_image_index);
+            } else {
+                tempTemplateImage = new MDImage();
+            }
+            final MDImage templateImage = tempTemplateImage;
 
             final int nextUploadIndex = upload_image_index + 1;
 
-            if (selectImage.getImageLocalPath() != null && !StringUtil.isEmpty(selectImage.getImageLocalPath())) { // 本地图片
+            // 本地图片
+            if (selectImage.getImageLocalPath() != null && !StringUtil.isEmpty(selectImage.getImageLocalPath())) {
                 File file = new File(selectImage.getImageLocalPath());
 
                 // 上传本地照片
                 FileRestful.getInstance().UploadPhoto(UploadType.Order, file, new Callback<ResponseData>() {
                     @Override
                     public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
+                        KLog.e("上传本地照片成功");
                         final MDImage responseImage = response.body().getContent(MDImage.class);
 
                         if (responseImage != null) {
+                            // 上传本地图片成功, 设置对应的PhotoID, PhotoSID
                             responseImage.setPhotoCount(selectImage.getPhotoCount());
 
-                            if (selectImage.getSyntheticImageLocalPath() != null && !StringUtil.isEmpty(selectImage.getSyntheticImageLocalPath())) { // 合成图片
-                                File syntheticFile = new File(selectImage.getSyntheticImageLocalPath());
-
-                                // 上传合成图片
-                                FileRestful.getInstance().UploadCloudPhoto(false, syntheticFile, null, new Callback<ResponseData>() {
+                            // 如果有模板, 把模板和选择的照片合成一张图片
+                            if (templateImage.getPhotoSID() != 0) {
+                                Glide.with(context).load(templateImage).asBitmap().into(new SimpleTarget<Bitmap>() {
                                     @Override
-                                    public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
-                                        MDImage responseSyntheticImage = response.body().getContent(MDImage.class);
+                                    public void onResourceReady(final Bitmap templateBitmap, GlideAnimation<? super Bitmap> glideAnimation) {
+                                        KLog.e("加载模板bitmap成功");
 
-                                        responseImage.setSyntheticPhotoID(responseSyntheticImage.getPhotoID());
-                                        responseImage.setSyntheticPhotoSID(responseSyntheticImage.getPhotoSID());
+                                        Glide.with(context).load(selectImage).asBitmap().into(new SimpleTarget<Bitmap>() {
+                                            @Override
+                                            public void onResourceReady(Bitmap selectBitmap, GlideAnimation<? super Bitmap> glideAnimation) {
+                                                KLog.e("加载本地bitmap成功");
 
-                                        SelectImageUtil.mAlreadySelectImage.set(upload_image_index, responseImage);
-                                        uploadImageRequest(nextUploadIndex);
-                                    }
+                                                GPUImageNormalBlendFilter blendFilter = new GPUImageNormalBlendFilter();
 
-                                    @Override
-                                    public void onFailure(Call<ResponseData> call, Throwable t) {
+                                                blendFilter.setBitmap(templateBitmap);
 
+                                                GPUImage blendImage = new GPUImage(context);
+                                                blendImage.setImage(selectBitmap);
+                                                blendImage.setFilter(blendFilter);
+
+                                                Bitmap blendBitmap = blendImage.getBitmapWithFilterApplied();
+
+                                                // 上传合成图片
+                                                FileRestful.getInstance().UploadPhoto(UploadType.Order, blendBitmap, new Callback<ResponseData>() {
+                                                    @Override
+                                                    public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
+                                                        KLog.e("上传本地和模板合成照片成功");
+                                                        // 上传合成图片成功, 设置对应的PhotoID, PhotoSID
+                                                        MDImage responseSyntheticImage = response.body().getContent(MDImage.class);
+
+                                                        responseImage.getWorkPhoto().setPhoto1ID(responseSyntheticImage.getPhotoID());
+                                                        responseImage.getWorkPhoto().setPhoto1SID(responseSyntheticImage.getPhotoSID());
+
+                                                        // 继续上传
+                                                        SelectImageUtil.mAlreadySelectImage.set(upload_image_index, responseImage);
+                                                        uploadImageRequest(context, nextUploadIndex);
+                                                    }
+
+                                                    @Override
+                                                    public void onFailure(Call<ResponseData> call, Throwable t) {
+
+                                                    }
+                                                });
+                                            }
+                                        });
                                     }
                                 });
                             } else {
                                 SelectImageUtil.mAlreadySelectImage.set(upload_image_index, responseImage);
-                                uploadImageRequest(nextUploadIndex);
+                                uploadImageRequest(context, nextUploadIndex);
                             }
                         } else {
-                            uploadImageRequest(nextUploadIndex);
+                            // 继续上传
+                            uploadImageRequest(context, nextUploadIndex);
                         }
                     }
 
@@ -153,7 +258,53 @@ public class OrderUtils {
                     }
                 });
             } else {
-                uploadImageRequest(nextUploadIndex);
+                // 网络图片
+                // 如果有模板, 把模板和选择的照片合成一张图片
+                if (templateImage.getPhotoSID() != 0) {
+                    Glide.with(context).load(templateImage).asBitmap().into(new SimpleTarget<Bitmap>() {
+                        @Override
+                        public void onResourceReady(final Bitmap templateBitmap, GlideAnimation<? super Bitmap> glideAnimation) {
+
+                            Glide.with(context).load(selectImage).asBitmap().into(new SimpleTarget<Bitmap>() {
+                                @Override
+                                public void onResourceReady(Bitmap selectBitmap, GlideAnimation<? super Bitmap> glideAnimation) {
+                                    KLog.e("加载网络bitmap成功");
+                                    GPUImageNormalBlendFilter blendFilter = new GPUImageNormalBlendFilter();
+
+                                    blendFilter.setBitmap(templateBitmap);
+
+                                    GPUImage blendImage = new GPUImage(context);
+                                    blendImage.setImage(selectBitmap);
+                                    blendImage.setFilter(blendFilter);
+
+                                    Bitmap blendBitmap = blendImage.getBitmapWithFilterApplied();
+
+                                    // 上传合成图片
+                                    FileRestful.getInstance().UploadPhoto(UploadType.Order, blendBitmap, new Callback<ResponseData>() {
+                                        @Override
+                                        public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
+                                            KLog.e("上传网络和模板合成照片成功");
+                                            // 上传合成图片成功, 设置对应的PhotoID, PhotoSID
+                                            MDImage responseSyntheticImage = response.body().getContent(MDImage.class);
+
+                                            // 继续上传
+                                            uploadImageRequest(context, nextUploadIndex);
+                                        }
+
+                                        @Override
+                                        public void onFailure(Call<ResponseData> call, Throwable t) {
+
+                                        }
+                                    });
+                                }
+                            });
+                        }
+                    });
+
+                } else {
+                    // 继续上传
+                    uploadImageRequest(context, nextUploadIndex);
+                }
             }
         } else {
             // 全部图片上传完之后,生成订单

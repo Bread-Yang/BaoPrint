@@ -15,11 +15,19 @@ public class Template extends BaseObservable {
 
     private int MaterialType;
 
+    private String MaterialTypeString;
+
     private int PageCount;
 
     private int ParentID;
 
     private int Price;
+
+    private int Price2;
+
+    private int Price3;
+
+    private int Price4;
 
     private String PriceString;
 
@@ -57,6 +65,14 @@ public class Template extends BaseObservable {
         MaterialType = materialType;
     }
 
+    public String getMaterialTypeString() {
+        return MaterialTypeString;
+    }
+
+    public void setMaterialTypeString(String materialTypeString) {
+        MaterialTypeString = materialTypeString;
+    }
+
     @Bindable
     public int getPageCount() {
         return PageCount;
@@ -81,6 +97,30 @@ public class Template extends BaseObservable {
 
     public void setPrice(int price) {
         Price = price;
+    }
+
+    public int getPrice2() {
+        return Price2;
+    }
+
+    public void setPrice2(int price2) {
+        Price2 = price2;
+    }
+
+    public int getPrice3() {
+        return Price3;
+    }
+
+    public void setPrice3(int price3) {
+        Price3 = price3;
+    }
+
+    public int getPrice4() {
+        return Price4;
+    }
+
+    public void setPrice4(int price4) {
+        Price4 = price4;
     }
 
     public String getPriceString() {

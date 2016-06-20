@@ -12,6 +12,7 @@ import com.MDGround.HaiLanPrint.application.MDGroundApplication;
 import com.MDGround.HaiLanPrint.constants.Constants;
 import com.MDGround.HaiLanPrint.databinding.ActivityMagicCupEditBinding;
 import com.MDGround.HaiLanPrint.models.MDImage;
+import com.MDGround.HaiLanPrint.utils.GlideUtil;
 import com.MDGround.HaiLanPrint.utils.OrderUtils;
 import com.MDGround.HaiLanPrint.utils.SelectImageUtil;
 import com.MDGround.HaiLanPrint.utils.ViewUtils;
@@ -72,18 +73,15 @@ public class MagicCupPhotoEditActivity extends ToolbarActivity<ActivityMagicCupE
     private void showImageToGPUImageView() {
         if (SelectImageUtil.mTemplateImage.size() > 0) {
             // 模板图片加载
-            Glide.with(MDGroundApplication.mInstance)
-                    .load(SelectImageUtil.mTemplateImage.get(0))
-                    .dontAnimate()
-                    .into(mDataBinding.ivTemplate);
+            GlideUtil.loadImageByMDImage(mDataBinding.ivTemplate,
+                    SelectImageUtil.mTemplateImage.get(0), false);
         }
 
         // 用户选择的图片加载
         Glide.with(this)
                 .load(SelectImageUtil.mAlreadySelectImage.get(0))
                 .asBitmap()
-//                .thumbnail(0.1f)
-                .into(new SimpleTarget<Bitmap>() {
+                .into(new SimpleTarget<Bitmap>(200, 200) {
                     @Override
                     public void onResourceReady(final Bitmap bitmap, GlideAnimation glideAnimation) {
 

@@ -5,7 +5,7 @@ package com.MDGround.HaiLanPrint.enumobject;
  */
 public enum MaterialType {
 
-    Orientation(1),     // 横版
+    Landscape(1),     // 横版
     Portrait(2),        // 竖版
     Silicone(4),        // 硅胶
     Plastic(8);         // 塑料

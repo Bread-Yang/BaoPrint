@@ -68,37 +68,33 @@ public class NavUtils {
             return;
         }
 
-        boolean hasTemplate = false;
+        boolean hasTemplate = true;
         final Intent intent = new Intent();
         switch (MDGroundApplication.mChoosedProductType) {
             // pager 1
             case PrintPhoto:
+                hasTemplate = false;
                 intent.setClass(context, PrintPhotoChoosePaperNumActivity.class);
                 break;
             case Postcard:
-                hasTemplate = true;
                 intent.setClass(context, PostcardEditActivity.class);
                 break;
             case MagazineAlbum:
-                hasTemplate = true;
                 intent.setClass(context, MagazineEditActivity.class);
                 break;
             case ArtAlbum:
-                hasTemplate = true;
                 intent.setClass(context, ArtAlbumEditActivity.class);
                 break;
             case PictureFrame:
                 intent.setClass(context, PictureFrameEditActivity.class);
                 break;
             case Calendar:
-                hasTemplate = true;
                 intent.setClass(context, CalendarEditActivity.class);
                 break;
             case PhoneShell:
                 intent.setClass(context, PhoneShellEditActivity.class);
                 break;
             case Poker:
-                hasTemplate = true;
                 intent.setClass(context, PokerEditActivity.class);
                 break;
             case Puzzle:
@@ -108,10 +104,10 @@ public class NavUtils {
                 intent.setClass(context, MagicCupPhotoEditActivity.class);
                 break;
             case LOMOCard:
-                hasTemplate = true;
                 intent.setClass(context, LomoCardEditActivity.class);
                 break;
             case Engraving:
+                hasTemplate = false;
                 intent.setClass(context, EngravingChoosePaperNumActivity.class);
                 break;
         }

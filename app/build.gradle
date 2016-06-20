@@ -60,7 +60,6 @@ dependencies {
     compile 'com.squareup.retrofit2:converter-gson:2.0.0-beta3'
     compile 'org.greenrobot:greendao:2.2.1'
     compile 'com.github.bumptech.glide:glide:3.7.0'
-    compile 'ch.acra:acra:4.8.5'
     compile 'jp.wasabeef:glide-transformations:2.0.1'
     compile 'jp.co.cyberagent.android.gpuimage:gpuimage-library:1.4.1'
     compile 'com.malinskiy:superrecyclerview:1.1.4'

@@ -15,8 +15,6 @@ import com.MDGround.HaiLanPrint.models.Template;
 import com.MDGround.HaiLanPrint.models.User;
 import com.MDGround.HaiLanPrint.utils.OrderUtils;
 
-import org.acra.ACRA;
-
 import java.util.ArrayList;
 
 import cn.sharesdk.framework.ShareSDK;
@@ -52,9 +50,9 @@ public class MDGroundApplication extends Application {
 
         initDataBase();
 
-        ACRA.init(this);
         ShareSDK.initSDK(this);
 
+//        initExceptionHandler();
     }
 
     private void initDataBase() {
@@ -62,6 +60,11 @@ public class MDGroundApplication extends Application {
         SQLiteDatabase db = helper.getWritableDatabase();
         DaoMaster daoMaster = new DaoMaster(db);
         mDaoSession = daoMaster.newSession();
+    }
+
+    private void initExceptionHandler() {
+        CrashHandler crashHandler = CrashHandler.getInstance();
+        crashHandler.init(getApplicationContext());
     }
 
     public static void resetData() {
