@@ -120,37 +120,50 @@ public class NavUtils {
         if (hasTemplate) {
             // 先加载全部模版图片,再进入编辑界面
             mLoadCompleteCount = 0;
+
+            if (mTemplateImage.size() == 0) {
+                mTemplateImage.add(new MDImage());
+            }
+
             for (MDImage mdImage : mTemplateImage) {
-                Glide.with(context)
-                        .load(mdImage)
-                        .downloadOnly(new SimpleTarget<File>() {
-                            @Override
-                            public void onResourceReady(File resource, GlideAnimation<? super File> glideAnimation) {
-                                mLoadCompleteCount++;
-                                if (mLoadCompleteCount == mTemplateImage.size()) {
-                                    // 服务器返回的模板数量少于pagecount
-                                    if (mTemplateImage.size() < MDGroundApplication.mChoosedTemplate.getPageCount()) {
-                                        int difference = MDGroundApplication.mChoosedTemplate.getPageCount() - mTemplateImage.size();
-                                        for (int i = 0; i < difference; i++) {
-                                            mTemplateImage.add(new MDImage());
-                                        }
-                                    }
-                                    // 选择的图片数量小于模板的数量
-                                    if (SelectImageUtil.mAlreadySelectImage.size() < mTemplateImage.size()) {
-                                        int difference = mTemplateImage.size() - SelectImageUtil.mAlreadySelectImage.size();
-
-                                        for (int i = 0; i < difference; i++) {
-                                            SelectImageUtil.mAlreadySelectImage.add(new MDImage());
-                                        }
-                                    }
-                                    ViewUtils.dismiss();
-                                    context.startActivity(intent);
-
+                if (mdImage.hasPhotoSID()) {
+                    Glide.with(context)
+                            .load(mdImage)
+                            .downloadOnly(new SimpleTarget<File>() {
+                                @Override
+                                public void onResourceReady(File resource, GlideAnimation<? super File> glideAnimation) {
+                                    mLoadCompleteCount++;
+                                    downloadTemplateSuccessfully(context, intent);
                                 }
-                            }
-                        });
+                            });
+                } else {
+                    mLoadCompleteCount++;
+                    downloadTemplateSuccessfully(context, intent);
+                }
             }
         } else {
+            ViewUtils.dismiss();
+            context.startActivity(intent);
+        }
+    }
+
+    private static void downloadTemplateSuccessfully(Context context, Intent intent) {
+        if (mLoadCompleteCount == mTemplateImage.size()) {
+            // 服务器返回的模板数量少于pagecount
+            if (mTemplateImage.size() < MDGroundApplication.mChoosedTemplate.getPageCount()) {
+                int difference = MDGroundApplication.mChoosedTemplate.getPageCount() - mTemplateImage.size();
+                for (int i = 0; i < difference; i++) {
+                    mTemplateImage.add(new MDImage());
+                }
+            }
+            // 选择的图片数量小于模板的数量
+            if (SelectImageUtil.mAlreadySelectImage.size() < mTemplateImage.size()) {
+                int difference = mTemplateImage.size() - SelectImageUtil.mAlreadySelectImage.size();
+
+                for (int i = 0; i < difference; i++) {
+                    SelectImageUtil.mAlreadySelectImage.add(new MDImage());
+                }
+            }
             ViewUtils.dismiss();
             context.startActivity(intent);
         }

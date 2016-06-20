@@ -33,20 +33,6 @@
 
             </com.MDGround.HaiLanPrint.views.FlexibleRelativeLayout>
 
-            <com.MDGround.HaiLanPrint.views.ClearEditText
-                android:id="@+id/cetInput"
-                android:layout_width="match_parent"
-                android:layout_height="38dp"
-                android:layout_marginLeft="@dimen/margin_10"
-                android:layout_marginRight="10dp"
-                android:background="@drawable/shape_round_corner_area_grey_bg"
-                android:drawablePadding="@dimen/margin_8"
-                android:hint="@string/click_input"
-                android:longClickable="false"
-                android:paddingLeft="@dimen/margin_10"
-                android:textColorHint="@color/color_999999"
-                android:textSize="@dimen/text_size_16"/>
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

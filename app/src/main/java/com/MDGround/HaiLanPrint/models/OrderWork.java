@@ -31,9 +31,13 @@ public class OrderWork extends BaseObservable implements Parcelable {
 
     private int TemplateID;
 
+    private String TemplateName;
+
     private int TypeID;
 
     private String TypeName;
+
+    private String TypeTitle;
 
     private String WorkFormat;
 
@@ -58,8 +62,10 @@ public class OrderWork extends BaseObservable implements Parcelable {
         PhotoCover = in.readInt();
         Price = in.readInt();
         TemplateID = in.readInt();
+        TemplateName = in.readString();
         TypeID = in.readInt();
         TypeName = in.readString();
+        TypeTitle = in.readString();
         WorkFormat = in.readString();
         WorkMaterial = in.readString();
         WorkOID = in.readInt();
@@ -104,6 +110,14 @@ public class OrderWork extends BaseObservable implements Parcelable {
         OrderID = orderID;
     }
 
+    public List<OrderWorkPhoto> getOrderWorkPhotos() {
+        return OrderWorkPhotos;
+    }
+
+    public void setOrderWorkPhotos(List<OrderWorkPhoto> orderWorkPhotos) {
+        OrderWorkPhotos = orderWorkPhotos;
+    }
+
     public int getPhotoCount() {
         return PhotoCount;
     }
@@ -136,6 +150,14 @@ public class OrderWork extends BaseObservable implements Parcelable {
         TemplateID = templateID;
     }
 
+    public String getTemplateName() {
+        return TemplateName;
+    }
+
+    public void setTemplateName(String templateName) {
+        TemplateName = templateName;
+    }
+
     public int getTypeID() {
         return TypeID;
     }
@@ -150,6 +172,14 @@ public class OrderWork extends BaseObservable implements Parcelable {
 
     public void setTypeName(String typeName) {
         TypeName = typeName;
+    }
+
+    public String getTypeTitle() {
+        return TypeTitle;
+    }
+
+    public void setTypeTitle(String typeTitle) {
+        TypeTitle = typeTitle;
     }
 
     public String getWorkFormat() {
@@ -200,8 +230,10 @@ public class OrderWork extends BaseObservable implements Parcelable {
         dest.writeInt(PhotoCover);
         dest.writeInt(Price);
         dest.writeInt(TemplateID);
+        dest.writeString(TemplateName);
         dest.writeInt(TypeID);
         dest.writeString(TypeName);
+        dest.writeString(TypeTitle);
         dest.writeString(WorkFormat);
         dest.writeString(WorkMaterial);
         dest.writeInt(WorkOID);

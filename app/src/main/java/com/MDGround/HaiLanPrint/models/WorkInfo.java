@@ -20,6 +20,8 @@ public class WorkInfo implements Serializable,Comparable<WorkInfo> {
 
     private int TemplateID;
 
+    private String TypeTitle;
+
     private int WorkID;
 
     private int PhotoCover;
@@ -74,6 +76,14 @@ public class WorkInfo implements Serializable,Comparable<WorkInfo> {
 
     public void setTemplateID(int templateID) {
         TemplateID = templateID;
+    }
+
+    public String getTypeTitle() {
+        return TypeTitle;
+    }
+
+    public void setTypeTitle(String typeTitle) {
+        TypeTitle = typeTitle;
     }
 
     public int getWorkID() {

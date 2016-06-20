@@ -53,7 +53,8 @@ public class PhoneShellStartActivity extends ToolbarActivity<ActivityPhoneShellS
         for (PhotoTypeExplain photoTypeExplain : mPhotoTypeExplainArrayList) {
             if (photoTypeExplain.getExplainType() == PhotoExplainTypeEnum.Banner.value()
                     && photoTypeExplain.getTypeID() == ProductType.PhoneShell.value()) {
-                GlideUtil.loadImageByPhotoSID(mDataBinding.ivBanner, photoTypeExplain.getPhotoSID(), false);
+                GlideUtil.loadImageByPhotoSIDWithDialog(mDataBinding.ivBanner,
+                        photoTypeExplain.getPhotoSID());
                 break;
             }
         }

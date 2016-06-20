@@ -64,7 +64,8 @@ public class CalendarChooseOrientationActivity extends ToolbarActivity<ActivityC
         for (PhotoTypeExplain photoTypeExplain : mPhotoTypeExplainArrayList) {
             if (photoTypeExplain.getExplainType() == PhotoExplainTypeEnum.Banner.value()
                     && photoTypeExplain.getTypeID() == ProductType.Calendar.value()) {
-                GlideUtil.loadImageByPhotoSID(mDataBinding.ivBanner, photoTypeExplain.getPhotoSID(), false);
+                GlideUtil.loadImageByPhotoSIDWithDialog(mDataBinding.ivBanner,
+                        photoTypeExplain.getPhotoSID());
                 break;
             }
         }

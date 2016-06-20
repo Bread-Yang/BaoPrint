@@ -44,6 +44,10 @@ public class MDImage extends BaseObservable implements Parcelable {
         this.lastUpdateAt = lastUpdateAt;
     }
 
+    public boolean hasPhotoSID() {
+        return PhotoSID != 0;
+    }
+
     protected MDImage(Parcel in) {
         AutoID = in.readInt();
         PhotoID = in.readInt();
