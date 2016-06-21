@@ -45,6 +45,7 @@
             android:layout_centerHorizontal="true"
             android:layout_gravity="center_horizontal"
             android:layout_marginBottom="@dimen/margin_24"
+            android:layout_marginTop="@dimen/margin_10"
             android:textSize="@dimen/text_size_18"
             tools:text="MISOi" />
 
