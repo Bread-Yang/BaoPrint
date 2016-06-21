@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.MDGround.HaiLanPrint.activity.main.MainActivity">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
 
     <LinearLayout
@@ -15,7 +13,7 @@
             android:layout_width="match_parent"
             android:layout_height="200dp"
             android:onClick="toEngravingIllutrationActivityAction"
-            android:scaleType="fitXY"/>
+            android:scaleType="fitXY" />
 
         <TextView
             android:layout_width="match_parent"
@@ -26,7 +24,7 @@
             android:paddingLeft="@dimen/margin_12"
             android:paddingTop="@dimen/margin_8"
             android:text="@string/warm_prompt"
-            android:textColor="@color/color_f88e11"/>
+            android:textColor="@color/color_f88e11" />
 
 
         <android.support.v7.widget.RecyclerView
@@ -34,7 +32,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_alignParentRight="true"
-            android:background="@color/color_white"/>
+            android:background="@color/color_white" />
 
     </LinearLayout>
 

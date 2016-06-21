@@ -87,7 +87,7 @@ public class TemplageImageAdapter extends RecyclerView.Adapter<TemplageImageAdap
                 MDImage mdImage = mTemplateImage.get(position);
 
                 if (onSelectImageLisenter != null) {
-                    onSelectImageLisenter.selectImage(position, mdImage);
+                    onSelectImageLisenter.selectImage(/**/position, mdImage);
                 }
             }
         }

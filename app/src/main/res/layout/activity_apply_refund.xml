@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
@@ -25,7 +24,7 @@
                 android:clickable="true"
                 android:gravity="center_vertical"
                 android:text="@string/refund_reason"
-                android:textSize="@dimen/text_size_16"/>
+                android:textSize="@dimen/text_size_16" />
 
             <com.MDGround.HaiLanPrint.views.ClearEditText
                 android:id="@+id/cetConsignee"
@@ -36,11 +35,11 @@
                 android:drawablePadding="@dimen/margin_8"
                 android:hint="@string/select_refund_reason"
                 android:longClickable="false"
-                android:textSize="@dimen/text_size_16"/>
+                android:textSize="@dimen/text_size_16" />
 
         </LinearLayout>
 
-        <View style="@style/DividerHorizontalMarginSytle"/>
+        <View style="@style/DividerHorizontalMarginSytle" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -55,7 +54,7 @@
                 android:clickable="true"
                 android:gravity="center_vertical"
                 android:text="@string/refund_amount"
-                android:textSize="@dimen/text_size_16"/>
+                android:textSize="@dimen/text_size_16" />
 
             <com.MDGround.HaiLanPrint.views.ClearEditText
                 android:id="@+id/cetRefundFee"
@@ -66,11 +65,11 @@
                 android:drawablePadding="@dimen/margin_8"
                 android:hint="@string/at_most_yuan"
                 android:inputType="numberDecimal"
-                android:textSize="@dimen/text_size_16"/>
+                android:textSize="@dimen/text_size_16" />
 
         </LinearLayout>
 
-        <View style="@style/DividerHorizontalMarginSytle"/>
+        <View style="@style/DividerHorizontalMarginSytle" />
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -86,7 +85,7 @@
                 android:clickable="true"
                 android:gravity="center_vertical"
                 android:text="@string/refund_detail"
-                android:textSize="@dimen/text_size_16"/>
+                android:textSize="@dimen/text_size_16" />
 
             <EditText
                 android:id="@+id/etRefundReason"
@@ -102,7 +101,7 @@
                 android:longClickable="false"
                 android:paddingTop="@dimen/margin_12"
                 android:scrollbars="vertical"
-                android:textSize="@dimen/text_size_16"/>
+                android:textSize="@dimen/text_size_16" />
 
         </RelativeLayout>
 
@@ -123,14 +122,14 @@
                 android:clickable="true"
                 android:gravity="center_vertical"
                 android:text="@string/upload_image"
-                android:textSize="@dimen/text_size_16"/>
+                android:textSize="@dimen/text_size_16" />
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/size_88"
                 android:layout_marginRight="@dimen/margin_8"
-                android:layout_toRightOf="@+id/tvUploadImage"/>
+                android:layout_toRightOf="@+id/tvUploadImage" />
 
         </RelativeLayout>
 
@@ -147,7 +146,7 @@
             android:paddingRight="@dimen/margin_36"
             android:text="@string/submit_refund_application"
             android:textColor="@color/color_white"
-            android:textSize="@dimen/text_size_18"/>
+            android:textSize="@dimen/text_size_18" />
 
     </LinearLayout>
 </layout>
