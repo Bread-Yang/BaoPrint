@@ -4,7 +4,7 @@ package com.MDGround.HaiLanPrint.models;
  * Created by yoghourt on 6/11/16.
  */
 
-public class WorkPhoto {
+public class    WorkPhoto {
 
     private int AutoID;
 
