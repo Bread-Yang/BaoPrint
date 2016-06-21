@@ -374,5 +374,7 @@
     <string name="save">保存</string>
     <string name="not_bound">未绑定</string>
     <string name="not_filled">未填写</string>
+    <string name="childinformation_one">孩子一资料</string>
+    <string name="childinformation_two">孩子二资料</string>
 
 </resources>

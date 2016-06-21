@@ -13,14 +13,14 @@ import com.MDGround.HaiLanPrint.enumobject.restfuls.ResponseCode;
 import com.MDGround.HaiLanPrint.models.User;
 import com.MDGround.HaiLanPrint.restfuls.GlobalRestful;
 import com.MDGround.HaiLanPrint.restfuls.bean.ResponseData;
-import com.MDGround.HaiLanPrint.utils.DateUtils;
 import com.MDGround.HaiLanPrint.utils.StringUtil;
 import com.MDGround.HaiLanPrint.utils.ViewUtils;
 import com.MDGround.HaiLanPrint.views.dialog.BirthdayDatePickerDialog;
 
-import org.joda.time.DateTime;
-
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -30,6 +30,7 @@ public class ImproveInformationActivity extends ToolbarActivity<ActivityImproveI
         implements DatePickerDialog.OnDateSetListener {
 
     private User mUser;
+    private boolean mIsFirstKidBirth=true;
 
     @Override
     public int getContentLayout() {
@@ -49,13 +50,18 @@ public class ImproveInformationActivity extends ToolbarActivity<ActivityImproveI
     }
 
     //region ACTION
-    public void chooseBirthdayAction(View view) {
+    public void chooseFirstKidBirthdayAction(View view) {
+        mIsFirstKidBirth=true;
         Calendar calendar = Calendar.getInstance();
-
         new BirthdayDatePickerDialog(this, this, calendar.get(Calendar.YEAR),
                 calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH)).show();
     }
-
+     public void chooseSecondKidBirthdayAction(View view){
+         mIsFirstKidBirth=false;
+         Calendar calendar = Calendar.getInstance();
+         new BirthdayDatePickerDialog(this, this, calendar.get(Calendar.YEAR),
+                 calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH)).show();
+     }
     public void finishAction(View view) {
         String name = mDataBinding.cetName.getText().toString();
         if (StringUtil.isEmpty(name)) {
@@ -65,14 +71,52 @@ public class ImproveInformationActivity extends ToolbarActivity<ActivityImproveI
 
         mUser.setUserName(name);
 
-        String childName = mDataBinding.cetChildName.getText().toString();
-        mUser.setChildName(childName);
+        String childName1 = mDataBinding.cetChildName1.getText().toString();
+        mUser.setKidName1(childName1);
 
-        String childSchool = mDataBinding.cetChildSchool.getText().toString();
-        mUser.setChildSchool(childSchool);
+        String childName2=mDataBinding.cetChildName2.getText().toString();
+        mUser.setKidName2(childName2);
 
-        String childClass = mDataBinding.cetChildClass.getText().toString();
-        mUser.setChildClass(childClass);
+        String childSchool1 = mDataBinding.cetChildSchool1.getText().toString();
+        mUser.setKidSchool1(childSchool1);
+
+        String childSchool2=mDataBinding.cetChildSchool2.getText().toString();
+        mUser.setKidSchool2(childSchool2);
+
+        String childClass1 = mDataBinding.cetChildClass1.getText().toString();
+        mUser.setKidClass1(childClass1);
+
+        String  chilidClass2=mDataBinding.cetChildClass2.getText().toString();
+        mUser.setKidClass2(chilidClass2);
+
+        String childBirth1=mDataBinding.tvChildBirthday1.getText().toString();
+        String childBirth2=mDataBinding.tvChildBirthday2.getText().toString();
+        SimpleDateFormat formats=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        if("".equals(childBirth1)){
+            childBirth1=null;
+        }else{
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            try {
+                Date date1=simpleDateFormat.parse(childBirth1);
+                childBirth1=formats.format(date1);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
+        }
+        if("".equals(childBirth2)){
+            childBirth2=null;
+        }else{
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            try {
+                Date date1=simpleDateFormat.parse(childBirth2);
+                childBirth2=formats.format(date1);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
+          mUser.setKidDOB1(childBirth1);
+          mUser.setKidDOB2(childBirth2);
 
         GlobalRestful.getInstance()
                 .RegisterUser(mUser, new Callback<ResponseData>() {
@@ -97,8 +141,14 @@ public class ImproveInformationActivity extends ToolbarActivity<ActivityImproveI
 
     @Override
     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-        mUser.setChildDOB(DateUtils.getServerDateStringByDate(new DateTime(year, monthOfYear + 1, dayOfMonth, 0, 0, 0).toDate()));
-        mDataBinding.tvChildBirthday.setText(year + "-" + (monthOfYear + 1) + "-" + dayOfMonth);
+        if(mIsFirstKidBirth){
+//            mUser.setKidDOB1(DateUtils.getServerDateStringByDate(new DateTime(year, monthOfYear + 1, dayOfMonth, 0, 0, 0).toDate()));
+            mDataBinding.tvChildBirthday1.setText(year + "-" + (monthOfYear + 1) + "-" + dayOfMonth);
+        }else {
+//            mUser.setKidDOB2(DateUtils.getServerDateStringByDate(new DateTime(year, monthOfYear + 1, dayOfMonth, 0, 0, 0).toDate()));
+            mDataBinding.tvChildBirthday2.setText(year + "-" + (monthOfYear + 1) + "-" + dayOfMonth);
+        }
+
     }
 }
 

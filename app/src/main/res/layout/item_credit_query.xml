@@ -38,17 +38,17 @@
             android:layout_marginLeft="@dimen/margin_10"
             android:layout_marginTop="@dimen/margin_12"
             />
+
        <TextView
            android:id="@+id/tvIntegral"
            android:layout_width="wrap_content"
            android:layout_height="wrap_content"
            tools:text="-333"
-            android:text="@{creditInfo.amount}"
            android:textSize="@dimen/text_size_20"
            android:textColor="@color/color_0ec100"
-           android:layout_alignParentRight="true"
            android:layout_centerVertical="true"
-           />
+           android:layout_alignParentRight="true"
+           android:layout_alignParentEnd="true" />
 
    </RelativeLayout>
 

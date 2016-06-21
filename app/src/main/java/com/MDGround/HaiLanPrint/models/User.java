@@ -1,11 +1,10 @@
 package com.MDGround.HaiLanPrint.models;
 
 import java.io.Serializable;
-import java.util.List;
 
 public class User implements Serializable {
 
-    public List<UserKid> UserKidList;
+    //public List<UserKid> UserKidList;
 
     public int UserID;
 
@@ -55,26 +54,97 @@ public class User implements Serializable {
 
     public String ServiceToken;
 
-    public String ChildName;
+    public String KidName1;
 
-    public String ChildDOB;
+    public String KidDOB1;
 
-    public String ChildSchool;
+    public String KidSchool1;
 
-    public String ChildClass;
+    public String KidClass1;
+
+    public String KidName2;
+
+    public String KidDOB2;
+
+    public String KidSchool2;
+
+    public String KidClass2;
+
+    public String getKidName1() {
+        return KidName1;
+    }
+
+    public void setKidName1(String kidName1) {
+        KidName1 = kidName1;
+    }
+
+    public String getKidDOB1() {
+        return KidDOB1;
+    }
+
+    public void setKidDOB1(String kidDOB1) {
+        KidDOB1 = kidDOB1;
+    }
+
+    public String getKidSchool1() {
+        return KidSchool1;
+    }
+
+    public void setKidSchool1(String kidSchool1) {
+        KidSchool1 = kidSchool1;
+    }
+
+    public String getKidClass1() {
+        return KidClass1;
+    }
+
+    public void setKidClass1(String kidClass1) {
+        KidClass1 = kidClass1;
+    }
+
+    public String getKidName2() {
+        return KidName2;
+    }
+
+    public void setKidName2(String kidName2) {
+        KidName2 = kidName2;
+    }
+
+    public String getKidDOB2() {
+        return KidDOB2;
+    }
+
+    public void setKidDOB2(String kidDOB2) {
+        KidDOB2 = kidDOB2;
+    }
+
+    public String getKidSchool2() {
+        return KidSchool2;
+    }
+
+    public void setKidSchool2(String kidSchool2) {
+        KidSchool2 = kidSchool2;
+    }
+
+    public String getKidClass2() {
+        return KidClass2;
+    }
+
+    public void setKidClass2(String kidClass2) {
+        KidClass2 = kidClass2;
+    }
 
     public User() {
         InvitationCode = "";
-        ChildDOB = "";
     }
 
-    public List<UserKid> getUserKidList() {
-        return UserKidList;
-    }
-
-    public void setUserKidList(List<UserKid> userKid) {
-        UserKidList = userKid;
-    }
+//    public List<UserKid> getUserKidList() {
+//        return UserKidList;
+//    }
+//
+//    public void setUserKidList(List<UserKid> userKid) {
+//        UserKidList = userKid;
+//    }
 
     public int getUserID() {
         return UserID;
@@ -262,38 +332,6 @@ public class User implements Serializable {
 
     public String getServiceToken() {
         return ServiceToken;
-    }
-
-    public String getChildName() {
-        return ChildName;
-    }
-
-    public void setChildName(String childName) {
-        ChildName = childName;
-    }
-
-    public String getChildDOB() {
-        return ChildDOB;
-    }
-
-    public void setChildDOB(String childDOB) {
-        ChildDOB = childDOB;
-    }
-
-    public String getChildSchool() {
-        return ChildSchool;
-    }
-
-    public void setChildSchool(String childSchool) {
-        ChildSchool = childSchool;
-    }
-
-    public String getChildClass() {
-        return ChildClass;
-    }
-
-    public void setChildClass(String childClass) {
-        ChildClass = childClass;
     }
 
     public void setServiceToken(String serviceToken) {

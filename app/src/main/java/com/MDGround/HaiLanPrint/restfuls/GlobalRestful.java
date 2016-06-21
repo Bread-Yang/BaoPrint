@@ -107,12 +107,15 @@ public class GlobalRestful extends BaseRestful {
         obj.addProperty("Phone", user.getPhone());
         obj.addProperty("Pwd", user.getPassword());
         obj.addProperty("UserName", user.getUserName());
-        obj.addProperty("ChildDOB", user.getChildDOB());
-        obj.addProperty("ChildName", user.getChildName());
-        obj.addProperty("ChildSchool", user.getChildSchool());
-        obj.addProperty("ChildClass", user.getChildClass());
+        obj.addProperty("KidName1",user.getKidName1());
+        obj.addProperty("KidDOB1",user.getKidDOB1());
+        obj.addProperty("KidSchool1",user.getKidSchool1());
+        obj.addProperty("KidClass1",user.getKidClass1());
+        obj.addProperty("KidName2",user.getKidName2());
+        obj.addProperty("KidDOB2",user.getKidDOB2());
+        obj.addProperty("KidSchool2",user.getKidSchool2());
+        obj.addProperty("KidClass2",user.getKidClass2());
         obj.addProperty("InvitationCode", user.getInvitationCode());
-
         asynchronousPost("RegisterUser", obj, callback);
     }
 
