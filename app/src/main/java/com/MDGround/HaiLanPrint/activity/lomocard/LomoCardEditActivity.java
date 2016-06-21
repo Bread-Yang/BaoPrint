@@ -22,8 +22,6 @@ import com.MDGround.HaiLanPrint.utils.SelectImageUtil;
 import com.MDGround.HaiLanPrint.utils.ViewUtils;
 import com.MDGround.HaiLanPrint.views.BaoGPUImage;
 import com.MDGround.HaiLanPrint.views.dialog.NotifyDialog;
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 
@@ -123,20 +121,15 @@ public class LomoCardEditActivity extends ToolbarActivity<ActivityLomoCardEditBi
         mCurrentSelectIndex = position;
 
         // 模板图片加载
-        GlideUtil.loadImageByMDImage(mDataBinding.ivTemplate, mdImage,false);
+        GlideUtil.loadImageByMDImage(mDataBinding.ivTemplate, mdImage, false);
 
         // 用户选择的图片加载
         MDImage selectImage = SelectImageUtil.mAlreadySelectImage.get(position);
         if (selectImage.getPhotoSID() != 0 || selectImage.getImageLocalPath() != null) {
-            Glide.with(this)
-                    .load(selectImage)
-                    .asBitmap()
-                    .diskCacheStrategy(DiskCacheStrategy.ALL)
-                    .into(new SimpleTarget<Bitmap>(200, 200) {
+            GlideUtil.loadImageAsBitmap(selectImage,
+                    new SimpleTarget<Bitmap>(200, 200) {
                         @Override
                         public void onResourceReady(Bitmap bitmap, GlideAnimation glideAnimation) {
-                            // do something with the bitmap
-                            // for demonstration purposes, let's just set it to an ImageView
                             WorkPhoto workPhoto = mWorkPhotoArrayList.get(position);
 
                             mDataBinding.bgiImage.loadNewImage(bitmap, workPhoto.getZoomSize(), workPhoto.getRotate());
@@ -194,5 +187,4 @@ public class LomoCardEditActivity extends ToolbarActivity<ActivityLomoCardEditBi
         generateOrder();
     }
     //endregion
-
 }

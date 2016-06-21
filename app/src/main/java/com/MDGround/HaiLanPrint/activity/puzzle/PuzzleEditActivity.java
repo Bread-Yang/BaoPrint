@@ -12,12 +12,12 @@ import com.MDGround.HaiLanPrint.application.MDGroundApplication;
 import com.MDGround.HaiLanPrint.constants.Constants;
 import com.MDGround.HaiLanPrint.databinding.ActivityPuzzleEditBinding;
 import com.MDGround.HaiLanPrint.models.MDImage;
+import com.MDGround.HaiLanPrint.utils.GlideUtil;
+import com.MDGround.HaiLanPrint.utils.NavUtils;
 import com.MDGround.HaiLanPrint.utils.OrderUtils;
 import com.MDGround.HaiLanPrint.utils.SelectImageUtil;
 import com.MDGround.HaiLanPrint.utils.ViewUtils;
 import com.MDGround.HaiLanPrint.views.BaoGPUImage;
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 
@@ -38,6 +38,13 @@ public class PuzzleEditActivity extends ToolbarActivity<ActivityPuzzleEditBindin
 
     @Override
     protected void setListener() {
+        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                NavUtils.toMainActivity(PuzzleEditActivity.this);
+            }
+        });
+
         mDataBinding.bgiImage.setOnSingleTouchListener(new BaoGPUImage.OnSingleTouchListener() {
             @Override
             public void onSingleTouch() {
@@ -71,21 +78,14 @@ public class PuzzleEditActivity extends ToolbarActivity<ActivityPuzzleEditBindin
     private void showImageToGPUImageView() {
         if (SelectImageUtil.mTemplateImage.size() > 0) {
             // 模板图片加载
-            Glide.with(MDGroundApplication.mInstance)
-                    .load(SelectImageUtil.mTemplateImage.get(0))
-                    .dontAnimate()
-                    .into(mDataBinding.ivTemplate);
+            GlideUtil.loadImageByMDImage(mDataBinding.ivTemplate, SelectImageUtil.mTemplateImage.get(0), false);
         }
 
         // 用户选择的图片加载
-        Glide.with(this)
-                .load(SelectImageUtil.mAlreadySelectImage.get(0))
-                .asBitmap()
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .into(new SimpleTarget<Bitmap>(200, 200) {
+        GlideUtil.loadImageAsBitmap(SelectImageUtil.mAlreadySelectImage.get(0),
+                new SimpleTarget<Bitmap>(200, 200) {
                     @Override
                     public void onResourceReady(Bitmap bitmap, GlideAnimation glideAnimation) {
-
                         mDataBinding.bgiImage.loadNewImage(bitmap);
                     }
                 });

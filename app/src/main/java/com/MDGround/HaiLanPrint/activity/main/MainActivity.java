@@ -37,6 +37,7 @@ import com.MDGround.HaiLanPrint.restfuls.GlobalRestful;
 import com.MDGround.HaiLanPrint.restfuls.bean.ResponseData;
 import com.MDGround.HaiLanPrint.utils.SelectImageUtil;
 import com.google.gson.reflect.TypeToken;
+import com.socks.library.KLog;
 
 import java.util.ArrayList;
 
@@ -56,6 +57,12 @@ public class MainActivity extends AppCompatActivity {
         mDataBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
 
         initData();
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        KLog.e("onNewIntent");
     }
 
     @Override

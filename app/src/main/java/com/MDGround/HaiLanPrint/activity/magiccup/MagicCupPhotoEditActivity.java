@@ -13,12 +13,11 @@ import com.MDGround.HaiLanPrint.constants.Constants;
 import com.MDGround.HaiLanPrint.databinding.ActivityMagicCupEditBinding;
 import com.MDGround.HaiLanPrint.models.MDImage;
 import com.MDGround.HaiLanPrint.utils.GlideUtil;
+import com.MDGround.HaiLanPrint.utils.NavUtils;
 import com.MDGround.HaiLanPrint.utils.OrderUtils;
 import com.MDGround.HaiLanPrint.utils.SelectImageUtil;
 import com.MDGround.HaiLanPrint.utils.ViewUtils;
 import com.MDGround.HaiLanPrint.views.BaoCustomGPUImage;
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 
@@ -39,6 +38,13 @@ public class MagicCupPhotoEditActivity extends ToolbarActivity<ActivityMagicCupE
 
     @Override
     protected void setListener() {
+        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                NavUtils.toMainActivity(MagicCupPhotoEditActivity.this);
+            }
+        });
+
         mDataBinding.bgiCustomImage.setOnSingleTouchListener(new BaoCustomGPUImage.OnSingleTouchListener() {
             @Override
             public void onSingleTouch() {
@@ -79,14 +85,10 @@ public class MagicCupPhotoEditActivity extends ToolbarActivity<ActivityMagicCupE
         }
 
         // 用户选择的图片加载
-        Glide.with(this)
-                .load(SelectImageUtil.mAlreadySelectImage.get(0))
-                .asBitmap()
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .into(new SimpleTarget<Bitmap>(200, 200) {
+        GlideUtil.loadImageAsBitmap(SelectImageUtil.mAlreadySelectImage.get(0),
+                new SimpleTarget<Bitmap>(200, 200) {
                     @Override
-                    public void onResourceReady(final Bitmap bitmap, GlideAnimation glideAnimation) {
-
+                    public void onResourceReady(Bitmap bitmap, GlideAnimation glideAnimation) {
                         mDataBinding.bgiCustomImage.loadNewImage(bitmap);
                     }
                 });
