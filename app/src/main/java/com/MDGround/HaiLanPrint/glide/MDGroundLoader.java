@@ -27,7 +27,8 @@ public class MDGroundLoader implements ModelLoader<MDImage, InputStream> {
 
     @Override
     public DataFetcher<InputStream> getResourceFetcher(MDImage model, int width, int height) {
-        if (model.getImageLocalPath() != null && model.getImageLocalPath().contains("storage")) {
+        if (model.getImageLocalPath() != null
+                && (model.getImageLocalPath().contains("storage") || model.getImageLocalPath().contains("sdcard"))) {
             return new StreamLocalUriFetcher(mContext, Uri.fromFile(new File(model.getImageLocalPath())));
         }
 

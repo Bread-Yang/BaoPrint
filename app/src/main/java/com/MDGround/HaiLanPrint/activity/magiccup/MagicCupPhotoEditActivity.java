@@ -18,6 +18,7 @@ import com.MDGround.HaiLanPrint.utils.SelectImageUtil;
 import com.MDGround.HaiLanPrint.utils.ViewUtils;
 import com.MDGround.HaiLanPrint.views.BaoCustomGPUImage;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 
@@ -81,6 +82,7 @@ public class MagicCupPhotoEditActivity extends ToolbarActivity<ActivityMagicCupE
         Glide.with(this)
                 .load(SelectImageUtil.mAlreadySelectImage.get(0))
                 .asBitmap()
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(new SimpleTarget<Bitmap>(200, 200) {
                     @Override
                     public void onResourceReady(final Bitmap bitmap, GlideAnimation glideAnimation) {

@@ -21,6 +21,7 @@ import java.util.List;
 public class GlideUtil {
 
     public static void loadImageByMDImage(ImageView imageView, MDImage mdImage, boolean showPlaceHolder) {
+
 //        if (mdImage.getImageLocalPath() != null && mdImage.getImageLocalPath().contains("storage")) {
 //            // 加载本地图片
 //            Glide.with(MDGroundApplication.mInstance)

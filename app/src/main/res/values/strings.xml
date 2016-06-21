@@ -19,6 +19,10 @@
     <string name="cover">封面</string>
     <string name="error_msg">程序出错了</string>
 
+    <!-- 引导页 -->
+    <string name="guide_page">引导页</string>
+    <string name="experience_immediately">立即体验</string>
+
     <!-- 登录 -->
     <string name="login">登录</string>
     <string name="auto_login">自动登录</string>

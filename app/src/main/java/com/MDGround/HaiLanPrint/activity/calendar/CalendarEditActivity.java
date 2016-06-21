@@ -22,6 +22,7 @@ import com.MDGround.HaiLanPrint.utils.ViewUtils;
 import com.MDGround.HaiLanPrint.views.BaoGPUImage;
 import com.MDGround.HaiLanPrint.views.dialog.NotifyDialog;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 
@@ -133,7 +134,7 @@ public class CalendarEditActivity extends ToolbarActivity<ActivityCalendarEditBi
             Glide.with(this)
                     .load(selectImage)
                     .asBitmap()
-//                    .thumbnail(0.1f)
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .into(new SimpleTarget<Bitmap>(200, 200) {
                         @Override
                         public void onResourceReady(Bitmap bitmap, GlideAnimation glideAnimation) {
