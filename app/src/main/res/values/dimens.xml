@@ -60,4 +60,5 @@
     <dimen name="size_22">22dp</dimen>
     <dimen name="size_18">18dp</dimen>
     <dimen name="size_6">6dp</dimen>
+    <dimen name="size_100">100dp</dimen>
 </resources>

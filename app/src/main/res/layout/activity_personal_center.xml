@@ -44,7 +44,7 @@
             android:layout_below="@+id/ivAvatarCircle"
             android:layout_centerHorizontal="true"
             android:layout_gravity="center_horizontal"
-            android:layout_marginBottom="@dimen/margin_24"
+            android:layout_marginBottom="@dimen/margin_20"
             android:layout_marginTop="@dimen/margin_10"
             android:textSize="@dimen/text_size_18"
             tools:text="MISOi" />
@@ -54,7 +54,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tvName"
-            android:layout_marginTop="@dimen/margin_24"
+            android:layout_marginTop="@dimen/size_22"
             android:orientation="horizontal">
 
             <TextView
