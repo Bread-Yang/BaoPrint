@@ -33,65 +33,75 @@
 
             </com.MDGround.HaiLanPrint.views.FlexibleRelativeLayout>
 
-            <View
-                style="@style/DividerHorizontalMarginSytle"
-                android:layout_above="@+id/btnNextStep"/>
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-            <TextView
-                style="@style/NormalTextStyle"
-                android:layout_gravity="center_vertical"
-                android:paddingLeft="@dimen/margin_12"
-                android:paddingTop="@dimen/margin_12"
-                android:text="@{@string/template_name(template.templateName)}"
-                android:textSize="@dimen/text_size_16"
-                tools:text="模板: 花语"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
 
-            <RelativeLayout
-                style="@style/FixHeightLayoutStyle">
+                    <View
+                        style="@style/DividerHorizontalMarginSytle"
+                        android:layout_above="@+id/btnNextStep"/>
 
-                <TextView
-                    android:id="@+id/tvPageNum"
-                    style="@style/DimTextStyle"
-                    android:layout_centerVertical="true"
-                    android:layout_gravity="center_vertical"
-                    android:text="@{@string/page_num(template.pageCount)}"
-                    tools:text="页数: 22P"/>
+                    <TextView
+                        style="@style/NormalTextStyle"
+                        android:layout_gravity="center_vertical"
+                        android:paddingLeft="@dimen/margin_12"
+                        android:paddingTop="@dimen/margin_12"
+                        android:text="@{@string/template_name(template.templateName)}"
+                        android:textSize="@dimen/text_size_16"
+                        tools:text="模板: 花语"/>
 
-                <TextView
-                    android:id="@+id/tvPrice"
-                    style="@style/DimTextStyle"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:text="@{@string/price_rmb(StringUtil.toYuanWithoutUnit(template.price))}"
-                    tools:text="价格: ¥16.0"/>
+                    <RelativeLayout
+                        style="@style/FixHeightLayoutStyle">
 
-            </RelativeLayout>
+                        <TextView
+                            android:id="@+id/tvPageNum"
+                            style="@style/DimTextStyle"
+                            android:layout_centerVertical="true"
+                            android:layout_gravity="center_vertical"
+                            android:text="@{@string/page_num(template.pageCount)}"
+                            tools:text="页数: 22P"/>
 
-            <View
-                style="@style/DividerHorizontalMarginSytle"
-                android:layout_above="@+id/btnNextStep"/>
+                        <TextView
+                            android:id="@+id/tvPrice"
+                            style="@style/DimTextStyle"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:text="@{@string/price_rmb(StringUtil.toYuanWithoutUnit(template.price))}"
+                            tools:text="价格: ¥16.0"/>
+
+                    </RelativeLayout>
+
+                    <View
+                        style="@style/DividerHorizontalMarginSytle"
+                        android:layout_above="@+id/btnNextStep"/>
 
 
-            <TextView
-                style="@style/NormalTextStyle"
-                android:layout_gravity="center_vertical"
-                android:paddingLeft="@dimen/margin_12"
-                android:paddingTop="@dimen/margin_12"
-                android:text="@string/product_detail"
-                android:textSize="@dimen/text_size_16"/>
+                    <TextView
+                        style="@style/NormalTextStyle"
+                        android:layout_gravity="center_vertical"
+                        android:paddingLeft="@dimen/margin_12"
+                        android:paddingTop="@dimen/margin_12"
+                        android:text="@string/product_detail"
+                        android:textSize="@dimen/text_size_16"/>
 
 
-            <TextView
-                android:id="@+id/tvMaterialDescription"
-                style="@style/DimTextStyle"
-                android:layout_centerVertical="true"
-                android:layout_gravity="center_vertical"
-                android:paddingBottom="@dimen/margin_12"
-                android:paddingLeft="@dimen/margin_12"
-                android:paddingTop="@dimen/margin_12"
-                android:text="@{template.materialDesc}"
-                tools:text="@string/phone_brand"/>
-
+                    <TextView
+                        android:id="@+id/tvMaterialDescription"
+                        style="@style/DimTextStyle"
+                        android:layout_centerVertical="true"
+                        android:layout_gravity="center_vertical"
+                        android:paddingBottom="@dimen/margin_12"
+                        android:paddingLeft="@dimen/margin_12"
+                        android:paddingTop="@dimen/margin_12"
+                        android:text="@{template.materialDesc}"
+                        tools:text="@string/phone_brand"/>
+                </LinearLayout>
+            </ScrollView>
         </LinearLayout>
 
         <View
@@ -104,11 +114,11 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:background="@color/color_white">
+
             <Button
                 android:id="@+id/btnNextStep"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/size_44"
-
                 android:layout_gravity="center_horizontal"
                 android:background="?attr/selectableItemBackground"
                 android:gravity="center"
@@ -118,7 +128,6 @@
                 android:textSize="@dimen/text_size_20"/>
 
         </RelativeLayout>
-
 
     </RelativeLayout>
 

@@ -21,8 +21,9 @@ import com.MDGround.HaiLanPrint.models.OrderWork;
 import com.MDGround.HaiLanPrint.restfuls.GlobalRestful;
 import com.MDGround.HaiLanPrint.restfuls.bean.ResponseData;
 import com.MDGround.HaiLanPrint.utils.NavUtils;
-import com.MDGround.HaiLanPrint.utils.ViewUtils;
+import com.MDGround.HaiLanPrint.utils.StringUtil;
 import com.google.gson.reflect.TypeToken;
+import com.malinskiy.superrecyclerview.OnMoreListener;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -47,6 +48,8 @@ public class MyOrdersActivity extends ToolbarActivity<ActivityMyOrdersBinding> {
 
     private boolean mIsBackToMainActivity = false;
 
+    private int mPageIndex;
+
     @Override
     protected int getContentLayout() {
         return R.layout.activity_my_orders;
@@ -55,7 +58,7 @@ public class MyOrdersActivity extends ToolbarActivity<ActivityMyOrdersBinding> {
     @Override
     protected void onResume() {
         super.onResume();
-        getUserOrderListRequest();
+        refreshOrderList();
     }
 
     @Override
@@ -128,35 +131,53 @@ public class MyOrdersActivity extends ToolbarActivity<ActivityMyOrdersBinding> {
 
             }
         });
+
+        mDataBinding.recyclerView.setupMoreListener(new OnMoreListener() {
+            @Override
+            public void onMoreAsked(int overallItemsCount, int itemsBeforeMore, int maxLastVisiblePosition) {
+                getUserOrderListRequest();
+            }
+        }, Constants.ITEM_LEFT_TO_LOAD_MORE);
+    }
+
+    private void refreshOrderList() {
+        mOrderInfoHashMap.clear();
+        mOrderWorkArrayList.clear();
+        mPageIndex = 0;
+        getUserOrderListRequest();
     }
 
     //region SERVER
     private void getUserOrderListRequest() {
-        ViewUtils.loading(this);
-        GlobalRestful.getInstance().GetUserOrderList(mOrderStatus, new Callback<ResponseData>() {
+        GlobalRestful.getInstance().GetUserOrderList(mPageIndex, mOrderStatus, new Callback<ResponseData>() {
             @Override
             public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
-                ArrayList<Order> ordersArrayList = response.body().getContent(new TypeToken<ArrayList<Order>>() {
-                });
+                mPageIndex++;
 
-                mOrderInfoHashMap.clear();
-                mOrderWorkArrayList.clear();
-                for (Order order : ordersArrayList) {
-                    mOrderInfoHashMap.put(order.getOrderInfo().getOrderID(), order.getOrderInfo());
-
-                    mOrderWorkArrayList.addAll(order.getOrderWorkList());
-                }
-
-                if (mOrderWorkArrayList.size() > 0) {
-                    mDataBinding.tvEmptyTips.setVisibility(View.GONE);
-                    mDataBinding.recyclerView.setVisibility(View.VISIBLE);
-                    mAdapter.notifyDataSetChanged();
+                if (StringUtil.isEmpty(response.body().getContent())) {
+                    mDataBinding.recyclerView.setLoadingMore(false);
+                    mDataBinding.recyclerView.setupMoreListener(null, 0);
                 } else {
-                    mDataBinding.tvEmptyTips.setVisibility(View.VISIBLE);
-                    mDataBinding.recyclerView.setVisibility(View.GONE);
+                    ArrayList<Order> ordersArrayList = response.body().getContent(new TypeToken<ArrayList<Order>>() {
+                    });
+
+                    for (Order order : ordersArrayList) {
+                        mOrderInfoHashMap.put(order.getOrderInfo().getOrderID(), order.getOrderInfo());
+
+                        mOrderWorkArrayList.addAll(order.getOrderWorkList());
+                    }
+
+                    if (mOrderWorkArrayList.size() > 0) {
+                        mDataBinding.tvEmptyTips.setVisibility(View.GONE);
+                        mDataBinding.recyclerView.setVisibility(View.VISIBLE);
+                        mAdapter.notifyDataSetChanged();
+                    } else {
+                        mDataBinding.tvEmptyTips.setVisibility(View.VISIBLE);
+                        mDataBinding.recyclerView.setVisibility(View.GONE);
+                    }
                 }
 
-                ViewUtils.dismiss();
+                mDataBinding.recyclerView.hideMoreProgress();
             }
 
             @Override
@@ -171,6 +192,9 @@ public class MyOrdersActivity extends ToolbarActivity<ActivityMyOrdersBinding> {
         GlobalRestful.getInstance().UpdateOrderFinished(orderID, new Callback<ResponseData>() {
             @Override
             public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
+                mOrderInfoHashMap.clear();
+                mOrderWorkArrayList.clear();
+                mPageIndex = 0;
                 getUserOrderListRequest();
             }
 

@@ -15,6 +15,7 @@ import com.MDGround.HaiLanPrint.constants.Constants;
 import com.MDGround.HaiLanPrint.databinding.ActivityLomoCardEditBinding;
 import com.MDGround.HaiLanPrint.models.MDImage;
 import com.MDGround.HaiLanPrint.models.WorkPhoto;
+import com.MDGround.HaiLanPrint.utils.GlideUtil;
 import com.MDGround.HaiLanPrint.utils.NavUtils;
 import com.MDGround.HaiLanPrint.utils.OrderUtils;
 import com.MDGround.HaiLanPrint.utils.SelectImageUtil;
@@ -22,6 +23,7 @@ import com.MDGround.HaiLanPrint.utils.ViewUtils;
 import com.MDGround.HaiLanPrint.views.BaoGPUImage;
 import com.MDGround.HaiLanPrint.views.dialog.NotifyDialog;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 
@@ -121,11 +123,7 @@ public class LomoCardEditActivity extends ToolbarActivity<ActivityLomoCardEditBi
         mCurrentSelectIndex = position;
 
         // 模板图片加载
-        Glide.with(MDGroundApplication.mInstance)
-                .load(mdImage)
-                .dontAnimate()
-                .into(mDataBinding.ivTemplate);
-
+        GlideUtil.loadImageByMDImage(mDataBinding.ivTemplate, mdImage,false);
 
         // 用户选择的图片加载
         MDImage selectImage = SelectImageUtil.mAlreadySelectImage.get(position);
@@ -133,8 +131,8 @@ public class LomoCardEditActivity extends ToolbarActivity<ActivityLomoCardEditBi
             Glide.with(this)
                     .load(selectImage)
                     .asBitmap()
-//                    .thumbnail(0.1f)
-                    .into(new SimpleTarget<Bitmap>() {
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .into(new SimpleTarget<Bitmap>(200, 200) {
                         @Override
                         public void onResourceReady(Bitmap bitmap, GlideAnimation glideAnimation) {
                             // do something with the bitmap

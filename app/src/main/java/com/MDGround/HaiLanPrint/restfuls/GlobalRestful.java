@@ -244,9 +244,10 @@ public class GlobalRestful extends BaseRestful {
         asynchronousPost("GetPhotoTemplateAttachList", obj, callback);
     }
 
-    public void GetUserOrderList(OrderStatus orderStatus, Callback<ResponseData> callback) {
+    public void GetUserOrderList(int pageIndex, OrderStatus orderStatus, Callback<ResponseData> callback) {
         JsonObject obj = new JsonObject();
         obj.addProperty("OrderStatus", orderStatus.value());
+        obj.addProperty("PageIndex", pageIndex);
 
         asynchronousPost("GetUserOrderList", obj, callback);
     }

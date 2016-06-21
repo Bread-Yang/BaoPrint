@@ -44,8 +44,8 @@ public class PostcardStartActivity extends ToolbarActivity<ActivityPostcardStart
         for (PhotoTypeExplain photoTypeExplain : mPhotoTypeExplainArrayList) {
             if (photoTypeExplain.getExplainType() == PhotoExplainTypeEnum.IntroductionPage.value()
                     && photoTypeExplain.getTypeID() == ProductType.Postcard.value()) {
-
-                GlideUtil.loadImageByPhotoSIDWithDialog(mDataBinding.ivIntroductionPage, photoTypeExplain.getPhotoSID());
+                GlideUtil.loadImageByPhotoSIDWithDialog(mDataBinding.ivIntroductionPage,
+                        photoTypeExplain.getPhotoSID());
                 break;
             }
         }

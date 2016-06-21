@@ -23,6 +23,7 @@ import com.MDGround.HaiLanPrint.utils.ViewUtils;
 import com.MDGround.HaiLanPrint.views.BaoGPUImage;
 import com.MDGround.HaiLanPrint.views.dialog.NotifyDialog;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 
@@ -130,6 +131,7 @@ public class PostcardEditActivity extends ToolbarActivity<ActivityPostcardEditBi
             Glide.with(this)
                     .load(selectImage)
                     .asBitmap()
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .into(new SimpleTarget<Bitmap>(200, 200) {
                         @Override
                         public void onResourceReady(Bitmap bitmap, GlideAnimation glideAnimation) {
@@ -151,7 +153,7 @@ public class PostcardEditActivity extends ToolbarActivity<ActivityPostcardEditBi
         MDGroundApplication.mOrderutUtils = new OrderUtils(this,
                 1, MDGroundApplication.mChoosedTemplate.getPrice(), null);
         MDGroundApplication.mOrderutUtils.saveOrderRequest();
-//        MDGroundApplication.mOrderutUtils.uploadImageRequest(0);
+//        MDGroundApplication.mOrderutUtils.uploadImageRequest(this, 0);
     }
 
     @Override

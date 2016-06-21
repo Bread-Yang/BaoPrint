@@ -111,6 +111,7 @@ public class PaymentPreviewActivity extends ToolbarActivity<ActivityPaymentPrevi
                 } else {
                     mDataBinding.tvCreditYuan.setText(getString(R.string.offset_fee, "0.00"));
                 }
+                refreshDisplayFee();
             }
         });
     }
@@ -196,7 +197,7 @@ public class PaymentPreviewActivity extends ToolbarActivity<ActivityPaymentPrevi
 
     private int getCreditFee() {
         int creditFee = 0;
-        if (mSystemSetting != null) {
+        if (mSystemSetting != null && mDataBinding.cbUseCredit.isChecked()) {
             creditFee = mCredit * mSystemSetting.getValue();
         }
         return creditFee;
@@ -224,7 +225,7 @@ public class PaymentPreviewActivity extends ToolbarActivity<ActivityPaymentPrevi
             }
         }
 
-        mDataBinding.tvAvailableCoupon.setText(getString(R.string.available_num, matchLimitCoupon));
+        mDataBinding.tvAvailableCoupon.setText(getString(R.string.available_num, mAvailableCouponArrayList.size()));
 
         // 优惠劵
         int couponFee = 0;

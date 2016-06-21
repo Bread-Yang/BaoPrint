@@ -3,6 +3,7 @@ package com.MDGround.HaiLanPrint.activity.pictureframe;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.view.View;
+import android.widget.RadioGroup;
 
 import com.MDGround.HaiLanPrint.R;
 import com.MDGround.HaiLanPrint.activity.base.ToolbarActivity;
@@ -10,12 +11,16 @@ import com.MDGround.HaiLanPrint.activity.selectimage.SelectAlbumWhenEditActivity
 import com.MDGround.HaiLanPrint.application.MDGroundApplication;
 import com.MDGround.HaiLanPrint.constants.Constants;
 import com.MDGround.HaiLanPrint.databinding.ActivityPictureFrameEditBinding;
+import com.MDGround.HaiLanPrint.enumobject.MaterialType;
 import com.MDGround.HaiLanPrint.models.MDImage;
+import com.MDGround.HaiLanPrint.utils.GlideUtil;
 import com.MDGround.HaiLanPrint.utils.OrderUtils;
 import com.MDGround.HaiLanPrint.utils.SelectImageUtil;
+import com.MDGround.HaiLanPrint.utils.StringUtil;
 import com.MDGround.HaiLanPrint.utils.ViewUtils;
 import com.MDGround.HaiLanPrint.views.BaoGPUImage;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 
@@ -37,6 +42,9 @@ public class PictureFrameEditActivity extends ToolbarActivity<ActivityPictureFra
 
         showImageToGPUImageView();
 
+        mDataBinding.tvPrice.setText(getString(R.string.yuan_amount,
+                StringUtil.toYuanWithoutUnit(MDGroundApplication.mChoosedTemplate.getPrice())));
+        changeMaterialAvailable();
     }
 
     @Override
@@ -48,22 +56,45 @@ public class PictureFrameEditActivity extends ToolbarActivity<ActivityPictureFra
                 startActivityForResult(intent, 0);
             }
         });
+
+        mDataBinding.rgSize.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                switch (checkedId) {
+                    case R.id.rb6Inch:
+                        mDataBinding.tvPrice.setText(getString(R.string.yuan_amount,
+                                StringUtil.toYuanWithoutUnit(MDGroundApplication.mChoosedTemplate.getPrice())));
+                        break;
+                    case R.id.rb8Inch:
+                        mDataBinding.tvPrice.setText(getString(R.string.yuan_amount,
+                                StringUtil.toYuanWithoutUnit(MDGroundApplication.mChoosedTemplate.getPrice2())));
+                        break;
+                    case R.id.rb10Inch:
+                        mDataBinding.tvPrice.setText(getString(R.string.yuan_amount,
+                                StringUtil.toYuanWithoutUnit(MDGroundApplication.mChoosedTemplate.getPrice3())));
+                        break;
+                    case R.id.rb12Inch:
+                        mDataBinding.tvPrice.setText(getString(R.string.yuan_amount,
+                                StringUtil.toYuanWithoutUnit(MDGroundApplication.mChoosedTemplate.getPrice4())));
+                        break;
+                }
+            }
+        });
     }
 
     private void showImageToGPUImageView() {
         if (SelectImageUtil.mTemplateImage.size() > 0) {
             // 模板图片加载
-            Glide.with(MDGroundApplication.mInstance)
-                    .load(SelectImageUtil.mTemplateImage.get(0))
-                    .dontAnimate()
-                    .into(mDataBinding.ivTemplate);
+            GlideUtil.loadImageByMDImage(mDataBinding.ivTemplate,
+                    SelectImageUtil.mTemplateImage.get(0),
+                    false);
         }
 
         // 用户选择的图片加载
         Glide.with(this)
                 .load(SelectImageUtil.mAlreadySelectImage.get(0))
                 .asBitmap()
-//                .thumbnail(0.1f)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(new SimpleTarget<Bitmap>(200, 200) {
                     @Override
                     public void onResourceReady(Bitmap bitmap, GlideAnimation glideAnimation) {
@@ -71,6 +102,28 @@ public class PictureFrameEditActivity extends ToolbarActivity<ActivityPictureFra
                         mDataBinding.bgiImage.loadNewImage(bitmap);
                     }
                 });
+    }
+
+    private void changeMaterialAvailable() {
+        mDataBinding.rgStyle.clearCheck();
+
+        if ((MDGroundApplication.mChoosedTemplate.getMaterialType() & MaterialType.Landscape.value()) != 0) {
+            mDataBinding.rbLandscape.setEnabled(true);
+            if (mDataBinding.rgStyle.getCheckedRadioButtonId() == -1) {
+                mDataBinding.rbLandscape.setChecked(true);
+            }
+        } else {
+            mDataBinding.rbLandscape.setEnabled(false);
+        }
+
+        if ((MDGroundApplication.mChoosedTemplate.getMaterialType() & MaterialType.Portrait.value()) != 0) {
+            mDataBinding.rbPortrait.setEnabled(true);
+            if (mDataBinding.rgStyle.getCheckedRadioButtonId() == -1) {
+                mDataBinding.rbPortrait.setChecked(true);
+            }
+        } else {
+            mDataBinding.rbPortrait.setEnabled(false);
+        }
     }
 
     @Override

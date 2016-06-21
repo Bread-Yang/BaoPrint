@@ -27,11 +27,12 @@
                 android:layout_height="match_parent"
                 android:src="@drawable/ic_placeholder"/>
 
-            <ImageView
+            <com.MDGround.HaiLanPrint.views.FlexibleImageView
                 android:id="@+id/ivTemplate"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:scaleType="fitXY"/>
+                android:scaleType="fitStart"
+                app:ratio="0.75"/>
 
         </com.MDGround.HaiLanPrint.views.FlexibleRelativeLayout>
 
@@ -48,8 +49,8 @@
                     android:id="@+id/tvTemplateName"
                     style="@style/NormalTextStyle"
                     android:layout_centerVertical="true"
-                    android:textSize="@dimen/text_size_16"
                     android:text="@{template.templateName}"
+                    android:textSize="@dimen/text_size_16"
                     tools:text="实木大画框"/>
 
                 <TextView
@@ -57,7 +58,6 @@
                     style="@style/OrangeTextStyle"
                     android:layout_alignParentRight="true"
                     android:layout_centerInParent="true"
-                    android:text="@{@string/rmb + StringUtil.toYuanWithUnit(template.price)}"
                     android:textSize="@dimen/text_size_16"
                     tools:text="¥233.00元"/>
 
@@ -139,12 +139,14 @@
                         android:id="@+id/rbLandscape"
                         style="@style/NormalRaidoButtonStyle"
                         android:checked="true"
+                        android:enabled="false"
                         android:text="@string/landscape"/>
 
                     <RadioButton
                         android:id="@+id/rbPortrait"
                         style="@style/NormalRaidoButtonStyle"
                         android:layout_marginLeft="@dimen/margin_15"
+                        android:enabled="false"
                         android:text="@string/portrait"/>
 
                 </RadioGroup>
@@ -199,21 +201,27 @@
 
         <View
             style="@style/DividerHorizontalStyle"
-            android:layout_above="@+id/btnPurchase"
+            android:layout_above="@+id/rltPurchase"
             android:layout_marginTop="@dimen/margin_26"/>
 
-        <Button
-            android:id="@+id/btnPurchase"
+        <RelativeLayout
+            android:id="@+id/rltPurchase"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/size_44"
+            android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:layout_gravity="center_horizontal"
-            android:background="?attr/selectableItemBackground"
-            android:gravity="center"
-            android:onClick="purchaseAction"
-            android:text="@string/purchase"
-            android:textColor="@color/color_f88e11"
-            android:textSize="@dimen/text_size_20"/>
+            android:background="@color/color_white">
+            <Button
+                android:id="@+id/btnPurchase"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/size_44"
+                android:layout_gravity="center_horizontal"
+                android:background="?attr/selectableItemBackground"
+                android:gravity="center"
+                android:onClick="purchaseAction"
+                android:text="@string/purchase"
+                android:textColor="@color/color_f88e11"
+                android:textSize="@dimen/text_size_20"/>
+        </RelativeLayout>
 
     </RelativeLayout>
 

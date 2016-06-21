@@ -88,8 +88,11 @@ public class SelectAlbumBeforeEditActivity extends ToolbarActivity<ActivitySelec
                 switch (MDGroundApplication.mChoosedProductType) {
                     case MagazineAlbum:
                     case ArtAlbum:
-                    case Calendar:
                         mMaxSelectImageNum = SelectImageUtil.mTemplateImage.size();
+                        changeTips();
+                        break;
+                    case Calendar:
+                        mMaxSelectImageNum = MDGroundApplication.mChoosedTemplate.getPageCount();
                         changeTips();
                         break;
                     case Postcard:
@@ -98,6 +101,12 @@ public class SelectAlbumBeforeEditActivity extends ToolbarActivity<ActivitySelec
                     case MagicCup:
                     case LOMOCard:
                         getPhotoTemplateListRequest();  // 模板图片
+                        break;
+                    case PictureFrame:
+                    case PhoneShell:
+                        mMaxSelectImageNum = SelectImageUtil.getMaxSelectImageNum(MDGroundApplication.mChoosedProductType);
+                        getPhotoTemplateAttachListRequest(MDGroundApplication.mChoosedTemplate.getTemplateID());
+                        changeTips();
                         break;
                     default:
                         mMaxSelectImageNum = SelectImageUtil.getMaxSelectImageNum(MDGroundApplication.mChoosedProductType);

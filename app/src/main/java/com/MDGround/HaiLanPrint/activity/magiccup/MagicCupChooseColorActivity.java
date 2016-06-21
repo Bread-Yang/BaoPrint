@@ -64,7 +64,8 @@ public class MagicCupChooseColorActivity extends ToolbarActivity<ActivityMagicCu
         for (PhotoTypeExplain photoTypeExplain : mPhotoTypeExplainArrayList) {
             if (photoTypeExplain.getExplainType() == PhotoExplainTypeEnum.Banner.value()
                     && photoTypeExplain.getTypeID() == ProductType.MagicCup.value()) {
-                GlideUtil.loadImageByPhotoSID(mDataBinding.ivBanner, photoTypeExplain.getPhotoSID(), false);
+                GlideUtil.loadImageByPhotoSIDWithDialog(mDataBinding.ivBanner,
+                        photoTypeExplain.getPhotoSID());
                 break;
             }
         }

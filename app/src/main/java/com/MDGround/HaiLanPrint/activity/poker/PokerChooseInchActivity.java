@@ -64,7 +64,8 @@ public class PokerChooseInchActivity extends ToolbarActivity<ActivityPokerChoose
         for (PhotoTypeExplain photoTypeExplain : mPhotoTypeExplainArrayList) {
             if (photoTypeExplain.getExplainType() == PhotoExplainTypeEnum.Banner.value()
                     && photoTypeExplain.getTypeID() == ProductType.Poker.value()) {
-                GlideUtil.loadImageByPhotoSID(mDataBinding.ivBanner, photoTypeExplain.getPhotoSID(), false);
+                GlideUtil.loadImageByPhotoSIDWithDialog(mDataBinding.ivBanner,
+                        photoTypeExplain.getPhotoSID());
                 break;
             }
         }

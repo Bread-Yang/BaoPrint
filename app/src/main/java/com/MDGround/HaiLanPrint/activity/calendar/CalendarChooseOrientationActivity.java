@@ -64,7 +64,8 @@ public class CalendarChooseOrientationActivity extends ToolbarActivity<ActivityC
         for (PhotoTypeExplain photoTypeExplain : mPhotoTypeExplainArrayList) {
             if (photoTypeExplain.getExplainType() == PhotoExplainTypeEnum.Banner.value()
                     && photoTypeExplain.getTypeID() == ProductType.Calendar.value()) {
-                GlideUtil.loadImageByPhotoSID(mDataBinding.ivBanner, photoTypeExplain.getPhotoSID(), false);
+                GlideUtil.loadImageByPhotoSIDWithDialog(mDataBinding.ivBanner,
+                        photoTypeExplain.getPhotoSID());
                 break;
             }
         }
@@ -91,11 +92,9 @@ public class CalendarChooseOrientationActivity extends ToolbarActivity<ActivityC
 
     //region SERVER
     private void getSpecificationRequest() {
-        ViewUtils.loading(this);
         GlobalRestful.getInstance().GetPhotoType(ProductType.Calendar, new Callback<ResponseData>() {
             @Override
             public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
-                ViewUtils.dismiss();
                 if (ResponseCode.isSuccess(response.body())) {
                     try {
                         JSONObject jsonObject = new JSONObject(response.body().getContent());

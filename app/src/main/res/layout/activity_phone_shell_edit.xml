@@ -5,19 +5,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.MDGround.HaiLanPrint.activity.main.MainActivity">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <com.MDGround.HaiLanPrint.views.FlexibleRelativeLayout
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:ratio="0.75">
+            android:layout_weight="1"
+            android:layout_height="match_parent">
 
             <com.MDGround.HaiLanPrint.views.BaoGPUImage
                 android:id="@+id/bgiImage"
@@ -25,13 +21,14 @@
                 android:layout_height="match_parent"
                 android:src="@drawable/ic_placeholder"/>
 
-            <ImageView
+            <com.MDGround.HaiLanPrint.views.FlexibleImageView
                 android:id="@+id/ivTemplate"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:scaleType="fitXY"/>
+                android:scaleType="fitStart"
+                app:ratio="0.75"/>
 
-        </com.MDGround.HaiLanPrint.views.FlexibleRelativeLayout>
+        </RelativeLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -63,18 +60,10 @@
 
         </LinearLayout>
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/selectedImageRecyclerView"
-            android:layout_width="match_parent"
-            android:layout_height="96dp"
-            android:scrollbars="none"/>
-
-    </LinearLayout>
-
         <View
             style="@style/DividerHorizontalStyle"
             android:layout_above="@+id/btnNextStep"
-            android:layout_marginTop="@dimen/margin_26"/>
+            android:layout_marginTop="@dimen/margin_20"/>
 
         <Button
             android:id="@+id/btnNextStep"
@@ -89,6 +78,7 @@
             android:text="@string/next_step"
             android:textColor="@color/color_f88e11"
             android:textSize="@dimen/text_size_20"/>
-    </RelativeLayout>
+
+    </LinearLayout>
 
 </layout>

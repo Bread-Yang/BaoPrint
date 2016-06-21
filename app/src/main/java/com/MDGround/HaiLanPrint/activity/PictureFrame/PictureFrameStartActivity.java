@@ -28,7 +28,8 @@ public class PictureFrameStartActivity extends ToolbarActivity<ActivityPictureFr
         for (PhotoTypeExplain photoTypeExplain : mPhotoTypeExplainArrayList) {
             if (photoTypeExplain.getExplainType() == PhotoExplainTypeEnum.IntroductionPage.value()
                     && photoTypeExplain.getTypeID() == ProductType.PictureFrame.value()) {
-                GlideUtil.loadImageByPhotoSIDWithDialog(mDataBinding.ivIntroductionPage, photoTypeExplain.getPhotoSID());
+                GlideUtil.loadImageByPhotoSIDWithDialog(mDataBinding.ivIntroductionPage,
+                        photoTypeExplain.getPhotoSID());
                 break;
             }
         }

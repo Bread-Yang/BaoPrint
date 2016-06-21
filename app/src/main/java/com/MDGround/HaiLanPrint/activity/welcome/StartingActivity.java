@@ -19,6 +19,7 @@ import com.MDGround.HaiLanPrint.restfuls.bean.ResponseData;
 import com.MDGround.HaiLanPrint.utils.DeviceUtil;
 import com.MDGround.HaiLanPrint.utils.FileUtils;
 import com.MDGround.HaiLanPrint.utils.NavUtils;
+import com.MDGround.HaiLanPrint.utils.PreferenceUtils;
 import com.MDGround.HaiLanPrint.utils.ViewUtils;
 
 import retrofit2.Call;
@@ -47,14 +48,21 @@ public class StartingActivity extends AppCompatActivity {
             @Override
             public void onAnimationEnd(Animation animation) {
 
-                MDGroundApplication.mLoginUser = (User) FileUtils.getObject(Constants.KEY_ALREADY_LOGIN_USER);
-                if (MDGroundApplication.mLoginUser != null) {
+                boolean isFirstLaunch = PreferenceUtils.getPrefBoolean(Constants.KEY_IS_FIRST_LAUNCH, true);
+
+                // 跳到引导页
+                if (isFirstLaunch) {
+                    toGuideActivity();
+                } else {
+                    MDGroundApplication.mLoginUser = (User) FileUtils.getObject(Constants.KEY_ALREADY_LOGIN_USER);
+                    if (MDGroundApplication.mLoginUser != null) {
 
 //                    loginRequest(MDGroundApplication.mLoginUser);
-                    NavUtils.toMainActivity(StartingActivity.this);
-                    finish();
-                } else {
-                    toLoginActivity();
+                        NavUtils.toMainActivity(StartingActivity.this);
+                        finish();
+                    } else {
+                        toLoginActivity();
+                    }
                 }
             }
 
@@ -63,6 +71,12 @@ public class StartingActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    private void toGuideActivity() {
+        Intent intent = new Intent(StartingActivity.this, GuideActivity.class);
+        startActivity(intent);
+        finish();
     }
 
     private void toLoginActivity() {

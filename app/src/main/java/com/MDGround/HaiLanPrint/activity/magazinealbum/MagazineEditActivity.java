@@ -22,6 +22,7 @@ import com.MDGround.HaiLanPrint.utils.ViewUtils;
 import com.MDGround.HaiLanPrint.views.BaoGPUImage;
 import com.MDGround.HaiLanPrint.views.dialog.NotifyDialog;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 
@@ -124,13 +125,14 @@ public class MagazineEditActivity extends ToolbarActivity<ActivityMagazineEditBi
         Glide.with(MDGroundApplication.mInstance)
                 .load(mdImage)
                 .asBitmap()
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(new SimpleTarget<Bitmap>() {
                     @Override
                     public void onResourceReady(Bitmap bitmap, GlideAnimation glideAnimation) {
                         // do something with the bitmap
                         // for demonstration purposes, let's just set it to an ImageView
-                        mDataBinding.ivTemplate.setMinimumWidth(bitmap.getWidth());
-                        mDataBinding.ivTemplate.setMinimumHeight(bitmap.getHeight());
+//                        mDataBinding.ivTemplate.setMinimumWidth(bitmap.getWidth());
+//                        mDataBinding.ivTemplate.setMinimumHeight(bitmap.getHeight());
                         mDataBinding.ivTemplate.setImageBitmap(bitmap);
                     }
                 });
