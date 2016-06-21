@@ -24,7 +24,7 @@ import com.MDGround.HaiLanPrint.restfuls.GlobalRestful;
 import com.MDGround.HaiLanPrint.restfuls.bean.ResponseData;
 import com.MDGround.HaiLanPrint.utils.LocalMediaLoader;
 import com.MDGround.HaiLanPrint.utils.NavUtils;
-import com.MDGround.HaiLanPrint.utils.SelectImageUtil;
+import com.MDGround.HaiLanPrint.utils.SelectImageUtils;
 import com.MDGround.HaiLanPrint.utils.ViewUtils;
 import com.MDGround.HaiLanPrint.views.itemdecoration.DividerItemDecoration;
 import com.google.gson.reflect.TypeToken;
@@ -88,7 +88,7 @@ public class SelectAlbumBeforeEditActivity extends ToolbarActivity<ActivitySelec
                 switch (MDGroundApplication.mChoosedProductType) {
                     case MagazineAlbum:
                     case ArtAlbum:
-                        mMaxSelectImageNum = SelectImageUtil.mTemplateImage.size();
+                        mMaxSelectImageNum = SelectImageUtils.mTemplateImage.size();
                         changeTips();
                         break;
                     case Calendar:
@@ -104,12 +104,12 @@ public class SelectAlbumBeforeEditActivity extends ToolbarActivity<ActivitySelec
                         break;
                     case PictureFrame:
                     case PhoneShell:
-                        mMaxSelectImageNum = SelectImageUtil.getMaxSelectImageNum(MDGroundApplication.mChoosedProductType);
+                        mMaxSelectImageNum = SelectImageUtils.getMaxSelectImageNum(MDGroundApplication.mChoosedProductType);
                         getPhotoTemplateAttachListRequest(MDGroundApplication.mChoosedTemplate.getTemplateID());
                         changeTips();
                         break;
                     default:
-                        mMaxSelectImageNum = SelectImageUtil.getMaxSelectImageNum(MDGroundApplication.mChoosedProductType);
+                        mMaxSelectImageNum = SelectImageUtils.getMaxSelectImageNum(MDGroundApplication.mChoosedProductType);
                         changeTips();
                         break;
                 }
@@ -123,8 +123,8 @@ public class SelectAlbumBeforeEditActivity extends ToolbarActivity<ActivitySelec
     }
 
     private void changeTips() {
-        if (SelectImageUtil.mAlreadySelectImage.size() > 0) {
-            String tips = getString(R.string.choose_image_tips, SelectImageUtil.mAlreadySelectImage.size(), mMaxSelectImageNum);
+        if (SelectImageUtils.mAlreadySelectImage.size() > 0) {
+            String tips = getString(R.string.choose_image_tips, SelectImageUtils.mAlreadySelectImage.size(), mMaxSelectImageNum);
 
             mDataBinding.tvChooseTips.setText(Html.fromHtml(tips));
 
@@ -218,9 +218,9 @@ public class SelectAlbumBeforeEditActivity extends ToolbarActivity<ActivitySelec
         GlobalRestful.getInstance().GetPhotoTemplateAttachList(templateID, new Callback<ResponseData>() {
             @Override
             public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
-                SelectImageUtil.mTemplateImage.clear();
+                SelectImageUtils.mTemplateImage.clear();
 
-                SelectImageUtil.mTemplateImage = response.body().getContent(new TypeToken<ArrayList<MDImage>>() {
+                SelectImageUtils.mTemplateImage = response.body().getContent(new TypeToken<ArrayList<MDImage>>() {
                 });
 
                 ViewUtils.dismiss();

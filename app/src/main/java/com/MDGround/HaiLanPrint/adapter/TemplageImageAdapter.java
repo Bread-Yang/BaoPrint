@@ -12,7 +12,7 @@ import com.MDGround.HaiLanPrint.application.MDGroundApplication;
 import com.MDGround.HaiLanPrint.databinding.ItemTemplateImageBinding;
 import com.MDGround.HaiLanPrint.models.MDImage;
 
-import static com.MDGround.HaiLanPrint.utils.SelectImageUtil.mTemplateImage;
+import static com.MDGround.HaiLanPrint.utils.SelectImageUtils.mTemplateImage;
 
 /**
  * Created by yoghourt on 5/17/16.

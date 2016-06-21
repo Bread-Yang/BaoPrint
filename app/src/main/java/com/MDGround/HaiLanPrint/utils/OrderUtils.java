@@ -38,7 +38,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static com.MDGround.HaiLanPrint.utils.SelectImageUtil.mAlreadySelectImage;
+import static com.MDGround.HaiLanPrint.utils.SelectImageUtils.mAlreadySelectImage;
 
 /**
  * Created by yoghourt on 6/12/16.
@@ -86,16 +86,16 @@ public class OrderUtils {
 
     // 生成合成图片到本地
     public void createSyntheticImage(final Context context) {
-        for (int i = 0; i < SelectImageUtil.mAlreadySelectImage.size(); i++) {
-            final MDImage selectImage = SelectImageUtil.mAlreadySelectImage.get(i);
-            MDImage templateImage = SelectImageUtil.mTemplateImage.get(i);
+        for (int i = 0; i < SelectImageUtils.mAlreadySelectImage.size(); i++) {
+            final MDImage selectImage = SelectImageUtils.mAlreadySelectImage.get(i);
+            MDImage templateImage = SelectImageUtils.mTemplateImage.get(i);
             if (templateImage.getPhotoSID() != 0
                     && (selectImage.getImageLocalPath() != null || selectImage.getPhotoSID() != 0)) { //
                 // 模版图片存在,并且用户选择的图片存在
 
             }
         }
-        for (MDImage mdImage : SelectImageUtil.mAlreadySelectImage) {
+        for (MDImage mdImage : SelectImageUtils.mAlreadySelectImage) {
 
         }
     }
@@ -177,12 +177,12 @@ public class OrderUtils {
 //    }
 
     public void uploadImageRequest(final Context context, final int upload_image_index) {
-        if (upload_image_index < SelectImageUtil.mAlreadySelectImage.size()) {
-            final MDImage selectImage = SelectImageUtil.mAlreadySelectImage.get(upload_image_index);
+        if (upload_image_index < SelectImageUtils.mAlreadySelectImage.size()) {
+            final MDImage selectImage = SelectImageUtils.mAlreadySelectImage.get(upload_image_index);
 
             MDImage tempTemplateImage = null;
-            if (upload_image_index < SelectImageUtil.mTemplateImage.size()) {
-                tempTemplateImage = SelectImageUtil.mTemplateImage.get(upload_image_index);
+            if (upload_image_index < SelectImageUtils.mTemplateImage.size()) {
+                tempTemplateImage = SelectImageUtils.mTemplateImage.get(upload_image_index);
             } else {
                 tempTemplateImage = new MDImage();
             }
@@ -250,7 +250,7 @@ public class OrderUtils {
                                                                         (responseSyntheticImage.getPhotoSID());
 
                                                                 // 继续上传
-                                                                SelectImageUtil.mAlreadySelectImage.set
+                                                                SelectImageUtils.mAlreadySelectImage.set
                                                                         (upload_image_index, responseImage);
                                                                 uploadImageRequest(context, nextUploadIndex);
                                                             }
@@ -266,7 +266,7 @@ public class OrderUtils {
                                     }
                                 });
                             } else {
-                                SelectImageUtil.mAlreadySelectImage.set(upload_image_index, responseImage);
+                                SelectImageUtils.mAlreadySelectImage.set(upload_image_index, responseImage);
                                 uploadImageRequest(context, nextUploadIndex);
                             }
                         } else {
@@ -342,7 +342,7 @@ public class OrderUtils {
     public void saveUserWorkReqeust() {
         WorkInfo workInfo = new WorkInfo();
         workInfo.setCreatedTime(DateUtils.getServerDateStringByDate(new Date()));
-        workInfo.setPhotoCount(SelectImageUtil.mAlreadySelectImage.size());
+        workInfo.setPhotoCount(SelectImageUtils.mAlreadySelectImage.size());
         workInfo.setPrice(MDGroundApplication.mChoosedMeasurement.getPrice());
         workInfo.setTypeID(MDGroundApplication.mChoosedProductType.value());
         workInfo.setTemplateID(MDGroundApplication.mChoosedTemplate.getTemplateID());
@@ -368,8 +368,8 @@ public class OrderUtils {
     private void saveUserWorkPhotoListRequest(WorkInfo responseWorkInfo) {
         List<WorkPhoto> workPhotoList = new ArrayList<>();
 
-        for (int i = 0; i < SelectImageUtil.mAlreadySelectImage.size(); i++) {
-            MDImage mdImage = SelectImageUtil.mAlreadySelectImage.get(i);
+        for (int i = 0; i < SelectImageUtils.mAlreadySelectImage.size(); i++) {
+            MDImage mdImage = SelectImageUtils.mAlreadySelectImage.get(i);
             WorkPhoto workPhoto = new WorkPhoto();
             workPhoto.setPhoto1ID(mdImage.getPhotoID()); // 作者上传的图片
             workPhoto.setPhoto1SID(mdImage.getPhotoSID());
@@ -425,9 +425,9 @@ public class OrderUtils {
                 || MDGroundApplication.mChoosedProductType == ProductType.Engraving) {
             orderWork.setPhotoCount(getPrintPhotoOrEngravingOrderCount());
         } else {
-            orderWork.setPhotoCount(SelectImageUtil.mAlreadySelectImage.size());
+            orderWork.setPhotoCount(SelectImageUtils.mAlreadySelectImage.size());
         }
-        orderWork.setPhotoCover(SelectImageUtil.mAlreadySelectImage.get(0).getPhotoSID()); //封面，第一张照片的缩略图ID
+        orderWork.setPhotoCover(SelectImageUtils.mAlreadySelectImage.get(0).getPhotoSID()); //封面，第一张照片的缩略图ID
         orderWork.setPrice(mPrice);
         orderWork.setTypeID(MDGroundApplication.mChoosedProductType.value()); //作品类型（getPhotoType接口返回的TypeID）
         orderWork.setTypeName(ProductType.getProductName(MDGroundApplication.mChoosedProductType));
@@ -460,8 +460,8 @@ public class OrderUtils {
     private void saveOrderPhotoListRequest(final OrderWork orderWork) {
         List<OrderWorkPhoto> orderWorkPhotoList = new ArrayList<>();
 
-        for (int i = 0; i < SelectImageUtil.mAlreadySelectImage.size(); i++) {
-            MDImage mdImage = SelectImageUtil.mAlreadySelectImage.get(i);
+        for (int i = 0; i < SelectImageUtils.mAlreadySelectImage.size(); i++) {
+            MDImage mdImage = SelectImageUtils.mAlreadySelectImage.get(i);
             OrderWorkPhoto orderWorkPhoto = new OrderWorkPhoto();
             orderWorkPhoto.setAutoID(mdImage.getAutoID());
             orderWorkPhoto.setWorkOID(orderWork.getWorkOID());

@@ -15,7 +15,7 @@ import com.MDGround.HaiLanPrint.models.MDImage;
 import com.MDGround.HaiLanPrint.utils.GlideUtil;
 import com.MDGround.HaiLanPrint.utils.NavUtils;
 import com.MDGround.HaiLanPrint.utils.OrderUtils;
-import com.MDGround.HaiLanPrint.utils.SelectImageUtil;
+import com.MDGround.HaiLanPrint.utils.SelectImageUtils;
 import com.MDGround.HaiLanPrint.utils.ViewUtils;
 import com.MDGround.HaiLanPrint.views.BaoGPUImage;
 import com.bumptech.glide.request.animation.GlideAnimation;
@@ -76,13 +76,13 @@ public class PhoneShellEditActivity extends ToolbarActivity<ActivityPhoneShellEd
     }
 
     private void showImageToGPUImageView() {
-        if (SelectImageUtil.mTemplateImage.size() > 0) {
+        if (SelectImageUtils.mTemplateImage.size() > 0) {
             // 模板图片加载
-            GlideUtil.loadImageByMDImage(mDataBinding.ivTemplate, SelectImageUtil.mTemplateImage.get(0), false);
+            GlideUtil.loadImageByMDImage(mDataBinding.ivTemplate, SelectImageUtils.mTemplateImage.get(0), false);
         }
 
         // 用户选择的图片加载
-        GlideUtil.loadImageAsBitmap(SelectImageUtil.mAlreadySelectImage.get(0),
+        GlideUtil.loadImageAsBitmap(SelectImageUtils.mAlreadySelectImage.get(0),
                 new SimpleTarget<Bitmap>(200, 200) {
                     @Override
                     public void onResourceReady(Bitmap bitmap, GlideAnimation glideAnimation) {
@@ -96,7 +96,7 @@ public class PhoneShellEditActivity extends ToolbarActivity<ActivityPhoneShellEd
         if (resultCode == RESULT_OK) {
             MDImage mdImage = data.getParcelableExtra(Constants.KEY_SELECT_IMAGE);
 
-            SelectImageUtil.mAlreadySelectImage.set(0, mdImage);
+            SelectImageUtils.mAlreadySelectImage.set(0, mdImage);
 
             showImageToGPUImageView();
         }

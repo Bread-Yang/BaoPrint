@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import com.MDGround.HaiLanPrint.BR;
 import com.MDGround.HaiLanPrint.R;
 import com.MDGround.HaiLanPrint.databinding.ItemSelectedImageBinding;
-import com.MDGround.HaiLanPrint.utils.SelectImageUtil;
+import com.MDGround.HaiLanPrint.utils.SelectImageUtils;
 
 /**
  * Created by yoghourt on 5/17/16.
@@ -32,13 +32,13 @@ public class SelectedImageAdapter extends RecyclerView.Adapter<SelectedImageAdap
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        holder.viewDataBinding.setVariable(BR.image, SelectImageUtil.mAlreadySelectImage.get(position));
+        holder.viewDataBinding.setVariable(BR.image, SelectImageUtils.mAlreadySelectImage.get(position));
         holder.viewDataBinding.setVariable(BR.viewHolder, holder);
     }
 
     @Override
     public int getItemCount() {
-        return SelectImageUtil.mAlreadySelectImage.size();
+        return SelectImageUtils.mAlreadySelectImage.size();
     }
 
     public SelectedImageAdapter.onDeleteImageLisenter getOnDeleteImageLisenter() {
@@ -61,8 +61,8 @@ public class SelectedImageAdapter extends RecyclerView.Adapter<SelectedImageAdap
         public void deleteImageAction(View view) {
             int position = getAdapterPosition();
 
-            if (position < SelectImageUtil.mAlreadySelectImage.size()) {
-                SelectImageUtil.mAlreadySelectImage.remove(position);
+            if (position < SelectImageUtils.mAlreadySelectImage.size()) {
+                SelectImageUtils.mAlreadySelectImage.remove(position);
 
                 notifyDataSetChanged();
 

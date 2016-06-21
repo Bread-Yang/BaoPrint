@@ -14,7 +14,7 @@ import com.MDGround.HaiLanPrint.databinding.ActivityTemplateStartCreateBinding;
 import com.MDGround.HaiLanPrint.databinding.ItemTemplateStartCreateBinding;
 import com.MDGround.HaiLanPrint.models.MDImage;
 import com.MDGround.HaiLanPrint.utils.NavUtils;
-import com.MDGround.HaiLanPrint.utils.SelectImageUtil;
+import com.MDGround.HaiLanPrint.utils.SelectImageUtils;
 
 /**
  * Created by yoghourt on 5/11/16.
@@ -36,7 +36,7 @@ public class TemplateStartCreateActivity extends ToolbarActivity<ActivityTemplat
     protected void initData() {
         mDataBinding.setTemplate(MDGroundApplication.mChoosedTemplate);
 
-        if (SelectImageUtil.mTemplateImage.size() > 0) {
+        if (SelectImageUtils.mTemplateImage.size() > 0) {
             setCurrentPageTips(1);
         } else {
             setCurrentPageTips(0);
@@ -67,7 +67,7 @@ public class TemplateStartCreateActivity extends ToolbarActivity<ActivityTemplat
     //region ACTION
 
     private void setCurrentPageTips(int currentIndex) {
-        tvTitle.setText(getString(R.string.current_page_index, currentIndex, SelectImageUtil.mTemplateImage.size()));
+        tvTitle.setText(getString(R.string.current_page_index, currentIndex, SelectImageUtils.mTemplateImage.size()));
     }
 
     public void nextStepAction(View view) {
@@ -79,7 +79,7 @@ public class TemplateStartCreateActivity extends ToolbarActivity<ActivityTemplat
 
         @Override
         public int getCount() {
-            return SelectImageUtil.mTemplateImage.size();
+            return SelectImageUtils.mTemplateImage.size();
         }
 
         @Override
@@ -91,7 +91,7 @@ public class TemplateStartCreateActivity extends ToolbarActivity<ActivityTemplat
         public Object instantiateItem(ViewGroup container, int position) {
             ItemTemplateStartCreateBinding dataBinding = DataBindingUtil.inflate(LayoutInflater.from(container.getContext())
                     , R.layout.item_template_start_create, container, false);
-            MDImage mdImage = SelectImageUtil.mTemplateImage.get(position);
+            MDImage mdImage = SelectImageUtils.mTemplateImage.get(position);
             dataBinding.setMdImage(mdImage);
 
             View root = dataBinding.getRoot();

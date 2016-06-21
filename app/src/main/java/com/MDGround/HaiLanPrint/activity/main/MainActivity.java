@@ -35,7 +35,7 @@ import com.MDGround.HaiLanPrint.models.MDImage;
 import com.MDGround.HaiLanPrint.models.PhotoTypeExplain;
 import com.MDGround.HaiLanPrint.restfuls.GlobalRestful;
 import com.MDGround.HaiLanPrint.restfuls.bean.ResponseData;
-import com.MDGround.HaiLanPrint.utils.SelectImageUtil;
+import com.MDGround.HaiLanPrint.utils.SelectImageUtils;
 import com.google.gson.reflect.TypeToken;
 import com.socks.library.KLog;
 
@@ -68,8 +68,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        SelectImageUtil.mAlreadySelectImage.clear(); // 清空之前选中的图片
-        SelectImageUtil.mTemplateImage.clear(); // 清空之前的模板
+        SelectImageUtils.mAlreadySelectImage.clear(); // 清空之前选中的图片
+        SelectImageUtils.mTemplateImage.clear(); // 清空之前的模板
         MDGroundApplication.resetData();
     }
 

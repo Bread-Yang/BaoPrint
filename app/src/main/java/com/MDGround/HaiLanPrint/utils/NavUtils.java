@@ -30,7 +30,7 @@ import com.bumptech.glide.request.target.SimpleTarget;
 
 import java.io.File;
 
-import static com.MDGround.HaiLanPrint.utils.SelectImageUtil.mTemplateImage;
+import static com.MDGround.HaiLanPrint.utils.SelectImageUtils.mTemplateImage;
 
 /**
  * Created by yoghourt on 5/12/16.
@@ -64,7 +64,7 @@ public class NavUtils {
 
     public static void toPhotoEditActivity(final Context context) {
         ViewUtils.loading(context);
-        if (SelectImageUtil.mAlreadySelectImage.size() == 0) {
+        if (SelectImageUtils.mAlreadySelectImage.size() == 0) {
             return;
         }
 
@@ -113,7 +113,7 @@ public class NavUtils {
         }
 
         // 将所有选中图片的数量设为1
-        for (MDImage mdImage : SelectImageUtil.mAlreadySelectImage) {
+        for (MDImage mdImage : SelectImageUtils.mAlreadySelectImage) {
             mdImage.setPhotoCount(1);
         }
 
@@ -157,11 +157,11 @@ public class NavUtils {
                 }
             }
             // 选择的图片数量小于模板的数量
-            if (SelectImageUtil.mAlreadySelectImage.size() < mTemplateImage.size()) {
-                int difference = mTemplateImage.size() - SelectImageUtil.mAlreadySelectImage.size();
+            if (SelectImageUtils.mAlreadySelectImage.size() < mTemplateImage.size()) {
+                int difference = mTemplateImage.size() - SelectImageUtils.mAlreadySelectImage.size();
 
                 for (int i = 0; i < difference; i++) {
-                    SelectImageUtil.mAlreadySelectImage.add(new MDImage());
+                    SelectImageUtils.mAlreadySelectImage.add(new MDImage());
                 }
             }
             ViewUtils.dismiss();

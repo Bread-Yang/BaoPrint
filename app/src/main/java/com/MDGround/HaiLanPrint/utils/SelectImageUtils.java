@@ -17,25 +17,25 @@ import retrofit2.Response;
 /**
  * Created by yoghourt on 5/16/16.
  */
-public class SelectImageUtil {
+public class SelectImageUtils {
 
     public static ArrayList<MDImage> mAlreadySelectImage = new ArrayList<>();
 
     public static ArrayList<MDImage> mTemplateImage = new ArrayList<>();
 
-    private static SelectImageUtil mIntance = new SelectImageUtil();
+    private static SelectImageUtils mIntance = new SelectImageUtils();
 
     public interface UploadAllImageSuccessListener {
         public void uploadAllImageSuccess();
     }
 
-    private SelectImageUtil() {
+    private SelectImageUtils() {
 
     }
 
-    public static SelectImageUtil getInstance() {
+    public static SelectImageUtils getInstance() {
         if (mIntance == null) {
-            mIntance = new SelectImageUtil();
+            mIntance = new SelectImageUtils();
         }
         return mIntance;
     }
@@ -88,8 +88,8 @@ public class SelectImageUtil {
     }
 
     private static void uploadImageRequest(final int upload_image_index) {
-        if (upload_image_index < SelectImageUtil.mAlreadySelectImage.size()) {
-            final MDImage mdImage = SelectImageUtil.mAlreadySelectImage.get(upload_image_index);
+        if (upload_image_index < SelectImageUtils.mAlreadySelectImage.size()) {
+            final MDImage mdImage = SelectImageUtils.mAlreadySelectImage.get(upload_image_index);
 
             final int nextUploadIndex = upload_image_index + 1;
 
@@ -116,7 +116,7 @@ public class SelectImageUtil {
                                     responseImage.setSyntheticPhotoID(responseSyntheticImage.getPhotoID());
                                     responseImage.setSyntheticPhotoSID(responseSyntheticImage.getPhotoSID());
 
-                                    SelectImageUtil.mAlreadySelectImage.set(upload_image_index, responseImage);
+                                    SelectImageUtils.mAlreadySelectImage.set(upload_image_index, responseImage);
                                     uploadImageRequest(nextUploadIndex);
                                 }
 
@@ -126,7 +126,7 @@ public class SelectImageUtil {
                                 }
                             });
                         } else {
-                            SelectImageUtil.mAlreadySelectImage.set(upload_image_index, responseImage);
+                            SelectImageUtils.mAlreadySelectImage.set(upload_image_index, responseImage);
                             uploadImageRequest(nextUploadIndex);
                         }
                     }

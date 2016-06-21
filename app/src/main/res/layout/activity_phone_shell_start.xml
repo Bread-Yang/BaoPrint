@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".activity.phoneshell.PhoneShellStartActivity">
 
@@ -20,7 +19,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
                 android:onClick="toPhoneShellIllutrationActivityAction"
-                android:scaleType="fitXY"/>
+                android:scaleType="fitXY" />
 
             <LinearLayout
                 style="@style/FixHeightLayoutStyle"
@@ -31,7 +30,7 @@
                     style="@style/NormalTextStyle"
                     android:layout_gravity="center_vertical"
                     android:text="@string/phone_brand"
-                    android:textSize="@dimen/text_size_16"/>
+                    android:textSize="@dimen/text_size_16" />
 
                 <TextView
                     android:id="@+id/tvPhoneModel"
@@ -43,25 +42,24 @@
                     android:drawableRight="@drawable/icon_neet"
                     android:gravity="center_vertical|right"
                     android:textSize="@dimen/text_size_16"
-                    tools:text="iPhone6s"/>
+                    tools:text="iPhone6s" />
 
                 <ImageView
                     style="@style/ArrowIconStyle"
-                    android:layout_gravity="center_vertical"/>
+                    android:layout_gravity="center_vertical" />
             </LinearLayout>
 
             <View
                 style="@style/DividerHorizontalMarginSytle"
-                android:layout_above="@+id/btnNextStep"/>
+                android:layout_above="@+id/btnNextStep" />
 
-            <RelativeLayout
-                style="@style/FixHeightLayoutStyle">
+            <RelativeLayout style="@style/FixHeightLayoutStyle">
 
                 <TextView
                     style="@style/NormalTextStyle"
                     android:layout_centerVertical="true"
                     android:text="@string/phone_material"
-                    android:textSize="@dimen/text_size_16"/>
+                    android:textSize="@dimen/text_size_16" />
 
                 <RadioGroup
                     android:id="@+id/rgMaterial"
@@ -77,21 +75,21 @@
                         android:id="@+id/rbSilicone"
                         style="@style/NormalRaidoButtonStyle"
                         android:enabled="false"
-                        android:text="@string/silicone"/>
+                        android:text="@string/silicone" />
 
                     <RadioButton
                         android:id="@+id/rbPlastic"
                         style="@style/NormalRaidoButtonStyle"
                         android:layout_marginLeft="@dimen/margin_15"
                         android:enabled="false"
-                        android:text="@string/plastic"/>
+                        android:text="@string/plastic" />
                 </RadioGroup>
 
             </RelativeLayout>
 
             <View
                 style="@style/DividerHorizontalMarginSytle"
-                android:layout_above="@+id/btnNextStep"/>
+                android:layout_above="@+id/btnNextStep" />
 
             <LinearLayout
                 style="@style/FixHeightLayoutStyle"
@@ -102,7 +100,7 @@
                     style="@style/NormalTextStyle"
                     android:layout_centerVertical="true"
                     android:text="@string/price"
-                    android:textSize="@dimen/text_size_16"/>
+                    android:textSize="@dimen/text_size_16" />
 
                 <TextView
                     android:id="@+id/tvPrice"
@@ -118,19 +116,19 @@
                     android:textColor="@color/color_f88e11"
                     android:textColorHint="@color/color_999999"
                     android:textSize="@dimen/text_size_16"
-                    tools:text="23.00元"/>
+                    tools:text="23.00元" />
 
             </LinearLayout>
 
             <View
                 style="@style/DividerHorizontalMarginSytle"
-                android:layout_above="@+id/btnNextStep"/>
+                android:layout_above="@+id/btnNextStep" />
 
         </LinearLayout>
 
         <View
             style="@style/DividerHorizontalStyle"
-            android:layout_above="@+id/btnNextStep"/>
+            android:layout_above="@+id/btnNextStep" />
 
         <Button
             android:id="@+id/btnNextStep"
@@ -143,7 +141,7 @@
             android:onClick="nextStepAction"
             android:text="@string/next_step"
             android:textColor="@color/color_f88e11"
-            android:textSize="@dimen/text_size_20"/>
+            android:textSize="@dimen/text_size_20" />
 
     </RelativeLayout>
 

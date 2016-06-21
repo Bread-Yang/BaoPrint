@@ -12,8 +12,8 @@ import android.widget.Toast;
 import com.MDGround.HaiLanPrint.R;
 import com.MDGround.HaiLanPrint.models.MDImage;
 import com.MDGround.HaiLanPrint.utils.GlideUtil;
-import com.MDGround.HaiLanPrint.utils.SelectImageUtil;
-import com.MDGround.HaiLanPrint.utils.SnapViewPicture;
+import com.MDGround.HaiLanPrint.utils.SelectImageUtils;
+import com.MDGround.HaiLanPrint.utils.SnapViewUtils;
 import com.MDGround.HaiLanPrint.views.dialog.ShareDialog;
 
 import java.util.ArrayList;
@@ -162,7 +162,7 @@ public class ChooseImageListAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                 contentHolder.contentView.setOnLongClickListener(new View.OnLongClickListener() {
                     @Override
                     public boolean onLongClick(View v) {
-                        String imagePath = SnapViewPicture.snapViewReturnLocalPath(contentHolder.ivImage);
+                        String imagePath = SnapViewUtils.snapViewReturnLocalPath(contentHolder.ivImage);
 
 //                    OnekeyShare oks = new OnekeyShare();
 //                    // 分享时Notification的图标和文字  2.5.9以后的版本不调用此方法
@@ -209,7 +209,7 @@ public class ChooseImageListAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         }
         if (isChecked) {
             for (MDImage media : mSelectImages) {
-                if (SelectImageUtil.isSameImage(media, image)) {
+                if (SelectImageUtils.isSameImage(media, image)) {
                     mSelectImages.remove(media);
                     if (imageSelectChangedListener != null) {
                         imageSelectChangedListener.onUnSelectImage(image, mSelectImages.size());
@@ -243,7 +243,7 @@ public class ChooseImageListAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
     public boolean isSelected(MDImage image) {
         for (MDImage media : mSelectImages) {
-            if (SelectImageUtil.isSameImage(media, image)) {
+            if (SelectImageUtils.isSameImage(media, image)) {
                 return true;
             }
         }

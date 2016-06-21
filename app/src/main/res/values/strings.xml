@@ -224,8 +224,10 @@
     <string name="page_num_">页数: </string>
     <string name="recently_edit">"最近编辑时间: "</string>
     <string name="letter_P">P</string>
+
     <!-- 个性月历 -->
     <string name="calendar">个性月历</string>
+    <string name="calendar_start_date">日历开始时间</string>
 
     <!-- 手机壳 -->
     <string name="phone_shell">手机壳</string>

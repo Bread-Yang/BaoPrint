@@ -12,7 +12,7 @@ import com.MDGround.HaiLanPrint.adapter.TemplageImageAdapter;
 import com.MDGround.HaiLanPrint.application.MDGroundApplication;
 import com.MDGround.HaiLanPrint.databinding.ActivityPhotoEditBinding;
 import com.MDGround.HaiLanPrint.models.MDImage;
-import com.MDGround.HaiLanPrint.utils.SelectImageUtil;
+import com.MDGround.HaiLanPrint.utils.SelectImageUtils;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.GlideBitmapDrawable;
 import com.bumptech.glide.request.animation.GlideAnimation;
@@ -32,7 +32,7 @@ public class PhotoEditActivity extends ToolbarActivity<ActivityPhotoEditBinding>
 
     @Override
     protected void initData() {
-        showImageToGPUImageView(0, SelectImageUtil.mAlreadySelectImage.get(0));
+        showImageToGPUImageView(0, SelectImageUtils.mAlreadySelectImage.get(0));
 
         LinearLayoutManager imageLayoutManager = new LinearLayoutManager(this);
         imageLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
@@ -74,8 +74,8 @@ public class PhotoEditActivity extends ToolbarActivity<ActivityPhotoEditBinding>
 
     private void showImageToGPUImageView(int position, MDImage mdImage) {
         if (MDGroundApplication.mChoosedProductType == ProductType.Postcard) {
-            if (position < SelectImageUtil.mTemplateImage.size()) {
-                MDImage templateImage = SelectImageUtil.mTemplateImage.get(position);
+            if (position < SelectImageUtils.mTemplateImage.size()) {
+                MDImage templateImage = SelectImageUtils.mTemplateImage.get(position);
 
                 Glide.with(MDGroundApplication.mInstance)
                         .load(templateImage)
@@ -101,7 +101,7 @@ public class PhotoEditActivity extends ToolbarActivity<ActivityPhotoEditBinding>
     }
 
     public void saveImageAction(View view) {
-        if(SelectImageUtil.mTemplateImage.size() > 0) {
+        if(SelectImageUtils.mTemplateImage.size() > 0) {
             mDataBinding.ivTest.setImageBitmap(mDataBinding.bgiImage.addTemplate(this, ((GlideBitmapDrawable)mDataBinding.ivTemplate.getDrawable()).getBitmap()));
         }
 //        mDataBinding.bgiImage.saveToPictures("海拍", "海拍.jpg", new GPUImageView.OnPictureSavedListener() {

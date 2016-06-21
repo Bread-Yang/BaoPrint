@@ -11,7 +11,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
-public class SnapViewPicture {
+public class SnapViewUtils {
 
     public static String snapViewReturnLocalPath(View snapView) {
         if (snapView instanceof ScrollView) {

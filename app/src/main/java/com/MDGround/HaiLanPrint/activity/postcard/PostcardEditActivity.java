@@ -18,7 +18,7 @@ import com.MDGround.HaiLanPrint.models.WorkPhoto;
 import com.MDGround.HaiLanPrint.utils.GlideUtil;
 import com.MDGround.HaiLanPrint.utils.NavUtils;
 import com.MDGround.HaiLanPrint.utils.OrderUtils;
-import com.MDGround.HaiLanPrint.utils.SelectImageUtil;
+import com.MDGround.HaiLanPrint.utils.SelectImageUtils;
 import com.MDGround.HaiLanPrint.utils.ViewUtils;
 import com.MDGround.HaiLanPrint.views.BaoGPUImage;
 import com.MDGround.HaiLanPrint.views.dialog.NotifyDialog;
@@ -47,9 +47,9 @@ public class PostcardEditActivity extends ToolbarActivity<ActivityPostcardEditBi
 
     @Override
     protected void initData() {
-        showImageToGPUImageView(0, SelectImageUtil.mTemplateImage.get(0));
+        showImageToGPUImageView(0, SelectImageUtils.mTemplateImage.get(0));
 
-        for (int i = 0; i < SelectImageUtil.mTemplateImage.size(); i++) {
+        for (int i = 0; i < SelectImageUtils.mTemplateImage.size(); i++) {
             mWorkPhotoArrayList.add(new WorkPhoto());
         }
 
@@ -124,7 +124,7 @@ public class PostcardEditActivity extends ToolbarActivity<ActivityPostcardEditBi
         GlideUtil.loadImageByMDImage(mDataBinding.ivTemplate, mdImage, false);
 
         // 用户选择的图片加载
-        MDImage selectImage = SelectImageUtil.mAlreadySelectImage.get(position);
+        MDImage selectImage = SelectImageUtils.mAlreadySelectImage.get(position);
         if (selectImage.getPhotoSID() != 0 || selectImage.getImageLocalPath() != null) {
             GlideUtil.loadImageAsBitmap(selectImage, new SimpleTarget<Bitmap>(200, 200) {
                 @Override
@@ -155,18 +155,18 @@ public class PostcardEditActivity extends ToolbarActivity<ActivityPostcardEditBi
         if (resultCode == RESULT_OK) {
             MDImage mdImage = data.getParcelableExtra(Constants.KEY_SELECT_IMAGE);
 
-            SelectImageUtil.mAlreadySelectImage.set(mCurrentSelectIndex, mdImage);
+            SelectImageUtils.mAlreadySelectImage.set(mCurrentSelectIndex, mdImage);
 
             mWorkPhotoArrayList.set(mCurrentSelectIndex, new WorkPhoto());
 
-            showImageToGPUImageView(mCurrentSelectIndex, SelectImageUtil.mTemplateImage.get(mCurrentSelectIndex));
+            showImageToGPUImageView(mCurrentSelectIndex, SelectImageUtils.mTemplateImage.get(mCurrentSelectIndex));
         }
     }
 
     //region ACTION
     public void nextStepAction(View view) {
-        for (int i = 0; i < SelectImageUtil.mAlreadySelectImage.size(); i++) {
-            MDImage selectImage = SelectImageUtil.mAlreadySelectImage.get(i);
+        for (int i = 0; i < SelectImageUtils.mAlreadySelectImage.size(); i++) {
+            MDImage selectImage = SelectImageUtils.mAlreadySelectImage.get(i);
 
             if (selectImage.getPhotoSID() == 0 && selectImage.getImageLocalPath() == null) {
                 if (mNotifyDialog == null) {
@@ -189,5 +189,4 @@ public class PostcardEditActivity extends ToolbarActivity<ActivityPostcardEditBi
         generateOrder();
     }
     //endregion
-
 }

@@ -17,7 +17,7 @@ import com.MDGround.HaiLanPrint.enumobject.ProductMaterial;
 import com.MDGround.HaiLanPrint.models.MDImage;
 import com.MDGround.HaiLanPrint.models.Measurement;
 import com.MDGround.HaiLanPrint.utils.OrderUtils;
-import com.MDGround.HaiLanPrint.utils.SelectImageUtil;
+import com.MDGround.HaiLanPrint.utils.SelectImageUtils;
 import com.MDGround.HaiLanPrint.utils.ViewUtils;
 
 import java.util.ArrayList;
@@ -96,13 +96,13 @@ public class EngravingChoosePaperNumActivity extends ToolbarActivity<ActivityEng
 
         @Override
         public void onBindViewHolder(BindingHolder holder, int position) {
-            holder.viewDataBinding.setImage(SelectImageUtil.mAlreadySelectImage.get(position));
+            holder.viewDataBinding.setImage(SelectImageUtils.mAlreadySelectImage.get(position));
             holder.viewDataBinding.setHandlers(holder);
         }
 
         @Override
         public int getItemCount() {
-            return SelectImageUtil.mAlreadySelectImage.size();
+            return SelectImageUtils.mAlreadySelectImage.size();
         }
 
         public class BindingHolder extends RecyclerView.ViewHolder {
@@ -117,7 +117,7 @@ public class EngravingChoosePaperNumActivity extends ToolbarActivity<ActivityEng
             public void addPrintNumAction(View view) {
                 int position = getAdapterPosition();
 
-                MDImage mdImage = SelectImageUtil.mAlreadySelectImage.get(position);
+                MDImage mdImage = SelectImageUtils.mAlreadySelectImage.get(position);
                 int photoCount = mdImage.getPhotoCount();
 
                 if (photoCount == 1) {
@@ -131,7 +131,7 @@ public class EngravingChoosePaperNumActivity extends ToolbarActivity<ActivityEng
             public void minusPrintNumAction(View view) {
                 int position = getAdapterPosition();
 
-                MDImage mdImage = SelectImageUtil.mAlreadySelectImage.get(position);
+                MDImage mdImage = SelectImageUtils.mAlreadySelectImage.get(position);
                 int photoCount = mdImage.getPhotoCount();
 
                 if (photoCount == 1) {

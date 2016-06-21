@@ -1,9 +1,11 @@
 package com.MDGround.HaiLanPrint.activity.calendar;
 
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
+import android.widget.DatePicker;
 import android.widget.SeekBar;
 
 import com.MDGround.HaiLanPrint.R;
@@ -18,7 +20,7 @@ import com.MDGround.HaiLanPrint.models.WorkPhoto;
 import com.MDGround.HaiLanPrint.utils.GlideUtil;
 import com.MDGround.HaiLanPrint.utils.NavUtils;
 import com.MDGround.HaiLanPrint.utils.OrderUtils;
-import com.MDGround.HaiLanPrint.utils.SelectImageUtil;
+import com.MDGround.HaiLanPrint.utils.SelectImageUtils;
 import com.MDGround.HaiLanPrint.utils.ViewUtils;
 import com.MDGround.HaiLanPrint.views.BaoGPUImage;
 import com.MDGround.HaiLanPrint.views.dialog.NotifyDialog;
@@ -26,11 +28,12 @@ import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 /**
  * Created by yoghourt on 5/18/16.
  */
-public class CalendarEditActivity extends ToolbarActivity<ActivityCalendarEditBinding> {
+public class CalendarEditActivity extends ToolbarActivity<ActivityCalendarEditBinding> implements DatePickerDialog.OnDateSetListener {
 
     private TemplageImageAdapter mTeplateImageAdapter;
 
@@ -40,6 +43,8 @@ public class CalendarEditActivity extends ToolbarActivity<ActivityCalendarEditBi
 
     private NotifyDialog mNotifyDialog;
 
+    private DatePickerDialog mBirthdayDatePickerDialog;
+
     @Override
     protected int getContentLayout() {
         return R.layout.activity_calendar_edit;
@@ -47,9 +52,9 @@ public class CalendarEditActivity extends ToolbarActivity<ActivityCalendarEditBi
 
     @Override
     protected void initData() {
-        showImageToGPUImageView(0, SelectImageUtil.mTemplateImage.get(0));
+        showImageToGPUImageView(0, SelectImageUtils.mTemplateImage.get(0));
 
-        for (int i = 0; i < SelectImageUtil.mTemplateImage.size(); i++) {
+        for (int i = 0; i < SelectImageUtils.mTemplateImage.size(); i++) {
             mWorkPhotoArrayList.add(new WorkPhoto());
         }
 
@@ -124,7 +129,7 @@ public class CalendarEditActivity extends ToolbarActivity<ActivityCalendarEditBi
         GlideUtil.loadImageByMDImage(mDataBinding.ivTemplate, mdImage, false);
 
         // 用户选择的图片加载
-        MDImage selectImage = SelectImageUtil.mAlreadySelectImage.get(position);
+        MDImage selectImage = SelectImageUtils.mAlreadySelectImage.get(position);
         if (selectImage.getPhotoSID() != 0 || selectImage.getImageLocalPath() != null) {
             GlideUtil.loadImageAsBitmap(selectImage, new SimpleTarget<Bitmap>(200, 200) {
                 @Override
@@ -153,18 +158,32 @@ public class CalendarEditActivity extends ToolbarActivity<ActivityCalendarEditBi
         if (resultCode == RESULT_OK) {
             MDImage mdImage = data.getParcelableExtra(Constants.KEY_SELECT_IMAGE);
 
-            SelectImageUtil.mAlreadySelectImage.set(mCurrentSelectIndex, mdImage);
+            SelectImageUtils.mAlreadySelectImage.set(mCurrentSelectIndex, mdImage);
 
             mWorkPhotoArrayList.set(mCurrentSelectIndex, new WorkPhoto());
 
-            showImageToGPUImageView(mCurrentSelectIndex, SelectImageUtil.mTemplateImage.get(mCurrentSelectIndex));
+            showImageToGPUImageView(mCurrentSelectIndex, SelectImageUtils.mTemplateImage.get(mCurrentSelectIndex));
         }
     }
 
+    @Override
+    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+        mDataBinding.tvStartDate.setText(year + "-" + (monthOfYear + 1) + "-" + dayOfMonth);
+    }
+
     //region ACTION
+    public void toSelectCalendarAction(View view) {
+        if (mBirthdayDatePickerDialog == null) {
+            Calendar calendar = Calendar.getInstance();
+            mBirthdayDatePickerDialog = new DatePickerDialog(this, this, calendar.get(Calendar.YEAR),
+                    calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
+        }
+        mBirthdayDatePickerDialog.show();
+    }
+
     public void nextStepAction(View view) {
-        for (int i = 0; i < SelectImageUtil.mAlreadySelectImage.size(); i++) {
-            MDImage selectImage = SelectImageUtil.mAlreadySelectImage.get(i);
+        for (int i = 0; i < SelectImageUtils.mAlreadySelectImage.size(); i++) {
+            MDImage selectImage = SelectImageUtils.mAlreadySelectImage.get(i);
 
             if (selectImage.getPhotoSID() == 0 && selectImage.getImageLocalPath() == null) {
                 if (mNotifyDialog == null) {

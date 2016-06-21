@@ -16,7 +16,7 @@ import com.MDGround.HaiLanPrint.models.MDImage;
 import com.MDGround.HaiLanPrint.restfuls.GlobalRestful;
 import com.MDGround.HaiLanPrint.restfuls.bean.ResponseData;
 import com.MDGround.HaiLanPrint.utils.NavUtils;
-import com.MDGround.HaiLanPrint.utils.SelectImageUtil;
+import com.MDGround.HaiLanPrint.utils.SelectImageUtils;
 import com.MDGround.HaiLanPrint.utils.StringUtil;
 import com.MDGround.HaiLanPrint.utils.ViewUtils;
 import com.MDGround.HaiLanPrint.views.itemdecoration.GridSpacingItemDecoration;
@@ -96,7 +96,7 @@ public class SelectImageBeforeEditActivity extends ToolbarActivity<ActivitySelec
 
         mImageAdapter = new ChooseImageListAdapter(this, mMaxSelectImageNum, true, false);
         mImageAdapter.bindImages(mImagesList);
-        mImageAdapter.bindSelectImages(SelectImageUtil.mAlreadySelectImage);
+        mImageAdapter.bindSelectImages(SelectImageUtils.mAlreadySelectImage);
         mDataBinding.imageRecyclerView.setAdapter(mImageAdapter);
 
         // 选中图片
@@ -118,14 +118,14 @@ public class SelectImageBeforeEditActivity extends ToolbarActivity<ActivitySelec
 
             @Override
             public void onSelectImage(MDImage selectImage, int selectNum) {
-                SelectImageUtil.addImage(selectImage);
+                SelectImageUtils.addImage(selectImage);
                 changeTips();
                 mSelectedImageAdapter.notifyDataSetChanged();
             }
 
             @Override
             public void onUnSelectImage(MDImage unselectImage, int selectNum) {
-                SelectImageUtil.removeImage(unselectImage);
+                SelectImageUtils.removeImage(unselectImage);
                 changeTips();
                 mSelectedImageAdapter.notifyDataSetChanged();
             }
@@ -154,8 +154,8 @@ public class SelectImageBeforeEditActivity extends ToolbarActivity<ActivitySelec
     }
 
     private void changeTips() {
-        if (SelectImageUtil.mAlreadySelectImage.size() > 0) {
-            String tips = getString(R.string.choose_image_tips, SelectImageUtil.mAlreadySelectImage.size(), mMaxSelectImageNum);
+        if (SelectImageUtils.mAlreadySelectImage.size() > 0) {
+            String tips = getString(R.string.choose_image_tips, SelectImageUtils.mAlreadySelectImage.size(), mMaxSelectImageNum);
 
             mDataBinding.tvChooseTips.setText(Html.fromHtml(tips));
 

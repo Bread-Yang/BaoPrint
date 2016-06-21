@@ -22,7 +22,7 @@ import com.MDGround.HaiLanPrint.restfuls.GlobalRestful;
 import com.MDGround.HaiLanPrint.restfuls.bean.ResponseData;
 import com.MDGround.HaiLanPrint.utils.GlideUtil;
 import com.MDGround.HaiLanPrint.utils.NavUtils;
-import com.MDGround.HaiLanPrint.utils.SelectImageUtil;
+import com.MDGround.HaiLanPrint.utils.SelectImageUtils;
 import com.MDGround.HaiLanPrint.utils.ViewUtils;
 import com.MDGround.HaiLanPrint.views.itemdecoration.GridSpacingItemDecoration;
 import com.google.gson.reflect.TypeToken;
@@ -163,9 +163,9 @@ public class SelectTemplateActivity extends ToolbarActivity<ActivitySelectTempla
         GlobalRestful.getInstance().GetPhotoTemplateAttachList(templateID, new Callback<ResponseData>() {
             @Override
             public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
-                SelectImageUtil.mTemplateImage.clear();
+                SelectImageUtils.mTemplateImage.clear();
 
-                SelectImageUtil.mTemplateImage = response.body().getContent(new TypeToken<ArrayList<MDImage>>() {
+                SelectImageUtils.mTemplateImage = response.body().getContent(new TypeToken<ArrayList<MDImage>>() {
                 });
 
                 Intent intent = new Intent(SelectTemplateActivity.this, TemplateStartCreateActivity.class);
