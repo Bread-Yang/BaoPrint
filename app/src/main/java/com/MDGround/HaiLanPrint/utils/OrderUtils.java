@@ -90,7 +90,8 @@ public class OrderUtils {
             final MDImage selectImage = SelectImageUtil.mAlreadySelectImage.get(i);
             MDImage templateImage = SelectImageUtil.mTemplateImage.get(i);
             if (templateImage.getPhotoSID() != 0
-                    && (selectImage.getImageLocalPath() != null || selectImage.getPhotoSID() != 0)) { // 模版图片存在,并且用户选择的图片存在
+                    && (selectImage.getImageLocalPath() != null || selectImage.getPhotoSID() != 0)) { //
+                // 模版图片存在,并且用户选择的图片存在
 
             }
         }
@@ -112,7 +113,8 @@ public class OrderUtils {
 //
 //            final int nextUploadIndex = upload_image_index + 1;
 //
-//            if (selectImage.getImageLocalPath() != null && !StringUtil.isEmpty(selectImage.getImageLocalPath())) { // 本地图片
+//            if (selectImage.getImageLocalPath() != null && !StringUtil.isEmpty(selectImage
+// .getImageLocalPath())) { // 本地图片
 //                File file = new File(selectImage.getImageLocalPath());
 //
 //                // 上传本地照片
@@ -124,19 +126,26 @@ public class OrderUtils {
 //                        if (responseImage != null) {
 //                            responseImage.setPhotoCount(selectImage.getPhotoCount());
 //
-//                            if (selectImage.getSyntheticImageLocalPath() != null && !StringUtil.isEmpty(selectImage.getSyntheticImageLocalPath())) { // 合成图片
+//                            if (selectImage.getSyntheticImageLocalPath() != null && !StringUtil.isEmpty
+// (selectImage.getSyntheticImageLocalPath())) { // 合成图片
 //                                File syntheticFile = new File(selectImage.getSyntheticImageLocalPath());
 //
 //                                // 上传合成图片
-//                                FileRestful.getInstance().UploadCloudPhoto(false, syntheticFile, null, new Callback<ResponseData>() {
+//                                FileRestful.getInstance().UploadCloudPhoto(false, syntheticFile, null,
+// new Callback<ResponseData>() {
 //                                    @Override
-//                                    public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
-//                                        MDImage responseSyntheticImage = response.body().getContent(MDImage.class);
+//                                    public void onResponse(Call<ResponseData> call,
+// Response<ResponseData> response) {
+//                                        MDImage responseSyntheticImage = response.body().getContent
+// (MDImage.class);
 //
-//                                        responseImage.setSyntheticPhotoID(responseSyntheticImage.getPhotoID());
-//                                        responseImage.setSyntheticPhotoSID(responseSyntheticImage.getPhotoSID());
+//                                        responseImage.setSyntheticPhotoID(responseSyntheticImage
+// .getPhotoID());
+//                                        responseImage.setSyntheticPhotoSID(responseSyntheticImage
+// .getPhotoSID());
 //
-//                                        SelectImageUtil.mAlreadySelectImage.set(upload_image_index, responseImage);
+//                                        SelectImageUtil.mAlreadySelectImage.set(upload_image_index,
+// responseImage);
 //                                        uploadImageRequest(nextUploadIndex);
 //                                    }
 //
@@ -182,7 +191,8 @@ public class OrderUtils {
             final int nextUploadIndex = upload_image_index + 1;
 
             // 本地图片
-            if (selectImage.getImageLocalPath() != null && !StringUtil.isEmpty(selectImage.getImageLocalPath())) {
+            if (selectImage.getImageLocalPath() != null && !StringUtil.isEmpty(selectImage
+                    .getImageLocalPath())) {
                 File file = new File(selectImage.getImageLocalPath());
 
                 // 上传本地照片
@@ -200,15 +210,20 @@ public class OrderUtils {
                             if (templateImage.getPhotoSID() != 0) {
                                 Glide.with(context).load(templateImage).asBitmap().into(new SimpleTarget<Bitmap>() {
                                     @Override
-                                    public void onResourceReady(final Bitmap templateBitmap, GlideAnimation<? super Bitmap> glideAnimation) {
+                                    public void onResourceReady(final Bitmap templateBitmap,
+                                                                GlideAnimation<? super Bitmap>
+                                                                        glideAnimation) {
                                         KLog.e("加载模板bitmap成功");
 
                                         Glide.with(context).load(selectImage).asBitmap().into(new SimpleTarget<Bitmap>() {
                                             @Override
-                                            public void onResourceReady(Bitmap selectBitmap, GlideAnimation<? super Bitmap> glideAnimation) {
+                                            public void onResourceReady(Bitmap selectBitmap,
+                                                                        GlideAnimation<? super Bitmap>
+                                                                                glideAnimation) {
                                                 KLog.e("加载本地bitmap成功");
 
-                                                GPUImageNormalBlendFilter blendFilter = new GPUImageNormalBlendFilter();
+                                                GPUImageNormalBlendFilter blendFilter = new
+                                                        GPUImageNormalBlendFilter();
 
                                                 blendFilter.setBitmap(templateBitmap);
 
@@ -219,26 +234,33 @@ public class OrderUtils {
                                                 Bitmap blendBitmap = blendImage.getBitmapWithFilterApplied();
 
                                                 // 上传合成图片
-                                                FileRestful.getInstance().UploadPhoto(UploadType.Order, blendBitmap, new Callback<ResponseData>() {
-                                                    @Override
-                                                    public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
-                                                        KLog.e("上传本地和模板合成照片成功");
-                                                        // 上传合成图片成功, 设置对应的PhotoID, PhotoSID
-                                                        MDImage responseSyntheticImage = response.body().getContent(MDImage.class);
+                                                FileRestful.getInstance().UploadPhoto(UploadType.Order,
+                                                        blendBitmap, new Callback<ResponseData>() {
+                                                            @Override
+                                                            public void onResponse(Call<ResponseData> call,
+                                                                                   Response<ResponseData> response) {
+                                                                KLog.e("上传本地和模板合成照片成功");
+                                                                // 上传合成图片成功, 设置对应的PhotoID, PhotoSID
+                                                                MDImage responseSyntheticImage = response.body()
+                                                                        .getContent(MDImage.class);
 
-                                                        responseImage.getWorkPhoto().setPhoto1ID(responseSyntheticImage.getPhotoID());
-                                                        responseImage.getWorkPhoto().setPhoto1SID(responseSyntheticImage.getPhotoSID());
+                                                                responseImage.getWorkPhoto().setPhoto1ID
+                                                                        (responseSyntheticImage.getPhotoID());
+                                                                responseImage.getWorkPhoto().setPhoto1SID
+                                                                        (responseSyntheticImage.getPhotoSID());
 
-                                                        // 继续上传
-                                                        SelectImageUtil.mAlreadySelectImage.set(upload_image_index, responseImage);
-                                                        uploadImageRequest(context, nextUploadIndex);
-                                                    }
+                                                                // 继续上传
+                                                                SelectImageUtil.mAlreadySelectImage.set
+                                                                        (upload_image_index, responseImage);
+                                                                uploadImageRequest(context, nextUploadIndex);
+                                                            }
 
-                                                    @Override
-                                                    public void onFailure(Call<ResponseData> call, Throwable t) {
+                                                            @Override
+                                                            public void onFailure(Call<ResponseData> call,
+                                                                                  Throwable t) {
 
-                                                    }
-                                                });
+                                                            }
+                                                        });
                                             }
                                         });
                                     }
@@ -263,11 +285,13 @@ public class OrderUtils {
                 if (templateImage.getPhotoSID() != 0) {
                     Glide.with(context).load(templateImage).asBitmap().into(new SimpleTarget<Bitmap>() {
                         @Override
-                        public void onResourceReady(final Bitmap templateBitmap, GlideAnimation<? super Bitmap> glideAnimation) {
+                        public void onResourceReady(final Bitmap templateBitmap, GlideAnimation<? super
+                                Bitmap> glideAnimation) {
 
                             Glide.with(context).load(selectImage).asBitmap().into(new SimpleTarget<Bitmap>() {
                                 @Override
-                                public void onResourceReady(Bitmap selectBitmap, GlideAnimation<? super Bitmap> glideAnimation) {
+                                public void onResourceReady(Bitmap selectBitmap, GlideAnimation<? super
+                                        Bitmap> glideAnimation) {
                                     KLog.e("加载网络bitmap成功");
                                     GPUImageNormalBlendFilter blendFilter = new GPUImageNormalBlendFilter();
 
@@ -280,22 +304,25 @@ public class OrderUtils {
                                     Bitmap blendBitmap = blendImage.getBitmapWithFilterApplied();
 
                                     // 上传合成图片
-                                    FileRestful.getInstance().UploadPhoto(UploadType.Order, blendBitmap, new Callback<ResponseData>() {
-                                        @Override
-                                        public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
-                                            KLog.e("上传网络和模板合成照片成功");
-                                            // 上传合成图片成功, 设置对应的PhotoID, PhotoSID
-                                            MDImage responseSyntheticImage = response.body().getContent(MDImage.class);
+                                    FileRestful.getInstance().UploadPhoto(UploadType.Order, blendBitmap,
+                                            new Callback<ResponseData>() {
+                                                @Override
+                                                public void onResponse(Call<ResponseData> call,
+                                                                       Response<ResponseData> response) {
+                                                    KLog.e("上传网络和模板合成照片成功");
+                                                    // 上传合成图片成功, 设置对应的PhotoID, PhotoSID
+                                                    MDImage responseSyntheticImage = response.body().getContent
+                                                            (MDImage.class);
 
-                                            // 继续上传
-                                            uploadImageRequest(context, nextUploadIndex);
-                                        }
+                                                    // 继续上传
+                                                    uploadImageRequest(context, nextUploadIndex);
+                                                }
 
-                                        @Override
-                                        public void onFailure(Call<ResponseData> call, Throwable t) {
+                                                @Override
+                                                public void onFailure(Call<ResponseData> call, Throwable t) {
 
-                                        }
-                                    });
+                                                }
+                                            });
                                 }
                             });
                         }
@@ -370,22 +397,23 @@ public class OrderUtils {
     }
 
     public void saveOrderRequest() {
-        GlobalRestful.getInstance().SaveOrder(MDGroundApplication.mChoosedProductType, new Callback<ResponseData>() {
-            @Override
-            public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
+        GlobalRestful.getInstance().SaveOrder(MDGroundApplication.mChoosedProductType, new
+                Callback<ResponseData>() {
+                    @Override
+                    public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
 
-                mOrderInfo = response.body().getContent(OrderInfo.class);
+                        mOrderInfo = response.body().getContent(OrderInfo.class);
 
-                OrderWork orderWork = createOrderWork(mOrderInfo);
-                mOrderWorkArrayList.add(orderWork);
-                saveOrderWorkRequest(0);
-            }
+                        OrderWork orderWork = createOrderWork(mOrderInfo);
+                        mOrderWorkArrayList.add(orderWork);
+                        saveOrderWorkRequest(0);
+                    }
 
-            @Override
-            public void onFailure(Call<ResponseData> call, Throwable t) {
-                ViewUtils.dismiss();
-            }
-        });
+                    @Override
+                    public void onFailure(Call<ResponseData> call, Throwable t) {
+                        ViewUtils.dismiss();
+                    }
+                });
     }
 
     private OrderWork createOrderWork(OrderInfo orderInfo) {
@@ -402,7 +430,8 @@ public class OrderUtils {
         orderWork.setPhotoCover(SelectImageUtil.mAlreadySelectImage.get(0).getPhotoSID()); //封面，第一张照片的缩略图ID
         orderWork.setPrice(mPrice);
         orderWork.setTypeID(MDGroundApplication.mChoosedProductType.value()); //作品类型（getPhotoType接口返回的TypeID）
-        orderWork.setTypeName(ProductType.getProductName(MDGroundApplication.mChoosedProductType)); //Title（getPhotoType接口返回的Title）
+        orderWork.setTypeName(ProductType.getProductName(MDGroundApplication.mChoosedProductType));
+        //Title（getPhotoType接口返回的Title）
         orderWork.setWorkFormat(workFormat);
         orderWork.setWorkMaterial(mWorkMaterial);
         orderWork.setWorkStyle(workStyle);
@@ -411,20 +440,21 @@ public class OrderUtils {
     }
 
     public void saveOrderWorkRequest(final int saveIndex) {
-        GlobalRestful.getInstance().SaveOrderWork(mOrderWorkArrayList.get(saveIndex), new Callback<ResponseData>() {
-            @Override
-            public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
-                OrderWork responseOrderWork = response.body().getContent(OrderWork.class);
-                mOrderWorkArrayList.set(saveIndex, responseOrderWork);
+        GlobalRestful.getInstance().SaveOrderWork(mOrderWorkArrayList.get(saveIndex), new
+                Callback<ResponseData>() {
+                    @Override
+                    public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
+                        OrderWork responseOrderWork = response.body().getContent(OrderWork.class);
+                        mOrderWorkArrayList.set(saveIndex, responseOrderWork);
 
-                saveOrderPhotoListRequest(responseOrderWork);
-            }
+                        saveOrderPhotoListRequest(responseOrderWork);
+                    }
 
-            @Override
-            public void onFailure(Call<ResponseData> call, Throwable t) {
-                ViewUtils.dismiss();
-            }
-        });
+                    @Override
+                    public void onFailure(Call<ResponseData> call, Throwable t) {
+                        ViewUtils.dismiss();
+                    }
+                });
     }
 
     private void saveOrderPhotoListRequest(final OrderWork orderWork) {
@@ -457,7 +487,8 @@ public class OrderUtils {
         });
     }
 
-    public void updateOrderPrepayRequest(final Activity activity, DeliveryAddress deliveryAddress, PayType payType, int amountFee, int receivableFee) {
+    public void updateOrderPrepayRequest(final Activity activity, DeliveryAddress deliveryAddress, PayType
+            payType, int amountFee, int receivableFee) {
         ViewUtils.loading(activity);
         mOrderInfo.setAddressID(deliveryAddress.getAutoID());
         mOrderInfo.setAddressReceipt(StringUtil.getCompleteAddress(deliveryAddress));

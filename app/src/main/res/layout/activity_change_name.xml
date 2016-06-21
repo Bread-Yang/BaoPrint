@@ -1,49 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-             android:orientation="horizontal"
             android:layout_marginTop="@dimen/margin_16"
-            android:gravity="center_vertical"
             android:background="@color/color_white"
-            >
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
             <EditText
                 android:id="@+id/etName"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/size_60"
-                android:gravity="bottom"
-                android:paddingBottom="@dimen/margin_16"
-                android:maxLength="16"
-                android:textSize="@dimen/text_size_16"
-                android:paddingLeft="@dimen/size_18"
                 android:layout_weight="1"
-                android:textColor="@color/color_999999"
                 android:background="@color/color_white"
-                />
-                <ImageView
-                    android:id="@+id/imageDelete"
-                    android:onClick="deleteInputText"
-                    android:layout_marginRight="@dimen/margin_12"
-                    android:layout_width="@dimen/size_48"
-                    android:layout_height="@dimen/margin_48"
-                    android:src="@drawable/delete"
-                    />
+                android:gravity="bottom"
+                android:maxLength="16"
+                android:paddingBottom="@dimen/margin_16"
+                android:paddingLeft="@dimen/size_18"
+                android:textColor="@color/color_999999"
+                android:textSize="@dimen/text_size_16" />
+
+            <ImageView
+                android:id="@+id/imageDelete"
+                android:layout_width="@dimen/size_48"
+                android:layout_height="@dimen/margin_48"
+                android:layout_marginRight="@dimen/margin_12"
+                android:onClick="deleteInputText"
+                android:src="@drawable/delete" />
         </LinearLayout>
+
         <TextView
-            android:layout_marginTop="@dimen/size_18"
             android:layout_width="wrap_content"
-            android:layout_marginLeft="@dimen/size_18"
             android:layout_height="wrap_content"
-            android:textColor="@color/color_999999"
-            android:textSize="@dimen/text_size_14"
+            android:layout_marginLeft="@dimen/size_18"
+            android:layout_marginTop="@dimen/size_18"
             android:text="@string/explain"
-            />
+            android:textColor="@color/color_999999"
+            android:textSize="@dimen/text_size_14" />
     </LinearLayout>
 </layout>
