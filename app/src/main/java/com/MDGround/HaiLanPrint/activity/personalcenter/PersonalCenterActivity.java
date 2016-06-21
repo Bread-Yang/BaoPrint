@@ -43,12 +43,17 @@ public class PersonalCenterActivity extends ToolbarActivity<ActivityPersonalCent
         mdImage.setPhotoSID(user.getPhotoSID());
         GlideUtil.loadImageByMDImage(mDataBinding.civAvatar, mdImage, false);
         mDataBinding.tvName.setText(user.getUserNickName());
-        mDataBinding.tvPhoneNume.setText(user.getPhone());
-
+        if (user.getPhone() != null) {
+            mDataBinding.tvPhoneNume.setText(user.getPhone());
+        } else {
+            mDataBinding.tvPhoneNume.setText(R.string.not_bound);
+        }
         Location city = MDGroundApplication.mDaoSession.getLocationDao().load((long) user.getCityID());
         Location county = MDGroundApplication.mDaoSession.getLocationDao().load((long) user.getCountryID());
         if (city != null && county != null) {
             mDataBinding.tvCity.setText(city.getLocationName() + " " + county.getLocationName());
+        }else{
+            mDataBinding.tvCity.setText(R.string.not_filled);
         }
     }
 
@@ -79,14 +84,16 @@ public class PersonalCenterActivity extends ToolbarActivity<ActivityPersonalCent
         Intent intent = new Intent(this, MyCreditActivity.class);
         startActivity(intent);
     }
+
     //我的作品
-    public void toMyWorksActivity(View view){
-        Intent intent =new Intent(this,MyWorksActivity.class);
+    public void toMyWorksActivity(View view) {
+        Intent intent = new Intent(this, MyWorksActivity.class);
         startActivity(intent);
     }
+
     //去消息中心
-    public void toMessageCenter(View view){
-        Intent intent=new Intent(this,InformationCenterActivity.class);
+    public void toMessageCenter(View view) {
+        Intent intent = new Intent(this, InformationCenterActivity.class);
         startActivity(intent);
     }
     //endregion

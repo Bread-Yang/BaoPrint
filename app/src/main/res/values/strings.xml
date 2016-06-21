@@ -370,5 +370,7 @@
     <string name="fail_sumbit">提交失败</string>
     <string name="update_success">修改成功</string>
     <string name="save">保存</string>
+    <string name="not_bound">未绑定</string>
+    <string name="not_filled">未填写</string>
 
 </resources>

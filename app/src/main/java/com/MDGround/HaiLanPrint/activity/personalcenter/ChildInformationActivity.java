@@ -17,6 +17,7 @@ import com.MDGround.HaiLanPrint.restfuls.GlobalRestful;
 import com.MDGround.HaiLanPrint.restfuls.bean.ResponseData;
 import com.MDGround.HaiLanPrint.utils.DateUtils;
 import com.MDGround.HaiLanPrint.views.dialog.BirthdayDatePickerDialog;
+import com.socks.library.KLog;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -46,14 +47,15 @@ public class ChildInformationActivity extends ToolbarActivity<ActivityChildInfor
         tvRight.setVisibility(View.VISIBLE);
         List<UserKid> userKids = MDGroundApplication.mLoginUser.getUserKidList();
         if(userKids!=null){
-            if (userKids.size() > 0) {
-
+            if (userKids.size() >0) {
                 int lastKid = userKids.size() - 1;
                 UserKid userKid = userKids.get(lastKid);
+                if(userKid.getDOB()!=null){
                 mDataBinding.etChildName.setText(userKid.getName());
                 SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                 Date date = null;
                 try {
+                    KLog.e("DOB="+ userKid.getDOB());
                     date = format.parse(userKid.getDOB());
                 } catch (ParseException e) {
                     e.printStackTrace();
@@ -64,7 +66,7 @@ public class ChildInformationActivity extends ToolbarActivity<ActivityChildInfor
                 mDataBinding.etClass.setText(userKid.Class);
                 mDataBinding.etChildName.setOnFocusChangeListener(this);
                 mDataBinding.etSchool.setOnFocusChangeListener(this);
-                mDataBinding.etClass.setOnFocusChangeListener(this);
+                mDataBinding.etClass.setOnFocusChangeListener(this);}
             }
         }
 
