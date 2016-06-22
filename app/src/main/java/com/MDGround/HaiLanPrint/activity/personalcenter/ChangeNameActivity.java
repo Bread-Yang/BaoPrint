@@ -24,6 +24,9 @@ import retrofit2.Response;
  */
 
 public class ChangeNameActivity extends ToolbarActivity<ActivityChangeNameBinding> {
+
+    private User mLoginUser;
+
     @Override
     protected int getContentLayout() {
         return R.layout.activity_change_name;
@@ -31,12 +34,14 @@ public class ChangeNameActivity extends ToolbarActivity<ActivityChangeNameBindin
 
     @Override
     protected void initData() {
+        mLoginUser = MDGroundApplication.mInstance.getLoginUser();
+
         tvRight.setText(R.string.finished);
         tvRight.setVisibility(View.VISIBLE);
-        String userNickName = MDGroundApplication.mLoginUser.getUserNickName();
+        String userNickName = mLoginUser.getUserNickName();
         mDataBinding.etName.setText(userNickName);
         mDataBinding.etName.setSelection(userNickName.length());
-        mDataBinding.etName.addTextChangedListener(new MaxLengthWatcher(16,mDataBinding.etName,ChangeNameActivity.this));
+        mDataBinding.etName.addTextChangedListener(new MaxLengthWatcher(16, mDataBinding.etName, ChangeNameActivity.this));
     }
 
     @Override
@@ -47,19 +52,21 @@ public class ChangeNameActivity extends ToolbarActivity<ActivityChangeNameBindin
             public void onClick(View v) {
                 final String newName = mDataBinding.etName.getText().toString();
                 if (!"".equals(newName)) {
-                    if (newName.equals(MDGroundApplication.mLoginUser.getUserNickName())) {
+                    if (newName.equals(mLoginUser.getUserNickName())) {
                         finish();
                     } else {
-                        User user = MDGroundApplication.mLoginUser;
-                        user.setUserNickName(newName);
-                        Date date=new Date(System.currentTimeMillis());
-                        String updateDate= DateUtils.getServerDateStringByDate(date);
-                        user.setUpdatedTime(updateDate);
-                        GlobalRestful.getInstance().SaveUserInfo(user, new Callback<ResponseData>() {
+                        mLoginUser.setUserNickName(newName);
+                        Date date = new Date(System.currentTimeMillis());
+                        String updateDate = DateUtils.getServerDateStringByDate(date);
+                        mLoginUser.setUpdatedTime(updateDate);
+                        
+                        GlobalRestful.getInstance().SaveUserInfo(mLoginUser, new Callback<ResponseData>() {
                             @Override
                             public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
                                 if (ResponseCode.isSuccess(response.body())) {
-                                    MDGroundApplication.mLoginUser.setUserNickName(newName);
+                                    User user = response.body().getContent(User.class);
+                                    mLoginUser = user;
+                                    MDGroundApplication.mInstance.setLoginUser(user);
                                     finish();
                                 }
                             }

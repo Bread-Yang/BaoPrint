@@ -13,6 +13,7 @@ import com.MDGround.HaiLanPrint.constants.Constants;
 import com.MDGround.HaiLanPrint.databinding.ActivityPictureFrameEditBinding;
 import com.MDGround.HaiLanPrint.enumobject.MaterialType;
 import com.MDGround.HaiLanPrint.models.MDImage;
+import com.MDGround.HaiLanPrint.models.Template;
 import com.MDGround.HaiLanPrint.utils.GlideUtil;
 import com.MDGround.HaiLanPrint.utils.OrderUtils;
 import com.MDGround.HaiLanPrint.utils.SelectImageUtils;
@@ -27,6 +28,12 @@ import com.bumptech.glide.request.target.SimpleTarget;
  */
 public class PictureFrameEditActivity extends ToolbarActivity<ActivityPictureFrameEditBinding> {
 
+    private Template mChooseTemplate;
+
+    private int mPrice;
+
+    private String mWorkFormat, mWorkStyle;
+
     @Override
     protected int getContentLayout() {
         return R.layout.activity_picture_frame_edit;
@@ -34,14 +41,16 @@ public class PictureFrameEditActivity extends ToolbarActivity<ActivityPictureFra
 
     @Override
     protected void initData() {
-        MDGroundApplication.mChoosedTemplate.setPageCount(1);
+        mChooseTemplate = MDGroundApplication.mInstance.getChoosedTemplate();
+        mChooseTemplate.setPageCount(1);
+        MDGroundApplication.mInstance.setChoosedTemplate(mChooseTemplate);
 
-        mDataBinding.setTemplate(MDGroundApplication.mChoosedTemplate);
+        mDataBinding.setTemplate(mChooseTemplate);
 
         showImageToGPUImageView();
 
         mDataBinding.tvPrice.setText(getString(R.string.yuan_amount,
-                StringUtil.toYuanWithoutUnit(MDGroundApplication.mChoosedTemplate.getPrice())));
+                StringUtil.toYuanWithoutUnit(mChooseTemplate.getPrice())));
         changeMaterialAvailable();
     }
 
@@ -58,22 +67,42 @@ public class PictureFrameEditActivity extends ToolbarActivity<ActivityPictureFra
         mDataBinding.rgSize.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
+
+                String[] frameSizeArray = getResources().getStringArray(R.array.frame_size_array);
+
                 switch (checkedId) {
                     case R.id.rb6Inch:
-                        mDataBinding.tvPrice.setText(getString(R.string.yuan_amount,
-                                StringUtil.toYuanWithoutUnit(MDGroundApplication.mChoosedTemplate.getPrice())));
+                        mPrice = MDGroundApplication.mInstance.getChoosedTemplate().getPrice();
+                        mWorkFormat = frameSizeArray[0];
                         break;
                     case R.id.rb8Inch:
-                        mDataBinding.tvPrice.setText(getString(R.string.yuan_amount,
-                                StringUtil.toYuanWithoutUnit(MDGroundApplication.mChoosedTemplate.getPrice2())));
+                        mPrice = MDGroundApplication.mInstance.getChoosedTemplate().getPrice2();
+                        mWorkFormat = frameSizeArray[1];
                         break;
                     case R.id.rb10Inch:
-                        mDataBinding.tvPrice.setText(getString(R.string.yuan_amount,
-                                StringUtil.toYuanWithoutUnit(MDGroundApplication.mChoosedTemplate.getPrice3())));
+                        mPrice = MDGroundApplication.mInstance.getChoosedTemplate().getPrice3();
+                        mWorkFormat = frameSizeArray[2];
                         break;
                     case R.id.rb12Inch:
-                        mDataBinding.tvPrice.setText(getString(R.string.yuan_amount,
-                                StringUtil.toYuanWithoutUnit(MDGroundApplication.mChoosedTemplate.getPrice4())));
+                        mPrice = MDGroundApplication.mInstance.getChoosedTemplate().getPrice4();
+                        mWorkFormat = frameSizeArray[3];
+                        break;
+                }
+
+                mDataBinding.tvPrice.setText(getString(R.string.yuan_amount,
+                        StringUtil.toYuanWithoutUnit(mPrice)));
+            }
+        });
+
+        mDataBinding.rgStyle.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                switch (checkedId) {
+                    case R.id.rbLandscape:
+                        mWorkStyle = getString(R.string.landscape);
+                        break;
+                    case R.id.rbPortrait:
+                        mWorkStyle = getString(R.string.portrait);
                         break;
                 }
             }
@@ -99,7 +128,7 @@ public class PictureFrameEditActivity extends ToolbarActivity<ActivityPictureFra
     private void changeMaterialAvailable() {
         mDataBinding.rgStyle.clearCheck();
 
-        if ((MDGroundApplication.mChoosedTemplate.getMaterialType() & MaterialType.Landscape.value()) != 0) {
+        if ((MDGroundApplication.mInstance.getChoosedTemplate().getMaterialType() & MaterialType.Landscape.value()) != 0) {
             mDataBinding.rbLandscape.setEnabled(true);
             if (mDataBinding.rgStyle.getCheckedRadioButtonId() == -1) {
                 mDataBinding.rbLandscape.setChecked(true);
@@ -108,7 +137,7 @@ public class PictureFrameEditActivity extends ToolbarActivity<ActivityPictureFra
             mDataBinding.rbLandscape.setEnabled(false);
         }
 
-        if ((MDGroundApplication.mChoosedTemplate.getMaterialType() & MaterialType.Portrait.value()) != 0) {
+        if ((MDGroundApplication.mInstance.getChoosedTemplate().getMaterialType() & MaterialType.Portrait.value()) != 0) {
             mDataBinding.rbPortrait.setEnabled(true);
             if (mDataBinding.rgStyle.getCheckedRadioButtonId() == -1) {
                 mDataBinding.rbPortrait.setChecked(true);
@@ -131,27 +160,28 @@ public class PictureFrameEditActivity extends ToolbarActivity<ActivityPictureFra
 
     //region ACTION
     public void minusNumAction(View view) {
-        int photoCount = MDGroundApplication.mChoosedTemplate.getPageCount();
+        int photoCount = mChooseTemplate.getPageCount();
 
         if (photoCount == 1) {
             return;
         }
 
-        MDGroundApplication.mChoosedTemplate.setPageCount(--photoCount);
+        mChooseTemplate.setPageCount(--photoCount);
+        MDGroundApplication.mInstance.setChoosedTemplate(mChooseTemplate);
     }
 
     public void addNumAction(View view) {
-        int photoCount = MDGroundApplication.mChoosedTemplate.getPageCount();
+        int photoCount = mChooseTemplate.getPageCount();
 
-        MDGroundApplication.mChoosedTemplate.setPageCount(++photoCount);
+        mChooseTemplate.setPageCount(++photoCount);
+        MDGroundApplication.mInstance.setChoosedTemplate(mChooseTemplate);
     }
 
     public void purchaseAction(View view) {
         ViewUtils.loading(this);
         MDGroundApplication.mOrderutUtils = new OrderUtils(this,
-                MDGroundApplication.mChoosedTemplate.getPageCount(),
-                MDGroundApplication.mChoosedTemplate.getPrice(),
-                null);
+                mChooseTemplate.getPageCount(),
+                mPrice, mWorkFormat, null, mWorkStyle);
         MDGroundApplication.mOrderutUtils.saveOrderRequest();
     }
     //endregion

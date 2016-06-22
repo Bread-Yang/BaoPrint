@@ -19,7 +19,7 @@ import retrofit2.Response;
  * Created by PC on 2016-06-15.
  */
 
-public class FeedBackActivity extends ToolbarActivity<ActivityFeedBackBinding>{
+public class FeedBackActivity extends ToolbarActivity<ActivityFeedBackBinding> {
     @Override
     protected int getContentLayout() {
         return R.layout.activity_feed_back;
@@ -34,15 +34,16 @@ public class FeedBackActivity extends ToolbarActivity<ActivityFeedBackBinding>{
     protected void setListener() {
 
     }
+
     //region ACTION
-    public void toSumbit(View view){
-        String  suggestion=mDataBinding.etContext.getText().toString();
-        String phone= MDGroundApplication.mLoginUser.getPhone();
+    public void toSumbit(View view) {
+        String suggestion = mDataBinding.etContext.getText().toString();
+        String phone = MDGroundApplication.mInstance.getLoginUser().getPhone();
         ViewUtils.loading(this);
         GlobalRestful.getInstance().SaveUserSuggestion(phone, suggestion, new Callback<ResponseData>() {
             @Override
             public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
-                if(ResponseCode.isSuccess(response.body())){
+                if (ResponseCode.isSuccess(response.body())) {
                     ViewUtils.dismiss();
                     ViewUtils.toast(getString(R.string.submit_success));
                     finish();
@@ -52,7 +53,7 @@ public class FeedBackActivity extends ToolbarActivity<ActivityFeedBackBinding>{
 
             @Override
             public void onFailure(Call<ResponseData> call, Throwable t) {
-                    ViewUtils.toast(getString(R.string.fail_sumbit));
+                ViewUtils.toast(getString(R.string.fail_sumbit));
             }
         });
     }

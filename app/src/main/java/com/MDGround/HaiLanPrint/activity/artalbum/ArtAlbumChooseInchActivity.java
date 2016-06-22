@@ -36,8 +36,6 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static com.MDGround.HaiLanPrint.application.MDGroundApplication.mPhotoTypeExplainArrayList;
-
 /**
  * Created by yoghourt on 5/11/16.
  */
@@ -45,7 +43,7 @@ public class ArtAlbumChooseInchActivity extends ToolbarActivity<ActivityArtAlbum
 
     private ArtAlbumChooseInchAdapter mAdapter;
 
-    private ArrayList<Measurement> mSpecList = new ArrayList<Measurement>();
+    private ArrayList<Measurement> mSpecList = new ArrayList<>();
 
     @Override
     protected int getContentLayout() {
@@ -61,7 +59,7 @@ public class ArtAlbumChooseInchActivity extends ToolbarActivity<ActivityArtAlbum
 
     @Override
     protected void initData() {
-        for (PhotoTypeExplain photoTypeExplain : mPhotoTypeExplainArrayList) {
+        for (PhotoTypeExplain photoTypeExplain : MDGroundApplication.mInstance.getPhotoTypeExplainArrayList()) {
             if (photoTypeExplain.getExplainType() == PhotoExplainTypeEnum.Banner.value()
                     && photoTypeExplain.getTypeID() == ProductType.ArtAlbum.value()) {
                 GlideUtil.loadImageByPhotoSIDWithDialog(mDataBinding.ivBanner,
@@ -153,7 +151,7 @@ public class ArtAlbumChooseInchActivity extends ToolbarActivity<ActivityArtAlbum
             }
 
             public void toSelectTemplateActivityAction(View view) {
-                MDGroundApplication.mChoosedMeasurement = mSpecList.get(getAdapterPosition());
+                MDGroundApplication.mInstance.setChoosedMeasurement(mSpecList.get(getAdapterPosition()));
 
                 Intent intent = new Intent(ArtAlbumChooseInchActivity.this, SelectTemplateActivity.class);
                 startActivity(intent);

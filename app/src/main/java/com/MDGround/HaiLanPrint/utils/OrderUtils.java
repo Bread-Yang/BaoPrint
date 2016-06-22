@@ -14,9 +14,11 @@ import com.MDGround.HaiLanPrint.enumobject.PayType;
 import com.MDGround.HaiLanPrint.enumobject.UploadType;
 import com.MDGround.HaiLanPrint.models.DeliveryAddress;
 import com.MDGround.HaiLanPrint.models.MDImage;
+import com.MDGround.HaiLanPrint.models.Measurement;
 import com.MDGround.HaiLanPrint.models.OrderInfo;
 import com.MDGround.HaiLanPrint.models.OrderWork;
 import com.MDGround.HaiLanPrint.models.OrderWorkPhoto;
+import com.MDGround.HaiLanPrint.models.Template;
 import com.MDGround.HaiLanPrint.models.WorkInfo;
 import com.MDGround.HaiLanPrint.models.WorkPhoto;
 import com.MDGround.HaiLanPrint.restfuls.FileRestful;
@@ -38,8 +40,6 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static com.MDGround.HaiLanPrint.utils.SelectImageUtils.mAlreadySelectImage;
-
 /**
  * Created by yoghourt on 6/12/16.
  */
@@ -52,13 +52,13 @@ public class OrderUtils {
 
     public int mPrice;
 
-    public String mWorkMaterial = "";
-
     public OrderInfo mOrderInfo;
 
-    public String workFormat = "";
+    public String mWorkFormat = "";
 
-    public String workStyle = "";
+    public String mWorkMaterial = "";
+
+    public String mWorkStyle = "";
 
     public ArrayList<OrderWork> mOrderWorkArrayList = new ArrayList<>();
 
@@ -67,21 +67,29 @@ public class OrderUtils {
         mOrderWorkArrayList = orderWorkArrayList;
     }
 
-    public OrderUtils(Activity activity, int orderCount, int price, String workMaterial) {
+    public OrderUtils(Activity activity, int orderCount, int price) {
         this.mActivity = activity;
         mOrderCount = orderCount;
         mPrice = price;
+    }
+
+    public OrderUtils(Activity activity, int orderCount, int price,
+                      String workFormat, String workMaterial, String workStyle) {
+        this.mActivity = activity;
+        mOrderCount = orderCount;
+        mPrice = price;
+
+        if (workFormat != null) {
+            this.mWorkFormat = workFormat;
+        }
+
         if (workMaterial != null) {
             this.mWorkMaterial = workMaterial;
         }
-    }
 
-    private int getPrintPhotoOrEngravingOrderCount() {
-        int count = 0;
-        for (MDImage mdImage : mAlreadySelectImage) {
-            count += mdImage.getPhotoCount();
+        if (workStyle != null) {
+            this.mWorkStyle = workStyle;
         }
-        return count;
     }
 
     // 生成合成图片到本地
@@ -343,11 +351,11 @@ public class OrderUtils {
         WorkInfo workInfo = new WorkInfo();
         workInfo.setCreatedTime(DateUtils.getServerDateStringByDate(new Date()));
         workInfo.setPhotoCount(SelectImageUtils.mAlreadySelectImage.size());
-        workInfo.setPrice(MDGroundApplication.mChoosedMeasurement.getPrice());
-        workInfo.setTypeID(MDGroundApplication.mChoosedProductType.value());
-        workInfo.setTemplateID(MDGroundApplication.mChoosedTemplate.getTemplateID());
-        workInfo.setTypeName(ProductType.getProductName(MDGroundApplication.mChoosedProductType));
-        workInfo.setUserID(MDGroundApplication.mLoginUser.getUserID());
+        workInfo.setPrice(MDGroundApplication.mInstance.getChoosedMeasurement().getPrice());
+        workInfo.setTypeID(MDGroundApplication.mInstance.getChoosedProductType().value());
+        workInfo.setTemplateID(MDGroundApplication.mInstance.getChoosedTemplate().getTemplateID());
+        workInfo.setTypeName(ProductType.getProductName(MDGroundApplication.mInstance.getChoosedProductType()));
+        workInfo.setUserID(MDGroundApplication.mInstance.getLoginUser().getUserID());
         workInfo.setWorkDesc("");
 
         GlobalRestful.getInstance().SaveUserWork(workInfo, new Callback<ResponseData>() {
@@ -397,7 +405,7 @@ public class OrderUtils {
     }
 
     public void saveOrderRequest() {
-        GlobalRestful.getInstance().SaveOrder(MDGroundApplication.mChoosedProductType, new
+        GlobalRestful.getInstance().SaveOrder(MDGroundApplication.mInstance.getChoosedProductType(), new
                 Callback<ResponseData>() {
                     @Override
                     public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
@@ -421,20 +429,30 @@ public class OrderUtils {
         orderWork.setCreateTime(DateUtils.getServerDateStringByDate(new Date()));
         orderWork.setOrderCount(mOrderCount);
         orderWork.setOrderID(orderInfo.getOrderID());
-        if (MDGroundApplication.mChoosedProductType == ProductType.PrintPhoto
-                || MDGroundApplication.mChoosedProductType == ProductType.Engraving) {
-            orderWork.setPhotoCount(getPrintPhotoOrEngravingOrderCount());
+        if (MDGroundApplication.mInstance.getChoosedProductType() == ProductType.PrintPhoto
+                || MDGroundApplication.mInstance.getChoosedProductType() == ProductType.Engraving) {
+            orderWork.setPhotoCount(SelectImageUtils.getPrintPhotoOrEngravingOrderCount());
         } else {
             orderWork.setPhotoCount(SelectImageUtils.mAlreadySelectImage.size());
         }
         orderWork.setPhotoCover(SelectImageUtils.mAlreadySelectImage.get(0).getPhotoSID()); //封面，第一张照片的缩略图ID
         orderWork.setPrice(mPrice);
-        orderWork.setTypeID(MDGroundApplication.mChoosedProductType.value()); //作品类型（getPhotoType接口返回的TypeID）
-        orderWork.setTypeName(ProductType.getProductName(MDGroundApplication.mChoosedProductType));
+        orderWork.setTypeID(MDGroundApplication.mInstance.getChoosedProductType().value()); //作品类型（getPhotoType接口返回的TypeID）
+        orderWork.setTypeName(ProductType.getProductName(MDGroundApplication.mInstance.getChoosedProductType()));
+        Measurement measurement = MDGroundApplication.mInstance.getChoosedMeasurement();
+        if (measurement != null) {
+            orderWork.setTypeTitle(measurement.getTitle());
+        }
+        Template template = MDGroundApplication.mInstance.getChoosedTemplate();
+        if (template != null) {
+            orderWork.setTemplateID(template.getTemplateID());
+            orderWork.setTemplateName(template.getTemplateName());
+            orderWork.setWorkMaterial(template.getMaterialTypeString());
+        }
         //Title（getPhotoType接口返回的Title）
-        orderWork.setWorkFormat(workFormat);
+        orderWork.setWorkFormat(mWorkFormat);
         orderWork.setWorkMaterial(mWorkMaterial);
-        orderWork.setWorkStyle(workStyle);
+        orderWork.setWorkStyle(mWorkStyle);
 
         return orderWork;
     }

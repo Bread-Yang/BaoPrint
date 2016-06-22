@@ -1,7 +1,6 @@
 package com.MDGround.HaiLanPrint.application;
 
 import android.app.Application;
-import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.MDGround.HaiLanPrint.ProductType;
@@ -13,6 +12,7 @@ import com.MDGround.HaiLanPrint.models.Measurement;
 import com.MDGround.HaiLanPrint.models.PhotoTypeExplain;
 import com.MDGround.HaiLanPrint.models.Template;
 import com.MDGround.HaiLanPrint.models.User;
+import com.MDGround.HaiLanPrint.utils.FileUtils;
 import com.MDGround.HaiLanPrint.utils.OrderUtils;
 
 import java.util.ArrayList;
@@ -27,19 +27,9 @@ public class MDGroundApplication extends Application {
     /**
      * 对外提供整个应用生命周期的Context
      **/
-    public static Context mInstance;
+    public static MDGroundApplication mInstance;
 
     public static DaoSession mDaoSession;
-
-    public static User mLoginUser;// 登陆用户
-
-    public static ProductType mChoosedProductType;
-
-    public static Measurement mChoosedMeasurement;
-
-    public static Template mChoosedTemplate;
-
-    public static ArrayList<PhotoTypeExplain> mPhotoTypeExplainArrayList = new ArrayList<PhotoTypeExplain>();
 
     public static OrderUtils mOrderutUtils;
 
@@ -67,9 +57,49 @@ public class MDGroundApplication extends Application {
         crashHandler.init(getApplicationContext());
     }
 
-    public static void resetData() {
-        mChoosedProductType = null;
-        mChoosedMeasurement = null;
-        mChoosedTemplate = null;
+    public void resetData() {
+        setChoosedProductType(null);
+        setChoosedMeasurement(null);
+        setChoosedTemplate(null);
+    }
+
+    public User getLoginUser() {
+        return (User) FileUtils.getObject(Constants.KEY_ALREADY_LOGIN_USER);
+    }
+
+    public void setLoginUser(User loginUser) {
+        FileUtils.setObject(Constants.KEY_ALREADY_LOGIN_USER, loginUser);
+    }
+
+    public ProductType getChoosedProductType() {
+        return (ProductType) FileUtils.getObject(Constants.KEY_ALREADY_CHOOSED_PRODUCT_TYPE);
+    }
+
+    public void setChoosedProductType(ProductType choosedProductType) {
+        FileUtils.setObject(Constants.KEY_ALREADY_CHOOSED_PRODUCT_TYPE, choosedProductType);
+    }
+
+    public Measurement getChoosedMeasurement() {
+        return (Measurement) FileUtils.getObject(Constants.KEY_ALREADY_CHOOSED_MEASUREMENT);
+    }
+
+    public void setChoosedMeasurement(Measurement choosedMeasurement) {
+        FileUtils.setObject(Constants.KEY_ALREADY_CHOOSED_MEASUREMENT, choosedMeasurement);
+    }
+
+    public Template getChoosedTemplate() {
+        return (Template) FileUtils.getObject(Constants.KEY_ALREADY_CHOOSED_TEMPLATE);
+    }
+
+    public void setChoosedTemplate(Template choosedTemplate) {
+        FileUtils.setObject(Constants.KEY_ALREADY_CHOOSED_TEMPLATE, choosedTemplate);
+    }
+
+    public ArrayList<PhotoTypeExplain> getPhotoTypeExplainArrayList() {
+        return (ArrayList<PhotoTypeExplain>) FileUtils.getObject(Constants.KEY_PHOTO_TYPE_EXPLAIN_ARRAYLIST);
+    }
+
+    public void setPhotoTypeExplainArrayList(ArrayList<PhotoTypeExplain> photoTypeExplainArrayList) {
+        FileUtils.setObject(Constants.KEY_PHOTO_TYPE_EXPLAIN_ARRAYLIST, photoTypeExplainArrayList);
     }
 }

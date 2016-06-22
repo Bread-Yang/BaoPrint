@@ -36,8 +36,6 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static com.MDGround.HaiLanPrint.application.MDGroundApplication.mPhotoTypeExplainArrayList;
-
 /**
  * Created by yoghourt on 5/11/16.
  */
@@ -61,7 +59,7 @@ public class EngravingChooseInchActivity extends ToolbarActivity<ActivityEngravi
 
     @Override
     protected void initData() {
-        for (PhotoTypeExplain photoTypeExplain : mPhotoTypeExplainArrayList) {
+        for (PhotoTypeExplain photoTypeExplain : MDGroundApplication.mInstance.getPhotoTypeExplainArrayList()) {
             if (photoTypeExplain.getExplainType() == PhotoExplainTypeEnum.Banner.value()
                     && photoTypeExplain.getTypeID() == ProductType.Engraving.value()) {
                 GlideUtil.loadImageByPhotoSIDWithDialog(mDataBinding.ivBanner,
@@ -162,7 +160,7 @@ public class EngravingChooseInchActivity extends ToolbarActivity<ActivityEngravi
             }
 
             public void toSelectImageActivityAction(View view) {
-                MDGroundApplication.mChoosedMeasurement = mSpecList.get(getAdapterPosition());
+                MDGroundApplication.mInstance.setChoosedMeasurement(mSpecList.get(getAdapterPosition()));
 
                 NavUtils.toSelectAlbumActivity(view.getContext());
             }

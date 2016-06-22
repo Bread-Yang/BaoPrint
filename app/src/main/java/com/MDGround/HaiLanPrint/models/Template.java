@@ -5,11 +5,13 @@ import android.databinding.Bindable;
 
 import com.MDGround.HaiLanPrint.BR;
 
+import java.io.Serializable;
+
 /**
  * Created by yoghourt on 5/25/16.
  */
 
-public class Template extends BaseObservable {
+public class Template extends BaseObservable implements Serializable {
 
     private String MaterialDesc;
 

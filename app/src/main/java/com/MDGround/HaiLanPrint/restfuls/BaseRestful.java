@@ -120,7 +120,7 @@ public abstract class BaseRestful {
         String serviceToken = "";
         requestData.setDeviceID(DeviceUtil.getDeviceId());
 
-        User user = MDGroundApplication.mLoginUser;
+        User user = MDGroundApplication.mInstance.getLoginUser();
         if (user != null) {
             serviceToken = user.getServiceToken();
             requestData.setUserID(user.getUserID());
@@ -145,7 +145,7 @@ public abstract class BaseRestful {
         String serviceToken = "";
         requestDataForLogOnly.setDeviceID(DeviceUtil.getDeviceId());
 
-        User user = MDGroundApplication.mLoginUser;
+        User user = MDGroundApplication.mInstance.getLoginUser();
         if (user != null) {
             serviceToken = user.getServiceToken();
             requestDataForLogOnly.setUserID(user.getUserID());
@@ -212,7 +212,7 @@ public abstract class BaseRestful {
             Call<ResponseData> call = null;
             if (getBusinessType() == BusinessType.Global) {
                 KLog.e("\n\n\"" + functionName + "\"  ---  请求json数据:" + "\n" + createRequestDataForLogOnly(functionName, queryData)
-                + "\n\n");
+                        + "\n\n");
 
                 call = baseService.normalRequest(requestBody);
             } else if (getBusinessType() == BusinessType.FILE) {

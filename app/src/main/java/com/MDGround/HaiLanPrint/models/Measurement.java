@@ -1,9 +1,11 @@
 package com.MDGround.HaiLanPrint.models;
 
+import java.io.Serializable;
+
 /**
  * Created by yoghourt on 5/16/16.
  */
-public class Measurement {
+public class Measurement implements Serializable {
 
     private int AutoID;
 

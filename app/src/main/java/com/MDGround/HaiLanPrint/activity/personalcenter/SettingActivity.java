@@ -84,48 +84,66 @@ public class SettingActivity extends ToolbarActivity<ActivitySettingBinding> {
 
     //region ACTION
     public void clearCacheAction(View view) {
-        if (mNotifyDialog == null) {
-            mNotifyDialog = new NotifyDialog(this);
-            mNotifyDialog.setOnSureClickListener(new NotifyDialog.OnSureClickListener() {
-                @Override
-                public void onSureClick() {
-                    mNotifyDialog.dismiss();
-                    new Thread(new Runnable() {
-                        @Override
-                        public void run() {
-                            Glide.get(SettingActivity.this).clearDiskCache();
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage(R.string.confirm_clear_cache);
+        builder.setNegativeButton(R.string.cancel, null);
+        builder.setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Glide.get(SettingActivity.this).clearDiskCache();
 
-                            runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    mDataBinding.tvCache.setText(getCacheSize());
-                                }
-                            });
-                        }
-                    }).start();
-                }
-            });
-            mNotifyDialog.show();
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                mDataBinding.tvCache.setText(getCacheSize());
+                            }
+                        });
+                    }
+                }).start();
+            }
+        });
+        builder.show();
 
-            mNotifyDialog.setTvContent(getString(R.string.confirm_clear_cache));
-        }
+//        if (mNotifyDialog == null) {
+//            mNotifyDialog = new NotifyDialog(this);
+//            mNotifyDialog.setOnSureClickListener(new NotifyDialog.OnSureClickListener() {
+//                @Override
+//                public void onSureClick() {
+//                    mNotifyDialog.dismiss();
+//                    new Thread(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            Glide.get(SettingActivity.this).clearDiskCache();
+//
+//                            runOnUiThread(new Runnable() {
+//                                @Override
+//                                public void run() {
+//                                    mDataBinding.tvCache.setText(getCacheSize());
+//                                }
+//                            });
+//                        }
+//                    }).start();
+//                }
+//            });
+//            mNotifyDialog.show();
+//
+//            mNotifyDialog.setTvContent(getString(R.string.confirm_clear_cache));
+//        }
     }
 
-    public void toAboutUsActivity(View view) {
+    public void toAboutUsActivityAction(View view) {
         Intent intent = new Intent(this, AboutUsActivity.class);
         startActivity(intent);
     }
 
     public void logoutAction(View view) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage("是否确认要退出登录");
-        builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                return;
-            }
-        });
-        builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+        builder.setMessage(R.string.confirm_log_out);
+        builder.setNegativeButton(R.string.cancel, null);
+        builder.setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 DeviceUtil.logoutUser();
@@ -133,8 +151,6 @@ public class SettingActivity extends ToolbarActivity<ActivitySettingBinding> {
             }
         });
         builder.show();
-
     }
     //endregion
-
 }

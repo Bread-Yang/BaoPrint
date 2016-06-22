@@ -70,7 +70,7 @@ public class NavUtils {
 
         boolean hasTemplate = true;
         final Intent intent = new Intent();
-        switch (MDGroundApplication.mChoosedProductType) {
+        switch (MDGroundApplication.mInstance.getChoosedProductType()) {
             // pager 1
             case PrintPhoto:
                 hasTemplate = false;
@@ -150,8 +150,8 @@ public class NavUtils {
     private static void downloadTemplateSuccessfully(Context context, Intent intent) {
         if (mLoadCompleteCount == mTemplateImage.size()) {
             // 服务器返回的模板数量少于pagecount
-            if (mTemplateImage.size() < MDGroundApplication.mChoosedTemplate.getPageCount()) {
-                int difference = MDGroundApplication.mChoosedTemplate.getPageCount() - mTemplateImage.size();
+            if (mTemplateImage.size() < MDGroundApplication.mInstance.getChoosedTemplate().getPageCount()) {
+                int difference = MDGroundApplication.mInstance.getChoosedTemplate().getPageCount() - mTemplateImage.size();
                 for (int i = 0; i < difference; i++) {
                     mTemplateImage.add(new MDImage());
                 }

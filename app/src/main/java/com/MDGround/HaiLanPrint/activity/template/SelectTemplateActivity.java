@@ -57,7 +57,7 @@ public class SelectTemplateActivity extends ToolbarActivity<ActivitySelectTempla
 
     @Override
     protected void initData() {
-        if (MDGroundApplication.mChoosedProductType == ProductType.PictureFrame) {
+        if (MDGroundApplication.mInstance.getChoosedProductType() == ProductType.PictureFrame) {
             mDataBinding.tabLayout.setVisibility(View.GONE);
             tvTitle.setText(R.string.choose_frame);
         } else {
@@ -74,7 +74,7 @@ public class SelectTemplateActivity extends ToolbarActivity<ActivitySelectTempla
         mAdapter = new SelectTemplateAdapter();
         mDataBinding.recyclerView.setAdapter(mAdapter);
 
-        if (MDGroundApplication.mChoosedProductType == ProductType.PictureFrame) {
+        if (MDGroundApplication.mInstance.getChoosedProductType() == ProductType.PictureFrame) {
             getPhotoTemplateListByTypeRequest();
         } else {
             getPhotoTemplateListRequest();
@@ -116,7 +116,7 @@ public class SelectTemplateActivity extends ToolbarActivity<ActivitySelectTempla
 
     //region SERVER
     private void getPhotoTemplateListByTypeRequest() {
-        GlobalRestful.getInstance().GetPhotoTemplateListByType(MDGroundApplication.mChoosedProductType, new Callback<ResponseData>() {
+        GlobalRestful.getInstance().GetPhotoTemplateListByType(MDGroundApplication.mInstance.getChoosedProductType(), new Callback<ResponseData>() {
             @Override
             public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
                 mAllTemplateArrayList = response.body().getContent(new TypeToken<ArrayList<Template>>() {
@@ -136,7 +136,7 @@ public class SelectTemplateActivity extends ToolbarActivity<ActivitySelectTempla
 
     private void getPhotoTemplateListRequest() {
         ViewUtils.loading(this);
-        GlobalRestful.getInstance().GetPhotoTemplateList(MDGroundApplication.mChoosedMeasurement.getTypeDescID(),
+        GlobalRestful.getInstance().GetPhotoTemplateList(MDGroundApplication.mInstance.getChoosedMeasurement().getTypeDescID(),
                 new Callback<ResponseData>() {
                     @Override
                     public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
@@ -233,13 +233,13 @@ public class SelectTemplateActivity extends ToolbarActivity<ActivitySelectTempla
             }
 
             public void onTemplateImageClickAction(View view) {
-                MDGroundApplication.mChoosedTemplate = mShowTemplateArrayList.get(getAdapterPosition());
+                MDGroundApplication.mInstance.setChoosedTemplate(mShowTemplateArrayList.get(getAdapterPosition()));
 
-                switch (MDGroundApplication.mChoosedProductType) {
+                switch (MDGroundApplication.mInstance.getChoosedProductType()) {
                     case MagazineAlbum:
                     case ArtAlbum:
                     case Calendar:
-                        getPhotoTemplateAttachListRequest(MDGroundApplication.mChoosedTemplate.getTemplateID());
+                        getPhotoTemplateAttachListRequest(MDGroundApplication.mInstance.getChoosedTemplate().getTemplateID());
                         break;
                     default:
                         NavUtils.toSelectAlbumActivity(view.getContext());

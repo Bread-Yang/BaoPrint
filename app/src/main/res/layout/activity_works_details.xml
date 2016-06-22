@@ -6,14 +6,13 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center_horizontal"
-        android:orientation="vertical"
-       >
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/color_white"
             android:layout_marginTop="@dimen/margin_10"
+            android:background="@color/color_white"
             android:orientation="vertical">
 
             <LinearLayout
@@ -31,6 +30,7 @@
                     android:layout_marginLeft="@dimen/margin_16"
                     android:scaleType="centerCrop"
                     tools:src="@drawable/bg_pic" />
+
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -60,9 +60,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/tvWorksSize"
+                        android:layout_marginBottom="@dimen/margin_10"
                         android:layout_marginRight="@dimen/margin_16"
                         android:layout_marginTop="@dimen/margin_16"
-                        android:layout_marginBottom="@dimen/margin_10"
                         android:orientation="horizontal">
 
                         <TextView
@@ -85,7 +85,8 @@
                 </RelativeLayout>
 
             </LinearLayout>
-            <View style="@style/DividerHorizontalMarginSytle"></View>
+
+            <View style="@style/DividerHorizontalMarginSytle" />
 
 
             <LinearLayout
@@ -93,106 +94,110 @@
                 android:layout_height="@dimen/size_122"
                 android:orientation="vertical"
                 android:paddingLeft="@dimen/margin_15">
+
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_marginTop="@dimen/margin_10"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_10">
 
                     <TextView
+                        android:id="@+id/tvTemplate"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="@dimen/text_size_16"
                         android:text="@string/template_name"
-                        android:id="@+id/tvTemplate" />
+                        android:textSize="@dimen/text_size_16" />
                 </LinearLayout>
+
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_marginTop="@dimen/margin_8"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_8">
+
                     <TextView
                         android:id="@+id/tvPage"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/page_num"
-                        android:textSize="@dimen/text_size_16"
-                        />
+                        android:textSize="@dimen/text_size_16" />
                 </LinearLayout>
+
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_marginTop="@dimen/margin_8"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_8">
+
                     <TextView
                         android:id="@+id/tvRecentlyEdited"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/recently_edited"
-                        android:textSize="@dimen/text_size_16"
-                        />
+                        android:textSize="@dimen/text_size_16" />
                 </LinearLayout>
 
             </LinearLayout>
-            <View style="@style/DividerHorizontalMarginSytle"></View>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="right"
-            android:layout_marginTop="@dimen/margin_10"
-            android:layout_marginBottom="@dimen/margin_10"
-            android:orientation="horizontal">
-        <LinearLayout
-            android:id="@+id/tvEditor"
-            android:onClick="onEditorWorks"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
 
-            <ImageView
-                android:layout_width="@dimen/size_24"
-                android:layout_height="@dimen/size_24"
-                android:layout_marginLeft="@dimen/margin_12"
-                android:src="@drawable/icon_edit_place" />
+            <View style="@style/DividerHorizontalMarginSytle" />
 
-            <TextView
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="bottom"
-                android:layout_marginLeft="@dimen/margin_6"
-                android:text="@string/editor"
-                android:textColor="@color/color_333333"
-                android:textSize="@dimen/text_size_16" />
+                android:layout_marginBottom="@dimen/margin_10"
+                android:layout_marginTop="@dimen/margin_10"
+                android:gravity="right"
+                android:orientation="horizontal">
 
-            <TextView
-                android:layout_width="@dimen/margin_24"
-                android:layout_height="match_parent" />
+                <LinearLayout
+                    android:id="@+id/tvEditor"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="onEditorWorks"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="@dimen/size_24"
+                        android:layout_height="@dimen/size_24"
+                        android:layout_marginLeft="@dimen/margin_12"
+                        android:src="@drawable/icon_edit_place" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom"
+                        android:layout_marginLeft="@dimen/margin_6"
+                        android:text="@string/editor"
+                        android:textColor="@color/color_333333"
+                        android:textSize="@dimen/text_size_16" />
+
+                    <TextView
+                        android:layout_width="@dimen/margin_24"
+                        android:layout_height="match_parent" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="buyWorksAction"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="@dimen/size_24"
+                        android:layout_height="@dimen/size_24"
+                        android:layout_marginLeft="@dimen/margin_16"
+                        android:src="@drawable/icon_shoppingcart_place" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom"
+                        android:layout_marginRight="@dimen/margin_12"
+                        android:text="@string/purchase"
+                        android:textColor="@color/color_333333"
+                        android:textSize="@dimen/text_size_16" />
+                </LinearLayout>
+
+            </LinearLayout>
+
         </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/tvShopping"
-            android:onClick="onShoppingWorks"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:layout_width="@dimen/size_24"
-                android:layout_height="@dimen/size_24"
-                android:layout_marginLeft="@dimen/margin_16"
-                android:src="@drawable/icon_shoppingcart_place" />
-
-            <TextView
-
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom"
-                android:layout_marginRight="@dimen/margin_12"
-                android:text="@string/purchase"
-                android:textColor="@color/color_333333"
-                android:textSize="@dimen/text_size_16" />
-        </LinearLayout>
-
-        </LinearLayout>
-
-</LinearLayout>
     </LinearLayout>
 
 </layout>

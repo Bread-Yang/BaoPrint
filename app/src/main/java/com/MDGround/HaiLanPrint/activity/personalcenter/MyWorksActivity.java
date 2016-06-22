@@ -9,11 +9,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.MDGround.HaiLanPrint.ProductType;
 import com.MDGround.HaiLanPrint.R;
 import com.MDGround.HaiLanPrint.activity.base.ToolbarActivity;
 import com.MDGround.HaiLanPrint.application.MDGroundApplication;
 import com.MDGround.HaiLanPrint.constants.Constants;
-import com.MDGround.HaiLanPrint.databinding.ActivityPersonalMyworksBinding;
+import com.MDGround.HaiLanPrint.databinding.ActivityMyWorksBinding;
 import com.MDGround.HaiLanPrint.databinding.ItemMyworksBinding;
 import com.MDGround.HaiLanPrint.enumobject.restfuls.ResponseCode;
 import com.MDGround.HaiLanPrint.models.OrderInfo;
@@ -42,7 +43,7 @@ import retrofit2.Response;
 /**
  * Created by PC on 2016-06-09.
  */
-public class MyWorksActivity extends ToolbarActivity<ActivityPersonalMyworksBinding> {
+public class MyWorksActivity extends ToolbarActivity<ActivityMyWorksBinding> {
 
     private List<WorkInfo> mAllWorkInfoList = new ArrayList<>();
     private List<WorkInfo> mSelectedWorkInfoList = new ArrayList<>();
@@ -52,7 +53,7 @@ public class MyWorksActivity extends ToolbarActivity<ActivityPersonalMyworksBind
 
     @Override
     protected int getContentLayout() {
-        return R.layout.activity_personal_myworks;
+        return R.layout.activity_my_works;
     }
 
     @Override
@@ -83,13 +84,13 @@ public class MyWorksActivity extends ToolbarActivity<ActivityPersonalMyworksBind
                     tvRight.setText(R.string.finish);
                     mDataBinding.llTotalprice.setVisibility(View.VISIBLE);
                     mDataBinding.tvBuy.setText(R.string.purchase);
-                    mDataBinding.llAmunt.setBackgroundResource(R.color.colorOrange);
+                    mDataBinding.lltAmount.setBackgroundResource(R.color.colorOrange);
                 } else {
                     mIsEditMode = false;
                     tvRight.setText(R.string.edit);
                     mDataBinding.llTotalprice.setVisibility(View.INVISIBLE);
                     mDataBinding.tvBuy.setText(R.string.delete);
-                    mDataBinding.llAmunt.setBackgroundResource(R.color.colorRed);
+                    mDataBinding.lltAmount.setBackgroundResource(R.color.colorRed);
                 }
             }
         });
@@ -338,6 +339,8 @@ public class MyWorksActivity extends ToolbarActivity<ActivityPersonalMyworksBind
                                 });
 
                         MDGroundApplication.mOrderutUtils = new OrderUtils(orderInfo, orderWorkArrayList);
+                        ProductType productType = ProductType.fromValue(orderWorkArrayList.get(0).getTypeID());
+                        MDGroundApplication.mInstance.setChoosedProductType(productType);
 
                         NavUtils.toPaymentPreviewActivity(MyWorksActivity.this);
                     } catch (JSONException e) {

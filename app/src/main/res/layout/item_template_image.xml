@@ -9,7 +9,7 @@
 
         <variable
             name="viewHolder"
-            type="com.MDGround.HaiLanPrint.adapter.TemplageImageAdapter.ViewHolder"/>
+            type="com.MDGround.HaiLanPrint.adapter.TemplateImageAdapter.ViewHolder"/>
 
         <variable
             name="image"

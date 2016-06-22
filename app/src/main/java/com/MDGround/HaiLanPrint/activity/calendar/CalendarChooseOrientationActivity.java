@@ -36,8 +36,6 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static com.MDGround.HaiLanPrint.application.MDGroundApplication.mPhotoTypeExplainArrayList;
-
 /**
  * Created by yoghourt on 5/11/16.
  */
@@ -61,7 +59,7 @@ public class CalendarChooseOrientationActivity extends ToolbarActivity<ActivityC
 
     @Override
     protected void initData() {
-        for (PhotoTypeExplain photoTypeExplain : mPhotoTypeExplainArrayList) {
+        for (PhotoTypeExplain photoTypeExplain : MDGroundApplication.mInstance.getPhotoTypeExplainArrayList()) {
             if (photoTypeExplain.getExplainType() == PhotoExplainTypeEnum.Banner.value()
                     && photoTypeExplain.getTypeID() == ProductType.Calendar.value()) {
                 GlideUtil.loadImageByPhotoSIDWithDialog(mDataBinding.ivBanner,
@@ -151,7 +149,7 @@ public class CalendarChooseOrientationActivity extends ToolbarActivity<ActivityC
             }
 
             public void toSelectTemplateActivityAction(View view) {
-                MDGroundApplication.mChoosedMeasurement = mSpecList.get(getAdapterPosition());
+                MDGroundApplication.mInstance.setChoosedMeasurement(mSpecList.get(getAdapterPosition()));
 
                 Intent intent = new Intent(CalendarChooseOrientationActivity.this, SelectTemplateActivity.class);
                 startActivity(intent);

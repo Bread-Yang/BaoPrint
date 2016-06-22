@@ -145,7 +145,7 @@
 
             </LinearLayout>
 
-            <View style="@style/DividerHorizontalMarginSytle"></View>
+            <View style="@style/DividerHorizontalMarginSytle"/>
 
         </LinearLayout>
     </LinearLayout>

@@ -74,7 +74,7 @@ public class PhoneShellSelectModelActivity extends ToolbarActivity<ActivityPhone
     //region SERVER
     private void getPhotoTemplateListRequest() {
         ViewUtils.loading(this);
-        GlobalRestful.getInstance().GetPhotoTemplateList(MDGroundApplication.mChoosedMeasurement.getTypeDescID(),
+        GlobalRestful.getInstance().GetPhotoTemplateList(MDGroundApplication.mInstance.getChoosedMeasurement().getTypeDescID(),
                 new Callback<ResponseData>() {
                     @Override
                     public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
@@ -127,7 +127,7 @@ public class PhoneShellSelectModelActivity extends ToolbarActivity<ActivityPhone
             }
 
             public void toPhoneShellSelectModelActivityAction(View view) {
-                MDGroundApplication.mChoosedTemplate = mTemplate.get(getAdapterPosition());
+                MDGroundApplication.mInstance.setChoosedTemplate(mTemplate.get(getAdapterPosition()));
 
                 setResult(RESULT_OK);
                 finish();

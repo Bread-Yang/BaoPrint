@@ -85,14 +85,14 @@ public class SelectAlbumBeforeEditActivity extends ToolbarActivity<ActivitySelec
 
                 getPhotoCountRequest();
 
-                switch (MDGroundApplication.mChoosedProductType) {
+                switch (MDGroundApplication.mInstance.getChoosedProductType()) {
                     case MagazineAlbum:
                     case ArtAlbum:
                         mMaxSelectImageNum = SelectImageUtils.mTemplateImage.size();
                         changeTips();
                         break;
                     case Calendar:
-                        mMaxSelectImageNum = MDGroundApplication.mChoosedTemplate.getPageCount();
+                        mMaxSelectImageNum = MDGroundApplication.mInstance.getChoosedTemplate().getPageCount();
                         changeTips();
                         break;
                     case Postcard:
@@ -104,12 +104,12 @@ public class SelectAlbumBeforeEditActivity extends ToolbarActivity<ActivitySelec
                         break;
                     case PictureFrame:
                     case PhoneShell:
-                        mMaxSelectImageNum = SelectImageUtils.getMaxSelectImageNum(MDGroundApplication.mChoosedProductType);
-                        getPhotoTemplateAttachListRequest(MDGroundApplication.mChoosedTemplate.getTemplateID());
+                        mMaxSelectImageNum = SelectImageUtils.getMaxSelectImageNum(MDGroundApplication.mInstance.getChoosedProductType());
+                        getPhotoTemplateAttachListRequest(MDGroundApplication.mInstance.getChoosedTemplate().getTemplateID());
                         changeTips();
                         break;
                     default:
-                        mMaxSelectImageNum = SelectImageUtils.getMaxSelectImageNum(MDGroundApplication.mChoosedProductType);
+                        mMaxSelectImageNum = SelectImageUtils.getMaxSelectImageNum(MDGroundApplication.mInstance.getChoosedProductType());
                         changeTips();
                         break;
                 }
@@ -191,19 +191,19 @@ public class SelectAlbumBeforeEditActivity extends ToolbarActivity<ActivitySelec
 
     private void getPhotoTemplateListRequest() {
         ViewUtils.loading(this);
-        GlobalRestful.getInstance().GetPhotoTemplateList(MDGroundApplication.mChoosedMeasurement.getTypeDescID(), new Callback<ResponseData>() {
+        GlobalRestful.getInstance().GetPhotoTemplateList(MDGroundApplication.mInstance.getChoosedMeasurement().getTypeDescID(), new Callback<ResponseData>() {
             @Override
             public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
                 ArrayList<Template> templateArrayList = response.body().getContent(new TypeToken<ArrayList<Template>>() {
                 });
 
-                MDGroundApplication.mChoosedTemplate = templateArrayList.get(0);
+                MDGroundApplication.mInstance.setChoosedTemplate(templateArrayList.get(0));
 
-                mMaxSelectImageNum = MDGroundApplication.mChoosedTemplate.getPageCount();
+                mMaxSelectImageNum = MDGroundApplication.mInstance.getChoosedTemplate().getPageCount();
 
                 changeTips();
 
-                getPhotoTemplateAttachListRequest(MDGroundApplication.mChoosedTemplate.getTemplateID());
+                getPhotoTemplateAttachListRequest(MDGroundApplication.mInstance.getChoosedTemplate().getTemplateID());
 
             }
 

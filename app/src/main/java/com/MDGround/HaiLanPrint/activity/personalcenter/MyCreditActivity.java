@@ -91,6 +91,7 @@ public class MyCreditActivity extends ToolbarActivity<ActivityPersonalCreditBind
                         mDataBinding.recyclerView.setAdapter(mAdapter);
                         ViewUtils.dismiss();
                     } catch (Exception e) {
+                        e.printStackTrace();
                     }
                 }
             }

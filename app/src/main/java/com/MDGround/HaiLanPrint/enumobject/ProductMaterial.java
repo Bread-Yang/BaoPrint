@@ -7,6 +7,8 @@ public enum ProductMaterial {
 
     PrintPhoto_Glossy("光面"),
     PrintPhoto_Matte("绒面"),
+    ArtAlbum_Boutique("精品艺术册"),
+    ArtAlbum_Crystal("水晶艺术册"),
     Engraving_Crystal("水晶面"),
     Engraving_Yogon("亚光面");
 

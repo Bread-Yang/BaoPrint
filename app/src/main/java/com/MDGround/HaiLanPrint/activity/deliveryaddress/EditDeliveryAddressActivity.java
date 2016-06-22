@@ -52,7 +52,7 @@ public class EditDeliveryAddressActivity extends ToolbarActivity<ActivityEditDel
             mDeliveryAddress.setProvinceID(110000);
             mDeliveryAddress.setCityID(110100);
             mDeliveryAddress.setDistrictID(110101);
-            mDeliveryAddress.setUserID(MDGroundApplication.mLoginUser.getUserID());
+            mDeliveryAddress.setUserID(MDGroundApplication.mInstance.getLoginUser().getUserID());
             mDataBinding.tvRegion.setText("北京北京市东城区");
             tvTitle.setText(R.string.add_address);
         }

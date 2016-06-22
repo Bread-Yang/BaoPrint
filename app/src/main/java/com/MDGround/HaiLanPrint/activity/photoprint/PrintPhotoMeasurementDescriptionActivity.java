@@ -3,12 +3,11 @@ package com.MDGround.HaiLanPrint.activity.photoprint;
 import com.MDGround.HaiLanPrint.ProductType;
 import com.MDGround.HaiLanPrint.R;
 import com.MDGround.HaiLanPrint.activity.base.ToolbarActivity;
+import com.MDGround.HaiLanPrint.application.MDGroundApplication;
 import com.MDGround.HaiLanPrint.databinding.ActivityPrintPhotoMeasurementDescriptionBinding;
 import com.MDGround.HaiLanPrint.enumobject.PhotoExplainTypeEnum;
 import com.MDGround.HaiLanPrint.models.PhotoTypeExplain;
 import com.MDGround.HaiLanPrint.utils.GlideUtil;
-
-import static com.MDGround.HaiLanPrint.application.MDGroundApplication.mPhotoTypeExplainArrayList;
 
 /**
  * Created by yoghourt on 5/23/16.
@@ -22,7 +21,7 @@ public class PrintPhotoMeasurementDescriptionActivity extends ToolbarActivity<Ac
 
     @Override
     protected void initData() {
-        for (PhotoTypeExplain photoTypeExplain : mPhotoTypeExplainArrayList) {
+        for (PhotoTypeExplain photoTypeExplain : MDGroundApplication.mInstance.getPhotoTypeExplainArrayList()) {
             if (photoTypeExplain.getExplainType() == PhotoExplainTypeEnum.MeasurementDescription.value()
                     && photoTypeExplain.getTypeID() == ProductType.PrintPhoto.value()) {
 

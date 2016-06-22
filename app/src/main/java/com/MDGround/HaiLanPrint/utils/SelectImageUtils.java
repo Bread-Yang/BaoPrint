@@ -87,6 +87,14 @@ public class SelectImageUtils {
         return 0;
     }
 
+    public static int getPrintPhotoOrEngravingOrderCount() {
+        int count = 0;
+        for (MDImage mdImage : mAlreadySelectImage) {
+            count += mdImage.getPhotoCount();
+        }
+        return count;
+    }
+
     private static void uploadImageRequest(final int upload_image_index) {
         if (upload_image_index < SelectImageUtils.mAlreadySelectImage.size()) {
             final MDImage mdImage = SelectImageUtils.mAlreadySelectImage.get(upload_image_index);

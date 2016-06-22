@@ -31,8 +31,6 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static com.MDGround.HaiLanPrint.application.MDGroundApplication.mPhotoTypeExplainArrayList;
-
 /**
  * Created by yoghourt on 5/11/16.
  */
@@ -50,7 +48,7 @@ public class PhoneShellStartActivity extends ToolbarActivity<ActivityPhoneShellS
 
     @Override
     protected void initData() {
-        for (PhotoTypeExplain photoTypeExplain : mPhotoTypeExplainArrayList) {
+        for (PhotoTypeExplain photoTypeExplain : MDGroundApplication.mInstance.getPhotoTypeExplainArrayList()) {
             if (photoTypeExplain.getExplainType() == PhotoExplainTypeEnum.Banner.value()
                     && photoTypeExplain.getTypeID() == ProductType.PhoneShell.value()) {
                 GlideUtil.loadImageByPhotoSIDWithDialog(mDataBinding.ivBanner,
@@ -66,12 +64,12 @@ public class PhoneShellStartActivity extends ToolbarActivity<ActivityPhoneShellS
     }
 
     private void changeModelTextAndMaterialAvailable() {
-        mDataBinding.tvPhoneModel.setText(MDGroundApplication.mChoosedMeasurement.getTitle() + "-" + MDGroundApplication.mChoosedTemplate.getTemplateName());
-        mDataBinding.tvPrice.setText(StringUtil.toYuanWithUnit(MDGroundApplication.mChoosedTemplate.getPrice()));
+        mDataBinding.tvPhoneModel.setText(MDGroundApplication.mInstance.getChoosedMeasurement().getTitle() + "-" + MDGroundApplication.mInstance.getChoosedTemplate().getTemplateName());
+        mDataBinding.tvPrice.setText(StringUtil.toYuanWithUnit(MDGroundApplication.mInstance.getChoosedTemplate().getPrice()));
 
         mDataBinding.rgMaterial.clearCheck();
 
-        if ((MDGroundApplication.mChoosedTemplate.getMaterialType() & MaterialType.Silicone.value()) != 0) {
+        if ((MDGroundApplication.mInstance.getChoosedTemplate().getMaterialType() & MaterialType.Silicone.value()) != 0) {
             mDataBinding.rbSilicone.setEnabled(true);
             if (mDataBinding.rgMaterial.getCheckedRadioButtonId() == -1) {
                 mDataBinding.rbSilicone.setChecked(true);
@@ -80,7 +78,7 @@ public class PhoneShellStartActivity extends ToolbarActivity<ActivityPhoneShellS
             mDataBinding.rbSilicone.setEnabled(false);
         }
 
-        if ((MDGroundApplication.mChoosedTemplate.getMaterialType() & MaterialType.Plastic.value()) != 0) {
+        if ((MDGroundApplication.mInstance.getChoosedTemplate().getMaterialType() & MaterialType.Plastic.value()) != 0) {
             mDataBinding.rbPlastic.setEnabled(true);
             if (mDataBinding.rgMaterial.getCheckedRadioButtonId() == -1) {
                 mDataBinding.rbPlastic.setChecked(true);
@@ -94,7 +92,7 @@ public class PhoneShellStartActivity extends ToolbarActivity<ActivityPhoneShellS
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
-            if (MDGroundApplication.mChoosedTemplate != null) {
+            if (MDGroundApplication.mInstance.getChoosedTemplate() != null) {
                 changeModelTextAndMaterialAvailable();
             }
         }
@@ -114,7 +112,7 @@ public class PhoneShellStartActivity extends ToolbarActivity<ActivityPhoneShellS
     }
 
     public void nextStepAction(View view) {
-        if (MDGroundApplication.mChoosedTemplate == null) {
+        if (MDGroundApplication.mInstance.getChoosedTemplate() == null) {
             ViewUtils.toast(R.string.please_select_phone_model);
             return;
         }
@@ -139,7 +137,7 @@ public class PhoneShellStartActivity extends ToolbarActivity<ActivityPhoneShellS
                         });
 
                         if (specList.size() > 0) {
-                            MDGroundApplication.mChoosedMeasurement = specList.get(0);
+                            MDGroundApplication.mInstance.setChoosedMeasurement(specList.get(0));
                             getPhotoTemplateListRequest();
                         }
 
@@ -158,7 +156,7 @@ public class PhoneShellStartActivity extends ToolbarActivity<ActivityPhoneShellS
 
     private void getPhotoTemplateListRequest() {
         ViewUtils.loading(this);
-        GlobalRestful.getInstance().GetPhotoTemplateList(MDGroundApplication.mChoosedMeasurement.getTypeDescID(),
+        GlobalRestful.getInstance().GetPhotoTemplateList(MDGroundApplication.mInstance.getChoosedMeasurement().getTypeDescID(),
                 new Callback<ResponseData>() {
                     @Override
                     public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
@@ -170,7 +168,7 @@ public class PhoneShellStartActivity extends ToolbarActivity<ActivityPhoneShellS
                             if (templateList.size() > 0) {
                                 Template template = templateList.get(0);
 
-                                MDGroundApplication.mChoosedTemplate = template;
+                                MDGroundApplication.mInstance.setChoosedTemplate(template);
 
                                 changeModelTextAndMaterialAvailable();
                             }

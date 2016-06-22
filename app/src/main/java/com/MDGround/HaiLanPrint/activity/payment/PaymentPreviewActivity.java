@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
+import android.widget.RadioGroup;
 
 import com.MDGround.HaiLanPrint.ProductType;
 import com.MDGround.HaiLanPrint.R;
@@ -19,6 +20,7 @@ import com.MDGround.HaiLanPrint.constants.Constants;
 import com.MDGround.HaiLanPrint.databinding.ActivityPaymentPreviewBinding;
 import com.MDGround.HaiLanPrint.databinding.ItemPaymentPreviewBinding;
 import com.MDGround.HaiLanPrint.enumobject.PayType;
+import com.MDGround.HaiLanPrint.enumobject.ProductMaterial;
 import com.MDGround.HaiLanPrint.enumobject.SettingType;
 import com.MDGround.HaiLanPrint.models.Coupon;
 import com.MDGround.HaiLanPrint.models.DeliveryAddress;
@@ -29,6 +31,7 @@ import com.MDGround.HaiLanPrint.restfuls.GlobalRestful;
 import com.MDGround.HaiLanPrint.restfuls.bean.ResponseData;
 import com.MDGround.HaiLanPrint.utils.DateUtils;
 import com.MDGround.HaiLanPrint.utils.NavUtils;
+import com.MDGround.HaiLanPrint.utils.SelectImageUtils;
 import com.MDGround.HaiLanPrint.utils.StringUtil;
 import com.MDGround.HaiLanPrint.utils.ViewUtils;
 import com.google.gson.reflect.TypeToken;
@@ -41,6 +44,8 @@ import java.util.ArrayList;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
+import static com.MDGround.HaiLanPrint.ProductType.ArtAlbum;
 
 /**
  * Created by yoghourt on 5/23/16.
@@ -116,44 +121,47 @@ public class PaymentPreviewActivity extends ToolbarActivity<ActivityPaymentPrevi
         });
     }
 
-    private void setShowFee() {
-        String showProductDetail = null;
-//        switch (MDGroundApplication.mChoosedProductType) {
-//            case PrintPhoto:
-//                showProductDetail = mOrderWork.getTypeName() + " (" + measurement.getTitle() + " " + mOrderWork.getWorkMaterial() + ")";
-//                break;
-//            case Postcard:
-//                showProductDetail = mOrderWork.getTypeName();
-//                break;
-//            case MagazineAlbum:
-//                break;
-//            case ArtAlbum:
-//                showProductDetail = mOrderWork.getTypeName() + " (" + measurement.getTitle() + " " + template.getPageCount() + "P)";
-//                break;
-//            case PictureFrame:
-//                break;
-//            case Calendar:
-//                showProductDetail = measurement.getTitle();
-//                break;
-//            case PhoneShell:
-//                showProductDetail = mOrderWork.getTypeName() + " (" + measurement.getTitle() + template.getTemplateName() + ")";
-//                break;
-//            case Poker:
-//                showProductDetail = mOrderWork.getTypeName() + " (" + measurement.getTitle() + ")";
-//                break;
-//            case Puzzle:
-//                showProductDetail = mOrderWork.getTypeName();
-//                break;
-//            case MagicCup:
-//                showProductDetail = mOrderWork.getTypeName() + " (" + measurement.getTitle() + ")";
-//                break;
-//            case LOMOCard:
-//                showProductDetail = mOrderWork.getTypeName() + " (" + measurement.getTitle() + ")";
-//                break;
-//            case Engraving:
-//                showProductDetail = mOrderWork.getWorkMaterial() + mOrderWork.getTypeName();
-//                break;
-//        }
+    private String setShowFee(OrderWork orderWork) {
+        String showProductName = null;
+
+        ProductType productType = ProductType.fromValue(orderWork.getTypeID());
+        switch (productType) {
+            case PrintPhoto:
+                showProductName = orderWork.getTypeName() + " (" + orderWork.getTypeTitle() + " " + orderWork.getWorkMaterial() + ")";
+                break;
+            case Postcard:
+                showProductName = orderWork.getTypeName();
+                break;
+            case MagazineAlbum:
+            case ArtAlbum:
+                showProductName = orderWork.getTypeName() + " (" + orderWork.getTypeTitle() + " " + orderWork.getPhotoCount() + "P)";
+                break;
+            case PictureFrame:
+                showProductName = orderWork.getTypeName() + " (" + orderWork.getWorkFormat() + " " + orderWork.getWorkStyle() + ")";
+                break;
+            case Calendar:
+                showProductName = orderWork.getTypeName() + " (" + orderWork.getTypeTitle() + ")";
+                break;
+            case PhoneShell:
+                showProductName = orderWork.getTypeName() + " (" + orderWork.getTypeTitle() + orderWork.getTemplateName() + " " + orderWork.getWorkMaterial() + ")";
+                break;
+            case Poker:
+                showProductName = orderWork.getTypeName() + " (" + orderWork.getTypeTitle() + ")";
+                break;
+            case Puzzle:
+                showProductName = orderWork.getTypeName();
+                break;
+            case MagicCup:
+                showProductName = orderWork.getTypeName() + " (" + orderWork.getTypeTitle() + ")";
+                break;
+            case LOMOCard:
+                showProductName = orderWork.getTypeName() + " (" + orderWork.getTypeTitle() + ")";
+                break;
+            case Engraving:
+                showProductName = orderWork.getTypeName();
+                break;
+        }
+        return showProductName;
     }
 
     private int getSingleOrderWorkAmountFee(OrderWork orderWork) {
@@ -200,11 +208,19 @@ public class PaymentPreviewActivity extends ToolbarActivity<ActivityPaymentPrevi
         if (mSystemSetting != null && mDataBinding.cbUseCredit.isChecked()) {
             creditFee = mCredit * mSystemSetting.getValue();
         }
+        if (creditFee > getReceivableFee()) {
+            creditFee = getReceivableFee();
+        }
         return creditFee;
     }
 
     private int getReceivableFee() {
-        int amountFee = getAllOrderWorkAmountFee() - getCouponFee() - getCreditFee() + mFreightFee;
+        int amountFee = getAllOrderWorkAmountFee() - getCouponFee() + mFreightFee;
+        return amountFee;
+    }
+
+    private int getFinalReceivableFee() {
+        int amountFee = getReceivableFee() - getCreditFee();
         if (amountFee < 0) {
             amountFee = 0;
         }
@@ -233,10 +249,10 @@ public class PaymentPreviewActivity extends ToolbarActivity<ActivityPaymentPrevi
             couponFee = mSelectedCoupon.getPrice();
         }
         mDataBinding.tvCouponYuan.setText(getString(R.string.offset_fee, StringUtil.toYuanWithoutUnit(couponFee)));
-        mDataBinding.tvCouponFee.setText(getString(R.string.yuan_amount, StringUtil.toYuanWithoutUnit(couponFee)));
+        mDataBinding.tvCouponFee.setText(getString(R.string.minus_yuan_amount, StringUtil.toYuanWithoutUnit(couponFee)));
 
         // 应付金额
-        int receivableFee = getReceivableFee();
+        int receivableFee = getFinalReceivableFee();
         mDataBinding.tvReceivable.setText(getString(R.string.receivables, StringUtil.toYuanWithoutUnit(receivableFee)));
     }
 
@@ -247,7 +263,7 @@ public class PaymentPreviewActivity extends ToolbarActivity<ActivityPaymentPrevi
         }
 
         MDGroundApplication.mOrderutUtils.updateOrderPrepayRequest(PaymentPreviewActivity.this,
-                mDeliveryAddress, payType, getAllOrderWorkAmountFee(), getReceivableFee());
+                mDeliveryAddress, payType, getAllOrderWorkAmountFee(), getFinalReceivableFee());
     }
 
     @Override
@@ -446,19 +462,41 @@ public class PaymentPreviewActivity extends ToolbarActivity<ActivityPaymentPrevi
         }
 
         @Override
-        public void onBindViewHolder(ViewHolder holder, final int position) {
+        public void onBindViewHolder(ViewHolder holder, int position) {
             OrderWork orderWork = mOrderWorkArrayList.get(position);
 
             holder.viewDataBinding.setOrderWork(orderWork);
 
+            String showProductName = setShowFee(orderWork);
+
+            holder.viewDataBinding.tvProductType.setText(showProductName);
+
             ProductType productType = ProductType.fromValue(orderWork.getTypeID());
+            String orderCount = null;
             switch (productType) {
                 case PrintPhoto:
                 case Engraving:
+                    orderCount = getString(R.string.num_with_colon, SelectImageUtils.getPrintPhotoOrEngravingOrderCount());
                     holder.viewDataBinding.rltQuantity.setVisibility(View.GONE);
                     break;
+                default:
+                    orderCount = getString(R.string.num_with_colon, orderWork.getOrderCount());
+                    break;
+            }
+            holder.viewDataBinding.tvNum.setText(orderCount);
+
+            if (productType == ArtAlbum) {
+                holder.viewDataBinding.rltSpecification.setVisibility(View.VISIBLE);
+                holder.viewDataBinding.viewDidiver.setVisibility(View.VISIBLE);
+            } else {
+                holder.viewDataBinding.rltSpecification.setVisibility(View.GONE);
+                holder.viewDataBinding.viewDidiver.setVisibility(View.GONE);
             }
 
+            setItemListener(holder, position);
+        }
+
+        private void setItemListener(ViewHolder holder, final int position) {
             holder.viewDataBinding.ivMinus.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -488,6 +526,23 @@ public class PaymentPreviewActivity extends ToolbarActivity<ActivityPaymentPrevi
                     refreshDisplayFee();
                 }
             });
+
+            holder.viewDataBinding.rgSpecification.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(RadioGroup group, int checkedId) {
+                    String workFormat = null;
+                    switch (checkedId) {
+                        case R.id.rbBoutique:
+                            workFormat = ProductMaterial.ArtAlbum_Boutique.toString();
+                            break;
+                        case R.id.rbCrystal:
+                            workFormat = ProductMaterial.ArtAlbum_Crystal.toString();
+                            break;
+                    }
+                    OrderWork orderWork = mOrderWorkArrayList.get(position);
+                    orderWork.setWorkFormat(workFormat);
+                }
+            });
         }
 
         @Override
@@ -506,5 +561,4 @@ public class PaymentPreviewActivity extends ToolbarActivity<ActivityPaymentPrevi
         }
     }
     //endregion
-
 }

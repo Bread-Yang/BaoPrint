@@ -17,7 +17,6 @@ import com.MDGround.HaiLanPrint.utils.GlideUtil;
 /**
  * Created by yoghourt on 5/30/16.
  */
-
 public class PersonalCenterActivity extends ToolbarActivity<ActivityPersonalCenterBinding> {
 
     @Override
@@ -37,7 +36,7 @@ public class PersonalCenterActivity extends ToolbarActivity<ActivityPersonalCent
     @Override
     protected void onResume() {
         super.onResume();
-        User user = MDGroundApplication.mLoginUser;
+        User user = MDGroundApplication.mInstance.getLoginUser();
         MDImage mdImage = new MDImage();
         mdImage.setPhotoID(user.getPhotoID());
         mdImage.setPhotoSID(user.getPhotoSID());
@@ -52,7 +51,7 @@ public class PersonalCenterActivity extends ToolbarActivity<ActivityPersonalCent
         Location county = MDGroundApplication.mDaoSession.getLocationDao().load((long) user.getCountryID());
         if (city != null && county != null) {
             mDataBinding.tvCity.setText(city.getLocationName() + " " + county.getLocationName());
-        }else{
+        } else {
             mDataBinding.tvCity.setText(R.string.not_filled);
         }
     }

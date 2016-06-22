@@ -32,7 +32,8 @@ import retrofit2.Response;
 
 public class ChildInformationActivity extends ToolbarActivity<ActivityChildInformationBinding>
         implements DatePickerDialog.OnDateSetListener, OnFocusChangeListener {
-    private boolean mIsFirstKidDOB=true;
+    private boolean mIsFirstKidDOB = true;
+
     @Override
     protected int getContentLayout() {
         return R.layout.activity_child_information;
@@ -42,9 +43,9 @@ public class ChildInformationActivity extends ToolbarActivity<ActivityChildInfor
     protected void initData() {
         tvRight.setText(R.string.save);
         tvRight.setVisibility(View.VISIBLE);
-        User user=MDGroundApplication.mLoginUser;
+        User user = MDGroundApplication.mInstance.getLoginUser();
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        if((!"".equals(user.getKidDOB1())&&(user.getKidDOB1()!=null))){
+        if ((!"".equals(user.getKidDOB1()) && (user.getKidDOB1() != null))) {
 
             Date kidDOBdate1 = null;
             try {
@@ -55,35 +56,35 @@ public class ChildInformationActivity extends ToolbarActivity<ActivityChildInfor
             String DOB1 = DateUtils.getDateStringBySpecificFormat(kidDOBdate1, new SimpleDateFormat("yyyy-MM-dd"));
             user.setKidDOB1(DOB1);
         }
-           if((!"".equals(user.getKidDOB2())&&(user.getKidDOB2()!=null))){
-               Date kidDOBdate2 = null;
-               try {
-                   kidDOBdate2=format.parse(user.getKidDOB2());
-               } catch (ParseException e) {
-                   e.printStackTrace();
-               }
-               String DOB2 = DateUtils.getDateStringBySpecificFormat(kidDOBdate2, new SimpleDateFormat("yyyy-MM-dd"));
-               user.setKidDOB2(DOB2);
-           }
-                mDataBinding.setUser(user);
+        if ((!"".equals(user.getKidDOB2()) && (user.getKidDOB2() != null))) {
+            Date kidDOBdate2 = null;
+            try {
+                kidDOBdate2 = format.parse(user.getKidDOB2());
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            String DOB2 = DateUtils.getDateStringBySpecificFormat(kidDOBdate2, new SimpleDateFormat("yyyy-MM-dd"));
+            user.setKidDOB2(DOB2);
+        }
+        mDataBinding.setUser(user);
     }
 
     @Override
     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-        if(mIsFirstKidDOB){
+        if (mIsFirstKidDOB) {
             mDataBinding.etFirstKidBirth.setText(year + "-" + (monthOfYear + 1) + "-" + dayOfMonth);
-        }else{
+        } else {
             mDataBinding.etSecondKidBirth.setText(year + "-" + (monthOfYear + 1) + "-" + dayOfMonth);
         }
     }
 
     @Override
     public void onFocusChange(View v, boolean hasFocus) {
-        EditText _v=(EditText)v;
+        EditText _v = (EditText) v;
         if (!hasFocus) {// 失去焦点
             _v.setHint(_v.getTag().toString());
         } else {
-            String hint=_v.getHint().toString();
+            String hint = _v.getHint().toString();
             _v.setTag(hint);
             _v.setHint("");
         }
@@ -99,38 +100,38 @@ public class ChildInformationActivity extends ToolbarActivity<ActivityChildInfor
                 String firstKidBirth = mDataBinding.etFirstKidBirth.getText().toString();
                 String firstKidSchool = mDataBinding.etFirstKidSchool.getText().toString();
                 String firstKidClass = mDataBinding.etFirstKidClass.getText().toString();
-                String secondKidName=mDataBinding.etSecondKidName.getText().toString();
-                String secondKidBirth=mDataBinding.etSecondKidBirth.getText().toString();
-                String secondKidSchool=mDataBinding.etSecondKidSchool.getText().toString();
-                String secondKidClass=mDataBinding.etSecondKidClass.getText().toString();
+                String secondKidName = mDataBinding.etSecondKidName.getText().toString();
+                String secondKidBirth = mDataBinding.etSecondKidBirth.getText().toString();
+                String secondKidSchool = mDataBinding.etSecondKidSchool.getText().toString();
+                String secondKidClass = mDataBinding.etSecondKidClass.getText().toString();
                 Date date = new Date(System.currentTimeMillis());
-                SimpleDateFormat formats=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                SimpleDateFormat formats = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                 String updateDate = DateUtils.getServerDateStringByDate(date);
 
-                if("".equals(firstKidBirth)){
-                    firstKidBirth=null;
-                }else{
+                if ("".equals(firstKidBirth)) {
+                    firstKidBirth = null;
+                } else {
                     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
                     try {
-                        Date date1=simpleDateFormat.parse(firstKidBirth);
-                        firstKidBirth=formats.format(date1);
+                        Date date1 = simpleDateFormat.parse(firstKidBirth);
+                        firstKidBirth = formats.format(date1);
                     } catch (ParseException e) {
                         e.printStackTrace();
                     }
 
                 }
-                if("".equals(secondKidBirth)){
-                    secondKidBirth=null;
-                }else{
+                if ("".equals(secondKidBirth)) {
+                    secondKidBirth = null;
+                } else {
                     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
                     try {
-                        Date date1=simpleDateFormat.parse(secondKidBirth);
-                        secondKidBirth=formats.format(date1);
+                        Date date1 = simpleDateFormat.parse(secondKidBirth);
+                        secondKidBirth = formats.format(date1);
                     } catch (ParseException e) {
                         e.printStackTrace();
                     }
                 }
-                User user = MDGroundApplication.mLoginUser;
+                User user = MDGroundApplication.mInstance.getLoginUser();
                 user.setUpdatedTime(updateDate);
                 user.setKidName1(firstKidName);
                 user.setKidDOB1(firstKidBirth);
@@ -160,14 +161,14 @@ public class ChildInformationActivity extends ToolbarActivity<ActivityChildInfor
 
     //region ACTION
     public void choseFirstChildBirthDay(View view) {
-        mIsFirstKidDOB=true;
+        mIsFirstKidDOB = true;
         Calendar calendar = Calendar.getInstance();
         new BirthdayDatePickerDialog(this, this, calendar.get(Calendar.YEAR),
                 calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH)).show();
     }
 
-    public void  choseSecondChildBirthDay(View view) {
-        mIsFirstKidDOB=false;
+    public void choseSecondChildBirthDay(View view) {
+        mIsFirstKidDOB = false;
         Calendar calendar = Calendar.getInstance();
         new BirthdayDatePickerDialog(this, this, calendar.get(Calendar.YEAR),
                 calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH)).show();

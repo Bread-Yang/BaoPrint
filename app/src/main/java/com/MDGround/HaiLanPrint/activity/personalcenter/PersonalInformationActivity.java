@@ -44,8 +44,11 @@ import retrofit2.Response;
  */
 
 public class PersonalInformationActivity extends ToolbarActivity<ActivityPersonalInformationBinding> {
+
     public static final String SET_PASSWORD = "SetPassWord";
     public static final int FRO_PERSON = 1;
+
+    private User mUser;
     private SelectSingleImageDialog mSelectSingleImageDialog;
     private ArrayList<String> mUploadImageLocalPathList = new ArrayList<>();
     private RegionPickerDialog mRegionPickerDialog;
@@ -60,7 +63,7 @@ public class PersonalInformationActivity extends ToolbarActivity<ActivityPersona
     protected void initData() {
         mRegionPickerDialog = new RegionPickerDialog(this);
         mSelectSingleImageDialog = new SelectSingleImageDialog(PersonalInformationActivity.this, R.style.customDialogStyle);
-        User user = MDGroundApplication.mLoginUser;
+        User user = MDGroundApplication.mInstance.getLoginUser();
         // 用户头像
         MDImage mdImage = new MDImage();
         mdImage.setPhotoID(user.getPhotoID());
@@ -75,15 +78,16 @@ public class PersonalInformationActivity extends ToolbarActivity<ActivityPersona
     @Override
     protected void onResume() {
         super.onResume();
-        User user = MDGroundApplication.mLoginUser;
-        mDataBinding.tvNickname.setText(user.getUserNickName());
+
+        mUser = MDGroundApplication.mInstance.getLoginUser();
+        mDataBinding.tvNickname.setText(mUser.getUserNickName());
         MDImage mdImage = new MDImage();
-        mdImage.setPhotoID(user.getPhotoID());
-        mdImage.setPhotoSID(user.getPhotoSID());
+        mdImage.setPhotoID(mUser.getPhotoID());
+        mdImage.setPhotoSID(mUser.getPhotoSID());
         GlideUtil.loadImageByMDImage(mDataBinding.civAvatar, mdImage, false);
 
-        Location city = MDGroundApplication.mDaoSession.getLocationDao().load((long) user.getCityID());
-        Location county = MDGroundApplication.mDaoSession.getLocationDao().load((long) user.getCountryID());
+        Location city = MDGroundApplication.mDaoSession.getLocationDao().load((long) mUser.getCityID());
+        Location county = MDGroundApplication.mDaoSession.getLocationDao().load((long) mUser.getCountryID());
         if (city != null && county != null) {
             mDataBinding.tvLocality.setText(city.getLocationName() + " " + county.getLocationName());
         }
@@ -95,17 +99,18 @@ public class PersonalInformationActivity extends ToolbarActivity<ActivityPersona
         mRegionPickerDialog.setOnRegionSelectListener(new RegionPickerDialog.OnRegionSelectListener() {
             @Override
             public void onRegionSelect(Location province, final Location city, final Location county) {
-                final User user = MDGroundApplication.mLoginUser;
-                user.setProvinceID(Integer.parseInt(String.valueOf(province.getLocationID())));
-                user.setCityID(Integer.parseInt(String.valueOf(city.getLocationID())));
-                user.setCountryID(Integer.parseInt(String.valueOf(county.getLocationID())));
-                GlobalRestful.getInstance().SaveUserInfo(user, new Callback<ResponseData>() {
+
+                mUser.setProvinceID(Integer.parseInt(String.valueOf(province.getLocationID())));
+                mUser.setCityID(Integer.parseInt(String.valueOf(city.getLocationID())));
+                mUser.setCountryID(Integer.parseInt(String.valueOf(county.getLocationID())));
+                GlobalRestful.getInstance().SaveUserInfo(mUser, new Callback<ResponseData>() {
                     @Override
                     public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
-                        KLog.e("返回来   " + response.body());
+                        User user = response.body().getContent(User.class);
                         if (ResponseCode.isSuccess(response.body())) {
                             mDataBinding.tvLocality.setText(city.getLocationName() + county.getLocationName());
-                            MDGroundApplication.mLoginUser = user;
+                            mUser = user;
+                            MDGroundApplication.mInstance.setLoginUser(user);
                         }
                     }
 
@@ -171,30 +176,27 @@ public class PersonalInformationActivity extends ToolbarActivity<ActivityPersona
         if (Picturepath != null) {
             ViewUtils.loading(this);
             File file = new File(Picturepath);
-            int UserID = MDGroundApplication.mLoginUser.getUserID();
-            User userInfo = MDGroundApplication.mLoginUser;
+            int userID = mUser.getUserID();
             Date date = new Date(System.currentTimeMillis());
             String updatedTime = DateUtils.getServerDateStringByDate(date);
-            userInfo.setUpdatedTime(updatedTime);
+            mUser.setUpdatedTime(updatedTime);
 //                final String finalPicturepath = Picturepath;
-            FileRestful.getInstance().SaveUserPhoto(UserID, file, userInfo, null, new Callback<ResponseData>() {
+            FileRestful.getInstance().SaveUserPhoto(userID, file, mUser, null, new Callback<ResponseData>() {
                 @Override
                 public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
                     if (ResponseCode.isSuccess(response.body())) {
-                        KLog.e("返回来的数据" + response.body().getContent());
                         try {
                             JSONObject jsonObject = new JSONObject(response.body().getContent());
                             String jsonStr = jsonObject.toString();
+
                             User user = StringUtil.getInstanceByJsonString(jsonStr, User.class);
-                            KLog.e("userID是" + user.getPhotoSID());
-                            MDGroundApplication.mLoginUser.setPhotoID(user.getPhotoID());
-                            MDGroundApplication.mLoginUser.setPhotoSID(user.getPhotoSID());
-                            MDGroundApplication.mLoginUser.setUpdatedTime(user.getUpdatedTime());
+                            mUser = user;
+                            MDGroundApplication.mInstance.setLoginUser(user);
+
                             MDImage mdImage = new MDImage();
-                            mdImage.setPhotoID(MDGroundApplication.mLoginUser.getPhotoID());
-                            mdImage.setPhotoSID(MDGroundApplication.mLoginUser.getPhotoSID());
-                            GlideUtil.loadImageByMDImage(mDataBinding.civAvatar, mdImage,false);
-                            //GlideUtil.loadImageByPhotoSID(mDataBinding.civAvatar,user.getPhotoSID());
+                            mdImage.setPhotoID(user.getPhotoID());
+                            mdImage.setPhotoSID(user.getPhotoSID());
+                            GlideUtil.loadImageByMDImage(mDataBinding.civAvatar, mdImage, false);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }

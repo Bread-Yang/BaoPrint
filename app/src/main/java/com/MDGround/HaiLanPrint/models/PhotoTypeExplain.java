@@ -1,10 +1,12 @@
 package com.MDGround.HaiLanPrint.models;
 
+import java.io.Serializable;
+
 /**
  * Created by yoghourt on 6/10/16.
  */
 
-public class PhotoTypeExplain {
+public class PhotoTypeExplain implements Serializable {
 
     private int AutoID;
 

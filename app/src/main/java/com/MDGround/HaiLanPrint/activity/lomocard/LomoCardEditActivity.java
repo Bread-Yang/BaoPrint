@@ -9,7 +9,7 @@ import android.widget.SeekBar;
 import com.MDGround.HaiLanPrint.R;
 import com.MDGround.HaiLanPrint.activity.base.ToolbarActivity;
 import com.MDGround.HaiLanPrint.activity.selectimage.SelectAlbumWhenEditActivity;
-import com.MDGround.HaiLanPrint.adapter.TemplageImageAdapter;
+import com.MDGround.HaiLanPrint.adapter.TemplateImageAdapter;
 import com.MDGround.HaiLanPrint.application.MDGroundApplication;
 import com.MDGround.HaiLanPrint.constants.Constants;
 import com.MDGround.HaiLanPrint.databinding.ActivityLomoCardEditBinding;
@@ -32,7 +32,7 @@ import java.util.ArrayList;
  */
 public class LomoCardEditActivity extends ToolbarActivity<ActivityLomoCardEditBinding> {
 
-    private TemplageImageAdapter mTeplateImageAdapter;
+    private TemplateImageAdapter mTeplateImageAdapter;
 
     private ArrayList<WorkPhoto> mWorkPhotoArrayList = new ArrayList<>();
 
@@ -57,7 +57,7 @@ public class LomoCardEditActivity extends ToolbarActivity<ActivityLomoCardEditBi
         LinearLayoutManager imageLayoutManager = new LinearLayoutManager(this);
         imageLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         mDataBinding.templateRecyclerView.setLayoutManager(imageLayoutManager);
-        mTeplateImageAdapter = new TemplageImageAdapter();
+        mTeplateImageAdapter = new TemplateImageAdapter();
         mDataBinding.templateRecyclerView.setAdapter(mTeplateImageAdapter);
     }
 
@@ -78,7 +78,7 @@ public class LomoCardEditActivity extends ToolbarActivity<ActivityLomoCardEditBi
             }
         });
 
-        mTeplateImageAdapter.setOnSelectImageLisenter(new TemplageImageAdapter.onSelectImageLisenter() {
+        mTeplateImageAdapter.setOnSelectImageLisenter(new TemplateImageAdapter.onSelectImageLisenter() {
             @Override
             public void selectImage(int position, MDImage mdImage) {
 
@@ -144,7 +144,7 @@ public class LomoCardEditActivity extends ToolbarActivity<ActivityLomoCardEditBi
         ViewUtils.loading(this);
         // 生成订单
         MDGroundApplication.mOrderutUtils = new OrderUtils(this,
-                1, MDGroundApplication.mChoosedTemplate.getPrice(), null);
+                1, MDGroundApplication.mInstance.getChoosedTemplate().getPrice());
         MDGroundApplication.mOrderutUtils.saveOrderRequest();
     }
 

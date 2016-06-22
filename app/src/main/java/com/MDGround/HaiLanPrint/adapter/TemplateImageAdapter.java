@@ -17,7 +17,7 @@ import static com.MDGround.HaiLanPrint.utils.SelectImageUtils.mTemplateImage;
 /**
  * Created by yoghourt on 5/17/16.
  */
-public class TemplageImageAdapter extends RecyclerView.Adapter<TemplageImageAdapter.ViewHolder> {
+public class TemplateImageAdapter extends RecyclerView.Adapter<TemplateImageAdapter.ViewHolder> {
 
     private int mCurrentSelectedIndex = 0;
 
@@ -42,7 +42,8 @@ public class TemplageImageAdapter extends RecyclerView.Adapter<TemplageImageAdap
         holder.viewDataBinding.setIsSelected(position == mCurrentSelectedIndex);
 
         String indexString = null;
-        if (MDGroundApplication.mChoosedProductType == ProductType.LOMOCard) {
+        if (MDGroundApplication.mInstance.getChoosedProductType() == ProductType.LOMOCard
+                || MDGroundApplication.mInstance.getChoosedProductType() == ProductType.Poker) {
             indexString = String.valueOf(position + 1);
         } else {
             if (position == 0) {
@@ -59,11 +60,11 @@ public class TemplageImageAdapter extends RecyclerView.Adapter<TemplageImageAdap
         return mTemplateImage.size();
     }
 
-    public TemplageImageAdapter.onSelectImageLisenter getOnSelectImageLisenter() {
+    public TemplateImageAdapter.onSelectImageLisenter getOnSelectImageLisenter() {
         return onSelectImageLisenter;
     }
 
-    public void setOnSelectImageLisenter(TemplageImageAdapter.onSelectImageLisenter onSelectImageLisenter) {
+    public void setOnSelectImageLisenter(TemplateImageAdapter.onSelectImageLisenter onSelectImageLisenter) {
         this.onSelectImageLisenter = onSelectImageLisenter;
     }
 

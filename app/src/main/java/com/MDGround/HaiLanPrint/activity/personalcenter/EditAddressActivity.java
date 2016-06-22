@@ -63,7 +63,7 @@ public class EditAddressActivity extends ToolbarActivity<ActivityEditorAddressBi
             @Override
             public void onClick(View v) {
                 mAddresss.setReceiver(mDataBinding.etReceiverName.getText().toString());
-                mAddresss.setUserID(MDGroundApplication.mLoginUser.getUserID());
+                mAddresss.setUserID(MDGroundApplication.mInstance.getLoginUser().getUserID());
                 if (StringUtil.isEmpty(mDataBinding.etContacts.getText().toString())) {
                     ViewUtils.toast(R.string.input_phone_number);
                     return;
@@ -132,4 +132,4 @@ public class EditAddressActivity extends ToolbarActivity<ActivityEditorAddressBi
     //endregion
 
 
-    }
+}

@@ -28,8 +28,6 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static com.MDGround.HaiLanPrint.application.MDGroundApplication.mPhotoTypeExplainArrayList;
-
 /**
  * Created by yoghourt on 5/18/16.
  */
@@ -41,7 +39,7 @@ public class PuzzleStartActivity extends ToolbarActivity<ActivityPuzzleStartBind
 
     @Override
     protected void initData() {
-        for (PhotoTypeExplain photoTypeExplain : mPhotoTypeExplainArrayList) {
+        for (PhotoTypeExplain photoTypeExplain : MDGroundApplication.mInstance.getPhotoTypeExplainArrayList()) {
             if (photoTypeExplain.getExplainType() == PhotoExplainTypeEnum.IntroductionPage.value()
                     && photoTypeExplain.getTypeID() == ProductType.Puzzle.value()) {
                 GlideUtil.loadImageByPhotoSIDWithDialog(mDataBinding.ivIntroductionPage,
@@ -80,7 +78,7 @@ public class PuzzleStartActivity extends ToolbarActivity<ActivityPuzzleStartBind
                         ArrayList<Measurement> mSpecList = StringUtil.getInstanceByJsonString(PhotoTypeDescList, new TypeToken<ArrayList<Measurement>>() {
                         });
 
-                        MDGroundApplication.mChoosedMeasurement = mSpecList.get(0);
+                        MDGroundApplication.mInstance.setChoosedMeasurement(mSpecList.get(0));
 
                     } catch (JSONException e) {
                         e.printStackTrace();

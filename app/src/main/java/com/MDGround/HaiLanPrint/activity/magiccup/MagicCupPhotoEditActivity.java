@@ -110,7 +110,7 @@ public class MagicCupPhotoEditActivity extends ToolbarActivity<ActivityMagicCupE
         ViewUtils.loading(this);
 
         MDGroundApplication.mOrderutUtils = new OrderUtils(this,
-                1, MDGroundApplication.mChoosedMeasurement.getPrice(), null);
+                1, MDGroundApplication.mInstance.getChoosedMeasurement().getPrice());
         MDGroundApplication.mOrderutUtils.saveOrderRequest();
     }
     //endregion

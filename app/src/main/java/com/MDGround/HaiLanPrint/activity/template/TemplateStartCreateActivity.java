@@ -34,7 +34,7 @@ public class TemplateStartCreateActivity extends ToolbarActivity<ActivityTemplat
 
     @Override
     protected void initData() {
-        mDataBinding.setTemplate(MDGroundApplication.mChoosedTemplate);
+        mDataBinding.setTemplate(MDGroundApplication.mInstance.getChoosedTemplate());
 
         if (SelectImageUtils.mTemplateImage.size() > 0) {
             setCurrentPageTips(1);

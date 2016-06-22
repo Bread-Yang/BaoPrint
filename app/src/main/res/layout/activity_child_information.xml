@@ -1,29 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
+
     <data>
+
         <variable
             name="user"
-            type="com.MDGround.HaiLanPrint.models.User"></variable>
+            type="com.MDGround.HaiLanPrint.models.User"/>
     </data>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:focusable="true"
         android:focusableInTouchMode="true"
         android:orientation="vertical">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            >
+            android:orientation="vertical">
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/size_44"
                 android:gravity="center_vertical"
                 android:paddingLeft="@dimen/margin_16"
                 android:paddingRight="@dimen/margin_16"
-                android:text="@string/childinformation_one"/>
+                android:text="@string/childinformation_one" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/size_44"
@@ -32,6 +37,7 @@
                 android:orientation="horizontal"
                 android:paddingLeft="@dimen/margin_16"
                 android:paddingRight="@dimen/margin_16">
+
                 <ImageView
                     android:layout_width="@dimen/size_22"
                     android:layout_height="@dimen/size_22"
@@ -56,27 +62,30 @@
                     android:layout_height="match_parent"
                     android:background="@null"
                     android:gravity="center_vertical|right"
-                    android:textSize="@dimen/text_size_16"
-                    android:text="@{user.KidName1}"
-                    android:singleLine="true"
                     android:hint="@string/wuhuarou"
-                    />
+                    android:singleLine="true"
+                    android:text="@{user.KidName1}"
+                    android:textSize="@dimen/text_size_16" />
             </LinearLayout>
-            <View style="@style/DividerHorizontalMarginSytle"></View>
+
+            <View style="@style/DividerHorizontalMarginSytle"/>
+
             <LinearLayout
-                android:layout_width="match_parent"
                 android:id="@+id/ll_childDO"
+                android:layout_width="match_parent"
                 android:layout_height="@dimen/size_44"
                 android:background="@color/color_white"
                 android:gravity="center_vertical"
+                android:onClick="choseFirstChildBirthDay"
                 android:orientation="horizontal"
                 android:paddingLeft="@dimen/margin_16"
-                android:onClick="choseFirstChildBirthDay"
                 android:paddingRight="@dimen/margin_16">
+
                 <ImageView
                     android:layout_width="@dimen/size_22"
                     android:layout_height="@dimen/size_22"
                     android:src="@drawable/icon_wszl_cake" />
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -95,14 +104,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:gravity="center_vertical"
-                    android:textSize="@dimen/text_size_16"
+                    android:hint="@string/inputBirthday"
                     android:singleLine="true"
                     android:text="@{user.KidDOB1}"
-                    android:hint="@string/inputBirthday"
-                    />
+                    android:textSize="@dimen/text_size_16" />
             </LinearLayout>
 
-            <View style="@style/DividerHorizontalMarginSytle"></View>
+            <View style="@style/DividerHorizontalMarginSytle" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/size_44"
@@ -111,6 +120,7 @@
                 android:orientation="horizontal"
                 android:paddingLeft="@dimen/margin_16"
                 android:paddingRight="@dimen/margin_16">
+
                 <ImageView
                     android:layout_width="@dimen/size_22"
                     android:layout_height="@dimen/size_22"
@@ -132,16 +142,17 @@
                 <EditText
                     android:id="@+id/etFirstKidSchool"
                     android:layout_width="@dimen/size_120"
-                    android:background="@null"
                     android:layout_height="match_parent"
+                    android:background="@null"
                     android:gravity="center_vertical|right"
+                    android:hint="@string/longtouschool"
                     android:singleLine="true"
                     android:text="@{user.KidSchool1}"
-                    android:hint="@string/longtouschool"
-                    android:textSize="@dimen/text_size_16"
-                    />
+                    android:textSize="@dimen/text_size_16" />
             </LinearLayout>
-            <View style="@style/DividerHorizontalMarginSytle"></View>
+
+            <View style="@style/DividerHorizontalMarginSytle" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/size_44"
@@ -150,6 +161,7 @@
                 android:orientation="horizontal"
                 android:paddingLeft="@dimen/margin_16"
                 android:paddingRight="@dimen/margin_16">
+
                 <ImageView
                     android:layout_width="@dimen/size_22"
                     android:layout_height="@dimen/size_22"
@@ -172,27 +184,28 @@
                     android:id="@+id/etFirstKidClass"
                     android:layout_width="@dimen/margin_96"
                     android:layout_height="match_parent"
+                    android:background="@null"
                     android:gravity="center_vertical|right"
+                    android:hint="@string/treeClassTwo"
                     android:singleLine="true"
                     android:text="@{user.KidClass1}"
-                    android:background="@null"
-                    android:textSize="@dimen/text_size_16"
-                    android:hint="@string/treeClassTwo"
-                    />
+                    android:textSize="@dimen/text_size_16" />
+            </LinearLayout>
         </LinearLayout>
-        </LinearLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            >
+            android:orientation="vertical">
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/size_44"
                 android:gravity="center_vertical"
                 android:paddingLeft="@dimen/margin_16"
                 android:paddingRight="@dimen/margin_16"
-                android:text="@string/childinformation_two"/>
+                android:text="@string/childinformation_two" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/size_44"
@@ -201,6 +214,7 @@
                 android:orientation="horizontal"
                 android:paddingLeft="@dimen/margin_16"
                 android:paddingRight="@dimen/margin_16">
+
                 <ImageView
                     android:layout_width="@dimen/size_22"
                     android:layout_height="@dimen/size_22"
@@ -225,24 +239,25 @@
                     android:layout_height="match_parent"
                     android:background="@null"
                     android:gravity="center_vertical|right"
-                    android:textSize="@dimen/text_size_16"
-                    android:text="@{user.KidName2}"
-                    android:singleLine="true"
                     android:hint="@string/wuhuarou"
-                    />
+                    android:singleLine="true"
+                    android:text="@{user.KidName2}"
+                    android:textSize="@dimen/text_size_16" />
             </LinearLayout>
-            <View style="@style/DividerHorizontalMarginSytle"></View>
+
+            <View style="@style/DividerHorizontalMarginSytle" />
 
             <LinearLayout
-                android:layout_width="match_parent"
                 android:id="@+id/ll_childDOTwo"
+                android:layout_width="match_parent"
                 android:layout_height="@dimen/size_44"
                 android:background="@color/color_white"
                 android:gravity="center_vertical"
+                android:onClick="choseSecondChildBirthDay"
                 android:orientation="horizontal"
                 android:paddingLeft="@dimen/margin_16"
-                android:onClick="choseSecondChildBirthDay"
                 android:paddingRight="@dimen/margin_16">
+
                 <ImageView
                     android:layout_width="@dimen/size_22"
                     android:layout_height="@dimen/size_22"
@@ -266,14 +281,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:gravity="center_vertical"
-                    android:textSize="@dimen/text_size_16"
-                    android:text="@{user.KidDOB2}"
-                    android:singleLine="true"
                     android:hint="@string/inputBirthday"
-                    />
+                    android:singleLine="true"
+                    android:text="@{user.KidDOB2}"
+                    android:textSize="@dimen/text_size_16" />
             </LinearLayout>
 
-            <View style="@style/DividerHorizontalMarginSytle"></View>
+            <View style="@style/DividerHorizontalMarginSytle" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/size_44"
@@ -282,6 +297,7 @@
                 android:orientation="horizontal"
                 android:paddingLeft="@dimen/margin_16"
                 android:paddingRight="@dimen/margin_16">
+
                 <ImageView
                     android:layout_width="@dimen/size_22"
                     android:layout_height="@dimen/size_22"
@@ -303,16 +319,17 @@
                 <EditText
                     android:id="@+id/etSecondKidSchool"
                     android:layout_width="@dimen/size_120"
-                    android:background="@null"
                     android:layout_height="match_parent"
+                    android:background="@null"
                     android:gravity="center_vertical|right"
-                    android:singleLine="true"
                     android:hint="@string/longtouschool"
+                    android:singleLine="true"
                     android:text="@{user.KidSchool2}"
-                    android:textSize="@dimen/text_size_16"
-                    />
+                    android:textSize="@dimen/text_size_16" />
             </LinearLayout>
-            <View style="@style/DividerHorizontalMarginSytle"></View>
+
+            <View style="@style/DividerHorizontalMarginSytle" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/size_44"
@@ -321,6 +338,7 @@
                 android:orientation="horizontal"
                 android:paddingLeft="@dimen/margin_16"
                 android:paddingRight="@dimen/margin_16">
+
                 <ImageView
                     android:layout_width="@dimen/size_22"
                     android:layout_height="@dimen/size_22"
@@ -343,13 +361,12 @@
                     android:id="@+id/etSecondKidClass"
                     android:layout_width="@dimen/margin_96"
                     android:layout_height="match_parent"
-                    android:gravity="center_vertical|right"
-                    android:singleLine="true"
                     android:background="@null"
-                    android:textSize="@dimen/text_size_16"
-                    android:text="@{user.KidClass2}"
+                    android:gravity="center_vertical|right"
                     android:hint="@string/treeClassTwo"
-                    />
+                    android:singleLine="true"
+                    android:text="@{user.KidClass2}"
+                    android:textSize="@dimen/text_size_16" />
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>

@@ -30,7 +30,13 @@ public final class Constants {
 
     public static final String KEY_IS_FIRST_LAUNCH = "key_is_first_launch";
 
+    // application
     public static final String KEY_ALREADY_LOGIN_USER = "key_already_login_user";
+    public static final String KEY_ALREADY_CHOOSED_PRODUCT_TYPE = "key_already_choosed_product_type";
+    public static final String KEY_ALREADY_CHOOSED_MEASUREMENT = "key_already_choosed_measurement";
+    public static final String KEY_ALREADY_CHOOSED_TEMPLATE = "key_already_choosed_template";
+    public static final String KEY_PHOTO_TYPE_EXPLAIN_ARRAYLIST = "key_photo_type_explain_arraylist";
+
     public static final String KEY_NEW_USER = "key_new_user";
     public static final String KEY_PHONE = "key_phone";
     public static final String KEY_CLOUD_IMAGE = "key_cloud_image";
