@@ -329,7 +329,7 @@
             android:name=".activity.personalcenter.AboutUsAcctivity"
             android:label="@string/about_us" />
         <activity
-            android:name=".activity.personalcenter.TermServerActivity"
+            android:name=".activity.personalcenter.TermServiceActivity"
             android:label="@string/terms_of_service" />
         <activity
             android:name=".activity.personalcenter.FeedBackActivity"

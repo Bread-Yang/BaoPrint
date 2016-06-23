@@ -80,13 +80,13 @@ public class ChildInformationActivity extends ToolbarActivity<ActivityChildInfor
 
     @Override
     public void onFocusChange(View v, boolean hasFocus) {
-        EditText _v = (EditText) v;
+        EditText editText = (EditText) v;
         if (!hasFocus) {// 失去焦点
-            _v.setHint(_v.getTag().toString());
+            editText.setHint(editText.getTag().toString());
         } else {
-            String hint = _v.getHint().toString();
-            _v.setTag(hint);
-            _v.setHint("");
+            String hint = editText.getHint().toString();
+            editText.setTag(hint);
+            editText.setHint("");
         }
     }
 

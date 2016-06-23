@@ -28,8 +28,9 @@ import retrofit2.Response;
  */
 
 public class InformationCenterActivity extends ToolbarActivity<ActivityInformationCenterBinding> {
+
     private List<InformationInfo> mInformationList = new ArrayList<>();
-    private int mPageIndex =0;
+    private int mPageIndex = 0;
     private RecyclerView mRecyclerView;
     private LinearLayoutManager mLinearLayoutManager;
     private boolean mIsLoadeMore;
@@ -44,10 +45,10 @@ public class InformationCenterActivity extends ToolbarActivity<ActivityInformati
     protected void onResume() {
         super.onResume();
         GetUserMessageListRequset(mPageIndex);
-        if(mInformationList.size()==0){
-          mDataBinding.lltNofind.setVisibility(View.VISIBLE);
+        if (mInformationList.size() == 0) {
+            mDataBinding.lltNofind.setVisibility(View.VISIBLE);
             mDataBinding.recyclerView.setVisibility(View.GONE);
-        }else{
+        } else {
             mDataBinding.lltNofind.setVisibility(View.GONE);
             mDataBinding.recyclerView.setVisibility(View.VISIBLE);
         }
@@ -58,27 +59,27 @@ public class InformationCenterActivity extends ToolbarActivity<ActivityInformati
         mRecyclerView = new RecyclerView(this);
         mLinearLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLinearLayoutManager);
-        mAdapter=new InformationAdapter();
+        mAdapter = new InformationAdapter();
         mRecyclerView.setAdapter(mAdapter);
     }
 
     @Override
     protected void setListener() {
-     mRecyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
-         @Override
-         public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-             super.onScrolled(recyclerView, dx, dy);
-             int lastVisibleItem=mLinearLayoutManager.findLastVisibleItemPosition();
-             int totalItemCount=mLinearLayoutManager.getItemCount();
-             if(lastVisibleItem==totalItemCount){
-                if(mIsLoadeMore){
-                    GetUserMessageListRequset(mPageIndex);
-                    mAdapter.notifyDataSetChanged();
-                }
+        mRecyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                int lastVisibleItem = mLinearLayoutManager.findLastVisibleItemPosition();
+                int totalItemCount = mLinearLayoutManager.getItemCount();
+                if (lastVisibleItem == totalItemCount) {
+                    if (mIsLoadeMore) {
+                        GetUserMessageListRequset(mPageIndex);
+                        mAdapter.notifyDataSetChanged();
+                    }
 
-             }
-         }
-     });
+                }
+            }
+        });
     }
 
     //region SEVER
@@ -86,18 +87,18 @@ public class InformationCenterActivity extends ToolbarActivity<ActivityInformati
         GlobalRestful.getInstance().GetUserMessageList(mPageIndex, new Callback<ResponseData>() {
             @Override
             public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
-                List<InformationInfo> list= response.body().getContent(new TypeToken<List<InformationInfo>>() {
+                List<InformationInfo> list = response.body().getContent(new TypeToken<List<InformationInfo>>() {
                 });
                 mInformationList.addAll(list);
-                if(list!=null) {
+                if (list != null) {
                     if (list.size() < 20) {
-                        mIsLoadeMore=false;
+                        mIsLoadeMore = false;
                     } else {
-                        mIsLoadeMore=true;
+                        mIsLoadeMore = true;
                         mPageIndex++;
                     }
-                }else{
-                    mIsLoadeMore=false;
+                } else {
+                    mIsLoadeMore = false;
                 }
             }
 
@@ -116,16 +117,16 @@ public class InformationCenterActivity extends ToolbarActivity<ActivityInformati
 
         @Override
         public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            View view= LayoutInflater.from(InformationCenterActivity.this).inflate(R.layout.item_information_center,parent,false);
-            MyViewHolder holder=new MyViewHolder(view);
+            View view = LayoutInflater.from(InformationCenterActivity.this).inflate(R.layout.item_information_center, parent, false);
+            MyViewHolder holder = new MyViewHolder(view);
             return holder;
         }
 
         @Override
         public void onBindViewHolder(MyViewHolder holder, int position) {
-            InformationInfo informationInfo= mInformationList.get(position);
-              holder.itemInformationCenterBinding.tvCreateTime.setText(informationInfo.getCreatedTime());
-              holder.itemInformationCenterBinding.tvMessage.setText(informationInfo.getMessage());
+            InformationInfo informationInfo = mInformationList.get(position);
+            holder.itemInformationCenterBinding.tvCreateTime.setText(informationInfo.getCreatedTime());
+            holder.itemInformationCenterBinding.tvMessage.setText(informationInfo.getMessage());
         }
 
         @Override
@@ -135,9 +136,10 @@ public class InformationCenterActivity extends ToolbarActivity<ActivityInformati
 
         public class MyViewHolder extends RecyclerView.ViewHolder {
             public ItemInformationCenterBinding itemInformationCenterBinding;
+
             public MyViewHolder(View itemView) {
                 super(itemView);
-                itemInformationCenterBinding= DataBindingUtil.bind(itemView);
+                itemInformationCenterBinding = DataBindingUtil.bind(itemView);
             }
         }
     }

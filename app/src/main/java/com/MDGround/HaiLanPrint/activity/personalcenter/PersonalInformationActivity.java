@@ -53,7 +53,6 @@ public class PersonalInformationActivity extends ToolbarActivity<ActivityPersona
     private ArrayList<String> mUploadImageLocalPathList = new ArrayList<>();
     private RegionPickerDialog mRegionPickerDialog;
 
-
     @Override
     protected int getContentLayout() {
         return R.layout.activity_personal_information;
@@ -123,6 +122,28 @@ public class PersonalInformationActivity extends ToolbarActivity<ActivityPersona
         });
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == RESULT_OK) {
+            if (requestCode == SelectSingleImageDialog.PHOTO_REQUEST_GALLERY) {// 从相册返回的数据
+                Uri uri = data.getData();
+                String pro[] = {MediaStore.Images.Media.DATA};
+                Cursor cursor = managedQuery(uri, pro, null, null, null);
+                int Column_index = cursor.getColumnIndexOrThrow(pro[0]);
+                cursor.moveToFirst();
+                String Picturepath = cursor.getString(Column_index);
+                KLog.e("picturePath" + Picturepath);
+                uploadAvatar(Picturepath);
+            } else if (requestCode == SelectSingleImageDialog.PHOTO_REQUEST_CAREMA) {// 从相机返回的数据
+                KLog.e("相机返回数据");
+                String Picturepath = Environment.getExternalStorageDirectory() + Constants.PHOTO_FILE + "/" + Constants.PHOTO_NAME;
+                uploadAvatar(Picturepath);
+            }
+
+        }
+
+    }
+
     //region SERVER
     private void uploadImageRequest(final int upload_image_index) {
         if (upload_image_index < mUploadImageLocalPathList.size()) {
@@ -148,30 +169,6 @@ public class PersonalInformationActivity extends ToolbarActivity<ActivityPersona
         }
     }
 
-    //endregion
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode == RESULT_OK) {
-            if (requestCode == SelectSingleImageDialog.PHOTO_REQUEST_GALLERY) {// 从相册返回的数据
-                Uri uri = data.getData();
-                String pro[] = {MediaStore.Images.Media.DATA};
-                Cursor cursor = managedQuery(uri, pro, null, null, null);
-                int Column_index = cursor.getColumnIndexOrThrow(pro[0]);
-                cursor.moveToFirst();
-                String Picturepath = cursor.getString(Column_index);
-                KLog.e("picturePath" + Picturepath);
-                uploadAvatar(Picturepath);
-            } else if (requestCode == SelectSingleImageDialog.PHOTO_REQUEST_CAREMA) {// 从相机返回的数据
-                KLog.e("相机返回数据");
-                String Picturepath = Environment.getExternalStorageDirectory() + Constants.PHOTO_FILE + "/" + Constants.PHOTO_NAME;
-                uploadAvatar(Picturepath);
-            }
-
-        }
-
-    }
-
-    //region SERVER
     public void uploadAvatar(String Picturepath) {
         if (Picturepath != null) {
             ViewUtils.loading(this);
@@ -212,8 +209,7 @@ public class PersonalInformationActivity extends ToolbarActivity<ActivityPersona
             });
         }
     }
-
-    //enregion
+    //endregion
 
     //region ACTION
     //修改昵称

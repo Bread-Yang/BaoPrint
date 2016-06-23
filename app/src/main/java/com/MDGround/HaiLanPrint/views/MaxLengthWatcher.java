@@ -1,4 +1,4 @@
-package com.MDGround.HaiLanPrint.activity.personalcenter;
+package com.MDGround.HaiLanPrint.views;
 
 import android.content.Context;
 import android.text.Editable;

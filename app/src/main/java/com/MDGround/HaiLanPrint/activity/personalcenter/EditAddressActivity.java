@@ -110,7 +110,7 @@ public class EditAddressActivity extends ToolbarActivity<ActivityEditorAddressBi
                     if (mIsUpdate) {
                         ViewUtils.toast(getString(R.string.update_success));
                     } else {
-                        ViewUtils.toast("添加成功");
+                        ViewUtils.toast(R.string.add_success);
                     }
                     finish();
                 }

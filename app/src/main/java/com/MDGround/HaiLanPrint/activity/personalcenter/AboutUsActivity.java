@@ -44,7 +44,7 @@ public class AboutUsActivity extends ToolbarActivity<ActivityAboutUsBinding> {
 
     //服务条款
     public void toRegisterProtocol(View view) {
-        Intent intent = new Intent(this, TermServerActivity.class);
+        Intent intent = new Intent(this, TermServiceActivity.class);
         startActivity(intent);
     }
 

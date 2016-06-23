@@ -30,6 +30,7 @@ import retrofit2.Response;
  * Created by PC on 2016-06-14.
  */
 public class ManageAddressActivity extends ToolbarActivity<ActivityManageAddressBinding> {
+
     public static final String FROM_HERE = "FROM_HERE";
     public static final String ADDRESS = "ADDRESS";
     public static final int FOR_UPATE = 1;
@@ -37,6 +38,7 @@ public class ManageAddressActivity extends ToolbarActivity<ActivityManageAddress
     private ArrayList<DeliveryAddress> mUserAddressList = new ArrayList<>();
     private DeliveryAddress mUserAddress;
     private ManageAddressAdatper mAdapter;
+
     @Override
     protected int getContentLayout() {
         return R.layout.activity_manage_address;
@@ -57,6 +59,47 @@ public class ManageAddressActivity extends ToolbarActivity<ActivityManageAddress
         mDataBinding.recyclerView.setAdapter(mAdapter);
     }
 
+    @Override
+    protected void setListener() {
+        mDataBinding.tvAddAddress.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ManageAddressActivity.this, EditAddressActivity.class);
+                intent.putExtra(FROM_HERE, FOR_SAVE);
+                startActivity(intent);
+            }
+        });
+    }
+
+    //region ACTION
+    //编辑地址
+    public void updateAddress(DeliveryAddress address) {
+        Intent intent = new Intent(this, EditAddressActivity.class);
+        intent.putExtra(FROM_HERE, FOR_UPATE);
+        intent.putExtra(ADDRESS, address);
+        startActivity(intent);
+    }
+
+
+    //Item编辑的方法
+    public void onEidtorItem(View view) {
+        int position = mDataBinding.recyclerView.getChildAdapterPosition(view);
+        DeliveryAddress deliveryAddress = mUserAddressList.get(position);
+        // KLog.e("第几个" + position);
+        updateAddress(deliveryAddress);
+    }
+
+    //删除事件
+    public void onDeleteItem(View view) {
+
+        int position = mDataBinding.recyclerView.getChildAdapterPosition(view);
+        DeliveryAddress address = mUserAddressList.get(position);
+        int AutoID = address.getAutoID();
+        deleteAddressRequest(AutoID, position, view);
+    }
+
+    //endregion
+
     //region SERVER
     private void getUserAddressListRequest() {
         ViewUtils.loading(this);
@@ -70,10 +113,9 @@ public class ManageAddressActivity extends ToolbarActivity<ActivityManageAddress
                 mAdapter.notifyDataSetChanged();
                 ViewUtils.dismiss();
             }
+
             @Override
             public void onFailure(Call<ResponseData> call, Throwable t) {
-                ViewUtils.toast("请求失败");
-                ViewUtils.dismiss();
             }
         });
     }
@@ -91,25 +133,10 @@ public class ManageAddressActivity extends ToolbarActivity<ActivityManageAddress
 
             @Override
             public void onFailure(Call<ResponseData> call, Throwable t) {
-                ViewUtils.dismiss();
-                ViewUtils.toast("删除失败");
             }
         });
     }
     //endregion
-
-    @Override
-    protected void setListener() {
-        mDataBinding.tvAddAddress.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(ManageAddressActivity.this, EditAddressActivity.class);
-                intent.putExtra(FROM_HERE, FOR_SAVE);
-                startActivity(intent);
-            }
-        });
-    }
-
 
     //region ADAPTER
     public class ManageAddressAdatper extends RecyclerView.Adapter<ManageAddressAdatper.MyViewHolder> {
@@ -119,13 +146,14 @@ public class ManageAddressActivity extends ToolbarActivity<ActivityManageAddress
             MyViewHolder holder = new MyViewHolder(view);
             return holder;
         }
+
         @Override
         public void onBindViewHolder(MyViewHolder holder, int position) {
             DeliveryAddress address = mUserAddressList.get(position);
             Location province = MDGroundApplication.mDaoSession.getLocationDao().load(address.getProvinceID());
-           Location city = MDGroundApplication.mDaoSession.getLocationDao().load(address.getCityID());
+            Location city = MDGroundApplication.mDaoSession.getLocationDao().load(address.getCityID());
             Location county = MDGroundApplication.mDaoSession.getLocationDao().load(address.getCountryID());
-            holder.viewItemBinding.tvAddress.setText(province.getLocationName() +" "+ city.getLocationName() +" "+county.getLocationName() +" "+ address.getStreet());
+            holder.viewItemBinding.tvAddress.setText(province.getLocationName() + " " + city.getLocationName() + " " + county.getLocationName() + " " + address.getStreet());
             holder.viewItemBinding.tvName.setText(address.getReceiver());
             holder.viewItemBinding.tvNume.setText(address.getPhone());
         }
@@ -136,9 +164,10 @@ public class ManageAddressActivity extends ToolbarActivity<ActivityManageAddress
         }
 
 
-
         class MyViewHolder extends RecyclerView.ViewHolder {
+            
             public ItemManageAddressBinding viewItemBinding;
+
             public MyViewHolder(final View itemView) {
                 super(itemView);
                 viewItemBinding = DataBindingUtil.bind(itemView);
@@ -158,34 +187,4 @@ public class ManageAddressActivity extends ToolbarActivity<ActivityManageAddress
         }
     }
     //endregion
-
-    //region ACTION
-    //编辑地址
-    public void updateAddress(DeliveryAddress address) {
-        Intent intent = new Intent(this, EditAddressActivity.class);
-        intent.putExtra(FROM_HERE, FOR_UPATE);
-        intent.putExtra(ADDRESS, address);
-        startActivity(intent);
-    }
-
-
-     //Item编辑的方法
-    public void onEidtorItem(View view) {
-        int position = mDataBinding.recyclerView.getChildAdapterPosition(view);
-        DeliveryAddress deliveryAddress = mUserAddressList.get(position);
-        // KLog.e("第几个" + position);
-        updateAddress(deliveryAddress);
-    }
-
-     //删除事件
-    public void onDeleteItem(View view) {
-
-        int position = mDataBinding.recyclerView.getChildAdapterPosition(view);
-        DeliveryAddress address = mUserAddressList.get(position);
-        int AutoID = address.getAutoID();
-        deleteAddressRequest(AutoID, position, view);
-    }
-
-    //endregion
-
 }

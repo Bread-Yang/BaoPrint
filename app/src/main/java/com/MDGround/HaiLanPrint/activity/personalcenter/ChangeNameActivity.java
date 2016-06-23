@@ -12,6 +12,7 @@ import com.MDGround.HaiLanPrint.restfuls.GlobalRestful;
 import com.MDGround.HaiLanPrint.restfuls.bean.ResponseData;
 import com.MDGround.HaiLanPrint.utils.DateUtils;
 import com.MDGround.HaiLanPrint.utils.ViewUtils;
+import com.MDGround.HaiLanPrint.views.MaxLengthWatcher;
 
 import java.util.Date;
 
@@ -22,7 +23,6 @@ import retrofit2.Response;
 /**
  * Created by PC on 2016-06-13.
  */
-
 public class ChangeNameActivity extends ToolbarActivity<ActivityChangeNameBinding> {
 
     private User mLoginUser;
@@ -59,7 +59,7 @@ public class ChangeNameActivity extends ToolbarActivity<ActivityChangeNameBindin
                         Date date = new Date(System.currentTimeMillis());
                         String updateDate = DateUtils.getServerDateStringByDate(date);
                         mLoginUser.setUpdatedTime(updateDate);
-                        
+
                         GlobalRestful.getInstance().SaveUserInfo(mLoginUser, new Callback<ResponseData>() {
                             @Override
                             public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
