@@ -24,6 +24,7 @@ import com.MDGround.HaiLanPrint.activity.selectimage.SelectAlbumBeforeEditActivi
 import com.MDGround.HaiLanPrint.application.MDGroundApplication;
 import com.MDGround.HaiLanPrint.constants.Constants;
 import com.MDGround.HaiLanPrint.models.MDImage;
+import com.MDGround.HaiLanPrint.models.WorkPhoto;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
@@ -163,6 +164,23 @@ public class NavUtils {
                 for (int i = 0; i < difference; i++) {
                     SelectImageUtils.mAlreadySelectImage.add(new MDImage());
                 }
+            }
+
+            // 将模版的PID和PSID赋值给MdImage
+            for (int i = 0; i < SelectImageUtils.mTemplateImage.size(); i++) {
+                MDImage template = SelectImageUtils.mTemplateImage.get(i);
+                MDImage selectImage = SelectImageUtils.mAlreadySelectImage.get(i);
+
+                WorkPhoto workPhoto = new WorkPhoto();
+                workPhoto.setPhotoIndex(i + 1);
+                workPhoto.setPhoto1ID(selectImage.getPhotoID());
+                workPhoto.setPhoto1SID(selectImage.getPhotoSID());
+                workPhoto.setPhoto2ID(template.getPhotoID()); // 合成图片默认等于模板图片
+                workPhoto.setPhoto2SID(template.getPhotoSID());
+                workPhoto.setTemplatePID(template.getPhotoID());
+                workPhoto.setTemplatePSID(template.getPhotoSID());
+                workPhoto.setZoomSize(100);
+                selectImage.setWorkPhoto(workPhoto);
             }
             ViewUtils.dismiss();
             context.startActivity(intent);

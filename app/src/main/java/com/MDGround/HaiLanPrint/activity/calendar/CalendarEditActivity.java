@@ -27,7 +27,6 @@ import com.MDGround.HaiLanPrint.views.dialog.NotifyDialog;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 
 /**
@@ -36,8 +35,6 @@ import java.util.Calendar;
 public class CalendarEditActivity extends ToolbarActivity<ActivityCalendarEditBinding> implements DatePickerDialog.OnDateSetListener {
 
     private TemplateImageAdapter mTeplateImageAdapter;
-
-    private ArrayList<WorkPhoto> mWorkPhotoArrayList = new ArrayList<>();
 
     private int mCurrentSelectIndex = 0;
 
@@ -53,10 +50,6 @@ public class CalendarEditActivity extends ToolbarActivity<ActivityCalendarEditBi
     @Override
     protected void initData() {
         showImageToGPUImageView(0, SelectImageUtils.mTemplateImage.get(0));
-
-        for (int i = 0; i < SelectImageUtils.mTemplateImage.size(); i++) {
-            mWorkPhotoArrayList.add(new WorkPhoto());
-        }
 
         mDataBinding.templateRecyclerView.setHasFixedSize(true);
         LinearLayoutManager imageLayoutManager = new LinearLayoutManager(this);
@@ -91,9 +84,9 @@ public class CalendarEditActivity extends ToolbarActivity<ActivityCalendarEditBi
                     float scaleFactor = mDataBinding.bgiImage.getmScaleFactor();
                     float rotateDegree = mDataBinding.bgiImage.getmRotationDegrees();
 
-                    WorkPhoto workPhoto = mWorkPhotoArrayList.get(mCurrentSelectIndex);
-                    workPhoto.setZoomSize(scaleFactor);
-                    workPhoto.setRotate(rotateDegree);
+                    WorkPhoto workPhoto = SelectImageUtils.mAlreadySelectImage.get(mCurrentSelectIndex).getWorkPhoto();
+                    workPhoto.setZoomSize((int) (scaleFactor * 100));
+                    workPhoto.setRotate((int) rotateDegree);
 
                     showImageToGPUImageView(position, mdImage);
                 }
@@ -103,6 +96,9 @@ public class CalendarEditActivity extends ToolbarActivity<ActivityCalendarEditBi
         mDataBinding.seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+
+                WorkPhoto workPhoto = SelectImageUtils.mAlreadySelectImage.get(mCurrentSelectIndex).getWorkPhoto();
+                workPhoto.setBrightLevel(progress);
 
                 mDataBinding.tvPercent.setText(getString(R.string.percent, progress) + "%");
 
@@ -134,9 +130,11 @@ public class CalendarEditActivity extends ToolbarActivity<ActivityCalendarEditBi
             GlideUtil.loadImageAsBitmap(selectImage, new SimpleTarget<Bitmap>(200, 200) {
                 @Override
                 public void onResourceReady(Bitmap bitmap, GlideAnimation glideAnimation) {
-                    WorkPhoto workPhoto = mWorkPhotoArrayList.get(position);
+                    WorkPhoto workPhoto = SelectImageUtils.mAlreadySelectImage.get(mCurrentSelectIndex).getWorkPhoto();
 
-                    mDataBinding.bgiImage.loadNewImage(bitmap, workPhoto.getZoomSize(), workPhoto.getRotate());
+                    mDataBinding.bgiImage.loadNewImage(bitmap, workPhoto.getZoomSize() / 100f,
+                            workPhoto.getRotate(),
+                            workPhoto.getBrightLevel() / 100f);
 
                 }
             });
@@ -150,17 +148,18 @@ public class CalendarEditActivity extends ToolbarActivity<ActivityCalendarEditBi
         // 生成订单
         MDGroundApplication.mOrderutUtils = new OrderUtils(this,
                 1, MDGroundApplication.mInstance.getChoosedTemplate().getPrice());
-        MDGroundApplication.mOrderutUtils.saveOrderRequest();
+        MDGroundApplication.mOrderutUtils.uploadImageRequest(this, 0);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_OK) {
-            MDImage mdImage = data.getParcelableExtra(Constants.KEY_SELECT_IMAGE);
+            MDImage newMDImage = data.getParcelableExtra(Constants.KEY_SELECT_IMAGE);
+            MDImage oldMDImage = SelectImageUtils.mAlreadySelectImage.get(mCurrentSelectIndex);
 
-            SelectImageUtils.mAlreadySelectImage.set(mCurrentSelectIndex, mdImage);
+            newMDImage.setWorkPhoto(oldMDImage.getWorkPhoto());
 
-            mWorkPhotoArrayList.set(mCurrentSelectIndex, new WorkPhoto());
+            SelectImageUtils.mAlreadySelectImage.set(mCurrentSelectIndex, newMDImage);
 
             showImageToGPUImageView(mCurrentSelectIndex, SelectImageUtils.mTemplateImage.get(mCurrentSelectIndex));
         }

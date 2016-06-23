@@ -477,6 +477,7 @@ public class PaymentPreviewActivity extends ToolbarActivity<ActivityPaymentPrevi
                 case Engraving:
                     orderCount = getString(R.string.num_with_colon, SelectImageUtils.getPrintPhotoOrEngravingOrderCount());
                     holder.viewDataBinding.rltQuantity.setVisibility(View.GONE);
+                    holder.viewDataBinding.viewDidiver1.setVisibility(View.GONE);
                     break;
                 default:
                     orderCount = getString(R.string.num_with_colon, orderWork.getOrderCount());
@@ -486,10 +487,10 @@ public class PaymentPreviewActivity extends ToolbarActivity<ActivityPaymentPrevi
 
             if (productType == ArtAlbum) {
                 holder.viewDataBinding.rltSpecification.setVisibility(View.VISIBLE);
-                holder.viewDataBinding.viewDidiver.setVisibility(View.VISIBLE);
+                holder.viewDataBinding.viewDidiver2.setVisibility(View.VISIBLE);
             } else {
                 holder.viewDataBinding.rltSpecification.setVisibility(View.GONE);
-                holder.viewDataBinding.viewDidiver.setVisibility(View.GONE);
+                holder.viewDataBinding.viewDidiver2.setVisibility(View.GONE);
             }
 
             setItemListener(holder, position);

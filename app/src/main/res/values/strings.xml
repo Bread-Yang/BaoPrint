@@ -90,7 +90,7 @@
     <string name="all_image">所有图片</string>
     <string name="select_all">全选</string>
     <string name="take_picture">拍摄照片</string>
-    <string name="message_max_num">你最多可以选择%1$s张图片</string>
+    <string name="message_max_num">你最多可以选择%d张图片</string>
     <string name="upload">上传</string>
     <string name="upload_image">上传图片</string>
     <string name="upload_image_with_colon">上传图片:</string>

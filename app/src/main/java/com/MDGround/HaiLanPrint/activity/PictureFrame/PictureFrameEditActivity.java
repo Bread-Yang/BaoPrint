@@ -182,7 +182,7 @@ public class PictureFrameEditActivity extends ToolbarActivity<ActivityPictureFra
         MDGroundApplication.mOrderutUtils = new OrderUtils(this,
                 mChooseTemplate.getPageCount(),
                 mPrice, mWorkFormat, null, mWorkStyle);
-        MDGroundApplication.mOrderutUtils.saveOrderRequest();
+        MDGroundApplication.mOrderutUtils.uploadImageRequest(this, 0);
     }
     //endregion
 }

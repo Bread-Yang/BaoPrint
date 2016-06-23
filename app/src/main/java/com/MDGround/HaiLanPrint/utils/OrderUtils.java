@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.opengl.Matrix;
 
 import com.MDGround.HaiLanPrint.ProductType;
 import com.MDGround.HaiLanPrint.activity.payment.PaymentSuccessActivity;
@@ -24,7 +25,6 @@ import com.MDGround.HaiLanPrint.models.WorkPhoto;
 import com.MDGround.HaiLanPrint.restfuls.FileRestful;
 import com.MDGround.HaiLanPrint.restfuls.GlobalRestful;
 import com.MDGround.HaiLanPrint.restfuls.bean.ResponseData;
-import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.socks.library.KLog;
@@ -35,7 +35,10 @@ import java.util.Date;
 import java.util.List;
 
 import jp.co.cyberagent.android.gpuimage.GPUImage;
+import jp.co.cyberagent.android.gpuimage.GPUImageBrightnessFilter;
+import jp.co.cyberagent.android.gpuimage.GPUImageFilterGroup;
 import jp.co.cyberagent.android.gpuimage.GPUImageNormalBlendFilter;
+import jp.co.cyberagent.android.gpuimage.GPUImageTransformFilter;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -146,11 +149,6 @@ public class OrderUtils {
 //                                        MDImage responseSyntheticImage = response.body().getContent
 // (MDImage.class);
 //
-//                                        responseImage.setSyntheticPhotoID(responseSyntheticImage
-// .getPhotoID());
-//                                        responseImage.setSyntheticPhotoSID(responseSyntheticImage
-// .getPhotoSID());
-//
 //                                        SelectImageUtil.mAlreadySelectImage.set(upload_image_index,
 // responseImage);
 //                                        uploadImageRequest(nextUploadIndex);
@@ -183,6 +181,21 @@ public class OrderUtils {
 //        }
 //    }
 
+    private GPUImageTransformFilter getTransformFilter(float scaleFactor, float rotationDegree) {
+        float[] transform = new float[16];
+        Matrix.setIdentityM(transform, 0);
+        Matrix.setRotateM(transform, 0, rotationDegree, 0, 0, 1.0f);
+        scaleFactor = scaleFactor;
+        if (scaleFactor < 0) {
+            scaleFactor = 1;
+        }
+        Matrix.scaleM(transform, 0, scaleFactor, scaleFactor, 1.0f);
+
+        GPUImageTransformFilter transformFilter = new GPUImageTransformFilter();
+        transformFilter.setTransform3D(transform);
+        return transformFilter;
+    }
+
     public void uploadImageRequest(final Context context, final int upload_image_index) {
         if (upload_image_index < SelectImageUtils.mAlreadySelectImage.size()) {
             final MDImage selectImage = SelectImageUtils.mAlreadySelectImage.get(upload_image_index);
@@ -213,30 +226,47 @@ public class OrderUtils {
                             // 上传本地图片成功, 设置对应的PhotoID, PhotoSID
                             responseImage.setPhotoCount(selectImage.getPhotoCount());
 
+                            final WorkPhoto workPhoto = selectImage.getWorkPhoto();
+                            if (workPhoto != null) {
+                                workPhoto.setPhoto1ID(responseImage.getPhotoID());
+                                workPhoto.setPhoto1SID(responseImage.getPhotoSID());
+                                responseImage.setWorkPhoto(workPhoto);
+                            }
+
+                            SelectImageUtils.mAlreadySelectImage.set(upload_image_index, responseImage);
+
                             // 如果有模板, 把模板和选择的照片合成一张图片
                             if (templateImage.getPhotoSID() != 0) {
-                                Glide.with(context).load(templateImage).asBitmap().into(new SimpleTarget<Bitmap>() {
+                                GlideUtil.loadImageAsBitmap(templateImage, new SimpleTarget<Bitmap>() {
                                     @Override
                                     public void onResourceReady(final Bitmap templateBitmap,
                                                                 GlideAnimation<? super Bitmap>
                                                                         glideAnimation) {
                                         KLog.e("加载模板bitmap成功");
 
-                                        Glide.with(context).load(selectImage).asBitmap().into(new SimpleTarget<Bitmap>() {
+                                        GlideUtil.loadImageAsBitmap(selectImage, new SimpleTarget<Bitmap>() {
                                             @Override
                                             public void onResourceReady(Bitmap selectBitmap,
                                                                         GlideAnimation<? super Bitmap>
                                                                                 glideAnimation) {
                                                 KLog.e("加载本地bitmap成功");
 
-                                                GPUImageNormalBlendFilter blendFilter = new
-                                                        GPUImageNormalBlendFilter();
+                                                GPUImageTransformFilter transformFilter = getTransformFilter(workPhoto.getZoomSize() / 100f,
+                                                        workPhoto.getRotate());         //  放大缩小旋转
+                                                GPUImageBrightnessFilter brightnessFilter = new GPUImageBrightnessFilter();
+                                                brightnessFilter.setBrightness(workPhoto.getBrightLevel() / 100f); // 亮度
 
+                                                GPUImageNormalBlendFilter blendFilter = new GPUImageNormalBlendFilter();
                                                 blendFilter.setBitmap(templateBitmap);
+
+                                                GPUImageFilterGroup gpuImageFilterGroup = new GPUImageFilterGroup();
+                                                gpuImageFilterGroup.addFilter(brightnessFilter);
+                                                gpuImageFilterGroup.addFilter(transformFilter);
+                                                gpuImageFilterGroup.addFilter(blendFilter);
 
                                                 GPUImage blendImage = new GPUImage(context);
                                                 blendImage.setImage(selectBitmap);
-                                                blendImage.setFilter(blendFilter);
+                                                blendImage.setFilter(gpuImageFilterGroup);
 
                                                 Bitmap blendBitmap = blendImage.getBitmapWithFilterApplied();
 
@@ -251,9 +281,9 @@ public class OrderUtils {
                                                                 MDImage responseSyntheticImage = response.body()
                                                                         .getContent(MDImage.class);
 
-                                                                responseImage.getWorkPhoto().setPhoto1ID
+                                                                responseImage.getWorkPhoto().setPhoto2ID
                                                                         (responseSyntheticImage.getPhotoID());
-                                                                responseImage.getWorkPhoto().setPhoto1SID
+                                                                responseImage.getWorkPhoto().setPhoto2SID
                                                                         (responseSyntheticImage.getPhotoSID());
 
                                                                 // 继续上传
@@ -273,7 +303,6 @@ public class OrderUtils {
                                     }
                                 });
                             } else {
-                                SelectImageUtils.mAlreadySelectImage.set(upload_image_index, responseImage);
                                 uploadImageRequest(context, nextUploadIndex);
                             }
                         } else {
@@ -289,24 +318,35 @@ public class OrderUtils {
             } else {
                 // 网络图片
                 // 如果有模板, 把模板和选择的照片合成一张图片
-                if (templateImage.getPhotoSID() != 0) {
-                    Glide.with(context).load(templateImage).asBitmap().into(new SimpleTarget<Bitmap>() {
+                if (selectImage.getPhotoSID() != 0 && templateImage.getPhotoSID() != 0) {
+                    GlideUtil.loadImageAsBitmap(templateImage, new SimpleTarget<Bitmap>() {
                         @Override
                         public void onResourceReady(final Bitmap templateBitmap, GlideAnimation<? super
                                 Bitmap> glideAnimation) {
 
-                            Glide.with(context).load(selectImage).asBitmap().into(new SimpleTarget<Bitmap>() {
+                            GlideUtil.loadImageAsBitmap(selectImage, new SimpleTarget<Bitmap>() {
                                 @Override
                                 public void onResourceReady(Bitmap selectBitmap, GlideAnimation<? super
                                         Bitmap> glideAnimation) {
                                     KLog.e("加载网络bitmap成功");
-                                    GPUImageNormalBlendFilter blendFilter = new GPUImageNormalBlendFilter();
+                                    WorkPhoto workPhoto = selectImage.getWorkPhoto();
 
+                                    GPUImageTransformFilter transformFilter = getTransformFilter(workPhoto.getZoomSize() / 100f,
+                                            workPhoto.getRotate());         //  放大缩小旋转
+                                    GPUImageBrightnessFilter brightnessFilter = new GPUImageBrightnessFilter();
+                                    brightnessFilter.setBrightness(workPhoto.getBrightLevel() / 100f); // 亮度
+
+                                    GPUImageNormalBlendFilter blendFilter = new GPUImageNormalBlendFilter();
                                     blendFilter.setBitmap(templateBitmap);
+
+                                    GPUImageFilterGroup gpuImageFilterGroup = new GPUImageFilterGroup();
+                                    gpuImageFilterGroup.addFilter(brightnessFilter);
+                                    gpuImageFilterGroup.addFilter(transformFilter);
+                                    gpuImageFilterGroup.addFilter(blendFilter);
 
                                     GPUImage blendImage = new GPUImage(context);
                                     blendImage.setImage(selectBitmap);
-                                    blendImage.setFilter(blendFilter);
+                                    blendImage.setFilter(gpuImageFilterGroup);
 
                                     Bitmap blendBitmap = blendImage.getBitmapWithFilterApplied();
 
@@ -321,6 +361,8 @@ public class OrderUtils {
                                                     MDImage responseSyntheticImage = response.body().getContent
                                                             (MDImage.class);
 
+                                                    selectImage.getWorkPhoto().setPhoto2ID(responseSyntheticImage.getPhotoID());
+                                                    selectImage.getWorkPhoto().setPhoto2SID(responseSyntheticImage.getPhotoSID());
                                                     // 继续上传
                                                     uploadImageRequest(context, nextUploadIndex);
                                                 }
@@ -334,7 +376,6 @@ public class OrderUtils {
                             });
                         }
                     });
-
                 } else {
                     // 继续上传
                     uploadImageRequest(context, nextUploadIndex);
@@ -342,7 +383,15 @@ public class OrderUtils {
             }
         } else {
             // 全部图片上传完之后,生成订单
-            saveOrderRequest();
+            switch (MDGroundApplication.mInstance.getChoosedProductType()) {
+                case PrintPhoto:
+                case Engraving:
+                    saveOrderRequest();
+                    break;
+                default:
+                    saveUserWorkReqeust();
+                    break;
+            }
         }
     }
 
@@ -377,16 +426,9 @@ public class OrderUtils {
 
         for (int i = 0; i < SelectImageUtils.mAlreadySelectImage.size(); i++) {
             MDImage mdImage = SelectImageUtils.mAlreadySelectImage.get(i);
-            WorkPhoto workPhoto = new WorkPhoto();
-            workPhoto.setPhoto1ID(mdImage.getPhotoID()); // 作者上传的图片
-            workPhoto.setPhoto1SID(mdImage.getPhotoSID());
-            workPhoto.setPhoto2ID(mdImage.getPhotoID()); // 合成图大图ID
-            workPhoto.setPhoto2SID(mdImage.getPhotoSID()); // 合成缩略图ID
-            int index = i + 1;
-            workPhoto.setPhotoIndex(index);
+            WorkPhoto workPhoto = mdImage.getWorkPhoto();
             workPhoto.setWorkID(responseWorkInfo.getWorkID());
             workPhoto.setZoomSize(100);
-
             workPhotoList.add(workPhoto);
         }
 
@@ -431,10 +473,12 @@ public class OrderUtils {
         if (MDGroundApplication.mInstance.getChoosedProductType() == ProductType.PrintPhoto
                 || MDGroundApplication.mInstance.getChoosedProductType() == ProductType.Engraving) {
             orderWork.setPhotoCount(SelectImageUtils.getPrintPhotoOrEngravingOrderCount());
+            orderWork.setPhotoCover(SelectImageUtils.mAlreadySelectImage.get(0).getPhotoSID()); //封面，第一张照片的缩略图ID
         } else {
             orderWork.setPhotoCount(SelectImageUtils.mAlreadySelectImage.size());
+            orderWork.setPhotoCover(SelectImageUtils.mAlreadySelectImage.get(0).getWorkPhoto().getPhoto2SID()); //封面，第一张照片的合成照片
         }
-        orderWork.setPhotoCover(SelectImageUtils.mAlreadySelectImage.get(0).getPhotoSID()); //封面，第一张照片的缩略图ID
+
         orderWork.setPrice(mPrice);
         orderWork.setTypeID(MDGroundApplication.mInstance.getChoosedProductType().value()); //作品类型（getPhotoType接口返回的TypeID）
         orderWork.setTypeName(ProductType.getProductName(MDGroundApplication.mInstance.getChoosedProductType()));
@@ -479,13 +523,27 @@ public class OrderUtils {
 
         for (int i = 0; i < SelectImageUtils.mAlreadySelectImage.size(); i++) {
             MDImage mdImage = SelectImageUtils.mAlreadySelectImage.get(i);
+            WorkPhoto workPhoto = mdImage.getWorkPhoto();
+
             OrderWorkPhoto orderWorkPhoto = new OrderWorkPhoto();
-            orderWorkPhoto.setAutoID(mdImage.getAutoID());
-            orderWorkPhoto.setWorkOID(orderWork.getWorkOID());
-            orderWorkPhoto.setPhoto1ID(mdImage.getPhotoID());
-            orderWorkPhoto.setPhoto1SID(mdImage.getPhotoSID());
-            int index = i + 1;
-            orderWorkPhoto.setPhotoIndex(index);
+
+            if (MDGroundApplication.mInstance.getChoosedProductType() == ProductType.PrintPhoto
+                    || MDGroundApplication.mInstance.getChoosedProductType() == ProductType.Engraving) {
+                orderWorkPhoto.setAutoID(mdImage.getAutoID());
+                orderWorkPhoto.setWorkOID(orderWork.getWorkOID());
+                orderWorkPhoto.setPhoto1ID(mdImage.getPhotoID());
+                orderWorkPhoto.setPhoto1SID(mdImage.getPhotoSID());
+                int index = i + 1;
+                orderWorkPhoto.setPhotoIndex(index);
+            } else {
+                orderWorkPhoto.setPhoto1ID(workPhoto.getPhoto1ID());
+                orderWorkPhoto.setPhoto1SID(workPhoto.getPhoto1SID());
+                orderWorkPhoto.setPhoto2ID(workPhoto.getPhoto2ID());
+                orderWorkPhoto.setPhoto2SID(workPhoto.getPhoto2SID());
+                orderWorkPhoto.setPhotoCount(mdImage.getPhotoCount());
+                orderWorkPhoto.setPhotoIndex(workPhoto.getPhotoIndex());
+                orderWorkPhoto.setWorkOID(orderWork.getWorkOID());
+            }
 
             orderWorkPhotoList.add(orderWorkPhoto);
         }

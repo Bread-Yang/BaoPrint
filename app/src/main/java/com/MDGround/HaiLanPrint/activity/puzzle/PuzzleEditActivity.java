@@ -108,7 +108,7 @@ public class PuzzleEditActivity extends ToolbarActivity<ActivityPuzzleEditBindin
 
         MDGroundApplication.mOrderutUtils = new OrderUtils(this,
                 1, MDGroundApplication.mInstance.getChoosedTemplate().getPrice());
-        MDGroundApplication.mOrderutUtils.saveOrderRequest();
+        MDGroundApplication.mOrderutUtils.uploadImageRequest(this, 0);
     }
     //endregion
 

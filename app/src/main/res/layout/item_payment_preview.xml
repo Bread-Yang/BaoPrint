@@ -17,7 +17,9 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <View style="@style/DividerHorizontalStyle" />
+        <View
+            android:id="@+id/viewDidiver1"
+            style="@style/DividerHorizontalStyle" />
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -116,7 +118,7 @@
         </RelativeLayout>
 
         <View
-            android:id="@+id/viewDidiver"
+            android:id="@+id/viewDidiver2"
             style="@style/DividerHorizontalStyle" />
 
         <RelativeLayout

@@ -113,10 +113,10 @@ public class BaoGPUImage extends GPUImageView {
     }
 
     public void loadNewImage(Bitmap bitmap) {
-        loadNewImage(bitmap, 1, 0);
+        loadNewImage(bitmap, 1, 0, 0);
     }
 
-    public void loadNewImage(Bitmap bitmap, float scaleFactor, float rotationDegrees) {
+    public void loadNewImage(Bitmap bitmap, float scaleFactor, float rotationDegrees, float brightness) {
         mBitmap = bitmap;
 
         mScaleFactor = scaleFactor;
@@ -124,7 +124,7 @@ public class BaoGPUImage extends GPUImageView {
 
         mTransformFilter = new GPUImageTransformFilter();
         mBrightnessFilter = new GPUImageBrightnessFilter();
-        mBrightnessFilter.setBrightness(0);
+        mBrightnessFilter.setBrightness(brightness);
 
         mFilterGroup = new GPUImageFilterGroup();
         mFilterGroup.addFilter(mBrightnessFilter);
@@ -170,7 +170,7 @@ public class BaoGPUImage extends GPUImageView {
     }
 
     public void setmBrightness(float brightness) {
-        GPUImageTransformFilter transformFilter= getTransformFilter(mScaleFactor, mRotationDegrees);
+        GPUImageTransformFilter transformFilter = getTransformFilter(mScaleFactor, mRotationDegrees);
 
         GPUImageBrightnessFilter brightnessFilter = new GPUImageBrightnessFilter();
         mBrightnessFilter.setBrightness(brightness);

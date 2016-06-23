@@ -140,6 +140,12 @@ public class SelectAlbumBeforeEditActivity extends ToolbarActivity<ActivitySelec
         }
     }
 
+    //region ACTION
+    public void nextStepAction(View view) {
+        NavUtils.toPhotoEditActivity(view.getContext());
+    }
+    //endregion
+
     //region SERVER
     private void getPhotoCountRequest() {
         ViewUtils.loading(this);
@@ -231,12 +237,6 @@ public class SelectAlbumBeforeEditActivity extends ToolbarActivity<ActivitySelec
 
             }
         });
-    }
-    //endregion
-
-    //region ACTION
-    public void nextStepAction(View view) {
-        NavUtils.toPhotoEditActivity(view.getContext());
     }
     //endregion
 

@@ -69,24 +69,18 @@ public class SelectImageBeforeEditActivity extends ToolbarActivity<ActivitySelec
 
         if (mImagesList.get(0).getPhotoSID() != 0) {
             mIsShared = mImagesList.get(0).isShared();
-//            mImagesList.clear();
+            mImagesList.clear();   // 清除封面的MDImage
 
             mDataBinding.imageRecyclerView.setupMoreListener(new OnMoreListener() {
                 @Override
                 public void onMoreAsked(int overallItemsCount, int itemsBeforeMore, int maxLastVisiblePosition) {
-                    loadImageRequest();
+                    getCloudPhotoRequest();
                 }
             }, Constants.ITEM_LEFT_TO_LOAD_MORE);
 
-            loadImageRequest();
+            getCloudPhotoRequest();
         } else {
             mDataBinding.imageRecyclerView.setLoadingMore(false);
-        }
-
-        if (mImagesList.get(0).getImageLocalPath() == null
-                && mImagesList.get(0).getPhotoID() == 0
-                && mImagesList.get(0).getPhotoCount() == 0) {
-            mImagesList.clear();
         }
 
         // 相册
@@ -171,7 +165,8 @@ public class SelectImageBeforeEditActivity extends ToolbarActivity<ActivitySelec
         }
     }
 
-    private void loadImageRequest() {
+    //region SERVER
+    private void getCloudPhotoRequest() {
         GlobalRestful.getInstance().GetCloudPhoto(mPageIndex, mIsShared, new Callback<ResponseData>() {
             @Override
             public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
@@ -197,6 +192,7 @@ public class SelectImageBeforeEditActivity extends ToolbarActivity<ActivitySelec
             }
         });
     }
+    //endregion
 
     //region ACTION
     public void nextStepAction(View view) {

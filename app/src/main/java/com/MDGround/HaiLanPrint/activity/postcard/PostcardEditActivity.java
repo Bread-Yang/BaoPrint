@@ -2,6 +2,8 @@ package com.MDGround.HaiLanPrint.activity.postcard;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.net.Uri;
+import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 import android.widget.SeekBar;
@@ -24,8 +26,10 @@ import com.MDGround.HaiLanPrint.views.BaoGPUImage;
 import com.MDGround.HaiLanPrint.views.dialog.NotifyDialog;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
-
-import java.util.ArrayList;
+import com.google.android.gms.appindexing.Action;
+import com.google.android.gms.appindexing.AppIndex;
+import com.google.android.gms.appindexing.Thing;
+import com.google.android.gms.common.api.GoogleApiClient;
 
 /**
  * Created by yoghourt on 5/18/16.
@@ -34,11 +38,14 @@ public class PostcardEditActivity extends ToolbarActivity<ActivityPostcardEditBi
 
     private TemplateImageAdapter mTeplateImageAdapter;
 
-    private ArrayList<WorkPhoto> mWorkPhotoArrayList = new ArrayList<>();
-
     private int mCurrentSelectIndex = 0;
 
     private NotifyDialog mNotifyDialog;
+    /**
+     * ATTENTION: This was auto-generated to implement the App Indexing API.
+     * See https://g.co/AppIndexing/AndroidStudio for more information.
+     */
+    private GoogleApiClient client;
 
     @Override
     protected int getContentLayout() {
@@ -48,10 +55,6 @@ public class PostcardEditActivity extends ToolbarActivity<ActivityPostcardEditBi
     @Override
     protected void initData() {
         showImageToGPUImageView(0, SelectImageUtils.mTemplateImage.get(0));
-
-        for (int i = 0; i < SelectImageUtils.mTemplateImage.size(); i++) {
-            mWorkPhotoArrayList.add(new WorkPhoto());
-        }
 
         mDataBinding.templateRecyclerView.setHasFixedSize(true);
         LinearLayoutManager imageLayoutManager = new LinearLayoutManager(this);
@@ -86,9 +89,9 @@ public class PostcardEditActivity extends ToolbarActivity<ActivityPostcardEditBi
                     float scaleFactor = mDataBinding.bgiImage.getmScaleFactor();
                     float rotateDegree = mDataBinding.bgiImage.getmRotationDegrees();
 
-                    WorkPhoto workPhoto = mWorkPhotoArrayList.get(mCurrentSelectIndex);
-                    workPhoto.setZoomSize(scaleFactor);
-                    workPhoto.setRotate(rotateDegree);
+                    WorkPhoto workPhoto = SelectImageUtils.mAlreadySelectImage.get(mCurrentSelectIndex).getWorkPhoto();
+                    workPhoto.setZoomSize((int) (scaleFactor * 100));
+                    workPhoto.setRotate((int) rotateDegree);
 
                     showImageToGPUImageView(position, mdImage);
                 }
@@ -98,6 +101,9 @@ public class PostcardEditActivity extends ToolbarActivity<ActivityPostcardEditBi
         mDataBinding.seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+
+                WorkPhoto workPhoto = SelectImageUtils.mAlreadySelectImage.get(mCurrentSelectIndex).getWorkPhoto();
+                workPhoto.setBrightLevel(progress);
 
                 mDataBinding.tvPercent.setText(getString(R.string.percent, progress) + "%");
 
@@ -131,9 +137,12 @@ public class PostcardEditActivity extends ToolbarActivity<ActivityPostcardEditBi
                 public void onResourceReady(Bitmap bitmap, GlideAnimation glideAnimation) {
                     // do something with the bitmap
                     // for demonstration purposes, let's just set it to an ImageView
-                    WorkPhoto workPhoto = mWorkPhotoArrayList.get(position);
+                    WorkPhoto workPhoto = SelectImageUtils.mAlreadySelectImage.get(mCurrentSelectIndex).getWorkPhoto();
 
-                    mDataBinding.bgiImage.loadNewImage(bitmap, workPhoto.getZoomSize(), workPhoto.getRotate());
+                    mDataBinding.bgiImage.loadNewImage(bitmap,
+                            workPhoto.getZoomSize() / 100f,
+                            workPhoto.getRotate(),
+                            workPhoto.getBrightLevel() / 100f);
                 }
             });
         } else {
@@ -146,18 +155,18 @@ public class PostcardEditActivity extends ToolbarActivity<ActivityPostcardEditBi
         // 生成订单
         MDGroundApplication.mOrderutUtils = new OrderUtils(this,
                 1, MDGroundApplication.mInstance.getChoosedTemplate().getPrice());
-        MDGroundApplication.mOrderutUtils.saveOrderRequest();
-//        MDGroundApplication.mOrderutUtils.uploadImageRequest(this, 0);
+        MDGroundApplication.mOrderutUtils.uploadImageRequest(this, 0);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_OK) {
-            MDImage mdImage = data.getParcelableExtra(Constants.KEY_SELECT_IMAGE);
+            MDImage newMDImage = data.getParcelableExtra(Constants.KEY_SELECT_IMAGE);
+            MDImage oldMDImage = SelectImageUtils.mAlreadySelectImage.get(mCurrentSelectIndex);
 
-            SelectImageUtils.mAlreadySelectImage.set(mCurrentSelectIndex, mdImage);
+            newMDImage.setWorkPhoto(oldMDImage.getWorkPhoto());
 
-            mWorkPhotoArrayList.set(mCurrentSelectIndex, new WorkPhoto());
+            SelectImageUtils.mAlreadySelectImage.set(mCurrentSelectIndex, newMDImage);
 
             showImageToGPUImageView(mCurrentSelectIndex, SelectImageUtils.mTemplateImage.get(mCurrentSelectIndex));
         }
@@ -187,6 +196,51 @@ public class PostcardEditActivity extends ToolbarActivity<ActivityPostcardEditBi
         }
 
         generateOrder();
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
+    }
+
+    /**
+     * ATTENTION: This was auto-generated to implement the App Indexing API.
+     * See https://g.co/AppIndexing/AndroidStudio for more information.
+     */
+    public Action getIndexApiAction() {
+        Thing object = new Thing.Builder()
+                .setName("PostcardEdit Page") // TODO: Define a title for the content shown.
+                // TODO: Make sure this auto-generated URL is correct.
+                .setUrl(Uri.parse("http://[ENTER-YOUR-URL-HERE]"))
+                .build();
+        return new Action.Builder(Action.TYPE_VIEW)
+                .setObject(object)
+                .setActionStatus(Action.STATUS_TYPE_COMPLETED)
+                .build();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        client.connect();
+        AppIndex.AppIndexApi.start(client, getIndexApiAction());
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        AppIndex.AppIndexApi.end(client, getIndexApiAction());
+        client.disconnect();
     }
     //endregion
 }

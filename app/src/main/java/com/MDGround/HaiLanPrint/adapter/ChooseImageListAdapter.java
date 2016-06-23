@@ -17,7 +17,10 @@ import com.MDGround.HaiLanPrint.utils.SnapViewUtils;
 import com.MDGround.HaiLanPrint.views.dialog.ShareDialog;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+
+import static com.MDGround.HaiLanPrint.utils.SelectImageUtils.mAlreadySelectImage;
 
 /**
  * Created by yoghourt on 16/5/16.
@@ -83,12 +86,14 @@ public class ChooseImageListAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     }
 
     public void bindImages(List<MDImage> images) {
-        this.mImages = images;
+        mImages.clear();
+        mImages.addAll(images);
         notifyDataSetChanged();
     }
 
     public void bindSelectImages(List<MDImage> images) {
-        this.mSelectImages = images;
+        mSelectImages.clear();
+        mSelectImages.addAll(images);
         notifyDataSetChanged();
     }
 
@@ -208,9 +213,14 @@ public class ChooseImageListAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             return;
         }
         if (isChecked) {
-            for (MDImage media : mSelectImages) {
-                if (SelectImageUtils.isSameImage(media, image)) {
-                    mSelectImages.remove(media);
+            Iterator<MDImage> iterator = mSelectImages.iterator();
+            while (iterator.hasNext()) {
+
+                MDImage item = iterator.next();
+
+                if (SelectImageUtils.isSameImage(item, image)) {
+                    iterator.remove();
+
                     if (imageSelectChangedListener != null) {
                         imageSelectChangedListener.onUnSelectImage(image, mSelectImages.size());
                         if (mSelectImages.size() == mImages.size() - 1) {

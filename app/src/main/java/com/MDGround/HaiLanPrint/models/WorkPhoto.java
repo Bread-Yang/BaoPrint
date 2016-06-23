@@ -22,7 +22,7 @@ public class    WorkPhoto {
 
     private int PhotoIndex;
 
-    private float Rotate;
+    private int Rotate;
 
     private int TemplatePID;
 
@@ -30,12 +30,7 @@ public class    WorkPhoto {
 
     private int WorkID;
 
-    private float ZoomSize;
-
-    public WorkPhoto() {
-        Rotate = 0;
-        ZoomSize = 1;
-    }
+    private int ZoomSize;
 
     public int getAutoID() {
         return AutoID;
@@ -105,7 +100,7 @@ public class    WorkPhoto {
         return Rotate;
     }
 
-    public void setRotate(float rotate) {
+    public void setRotate(int rotate) {
         Rotate = rotate;
     }
 
@@ -137,7 +132,7 @@ public class    WorkPhoto {
         return ZoomSize;
     }
 
-    public void setZoomSize(float zoomSize) {
+    public void setZoomSize(int zoomSize) {
         ZoomSize = zoomSize;
     }
 }
