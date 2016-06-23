@@ -43,7 +43,6 @@ import retrofit2.Response;
 /**
  * Created by yoghourt on 6/12/16.
  */
-
 public class OrderUtils {
 
     private Activity mActivity;

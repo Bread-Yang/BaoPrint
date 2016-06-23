@@ -42,7 +42,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/size_18"
             android:layout_marginTop="@dimen/size_18"
-            android:text="@string/explain"
+            android:text="@string/nickname_tips"
             android:textColor="@color/color_999999"
             android:textSize="@dimen/text_size_14" />
     </LinearLayout>

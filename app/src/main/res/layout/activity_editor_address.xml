@@ -27,7 +27,7 @@
                     android:layout_height="match_parent"
                     android:gravity="center_vertical|left"
                     android:paddingLeft="@dimen/margin_12"
-                    android:text="@string/receiver"
+                    android:text="@string/consignee"
                     android:textSize="@dimen/text_size_16" />
 
                 <EditText
@@ -52,7 +52,7 @@
                     android:layout_height="match_parent"
                     android:gravity="center_vertical|left"
                     android:paddingLeft="@dimen/margin_12"
-                    android:text="@string/contacts"
+                    android:text="@string/contact_number"
                     android:textSize="@dimen/text_size_16" />
 
                 <EditText
@@ -140,7 +140,7 @@
                 android:layout_marginTop="@dimen/margin_40"
                 android:background="@drawable/rect_orange"
                 android:gravity="center"
-                android:text="@string/saveAddress"
+                android:text="@string/save_address"
                 android:textColor="@color/color_white"
                 android:textSize="@dimen/margin_20" />-->
         </LinearLayout>

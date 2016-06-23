@@ -97,7 +97,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="bottom"
                         android:layout_marginLeft="@dimen/margin_6"
-                        android:text="@string/editor"
+                        android:text="@string/edit"
                         android:textColor="@color/color_333333"
                         android:textSize="@dimen/text_size_16" />
 

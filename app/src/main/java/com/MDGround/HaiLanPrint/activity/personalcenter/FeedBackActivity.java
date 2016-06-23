@@ -53,7 +53,7 @@ public class FeedBackActivity extends ToolbarActivity<ActivityFeedBackBinding> {
 
             @Override
             public void onFailure(Call<ResponseData> call, Throwable t) {
-                ViewUtils.toast(getString(R.string.fail_sumbit));
+                ViewUtils.toast(getString(R.string.sumbit_fail));
             }
         });
     }

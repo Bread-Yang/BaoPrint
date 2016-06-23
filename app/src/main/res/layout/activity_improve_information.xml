@@ -62,7 +62,7 @@
                 android:gravity="center_vertical"
                 android:paddingLeft="@dimen/margin_10"
                 android:layout_height="@dimen/size_44"
-                android:text="@string/childinformation_one"/>
+                android:text="@string/child_information_one"/>
             <com.MDGround.HaiLanPrint.views.ClearEditText
                 android:id="@+id/cetChildName1"
                 android:layout_width="match_parent"
@@ -131,7 +131,7 @@
                 android:gravity="center_vertical"
                 android:paddingLeft="@dimen/margin_10"
                 android:layout_height="@dimen/size_44"
-                android:text="@string/childinformation_two"/>
+                android:text="@string/child_information_two"/>
             <com.MDGround.HaiLanPrint.views.ClearEditText
                 android:id="@+id/cetChildName2"
                 android:layout_width="match_parent"

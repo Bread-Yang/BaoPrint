@@ -16,7 +16,6 @@ import com.MDGround.HaiLanPrint.utils.StringUtil;
 /**
  * Created by yoghourt on 5/23/16.
  */
-
 public class PaymentSuccessActivity extends ToolbarActivity<ActivityPaymentSuccessBinding> {
 
     @Override

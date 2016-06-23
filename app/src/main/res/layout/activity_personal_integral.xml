@@ -24,7 +24,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/tv_hold"
+                    android:text="@string/holding_credit"
                     android:textColor="@android:color/white"
                     android:textSize="17sp" />
 
@@ -44,7 +44,7 @@
             android:layout_height="50dp"
             android:gravity="center_vertical"
             android:paddingLeft="@dimen/margin_10"
-            android:text="@string/tv_intergral_details"
+            android:text="@string/credits_balance_of_payment"
             android:textSize="17sp" />
 
         <android.support.v7.widget.RecyclerView

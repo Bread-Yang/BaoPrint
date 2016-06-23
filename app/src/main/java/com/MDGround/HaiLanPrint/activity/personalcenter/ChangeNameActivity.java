@@ -36,7 +36,7 @@ public class ChangeNameActivity extends ToolbarActivity<ActivityChangeNameBindin
     protected void initData() {
         mLoginUser = MDGroundApplication.mInstance.getLoginUser();
 
-        tvRight.setText(R.string.finished);
+        tvRight.setText(R.string.finish);
         tvRight.setVisibility(View.VISIBLE);
         String userNickName = mLoginUser.getUserNickName();
         mDataBinding.etName.setText(userNickName);
@@ -77,7 +77,7 @@ public class ChangeNameActivity extends ToolbarActivity<ActivityChangeNameBindin
                         });
                     }
                 } else {
-                    ViewUtils.toast(getString(R.string.name_not_null));
+                    ViewUtils.toast(getString(R.string.nickname_not_null));
                 }
             }
         });

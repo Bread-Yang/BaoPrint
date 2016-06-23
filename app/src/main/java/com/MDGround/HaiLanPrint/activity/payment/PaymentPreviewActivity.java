@@ -50,7 +50,6 @@ import static com.MDGround.HaiLanPrint.ProductType.ArtAlbum;
 /**
  * Created by yoghourt on 5/23/16.
  */
-
 public class PaymentPreviewActivity extends ToolbarActivity<ActivityPaymentPreviewBinding> {
 
     private final int REQEUST_CODE_SELECT_DELIVERY_ADDRESS = 0x11;

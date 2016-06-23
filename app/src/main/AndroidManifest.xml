@@ -292,7 +292,7 @@
             android:label="@string/message_center" />
         <activity
             android:name=".activity.personalcenter.MyCreditActivity"
-            android:label="@string/mycredit"
+            android:label="@string/my_credits"
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.orders.MyOrdersActivity"
@@ -304,7 +304,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.personalcenter.ChangeNameActivity"
-            android:label="@string/changeName" />
+            android:label="@string/change_nick_name" />
         <activity
             android:name=".activity.personalcenter.ChildInformationActivity"
             android:label="@string/child_information" />
@@ -330,7 +330,7 @@
             android:label="@string/about_us" />
         <activity
             android:name=".activity.personalcenter.TermServerActivity"
-            android:label="@string/gvrp" />
+            android:label="@string/terms_of_service" />
         <activity
             android:name=".activity.personalcenter.FeedBackActivity"
             android:label="@string/feedback"/>

@@ -27,7 +27,7 @@
                 android:gravity="center_vertical"
                 android:paddingLeft="@dimen/margin_16"
                 android:paddingRight="@dimen/margin_16"
-                android:text="@string/childinformation_one" />
+                android:text="@string/child_information_one" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -47,7 +47,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/margin_10"
-                    android:text="@string/name"
+                    android:text="@string/nickname"
                     android:textColor="@color/color_333333"
                     android:textSize="@dimen/text_size_16" />
 
@@ -62,7 +62,7 @@
                     android:layout_height="match_parent"
                     android:background="@null"
                     android:gravity="center_vertical|right"
-                    android:hint="@string/wuhuarou"
+                    android:hint="@string/input_nickname"
                     android:singleLine="true"
                     android:text="@{user.KidName1}"
                     android:textSize="@dimen/text_size_16" />
@@ -104,7 +104,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:gravity="center_vertical"
-                    android:hint="@string/inputBirthday"
+                    android:hint="@string/input_birthday"
                     android:singleLine="true"
                     android:text="@{user.KidDOB1}"
                     android:textSize="@dimen/text_size_16" />
@@ -145,7 +145,7 @@
                     android:layout_height="match_parent"
                     android:background="@null"
                     android:gravity="center_vertical|right"
-                    android:hint="@string/longtouschool"
+                    android:hint="@string/input_school"
                     android:singleLine="true"
                     android:text="@{user.KidSchool1}"
                     android:textSize="@dimen/text_size_16" />
@@ -171,7 +171,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/margin_10"
-                    android:text="@string/Mclass"
+                    android:text="@string/classes"
                     android:textColor="@color/color_333333"
                     android:textSize="@dimen/text_size_16" />
 
@@ -186,7 +186,7 @@
                     android:layout_height="match_parent"
                     android:background="@null"
                     android:gravity="center_vertical|right"
-                    android:hint="@string/treeClassTwo"
+                    android:hint="@string/input_grade"
                     android:singleLine="true"
                     android:text="@{user.KidClass1}"
                     android:textSize="@dimen/text_size_16" />
@@ -204,7 +204,7 @@
                 android:gravity="center_vertical"
                 android:paddingLeft="@dimen/margin_16"
                 android:paddingRight="@dimen/margin_16"
-                android:text="@string/childinformation_two" />
+                android:text="@string/child_information_two" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -224,7 +224,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/margin_10"
-                    android:text="@string/name"
+                    android:text="@string/nickname"
                     android:textColor="@color/color_333333"
                     android:textSize="@dimen/text_size_16" />
 
@@ -239,7 +239,7 @@
                     android:layout_height="match_parent"
                     android:background="@null"
                     android:gravity="center_vertical|right"
-                    android:hint="@string/wuhuarou"
+                    android:hint="@string/input_nickname"
                     android:singleLine="true"
                     android:text="@{user.KidName2}"
                     android:textSize="@dimen/text_size_16" />
@@ -281,7 +281,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:gravity="center_vertical"
-                    android:hint="@string/inputBirthday"
+                    android:hint="@string/input_birthday"
                     android:singleLine="true"
                     android:text="@{user.KidDOB2}"
                     android:textSize="@dimen/text_size_16" />
@@ -322,7 +322,7 @@
                     android:layout_height="match_parent"
                     android:background="@null"
                     android:gravity="center_vertical|right"
-                    android:hint="@string/longtouschool"
+                    android:hint="@string/input_school"
                     android:singleLine="true"
                     android:text="@{user.KidSchool2}"
                     android:textSize="@dimen/text_size_16" />
@@ -348,7 +348,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/margin_10"
-                    android:text="@string/Mclass"
+                    android:text="@string/classes"
                     android:textColor="@color/color_333333"
                     android:textSize="@dimen/text_size_16" />
 
@@ -363,7 +363,7 @@
                     android:layout_height="match_parent"
                     android:background="@null"
                     android:gravity="center_vertical|right"
-                    android:hint="@string/treeClassTwo"
+                    android:hint="@string/input_grade"
                     android:singleLine="true"
                     android:text="@{user.KidClass2}"
                     android:textSize="@dimen/text_size_16" />
