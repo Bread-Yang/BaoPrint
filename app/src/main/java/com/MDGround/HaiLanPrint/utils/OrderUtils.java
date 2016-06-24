@@ -27,6 +27,7 @@ import com.MDGround.HaiLanPrint.restfuls.GlobalRestful;
 import com.MDGround.HaiLanPrint.restfuls.bean.ResponseData;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
+import com.google.gson.reflect.TypeToken;
 import com.socks.library.KLog;
 
 import java.io.File;
@@ -62,6 +63,11 @@ public class OrderUtils {
 
     public String mWorkStyle = "";
 
+    private WorkInfo mWorkInfo;
+
+    // true : 只是保存到我的作品,没有下单
+    private boolean mIsJustSaveUserWork;
+
     public ArrayList<OrderWork> mOrderWorkArrayList = new ArrayList<>();
 
     public OrderUtils(OrderInfo orderInfo, ArrayList<OrderWork> orderWorkArrayList) {
@@ -69,17 +75,19 @@ public class OrderUtils {
         mOrderWorkArrayList = orderWorkArrayList;
     }
 
-    public OrderUtils(Activity activity, int orderCount, int price) {
+    public OrderUtils(Activity activity, boolean isJustSaveUserWork, int orderCount, int price) {
         this.mActivity = activity;
         mOrderCount = orderCount;
         mPrice = price;
+        mIsJustSaveUserWork = isJustSaveUserWork;
     }
 
-    public OrderUtils(Activity activity, int orderCount, int price,
+    public OrderUtils(Activity activity, boolean isJustSaveUserWork, int orderCount, int price,
                       String workFormat, String workMaterial, String workStyle) {
         this.mActivity = activity;
         mOrderCount = orderCount;
         mPrice = price;
+        mIsJustSaveUserWork = isJustSaveUserWork;
 
         if (workFormat != null) {
             this.mWorkFormat = workFormat;
@@ -93,93 +101,6 @@ public class OrderUtils {
             this.mWorkStyle = workStyle;
         }
     }
-
-    // 生成合成图片到本地
-    public void createSyntheticImage(final Context context) {
-        for (int i = 0; i < SelectImageUtils.mAlreadySelectImage.size(); i++) {
-            final MDImage selectImage = SelectImageUtils.mAlreadySelectImage.get(i);
-            MDImage templateImage = SelectImageUtils.mTemplateImage.get(i);
-            if (templateImage.getPhotoSID() != 0
-                    && (selectImage.getImageLocalPath() != null || selectImage.getPhotoSID() != 0)) { //
-                // 模版图片存在,并且用户选择的图片存在
-
-            }
-        }
-        for (MDImage mdImage : SelectImageUtils.mAlreadySelectImage) {
-
-        }
-    }
-
-    private Runnable uploadSyntheticImage = new Runnable() {
-        @Override
-        public void run() {
-
-        }
-    };
-
-//    public void uploadImageRequest(final int upload_image_index) {
-//        if (upload_image_index < SelectImageUtil.mAlreadySelectImage.size()) {
-//            final MDImage selectImage = SelectImageUtil.mAlreadySelectImage.get(upload_image_index);
-//
-//            final int nextUploadIndex = upload_image_index + 1;
-//
-//            if (selectImage.getImageLocalPath() != null && !StringUtil.isEmpty(selectImage
-// .getImageLocalPath())) { // 本地图片
-//                File file = new File(selectImage.getImageLocalPath());
-//
-//                // 上传本地照片
-//                FileRestful.getInstance().UploadPhoto(UploadType.Order, file, new Callback<ResponseData>() {
-//                    @Override
-//                    public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
-//                        final MDImage responseImage = response.body().getContent(MDImage.class);
-//
-//                        if (responseImage != null) {
-//                            responseImage.setPhotoCount(selectImage.getPhotoCount());
-//
-//                            if (selectImage.getSyntheticImageLocalPath() != null && !StringUtil.isEmpty
-// (selectImage.getSyntheticImageLocalPath())) { // 合成图片
-//                                File syntheticFile = new File(selectImage.getSyntheticImageLocalPath());
-//
-//                                // 上传合成图片
-//                                FileRestful.getInstance().UploadCloudPhoto(false, syntheticFile, null,
-// new Callback<ResponseData>() {
-//                                    @Override
-//                                    public void onResponse(Call<ResponseData> call,
-// Response<ResponseData> response) {
-//                                        MDImage responseSyntheticImage = response.body().getContent
-// (MDImage.class);
-//
-//                                        SelectImageUtil.mAlreadySelectImage.set(upload_image_index,
-// responseImage);
-//                                        uploadImageRequest(nextUploadIndex);
-//                                    }
-//
-//                                    @Override
-//                                    public void onFailure(Call<ResponseData> call, Throwable t) {
-//
-//                                    }
-//                                });
-//                            } else {
-//                                SelectImageUtil.mAlreadySelectImage.set(upload_image_index, responseImage);
-//                                uploadImageRequest(nextUploadIndex);
-//                            }
-//                        } else {
-//                            uploadImageRequest(nextUploadIndex);
-//                        }
-//                    }
-//
-//                    @Override
-//                    public void onFailure(Call<ResponseData> call, Throwable t) {
-//                    }
-//                });
-//            } else {
-//                uploadImageRequest(nextUploadIndex);
-//            }
-//        } else {
-//            // 全部图片上传完之后,生成订单
-//            saveOrderRequest();
-//        }
-//    }
 
     private GPUImageTransformFilter getTransformFilter(float scaleFactor, float rotationDegree) {
         float[] transform = new float[16];
@@ -382,10 +303,10 @@ public class OrderUtils {
                 }
             }
         } else {
-            // 全部图片上传完之后,生成订单
             switch (MDGroundApplication.mInstance.getChoosedProductType()) {
                 case PrintPhoto:
                 case Engraving:
+                    // 全部图片上传完之后,生成订单
                     saveOrderRequest();
                     break;
                 default:
@@ -409,9 +330,9 @@ public class OrderUtils {
         GlobalRestful.getInstance().SaveUserWork(workInfo, new Callback<ResponseData>() {
             @Override
             public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
-                WorkInfo responseWorkInfo = response.body().getContent(WorkInfo.class);
+                mWorkInfo = response.body().getContent(WorkInfo.class);
 
-                saveUserWorkPhotoListRequest(responseWorkInfo);
+                saveUserWorkPhotoListRequest(mWorkInfo);
             }
 
             @Override
@@ -435,7 +356,40 @@ public class OrderUtils {
         GlobalRestful.getInstance().SaveUserWorkPhotoList(workPhotoList, new Callback<ResponseData>() {
             @Override
             public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
-                saveOrderRequest();
+                ArrayList<WorkPhoto> responseWorkPhotoList = response.body().getContent(new TypeToken<ArrayList<WorkPhoto>>() {
+                });
+
+                List<MDImage> mdImageList = new ArrayList<MDImage>();
+                for (WorkPhoto workPhoto : responseWorkPhotoList) {
+                    MDImage mdImage = new MDImage();
+                    mdImage.setPhotoID(workPhoto.getPhoto2ID());
+                    mdImage.setPhotoName("");
+                    mdImage.setPhotoSID(workPhoto.getPhoto2SID());
+                    mdImage.setShared(false);
+                    mdImage.setUserID(MDGroundApplication.mInstance.getLoginUser().getUserID());
+                    mdImageList.add(mdImage);
+                }
+
+                savePhotoCloudListRequest(mdImageList);
+            }
+
+            @Override
+            public void onFailure(Call<ResponseData> call, Throwable t) {
+
+            }
+        });
+    }
+
+    private void savePhotoCloudListRequest(List<MDImage> photoCloudList) {
+        GlobalRestful.getInstance().SavePhotoCloudList(photoCloudList, new Callback<ResponseData>() {
+            @Override
+            public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
+                if (mIsJustSaveUserWork) {
+                    ViewUtils.dismiss();
+                    NavUtils.toMainActivity(mActivity);
+                } else {
+                    saveOrderRequest();
+                }
             }
 
             @Override
@@ -581,6 +535,7 @@ public class OrderUtils {
                 ViewUtils.dismiss();
                 Intent intent = new Intent(activity, PaymentSuccessActivity.class);
                 intent.putExtra(Constants.KEY_ORDER_INFO, mOrderInfo);
+                intent.putExtra(Constants.KEY_WORK_INFO, mWorkInfo);
                 activity.startActivity(intent);
             }
 

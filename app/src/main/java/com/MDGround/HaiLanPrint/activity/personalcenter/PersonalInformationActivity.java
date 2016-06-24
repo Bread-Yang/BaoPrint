@@ -3,7 +3,6 @@ package com.MDGround.HaiLanPrint.activity.personalcenter;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
-import android.os.Environment;
 import android.provider.MediaStore;
 import android.view.View;
 
@@ -11,7 +10,6 @@ import com.MDGround.HaiLanPrint.R;
 import com.MDGround.HaiLanPrint.activity.base.ToolbarActivity;
 import com.MDGround.HaiLanPrint.activity.login.ForgetPasswordActivity;
 import com.MDGround.HaiLanPrint.application.MDGroundApplication;
-import com.MDGround.HaiLanPrint.constants.Constants;
 import com.MDGround.HaiLanPrint.databinding.ActivityPersonalInformationBinding;
 import com.MDGround.HaiLanPrint.enumobject.restfuls.ResponseCode;
 import com.MDGround.HaiLanPrint.greendao.Location;
@@ -21,9 +19,9 @@ import com.MDGround.HaiLanPrint.restfuls.FileRestful;
 import com.MDGround.HaiLanPrint.restfuls.GlobalRestful;
 import com.MDGround.HaiLanPrint.restfuls.bean.ResponseData;
 import com.MDGround.HaiLanPrint.utils.DateUtils;
+import com.MDGround.HaiLanPrint.utils.FileUtils;
 import com.MDGround.HaiLanPrint.utils.GlideUtil;
 import com.MDGround.HaiLanPrint.utils.StringUtil;
-import com.MDGround.HaiLanPrint.utils.ViewUtils;
 import com.MDGround.HaiLanPrint.views.dialog.RegionPickerDialog;
 import com.MDGround.HaiLanPrint.views.dialog.SelectSingleImageDialog;
 import com.socks.library.KLog;
@@ -62,28 +60,21 @@ public class PersonalInformationActivity extends ToolbarActivity<ActivityPersona
     protected void initData() {
         mRegionPickerDialog = new RegionPickerDialog(this);
         mSelectSingleImageDialog = new SelectSingleImageDialog(PersonalInformationActivity.this, R.style.customDialogStyle);
-        User user = MDGroundApplication.mInstance.getLoginUser();
+        mUser = MDGroundApplication.mInstance.getLoginUser();
         // 用户头像
         MDImage mdImage = new MDImage();
-        mdImage.setPhotoID(user.getPhotoID());
-        mdImage.setPhotoSID(user.getPhotoSID());
+        mdImage.setPhotoID(mUser.getPhotoID());
+        mdImage.setPhotoSID(mUser.getPhotoSID());
         GlideUtil.loadImageByMDImage(mDataBinding.civAvatar, mdImage, false);
-        // 昵称
-        mDataBinding.tvNickname.setText(user.getUserNickName());
-        mDataBinding.tvPhone.setText(user.getPhone());
-        mDataBinding.tvAccountName.setText(user.getUserName());
+        mDataBinding.tvPhone.setText(mUser.getPhone());
+        mDataBinding.tvAccountName.setText(mUser.getUserName());
     }
 
     @Override
     protected void onResume() {
         super.onResume();
 
-        mUser = MDGroundApplication.mInstance.getLoginUser();
         mDataBinding.tvNickname.setText(mUser.getUserNickName());
-        MDImage mdImage = new MDImage();
-        mdImage.setPhotoID(mUser.getPhotoID());
-        mdImage.setPhotoSID(mUser.getPhotoSID());
-        GlideUtil.loadImageByMDImage(mDataBinding.civAvatar, mdImage, false);
 
         Location city = MDGroundApplication.mDaoSession.getLocationDao().load((long) mUser.getCityID());
         Location county = MDGroundApplication.mDaoSession.getLocationDao().load((long) mUser.getCountryID());
@@ -108,8 +99,10 @@ public class PersonalInformationActivity extends ToolbarActivity<ActivityPersona
                         User user = response.body().getContent(User.class);
                         if (ResponseCode.isSuccess(response.body())) {
                             mDataBinding.tvLocality.setText(city.getLocationName() + county.getLocationName());
-                            mUser = user;
-                            MDGroundApplication.mInstance.setLoginUser(user);
+                            mUser.setProvinceID(user.getProvinceID());
+                            mUser.setCityID(user.getCityID());
+                            mUser.setCountryID(user.getCountryID());
+                            MDGroundApplication.mInstance.setLoginUser(mUser);
                         }
                     }
 
@@ -136,8 +129,10 @@ public class PersonalInformationActivity extends ToolbarActivity<ActivityPersona
                 uploadAvatar(Picturepath);
             } else if (requestCode == SelectSingleImageDialog.PHOTO_REQUEST_CAREMA) {// 从相机返回的数据
                 KLog.e("相机返回数据");
-                String Picturepath = Environment.getExternalStorageDirectory() + Constants.PHOTO_FILE + "/" + Constants.PHOTO_NAME;
-                uploadAvatar(Picturepath);
+
+                Uri uri = data.getData();
+                String picturePath = FileUtils.getAbsoluteImagePath(PersonalInformationActivity.this, uri);
+                uploadAvatar(picturePath);
             }
 
         }
@@ -171,7 +166,6 @@ public class PersonalInformationActivity extends ToolbarActivity<ActivityPersona
 
     public void uploadAvatar(String Picturepath) {
         if (Picturepath != null) {
-            ViewUtils.loading(this);
             File file = new File(Picturepath);
             int userID = mUser.getUserID();
             Date date = new Date(System.currentTimeMillis());
@@ -187,19 +181,24 @@ public class PersonalInformationActivity extends ToolbarActivity<ActivityPersona
                             String jsonStr = jsonObject.toString();
 
                             User user = StringUtil.getInstanceByJsonString(jsonStr, User.class);
-                            mUser = user;
-                            MDGroundApplication.mInstance.setLoginUser(user);
+                            mUser.setPhotoID(user.getPhotoID());
+                            mUser.setPhotoSID(user.getPhotoSID());
+                            MDGroundApplication.mInstance.setLoginUser(mUser);
 
-                            MDImage mdImage = new MDImage();
+                            final MDImage mdImage = new MDImage();
                             mdImage.setPhotoID(user.getPhotoID());
                             mdImage.setPhotoSID(user.getPhotoSID());
-                            GlideUtil.loadImageByMDImage(mDataBinding.civAvatar, mdImage, false);
+                            mDataBinding.civAvatar.post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    GlideUtil.loadImageByMDImage(mDataBinding.civAvatar, mdImage, false);
+                                }
+                            });
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
 
                     }
-                    ViewUtils.dismiss();
                 }
 
                 @Override

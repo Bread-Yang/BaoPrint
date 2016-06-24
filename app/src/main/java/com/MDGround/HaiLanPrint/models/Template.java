@@ -7,6 +7,8 @@ import com.MDGround.HaiLanPrint.BR;
 
 import java.io.Serializable;
 
+import kotlin.jvm.Transient;
+
 /**
  * Created by yoghourt on 5/25/16.
  */
@@ -50,6 +52,9 @@ public class Template extends BaseObservable implements Serializable {
     private int TypeID;
 
     private String UpdatedTime;
+
+    @Transient
+    private String selectMaterial;
 
     public String getMaterialDesc() {
         return MaterialDesc;
@@ -203,5 +208,13 @@ public class Template extends BaseObservable implements Serializable {
 
     public void setUpdatedTime(String updatedTime) {
         UpdatedTime = updatedTime;
+    }
+
+    public String getSelectMaterial() {
+        return selectMaterial;
+    }
+
+    public void setSelectMaterial(String selectMaterial) {
+        this.selectMaterial = selectMaterial;
     }
 }

@@ -16,10 +16,7 @@ import android.view.WindowManager;
 import android.widget.Toast;
 
 import com.MDGround.HaiLanPrint.R;
-import com.MDGround.HaiLanPrint.constants.Constants;
 import com.MDGround.HaiLanPrint.databinding.DialogSelectSingleImageBinding;
-
-import java.io.File;
 
 /**
  * Created by yoghourt on 5/25/16.
@@ -98,14 +95,14 @@ public class SelectSingleImageDialog extends Dialog {
         dismiss();
         if (isSdCardMounted()) {
             Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-            String path = Environment.getExternalStorageDirectory().toString() + Constants.PHOTO_FILE;
-            File paht1 = new File(path);
-            if (!paht1.exists()) {
-                paht1.mkdir();
-            }
-            File file = new File(paht1, Constants.PHOTO_NAME);
-            Uri outputFileUri = Uri.fromFile(file);
-            intent.putExtra(MediaStore.EXTRA_OUTPUT, outputFileUri);
+//            String path = Environment.getExternalStorageDirectory().toString() + Constants.PHOTO_FILE;
+//            File paht1 = new File(path);
+//            if (!paht1.exists()) {
+//                paht1.mkdir();
+//            }
+//            File file = new File(paht1, System.currentTimeMillis() + ".jpg");
+//            Uri outputFileUri = Uri.fromFile(file);
+//            intent.putExtra(MediaStore.EXTRA_OUTPUT, outputFileUri);
             mActivity.startActivityForResult(intent, PHOTO_REQUEST_CAREMA);
         } else {
             Toast.makeText(mActivity, "内存卡不存在", Toast.LENGTH_LONG).show();

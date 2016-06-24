@@ -16,9 +16,13 @@ public class MDImage extends BaseObservable implements Parcelable {
 
     private int PhotoID;
 
+    private String PhotoName;
+
     private int PhotoSID;
 
     private int PhotoCount;
+
+    private int UserID;
 
     private boolean Shared;
 
@@ -45,8 +49,10 @@ public class MDImage extends BaseObservable implements Parcelable {
     protected MDImage(Parcel in) {
         AutoID = in.readInt();
         PhotoID = in.readInt();
+        PhotoName = in.readString();
         PhotoSID = in.readInt();
         PhotoCount = in.readInt();
+        UserID = in.readInt();
         Shared = in.readByte() != 0;
         imageLocalPath = in.readString();
         duration = in.readLong();
@@ -74,8 +80,10 @@ public class MDImage extends BaseObservable implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(AutoID);
         dest.writeInt(PhotoID);
+        dest.writeString(PhotoName);
         dest.writeInt(PhotoSID);
         dest.writeInt(PhotoCount);
+        dest.writeInt(UserID);
         dest.writeByte((byte) (Shared ? 1 : 0));
         dest.writeString(imageLocalPath);
         dest.writeLong(duration);
@@ -98,6 +106,14 @@ public class MDImage extends BaseObservable implements Parcelable {
         PhotoID = photoID;
     }
 
+    public String getPhotoName() {
+        return PhotoName;
+    }
+
+    public void setPhotoName(String photoName) {
+        PhotoName = photoName;
+    }
+
     public int getPhotoSID() {
         return PhotoSID;
     }
@@ -114,6 +130,14 @@ public class MDImage extends BaseObservable implements Parcelable {
     public void setPhotoCount(int photoCount) {
         PhotoCount = photoCount;
         notifyPropertyChanged(BR.photoCount);
+    }
+
+    public int getUserID() {
+        return UserID;
+    }
+
+    public void setUserID(int userID) {
+        UserID = userID;
     }
 
     public boolean isShared() {

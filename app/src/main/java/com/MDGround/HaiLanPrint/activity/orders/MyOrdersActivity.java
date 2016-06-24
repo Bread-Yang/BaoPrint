@@ -22,6 +22,7 @@ import com.MDGround.HaiLanPrint.restfuls.GlobalRestful;
 import com.MDGround.HaiLanPrint.restfuls.bean.ResponseData;
 import com.MDGround.HaiLanPrint.utils.NavUtils;
 import com.MDGround.HaiLanPrint.utils.StringUtil;
+import com.MDGround.HaiLanPrint.utils.ViewUtils;
 import com.google.gson.reflect.TypeToken;
 import com.malinskiy.superrecyclerview.OnMoreListener;
 
@@ -118,7 +119,7 @@ public class MyOrdersActivity extends ToolbarActivity<ActivityMyOrdersBinding> {
 
                 }
 
-                getUserOrderListRequest();
+                refreshOrderList();
             }
 
             @Override
@@ -132,6 +133,15 @@ public class MyOrdersActivity extends ToolbarActivity<ActivityMyOrdersBinding> {
             }
         });
 
+//        mDataBinding.recyclerView.setupMoreListener(new OnMoreListener() {
+//            @Override
+//            public void onMoreAsked(int overallItemsCount, int itemsBeforeMore, int maxLastVisiblePosition) {
+//                getUserOrderListRequest();
+//            }
+//        }, Constants.ITEM_LEFT_TO_LOAD_MORE);
+    }
+
+    private void setRecyclerViewLoadMoreListener() {
         mDataBinding.recyclerView.setupMoreListener(new OnMoreListener() {
             @Override
             public void onMoreAsked(int overallItemsCount, int itemsBeforeMore, int maxLastVisiblePosition) {
@@ -141,6 +151,8 @@ public class MyOrdersActivity extends ToolbarActivity<ActivityMyOrdersBinding> {
     }
 
     private void refreshOrderList() {
+        setRecyclerViewLoadMoreListener();
+        mDataBinding.recyclerView.setLoadingMore(true);
         mOrderInfoHashMap.clear();
         mOrderWorkArrayList.clear();
         mPageIndex = 0;
@@ -149,9 +161,11 @@ public class MyOrdersActivity extends ToolbarActivity<ActivityMyOrdersBinding> {
 
     //region SERVER
     private void getUserOrderListRequest() {
+        ViewUtils.loading(this);
         GlobalRestful.getInstance().GetUserOrderList(mPageIndex, mOrderStatus, new Callback<ResponseData>() {
             @Override
             public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
+                ViewUtils.dismiss();
                 mPageIndex++;
 
                 if (StringUtil.isEmpty(response.body().getContent())) {
@@ -170,12 +184,12 @@ public class MyOrdersActivity extends ToolbarActivity<ActivityMyOrdersBinding> {
                     if (mOrderWorkArrayList.size() > 0) {
                         mDataBinding.tvEmptyTips.setVisibility(View.GONE);
                         mDataBinding.recyclerView.setVisibility(View.VISIBLE);
-                        mAdapter.notifyDataSetChanged();
                     } else {
                         mDataBinding.tvEmptyTips.setVisibility(View.VISIBLE);
                         mDataBinding.recyclerView.setVisibility(View.GONE);
                     }
                 }
+                mAdapter.notifyDataSetChanged();
 
                 mDataBinding.recyclerView.hideMoreProgress();
             }

@@ -1,5 +1,7 @@
 package com.MDGround.HaiLanPrint.activity.phoneshell;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.view.View;
@@ -42,7 +44,22 @@ public class PhoneShellEditActivity extends ToolbarActivity<ActivityPhoneShellEd
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                NavUtils.toMainActivity(PhoneShellEditActivity.this);
+                AlertDialog.Builder builder = new AlertDialog.Builder(PhoneShellEditActivity.this);
+                builder.setTitle(R.string.tips);
+                builder.setMessage(R.string.if_add_to_my_work);
+                builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        NavUtils.toMainActivity(PhoneShellEditActivity.this);
+                    }
+                });
+                builder.setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        saveToMyWork();
+                    }
+                });
+                builder.show();
             }
         });
 
@@ -106,6 +123,17 @@ public class PhoneShellEditActivity extends ToolbarActivity<ActivityPhoneShellEd
         }
     }
 
+    private void saveToMyWork() {
+        ViewUtils.loading(this);
+        // 保存到我的作品中
+        MDGroundApplication.mOrderutUtils = new OrderUtils(this, true,
+                1, MDGroundApplication.mInstance.getChoosedTemplate().getPrice(),
+                null,
+                MDGroundApplication.mInstance.getChoosedTemplate().getSelectMaterial(),
+                null);
+        MDGroundApplication.mOrderutUtils.uploadImageRequest(this, 0);
+    }
+
     //region ACTION
     public void nextStepAction(View view) {
         float scaleFactor = mDataBinding.bgiImage.getmScaleFactor();
@@ -117,8 +145,11 @@ public class PhoneShellEditActivity extends ToolbarActivity<ActivityPhoneShellEd
 
         ViewUtils.loading(this);
 
-        MDGroundApplication.mOrderutUtils = new OrderUtils(this,
-                1, MDGroundApplication.mInstance.getChoosedTemplate().getPrice());
+        MDGroundApplication.mOrderutUtils = new OrderUtils(this, false,
+                1, MDGroundApplication.mInstance.getChoosedTemplate().getPrice(),
+                null,
+                MDGroundApplication.mInstance.getChoosedTemplate().getSelectMaterial(),
+                null);
         MDGroundApplication.mOrderutUtils.uploadImageRequest(this, 0);
     }
     //endregion

@@ -22,8 +22,6 @@ public final class Constants {
     public static final String DATABASE_NAME = "mdground";
     //照片储存文件夹
     public static final String PHOTO_FILE = "/baoprint";
-    //临时相机拍完后照片的名字
-    public static final String PHOTO_NAME = "textbaoprint.jpg";
     // 短信接口参数
     public static final String SMS_APP_KEY = "fdd3cf873a60";
     public static final String SMS_APP_SECRECT = "bb31da16613ce49ba8cb815ccf5afe7d";
@@ -47,6 +45,7 @@ public final class Constants {
     public static final String KEY_ORDER_WORK = "key_order_work";
     public static final String KEY_ORDER_WORK_LIST = "key_order_work_list";
     public static final String KEY_ORDER_INFO = "key_order_info";
+    public static final String KEY_WORK_INFO = "key_work_info";
     public static final String KEY_SELECTED_COUPON = "key_selected_coupon";
     public static final String KEY_ORDER_AMOUNT_FEE = "key_order_amount_fee";
     public static final String KEY_COUPON_LIST = "key_coupon_list";

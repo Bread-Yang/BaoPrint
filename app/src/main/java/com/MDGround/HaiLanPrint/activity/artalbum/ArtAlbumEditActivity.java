@@ -1,5 +1,7 @@
 package com.MDGround.HaiLanPrint.activity.artalbum;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.support.v7.widget.LinearLayoutManager;
@@ -58,7 +60,22 @@ public class ArtAlbumEditActivity extends ToolbarActivity<ActivityArtAlbumEditBi
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                NavUtils.toMainActivity(ArtAlbumEditActivity.this);
+                AlertDialog.Builder builder = new AlertDialog.Builder(ArtAlbumEditActivity.this);
+                builder.setTitle(R.string.tips);
+                builder.setMessage(R.string.if_add_to_my_work);
+                builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        NavUtils.toMainActivity(ArtAlbumEditActivity.this);
+                    }
+                });
+                builder.setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        saveToMyWork();
+                    }
+                });
+                builder.show();
             }
         });
 
@@ -137,10 +154,18 @@ public class ArtAlbumEditActivity extends ToolbarActivity<ActivityArtAlbumEditBi
         }
     }
 
+    private void saveToMyWork() {
+        ViewUtils.loading(this);
+        // 保存到我的作品中
+        MDGroundApplication.mOrderutUtils = new OrderUtils(this, true,
+                1, MDGroundApplication.mInstance.getChoosedTemplate().getPrice());
+        MDGroundApplication.mOrderutUtils.uploadImageRequest(this, 0);
+    }
+
     private void generateOrder() {
         ViewUtils.loading(this);
         // 生成订单
-        MDGroundApplication.mOrderutUtils = new OrderUtils(this,
+        MDGroundApplication.mOrderutUtils = new OrderUtils(this, false,
                 1, MDGroundApplication.mInstance.getChoosedTemplate().getPrice());
         MDGroundApplication.mOrderutUtils.uploadImageRequest(this, 0);
     }

@@ -20,8 +20,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import static com.MDGround.HaiLanPrint.utils.SelectImageUtils.mAlreadySelectImage;
-
 /**
  * Created by yoghourt on 16/5/16.
  */
@@ -192,7 +190,7 @@ public class ChooseImageListAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                         if (mShareDialog == null) {
                             mShareDialog = new ShareDialog(mContext);
                         }
-                        mShareDialog.initShareParams(imagePath);
+                        mShareDialog.initImageShareParams(imagePath);
                         mShareDialog.show();
                         return true;
                     }

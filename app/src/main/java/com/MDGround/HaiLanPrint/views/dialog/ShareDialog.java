@@ -13,12 +13,9 @@ import android.view.WindowManager;
 import com.MDGround.HaiLanPrint.R;
 import com.MDGround.HaiLanPrint.databinding.DialogShareBinding;
 import com.MDGround.HaiLanPrint.greendao.Location;
-
-import java.util.HashMap;
+import com.MDGround.HaiLanPrint.utils.ShareUtils;
 
 import cn.sharesdk.framework.Platform;
-import cn.sharesdk.framework.PlatformActionListener;
-import cn.sharesdk.framework.ShareSDK;
 
 /**
  * Created by yoghourt on 5/25/16.
@@ -33,8 +30,6 @@ public class ShareDialog extends Dialog {
     private OnRegionSelectListener onRegionSelectListener;
 
     private Platform.ShareParams mShareParams;
-
-    private String mShareImageLocalPath;
 
     public ShareDialog(Context context) {
         super(context, R.style.customDialogStyle);
@@ -74,27 +69,13 @@ public class ShareDialog extends Dialog {
         setListener();
     }
 
-    public void initShareParams(String imagePath) {
-        mShareImageLocalPath = imagePath;
-        mShareParams = new Platform.ShareParams();
-        mShareParams.setTitle("海派海印");
-        mShareParams.setText("海派海印");
-        mShareParams.setImagePath(imagePath);
-        mShareParams.setShareType(Platform.SHARE_TEXT);
-        mShareParams.setShareType(Platform.SHARE_IMAGE);
-//        mShareParams.setImageData(bitmap);
+    public void initImageShareParams(String imagePath) {
+        mShareParams = ShareUtils.initImageShareParams(mContext, imagePath);
     }
+
     //分享链接
-    public void initShareUri(String url){
-        mShareParams = new Platform.ShareParams();
-        mShareParams.setTitle("海派海印");
-        mShareParams.setText(url);
-        mShareParams.setTitleUrl(url);
-         mShareParams.setUrl(url);
-        mShareParams.setSite(mContext.getString(R.string.app_name));
-        mShareParams.setSiteUrl(url);
-        mShareParams.setShareType(Platform.SHARE_TEXT);
-        mShareParams.setShareType(Platform.SHARE_WEBPAGE);
+    public void initURLShareParams(String url) {
+        mShareParams = ShareUtils.initURLShareParams(mContext, url);
     }
 
     private void setListener() {
@@ -129,73 +110,16 @@ public class ShareDialog extends Dialog {
 
     private void shareToWechat() {
         dismiss();
-        if (mShareParams != null) {
-            Platform wechatPlatform = ShareSDK.getPlatform(mContext, "WechatMoments");
-            wechatPlatform.setPlatformActionListener(new PlatformActionListener() {
-                @Override
-                public void onComplete(Platform platform, int i, HashMap<String, Object> hashMap) {
-
-                }
-
-                @Override
-                public void onError(Platform platform, int i, Throwable throwable) {
-
-                }
-
-                @Override
-                public void onCancel(Platform platform, int i) {
-
-                }
-            });
-            wechatPlatform.share(mShareParams);
-        }
+        ShareUtils.shareToWechat(mContext, mShareParams);
     }
 
     private void shareToQQ() {
         dismiss();
-        if (mShareParams != null) {
-            Platform qqPlatform = ShareSDK.getPlatform(mContext, "QQ");
-            qqPlatform.setPlatformActionListener(new PlatformActionListener() {
-                @Override
-                public void onComplete(Platform platform, int i, HashMap<String, Object> hashMap) {
-
-                }
-
-                @Override
-                public void onError(Platform platform, int i, Throwable throwable) {
-
-                }
-
-                @Override
-                public void onCancel(Platform platform, int i) {
-
-                }
-            });
-            qqPlatform.share(mShareParams);
-        }
+        ShareUtils.shareToQQ(mContext, mShareParams);
     }
 
     private void shareToWeibo() {
         dismiss();
-        if (mShareParams != null) {
-            Platform weiboPlatform = ShareSDK.getPlatform(mContext, "SinaWeibo");
-            weiboPlatform.setPlatformActionListener(new PlatformActionListener() {
-                @Override
-                public void onComplete(Platform platform, int i, HashMap<String, Object> hashMap) {
-
-                }
-
-                @Override
-                public void onError(Platform platform, int i, Throwable throwable) {
-
-                }
-
-                @Override
-                public void onCancel(Platform platform, int i) {
-
-                }
-            });
-            weiboPlatform.share(mShareParams);
-        }
+        ShareUtils.shareToWeibo(mContext, mShareParams);
     }
 }

@@ -10,6 +10,7 @@ import com.MDGround.HaiLanPrint.application.MDGroundApplication;
 import com.MDGround.HaiLanPrint.databinding.ActivityPhoneShellStartBinding;
 import com.MDGround.HaiLanPrint.enumobject.MaterialType;
 import com.MDGround.HaiLanPrint.enumobject.PhotoExplainTypeEnum;
+import com.MDGround.HaiLanPrint.enumobject.ProductMaterial;
 import com.MDGround.HaiLanPrint.enumobject.restfuls.ResponseCode;
 import com.MDGround.HaiLanPrint.models.Measurement;
 import com.MDGround.HaiLanPrint.models.PhotoTypeExplain;
@@ -73,6 +74,10 @@ public class PhoneShellStartActivity extends ToolbarActivity<ActivityPhoneShellS
             mDataBinding.rbSilicone.setEnabled(true);
             if (mDataBinding.rgMaterial.getCheckedRadioButtonId() == -1) {
                 mDataBinding.rbSilicone.setChecked(true);
+
+                Template template = MDGroundApplication.mInstance.getChoosedTemplate();
+                template.setSelectMaterial(ProductMaterial.PhoneShell_Silicone.getText());
+                MDGroundApplication.mInstance.setChoosedTemplate(template);
             }
         } else {
             mDataBinding.rbSilicone.setEnabled(false);
@@ -82,6 +87,10 @@ public class PhoneShellStartActivity extends ToolbarActivity<ActivityPhoneShellS
             mDataBinding.rbPlastic.setEnabled(true);
             if (mDataBinding.rgMaterial.getCheckedRadioButtonId() == -1) {
                 mDataBinding.rbPlastic.setChecked(true);
+
+                Template template = MDGroundApplication.mInstance.getChoosedTemplate();
+                template.setSelectMaterial(ProductMaterial.PhoneShell_Plastic.getText());
+                MDGroundApplication.mInstance.setChoosedTemplate(template);
             }
         } else {
             mDataBinding.rbPlastic.setEnabled(false);

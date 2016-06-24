@@ -7,6 +7,7 @@ import com.MDGround.HaiLanPrint.enumobject.OrderStatus;
 import com.MDGround.HaiLanPrint.enumobject.ThirdPartyLoginType;
 import com.MDGround.HaiLanPrint.enumobject.restfuls.BusinessType;
 import com.MDGround.HaiLanPrint.models.DeliveryAddress;
+import com.MDGround.HaiLanPrint.models.MDImage;
 import com.MDGround.HaiLanPrint.models.OrderInfo;
 import com.MDGround.HaiLanPrint.models.OrderWork;
 import com.MDGround.HaiLanPrint.models.OrderWorkPhoto;
@@ -197,6 +198,13 @@ public class GlobalRestful extends BaseRestful {
         obj.add("WorkPhotoList", new Gson().toJsonTree(workPhotoList));
 
         asynchronousPost("SaveUserWorkPhotoList", obj, callback);
+    }
+
+    public void SavePhotoCloudList(List<MDImage> photoCloudList, Callback<ResponseData> callback) {
+        JsonObject obj = new JsonObject();
+        obj.add("PhotoCloudList", new Gson().toJsonTree(photoCloudList));
+
+        asynchronousPost("SavePhotoCloudList", obj, callback);
     }
 
     // 保存订单作品接口

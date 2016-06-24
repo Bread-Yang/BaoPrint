@@ -61,6 +61,7 @@ public class SelectImageBeforeEditActivity extends ToolbarActivity<ActivitySelec
 
         mMaxSelectImageNum = getIntent().getIntExtra(Constants.KEY_MAX_IMAGE_NUM, 1);
 
+
         changeTips();
 
         mAlbum = getIntent().getParcelableExtra(Constants.KEY_ALBUM);
@@ -142,7 +143,8 @@ public class SelectImageBeforeEditActivity extends ToolbarActivity<ActivitySelec
         mSelectedImageAdapter.setOnDeleteImageLisenter(new SelectedImageAdapter.onDeleteImageLisenter() {
             @Override
             public void deleteImage() {
-                mImageAdapter.notifyDataSetChanged();
+                mImageAdapter.bindSelectImages(SelectImageUtils.mAlreadySelectImage);
+                changeTips();
             }
         });
     }

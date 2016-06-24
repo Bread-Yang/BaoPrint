@@ -1,10 +1,12 @@
 package com.MDGround.HaiLanPrint.models;
 
+import android.os.Parcelable;
+
 /**
  * Created by yoghourt on 6/11/16.
  */
 
-public class    WorkPhoto {
+public class WorkPhoto {
 
     private int AutoID;
 

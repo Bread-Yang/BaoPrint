@@ -157,7 +157,7 @@ public class PaymentPreviewActivity extends ToolbarActivity<ActivityPaymentPrevi
                 showProductName = orderWork.getTypeName() + " (" + orderWork.getTypeTitle() + ")";
                 break;
             case Engraving:
-                showProductName = orderWork.getTypeName();
+                showProductName = orderWork.getWorkMaterial() + orderWork.getTypeName();
                 break;
         }
         return showProductName;

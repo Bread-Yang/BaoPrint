@@ -90,6 +90,10 @@ public class BaoGPUImage extends GPUImageView {
     @Override
     public boolean onTouchEvent(MotionEvent event) {
 
+        if (getParent() != null) {
+            getParent().requestDisallowInterceptTouchEvent(true);
+        }
+
         int action = event.getAction() & MotionEvent.ACTION_MASK;
 
         if (action == MotionEvent.ACTION_POINTER_DOWN) {

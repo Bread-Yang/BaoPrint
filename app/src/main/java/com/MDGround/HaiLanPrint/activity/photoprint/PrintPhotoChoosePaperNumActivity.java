@@ -77,7 +77,7 @@ public class PrintPhotoChoosePaperNumActivity extends ToolbarActivity<ActivityPr
             workMaterial = ProductMaterial.PrintPhoto_Matte.getText();
         }
 
-        MDGroundApplication.mOrderutUtils = new OrderUtils(this,
+        MDGroundApplication.mOrderutUtils = new OrderUtils(this, false,
                 1,
                 MDGroundApplication.mInstance.getChoosedMeasurement().getPrice(),
                 null, workMaterial, null);

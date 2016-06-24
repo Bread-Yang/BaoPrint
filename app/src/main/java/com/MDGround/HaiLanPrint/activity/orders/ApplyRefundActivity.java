@@ -4,7 +4,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.databinding.DataBindingUtil;
 import android.net.Uri;
-import android.os.Environment;
+import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -23,6 +23,7 @@ import com.MDGround.HaiLanPrint.models.OrderInfo;
 import com.MDGround.HaiLanPrint.restfuls.FileRestful;
 import com.MDGround.HaiLanPrint.restfuls.GlobalRestful;
 import com.MDGround.HaiLanPrint.restfuls.bean.ResponseData;
+import com.MDGround.HaiLanPrint.utils.FileUtils;
 import com.MDGround.HaiLanPrint.utils.StringUtil;
 import com.MDGround.HaiLanPrint.utils.ViewUtils;
 import com.MDGround.HaiLanPrint.views.dialog.SelectSingleImageDialog;
@@ -52,6 +53,24 @@ public class ApplyRefundActivity extends ToolbarActivity<ActivityApplyRefundBind
     @Override
     protected int getContentLayout() {
         return R.layout.activity_apply_refund;
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putParcelableArrayList(Constants.KEY_SELECT_IMAGE, mUploadImageArrayList);
+
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        if (savedInstanceState != null) {
+            if (savedInstanceState.containsKey(Constants.KEY_SELECT_IMAGE)) {
+                mUploadImageArrayList = savedInstanceState.getParcelableArrayList(Constants.KEY_SELECT_IMAGE);
+            }
+        }
+
+        super.onRestoreInstanceState(savedInstanceState);
     }
 
     @Override
@@ -87,7 +106,7 @@ public class ApplyRefundActivity extends ToolbarActivity<ActivityApplyRefundBind
                 cursor.moveToFirst();
 
                 String picturePath = cursor.getString(columnIndex);
-                KLog.e("picturePath" + picturePath);
+                KLog.e("picturePath : " + picturePath);
 
                 MDImage mdImage = new MDImage();
                 mdImage.setImageLocalPath(picturePath);
@@ -96,17 +115,30 @@ public class ApplyRefundActivity extends ToolbarActivity<ActivityApplyRefundBind
                 mAdapter.notifyDataSetChanged();
             } else if (requestCode == SelectSingleImageDialog.PHOTO_REQUEST_CAREMA) {// 从相机返回的数据
                 KLog.e("相机返回数据");
-                String picturePath = Environment.getExternalStorageDirectory() + "/textphoto.jpg";
 
                 Uri uri = data.getData();
-                String[] filePathColumn = {MediaStore.Images.Media.DATA};
+                String picturePath = FileUtils.getAbsoluteImagePath(ApplyRefundActivity.this, uri);
+                KLog.e("picturePath : " + picturePath);
+
+                MDImage mdImage = new MDImage();
+                mdImage.setImageLocalPath(picturePath);
+
+                mUploadImageArrayList.add(mdImage);
+
+                mAdapter.notifyDataSetChanged();
             }
         }
     }
 
+    //region ACTION
     public void sumitAction(View view) {
+        if (StringUtil.isEmpty(mDataBinding.cetRefundFee.getText().toString())) {
+            ViewUtils.toast(R.string.input_refund_amount);
+            return;
+        }
         UploadPhotoRequest();
     }
+    //endregion
 
     //region SERVER
     private void UploadPhotoRequest() {

@@ -191,7 +191,6 @@
                     <RelativeLayout
                         style="@style/NormalLayoutStyle"
                         android:gravity="center_vertical"
-                        android:onClick="toChooseCouponActivityAction"
                         android:paddingTop="@dimen/margin_6">
 
                         <TextView
@@ -216,8 +215,7 @@
 
                     <RelativeLayout
                         style="@style/NormalLayoutStyle"
-                        android:gravity="center_vertical"
-                        android:onClick="toChooseCouponActivityAction">
+                        android:gravity="center_vertical">
 
                         <TextView
                             style="@style/DimTextStyle"
@@ -242,7 +240,6 @@
                     <RelativeLayout
                         style="@style/NormalLayoutStyle"
                         android:gravity="center_vertical"
-                        android:onClick="toChooseCouponActivityAction"
                         android:paddingBottom="@dimen/margin_6">
 
                         <TextView

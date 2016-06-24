@@ -1,5 +1,7 @@
 package com.MDGround.HaiLanPrint.activity.puzzle;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.view.View;
@@ -42,7 +44,22 @@ public class PuzzleEditActivity extends ToolbarActivity<ActivityPuzzleEditBindin
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                NavUtils.toMainActivity(PuzzleEditActivity.this);
+                AlertDialog.Builder builder = new AlertDialog.Builder(PuzzleEditActivity.this);
+                builder.setTitle(R.string.tips);
+                builder.setMessage(R.string.if_add_to_my_work);
+                builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        NavUtils.toMainActivity(PuzzleEditActivity.this);
+                    }
+                });
+                builder.setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        saveToMyWork();
+                    }
+                });
+                builder.show();
             }
         });
 
@@ -95,6 +112,15 @@ public class PuzzleEditActivity extends ToolbarActivity<ActivityPuzzleEditBindin
                 });
     }
 
+    private void saveToMyWork() {
+        ViewUtils.loading(this);
+        // 保存到我的作品中
+        MDGroundApplication.mOrderutUtils = new OrderUtils(this, true,
+                1, MDGroundApplication.mInstance.getChoosedTemplate().getPrice());
+        MDGroundApplication.mOrderutUtils.uploadImageRequest(this, 0);
+    }
+
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_OK) {
@@ -117,7 +143,7 @@ public class PuzzleEditActivity extends ToolbarActivity<ActivityPuzzleEditBindin
 
         ViewUtils.loading(this);
 
-        MDGroundApplication.mOrderutUtils = new OrderUtils(this,
+        MDGroundApplication.mOrderutUtils = new OrderUtils(this, false,
                 1, MDGroundApplication.mInstance.getChoosedTemplate().getPrice());
         MDGroundApplication.mOrderutUtils.uploadImageRequest(this, 0);
     }

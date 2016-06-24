@@ -19,6 +19,7 @@
     <string name="illustration">图文说明</string>
     <string name="cover">封面</string>
     <string name="error_msg">程序出错了</string>
+    <string name="if_add_to_my_work">是否添加到我的作品中</string>
 
     <!-- 引导页 -->
     <string name="guide_page">引导页</string>
@@ -163,6 +164,7 @@
     <string name="at_most_yuan">最多%s元</string>
     <string name="refund_detail">退款说明</string>
     <string name="refund_detail_with_colon">退款说明:</string>
+    <string name="input_refund_amount">请输入退款金额</string>
     <string name="input_refund_detail">请输入退款详细说明</string>
     <string name="submit_refund_application">提交退款申请</string>
 

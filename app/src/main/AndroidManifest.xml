@@ -286,7 +286,7 @@
         <activity
             android:name=".activity.personalcenter.PersonalCenterActivity"
             android:label="@string/personal_center"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.personalcenter.InformationCenterActivity"
             android:label="@string/message_center" />
@@ -324,7 +324,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.personalcenter.WorkDetailsActivity"
-            android:label="@string/my_works"/>
+            android:label="@string/my_works" />
         <activity
             android:name=".activity.personalcenter.AboutUsActivity"
             android:label="@string/about_us" />
@@ -333,14 +333,14 @@
             android:label="@string/terms_of_service" />
         <activity
             android:name=".activity.personalcenter.FeedBackActivity"
-            android:label="@string/feedback"/>
+            android:label="@string/feedback" />
         <activity
             android:name=".activity.personalcenter.PersonalInformationActivity"
             android:label="@string/personal_information"
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.personalcenter.AboutUsActivity"
-            android:label="@string/about_us"/>
+            android:label="@string/about_us" />
         <activity
             android:name=".activity.personalcenter.SettingActivity"
             android:label="@string/setting"
@@ -380,11 +380,7 @@
         <!-- 自定义Glide Module注册 -->
         <meta-data
             android:name="com.MDGround.HaiLanPrint.glide.MDGroundGlideModule"
-            android:value="GlideModule" /><!-- ATTENTION: This was auto-generated to add Google Play services to your project for
-     App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information. -->
-        <meta-data
-            android:name="com.google.android.gms.version"
-            android:value="@integer/google_play_services_version" />
+            android:value="GlideModule" />
 
     </application>
 

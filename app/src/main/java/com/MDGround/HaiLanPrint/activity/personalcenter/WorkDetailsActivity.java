@@ -16,10 +16,10 @@ import com.MDGround.HaiLanPrint.models.WorkInfo;
 import com.MDGround.HaiLanPrint.restfuls.GlobalRestful;
 import com.MDGround.HaiLanPrint.restfuls.bean.ResponseData;
 import com.MDGround.HaiLanPrint.utils.DateUtils;
-import com.MDGround.HaiLanPrint.utils.EncryptUtil;
 import com.MDGround.HaiLanPrint.utils.GlideUtil;
 import com.MDGround.HaiLanPrint.utils.NavUtils;
 import com.MDGround.HaiLanPrint.utils.OrderUtils;
+import com.MDGround.HaiLanPrint.utils.ShareUtils;
 import com.MDGround.HaiLanPrint.utils.StringUtil;
 import com.MDGround.HaiLanPrint.utils.ViewUtils;
 import com.MDGround.HaiLanPrint.views.dialog.ShareDialog;
@@ -29,7 +29,6 @@ import com.socks.library.KLog;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.net.URLEncoder;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -48,6 +47,7 @@ public class WorkDetailsActivity extends ToolbarActivity<ActivityWorksDetailsBin
 
     private WorkInfo mWorkInfo;
     private ShareDialog mShareDialog;
+
     @Override
     protected int getContentLayout() {
         return R.layout.activity_works_details;
@@ -58,7 +58,7 @@ public class WorkDetailsActivity extends ToolbarActivity<ActivityWorksDetailsBin
         Intent intent = this.getIntent();
         mWorkInfo = (WorkInfo) intent.getSerializableExtra(Constants.KEY_WORKS_DETAILS);
         KLog.e("mWorkInfoID" + mWorkInfo.getWorkID());
-        GlideUtil.loadImageByPhotoSID(mDataBinding.ivImage, mWorkInfo.getPhotoCover(),true);
+        GlideUtil.loadImageByPhotoSID(mDataBinding.ivImage, mWorkInfo.getPhotoCover(), true);
         mDataBinding.tvWorksname.setText(String.valueOf(mWorkInfo.getTypeName()));
         mDataBinding.tvWorksPice.setText(getString(R.string.rmb) + String.valueOf(StringUtil.toYuanWithoutUnit(mWorkInfo.getPrice())));
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -71,7 +71,7 @@ public class WorkDetailsActivity extends ToolbarActivity<ActivityWorksDetailsBin
         String recentlyDate = DateUtils.getDateStringBySpecificFormat(date, new SimpleDateFormat("yyyy-MM-dd"));
         mDataBinding.tvRecentlyEdited.setText(getString(R.string.recently_edit) + " " + recentlyDate);
         mDataBinding.tvPage.setText(getString(R.string.page_num_) + " " + mWorkInfo.getPhotoCount() + getString(R.string.letter_P));
-        mDataBinding.tvTemplate.setText(getString(R.string.template_name_)+" "+mWorkInfo.getTypeName());
+        mDataBinding.tvTemplate.setText(getString(R.string.template_name_) + " " + mWorkInfo.getTypeName());
     }
 
     @Override
@@ -82,13 +82,13 @@ public class WorkDetailsActivity extends ToolbarActivity<ActivityWorksDetailsBin
         tvRight.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                 int workId=mWorkInfo.getWorkID();
-                 int userId=mWorkInfo.getUserID();
-                String shareUrl=shareURL(String.valueOf(workId),String.valueOf(userId));
+                int workId = mWorkInfo.getWorkID();
+                int userId = mWorkInfo.getUserID();
+                String shareUrl = ShareUtils.createShareURL(String.valueOf(workId), String.valueOf(userId));
                 if (mShareDialog == null) {
                     mShareDialog = new ShareDialog(WorkDetailsActivity.this);
                 }
-               mShareDialog.initShareUri(shareUrl);
+                mShareDialog.initURLShareParams(shareUrl);
                 mShareDialog.show();
             }
         });
@@ -140,25 +140,6 @@ public class WorkDetailsActivity extends ToolbarActivity<ActivityWorksDetailsBin
         workIDList.add(mWorkInfo.getWorkID());
 
         saveOrderByWorkRequest(workIDList);
-    }
-
-    //分享链接
-    public String shareURL(String workId,String userId){
-        String shareUrl=null;
-        String workID= null;
-        String userID=null;
-        try {
-            workID = EncryptUtil.encrypt(workId);
-            userID=EncryptUtil.encrypt(userId);
-            workID= URLEncoder.encode(workID, "UTF-8");
-            userID=URLEncoder.encode(userID,"UTF-8");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        if(!"".equals(workID)&&!"".equals(userID)){
-            shareUrl="http://psuat.yideguan.com/ShareWorkPhoto.aspx?workId="+workID+"&userId="+userID;
-        }
-        return  shareUrl;
     }
     //endregion
 }

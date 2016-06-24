@@ -93,20 +93,6 @@ public class PictureFrameEditActivity extends ToolbarActivity<ActivityPictureFra
                         StringUtil.toYuanWithoutUnit(mPrice)));
             }
         });
-
-        mDataBinding.rgStyle.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                switch (checkedId) {
-                    case R.id.rbLandscape:
-                        mWorkStyle = getString(R.string.landscape);
-                        break;
-                    case R.id.rbPortrait:
-                        mWorkStyle = getString(R.string.portrait);
-                        break;
-                }
-            }
-        });
     }
 
     private void showImageToGPUImageView() {
@@ -132,6 +118,8 @@ public class PictureFrameEditActivity extends ToolbarActivity<ActivityPictureFra
             mDataBinding.rbLandscape.setEnabled(true);
             if (mDataBinding.rgStyle.getCheckedRadioButtonId() == -1) {
                 mDataBinding.rbLandscape.setChecked(true);
+
+                mWorkStyle = getString(R.string.landscape);
             }
         } else {
             mDataBinding.rbLandscape.setEnabled(false);
@@ -141,11 +129,23 @@ public class PictureFrameEditActivity extends ToolbarActivity<ActivityPictureFra
             mDataBinding.rbPortrait.setEnabled(true);
             if (mDataBinding.rgStyle.getCheckedRadioButtonId() == -1) {
                 mDataBinding.rbPortrait.setChecked(true);
+
+                mWorkStyle = getString(R.string.portrait);
             }
         } else {
             mDataBinding.rbPortrait.setEnabled(false);
         }
     }
+
+    private void saveToMyWork() {
+        ViewUtils.loading(this);
+        // 保存到我的作品中
+        MDGroundApplication.mOrderutUtils = new OrderUtils(this, true,
+                mChooseTemplate.getPageCount(),
+                mPrice, mWorkFormat, null, mWorkStyle);
+        MDGroundApplication.mOrderutUtils.uploadImageRequest(this, 0);
+    }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -179,7 +179,7 @@ public class PictureFrameEditActivity extends ToolbarActivity<ActivityPictureFra
 
     public void purchaseAction(View view) {
         ViewUtils.loading(this);
-        MDGroundApplication.mOrderutUtils = new OrderUtils(this,
+        MDGroundApplication.mOrderutUtils = new OrderUtils(this, false,
                 mChooseTemplate.getPageCount(),
                 mPrice, mWorkFormat, null, mWorkStyle);
         MDGroundApplication.mOrderutUtils.uploadImageRequest(this, 0);

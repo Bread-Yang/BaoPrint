@@ -51,7 +51,7 @@ public class EngravingChoosePaperNumActivity extends ToolbarActivity<ActivityEng
 
     @Override
     protected void setListener() {
-        mDataBinding.rgPaper.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+        mDataBinding.rgMaterial.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 switch (checkedId) {
@@ -77,7 +77,7 @@ public class EngravingChoosePaperNumActivity extends ToolbarActivity<ActivityEng
             workMaterial = ProductMaterial.Engraving_Yogon.getText();
         }
 
-        MDGroundApplication.mOrderutUtils = new OrderUtils(this,
+        MDGroundApplication.mOrderutUtils = new OrderUtils(this, false,
                 1, MDGroundApplication.mInstance.getChoosedMeasurement().getPrice(), null, workMaterial, null);
         MDGroundApplication.mOrderutUtils.uploadImageRequest(this, 0);
     }
