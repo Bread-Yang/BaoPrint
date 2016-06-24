@@ -12,6 +12,7 @@ import com.MDGround.HaiLanPrint.application.MDGroundApplication;
 import com.MDGround.HaiLanPrint.constants.Constants;
 import com.MDGround.HaiLanPrint.databinding.ActivityPhoneShellEditBinding;
 import com.MDGround.HaiLanPrint.models.MDImage;
+import com.MDGround.HaiLanPrint.models.WorkPhoto;
 import com.MDGround.HaiLanPrint.utils.GlideUtil;
 import com.MDGround.HaiLanPrint.utils.NavUtils;
 import com.MDGround.HaiLanPrint.utils.OrderUtils;
@@ -56,6 +57,9 @@ public class PhoneShellEditActivity extends ToolbarActivity<ActivityPhoneShellEd
         mDataBinding.seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+
+                WorkPhoto workPhoto = SelectImageUtils.mAlreadySelectImage.get(0).getWorkPhoto();
+                workPhoto.setBrightLevel(progress);
 
                 mDataBinding.tvPercent.setText(getString(R.string.percent, progress) + "%");
 
@@ -104,6 +108,13 @@ public class PhoneShellEditActivity extends ToolbarActivity<ActivityPhoneShellEd
 
     //region ACTION
     public void nextStepAction(View view) {
+        float scaleFactor = mDataBinding.bgiImage.getmScaleFactor();
+        float rotateDegree = mDataBinding.bgiImage.getmRotationDegrees();
+
+        WorkPhoto workPhoto = SelectImageUtils.mAlreadySelectImage.get(0).getWorkPhoto();
+        workPhoto.setZoomSize((int) (scaleFactor * 100));
+        workPhoto.setRotate((int) rotateDegree);
+
         ViewUtils.loading(this);
 
         MDGroundApplication.mOrderutUtils = new OrderUtils(this,

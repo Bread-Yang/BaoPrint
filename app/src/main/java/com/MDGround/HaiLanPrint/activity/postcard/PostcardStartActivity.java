@@ -1,10 +1,12 @@
 package com.MDGround.HaiLanPrint.activity.postcard;
 
+import android.content.Intent;
 import android.view.View;
 
 import com.MDGround.HaiLanPrint.ProductType;
 import com.MDGround.HaiLanPrint.R;
 import com.MDGround.HaiLanPrint.activity.base.ToolbarActivity;
+import com.MDGround.HaiLanPrint.activity.template.SelectTemplateActivity;
 import com.MDGround.HaiLanPrint.application.MDGroundApplication;
 import com.MDGround.HaiLanPrint.databinding.ActivityPostcardStartBinding;
 import com.MDGround.HaiLanPrint.enumobject.PhotoExplainTypeEnum;
@@ -59,6 +61,9 @@ public class PostcardStartActivity extends ToolbarActivity<ActivityPostcardStart
     //region ACTION
     public void nextStepAction(View view) {
         NavUtils.toSelectAlbumActivity(view.getContext());
+
+        Intent intent = new Intent(PostcardStartActivity.this, SelectTemplateActivity.class);
+        startActivity(intent);
     }
     //endregion
 

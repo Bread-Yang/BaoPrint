@@ -236,9 +236,11 @@ public class SelectTemplateActivity extends ToolbarActivity<ActivitySelectTempla
                 MDGroundApplication.mInstance.setChoosedTemplate(mShowTemplateArrayList.get(getAdapterPosition()));
 
                 switch (MDGroundApplication.mInstance.getChoosedProductType()) {
+                    case Postcard:
                     case MagazineAlbum:
                     case ArtAlbum:
                     case Calendar:
+                    case LOMOCard:
                         getPhotoTemplateAttachListRequest(MDGroundApplication.mInstance.getChoosedTemplate().getTemplateID());
                         break;
                     default:

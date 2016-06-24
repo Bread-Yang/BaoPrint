@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import com.MDGround.HaiLanPrint.ProductType;
 import com.MDGround.HaiLanPrint.R;
 import com.MDGround.HaiLanPrint.activity.base.ToolbarActivity;
+import com.MDGround.HaiLanPrint.activity.template.SelectTemplateActivity;
 import com.MDGround.HaiLanPrint.application.MDGroundApplication;
 import com.MDGround.HaiLanPrint.databinding.ActivityLomoCardChooseNumBinding;
 import com.MDGround.HaiLanPrint.databinding.ItemLomoCardChooseNumBinding;
@@ -21,7 +22,6 @@ import com.MDGround.HaiLanPrint.models.PhotoTypeExplain;
 import com.MDGround.HaiLanPrint.restfuls.GlobalRestful;
 import com.MDGround.HaiLanPrint.restfuls.bean.ResponseData;
 import com.MDGround.HaiLanPrint.utils.GlideUtil;
-import com.MDGround.HaiLanPrint.utils.NavUtils;
 import com.MDGround.HaiLanPrint.utils.StringUtil;
 import com.MDGround.HaiLanPrint.utils.ViewUtils;
 import com.MDGround.HaiLanPrint.views.itemdecoration.DividerItemDecoration;
@@ -153,7 +153,8 @@ public class LomoCardChooseNumActivity extends ToolbarActivity<ActivityLomoCardC
             public void toSelectTemplateActivityAction(View view) {
                 MDGroundApplication.mInstance.setChoosedMeasurement(mSpecList.get(getAdapterPosition()));
 
-                NavUtils.toSelectAlbumActivity(view.getContext());
+                Intent intent = new Intent(LomoCardChooseNumActivity.this, SelectTemplateActivity.class);
+                startActivity(intent);
             }
         }
     }

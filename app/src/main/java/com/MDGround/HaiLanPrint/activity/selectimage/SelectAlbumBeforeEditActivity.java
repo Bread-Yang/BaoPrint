@@ -86,20 +86,17 @@ public class SelectAlbumBeforeEditActivity extends ToolbarActivity<ActivitySelec
                 getPhotoCountRequest();
 
                 switch (MDGroundApplication.mInstance.getChoosedProductType()) {
+                    case Postcard:
                     case MagazineAlbum:
                     case ArtAlbum:
-                        mMaxSelectImageNum = SelectImageUtils.mTemplateImage.size();
-                        changeTips();
-                        break;
+                    case LOMOCard:
                     case Calendar:
                         mMaxSelectImageNum = MDGroundApplication.mInstance.getChoosedTemplate().getPageCount();
                         changeTips();
                         break;
-                    case Postcard:
                     case Poker:
                     case Puzzle:
                     case MagicCup:
-                    case LOMOCard:
                         getPhotoTemplateListRequest();  // 模板图片
                         break;
                     case PictureFrame:

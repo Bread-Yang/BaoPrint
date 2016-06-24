@@ -399,7 +399,7 @@ public class OrderUtils {
         WorkInfo workInfo = new WorkInfo();
         workInfo.setCreatedTime(DateUtils.getServerDateStringByDate(new Date()));
         workInfo.setPhotoCount(SelectImageUtils.mAlreadySelectImage.size());
-        workInfo.setPrice(MDGroundApplication.mInstance.getChoosedMeasurement().getPrice());
+        workInfo.setPrice(mPrice);
         workInfo.setTypeID(MDGroundApplication.mInstance.getChoosedProductType().value());
         workInfo.setTemplateID(MDGroundApplication.mInstance.getChoosedTemplate().getTemplateID());
         workInfo.setTypeName(ProductType.getProductName(MDGroundApplication.mInstance.getChoosedProductType()));
