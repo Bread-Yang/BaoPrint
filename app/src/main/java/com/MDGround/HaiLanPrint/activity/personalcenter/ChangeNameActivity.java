@@ -64,9 +64,7 @@ public class ChangeNameActivity extends ToolbarActivity<ActivityChangeNameBindin
                             @Override
                             public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
                                 if (ResponseCode.isSuccess(response.body())) {
-                                    User user = response.body().getContent(User.class);
-                                    mLoginUser = user;
-                                    MDGroundApplication.mInstance.setLoginUser(user);
+                                    MDGroundApplication.mInstance.setLoginUser(mLoginUser);
                                     finish();
                                 }
                             }

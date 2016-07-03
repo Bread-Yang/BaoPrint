@@ -23,7 +23,6 @@ import com.MDGround.HaiLanPrint.models.OrderInfo;
 import com.MDGround.HaiLanPrint.restfuls.FileRestful;
 import com.MDGround.HaiLanPrint.restfuls.GlobalRestful;
 import com.MDGround.HaiLanPrint.restfuls.bean.ResponseData;
-import com.MDGround.HaiLanPrint.utils.FileUtils;
 import com.MDGround.HaiLanPrint.utils.StringUtil;
 import com.MDGround.HaiLanPrint.utils.ViewUtils;
 import com.MDGround.HaiLanPrint.views.dialog.SelectSingleImageDialog;
@@ -116,8 +115,9 @@ public class ApplyRefundActivity extends ToolbarActivity<ActivityApplyRefundBind
             } else if (requestCode == SelectSingleImageDialog.PHOTO_REQUEST_CAREMA) {// 从相机返回的数据
                 KLog.e("相机返回数据");
 
-                Uri uri = data.getData();
-                String picturePath = FileUtils.getAbsoluteImagePath(ApplyRefundActivity.this, uri);
+//                Uri uri = data.getData();
+//                String picturePath = FileUtils.getAbsoluteImagePath(ApplyRefundActivity.this, uri);
+                String picturePath = SelectSingleImageDialog.mCaptureImageURL;
                 KLog.e("picturePath : " + picturePath);
 
                 MDImage mdImage = new MDImage();

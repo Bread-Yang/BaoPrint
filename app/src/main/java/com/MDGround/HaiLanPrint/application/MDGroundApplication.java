@@ -18,6 +18,7 @@ import com.MDGround.HaiLanPrint.utils.OrderUtils;
 import java.util.ArrayList;
 
 import cn.sharesdk.framework.ShareSDK;
+import cn.smssdk.SMSSDK;
 
 /**
  * Created by yoghourt on 5/6/16.
@@ -40,7 +41,11 @@ public class MDGroundApplication extends Application {
 
         initDataBase();
 
+        SMSSDK.initSDK(this, Constants.SMS_APP_KEY, Constants.SMS_APP_SECRECT);
+
         ShareSDK.initSDK(this);
+
+//        XGPushManager.registerPush(getApplicationContext());
 
 //        initExceptionHandler();
     }

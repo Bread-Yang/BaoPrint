@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <LinearLayout
@@ -34,10 +35,10 @@
                     android:id="@+id/etReceiverName"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:textSize="@dimen/text_size_18"
-                    android:textColor="@color/color_333333"
+                    android:background="@color/color_white"
                     android:hint="@string/input_consignee"
-                    android:background="@color/color_white" />
+                    android:textColor="@color/color_333333"
+                    android:textSize="@dimen/text_size_18" />
             </LinearLayout>
 
             <View style="@style/DividerHorizontalMarginSytle" />
@@ -55,15 +56,16 @@
                     android:text="@string/contact_number"
                     android:textSize="@dimen/text_size_16" />
 
-                <EditText
+                <com.MDGround.HaiLanPrint.views.MultiFiltersEditText
                     android:id="@+id/etContacts"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@color/color_white"
-                    android:textSize="@dimen/text_size_18"
-                    android:textColor="@color/color_333333"
                     android:hint="@string/input_phone"
-                    android:numeric="integer" />
+                    android:numeric="integer"
+                    android:textColor="@color/color_333333"
+                    android:textSize="@dimen/text_size_18"
+                    app:maxInputNum="11" />
             </LinearLayout>
 
             <View style="@style/DividerHorizontalMarginSytle" />
@@ -84,21 +86,20 @@
                 <TextView
                     android:id="@+id/etRegio"
                     android:layout_width="wrap_content"
-                    android:layout_weight="1"
                     android:layout_height="match_parent"
+                    android:layout_weight="1"
                     android:background="@color/color_white"
                     android:gravity="center_vertical"
                     android:onClick="selectRegio"
-                    android:textSize="@dimen/text_size_18"
                     android:textColor="@color/color_333333"
-                     />
-                     <ImageView
-                         android:layout_width="wrap_content"
-                         android:layout_height="wrap_content"
-                          android:layout_gravity="center_vertical"
-                         android:src="@drawable/icon_neet"
-                         android:layout_marginRight="@dimen/margin_16"
-                         />
+                    android:textSize="@dimen/text_size_18" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginRight="@dimen/margin_16"
+                    android:src="@drawable/icon_neet" />
             </LinearLayout>
 
             <View style="@style/DividerHorizontalMarginSytle" />
@@ -116,14 +117,15 @@
                     android:text="@string/detailed_address"
                     android:textSize="@dimen/text_size_16" />
 
-                <EditText
+                <com.MDGround.HaiLanPrint.views.MultiFiltersEditText
                     android:id="@+id/etAddress"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:textSize="@dimen/text_size_18"
-                    android:textColor="@color/color_333333"
+                    android:background="@color/color_white"
                     android:hint="@string/input_detailed_address"
-                    android:background="@color/color_white" />
+                    android:textColor="@color/color_333333"
+                    android:textSize="@dimen/text_size_18"
+                    app:maxInputNum="20" />
             </LinearLayout>
         </LinearLayout>
 

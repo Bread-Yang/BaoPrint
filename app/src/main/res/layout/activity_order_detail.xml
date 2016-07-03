@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <import type="com.MDGround.HaiLanPrint.utils.StringUtil"/>
 
-        <variable name="orderInfo" type="com.MDGround.HaiLanPrint.models.OrderInfo"/>
+        <import type="com.MDGround.HaiLanPrint.utils.StringUtil" />
+
+        <variable
+            name="orderInfo"
+            type="com.MDGround.HaiLanPrint.models.OrderInfo" />
     </data>
 
     <LinearLayout
@@ -36,21 +38,21 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
-                        android:src="@drawable/icon_place_pay"/>
+                        android:src="@drawable/icon_place_pay" />
 
                     <TextView
                         android:id="@+id/tvReceiver"
                         style="@style/NormalTextStyle"
                         android:layout_marginLeft="@dimen/margin_8"
                         android:layout_toRightOf="@+id/ivLocationLogo"
-                        tools:text="陈奕迅"/>
+                        tools:text="陈奕迅" />
 
                     <TextView
                         android:id="@+id/tvPhone"
                         style="@style/DimTextStyle"
                         android:layout_marginLeft="@dimen/margin_15"
                         android:layout_toRightOf="@+id/tvReceiver"
-                        tools:text="15521377721"/>
+                        tools:text="15521377721" />
 
                     <TextView
                         android:id="@+id/tvAddress"
@@ -59,14 +61,14 @@
                         android:layout_below="@+id/tvReceiver"
                         android:layout_marginTop="@dimen/margin_8"
                         android:layout_toRightOf="@+id/ivLocationLogo"
-                        tools:text="广东省广州市天河区棠安路188号乐"/>
+                        tools:text="广东省广州市天河区棠安路188号乐" />
                 </RelativeLayout>
 
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:scaleType="fitXY"
-                    android:src="@drawable/bitmap_address"/>
+                    android:src="@drawable/bitmap_address" />
 
                 <RelativeLayout
                     style="@style/FixHeightLayoutStyle"
@@ -81,7 +83,7 @@
                         android:id="@+id/tvOrderTitle"
                         style="@style/NormalTextStyle"
                         android:layout_marginLeft="@dimen/margin_8"
-                        android:text="@string/order_no_with_colon"/>
+                        android:text="@string/order_no_with_colon" />
 
                     <TextView
                         android:id="@+id/tvOrder"
@@ -90,7 +92,7 @@
                         android:layout_toRightOf="@+id/tvOrderTitle"
                         android:gravity="center"
                         android:maxLines="1"
-                        tools:text="11089577332"/>
+                        tools:text="11089577332" />
 
                     <TextView
                         android:id="@+id/tvOrderStatus"
@@ -100,10 +102,11 @@
                         android:layout_marginLeft="@dimen/margin_8"
                         android:layout_marginRight="@dimen/margin_8"
                         android:textColor="@color/color_db2e2e"
-                        tools:text="已付款"/>
+                        tools:text="已付款" />
 
-                    <View style="@style/DividerHorizontalStyle"
-                          android:layout_alignParentBottom="true"/>
+                    <View
+                        style="@style/DividerHorizontalStyle"
+                        android:layout_alignParentBottom="true" />
 
                 </RelativeLayout>
 
@@ -111,7 +114,7 @@
                     android:id="@+id/productRecyclerView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/color_white"/>
+                    android:background="@color/color_white" />
 
                 <LinearLayout
                     android:id="@+id/lltAmountDetail"
@@ -123,83 +126,80 @@
                     <RelativeLayout
                         style="@style/NormalLayoutStyle"
                         android:gravity="center_vertical"
-                        android:onClick="toChooseCouponActivityAction"
                         android:paddingTop="@dimen/margin_6">
 
                         <TextView
                             style="@style/DimTextStyle"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/amount"/>
+                            android:text="@string/amount" />
 
                         <TextView
                             android:id="@+id/tvAmount"
                             style="@style/OrangeTextStyle"
                             android:layout_toLeftOf="@+id/tvYuan"
-                            tools:text="¥276.00"/>
+                            tools:text="¥276.00" />
 
                         <TextView
                             android:id="@+id/tvYuan"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentRight="true"
-                            android:text="@string/yuan_unit"/>
+                            android:text="@string/yuan_unit" />
                     </RelativeLayout>
 
                     <RelativeLayout
                         style="@style/NormalLayoutStyle"
-                        android:gravity="center_vertical"
-                        android:onClick="toChooseCouponActivityAction">
+                        android:gravity="center_vertical">
 
                         <TextView
                             style="@style/DimTextStyle"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/coupon"/>
+                            android:text="@string/coupon" />
 
                         <TextView
                             android:id="@+id/tvCouponFee"
                             style="@style/OrangeTextStyle"
                             android:layout_toLeftOf="@+id/tvYuan"
-                            android:text="¥0.00"/>
+                            android:text="¥0.00" />
 
                         <TextView
                             android:id="@+id/tvYuan"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentRight="true"
-                            android:text="@string/yuan_unit"/>
+                            android:text="@string/yuan_unit" />
                     </RelativeLayout>
 
                     <RelativeLayout
                         style="@style/NormalLayoutStyle"
                         android:gravity="center_vertical"
-                        android:onClick="toChooseCouponActivityAction"
                         android:paddingBottom="@dimen/margin_6">
 
                         <TextView
                             style="@style/DimTextStyle"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/freight"/>
+                            android:text="@string/freight" />
 
                         <TextView
                             android:id="@+id/tvFreightFee"
                             style="@style/OrangeTextStyle"
                             android:layout_toLeftOf="@+id/tvYuan"
-                            android:text="¥0.00"/>
+                            android:text="¥0.00" />
 
                         <TextView
                             android:id="@+id/tvYuan"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentRight="true"
-                            android:text="@string/yuan_unit"/>
+                            android:text="@string/yuan_unit" />
                     </RelativeLayout>
 
                 </LinearLayout>
 
-                <View style="@style/DividerHorizontalStyle"/>
+                <View style="@style/DividerHorizontalStyle" />
 
                 <LinearLayout
                     style="@style/NormalLayoutStyle"
@@ -213,13 +213,13 @@
                         style="@style/OrangeTextStyle"
                         android:layout_centerVertical="true"
                         android:textSize="@dimen/text_size_18"
-                        tools:text="@string/actual_payment_with_colon"/>
+                        tools:text="@string/actual_payment_with_colon" />
 
                     <TextView
                         android:id="@+id/tvOrderTime"
                         style="@style/DimTextStyle"
                         android:textSize="@dimen/text_size_14"
-                        tools:text="@string/order_time_with_colon"/>
+                        tools:text="@string/order_time_with_colon" />
 
                 </LinearLayout>
 
@@ -237,7 +237,7 @@
                         android:drawableLeft="@drawable/icon_logistics_pay"
                         android:drawablePadding="@dimen/margin_8"
                         android:text="@string/logistics_information"
-                        android:textSize="@dimen/text_size_16"/>
+                        android:textSize="@dimen/text_size_16" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -250,13 +250,13 @@
                             android:id="@+id/tvDetail1Title"
                             style="@style/DimTextStyle"
                             android:layout_marginTop="@dimen/margin_6"
-                            tools:text="@string/express_company_with_colon"/>
+                            tools:text="@string/express_company_with_colon" />
 
                         <TextView
                             android:id="@+id/tvDetail1"
                             style="@style/OrangeTextStyle"
                             android:layout_marginTop="@dimen/margin_6"
-                            tools:text="@string/express_company_with_colon"/>
+                            tools:text="@string/express_company_with_colon" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -270,13 +270,13 @@
                             android:id="@+id/tvDetail2Title"
                             style="@style/DimTextStyle"
                             android:layout_marginTop="@dimen/margin_6"
-                            tools:text="@string/express_company_with_colon"/>
+                            tools:text="@string/express_company_with_colon" />
 
                         <TextView
                             android:id="@+id/tvDetail2"
                             style="@style/OrangeTextStyle"
                             android:layout_marginTop="@dimen/margin_6"
-                            tools:text="@string/express_company_with_colon"/>
+                            tools:text="@string/express_company_with_colon" />
                     </LinearLayout>
 
                     <RelativeLayout
@@ -293,14 +293,14 @@
                             style="@style/DimTextStyle"
                             android:clickable="true"
                             android:gravity="center_vertical"
-                            android:text="@string/upload_image_with_colon"/>
+                            android:text="@string/upload_image_with_colon" />
 
                         <android.support.v7.widget.RecyclerView
                             android:id="@+id/uploadImageRecyclerView"
                             android:layout_width="match_parent"
                             android:layout_height="@dimen/size_88"
                             android:layout_marginRight="@dimen/margin_8"
-                            android:layout_toRightOf="@+id/tvUploadImage"/>
+                            android:layout_toRightOf="@+id/tvUploadImage" />
 
                     </RelativeLayout>
                 </LinearLayout>
@@ -309,8 +309,7 @@
 
         </ScrollView>
 
-        <View
-            style="@style/DividerHorizontalStyle"/>
+        <View style="@style/DividerHorizontalStyle" />
 
         <LinearLayout
             android:id="@+id/lltOperation"
@@ -334,7 +333,7 @@
                 android:paddingLeft="@dimen/margin_10"
                 android:text="@string/apply_refund"
                 android:textColor="@color/color_f88e11"
-                android:textSize="@dimen/text_size_18"/>
+                android:textSize="@dimen/text_size_18" />
 
             <Button
                 android:id="@+id/btnOperation"
@@ -348,7 +347,7 @@
                 android:onClick="btnOperationAction"
                 android:text="@string/go_pay"
                 android:textColor="@color/color_white"
-                android:textSize="@dimen/text_size_18"/>
+                android:textSize="@dimen/text_size_18" />
         </LinearLayout>
 
     </LinearLayout>

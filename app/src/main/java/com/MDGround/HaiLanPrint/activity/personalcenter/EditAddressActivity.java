@@ -131,5 +131,4 @@ public class EditAddressActivity extends ToolbarActivity<ActivityEditorAddressBi
     }
     //endregion
 
-
 }

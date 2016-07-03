@@ -94,6 +94,15 @@ public class GlideUtil {
                 .into(target);
     }
 
+    public static void loadImageAsBitmapRezie(MDImage mdImage, Target target) {
+        Glide.with(MDGroundApplication.mInstance)
+                .load(mdImage)
+                .asBitmap()
+                .override(300, 300)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .into(target);
+    }
+
     public static long getFileSize(final File file) {
         if (file == null || !file.exists())
             return 0;

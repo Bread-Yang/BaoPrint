@@ -35,8 +35,15 @@ public class SignUpActivity extends ToolbarActivity<ActivitySignUpBinding> {
 
     @Override
     protected void initData() {
-        SMSSDK.initSDK(this, Constants.SMS_APP_KEY, Constants.SMS_APP_SECRECT);
+//        SMSSDK.initSDK(this, Constants.SMS_APP_KEY, Constants.SMS_APP_SECRECT);
         SMSSDK.registerEventHandler(mEventHandler);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        SMSSDK.unregisterEventHandler(mEventHandler);
     }
 
     @Override

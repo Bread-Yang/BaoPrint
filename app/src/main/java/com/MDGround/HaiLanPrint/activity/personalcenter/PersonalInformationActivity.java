@@ -19,7 +19,6 @@ import com.MDGround.HaiLanPrint.restfuls.FileRestful;
 import com.MDGround.HaiLanPrint.restfuls.GlobalRestful;
 import com.MDGround.HaiLanPrint.restfuls.bean.ResponseData;
 import com.MDGround.HaiLanPrint.utils.DateUtils;
-import com.MDGround.HaiLanPrint.utils.FileUtils;
 import com.MDGround.HaiLanPrint.utils.GlideUtil;
 import com.MDGround.HaiLanPrint.utils.StringUtil;
 import com.MDGround.HaiLanPrint.views.dialog.RegionPickerDialog;
@@ -60,6 +59,13 @@ public class PersonalInformationActivity extends ToolbarActivity<ActivityPersona
     protected void initData() {
         mRegionPickerDialog = new RegionPickerDialog(this);
         mSelectSingleImageDialog = new SelectSingleImageDialog(PersonalInformationActivity.this, R.style.customDialogStyle);
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
         mUser = MDGroundApplication.mInstance.getLoginUser();
         // 用户头像
         MDImage mdImage = new MDImage();
@@ -68,11 +74,6 @@ public class PersonalInformationActivity extends ToolbarActivity<ActivityPersona
         GlideUtil.loadImageByMDImage(mDataBinding.civAvatar, mdImage, false);
         mDataBinding.tvPhone.setText(mUser.getPhone());
         mDataBinding.tvAccountName.setText(mUser.getUserName());
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
 
         mDataBinding.tvNickname.setText(mUser.getUserNickName());
 
@@ -96,12 +97,8 @@ public class PersonalInformationActivity extends ToolbarActivity<ActivityPersona
                 GlobalRestful.getInstance().SaveUserInfo(mUser, new Callback<ResponseData>() {
                     @Override
                     public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
-                        User user = response.body().getContent(User.class);
                         if (ResponseCode.isSuccess(response.body())) {
                             mDataBinding.tvLocality.setText(city.getLocationName() + county.getLocationName());
-                            mUser.setProvinceID(user.getProvinceID());
-                            mUser.setCityID(user.getCityID());
-                            mUser.setCountryID(user.getCountryID());
                             MDGroundApplication.mInstance.setLoginUser(mUser);
                         }
                     }
@@ -130,8 +127,9 @@ public class PersonalInformationActivity extends ToolbarActivity<ActivityPersona
             } else if (requestCode == SelectSingleImageDialog.PHOTO_REQUEST_CAREMA) {// 从相机返回的数据
                 KLog.e("相机返回数据");
 
-                Uri uri = data.getData();
-                String picturePath = FileUtils.getAbsoluteImagePath(PersonalInformationActivity.this, uri);
+//                Uri uri = data.getData();
+//                String picturePath = FileUtils.getAbsoluteImagePath(PersonalInformationActivity.this, uri);
+                String picturePath = SelectSingleImageDialog.mCaptureImageURL;
                 uploadAvatar(picturePath);
             }
 

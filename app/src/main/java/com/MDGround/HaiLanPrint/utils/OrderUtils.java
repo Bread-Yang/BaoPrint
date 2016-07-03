@@ -158,14 +158,14 @@ public class OrderUtils {
 
                             // 如果有模板, 把模板和选择的照片合成一张图片
                             if (templateImage.getPhotoSID() != 0) {
-                                GlideUtil.loadImageAsBitmap(templateImage, new SimpleTarget<Bitmap>() {
+                                GlideUtil.loadImageAsBitmapRezie(templateImage, new SimpleTarget<Bitmap>() {
                                     @Override
                                     public void onResourceReady(final Bitmap templateBitmap,
                                                                 GlideAnimation<? super Bitmap>
                                                                         glideAnimation) {
                                         KLog.e("加载模板bitmap成功");
 
-                                        GlideUtil.loadImageAsBitmap(selectImage, new SimpleTarget<Bitmap>() {
+                                        GlideUtil.loadImageAsBitmapRezie(selectImage, new SimpleTarget<Bitmap>() {
                                             @Override
                                             public void onResourceReady(Bitmap selectBitmap,
                                                                         GlideAnimation<? super Bitmap>
@@ -240,12 +240,12 @@ public class OrderUtils {
                 // 网络图片
                 // 如果有模板, 把模板和选择的照片合成一张图片
                 if (selectImage.getPhotoSID() != 0 && templateImage.getPhotoSID() != 0) {
-                    GlideUtil.loadImageAsBitmap(templateImage, new SimpleTarget<Bitmap>() {
+                    GlideUtil.loadImageAsBitmapRezie(templateImage, new SimpleTarget<Bitmap>() {
                         @Override
                         public void onResourceReady(final Bitmap templateBitmap, GlideAnimation<? super
                                 Bitmap> glideAnimation) {
 
-                            GlideUtil.loadImageAsBitmap(selectImage, new SimpleTarget<Bitmap>() {
+                            GlideUtil.loadImageAsBitmapRezie(selectImage, new SimpleTarget<Bitmap>() {
                                 @Override
                                 public void onResourceReady(Bitmap selectBitmap, GlideAnimation<? super
                                         Bitmap> glideAnimation) {

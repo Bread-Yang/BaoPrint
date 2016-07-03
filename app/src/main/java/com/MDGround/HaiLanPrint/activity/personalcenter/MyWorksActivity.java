@@ -274,11 +274,20 @@ public class MyWorksActivity extends ToolbarActivity<ActivityMyWorksBinding> {
 
     //region SEVER
     //删除掉选中列表
-    public void deleteUserWorkRequest(List<Integer> WorkIDList) {
+    public void deleteUserWorkRequest(final List<Integer> WorkIDList) {
         GlobalRestful.getInstance().DeleteUserWork(WorkIDList, new Callback<ResponseData>() {
             @Override
             public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
+                for (Integer workID : WorkIDList) {
+                    for (WorkInfo workInfo : mAllWorkInfoList) {
+                        if (workInfo.getWorkID() == workID) {
+                            mAllWorkInfoList.remove(workInfo);
+                            break;
+                        }
+                    }
+                }
 
+                mAdapter.notifyDataSetChanged();
             }
 
             @Override

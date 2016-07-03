@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <LinearLayout
@@ -23,7 +23,7 @@
                 android:clickable="true"
                 android:gravity="center_vertical"
                 android:text="@string/consignee"
-                android:textSize="@dimen/text_size_16"/>
+                android:textSize="@dimen/text_size_16" />
 
             <com.MDGround.HaiLanPrint.views.ClearEditText
                 android:id="@+id/cetConsignee"
@@ -35,11 +35,11 @@
                 android:hint="@string/input_consignee"
                 android:longClickable="false"
                 android:textSize="@dimen/text_size_16"
-                tools:text="杨镕宾"/>
+                tools:text="杨镕宾" />
 
         </LinearLayout>
 
-        <View style="@style/DividerHorizontalMarginSytle"/>
+        <View style="@style/DividerHorizontalMarginSytle" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -54,10 +54,10 @@
                 android:clickable="true"
                 android:gravity="center_vertical"
                 android:text="@string/contact_number"
-                android:textSize="@dimen/text_size_16"/>
+                android:textSize="@dimen/text_size_16" />
 
-            <com.MDGround.HaiLanPrint.views.ClearEditText
-                android:id="@+id/cetContactNumber"
+            <com.MDGround.HaiLanPrint.views.MultiFiltersEditText
+                android:id="@+id/mfetContactNumber"
                 style="@style/FixHeightTextStyle"
                 android:layout_width="match_parent"
                 android:layout_weight="1"
@@ -65,12 +65,14 @@
                 android:drawablePadding="@dimen/margin_8"
                 android:hint="@string/input_phone_number"
                 android:inputType="number"
+                android:maxLength="11"
                 android:textSize="@dimen/text_size_16"
-                tools:text="15521377721"/>
+                app:maxInputNum="11"
+                tools:text="15521377721" />
 
         </LinearLayout>
 
-        <View style="@style/DividerHorizontalMarginSytle"/>
+        <View style="@style/DividerHorizontalMarginSytle" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -85,7 +87,7 @@
                 android:clickable="true"
                 android:gravity="center_vertical"
                 android:text="@string/region"
-                android:textSize="@dimen/text_size_16"/>
+                android:textSize="@dimen/text_size_16" />
 
             <TextView
                 android:id="@+id/tvRegion"
@@ -96,17 +98,17 @@
                 android:drawablePadding="@dimen/margin_8"
                 android:onClick="chooseRegionAction"
                 android:textSize="@dimen/text_size_16"
-                tools:text="广东省广州市"/>
+                tools:text="广东省广州市" />
 
             <ImageView
                 android:id="@+id/ivArrow"
                 style="@style/ArrowIconStyle"
                 android:layout_gravity="center_vertical"
-                android:layout_marginRight="@dimen/margin_8"/>
+                android:layout_marginRight="@dimen/margin_8" />
 
         </LinearLayout>
 
-        <View style="@style/DividerHorizontalMarginSytle"/>
+        <View style="@style/DividerHorizontalMarginSytle" />
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -122,9 +124,9 @@
                 android:clickable="true"
                 android:gravity="center_vertical"
                 android:text="@string/detailed_address"
-                android:textSize="@dimen/text_size_16"/>
+                android:textSize="@dimen/text_size_16" />
 
-            <EditText
+            <com.MDGround.HaiLanPrint.views.MultiFiltersEditText
                 android:id="@+id/etDetailedAddress"
                 style="@style/FixHeightTextStyle"
                 android:layout_width="match_parent"
@@ -134,12 +136,13 @@
                 android:drawablePadding="@dimen/margin_8"
                 android:gravity="top|left"
                 android:hint="@string/input_detailed_address"
+                app:maxInputNum="20"
                 android:inputType="textMultiLine"
                 android:longClickable="false"
                 android:paddingTop="@dimen/margin_12"
                 android:scrollbars="vertical"
                 android:textSize="@dimen/text_size_16"
-                tools:text="永泰新和苑"/>
+                tools:text="永泰新和苑" />
 
         </RelativeLayout>
 
@@ -156,12 +159,12 @@
             android:onClick="saveAction"
             android:text="@string/save_and_use"
             android:textColor="@color/color_white"
-            android:textSize="@dimen/text_size_18"/>
+            android:textSize="@dimen/text_size_18" />
 
         <LinearLayout
             android:id="@+id/lltFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="@dimen/margin_20"/>
+            android:layout_marginTop="@dimen/margin_20" />
     </LinearLayout>
 </layout>

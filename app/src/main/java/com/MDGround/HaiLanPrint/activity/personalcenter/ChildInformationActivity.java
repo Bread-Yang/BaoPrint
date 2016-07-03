@@ -131,7 +131,7 @@ public class ChildInformationActivity extends ToolbarActivity<ActivityChildInfor
                         e.printStackTrace();
                     }
                 }
-                User user = MDGroundApplication.mInstance.getLoginUser();
+                final User user = MDGroundApplication.mInstance.getLoginUser();
                 user.setUpdatedTime(updateDate);
                 user.setKidName1(firstKidName);
                 user.setKidDOB1(firstKidBirth);
@@ -147,6 +147,7 @@ public class ChildInformationActivity extends ToolbarActivity<ActivityChildInfor
                     @Override
                     public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
                         if (ResponseCode.isSuccess(response.body())) {
+                            MDGroundApplication.mInstance.setLoginUser(user);
                             finish();
                         }
                     }

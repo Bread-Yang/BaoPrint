@@ -16,7 +16,10 @@ import android.view.WindowManager;
 import android.widget.Toast;
 
 import com.MDGround.HaiLanPrint.R;
+import com.MDGround.HaiLanPrint.constants.Constants;
 import com.MDGround.HaiLanPrint.databinding.DialogSelectSingleImageBinding;
+
+import java.io.File;
 
 /**
  * Created by yoghourt on 5/25/16.
@@ -28,7 +31,7 @@ public class SelectSingleImageDialog extends Dialog {
     public static final int PHOTO_REQUEST_CUT = 3;// 剪切
     private DialogSelectSingleImageBinding mDataBinding;
     private Activity mActivity;
-    private Uri mImageUri;
+    public static String mCaptureImageURL;
 
     public SelectSingleImageDialog(Activity activity) {
         super(activity, R.style.customDialogStyle);
@@ -95,19 +98,22 @@ public class SelectSingleImageDialog extends Dialog {
         dismiss();
         if (isSdCardMounted()) {
             Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-//            String path = Environment.getExternalStorageDirectory().toString() + Constants.PHOTO_FILE;
-//            File paht1 = new File(path);
-//            if (!paht1.exists()) {
-//                paht1.mkdir();
-//            }
-//            File file = new File(paht1, System.currentTimeMillis() + ".jpg");
-//            Uri outputFileUri = Uri.fromFile(file);
-//            intent.putExtra(MediaStore.EXTRA_OUTPUT, outputFileUri);
+            String folderString = Environment.getExternalStorageDirectory().toString() + Constants.PHOTO_FILE;
+            File folderFile = new File(folderString);
+            if (!folderFile.exists()) {
+                folderFile.mkdir();
+            }
+            String imageName = System.currentTimeMillis() + ".jpg";
+            File file = new File(folderFile, imageName);
+            mCaptureImageURL = file.getAbsolutePath();
+            Uri outputFileUri = Uri.fromFile(file);
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, outputFileUri);
             mActivity.startActivityForResult(intent, PHOTO_REQUEST_CAREMA);
         } else {
             Toast.makeText(mActivity, "内存卡不存在", Toast.LENGTH_LONG).show();
         }
     }
+
 
     private boolean isSdCardMounted() {
         String status = Environment.getExternalStorageState();

@@ -40,7 +40,7 @@ public class EditDeliveryAddressActivity extends ToolbarActivity<ActivityEditDel
         mDeliveryAddress = getIntent().getParcelableExtra(Constants.KEY_DELIVERY_ADDRESS);
         if (mDeliveryAddress != null) {
             mDataBinding.cetConsignee.setText(mDeliveryAddress.getReceiver());
-            mDataBinding.cetContactNumber.setText(mDeliveryAddress.getPhone());
+            mDataBinding.mfetContactNumber.setText(mDeliveryAddress.getPhone());
             mDataBinding.etDetailedAddress.setText(mDeliveryAddress.getStreet());
             Location province = MDGroundApplication.mDaoSession.getLocationDao().load(mDeliveryAddress.getProvinceID());
             Location city = MDGroundApplication.mDaoSession.getLocationDao().load(mDeliveryAddress.getCityID());
@@ -84,7 +84,7 @@ public class EditDeliveryAddressActivity extends ToolbarActivity<ActivityEditDel
         }
         mDeliveryAddress.setReceiver(consignee);
 
-        String phone = mDataBinding.cetContactNumber.getText().toString();
+        String phone = mDataBinding.mfetContactNumber.getText().toString();
         if (StringUtil.isEmpty(phone)) {
             ViewUtils.toast(R.string.input_phone_number);
             return;

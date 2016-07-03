@@ -6,4 +6,8 @@
         <attr name="ratio" format="float"/>
     </declare-styleable>
 
+    <declare-styleable name="MultiFiltersEditText">
+        <attr name="maxInputNum" format="integer"/>
+    </declare-styleable>
+
 </resources>
