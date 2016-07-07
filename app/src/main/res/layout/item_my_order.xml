@@ -85,7 +85,7 @@
                 style="@style/NormalTextStyle"
                 android:layout_marginLeft="@dimen/margin_8"
                 android:layout_toRightOf="@+id/ivImage"
-                android:text="@{orderWork.typeName}"
+                android:text="@{StringUtil.getProductName(orderWork)}"
                 android:textSize="@dimen/text_size_16"
                 tools:text="照片冲洗"/>
 

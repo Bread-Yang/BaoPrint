@@ -1,10 +1,14 @@
 package com.MDGround.HaiLanPrint.utils;
 
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.text.TextUtils;
 
+import com.MDGround.HaiLanPrint.ProductType;
 import com.MDGround.HaiLanPrint.application.MDGroundApplication;
 import com.MDGround.HaiLanPrint.greendao.Location;
 import com.MDGround.HaiLanPrint.models.DeliveryAddress;
+import com.MDGround.HaiLanPrint.models.OrderWork;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
@@ -57,6 +61,98 @@ public class StringUtil {
 
         return completeAddress;
     }
+
+    public static String getProductName(OrderWork orderWork) {
+        String showProductName = null;
+
+        ProductType productType = ProductType.fromValue(orderWork.getTypeID());
+
+        String typeName = orderWork.getTypeName();
+        if (typeName == null) {
+            typeName = "";
+        }
+
+        String typeTitle = orderWork.getTypeTitle();
+        if (typeTitle == null) {
+            typeTitle = "";
+        }
+
+        String workMaterial = orderWork.getWorkMaterial();
+        if (workMaterial == null) {
+            workMaterial = "";
+        }
+
+        String workFormat = orderWork.getWorkFormat();
+        if (workFormat == null)  {
+            workFormat = "";
+        }
+
+        String workStyle = orderWork.getWorkStyle();
+        if (workStyle == null) {
+            workStyle = "";
+        }
+
+        String templateName = orderWork.getTemplateName();
+        if (templateName == null) {
+            templateName = "";
+        }
+
+        switch (productType) {
+            case PrintPhoto:
+                showProductName = typeName + " (" + typeTitle + " " + workMaterial + ")";
+                break;
+            case Postcard:
+                showProductName = typeName;
+                break;
+            case MagazineAlbum:
+            case ArtAlbum:
+                showProductName = typeName + " (" + typeTitle + " " + orderWork.getPhotoCount() + "P)";
+                break;
+            case PictureFrame:
+                showProductName = typeName + " (" + workFormat + " " + workStyle + ")";
+                break;
+            case Calendar:
+                showProductName = typeName + " (" + typeTitle + ")";
+                break;
+            case PhoneShell:
+                showProductName = typeName + " (" + templateName + " " + workMaterial + ")";
+                break;
+            case Poker:
+                showProductName = typeName + " (" + typeTitle + ")";
+                break;
+            case Puzzle:
+                showProductName = typeName;
+                break;
+            case MagicCup:
+                showProductName = typeName + " (" + typeTitle + ")";
+                break;
+            case LOMOCard:
+                showProductName = typeName + " (" + typeTitle + ")";
+                break;
+            case Engraving:
+                showProductName = workMaterial + typeName;
+                break;
+        }
+        return showProductName;
+    }
+
+    /**
+     * 获取版本号
+     *
+     * @return 当前应用的版本号
+     */
+    public static String getVersion() {
+        try {
+            PackageManager manager = MDGroundApplication.mInstance.getPackageManager();
+            PackageInfo info = manager.getPackageInfo(MDGroundApplication.mInstance.getPackageName(), 0);
+            String version = info.versionName;
+            return version;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "";
+        }
+    }
+
 
     public static <T> T getInstanceByJsonString(String jsonString, TypeToken<T> type) {
         if (type == null) {

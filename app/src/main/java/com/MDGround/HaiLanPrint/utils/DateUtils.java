@@ -663,4 +663,10 @@ public class DateUtils {
         DateTime todayTime = new DateTime();
         return todayTime.isBefore(expireTime);
     }
+
+    public static boolean isAfter12Hours(String createTimeDateString) {
+        DateTime createTime = getDateByServerDateString(createTimeDateString);
+        DateTime todayTime = new DateTime();
+        return todayTime.isAfter(createTime.plusHours(12));
+    }
 }

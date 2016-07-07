@@ -21,6 +21,7 @@ import com.MDGround.HaiLanPrint.models.OrderInfo;
 import com.MDGround.HaiLanPrint.models.OrderWork;
 import com.MDGround.HaiLanPrint.restfuls.GlobalRestful;
 import com.MDGround.HaiLanPrint.restfuls.bean.ResponseData;
+import com.MDGround.HaiLanPrint.utils.DateUtils;
 import com.MDGround.HaiLanPrint.utils.StringUtil;
 import com.MDGround.HaiLanPrint.utils.ViewUtils;
 import com.MDGround.HaiLanPrint.views.itemdecoration.GridSpacingItemDecoration;
@@ -74,6 +75,9 @@ public class OrderDetailActivity extends ToolbarActivity<ActivityOrderDetailBind
             case Paid:
                 mDataBinding.lltMoreDetail.setVisibility(View.GONE);
                 mDataBinding.btnOperation.setVisibility(View.GONE);
+                if (DateUtils.isAfter12Hours(mOrderInfo.getCreatedTime())) {
+                    mDataBinding.btnApplyRefund.setVisibility(View.GONE);
+                }
                 break;
             case Delivered:
                 mDataBinding.tvDetail1Title.setText(R.string.express_company_with_colon);

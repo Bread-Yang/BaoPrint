@@ -4,7 +4,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/size_132"
+        android:layout_height="@dimen/size_150"
         android:orientation="vertical">
 
         <LinearLayout
@@ -17,6 +17,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/margin_4"
                 android:layout_weight="5"
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
@@ -55,6 +56,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/margin_8"
                 android:layout_weight="4"
                 android:gravity="center_vertical">
 
@@ -62,22 +64,23 @@
                     android:id="@+id/tvAddress"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
+                    android:ellipsize="end"
+                    android:gravity="top"
                     android:lineSpacingExtra="@dimen/margin_6"
                     android:lines="2"
                     android:paddingLeft="@dimen/margin_12"
                     android:paddingRight="@dimen/margin_12"
                     android:textSize="@dimen/text_size_16"
-                    tools:text="广州市天河区快快快，广州市天河区快快快快快快" />
+                    tools:text="广州市天河区快快快广州市天河区快快快快快快" />
 
             </LinearLayout>
 
-            <View style="@style/DividerHorizontalStyle"/>
+            <View style="@style/DividerHorizontalStyle" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="5"
+                android:layout_weight="4"
                 android:gravity="center_vertical|right">
 
                 <LinearLayout

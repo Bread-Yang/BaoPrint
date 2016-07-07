@@ -1,16 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <import type="com.MDGround.HaiLanPrint.utils.StringUtil"/>
 
-        <variable name="template" type="com.MDGround.HaiLanPrint.models.Template"/>
+        <import type="com.MDGround.HaiLanPrint.utils.StringUtil" />
+
+        <variable
+            name="template"
+            type="com.MDGround.HaiLanPrint.models.Template" />
 
         <variable
             name="viewHolder"
-            type="com.MDGround.HaiLanPrint.activity.template.SelectTemplateActivity.SelectTemplateAdapter.ViewHolder"/>
+            type="com.MDGround.HaiLanPrint.activity.template.SelectTemplateActivity.SelectTemplateAdapter.ViewHolder" />
     </data>
 
     <com.MDGround.HaiLanPrint.views.FlexibleRelativeLayout
@@ -26,7 +28,7 @@
             android:layout_above="@+id/tvName"
             android:layout_weight="1"
             android:scaleType="fitXY"
-            android:src="@drawable/ic_placeholder"/>
+            android:src="@drawable/ic_placeholder" />
 
         <RelativeLayout
             android:layout_width="wrap_content"
@@ -37,7 +39,7 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/bg_choese"/>
+                android:src="@drawable/bg_choese" />
 
             <TextView
                 android:id="@+id/tvPage"
@@ -47,7 +49,7 @@
                 android:text="@{@string/page_count(template.pageCount)}"
                 android:textColor="@color/color_white"
                 android:textSize="@dimen/margin_12"
-                tools:text="22P"/>
+                tools:text="22P" />
 
         </RelativeLayout>
 
@@ -58,7 +60,7 @@
             android:layout_marginTop="@dimen/margin_10"
             android:text='@{@string/template + ": "+ template.templateName}'
             android:textSize="@dimen/text_size_16"
-            tools:text="模板: 花语"/>
+            tools:text="模板: 花语" />
 
         <TextView
             android:id="@+id/tvPrice"
@@ -66,8 +68,7 @@
             android:layout_alignParentBottom="true"
             android:layout_marginTop="@dimen/margin_6"
             android:text="@{@string/price_rmb(StringUtil.toYuanWithoutUnit(template.price))}"
-            android:textSize="@dimen/text_size_16"
-            tools:text="价格: ¥146.0"/>
+            tools:text="价格: ¥146.0" />
 
     </com.MDGround.HaiLanPrint.views.FlexibleRelativeLayout>
 </layout>

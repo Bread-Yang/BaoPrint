@@ -3,8 +3,6 @@ package com.MDGround.HaiLanPrint.activity.personalcenter;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
 import android.view.View;
 import android.widget.CompoundButton;
 
@@ -16,6 +14,7 @@ import com.MDGround.HaiLanPrint.utils.DeviceUtil;
 import com.MDGround.HaiLanPrint.utils.FileUtils;
 import com.MDGround.HaiLanPrint.utils.NavUtils;
 import com.MDGround.HaiLanPrint.utils.PreferenceUtils;
+import com.MDGround.HaiLanPrint.utils.StringUtil;
 import com.MDGround.HaiLanPrint.views.dialog.NotifyDialog;
 import com.bumptech.glide.Glide;
 
@@ -40,7 +39,7 @@ public class SettingActivity extends ToolbarActivity<ActivitySettingBinding> {
         boolean isOnlyWifiUpdate = PreferenceUtils.getPrefBoolean(Constants.KEY_ONLY_WIFI_UPDATE, false);
         mDataBinding.cbOnlyWifiUpdate.setChecked(isOnlyWifiUpdate);
 
-        mDataBinding.tvVersion.setText("V " + getVersion());
+        mDataBinding.tvVersion.setText("V " + StringUtil.getVersion());
         mDataBinding.tvCache.setText(getCacheSize());
     }
 
@@ -52,23 +51,6 @@ public class SettingActivity extends ToolbarActivity<ActivitySettingBinding> {
                 PreferenceUtils.setPrefBoolean(Constants.KEY_ONLY_WIFI_UPDATE, isChecked);
             }
         });
-    }
-
-    /**
-     * 获取版本号
-     *
-     * @return 当前应用的版本号
-     */
-    private String getVersion() {
-        try {
-            PackageManager manager = this.getPackageManager();
-            PackageInfo info = manager.getPackageInfo(this.getPackageName(), 0);
-            String version = info.versionName;
-            return version;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return "";
-        }
     }
 
     private String getCacheSize() {

@@ -7,12 +7,14 @@ import android.view.View;
 import com.MDGround.HaiLanPrint.R;
 import com.MDGround.HaiLanPrint.activity.base.ToolbarActivity;
 import com.MDGround.HaiLanPrint.databinding.ActivityAboutUsBinding;
+import com.MDGround.HaiLanPrint.utils.StringUtil;
 
 /**
  * Created by PC on 2016-06-15.
  */
 
 public class AboutUsActivity extends ToolbarActivity<ActivityAboutUsBinding> {
+
     @Override
     protected int getContentLayout() {
         return R.layout.activity_about_us;
@@ -20,6 +22,7 @@ public class AboutUsActivity extends ToolbarActivity<ActivityAboutUsBinding> {
 
     @Override
     protected void initData() {
+        mDataBinding.tvVersion.setText(getString(R.string.version_with_colon, "V " + StringUtil.getVersion()));
     }
 
     @Override

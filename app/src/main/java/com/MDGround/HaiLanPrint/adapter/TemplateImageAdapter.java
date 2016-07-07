@@ -42,7 +42,8 @@ public class TemplateImageAdapter extends RecyclerView.Adapter<TemplateImageAdap
         holder.viewDataBinding.setIsSelected(position == mCurrentSelectedIndex);
 
         String indexString = null;
-        if (MDGroundApplication.mInstance.getChoosedProductType() == ProductType.LOMOCard
+        if (MDGroundApplication.mInstance.getChoosedProductType() == ProductType.Postcard
+                || MDGroundApplication.mInstance.getChoosedProductType() == ProductType.LOMOCard
                 || MDGroundApplication.mInstance.getChoosedProductType() == ProductType.Poker) {
             indexString = String.valueOf(position + 1);
         } else {

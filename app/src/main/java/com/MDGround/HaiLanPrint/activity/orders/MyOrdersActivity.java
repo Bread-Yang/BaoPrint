@@ -20,6 +20,7 @@ import com.MDGround.HaiLanPrint.models.OrderInfo;
 import com.MDGround.HaiLanPrint.models.OrderWork;
 import com.MDGround.HaiLanPrint.restfuls.GlobalRestful;
 import com.MDGround.HaiLanPrint.restfuls.bean.ResponseData;
+import com.MDGround.HaiLanPrint.utils.DateUtils;
 import com.MDGround.HaiLanPrint.utils.NavUtils;
 import com.MDGround.HaiLanPrint.utils.StringUtil;
 import com.MDGround.HaiLanPrint.utils.ViewUtils;
@@ -250,7 +251,11 @@ public class MyOrdersActivity extends ToolbarActivity<ActivityMyOrdersBinding> {
             holder.viewDataBinding.tvOrderStatus.setText(OrderStatus.getOrderStatus(getApplicationContext(), orderStatus));
             switch (orderStatus) {
                 case Paid:      // 已付款
-                    holder.viewDataBinding.btnOperation.setText(R.string.apply_refund);
+                    if (DateUtils.isAfter12Hours(orderInfo.getCreatedTime())) {
+                        holder.viewDataBinding.btnOperation.setVisibility(View.GONE);
+                    } else {
+                        holder.viewDataBinding.btnOperation.setText(R.string.apply_refund);
+                    }
                     break;
                 case Delivered: // 已发货
                     holder.viewDataBinding.btnOperation.setText(R.string.confirm_receive);

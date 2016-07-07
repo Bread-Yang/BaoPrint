@@ -19,7 +19,7 @@
     <string name="illustration">图文说明</string>
     <string name="cover">封面</string>
     <string name="error_msg">程序出错了</string>
-    <string name="if_add_to_my_work">是否添加到我的作品中</string>
+    <string name="if_add_to_my_work">退出后可在"我的作品"中继续编辑,是否确认退出?</string>
 
     <!-- 引导页 -->
     <string name="guide_page">引导页</string>
@@ -175,6 +175,7 @@
     <string name="setting">设置</string>
     <string name="only_update_in_wifi">仅在WIFI下更新</string>
     <string name="version">版本号</string>
+    <string name="version_with_colon">版本号:%s</string>
     <string name="clear_cache">清除缓存</string>
     <string name="confirm_clear_cache">确定清除本地缓存</string>
     <string name="about_us">关于我们</string>

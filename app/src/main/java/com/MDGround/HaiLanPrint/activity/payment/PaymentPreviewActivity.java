@@ -120,47 +120,39 @@ public class PaymentPreviewActivity extends ToolbarActivity<ActivityPaymentPrevi
         });
     }
 
-    private String setShowFee(OrderWork orderWork) {
-        String showProductName = null;
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == RESULT_OK) {
+            switch (requestCode) {
+                case REQEUST_CODE_SELECT_DELIVERY_ADDRESS:
+                    mDeliveryAddress = data.getParcelableExtra(Constants.KEY_DELIVERY_ADDRESS);
 
-        ProductType productType = ProductType.fromValue(orderWork.getTypeID());
-        switch (productType) {
-            case PrintPhoto:
-                showProductName = orderWork.getTypeName() + " (" + orderWork.getTypeTitle() + " " + orderWork.getWorkMaterial() + ")";
-                break;
-            case Postcard:
-                showProductName = orderWork.getTypeName();
-                break;
-            case MagazineAlbum:
-            case ArtAlbum:
-                showProductName = orderWork.getTypeName() + " (" + orderWork.getTypeTitle() + " " + orderWork.getPhotoCount() + "P)";
-                break;
-            case PictureFrame:
-                showProductName = orderWork.getTypeName() + " (" + orderWork.getWorkFormat() + " " + orderWork.getWorkStyle() + ")";
-                break;
-            case Calendar:
-                showProductName = orderWork.getTypeName() + " (" + orderWork.getTypeTitle() + ")";
-                break;
-            case PhoneShell:
-                showProductName = orderWork.getTypeName() + " (" + orderWork.getTypeTitle() + orderWork.getTemplateName() + " " + orderWork.getWorkMaterial() + ")";
-                break;
-            case Poker:
-                showProductName = orderWork.getTypeName() + " (" + orderWork.getTypeTitle() + ")";
-                break;
-            case Puzzle:
-                showProductName = orderWork.getTypeName();
-                break;
-            case MagicCup:
-                showProductName = orderWork.getTypeName() + " (" + orderWork.getTypeTitle() + ")";
-                break;
-            case LOMOCard:
-                showProductName = orderWork.getTypeName() + " (" + orderWork.getTypeTitle() + ")";
-                break;
-            case Engraving:
-                showProductName = orderWork.getWorkMaterial() + orderWork.getTypeName();
-                break;
+                    if (mDeliveryAddress != null) {
+                        mDataBinding.tvName.setText(mDeliveryAddress.getReceiver());
+                        mDataBinding.tvPhone.setText(mDeliveryAddress.getPhone());
+
+                        mDataBinding.tvAddress.setText(StringUtil.getCompleteAddress(mDeliveryAddress));
+
+                        mDataBinding.tvChooseFirst.setVisibility(View.GONE);
+                        mDataBinding.tvName.setVisibility(View.VISIBLE);
+                        mDataBinding.tvPhone.setVisibility(View.VISIBLE);
+                        mDataBinding.tvAddress.setVisibility(View.VISIBLE);
+                        mDataBinding.ivDeliveryAddress.setVisibility(View.VISIBLE);
+                    }
+
+                    break;
+                case REQEUST_CODE_SELECT_COUPON:
+                    mSelectedCoupon = data.getParcelableExtra(Constants.KEY_SELECTED_COUPON);
+
+                    refreshDisplayFee();
+                    break;
+            }
         }
-        return showProductName;
+    }
+
+    @Override
+    public void onBackPressed() {
+        NavUtils.toMainActivity(PaymentPreviewActivity.this);
     }
 
     private int getSingleOrderWorkAmountFee(OrderWork orderWork) {
@@ -263,41 +255,6 @@ public class PaymentPreviewActivity extends ToolbarActivity<ActivityPaymentPrevi
 
         MDGroundApplication.mOrderutUtils.updateOrderPrepayRequest(PaymentPreviewActivity.this,
                 mDeliveryAddress, payType, getAllOrderWorkAmountFee(), getFinalReceivableFee());
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode == RESULT_OK) {
-            switch (requestCode) {
-                case REQEUST_CODE_SELECT_DELIVERY_ADDRESS:
-                    mDeliveryAddress = data.getParcelableExtra(Constants.KEY_DELIVERY_ADDRESS);
-
-                    if (mDeliveryAddress != null) {
-                        mDataBinding.tvName.setText(mDeliveryAddress.getReceiver());
-                        mDataBinding.tvPhone.setText(mDeliveryAddress.getPhone());
-
-                        mDataBinding.tvAddress.setText(StringUtil.getCompleteAddress(mDeliveryAddress));
-
-                        mDataBinding.tvChooseFirst.setVisibility(View.GONE);
-                        mDataBinding.tvName.setVisibility(View.VISIBLE);
-                        mDataBinding.tvPhone.setVisibility(View.VISIBLE);
-                        mDataBinding.tvAddress.setVisibility(View.VISIBLE);
-                        mDataBinding.ivDeliveryAddress.setVisibility(View.VISIBLE);
-                    }
-
-                    break;
-                case REQEUST_CODE_SELECT_COUPON:
-                    mSelectedCoupon = data.getParcelableExtra(Constants.KEY_SELECTED_COUPON);
-
-                    refreshDisplayFee();
-                    break;
-            }
-        }
-    }
-
-    @Override
-    public void onBackPressed() {
-        NavUtils.toMainActivity(PaymentPreviewActivity.this);
     }
 
     //region ACTION
@@ -466,7 +423,7 @@ public class PaymentPreviewActivity extends ToolbarActivity<ActivityPaymentPrevi
 
             holder.viewDataBinding.setOrderWork(orderWork);
 
-            String showProductName = setShowFee(orderWork);
+            String showProductName = StringUtil.getProductName(orderWork);
 
             holder.viewDataBinding.tvProductType.setText(showProductName);
 
