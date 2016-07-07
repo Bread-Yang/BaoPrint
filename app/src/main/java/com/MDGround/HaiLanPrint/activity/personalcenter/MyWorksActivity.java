@@ -48,7 +48,7 @@ public class MyWorksActivity extends ToolbarActivity<ActivityMyWorksBinding> {
     private List<WorkInfo> mAllWorkInfoList = new ArrayList<>();
     private List<WorkInfo> mSelectedWorkInfoList = new ArrayList<>();
     private MyWorksAdapter mAdapter;
-    private boolean mIsEditMode = true;
+    private boolean mIsEditMode;
     private boolean mFlag = false;//用于标记显示哪一张头部背景图
 
     @Override
@@ -79,18 +79,21 @@ public class MyWorksActivity extends ToolbarActivity<ActivityMyWorksBinding> {
         tvRight.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!mIsEditMode) {
+                String rightText = tvRight.getText().toString();
+                if (rightText.equals(getString(R.string.edit))) {
                     mIsEditMode = true;
+
                     tvRight.setText(R.string.finish);
-                    mDataBinding.llTotalprice.setVisibility(View.VISIBLE);
-                    mDataBinding.tvBuy.setText(R.string.purchase);
-                    mDataBinding.lltAmount.setBackgroundResource(R.color.colorOrange);
-                } else {
-                    mIsEditMode = false;
-                    tvRight.setText(R.string.edit);
                     mDataBinding.llTotalprice.setVisibility(View.INVISIBLE);
                     mDataBinding.tvBuy.setText(R.string.delete);
                     mDataBinding.lltAmount.setBackgroundResource(R.color.colorRed);
+                } else {
+                    mIsEditMode = false;
+
+                    tvRight.setText(R.string.edit);
+                    mDataBinding.llTotalprice.setVisibility(View.VISIBLE);
+                    mDataBinding.tvBuy.setText(R.string.purchase);
+                    mDataBinding.lltAmount.setBackgroundResource(R.color.colorOrange);
                 }
             }
         });
@@ -237,7 +240,7 @@ public class MyWorksActivity extends ToolbarActivity<ActivityMyWorksBinding> {
     //region ACTION
     //购买或者删除按钮
     public void toBuyOrDeleteAction(View view) {
-        if (mIsEditMode) {
+        if (!mIsEditMode) {
             //购买功能
             boolean isAllSameType = true;
             for (int i = 1; i < mSelectedWorkInfoList.size(); i++) {
@@ -258,6 +261,11 @@ public class MyWorksActivity extends ToolbarActivity<ActivityMyWorksBinding> {
                 workIDList.add(workID);
             }
 
+            if (workIDList.size() == 0) {
+                ViewUtils.toast(R.string.please_select_work);
+                return;
+            }
+
             saveOrderByWorkRequest(workIDList);
         } else {
             //删除功能
@@ -275,9 +283,11 @@ public class MyWorksActivity extends ToolbarActivity<ActivityMyWorksBinding> {
     //region SEVER
     //删除掉选中列表
     public void deleteUserWorkRequest(final List<Integer> WorkIDList) {
+        ViewUtils.loading(this);
         GlobalRestful.getInstance().DeleteUserWork(WorkIDList, new Callback<ResponseData>() {
             @Override
             public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
+                ViewUtils.dismiss();
                 for (Integer workID : WorkIDList) {
                     for (WorkInfo workInfo : mAllWorkInfoList) {
                         if (workInfo.getWorkID() == workID) {

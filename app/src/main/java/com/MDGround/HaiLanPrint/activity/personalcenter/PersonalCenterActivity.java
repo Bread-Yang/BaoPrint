@@ -6,6 +6,7 @@ import android.view.View;
 import com.MDGround.HaiLanPrint.R;
 import com.MDGround.HaiLanPrint.activity.base.ToolbarActivity;
 import com.MDGround.HaiLanPrint.activity.coupon.MyCouponActivity;
+import com.MDGround.HaiLanPrint.activity.messagecenter.MessageCenterActivity;
 import com.MDGround.HaiLanPrint.activity.orders.MyOrdersActivity;
 import com.MDGround.HaiLanPrint.application.MDGroundApplication;
 import com.MDGround.HaiLanPrint.databinding.ActivityPersonalCenterBinding;
@@ -92,7 +93,7 @@ public class PersonalCenterActivity extends ToolbarActivity<ActivityPersonalCent
 
     //去消息中心
     public void toMessageCenter(View view) {
-        Intent intent = new Intent(this, InformationCenterActivity.class);
+        Intent intent = new Intent(this, MessageCenterActivity.class);
         startActivity(intent);
     }
     //endregion

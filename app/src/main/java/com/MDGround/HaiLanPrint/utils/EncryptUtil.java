@@ -88,7 +88,7 @@ public class EncryptUtil {
 			sb.append(key);
 			sb.append(params.get(key));
 		}
-		sb.append("@2O!5");
+		sb.append("@2O!5"); // Hailan2O!6
 
 		return MD5Util.MD5(sb.toString());
 	}

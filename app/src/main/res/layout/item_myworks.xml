@@ -106,8 +106,9 @@
                             tools:text="照片书" />
 
                         <TextView
-                            android:id="@+id/tv_worksSizee"
+                            android:id="@+id/tvNum"
                             android:layout_width="wrap_content"
+                            android:text="@{@string/num_with_colon(workInfo.photoCount)}"
                             android:layout_height="wrap_content"
                             android:layout_below="@id/tv_worksname"
                             android:layout_marginTop="@dimen/margin_10"
@@ -118,7 +119,7 @@
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_below="@id/tv_worksSizee"
+                            android:layout_below="@id/tvNum"
                             android:layout_marginRight="@dimen/margin_16"
                             android:layout_marginTop="@dimen/margin_16"
                             android:orientation="horizontal">

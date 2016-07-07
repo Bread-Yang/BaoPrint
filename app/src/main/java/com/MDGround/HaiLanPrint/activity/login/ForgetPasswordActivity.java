@@ -30,6 +30,43 @@ import retrofit2.Response;
 
 public class ForgetPasswordActivity extends ToolbarActivity<ActivityForgetPasswordBinding> {
 
+    private EventHandler mEventHandler = new EventHandler() {
+        @Override
+        public void afterEvent(int event, int result, Object data) {
+            ViewUtils.dismiss();
+            if (result == SMSSDK.RESULT_COMPLETE) {
+                if (event == SMSSDK.EVENT_SUBMIT_VERIFICATION_CODE) {
+                    // 提交验证码成功
+                    changePswRequest();
+                } else if (event == SMSSDK.EVENT_GET_VERIFICATION_CODE) {
+                    // 获取验证码成功,开始倒计时
+                    KLog.e("获取验证码成功,开始倒计时");
+                } else if (event == SMSSDK.EVENT_GET_SUPPORTED_COUNTRIES) {
+                    // 返回支持发送验证码的国家列表
+                }
+            } else {
+                try {
+                    Throwable throwable = (Throwable) data;
+                    throwable.printStackTrace();
+                    JSONObject object = new JSONObject(throwable.getMessage());
+                    final String des = object.optString("detail");//错误描述
+                    int status = object.optInt("status");//错误代码
+                    if (status > 0 && !TextUtils.isEmpty(des)) {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                ViewUtils.toast(des);
+                            }
+                        });
+                        return;
+                    }
+                } catch (Exception e) {
+                    //do something
+                }
+            }
+        }
+    };
+
     @Override
     public int getContentLayout() {
         return R.layout.activity_forget_password;
@@ -63,63 +100,6 @@ public class ForgetPasswordActivity extends ToolbarActivity<ActivityForgetPasswo
                 ViewUtils.isShowPassword(isChecked, mDataBinding.cetPassword);
             }
         });
-    }
-
-    private EventHandler mEventHandler = new EventHandler() {
-        @Override
-        public void afterEvent(int event, int result, Object data) {
-            if (result == SMSSDK.RESULT_COMPLETE) {
-                if (event == SMSSDK.EVENT_SUBMIT_VERIFICATION_CODE) {
-                    // 提交验证码成功
-                    changePswRequest();
-                } else if (event == SMSSDK.EVENT_GET_VERIFICATION_CODE) {
-                    // 获取验证码成功,开始倒计时
-                    KLog.e("获取验证码成功,开始倒计时");
-                } else if (event == SMSSDK.EVENT_GET_SUPPORTED_COUNTRIES) {
-                    // 返回支持发送验证码的国家列表
-                }
-            } else {
-//                runOnUiThread(new Runnable() {
-//                    @Override
-//                    public void run() {
-////                        ViewUtils.toast("验证码出错");
-//                    }
-//                });
-                try {
-                    Throwable throwable = (Throwable) data;
-                    throwable.printStackTrace();
-                    JSONObject object = new JSONObject(throwable.getMessage());
-                    String des = object.optString("detail");//错误描述
-                    int status = object.optInt("status");//错误代码
-                    if (status > 0 && !TextUtils.isEmpty(des)) {
-                        Toast.makeText(ForgetPasswordActivity.this, des, Toast.LENGTH_SHORT).show();
-                        return;
-                    }
-                } catch (Exception e) {
-                    //do something
-                }
-            }
-        }
-    };
-
-    private void changePswRequest() {
-        String phone = mDataBinding.cetAccount.getText().toString();
-        String password = mDataBinding.cetPassword.getText().toString();
-
-        GlobalRestful.getInstance()
-                .ChangeUserPassword(phone, MD5Util.MD5(password), new Callback<ResponseData>() {
-                    @Override
-                    public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
-                        if (response.body().getCode() == ResponseCode.Normal.getValue()) {
-                            finish();
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Call<ResponseData> call, Throwable t) {
-
-                    }
-                });
     }
 
     //region ACTION
@@ -197,7 +177,31 @@ public class ForgetPasswordActivity extends ToolbarActivity<ActivityForgetPasswo
             return;
         }
 
+        ViewUtils.loading(this);
         SMSSDK.submitVerificationCode("86", phone, captcha);
+    }
+    //endregion
+
+    //region SERVER
+    private void changePswRequest() {
+        String phone = mDataBinding.cetAccount.getText().toString();
+        String password = mDataBinding.cetPassword.getText().toString();
+
+        GlobalRestful.getInstance()
+                .ChangeUserPassword(phone, MD5Util.MD5(password), new Callback<ResponseData>() {
+                    @Override
+                    public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
+                        if (response.body().getCode() == ResponseCode.Normal.getValue()) {
+                            ViewUtils.toast(R.string.change_password_success);
+                            finish();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<ResponseData> call, Throwable t) {
+
+                    }
+                });
     }
     //endregion
 }

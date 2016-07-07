@@ -268,6 +268,7 @@ public class MyOrdersActivity extends ToolbarActivity<ActivityMyOrdersBinding> {
                     break;
                 case RefundFail: // 退款失败
                     holder.viewDataBinding.tvOrderStatus.setText(R.string.refundFail);
+                    holder.viewDataBinding.btnOperation.setVisibility(View.GONE);
                     break;
             }
         }

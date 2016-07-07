@@ -40,6 +40,7 @@
     <!-- 忘记密码 -->
     <string name="forget_password">忘记密码</string>
     <string name="forget_password_question_mark">忘记密码?</string>
+    <string name="change_password_success">修改密码成功</string>
 
     <!-- 注册 -->
     <string name="sign_up">注册</string>
@@ -96,6 +97,7 @@
     <string name="upload_image">上传图片</string>
     <string name="upload_image_with_colon">上传图片:</string>
     <string name="message_center">消息中心</string>
+    <string name="message_detail">消息详情</string>
     <string name="upload_num">上传(%d)</string>
     <string name="current_cellular_network">您当前使用的是手机流量,上传图片会消耗大量的流量,是否继续?</string>
     <string name="local_image">选择本地照片</string>
@@ -132,6 +134,7 @@
 
     <!-- 我的作品 -->
     <string name="please_select_same_type">请选择相同类型</string>
+    <string name="please_select_work">请选择作品</string>
 
     <!-- 我的订单 -->
     <string name="order_no_with_colon">订单号:</string>

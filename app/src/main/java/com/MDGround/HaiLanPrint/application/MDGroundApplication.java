@@ -14,6 +14,7 @@ import com.MDGround.HaiLanPrint.models.Template;
 import com.MDGround.HaiLanPrint.models.User;
 import com.MDGround.HaiLanPrint.utils.FileUtils;
 import com.MDGround.HaiLanPrint.utils.OrderUtils;
+import com.tencent.android.tpush.XGPushManager;
 
 import java.util.ArrayList;
 
@@ -45,7 +46,7 @@ public class MDGroundApplication extends Application {
 
         ShareSDK.initSDK(this);
 
-//        XGPushManager.registerPush(getApplicationContext());
+        XGPushManager.registerPush(getApplicationContext());
 
 //        initExceptionHandler();
     }

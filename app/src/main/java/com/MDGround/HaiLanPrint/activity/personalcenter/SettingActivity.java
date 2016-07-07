@@ -15,6 +15,7 @@ import com.MDGround.HaiLanPrint.databinding.ActivitySettingBinding;
 import com.MDGround.HaiLanPrint.utils.DeviceUtil;
 import com.MDGround.HaiLanPrint.utils.FileUtils;
 import com.MDGround.HaiLanPrint.utils.NavUtils;
+import com.MDGround.HaiLanPrint.utils.PreferenceUtils;
 import com.MDGround.HaiLanPrint.views.dialog.NotifyDialog;
 import com.bumptech.glide.Glide;
 
@@ -36,16 +37,19 @@ public class SettingActivity extends ToolbarActivity<ActivitySettingBinding> {
 
     @Override
     protected void initData() {
+        boolean isOnlyWifiUpdate = PreferenceUtils.getPrefBoolean(Constants.KEY_ONLY_WIFI_UPDATE, false);
+        mDataBinding.cbOnlyWifiUpdate.setChecked(isOnlyWifiUpdate);
+
         mDataBinding.tvVersion.setText("V " + getVersion());
         mDataBinding.tvCache.setText(getCacheSize());
     }
 
     @Override
     protected void setListener() {
-        mDataBinding.cbWifiUpdateEnable.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        mDataBinding.cbOnlyWifiUpdate.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-
+                PreferenceUtils.setPrefBoolean(Constants.KEY_ONLY_WIFI_UPDATE, isChecked);
             }
         });
     }

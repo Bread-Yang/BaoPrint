@@ -94,6 +94,7 @@ public class OrderDetailActivity extends ToolbarActivity<ActivityOrderDetailBind
                 mDataBinding.lltOperation.setVisibility(View.GONE);
                 break;
             case Refunding:
+            case RefundFail:
                 mDataBinding.tvOrderStatusLogo.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.icon_refund_pay),
                         null, null, null);
                 mDataBinding.tvOrderStatusLogo.setText(R.string.refund_info);

@@ -46,11 +46,13 @@ public final class Constants {
     public static final String KEY_ORDER_WORK_LIST = "key_order_work_list";
     public static final String KEY_ORDER_INFO = "key_order_info";
     public static final String KEY_WORK_INFO = "key_work_info";
+    public static final String KEY_MESSAGE = "key_message";
     public static final String KEY_SELECTED_COUPON = "key_selected_coupon";
     public static final String KEY_ORDER_AMOUNT_FEE = "key_order_amount_fee";
     public static final String KEY_COUPON_LIST = "key_coupon_list";
     public static final String KEY_FROM_PAYMENT_SUCCESS = "key_from_payment_success";
     public static final String KEY_WORKS_DETAILS = "key_from_works_details";
+    public static final String KEY_ONLY_WIFI_UPDATE = "key_only_wifi_update";
     public static int MAX_DELIVERY_ADDRESS = 10; // 最多十个收货地址
 
     public static int ITEM_LEFT_TO_LOAD_MORE = 3;

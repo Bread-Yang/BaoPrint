@@ -19,6 +19,7 @@ import com.MDGround.HaiLanPrint.restfuls.bean.ResponseData;
 import com.MDGround.HaiLanPrint.utils.DeviceUtil;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import com.tencent.android.tpush.XGPushConfig;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -57,7 +58,9 @@ public class GlobalRestful extends BaseRestful {
     // 用户登录
     public void LoginUser(String loginID, String pwd, Callback<ResponseData> callback) {
         Device device = DeviceUtil.getDeviceInfo(MDGroundApplication.mInstance);
-        device.setDeviceToken("abc");   // 信鸽的token, XGPushConfig.getToken(this);
+
+        device.setDeviceToken(XGPushConfig.getToken(MDGroundApplication.mInstance)); // 信鸽的token, XGPushConfig.getToken(this);
+//        device.setDeviceToken("abc");
         device.setDeviceID(DeviceUtil.getDeviceId());
 
         JsonObject obj = new JsonObject();
@@ -319,6 +322,12 @@ public class GlobalRestful extends BaseRestful {
         object.add("UserInfo", new Gson().toJsonTree(user));
 
         asynchronousPost("SaveUserInfo", object, callback);
+    }
+
+    public void GetUserWork(int workID, Callback<ResponseData> callback) {
+        JsonObject obj = new JsonObject();
+        obj.addProperty("WorkID", workID);
+        asynchronousPost("GetUserWork", obj, callback);
     }
 
     //删除收货地址

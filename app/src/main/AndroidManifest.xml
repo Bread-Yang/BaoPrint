@@ -29,7 +29,6 @@
     <uses-permission android:name="android.permission.VIBRATE" />
 
 
-
     <uses-permission android:name="android.permission.MANAGE_USERS" />
 
     <application
@@ -279,9 +278,7 @@
         <activity
             android:name=".activity.deliveryaddress.ChooseDeliveryAddressActivity"
             android:label="@string/delivery_address"
-            android:screenOrientation="portrait">
-
-        </activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.deliveryaddress.EditDeliveryAddressActivity"
             android:label="@string/edit_address"
@@ -291,8 +288,13 @@
             android:label="@string/personal_center"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.personalcenter.InformationCenterActivity"
-            android:label="@string/message_center" />
+            android:name=".activity.messagecenter.MessageCenterActivity"
+            android:label="@string/message_center"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.messagecenter.MessageDetailActivity"
+            android:label="@string/message_detail"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.personalcenter.MyCreditActivity"
             android:label="@string/my_credits"
@@ -307,33 +309,40 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.personalcenter.ChangeNameActivity"
-            android:label="@string/change_nick_name" />
+            android:label="@string/change_nick_name"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.personalcenter.ChildInformationActivity"
-            android:label="@string/child_information" />
+            android:label="@string/child_information"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.personalcenter.ManageAddressActivity"
-            android:label="@string/myaddress" />
+            android:label="@string/myaddress"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.orders.OrderDetailActivity"
             android:label="@string/order_detail"
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.personalcenter.EditAddressActivity"
-            android:label="@string/edit_address" />
+            android:label="@string/edit_address"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.orders.ApplyRefundActivity"
             android:label="@string/apply_refund"
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.personalcenter.WorkDetailsActivity"
-            android:label="@string/my_works" />
+            android:label="@string/my_works"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.personalcenter.AboutUsActivity"
-            android:label="@string/about_us" />
+            android:label="@string/about_us"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.personalcenter.TermServiceActivity"
-            android:label="@string/terms_of_service" />
+            android:label="@string/terms_of_service"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.personalcenter.FeedBackActivity"
             android:label="@string/feedback" />
@@ -426,11 +435,11 @@
 
         <!-- 【必须】 请将YOUR_ACCESS_ID修改为APP的AccessId，“21”开头的10位数字，中间没空格 -->
         <meta-data
-            android:name="XG_V2_ACCESS_ID"
+            android:name="2100206552"
             android:value="YOUR_ACCESS_ID" />
         <!-- 【必须】 请将YOUR_ACCESS_KEY修改为APP的AccessKey，“A”开头的12位字符串，中间没空格 -->
         <meta-data
-            android:name="XG_V2_ACCESS_KEY"
+            android:name="A7PB9Z2L33TW"
             android:value="YOUR_ACCESS_KEY" />
 
         <!-- 自定义Glide Module注册 -->
