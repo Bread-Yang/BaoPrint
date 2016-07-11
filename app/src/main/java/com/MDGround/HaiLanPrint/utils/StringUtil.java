@@ -4,11 +4,12 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.text.TextUtils;
 
-import com.MDGround.HaiLanPrint.ProductType;
+import com.MDGround.HaiLanPrint.enumobject.ProductType;
 import com.MDGround.HaiLanPrint.application.MDGroundApplication;
 import com.MDGround.HaiLanPrint.greendao.Location;
 import com.MDGround.HaiLanPrint.models.DeliveryAddress;
 import com.MDGround.HaiLanPrint.models.OrderWork;
+import com.MDGround.HaiLanPrint.models.WorkInfo;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
@@ -38,9 +39,9 @@ public class StringUtil {
     }
 
     public static String getCompleteAddress(DeliveryAddress deliveryAddress) {
-        Location provinceLocation = MDGroundApplication.mDaoSession.getLocationDao().load(deliveryAddress.getProvinceID());
-        Location cityLocation = MDGroundApplication.mDaoSession.getLocationDao().load(deliveryAddress.getCityID());
-        Location countyLocation = MDGroundApplication.mDaoSession.getLocationDao().load(deliveryAddress.getDistrictID());
+        Location provinceLocation = MDGroundApplication.sDaoSession.getLocationDao().load(deliveryAddress.getProvinceID());
+        Location cityLocation = MDGroundApplication.sDaoSession.getLocationDao().load(deliveryAddress.getCityID());
+        Location countyLocation = MDGroundApplication.sDaoSession.getLocationDao().load(deliveryAddress.getDistrictID());
 
         String province = "";
         if (provinceLocation != null) {
@@ -136,6 +137,81 @@ public class StringUtil {
         return showProductName;
     }
 
+    public static String getProductName(WorkInfo orderWork) {
+        String showProductName = null;
+
+        ProductType productType = ProductType.fromValue(orderWork.getTypeID());
+
+        String typeName = orderWork.getTypeName();
+        if (typeName == null) {
+            typeName = "";
+        }
+
+        String typeTitle = orderWork.getTypeTitle();
+        if (typeTitle == null) {
+            typeTitle = "";
+        }
+
+        String workMaterial = orderWork.getWorkMaterial();
+        if (workMaterial == null) {
+            workMaterial = "";
+        }
+
+        String workFormat = orderWork.getWorkFormat();
+        if (workFormat == null)  {
+            workFormat = "";
+        }
+
+        String workStyle = orderWork.getWorkStyle();
+        if (workStyle == null) {
+            workStyle = "";
+        }
+
+//        String templateName = orderWork.getTemplateName();
+//        if (templateName == null) {
+//            templateName = "";
+//        }
+
+        switch (productType) {
+            case PrintPhoto:
+                showProductName = typeName + " (" + typeTitle + " " + workMaterial + ")";
+                break;
+            case Postcard:
+                showProductName = typeName;
+                break;
+            case MagazineAlbum:
+            case ArtAlbum:
+                showProductName = typeName + " (" + typeTitle + " " + orderWork.getPhotoCount() + "P)";
+                break;
+            case PictureFrame:
+                showProductName = typeName + " (" + workFormat + " " + workStyle + ")";
+                break;
+            case Calendar:
+                showProductName = typeName + " (" + typeTitle + ")";
+                break;
+            case PhoneShell:
+                showProductName = typeName + " (" + workMaterial + ")";
+                break;
+            case Poker:
+                showProductName = typeName + " (" + typeTitle + ")";
+                break;
+            case Puzzle:
+                showProductName = typeName;
+                break;
+            case MagicCup:
+                showProductName = typeName + " (" + typeTitle + ")";
+                break;
+            case LOMOCard:
+                showProductName = typeName + " (" + typeTitle + ")";
+                break;
+            case Engraving:
+                showProductName = workMaterial + typeName;
+                break;
+        }
+        return showProductName;
+    }
+
+
     /**
      * 获取版本号
      *
@@ -143,8 +219,8 @@ public class StringUtil {
      */
     public static String getVersion() {
         try {
-            PackageManager manager = MDGroundApplication.mInstance.getPackageManager();
-            PackageInfo info = manager.getPackageInfo(MDGroundApplication.mInstance.getPackageName(), 0);
+            PackageManager manager = MDGroundApplication.sInstance.getPackageManager();
+            PackageInfo info = manager.getPackageInfo(MDGroundApplication.sInstance.getPackageName(), 0);
             String version = info.versionName;
             return version;
         } catch (Exception e) {

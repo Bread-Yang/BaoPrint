@@ -14,11 +14,11 @@
             <TextView
                 style="@style/NormalTextStyle"
                 android:layout_centerVertical="true"
-                android:text="@string/only_update_in_wifi"
+                android:text="@string/only_upload_in_wifi"
                 android:textSize="@dimen/text_size_16" />
 
             <CheckBox
-                android:id="@+id/cbOnlyWifiUpdate"
+                android:id="@+id/cbOnlyWifiUpload"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"

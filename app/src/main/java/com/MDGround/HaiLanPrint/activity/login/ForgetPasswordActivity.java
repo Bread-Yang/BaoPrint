@@ -8,12 +8,13 @@ import android.widget.Toast;
 
 import com.MDGround.HaiLanPrint.R;
 import com.MDGround.HaiLanPrint.activity.base.ToolbarActivity;
-import com.MDGround.HaiLanPrint.activity.personalcenter.PersonalInformationActivity;
+import com.MDGround.HaiLanPrint.application.MDGroundApplication;
 import com.MDGround.HaiLanPrint.constants.Constants;
 import com.MDGround.HaiLanPrint.databinding.ActivityForgetPasswordBinding;
 import com.MDGround.HaiLanPrint.enumobject.restfuls.ResponseCode;
 import com.MDGround.HaiLanPrint.restfuls.GlobalRestful;
 import com.MDGround.HaiLanPrint.restfuls.bean.ResponseData;
+import com.MDGround.HaiLanPrint.utils.DeviceUtil;
 import com.MDGround.HaiLanPrint.utils.MD5Util;
 import com.MDGround.HaiLanPrint.utils.StringUtil;
 import com.MDGround.HaiLanPrint.utils.ViewUtils;
@@ -29,6 +30,8 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class ForgetPasswordActivity extends ToolbarActivity<ActivityForgetPasswordBinding> {
+
+    private boolean mIsChangePassword;
 
     private EventHandler mEventHandler = new EventHandler() {
         @Override
@@ -74,9 +77,11 @@ public class ForgetPasswordActivity extends ToolbarActivity<ActivityForgetPasswo
 
     @Override
     protected void initData() {
-        int fro_where = getIntent().getIntExtra(PersonalInformationActivity.SET_PASSWORD, 0);
-        if (fro_where == PersonalInformationActivity.FRO_PERSON) {
-            tvTitle.setText("修改密码");
+        mIsChangePassword = getIntent().getBooleanExtra(Constants.KEY_CHANGE_PASSWORD, false);
+        if (mIsChangePassword) {
+            tvTitle.setText(R.string.forget_password);
+            mDataBinding.cetAccount.setEnabled(false);
+            mDataBinding.cetAccount.setText(MDGroundApplication.sInstance.getLoginUser().getPhone());
         } else {
             mDataBinding.cetAccount.append(getIntent().getStringExtra(Constants.KEY_PHONE));
         }
@@ -193,7 +198,12 @@ public class ForgetPasswordActivity extends ToolbarActivity<ActivityForgetPasswo
                     public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
                         if (response.body().getCode() == ResponseCode.Normal.getValue()) {
                             ViewUtils.toast(R.string.change_password_success);
-                            finish();
+
+                            if (mIsChangePassword) {
+                                DeviceUtil.logoutUser(ForgetPasswordActivity.this);
+                            } else {
+                                finish();
+                            }
                         }
                     }
 

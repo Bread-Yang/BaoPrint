@@ -3,7 +3,7 @@ package com.MDGround.HaiLanPrint.activity.phoneshell;
 import android.content.Intent;
 import android.view.View;
 
-import com.MDGround.HaiLanPrint.ProductType;
+import com.MDGround.HaiLanPrint.enumobject.ProductType;
 import com.MDGround.HaiLanPrint.R;
 import com.MDGround.HaiLanPrint.activity.base.ToolbarActivity;
 import com.MDGround.HaiLanPrint.application.MDGroundApplication;
@@ -49,7 +49,7 @@ public class PhoneShellStartActivity extends ToolbarActivity<ActivityPhoneShellS
 
     @Override
     protected void initData() {
-        for (PhotoTypeExplain photoTypeExplain : MDGroundApplication.mInstance.getPhotoTypeExplainArrayList()) {
+        for (PhotoTypeExplain photoTypeExplain : MDGroundApplication.sInstance.getPhotoTypeExplainArrayList()) {
             if (photoTypeExplain.getExplainType() == PhotoExplainTypeEnum.Banner.value()
                     && photoTypeExplain.getTypeID() == ProductType.PhoneShell.value()) {
                 GlideUtil.loadImageByPhotoSIDWithDialog(mDataBinding.ivBanner,
@@ -65,32 +65,32 @@ public class PhoneShellStartActivity extends ToolbarActivity<ActivityPhoneShellS
     }
 
     private void changeModelTextAndMaterialAvailable() {
-        mDataBinding.tvPhoneModel.setText(MDGroundApplication.mInstance.getChoosedMeasurement().getTitle() + "-" + MDGroundApplication.mInstance.getChoosedTemplate().getTemplateName());
-        mDataBinding.tvPrice.setText(StringUtil.toYuanWithUnit(MDGroundApplication.mInstance.getChoosedTemplate().getPrice()));
+        mDataBinding.tvPhoneModel.setText(MDGroundApplication.sInstance.getChoosedMeasurement().getTitle() + "-" + MDGroundApplication.sInstance.getChoosedTemplate().getTemplateName());
+        mDataBinding.tvPrice.setText(StringUtil.toYuanWithUnit(MDGroundApplication.sInstance.getChoosedTemplate().getPrice()));
 
         mDataBinding.rgMaterial.clearCheck();
 
-        if ((MDGroundApplication.mInstance.getChoosedTemplate().getMaterialType() & MaterialType.Silicone.value()) != 0) {
+        if ((MDGroundApplication.sInstance.getChoosedTemplate().getMaterialType() & MaterialType.Silicone.value()) != 0) {
             mDataBinding.rbSilicone.setEnabled(true);
             if (mDataBinding.rgMaterial.getCheckedRadioButtonId() == -1) {
                 mDataBinding.rbSilicone.setChecked(true);
 
-                Template template = MDGroundApplication.mInstance.getChoosedTemplate();
+                Template template = MDGroundApplication.sInstance.getChoosedTemplate();
                 template.setSelectMaterial(ProductMaterial.PhoneShell_Silicone.getText());
-                MDGroundApplication.mInstance.setChoosedTemplate(template);
+                MDGroundApplication.sInstance.setChoosedTemplate(template);
             }
         } else {
             mDataBinding.rbSilicone.setEnabled(false);
         }
 
-        if ((MDGroundApplication.mInstance.getChoosedTemplate().getMaterialType() & MaterialType.Plastic.value()) != 0) {
+        if ((MDGroundApplication.sInstance.getChoosedTemplate().getMaterialType() & MaterialType.Plastic.value()) != 0) {
             mDataBinding.rbPlastic.setEnabled(true);
             if (mDataBinding.rgMaterial.getCheckedRadioButtonId() == -1) {
                 mDataBinding.rbPlastic.setChecked(true);
 
-                Template template = MDGroundApplication.mInstance.getChoosedTemplate();
+                Template template = MDGroundApplication.sInstance.getChoosedTemplate();
                 template.setSelectMaterial(ProductMaterial.PhoneShell_Plastic.getText());
-                MDGroundApplication.mInstance.setChoosedTemplate(template);
+                MDGroundApplication.sInstance.setChoosedTemplate(template);
             }
         } else {
             mDataBinding.rbPlastic.setEnabled(false);
@@ -101,7 +101,7 @@ public class PhoneShellStartActivity extends ToolbarActivity<ActivityPhoneShellS
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
-            if (MDGroundApplication.mInstance.getChoosedTemplate() != null) {
+            if (MDGroundApplication.sInstance.getChoosedTemplate() != null) {
                 changeModelTextAndMaterialAvailable();
             }
         }
@@ -121,7 +121,7 @@ public class PhoneShellStartActivity extends ToolbarActivity<ActivityPhoneShellS
     }
 
     public void nextStepAction(View view) {
-        if (MDGroundApplication.mInstance.getChoosedTemplate() == null) {
+        if (MDGroundApplication.sInstance.getChoosedTemplate() == null) {
             ViewUtils.toast(R.string.please_select_phone_model);
             return;
         }
@@ -146,7 +146,7 @@ public class PhoneShellStartActivity extends ToolbarActivity<ActivityPhoneShellS
                         });
 
                         if (specList.size() > 0) {
-                            MDGroundApplication.mInstance.setChoosedMeasurement(specList.get(0));
+                            MDGroundApplication.sInstance.setChoosedMeasurement(specList.get(0));
                             getPhotoTemplateListRequest();
                         }
 
@@ -165,7 +165,7 @@ public class PhoneShellStartActivity extends ToolbarActivity<ActivityPhoneShellS
 
     private void getPhotoTemplateListRequest() {
         ViewUtils.loading(this);
-        GlobalRestful.getInstance().GetPhotoTemplateList(MDGroundApplication.mInstance.getChoosedMeasurement().getTypeDescID(),
+        GlobalRestful.getInstance().GetPhotoTemplateList(MDGroundApplication.sInstance.getChoosedMeasurement().getTypeDescID(),
                 new Callback<ResponseData>() {
                     @Override
                     public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
@@ -177,7 +177,7 @@ public class PhoneShellStartActivity extends ToolbarActivity<ActivityPhoneShellS
                             if (templateList.size() > 0) {
                                 Template template = templateList.get(0);
 
-                                MDGroundApplication.mInstance.setChoosedTemplate(template);
+                                MDGroundApplication.sInstance.setChoosedTemplate(template);
 
                                 changeModelTextAndMaterialAvailable();
                             }

@@ -20,7 +20,7 @@ import com.MDGround.HaiLanPrint.utils.NavUtils;
 import com.MDGround.HaiLanPrint.utils.OrderUtils;
 import com.MDGround.HaiLanPrint.utils.SelectImageUtils;
 import com.MDGround.HaiLanPrint.utils.ViewUtils;
-import com.MDGround.HaiLanPrint.views.BaoCustomGPUImage;
+import com.MDGround.HaiLanPrint.views.BaoGPUImage;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 
@@ -63,7 +63,7 @@ public class MagicCupPhotoEditActivity extends ToolbarActivity<ActivityMagicCupE
             }
         });
 
-        mDataBinding.bgiCustomImage.setOnSingleTouchListener(new BaoCustomGPUImage.OnSingleTouchListener() {
+        mDataBinding.bgiCustomImage.setOnSingleTouchListener(new BaoGPUImage.OnSingleTouchListener() {
             @Override
             public void onSingleTouch() {
                 Intent intent = new Intent(MagicCupPhotoEditActivity.this, SelectAlbumWhenEditActivity.class);
@@ -75,7 +75,7 @@ public class MagicCupPhotoEditActivity extends ToolbarActivity<ActivityMagicCupE
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
 
-                WorkPhoto workPhoto = SelectImageUtils.mAlreadySelectImage.get(0).getWorkPhoto();
+                WorkPhoto workPhoto = SelectImageUtils.sAlreadySelectImage.get(0).getWorkPhoto();
                 workPhoto.setBrightLevel(progress);
 
                 mDataBinding.tvPercent.setText(getString(R.string.percent, progress) + "%");
@@ -99,18 +99,25 @@ public class MagicCupPhotoEditActivity extends ToolbarActivity<ActivityMagicCupE
     }
 
     private void showImageToGPUImageView() {
-        if (SelectImageUtils.mTemplateImage.size() > 0) {
+        if (SelectImageUtils.sTemplateImage.size() > 0) {
             // 模板图片加载
             GlideUtil.loadImageByMDImage(mDataBinding.ivTemplate,
-                    SelectImageUtils.mTemplateImage.get(0), false);
+                    SelectImageUtils.sTemplateImage.get(0), false);
         }
 
+        final MDImage mdImage = SelectImageUtils.sAlreadySelectImage.get(0);
+
         // 用户选择的图片加载
-        GlideUtil.loadImageAsBitmap(SelectImageUtils.mAlreadySelectImage.get(0),
+        GlideUtil.loadImageAsBitmap(SelectImageUtils.sAlreadySelectImage.get(0),
                 new SimpleTarget<Bitmap>(200, 200) {
                     @Override
                     public void onResourceReady(Bitmap bitmap, GlideAnimation glideAnimation) {
-                        mDataBinding.bgiCustomImage.loadNewImage(bitmap);
+                        WorkPhoto workPhoto = mdImage.getWorkPhoto();
+
+                        mDataBinding.bgiCustomImage.loadNewImage(bitmap,
+                                workPhoto.getZoomSize() / 100f,
+                                workPhoto.getRotate(),
+                                workPhoto.getBrightLevel() / 100f);
                     }
                 });
     }
@@ -120,7 +127,7 @@ public class MagicCupPhotoEditActivity extends ToolbarActivity<ActivityMagicCupE
         if (resultCode == RESULT_OK) {
             MDImage mdImage = data.getParcelableExtra(Constants.KEY_SELECT_IMAGE);
 
-            SelectImageUtils.mAlreadySelectImage.set(0, mdImage);
+            SelectImageUtils.sAlreadySelectImage.set(0, mdImage);
 
             showImageToGPUImageView();
         }
@@ -129,9 +136,9 @@ public class MagicCupPhotoEditActivity extends ToolbarActivity<ActivityMagicCupE
     private void saveToMyWork() {
         ViewUtils.loading(this);
         // 保存到我的作品中
-        MDGroundApplication.mOrderutUtils = new OrderUtils(this, true,
-                1, MDGroundApplication.mInstance.getChoosedMeasurement().getPrice());
-        MDGroundApplication.mOrderutUtils.uploadImageRequest(this, 0);
+        MDGroundApplication.sOrderutUtils = new OrderUtils(this, true,
+                1, MDGroundApplication.sInstance.getChoosedMeasurement().getPrice());
+        MDGroundApplication.sOrderutUtils.uploadImageRequest(this, 0);
     }
 
 
@@ -140,15 +147,15 @@ public class MagicCupPhotoEditActivity extends ToolbarActivity<ActivityMagicCupE
         float scaleFactor = mDataBinding.bgiCustomImage.getmScaleFactor();
         float rotateDegree = mDataBinding.bgiCustomImage.getmRotationDegrees();
 
-        WorkPhoto workPhoto = SelectImageUtils.mAlreadySelectImage.get(0).getWorkPhoto();
+        WorkPhoto workPhoto = SelectImageUtils.sAlreadySelectImage.get(0).getWorkPhoto();
         workPhoto.setZoomSize((int) (scaleFactor * 100));
         workPhoto.setRotate((int) rotateDegree);
 
         ViewUtils.loading(this);
 
-        MDGroundApplication.mOrderutUtils = new OrderUtils(this, false,
-                1, MDGroundApplication.mInstance.getChoosedMeasurement().getPrice());
-        MDGroundApplication.mOrderutUtils.uploadImageRequest(this, 0);
+        MDGroundApplication.sOrderutUtils = new OrderUtils(this, false,
+                1, MDGroundApplication.sInstance.getChoosedMeasurement().getPrice());
+        MDGroundApplication.sOrderutUtils.uploadImageRequest(this, 0);
     }
     //endregion
 

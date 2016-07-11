@@ -2,7 +2,7 @@ package com.MDGround.HaiLanPrint.activity.puzzle;
 
 import android.view.View;
 
-import com.MDGround.HaiLanPrint.ProductType;
+import com.MDGround.HaiLanPrint.enumobject.ProductType;
 import com.MDGround.HaiLanPrint.R;
 import com.MDGround.HaiLanPrint.activity.base.ToolbarActivity;
 import com.MDGround.HaiLanPrint.application.MDGroundApplication;
@@ -39,7 +39,7 @@ public class PuzzleStartActivity extends ToolbarActivity<ActivityPuzzleStartBind
 
     @Override
     protected void initData() {
-        for (PhotoTypeExplain photoTypeExplain : MDGroundApplication.mInstance.getPhotoTypeExplainArrayList()) {
+        for (PhotoTypeExplain photoTypeExplain : MDGroundApplication.sInstance.getPhotoTypeExplainArrayList()) {
             if (photoTypeExplain.getExplainType() == PhotoExplainTypeEnum.IntroductionPage.value()
                     && photoTypeExplain.getTypeID() == ProductType.Puzzle.value()) {
                 GlideUtil.loadImageByPhotoSIDWithDialog(mDataBinding.ivIntroductionPage,
@@ -78,7 +78,7 @@ public class PuzzleStartActivity extends ToolbarActivity<ActivityPuzzleStartBind
                         ArrayList<Measurement> mSpecList = StringUtil.getInstanceByJsonString(PhotoTypeDescList, new TypeToken<ArrayList<Measurement>>() {
                         });
 
-                        MDGroundApplication.mInstance.setChoosedMeasurement(mSpecList.get(0));
+                        MDGroundApplication.sInstance.setChoosedMeasurement(mSpecList.get(0));
 
                     } catch (JSONException e) {
                         e.printStackTrace();

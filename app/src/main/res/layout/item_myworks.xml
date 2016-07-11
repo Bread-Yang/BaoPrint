@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
+        <import type="com.MDGround.HaiLanPrint.utils.StringUtil"/>
         <import type="android.view.View" />
 
         <variable
@@ -100,7 +100,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentTop="true"
-                            android:text="@{workInfo.typeName}"
+                            android:text="@{StringUtil.getProductName(workInfo)}"
                             android:textColor="@color/color_333333"
                             android:textSize="@dimen/text_size_18"
                             tools:text="照片书" />

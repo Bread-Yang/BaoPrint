@@ -17,14 +17,14 @@ import java.util.Locale;
  */
 public class DateUtils {
 
-    private static String mDatePattern = "yyyy-MM-dd HH:mm:ss";
-    static SimpleDateFormat mSimpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.CHINA);
-    static java.text.DecimalFormat mDecimalFormat = new java.text.DecimalFormat("00");
+    private static String sDatePattern = "yyyy-MM-dd HH:mm:ss";
+    static SimpleDateFormat sSimpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.CHINA);
+    static java.text.DecimalFormat sDecimalFormat = new java.text.DecimalFormat("00");
 
     public static long getDateMILL(String dob) {
         Calendar calendar = Calendar.getInstance();
         try {
-            calendar.setTime(mSimpleDateFormat.parse(dob));
+            calendar.setTime(sSimpleDateFormat.parse(dob));
         } catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -126,7 +126,7 @@ public class DateUtils {
     }
 
     public static DateTime getDateByServerDateString(String dateString) {
-        DateTimeFormatter formatter = DateTimeFormat.forPattern(mDatePattern);
+        DateTimeFormatter formatter = DateTimeFormat.forPattern(sDatePattern);
         DateTime dt = formatter.parseDateTime(dateString);
         return dt;
     }
@@ -135,7 +135,7 @@ public class DateUtils {
         if (date == null) {
             return "";
         }
-        return mSimpleDateFormat.format(date);
+        return sSimpleDateFormat.format(date);
     }
 
     /**
@@ -355,7 +355,7 @@ public class DateUtils {
             return null;
         }
         StringBuffer sb = new StringBuffer();
-        sb.append(mDecimalFormat.format(beginHour / 60) + ":" + mDecimalFormat.format(beginHour % 60));
+        sb.append(sDecimalFormat.format(beginHour / 60) + ":" + sDecimalFormat.format(beginHour % 60));
         return sb.toString();
     }
 

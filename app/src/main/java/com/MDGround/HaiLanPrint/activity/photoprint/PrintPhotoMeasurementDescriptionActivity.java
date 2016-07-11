@@ -1,6 +1,6 @@
 package com.MDGround.HaiLanPrint.activity.photoprint;
 
-import com.MDGround.HaiLanPrint.ProductType;
+import com.MDGround.HaiLanPrint.enumobject.ProductType;
 import com.MDGround.HaiLanPrint.R;
 import com.MDGround.HaiLanPrint.activity.base.ToolbarActivity;
 import com.MDGround.HaiLanPrint.application.MDGroundApplication;
@@ -21,7 +21,7 @@ public class PrintPhotoMeasurementDescriptionActivity extends ToolbarActivity<Ac
 
     @Override
     protected void initData() {
-        for (PhotoTypeExplain photoTypeExplain : MDGroundApplication.mInstance.getPhotoTypeExplainArrayList()) {
+        for (PhotoTypeExplain photoTypeExplain : MDGroundApplication.sInstance.getPhotoTypeExplainArrayList()) {
             if (photoTypeExplain.getExplainType() == PhotoExplainTypeEnum.MeasurementDescription.value()
                     && photoTypeExplain.getTypeID() == ProductType.PrintPhoto.value()) {
 

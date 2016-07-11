@@ -42,9 +42,9 @@ public class EditDeliveryAddressActivity extends ToolbarActivity<ActivityEditDel
             mDataBinding.cetConsignee.setText(mDeliveryAddress.getReceiver());
             mDataBinding.mfetContactNumber.setText(mDeliveryAddress.getPhone());
             mDataBinding.etDetailedAddress.setText(mDeliveryAddress.getStreet());
-            Location province = MDGroundApplication.mDaoSession.getLocationDao().load(mDeliveryAddress.getProvinceID());
-            Location city = MDGroundApplication.mDaoSession.getLocationDao().load(mDeliveryAddress.getCityID());
-            Location county = MDGroundApplication.mDaoSession.getLocationDao().load(mDeliveryAddress.getDistrictID());
+            Location province = MDGroundApplication.sDaoSession.getLocationDao().load(mDeliveryAddress.getProvinceID());
+            Location city = MDGroundApplication.sDaoSession.getLocationDao().load(mDeliveryAddress.getCityID());
+            Location county = MDGroundApplication.sDaoSession.getLocationDao().load(mDeliveryAddress.getDistrictID());
             mDataBinding.tvRegion.setText(province.getLocationName() + city.getLocationName() + county.getLocationName());
         } else {
             mDeliveryAddress = new DeliveryAddress();
@@ -52,7 +52,7 @@ public class EditDeliveryAddressActivity extends ToolbarActivity<ActivityEditDel
             mDeliveryAddress.setProvinceID(110000);
             mDeliveryAddress.setCityID(110100);
             mDeliveryAddress.setDistrictID(110101);
-            mDeliveryAddress.setUserID(MDGroundApplication.mInstance.getLoginUser().getUserID());
+            mDeliveryAddress.setUserID(MDGroundApplication.sInstance.getLoginUser().getUserID());
             mDataBinding.tvRegion.setText("北京北京市东城区");
             tvTitle.setText(R.string.add_address);
         }

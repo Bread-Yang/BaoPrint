@@ -28,6 +28,12 @@ public class WorkInfo implements Serializable,Comparable<WorkInfo> {
 
     private String WorkDesc;
 
+    private String WorkFormat;
+
+    private String WorkMaterial;
+
+    private String WorkStyle;
+
     private int PhotoCount;
 
     public int getUserID() {
@@ -116,6 +122,30 @@ public class WorkInfo implements Serializable,Comparable<WorkInfo> {
 
     public void setPhotoCount(int photoCount) {
         PhotoCount = photoCount;
+    }
+
+    public String getWorkFormat() {
+        return WorkFormat;
+    }
+
+    public void setWorkFormat(String workFormat) {
+        WorkFormat = workFormat;
+    }
+
+    public String getWorkMaterial() {
+        return WorkMaterial;
+    }
+
+    public void setWorkMaterial(String workMaterial) {
+        WorkMaterial = workMaterial;
+    }
+
+    public String getWorkStyle() {
+        return WorkStyle;
+    }
+
+    public void setWorkStyle(String workStyle) {
+        WorkStyle = workStyle;
     }
 
     @Override

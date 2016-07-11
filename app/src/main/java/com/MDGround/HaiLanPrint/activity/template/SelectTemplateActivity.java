@@ -9,7 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.MDGround.HaiLanPrint.ProductType;
+import com.MDGround.HaiLanPrint.enumobject.ProductType;
 import com.MDGround.HaiLanPrint.R;
 import com.MDGround.HaiLanPrint.activity.base.ToolbarActivity;
 import com.MDGround.HaiLanPrint.application.MDGroundApplication;
@@ -57,7 +57,7 @@ public class SelectTemplateActivity extends ToolbarActivity<ActivitySelectTempla
 
     @Override
     protected void initData() {
-        if (MDGroundApplication.mInstance.getChoosedProductType() == ProductType.PictureFrame) {
+        if (MDGroundApplication.sInstance.getChoosedProductType() == ProductType.PictureFrame) {
             mDataBinding.tabLayout.setVisibility(View.GONE);
             tvTitle.setText(R.string.choose_frame);
         } else {
@@ -74,7 +74,7 @@ public class SelectTemplateActivity extends ToolbarActivity<ActivitySelectTempla
         mAdapter = new SelectTemplateAdapter();
         mDataBinding.recyclerView.setAdapter(mAdapter);
 
-        if (MDGroundApplication.mInstance.getChoosedProductType() == ProductType.PictureFrame) {
+        if (MDGroundApplication.sInstance.getChoosedProductType() == ProductType.PictureFrame) {
             getPhotoTemplateListByTypeRequest();
         } else {
             getPhotoTemplateListRequest();
@@ -116,7 +116,7 @@ public class SelectTemplateActivity extends ToolbarActivity<ActivitySelectTempla
 
     //region SERVER
     private void getPhotoTemplateListByTypeRequest() {
-        GlobalRestful.getInstance().GetPhotoTemplateListByType(MDGroundApplication.mInstance.getChoosedProductType(), new Callback<ResponseData>() {
+        GlobalRestful.getInstance().GetPhotoTemplateListByType(MDGroundApplication.sInstance.getChoosedProductType(), new Callback<ResponseData>() {
             @Override
             public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
                 mAllTemplateArrayList = response.body().getContent(new TypeToken<ArrayList<Template>>() {
@@ -136,7 +136,7 @@ public class SelectTemplateActivity extends ToolbarActivity<ActivitySelectTempla
 
     private void getPhotoTemplateListRequest() {
         ViewUtils.loading(this);
-        GlobalRestful.getInstance().GetPhotoTemplateList(MDGroundApplication.mInstance.getChoosedMeasurement().getTypeDescID(),
+        GlobalRestful.getInstance().GetPhotoTemplateList(MDGroundApplication.sInstance.getChoosedMeasurement().getTypeDescID(),
                 new Callback<ResponseData>() {
                     @Override
                     public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
@@ -163,9 +163,9 @@ public class SelectTemplateActivity extends ToolbarActivity<ActivitySelectTempla
         GlobalRestful.getInstance().GetPhotoTemplateAttachList(templateID, new Callback<ResponseData>() {
             @Override
             public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
-                SelectImageUtils.mTemplateImage.clear();
+                SelectImageUtils.sTemplateImage.clear();
 
-                SelectImageUtils.mTemplateImage = response.body().getContent(new TypeToken<ArrayList<MDImage>>() {
+                SelectImageUtils.sTemplateImage = response.body().getContent(new TypeToken<ArrayList<MDImage>>() {
                 });
 
                 Intent intent = new Intent(SelectTemplateActivity.this, TemplateStartCreateActivity.class);
@@ -233,15 +233,15 @@ public class SelectTemplateActivity extends ToolbarActivity<ActivitySelectTempla
             }
 
             public void onTemplateImageClickAction(View view) {
-                MDGroundApplication.mInstance.setChoosedTemplate(mShowTemplateArrayList.get(getAdapterPosition()));
+                MDGroundApplication.sInstance.setChoosedTemplate(mShowTemplateArrayList.get(getAdapterPosition()));
 
-                switch (MDGroundApplication.mInstance.getChoosedProductType()) {
+                switch (MDGroundApplication.sInstance.getChoosedProductType()) {
                     case Postcard:
                     case MagazineAlbum:
                     case ArtAlbum:
                     case Calendar:
                     case LOMOCard:
-                        getPhotoTemplateAttachListRequest(MDGroundApplication.mInstance.getChoosedTemplate().getTemplateID());
+                        getPhotoTemplateAttachListRequest(MDGroundApplication.sInstance.getChoosedTemplate().getTemplateID());
                         break;
                     default:
                         NavUtils.toSelectAlbumActivity(view.getContext());

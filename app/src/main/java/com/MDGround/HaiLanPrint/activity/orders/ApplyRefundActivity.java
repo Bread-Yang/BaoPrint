@@ -117,7 +117,7 @@ public class ApplyRefundActivity extends ToolbarActivity<ActivityApplyRefundBind
 
 //                Uri uri = data.getData();
 //                String picturePath = FileUtils.getAbsoluteImagePath(ApplyRefundActivity.this, uri);
-                String picturePath = SelectSingleImageDialog.mCaptureImageURL;
+                String picturePath = SelectSingleImageDialog.sCaptureImageURL;
                 KLog.e("picturePath : " + picturePath);
 
                 MDImage mdImage = new MDImage();

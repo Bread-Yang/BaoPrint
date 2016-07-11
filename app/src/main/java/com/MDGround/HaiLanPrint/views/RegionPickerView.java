@@ -111,7 +111,7 @@ public class RegionPickerView extends LinearLayout {
     }
 
     private List<Location> getRegionDataByLocationID(long locationID) {
-        return MDGroundApplication.mDaoSession.getLocationDao().queryBuilder().where(LocationDao.Properties.ParentID.eq(locationID)).list();
+        return MDGroundApplication.sDaoSession.getLocationDao().queryBuilder().where(LocationDao.Properties.ParentID.eq(locationID)).list();
     }
 
     public void setOnRegionSelectListener(OnRegionSelectListener onRegionSelectListener) {

@@ -125,7 +125,7 @@ public class RegionWheelView extends LinearLayout implements OnWheelScrollListen
     }
 
     private List<Location> getRegionDataByLocationID(long locationID) {
-        return MDGroundApplication.mDaoSession.getLocationDao().queryBuilder().where(LocationDao.Properties.ParentID.eq(locationID)).list();
+        return MDGroundApplication.sDaoSession.getLocationDao().queryBuilder().where(LocationDao.Properties.ParentID.eq(locationID)).list();
     }
 
     public boolean isFinishSelect() {

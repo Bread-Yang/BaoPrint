@@ -32,13 +32,13 @@ public class SelectedImageAdapter extends RecyclerView.Adapter<SelectedImageAdap
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        holder.viewDataBinding.setVariable(BR.image, SelectImageUtils.mAlreadySelectImage.get(position));
+        holder.viewDataBinding.setVariable(BR.image, SelectImageUtils.sAlreadySelectImage.get(position));
         holder.viewDataBinding.setVariable(BR.viewHolder, holder);
     }
 
     @Override
     public int getItemCount() {
-        return SelectImageUtils.mAlreadySelectImage.size();
+        return SelectImageUtils.sAlreadySelectImage.size();
     }
 
     public SelectedImageAdapter.onDeleteImageLisenter getOnDeleteImageLisenter() {
@@ -61,8 +61,8 @@ public class SelectedImageAdapter extends RecyclerView.Adapter<SelectedImageAdap
         public void deleteImageAction(View view) {
             int position = getAdapterPosition();
 
-            if (position < SelectImageUtils.mAlreadySelectImage.size()) {
-                SelectImageUtils.mAlreadySelectImage.remove(position);
+            if (position < SelectImageUtils.sAlreadySelectImage.size()) {
+                SelectImageUtils.sAlreadySelectImage.remove(position);
 
                 notifyDataSetChanged();
 

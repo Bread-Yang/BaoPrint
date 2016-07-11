@@ -8,7 +8,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.MDGround.HaiLanPrint.ProductType;
 import com.MDGround.HaiLanPrint.R;
 import com.MDGround.HaiLanPrint.activity.base.ToolbarActivity;
 import com.MDGround.HaiLanPrint.activity.template.SelectTemplateActivity;
@@ -16,6 +15,7 @@ import com.MDGround.HaiLanPrint.application.MDGroundApplication;
 import com.MDGround.HaiLanPrint.databinding.ActivityArtAlbumChooseInchBinding;
 import com.MDGround.HaiLanPrint.databinding.ItemArtAlbumChooseInchBinding;
 import com.MDGround.HaiLanPrint.enumobject.PhotoExplainTypeEnum;
+import com.MDGround.HaiLanPrint.enumobject.ProductType;
 import com.MDGround.HaiLanPrint.enumobject.restfuls.ResponseCode;
 import com.MDGround.HaiLanPrint.models.Measurement;
 import com.MDGround.HaiLanPrint.models.PhotoTypeExplain;
@@ -59,7 +59,7 @@ public class ArtAlbumChooseInchActivity extends ToolbarActivity<ActivityArtAlbum
 
     @Override
     protected void initData() {
-        for (PhotoTypeExplain photoTypeExplain : MDGroundApplication.mInstance.getPhotoTypeExplainArrayList()) {
+        for (PhotoTypeExplain photoTypeExplain : MDGroundApplication.sInstance.getPhotoTypeExplainArrayList()) {
             if (photoTypeExplain.getExplainType() == PhotoExplainTypeEnum.Banner.value()
                     && photoTypeExplain.getTypeID() == ProductType.ArtAlbum.value()) {
                 GlideUtil.loadImageByPhotoSIDWithDialog(mDataBinding.ivBanner,
@@ -151,7 +151,7 @@ public class ArtAlbumChooseInchActivity extends ToolbarActivity<ActivityArtAlbum
             }
 
             public void toSelectTemplateActivityAction(View view) {
-                MDGroundApplication.mInstance.setChoosedMeasurement(mSpecList.get(getAdapterPosition()));
+                MDGroundApplication.sInstance.setChoosedMeasurement(mSpecList.get(getAdapterPosition()));
 
                 Intent intent = new Intent(ArtAlbumChooseInchActivity.this, SelectTemplateActivity.class);
                 startActivity(intent);

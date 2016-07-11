@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
         <variable
             name="handlers"
-            type="com.MDGround.HaiLanPrint.activity.main.MainActivity.MainBindingEventHandler"/>
+            type="com.MDGround.HaiLanPrint.activity.main.MainActivity.MainBindingEventHandler" />
     </data>
 
     <LinearLayout
@@ -20,100 +20,146 @@
             android:layout_weight="1"
             android:orientation="horizontal">
 
-            <Button
-                android:id="@+id/btnPhotoPrint"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/margin_1"
                 android:layout_weight="1"
-                android:background="?android:attr/selectableItemBackground"
-                android:drawableTop="@drawable/icon_photo_home"
+                android:background="@color/color_white"
                 android:gravity="center"
                 android:onClick="@{handlers::toPhotoPrintChooseInchActivityAction}"
-                android:paddingBottom="12dp"
-                android:paddingTop="12dp"
-                android:text="@string/print_photo"
-                android:textColor="@color/color_666666"
-                android:textSize="17sp"/>
+                android:orientation="vertical">
 
-            <Button
-                android:id="@+id/btnPostcard"
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/icon_photo_home" />
+
+                <TextView
+                    style="@style/NormalTextStyle"
+                    android:layout_marginTop="@dimen/margin_10"
+                    android:text="@string/print_photo" />
+
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/margin_1"
                 android:layout_weight="1"
-                android:background="?android:attr/selectableItemBackground"
-                android:drawableTop="@drawable/icon_card_home"
+                android:background="@color/color_white"
                 android:gravity="center"
-                android:onClick="@{handlers::toPostcarActivityAction}"
-                android:paddingBottom="12dp"
-                android:paddingTop="12dp"
-                android:text="@string/postcard"
-                android:textColor="@color/color_666666"
-                android:textSize="17sp"/>
+                android:onClick="@{handlers::toPostcardActivityAction}"
+                android:orientation="vertical">
 
-            <Button
-                android:id="@+id/btnMagazineBook"
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/icon_card_home" />
+
+                <TextView
+                    style="@style/NormalTextStyle"
+                    android:layout_marginTop="@dimen/margin_10"
+                    android:text="@string/postcard" />
+
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/margin_1"
                 android:layout_weight="1"
-                android:background="?android:attr/selectableItemBackground"
-                android:drawableTop="@drawable/icon_mz_home"
+                android:background="@color/color_white"
                 android:gravity="center"
                 android:onClick="@{handlers::toMagazineAlbumActivityAction}"
-                android:paddingBottom="12dp"
-                android:paddingTop="12dp"
-                android:text="@string/magazine_album"
-                android:textColor="@color/color_666666"
-                android:textSize="17sp"/>
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/icon_mz_home" />
+
+                <TextView
+                    style="@style/NormalTextStyle"
+                    android:layout_marginTop="@dimen/margin_10"
+                    android:text="@string/magazine_album" />
+
+            </LinearLayout>
 
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/margin_1"
             android:layout_weight="1"
             android:orientation="horizontal">
 
-            <Button
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/margin_1"
                 android:layout_weight="1"
-                android:background="?android:attr/selectableItemBackground"
-                android:drawableTop="@drawable/icon_art_home"
+                android:background="@color/color_white"
                 android:gravity="center"
                 android:onClick="@{handlers::toArtAlbumActivityAction}"
-                android:paddingBottom="12dp"
-                android:paddingTop="12dp"
-                android:text="@string/art_album"
-                android:textColor="@color/color_666666"
-                android:textSize="17sp"/>
+                android:orientation="vertical">
 
-            <Button
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/icon_art_home" />
+
+                <TextView
+                    style="@style/NormalTextStyle"
+                    android:layout_marginTop="@dimen/margin_10"
+                    android:text="@string/art_album" />
+
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/margin_1"
                 android:layout_weight="1"
-                android:background="?android:attr/selectableItemBackground"
-                android:drawableTop="@drawable/icon_picture_frame"
+                android:background="@color/color_white"
                 android:gravity="center"
                 android:onClick="@{handlers::toPictureFrameActivityAction}"
-                android:paddingBottom="12dp"
-                android:paddingTop="12dp"
-                android:text="@string/picture_frame"
-                android:textColor="@color/color_666666"
-                android:textSize="17sp"/>
+                android:orientation="vertical">
 
-            <Button
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/icon_picture_frame" />
+
+                <TextView
+                    style="@style/NormalTextStyle"
+                    android:layout_marginTop="@dimen/margin_10"
+                    android:text="@string/picture_frame" />
+
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/margin_1"
                 android:layout_weight="1"
-                android:background="?android:attr/selectableItemBackground"
-                android:drawableTop="@drawable/icon_day_home"
+                android:background="@color/color_white"
                 android:gravity="center"
                 android:onClick="@{handlers::toCalendarActivityAction}"
-                android:paddingBottom="12dp"
-                android:paddingTop="12dp"
-                android:text="@string/calendar"
-                android:textColor="@color/color_666666"
-                android:textSize="17sp"/>
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/icon_day_home" />
+
+                <TextView
+                    style="@style/NormalTextStyle"
+                    android:layout_marginTop="@dimen/margin_10"
+                    android:text="@string/calendar" />
+
+            </LinearLayout>
 
         </LinearLayout>
 

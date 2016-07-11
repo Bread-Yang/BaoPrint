@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 import android.widget.CompoundButton;
 import android.widget.RadioGroup;
 
-import com.MDGround.HaiLanPrint.ProductType;
+import com.MDGround.HaiLanPrint.enumobject.ProductType;
 import com.MDGround.HaiLanPrint.R;
 import com.MDGround.HaiLanPrint.activity.base.ToolbarActivity;
 import com.MDGround.HaiLanPrint.activity.coupon.ChooseCouponActivity;
@@ -45,7 +45,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static com.MDGround.HaiLanPrint.ProductType.ArtAlbum;
+import static com.MDGround.HaiLanPrint.enumobject.ProductType.ArtAlbum;
 
 /**
  * Created by yoghourt on 5/23/16.
@@ -86,7 +86,7 @@ public class PaymentPreviewActivity extends ToolbarActivity<ActivityPaymentPrevi
 
     @Override
     protected void initData() {
-        mOrderWorkArrayList = MDGroundApplication.mOrderutUtils.mOrderWorkArrayList;
+        mOrderWorkArrayList = MDGroundApplication.sOrderutUtils.mOrderWorkArrayList;
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -253,7 +253,7 @@ public class PaymentPreviewActivity extends ToolbarActivity<ActivityPaymentPrevi
             payType = PayType.WeChat;
         }
 
-        MDGroundApplication.mOrderutUtils.updateOrderPrepayRequest(PaymentPreviewActivity.this,
+        MDGroundApplication.sOrderutUtils.updateOrderPrepayRequest(PaymentPreviewActivity.this,
                 mDeliveryAddress, payType, getAllOrderWorkAmountFee(), getFinalReceivableFee());
     }
 
@@ -319,6 +319,10 @@ public class PaymentPreviewActivity extends ToolbarActivity<ActivityPaymentPrevi
                     JSONObject jsonObject = new JSONObject(response.body().getContent());
                     mCredit = jsonObject.getInt("TotalAmount");
                     mDataBinding.tvCredit.setText(getString(R.string.credit_total, String.valueOf(mCredit)));
+
+                    if (mCredit == 0) {
+                        mDataBinding.cbUseCredit.setEnabled(false);
+                    }
 
                     String UserIntegralList = jsonObject.getString("UserIntegralList");
                     mUserCreditArrayList = StringUtil.getInstanceByJsonString(UserIntegralList, new TypeToken<ArrayList<UserIntegral>>() {

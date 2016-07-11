@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
 
         <variable
             name="handlers"
-            type="com.MDGround.HaiLanPrint.activity.main.MainActivity.MainBindingEventHandler"/>
+            type="com.MDGround.HaiLanPrint.activity.main.MainActivity.MainBindingEventHandler" />
     </data>
 
     <LinearLayout
@@ -20,100 +19,146 @@
             android:layout_weight="1"
             android:orientation="horizontal">
 
-            <Button
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/margin_1"
                 android:layout_weight="1"
+                android:background="@color/color_white"
+                android:gravity="center"
                 android:onClick="@{handlers::toPhoneShellActivityAction}"
-                android:background="?android:attr/selectableItemBackground"
-                android:drawableTop="@drawable/icon_phone_home"
-                android:gravity="center"
-                android:paddingBottom="12dp"
-                android:paddingTop="12dp"
-                android:text="@string/phone_shell"
-                android:textColor="@color/color_666666"
-                android:textSize="17sp"/>
+                android:orientation="vertical">
 
-            <Button
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/icon_phone_home" />
+
+                <TextView
+                    style="@style/NormalTextStyle"
+                    android:layout_marginTop="@dimen/margin_10"
+                    android:text="@string/phone_shell" />
+
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/margin_1"
                 android:layout_weight="1"
-                android:background="?android:attr/selectableItemBackground"
-                android:drawableTop="@drawable/icon_p_home"
+                android:background="@color/color_white"
                 android:gravity="center"
-                android:paddingBottom="12dp"
-                android:paddingTop="12dp"
                 android:onClick="@{handlers::toPokerActivityAction}"
-                android:text="@string/poker"
-                android:textColor="@color/color_666666"
-                android:textSize="17sp"/>
+                android:orientation="vertical">
 
-            <Button
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/icon_p_home" />
+
+                <TextView
+                    style="@style/NormalTextStyle"
+                    android:layout_marginTop="@dimen/margin_10"
+                    android:text="@string/poker" />
+
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/margin_1"
                 android:layout_weight="1"
-                android:background="?android:attr/selectableItemBackground"
-                android:drawableTop="@drawable/icon_pic_home"
+                android:background="@color/color_white"
                 android:gravity="center"
                 android:onClick="@{handlers::toPuzzleActivityAction}"
-                android:paddingBottom="12dp"
-                android:paddingTop="12dp"
-                android:text="@string/puzzle"
-                android:textColor="@color/color_666666"
-                android:textSize="17sp"/>
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/icon_pic_home" />
+
+                <TextView
+                    style="@style/NormalTextStyle"
+                    android:layout_marginTop="@dimen/margin_10"
+                    android:text="@string/puzzle" />
+
+            </LinearLayout>
 
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/margin_1"
             android:layout_weight="1"
             android:orientation="horizontal">
 
-            <Button
-                android:id="@+id/btnMagicCup"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/margin_1"
                 android:layout_weight="1"
-                android:background="?android:attr/selectableItemBackground"
-                android:drawableTop="@drawable/icon_cup_home"
+                android:background="@color/color_white"
                 android:gravity="center"
                 android:onClick="@{handlers::toMagicCupActivityAction}"
-                android:paddingBottom="12dp"
-                android:paddingTop="12dp"
-                android:text="@string/magic_cup"
-                android:textColor="@color/color_666666"
-                android:textSize="17sp"/>
+                android:orientation="vertical">
 
-            <Button
-                android:id="@+id/btnLomoCard"
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/icon_cup_home" />
+
+                <TextView
+                    style="@style/NormalTextStyle"
+                    android:layout_marginTop="@dimen/margin_10"
+                    android:text="@string/magic_cup" />
+
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/margin_1"
                 android:layout_weight="1"
-                android:background="?android:attr/selectableItemBackground"
-                android:drawableTop="@drawable/icon_lomo_home"
+                android:background="@color/color_white"
                 android:gravity="center"
                 android:onClick="@{handlers::toLomoCardActivityAction}"
-                android:paddingBottom="12dp"
-                android:paddingTop="12dp"
-                android:text="@string/lomo_card"
-                android:textColor="@color/color_666666"
-                android:textSize="17sp"/>
+                android:orientation="vertical">
 
-            <Button
-                android:id="@+id/btnEngraving"
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/icon_lomo_home" />
+
+                <TextView
+                    style="@style/NormalTextStyle"
+                    android:layout_marginTop="@dimen/margin_10"
+                    android:text="@string/lomo_card" />
+
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/margin_1"
                 android:layout_weight="1"
-                android:background="?android:attr/selectableItemBackground"
-                android:drawableTop="@drawable/icon_dra_home"
+                android:background="@color/color_white"
                 android:gravity="center"
                 android:onClick="@{handlers::toEngravingActivityAction}"
-                android:paddingBottom="12dp"
-                android:paddingTop="12dp"
-                android:text="@string/engraving"
-                android:textColor="@color/color_666666"
-                android:textSize="17sp"/>
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/icon_dra_home" />
+
+                <TextView
+                    style="@style/NormalTextStyle"
+                    android:layout_marginTop="@dimen/margin_10"
+                    android:text="@string/engraving" />
+
+            </LinearLayout>
 
         </LinearLayout>
 

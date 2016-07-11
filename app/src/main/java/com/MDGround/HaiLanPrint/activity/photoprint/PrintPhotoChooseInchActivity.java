@@ -8,7 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.MDGround.HaiLanPrint.ProductType;
+import com.MDGround.HaiLanPrint.enumobject.ProductType;
 import com.MDGround.HaiLanPrint.R;
 import com.MDGround.HaiLanPrint.activity.base.ToolbarActivity;
 import com.MDGround.HaiLanPrint.application.MDGroundApplication;
@@ -149,7 +149,7 @@ public class PrintPhotoChooseInchActivity extends ToolbarActivity<ActivityPrintP
             }
 
             public void toSelectImageActivityAction(View view) {
-                MDGroundApplication.mInstance.setChoosedMeasurement(mSpecList.get(getAdapterPosition()));
+                MDGroundApplication.sInstance.setChoosedMeasurement(mSpecList.get(getAdapterPosition()));
 
                 NavUtils.toSelectAlbumActivity(view.getContext());
             }

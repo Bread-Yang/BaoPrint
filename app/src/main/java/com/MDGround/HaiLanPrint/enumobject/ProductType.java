@@ -1,7 +1,7 @@
-package com.MDGround.HaiLanPrint;
+package com.MDGround.HaiLanPrint.enumobject;
 
+import com.MDGround.HaiLanPrint.R;
 import com.MDGround.HaiLanPrint.application.MDGroundApplication;
-import com.MDGround.HaiLanPrint.enumobject.OrderStatus;
 
 /**
  * Created by yoghourt on 5/16/16.
@@ -43,29 +43,29 @@ public enum ProductType {
     public static String getProductName(ProductType productType) {
         switch (productType) {
             case PrintPhoto:
-                return MDGroundApplication.mInstance.getString(R.string.print_photo);
+                return MDGroundApplication.sInstance.getString(R.string.print_photo);
             case Postcard:
-                return MDGroundApplication.mInstance.getString(R.string.postcard);
+                return MDGroundApplication.sInstance.getString(R.string.postcard);
             case MagazineAlbum:
-                return MDGroundApplication.mInstance.getString(R.string.magazine_album);
+                return MDGroundApplication.sInstance.getString(R.string.magazine_album);
             case ArtAlbum:
-                return MDGroundApplication.mInstance.getString(R.string.art_album);
+                return MDGroundApplication.sInstance.getString(R.string.art_album);
             case PictureFrame:
-                return MDGroundApplication.mInstance.getString(R.string.picture_frame);
+                return MDGroundApplication.sInstance.getString(R.string.picture_frame);
             case Calendar:
-                return MDGroundApplication.mInstance.getString(R.string.calendar);
+                return MDGroundApplication.sInstance.getString(R.string.calendar);
             case PhoneShell:
-                return MDGroundApplication.mInstance.getString(R.string.phone_shell);
+                return MDGroundApplication.sInstance.getString(R.string.phone_shell);
             case Poker:
-                return MDGroundApplication.mInstance.getString(R.string.poker);
+                return MDGroundApplication.sInstance.getString(R.string.poker);
             case Puzzle:
-                return MDGroundApplication.mInstance.getString(R.string.puzzle);
+                return MDGroundApplication.sInstance.getString(R.string.puzzle);
             case MagicCup:
-                return MDGroundApplication.mInstance.getString(R.string.magic_cup);
+                return MDGroundApplication.sInstance.getString(R.string.magic_cup);
             case LOMOCard:
-                return MDGroundApplication.mInstance.getString(R.string.lomo_card);
+                return MDGroundApplication.sInstance.getString(R.string.lomo_card);
             case Engraving:
-                return MDGroundApplication.mInstance.getString(R.string.engraving);
+                return MDGroundApplication.sInstance.getString(R.string.engraving);
 
         }
         return null;

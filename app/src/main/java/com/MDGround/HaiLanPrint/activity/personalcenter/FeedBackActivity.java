@@ -38,7 +38,7 @@ public class FeedBackActivity extends ToolbarActivity<ActivityFeedBackBinding> {
     //region ACTION
     public void toSumbit(View view) {
         String suggestion = mDataBinding.etContext.getText().toString();
-        String phone = MDGroundApplication.mInstance.getLoginUser().getPhone();
+        String phone = MDGroundApplication.sInstance.getLoginUser().getPhone();
         ViewUtils.loading(this);
         GlobalRestful.getInstance().SaveUserSuggestion(phone, suggestion, new Callback<ResponseData>() {
             @Override

@@ -15,7 +15,6 @@ import com.MDGround.HaiLanPrint.restfuls.bean.RequestDataForLogOnly;
 import com.MDGround.HaiLanPrint.restfuls.bean.ResponseData;
 import com.MDGround.HaiLanPrint.utils.DeviceUtil;
 import com.MDGround.HaiLanPrint.utils.EncryptUtil;
-import com.MDGround.HaiLanPrint.utils.NavUtils;
 import com.MDGround.HaiLanPrint.utils.ToolNetwork;
 import com.MDGround.HaiLanPrint.utils.ViewUtils;
 import com.google.gson.Gson;
@@ -44,7 +43,7 @@ public abstract class BaseRestful {
 
     private Context mContext;
 
-    private BaseService baseService;
+    private BaseService mBaseService;
 
     protected abstract BusinessType getBusinessType();
 
@@ -75,7 +74,7 @@ public abstract class BaseRestful {
     }
 
     protected BaseRestful() {
-        mContext = MDGroundApplication.mInstance;
+        mContext = MDGroundApplication.sInstance;
 
         Retrofit.Builder builder = new Retrofit.Builder()
                 .baseUrl(getHost())
@@ -101,7 +100,7 @@ public abstract class BaseRestful {
         }
 
         Retrofit retrofit = builder.build();
-        baseService = retrofit.create(BaseService.class);
+        mBaseService = retrofit.create(BaseService.class);
     }
 
     private RequestData createRequestData(String functionName, JsonObject queryData) {
@@ -120,7 +119,7 @@ public abstract class BaseRestful {
         String serviceToken = "";
         requestData.setDeviceID(DeviceUtil.getDeviceId());
 
-        User user = MDGroundApplication.mInstance.getLoginUser();
+        User user = MDGroundApplication.sInstance.getLoginUser();
         if (user != null) {
             serviceToken = user.getServiceToken();
             requestData.setUserID(user.getUserID());
@@ -145,7 +144,7 @@ public abstract class BaseRestful {
         String serviceToken = "";
         requestDataForLogOnly.setDeviceID(DeviceUtil.getDeviceId());
 
-        User user = MDGroundApplication.mInstance.getLoginUser();
+        User user = MDGroundApplication.sInstance.getLoginUser();
         if (user != null) {
             serviceToken = user.getServiceToken();
             requestDataForLogOnly.setUserID(user.getUserID());
@@ -184,8 +183,7 @@ public abstract class BaseRestful {
                         + "\"Content\" : " + response.body().getContent() + "}" + "\n\n");
 
                 if (response.body().getCode() == ResponseCode.InvalidToken.getValue()) { // 请求token失效,重新登录
-                    DeviceUtil.logoutUser();
-                    NavUtils.toLoginActivity(mContext);
+                    DeviceUtil.logoutUser(mContext);
                 } else if (response.body().getCode() == ResponseCode.SystemError.getValue()) {
                     ViewUtils.toast(R.string.request_fail);  // 请求超时
                     ViewUtils.dismiss();
@@ -214,9 +212,9 @@ public abstract class BaseRestful {
                 KLog.e("\n\n\"" + functionName + "\"  ---  请求json数据:" + "\n" + createRequestDataForLogOnly(functionName, queryData)
                         + "\n\n");
 
-                call = baseService.normalRequest(requestBody);
+                call = mBaseService.normalRequest(requestBody);
             } else if (getBusinessType() == BusinessType.FILE) {
-                call = baseService.fileRequest(requestBody);
+                call = mBaseService.fileRequest(requestBody);
             }
             call.enqueue(firstCallback);
         } else {
@@ -230,7 +228,7 @@ public abstract class BaseRestful {
     protected ResponseData synchronousPost(String functionName, JsonObject queryData) {
         RequestBody requestBody = createRequestBody(functionName, queryData);
 
-        Call<ResponseData> call = baseService.fileRequest(requestBody);
+        Call<ResponseData> call = mBaseService.fileRequest(requestBody);
         try {
             return call.execute().body();
         } catch (IOException e) {
@@ -251,8 +249,7 @@ public abstract class BaseRestful {
                         + "\"Message\" :" + response.body().getMessage() + ","
                         + "\"Content\" : " + response.body().getContent() + "}" + "\n\n");
                 if (response.body().getCode() == ResponseCode.InvalidToken.getValue()) { // 请求token失效,重新登录
-                    DeviceUtil.logoutUser();
-                    NavUtils.toLoginActivity(mContext);
+                    DeviceUtil.logoutUser(mContext);
                 } else if (response.body().getCode() == ResponseCode.SystemError.getValue()) {
                     ViewUtils.toast(R.string.request_fail);  // 请求超时
                     ViewUtils.dismiss();
@@ -276,7 +273,7 @@ public abstract class BaseRestful {
         ProgressRequestBody requestBody = createProgressRequestBody(functionName, queryData, uploadCallbacks);
 
         Call<ResponseData> call = null;
-        call = baseService.imageUploadRequest(requestBody);
+        call = mBaseService.imageUploadRequest(requestBody);
         call.enqueue(firstCallback);
     }
 

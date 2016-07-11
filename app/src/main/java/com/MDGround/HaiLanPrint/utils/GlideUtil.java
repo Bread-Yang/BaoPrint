@@ -44,11 +44,11 @@ public class GlideUtil {
 //        }
 
         if (mdImage != null) {
-            File cacheFile = Glide.getPhotoCacheDir(MDGroundApplication.mInstance);
+            File cacheFile = Glide.getPhotoCacheDir(MDGroundApplication.sInstance);
 //            KLog.e(" cacheFile : " + cacheFile.getPath());
 //            KLog.e("cacheFolder size : " + getFileSize(cacheFile));
 
-            Glide.with(MDGroundApplication.mInstance)
+            Glide.with(MDGroundApplication.sInstance)
                     .load(mdImage)
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .placeholder(showPlaceHolder ? R.drawable.layerlist_image_placeholder : 0)
@@ -87,7 +87,7 @@ public class GlideUtil {
     }
 
     public static void loadImageAsBitmap(MDImage mdImage, Target target) {
-        Glide.with(MDGroundApplication.mInstance)
+        Glide.with(MDGroundApplication.sInstance)
                 .load(mdImage)
                 .asBitmap()
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
@@ -95,7 +95,7 @@ public class GlideUtil {
     }
 
     public static void loadImageAsBitmapRezie(MDImage mdImage, Target target) {
-        Glide.with(MDGroundApplication.mInstance)
+        Glide.with(MDGroundApplication.sInstance)
                 .load(mdImage)
                 .asBitmap()
                 .override(300, 300)

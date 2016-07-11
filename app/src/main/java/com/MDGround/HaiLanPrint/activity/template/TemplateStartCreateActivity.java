@@ -34,9 +34,9 @@ public class TemplateStartCreateActivity extends ToolbarActivity<ActivityTemplat
 
     @Override
     protected void initData() {
-        mDataBinding.setTemplate(MDGroundApplication.mInstance.getChoosedTemplate());
+        mDataBinding.setTemplate(MDGroundApplication.sInstance.getChoosedTemplate());
 
-        if (SelectImageUtils.mTemplateImage.size() > 0) {
+        if (SelectImageUtils.sTemplateImage.size() > 0) {
             setCurrentPageTips(1);
         } else {
             setCurrentPageTips(0);
@@ -67,7 +67,7 @@ public class TemplateStartCreateActivity extends ToolbarActivity<ActivityTemplat
     //region ACTION
 
     private void setCurrentPageTips(int currentIndex) {
-        tvTitle.setText(getString(R.string.current_page_index, currentIndex, SelectImageUtils.mTemplateImage.size()));
+        tvTitle.setText(getString(R.string.current_page_index, currentIndex, SelectImageUtils.sTemplateImage.size()));
     }
 
     public void nextStepAction(View view) {
@@ -79,7 +79,7 @@ public class TemplateStartCreateActivity extends ToolbarActivity<ActivityTemplat
 
         @Override
         public int getCount() {
-            return SelectImageUtils.mTemplateImage.size();
+            return SelectImageUtils.sTemplateImage.size();
         }
 
         @Override
@@ -91,7 +91,7 @@ public class TemplateStartCreateActivity extends ToolbarActivity<ActivityTemplat
         public Object instantiateItem(ViewGroup container, int position) {
             ItemTemplateStartCreateBinding dataBinding = DataBindingUtil.inflate(LayoutInflater.from(container.getContext())
                     , R.layout.item_template_start_create, container, false);
-            MDImage mdImage = SelectImageUtils.mTemplateImage.get(position);
+            MDImage mdImage = SelectImageUtils.sTemplateImage.get(position);
             dataBinding.setMdImage(mdImage);
 
             View root = dataBinding.getRoot();

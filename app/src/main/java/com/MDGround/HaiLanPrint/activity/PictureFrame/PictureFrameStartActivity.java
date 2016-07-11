@@ -3,7 +3,7 @@ package com.MDGround.HaiLanPrint.activity.pictureframe;
 import android.content.Intent;
 import android.view.View;
 
-import com.MDGround.HaiLanPrint.ProductType;
+import com.MDGround.HaiLanPrint.enumobject.ProductType;
 import com.MDGround.HaiLanPrint.R;
 import com.MDGround.HaiLanPrint.activity.base.ToolbarActivity;
 import com.MDGround.HaiLanPrint.activity.template.SelectTemplateActivity;
@@ -24,7 +24,7 @@ public class PictureFrameStartActivity extends ToolbarActivity<ActivityPictureFr
 
     @Override
     protected void initData() {
-        for (PhotoTypeExplain photoTypeExplain : MDGroundApplication.mInstance.getPhotoTypeExplainArrayList()) {
+        for (PhotoTypeExplain photoTypeExplain : MDGroundApplication.sInstance.getPhotoTypeExplainArrayList()) {
             if (photoTypeExplain.getExplainType() == PhotoExplainTypeEnum.IntroductionPage.value()
                     && photoTypeExplain.getTypeID() == ProductType.PictureFrame.value()) {
                 GlideUtil.loadImageByPhotoSIDWithDialog(mDataBinding.ivIntroductionPage,

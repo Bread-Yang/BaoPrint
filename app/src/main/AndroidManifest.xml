@@ -304,7 +304,7 @@
             android:label="@string/my_orders"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.personalcenter.MyWorksActivity"
+            android:name=".activity.myworks.MyWorksActivity"
             android:label="@string/my_works"
             android:screenOrientation="portrait" />
         <activity
@@ -332,7 +332,7 @@
             android:label="@string/apply_refund"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.personalcenter.WorkDetailsActivity"
+            android:name=".activity.myworks.WorkDetailsActivity"
             android:label="@string/my_works"
             android:screenOrientation="portrait" />
         <activity
@@ -354,6 +354,9 @@
             android:name=".activity.personalcenter.SettingActivity"
             android:label="@string/setting"
             android:screenOrientation="portrait" />
+
+        <!-- 强制下线服务 -->
+        <service android:name=".service.ForceOfflineService"/>
 
         <!-- ShareSDK -->
         <activity
@@ -433,14 +436,24 @@
             </intent-filter>
         </service>
 
+        <receiver android:name=".receiver.MessageReceiver">
+            <intent-filter>
+
+                <!-- 接收消息透传 -->
+                <action android:name="com.tencent.android.tpush.action.PUSH_MESSAGE"/>
+                <!-- 监听注册、反注册、设置/删除标签、通知被点击等处理结果 -->
+                <action android:name="com.tencent.android.tpush.action.FEEDBACK"/>
+            </intent-filter>
+        </receiver>
+
         <!-- 【必须】 请将YOUR_ACCESS_ID修改为APP的AccessId，“21”开头的10位数字，中间没空格 -->
         <meta-data
-            android:name="2100206552"
-            android:value="YOUR_ACCESS_ID" />
+            android:name="XG_V2_ACCESS_ID"
+            android:value="2100206552" />
         <!-- 【必须】 请将YOUR_ACCESS_KEY修改为APP的AccessKey，“A”开头的12位字符串，中间没空格 -->
         <meta-data
-            android:name="A7PB9Z2L33TW"
-            android:value="YOUR_ACCESS_KEY" />
+            android:name="XG_V2_ACCESS_KEY"
+            android:value="A7PB9Z2L33TW" />
 
         <!-- 自定义Glide Module注册 -->
         <meta-data

@@ -10,7 +10,6 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.net.Uri;
 import android.text.InputType;
 import android.util.DisplayMetrics;
 import android.view.inputmethod.InputMethodManager;
@@ -25,12 +24,10 @@ import com.MDGround.HaiLanPrint.application.MDGroundApplication;
  */
 public class ViewUtils {
 
-    private static ProgressDialog progressDialog;
-
-    public static Uri imageUrl;
+    private static ProgressDialog sProgressDialog;
 
     public static int screenWidth() {
-        Context context = MDGroundApplication.mInstance;
+        Context context = MDGroundApplication.sInstance;
         if (context == null) {
             return 0;
         }
@@ -40,7 +37,7 @@ public class ViewUtils {
     }
 
     public static int screenHeight() {
-        Context context = MDGroundApplication.mInstance;
+        Context context = MDGroundApplication.sInstance;
         if (context == null) {
             return 0;
         }
@@ -50,7 +47,7 @@ public class ViewUtils {
     }
 
     public static int screenDensity() {
-        Context context = MDGroundApplication.mInstance;
+        Context context = MDGroundApplication.sInstance;
         if (context == null) {
             return 0;
         }
@@ -62,7 +59,7 @@ public class ViewUtils {
      * 根据手机的分辨率从 dp 的单位 转成为 px(像素)
      */
     public static int dp2px(float dpValue) {
-        final float scale = MDGroundApplication.mInstance.getResources().getDisplayMetrics().density;
+        final float scale = MDGroundApplication.sInstance.getResources().getDisplayMetrics().density;
         return (int) (dpValue * scale + 0.5f);
     }
 
@@ -70,24 +67,24 @@ public class ViewUtils {
      * 根据手机的分辨率从 px(像素) 的单位 转成为 dp
      */
     public static int px2dp(float pxValue) {
-        final float scale = MDGroundApplication.mInstance.getResources().getDisplayMetrics().density;
+        final float scale = MDGroundApplication.sInstance.getResources().getDisplayMetrics().density;
         return (int) (pxValue / scale + 0.5f);
     }
 
 
     public static void toast(String str) {
-        Toast.makeText(MDGroundApplication.mInstance, str, Toast.LENGTH_SHORT).show();
+        Toast.makeText(MDGroundApplication.sInstance, str, Toast.LENGTH_SHORT).show();
     }
 
     public static void toast(int resId) {
-        Toast.makeText(MDGroundApplication.mInstance, resId, Toast.LENGTH_SHORT).show();
+        Toast.makeText(MDGroundApplication.sInstance, resId, Toast.LENGTH_SHORT).show();
     }
 
     public static void loading(Context context) {
         try {
             dismiss();
             String message = context.getString(R.string.loading);
-            progressDialog = ProgressDialog.show(context, null, message);
+            sProgressDialog = ProgressDialog.show(context, null, message);
         } catch (Throwable e) {
 
         }
@@ -95,8 +92,8 @@ public class ViewUtils {
 
     public static void dismiss() {
         try {
-            if (progressDialog != null && progressDialog.isShowing()) {
-                progressDialog.dismiss();
+            if (sProgressDialog != null && sProgressDialog.isShowing()) {
+                sProgressDialog.dismiss();
             }
         } catch (Throwable e) {
 
@@ -117,7 +114,7 @@ public class ViewUtils {
     }
 
     public static String getString(int resId) {
-        return MDGroundApplication.mInstance.getString(resId);
+        return MDGroundApplication.sInstance.getString(resId);
     }
 
     //计算图片的缩放值
@@ -151,7 +148,7 @@ public class ViewUtils {
 
 
     public static void copy(String str) {
-        ClipboardManager clipboardManager = (ClipboardManager) MDGroundApplication.mInstance.getSystemService(Context.CLIPBOARD_SERVICE);
+        ClipboardManager clipboardManager = (ClipboardManager) MDGroundApplication.sInstance.getSystemService(Context.CLIPBOARD_SERVICE);
         clipboardManager.setText(str);
         ViewUtils.toast(str);
     }

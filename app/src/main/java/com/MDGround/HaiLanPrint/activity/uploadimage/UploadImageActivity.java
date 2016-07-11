@@ -1,5 +1,7 @@
 package com.MDGround.HaiLanPrint.activity.uploadimage;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.support.v7.widget.GridLayoutManager;
 import android.view.View;
 import android.widget.CompoundButton;
@@ -7,12 +9,14 @@ import android.widget.CompoundButton;
 import com.MDGround.HaiLanPrint.R;
 import com.MDGround.HaiLanPrint.activity.base.ToolbarActivity;
 import com.MDGround.HaiLanPrint.adapter.ChooseImageListAdapter;
+import com.MDGround.HaiLanPrint.constants.Constants;
 import com.MDGround.HaiLanPrint.databinding.ActivityUploadImageBinding;
 import com.MDGround.HaiLanPrint.models.Album;
 import com.MDGround.HaiLanPrint.models.MDImage;
 import com.MDGround.HaiLanPrint.restfuls.FileRestful;
 import com.MDGround.HaiLanPrint.restfuls.bean.ResponseData;
 import com.MDGround.HaiLanPrint.utils.LocalMediaLoader;
+import com.MDGround.HaiLanPrint.utils.PreferenceUtils;
 import com.MDGround.HaiLanPrint.utils.ToolNetwork;
 import com.MDGround.HaiLanPrint.utils.ViewUtils;
 import com.MDGround.HaiLanPrint.views.dialog.NotifyDialog;
@@ -127,7 +131,22 @@ public class UploadImageActivity extends ToolbarActivity<ActivityUploadImageBind
             if (ToolNetwork.isWIFIConnected(this)) {
                 uploadImage();
             } else {
-                showUseCelluarNetworkTips();
+                boolean isOnlyWifiUpdate = PreferenceUtils.getPrefBoolean(Constants.KEY_ONLY_WIFI_UPLOAD, false);
+
+                if (isOnlyWifiUpdate) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(UploadImageActivity.this);
+                    builder.setTitle(R.string.tips);
+                    builder.setMessage(R.string.current_cellular_network);
+                    builder.setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                        }
+                    });
+                    builder.show();
+                } else {
+                    uploadImage();
+                }
+//                showUseCelluarNetworkTips();
             }
         } else {
             ViewUtils.toast(R.string.network_unavailable);

@@ -17,6 +17,7 @@ import javax.crypto.spec.DESKeySpec;
 import javax.crypto.spec.IvParameterSpec;
 
 public class EncryptUtil {
+
 	public static final String KEY = "MD2O!50!";
 	
 	/**

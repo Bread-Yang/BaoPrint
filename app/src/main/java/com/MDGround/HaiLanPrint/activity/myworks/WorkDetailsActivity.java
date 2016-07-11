@@ -1,30 +1,33 @@
-package com.MDGround.HaiLanPrint.activity.personalcenter;
+package com.MDGround.HaiLanPrint.activity.myworks;
 
 import android.content.Intent;
 import android.view.View;
 
-import com.MDGround.HaiLanPrint.ProductType;
 import com.MDGround.HaiLanPrint.R;
 import com.MDGround.HaiLanPrint.activity.base.ToolbarActivity;
 import com.MDGround.HaiLanPrint.application.MDGroundApplication;
 import com.MDGround.HaiLanPrint.constants.Constants;
 import com.MDGround.HaiLanPrint.databinding.ActivityWorksDetailsBinding;
+import com.MDGround.HaiLanPrint.enumobject.ProductType;
 import com.MDGround.HaiLanPrint.enumobject.restfuls.ResponseCode;
+import com.MDGround.HaiLanPrint.models.MDImage;
 import com.MDGround.HaiLanPrint.models.OrderInfo;
 import com.MDGround.HaiLanPrint.models.OrderWork;
+import com.MDGround.HaiLanPrint.models.Template;
 import com.MDGround.HaiLanPrint.models.WorkInfo;
+import com.MDGround.HaiLanPrint.models.WorkPhoto;
 import com.MDGround.HaiLanPrint.restfuls.GlobalRestful;
 import com.MDGround.HaiLanPrint.restfuls.bean.ResponseData;
 import com.MDGround.HaiLanPrint.utils.DateUtils;
 import com.MDGround.HaiLanPrint.utils.GlideUtil;
 import com.MDGround.HaiLanPrint.utils.NavUtils;
 import com.MDGround.HaiLanPrint.utils.OrderUtils;
+import com.MDGround.HaiLanPrint.utils.SelectImageUtils;
 import com.MDGround.HaiLanPrint.utils.ShareUtils;
 import com.MDGround.HaiLanPrint.utils.StringUtil;
 import com.MDGround.HaiLanPrint.utils.ViewUtils;
 import com.MDGround.HaiLanPrint.views.dialog.ShareDialog;
 import com.google.gson.reflect.TypeToken;
-import com.socks.library.KLog;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -57,10 +60,13 @@ public class WorkDetailsActivity extends ToolbarActivity<ActivityWorksDetailsBin
     protected void initData() {
         Intent intent = this.getIntent();
         mWorkInfo = (WorkInfo) intent.getSerializableExtra(Constants.KEY_WORKS_DETAILS);
-        KLog.e("mWorkInfoID" + mWorkInfo.getWorkID());
+
+        getPhotoTemplateRequest();
+
         GlideUtil.loadImageByPhotoSID(mDataBinding.ivImage, mWorkInfo.getPhotoCover(), true);
         mDataBinding.tvWorksname.setText(String.valueOf(mWorkInfo.getTypeName()));
         mDataBinding.tvWorksPice.setText(getString(R.string.rmb) + String.valueOf(StringUtil.toYuanWithoutUnit(mWorkInfo.getPrice())));
+
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date date = null;
         try {
@@ -94,6 +100,78 @@ public class WorkDetailsActivity extends ToolbarActivity<ActivityWorksDetailsBin
         });
     }
 
+    //region SERVER
+    private void getPhotoTemplateRequest() {
+        ViewUtils.loading(this);
+        GlobalRestful.getInstance().GetPhotoTemplate(mWorkInfo.getTemplateID(), new Callback<ResponseData>() {
+            @Override
+            public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
+                Template template = response.body().getContent(Template.class);
+
+                MDGroundApplication.sInstance.setChoosedTemplate(template);
+                getUserWorkRequest();
+            }
+
+            @Override
+            public void onFailure(Call<ResponseData> call, Throwable t) {
+
+            }
+        });
+    }
+
+    private void getUserWorkRequest() {
+        GlobalRestful.getInstance().GetUserWork(mWorkInfo.getWorkID(), new Callback<ResponseData>() {
+            @Override
+            public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
+                ViewUtils.dismiss();
+
+                SelectImageUtils.sAlreadySelectImage.clear();
+                SelectImageUtils.sTemplateImage.clear();
+
+                try {
+                    JSONObject jsonObject = new JSONObject(response.body().getContent());
+
+                    String workPhotoListString = jsonObject.getString("WorkPhotoList");
+
+                    ArrayList<WorkPhoto> workPhotoArrayList = StringUtil.getInstanceByJsonString(workPhotoListString,
+                            new TypeToken<ArrayList<WorkPhoto>>() {
+                            });
+
+                    for (WorkPhoto workPhoto : workPhotoArrayList) {
+                        // 之前选中的图片
+                        {
+                            MDImage selectMdImage = new MDImage();
+
+                            selectMdImage.setPhotoID(workPhoto.getPhoto1ID());
+                            selectMdImage.setPhotoSID(workPhoto.getPhoto1SID());
+                            selectMdImage.setWorkPhoto(workPhoto);
+
+                            SelectImageUtils.sAlreadySelectImage.add(selectMdImage);
+                        }
+
+                        // 之前选中的模版图片
+                        {
+                            MDImage templateMdImage = new MDImage();
+
+                            templateMdImage.setPhotoID(workPhoto.getTemplatePID());
+                            templateMdImage.setPhotoSID(workPhoto.getTemplatePSID());
+
+                            SelectImageUtils.sTemplateImage.add(templateMdImage);
+                        }
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseData> call, Throwable t) {
+
+            }
+        });
+    }
+
     private void saveOrderByWorkRequest(List<Integer> workIDList) {
         ViewUtils.loading(this);
         GlobalRestful.getInstance().SaveOrderByWork(workIDList, new Callback<ResponseData>() {
@@ -110,9 +188,9 @@ public class WorkDetailsActivity extends ToolbarActivity<ActivityWorksDetailsBin
                                 new TypeToken<ArrayList<OrderWork>>() {
                                 });
 
-                        MDGroundApplication.mOrderutUtils = new OrderUtils(orderInfo, orderWorkArrayList);
+                        MDGroundApplication.sOrderutUtils = new OrderUtils(orderInfo, orderWorkArrayList);
                         ProductType productType = ProductType.fromValue(orderWorkArrayList.get(0).getTypeID());
-                        MDGroundApplication.mInstance.setChoosedProductType(productType);
+                        MDGroundApplication.sInstance.setChoosedProductType(productType);
 
                         NavUtils.toPaymentPreviewActivity(WorkDetailsActivity.this);
                     } catch (JSONException e) {
@@ -127,11 +205,15 @@ public class WorkDetailsActivity extends ToolbarActivity<ActivityWorksDetailsBin
             }
         });
     }
+    //endregion
 
     //region ACTION
     //编辑作品
-    public void onEditorWorks(View view) {
+    public void toEditActivityAction(View view) {
+        ProductType productType = ProductType.fromValue(mWorkInfo.getTypeID());
+        MDGroundApplication.sInstance.setChoosedProductType(productType);
 
+        NavUtils.toPhotoEditActivity(this);
     }
 
     //购买作品

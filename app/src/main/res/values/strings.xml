@@ -39,6 +39,7 @@
 
     <!-- 忘记密码 -->
     <string name="forget_password">忘记密码</string>
+    <string name="change_password">修改密码</string>
     <string name="forget_password_question_mark">忘记密码?</string>
     <string name="change_password_success">修改密码成功</string>
 
@@ -57,7 +58,7 @@
     <string name="acquire_again">重新获取</string>
     <string name="after_second_acquire_again">%d秒后重新获取</string>
     <string name="hailan_sign_up_protocol">海拍海印注册协议</string>
-    <string name="sign_up_success">h</string>
+    <string name="sign_up_success">注册成功</string>
 
     <!-- 注册协议 -->
     <string name="sign_up_protocol">注册协议</string>
@@ -99,7 +100,7 @@
     <string name="message_center">消息中心</string>
     <string name="message_detail">消息详情</string>
     <string name="upload_num">上传(%d)</string>
-    <string name="current_cellular_network">您当前使用的是手机流量,上传图片会消耗大量的流量,是否继续?</string>
+    <string name="current_cellular_network">您当前使用的是手机流量，无法上传图片，请在设置中将“仅在WIFI下上传图片”关闭</string>
     <string name="local_image">选择本地照片</string>
 
     <!-- 选择照片 -->
@@ -173,7 +174,7 @@
 
     <!-- 设置 -->
     <string name="setting">设置</string>
-    <string name="only_update_in_wifi">仅在WIFI下更新</string>
+    <string name="only_upload_in_wifi">仅在WIFI下上传图片</string>
     <string name="version">版本号</string>
     <string name="version_with_colon">版本号:%s</string>
     <string name="clear_cache">清除缓存</string>

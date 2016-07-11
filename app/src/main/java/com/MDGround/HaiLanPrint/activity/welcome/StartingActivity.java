@@ -54,7 +54,7 @@ public class StartingActivity extends AppCompatActivity {
                 if (isFirstLaunch) {
                     toGuideActivity();
                 } else {
-                    if (MDGroundApplication.mInstance.getLoginUser() != null) {
+                    if (MDGroundApplication.sInstance.getLoginUser() != null) {
 
 //                    loginRequest(MDGroundApplication.mLoginUser);
                         NavUtils.toMainActivity(StartingActivity.this);

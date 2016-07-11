@@ -27,7 +27,7 @@ public class FileUtils {
 
     public static boolean setObject(String key, Serializable object) {
         try {
-            FileOutputStream fos = MDGroundApplication.mInstance.openFileOutput(key, Context.MODE_PRIVATE);
+            FileOutputStream fos = MDGroundApplication.sInstance.openFileOutput(key, Context.MODE_PRIVATE);
             ObjectOutputStream os = new ObjectOutputStream(fos);
             os.writeObject(object);
             os.close();
@@ -41,7 +41,7 @@ public class FileUtils {
 
     public static Serializable getObject(String key) {
         try {
-            FileInputStream fis = MDGroundApplication.mInstance.openFileInput(key);
+            FileInputStream fis = MDGroundApplication.sInstance.openFileInput(key);
             ObjectInputStream is = new ObjectInputStream(fis);
             Serializable object = (Serializable) is.readObject();
             is.close();
@@ -56,7 +56,7 @@ public class FileUtils {
     }
 
     public static boolean deleteObject(String key) {
-        return MDGroundApplication.mInstance.deleteFile(key);
+        return MDGroundApplication.sInstance.deleteFile(key);
 
     }
 
@@ -114,7 +114,7 @@ public class FileUtils {
         else if (ContentResolver.SCHEME_FILE.equals(scheme)) {
             data = uri.getPath();
         } else if (ContentResolver.SCHEME_CONTENT.equals(scheme)) {
-            Cursor cursor = MDGroundApplication.mInstance.getContentResolver().query(uri, new String[]{MediaStore.Images.ImageColumns.DATA}, null, null, null);
+            Cursor cursor = MDGroundApplication.sInstance.getContentResolver().query(uri, new String[]{MediaStore.Images.ImageColumns.DATA}, null, null, null);
             if (null != cursor) {
                 if (cursor.moveToFirst()) {
                     int index = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA);

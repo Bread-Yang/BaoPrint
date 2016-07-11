@@ -12,7 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.MDGround.HaiLanPrint.BR;
-import com.MDGround.HaiLanPrint.ProductType;
+import com.MDGround.HaiLanPrint.enumobject.ProductType;
 import com.MDGround.HaiLanPrint.R;
 import com.MDGround.HaiLanPrint.activity.artalbum.ArtAlbumChooseInchActivity;
 import com.MDGround.HaiLanPrint.activity.calendar.CalendarChooseOrientationActivity;
@@ -57,6 +57,7 @@ public class MainActivity extends AppCompatActivity {
         mDataBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
 
         initData();
+        setListener();
     }
 
     @Override
@@ -68,9 +69,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        SelectImageUtils.mAlreadySelectImage.clear(); // 清空之前选中的图片
-        SelectImageUtils.mTemplateImage.clear(); // 清空之前的模板
-        MDGroundApplication.mInstance.resetData();
+        SelectImageUtils.sAlreadySelectImage.clear(); // 清空之前选中的图片
+        SelectImageUtils.sTemplateImage.clear(); // 清空之前的模板
+        MDGroundApplication.sInstance.resetData();
     }
 
     private void initData() {
@@ -78,6 +79,31 @@ public class MainActivity extends AppCompatActivity {
         getBannerPhotoListRequest();
 
         mDataBinding.viewPager.setAdapter(new MainAdapter());
+    }
+
+    private void setListener() {
+        mDataBinding.viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                if (position == 0) {
+                    mDataBinding.ivPager1.setImageResource(R.drawable.main_page_highlight);
+                    mDataBinding.ivPager2.setImageResource(R.drawable.main_page_normal);
+                } else {
+                    mDataBinding.ivPager1.setImageResource(R.drawable.main_page_normal);
+                    mDataBinding.ivPager2.setImageResource(R.drawable.main_page_highlight);
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
     }
 
     //region ACTION
@@ -95,42 +121,42 @@ public class MainActivity extends AppCompatActivity {
 
         // pager 1
         public void toPhotoPrintChooseInchActivityAction(View view) {
-            MDGroundApplication.mInstance.setChoosedProductType(ProductType.PrintPhoto);
+            MDGroundApplication.sInstance.setChoosedProductType(ProductType.PrintPhoto);
 
             Intent intent = new Intent(MainActivity.this, PrintPhotoChooseInchActivity.class);
             startActivity(intent);
         }
 
-        public void toPostcarActivityAction(View view) {
-            MDGroundApplication.mInstance.setChoosedProductType(ProductType.Postcard);
+        public void toPostcardActivityAction(View view) {
+            MDGroundApplication.sInstance.setChoosedProductType(ProductType.Postcard);
 
             Intent intent = new Intent(MainActivity.this, PostcardStartActivity.class);
             startActivity(intent);
         }
 
         public void toMagazineAlbumActivityAction(View view) {
-            MDGroundApplication.mInstance.setChoosedProductType(ProductType.MagazineAlbum);
+            MDGroundApplication.sInstance.setChoosedProductType(ProductType.MagazineAlbum);
 
             Intent intent = new Intent(MainActivity.this, MagazineAlbumChooseInchActivity.class);
             startActivity(intent);
         }
 
         public void toArtAlbumActivityAction(View view) {
-            MDGroundApplication.mInstance.setChoosedProductType(ProductType.ArtAlbum);
+            MDGroundApplication.sInstance.setChoosedProductType(ProductType.ArtAlbum);
 
             Intent intent = new Intent(MainActivity.this, ArtAlbumChooseInchActivity.class);
             startActivity(intent);
         }
 
         public void toPictureFrameActivityAction(View view) {
-            MDGroundApplication.mInstance.setChoosedProductType(ProductType.PictureFrame);
+            MDGroundApplication.sInstance.setChoosedProductType(ProductType.PictureFrame);
 
             Intent intent = new Intent(MainActivity.this, PictureFrameStartActivity.class);
             startActivity(intent);
         }
 
         public void toCalendarActivityAction(View view) {
-            MDGroundApplication.mInstance.setChoosedProductType(ProductType.Calendar);
+            MDGroundApplication.sInstance.setChoosedProductType(ProductType.Calendar);
 
             Intent intent = new Intent(MainActivity.this, CalendarChooseOrientationActivity.class);
             startActivity(intent);
@@ -138,42 +164,42 @@ public class MainActivity extends AppCompatActivity {
 
         // pager 2
         public void toPhoneShellActivityAction(View view) {
-            MDGroundApplication.mInstance.setChoosedProductType(ProductType.PhoneShell);
+            MDGroundApplication.sInstance.setChoosedProductType(ProductType.PhoneShell);
 
             Intent intent = new Intent(MainActivity.this, PhoneShellStartActivity.class);
             startActivity(intent);
         }
 
         public void toPokerActivityAction(View view) {
-            MDGroundApplication.mInstance.setChoosedProductType(ProductType.Poker);
+            MDGroundApplication.sInstance.setChoosedProductType(ProductType.Poker);
 
             Intent intent = new Intent(MainActivity.this, PokerChooseInchActivity.class);
             startActivity(intent);
         }
 
         public void toPuzzleActivityAction(View view) {
-            MDGroundApplication.mInstance.setChoosedProductType(ProductType.Puzzle);
+            MDGroundApplication.sInstance.setChoosedProductType(ProductType.Puzzle);
 
             Intent intent = new Intent(MainActivity.this, PuzzleStartActivity.class);
             startActivity(intent);
         }
 
         public void toMagicCupActivityAction(View view) {
-            MDGroundApplication.mInstance.setChoosedProductType(ProductType.MagicCup);
+            MDGroundApplication.sInstance.setChoosedProductType(ProductType.MagicCup);
 
             Intent intent = new Intent(MainActivity.this, MagicCupChooseColorActivity.class);
             startActivity(intent);
         }
 
         public void toLomoCardActivityAction(View view) {
-            MDGroundApplication.mInstance.setChoosedProductType(ProductType.LOMOCard);
+            MDGroundApplication.sInstance.setChoosedProductType(ProductType.LOMOCard);
 
             Intent intent = new Intent(MainActivity.this, LomoCardChooseNumActivity.class);
             startActivity(intent);
         }
 
         public void toEngravingActivityAction(View view) {
-            MDGroundApplication.mInstance.setChoosedProductType(ProductType.Engraving);
+            MDGroundApplication.sInstance.setChoosedProductType(ProductType.Engraving);
 
             Intent intent = new Intent(MainActivity.this, EngravingChooseInchActivity.class);
             startActivity(intent);
@@ -189,7 +215,7 @@ public class MainActivity extends AppCompatActivity {
                 ArrayList<PhotoTypeExplain> photoTypeExplainArrayList = response.body().getContent(new TypeToken<ArrayList<PhotoTypeExplain>>() {
                 });
 
-                MDGroundApplication.mInstance.setPhotoTypeExplainArrayList(photoTypeExplainArrayList);
+                MDGroundApplication.sInstance.setPhotoTypeExplainArrayList(photoTypeExplainArrayList);
             }
 
             @Override

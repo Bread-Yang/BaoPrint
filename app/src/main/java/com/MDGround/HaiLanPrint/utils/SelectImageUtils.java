@@ -1,6 +1,6 @@
 package com.MDGround.HaiLanPrint.utils;
 
-import com.MDGround.HaiLanPrint.ProductType;
+import com.MDGround.HaiLanPrint.enumobject.ProductType;
 import com.MDGround.HaiLanPrint.constants.Constants;
 import com.MDGround.HaiLanPrint.models.MDImage;
 
@@ -10,13 +10,14 @@ import java.util.Iterator;
 /**
  * Created by yoghourt on 5/16/16.
  */
+
 public class SelectImageUtils {
 
-    public static ArrayList<MDImage> mAlreadySelectImage = new ArrayList<>();
+    public static ArrayList<MDImage> sAlreadySelectImage = new ArrayList<>();
 
-    public static ArrayList<MDImage> mTemplateImage = new ArrayList<>();
+    public static ArrayList<MDImage> sTemplateImage = new ArrayList<>();
 
-    private static SelectImageUtils mIntance = new SelectImageUtils();
+    private static SelectImageUtils sIntance = new SelectImageUtils();
 
     public interface UploadAllImageSuccessListener {
         public void uploadAllImageSuccess();
@@ -27,23 +28,23 @@ public class SelectImageUtils {
     }
 
     public static SelectImageUtils getInstance() {
-        if (mIntance == null) {
-            mIntance = new SelectImageUtils();
+        if (sIntance == null) {
+            sIntance = new SelectImageUtils();
         }
-        return mIntance;
+        return sIntance;
     }
 
     public static void addImage(MDImage mdImage) {
-        for (MDImage item : mAlreadySelectImage) {
+        for (MDImage item : sAlreadySelectImage) {
             if (isSameImage(item, mdImage)) {
                 return;
             }
         }
-        mAlreadySelectImage.add(mdImage);
+        sAlreadySelectImage.add(mdImage);
     }
 
     public static void removeImage(MDImage mdImage) {
-        Iterator<MDImage> iterator = mAlreadySelectImage.iterator();
+        Iterator<MDImage> iterator = sAlreadySelectImage.iterator();
         while (iterator.hasNext()) {
 
             MDImage item = iterator.next();
@@ -86,7 +87,7 @@ public class SelectImageUtils {
 
     public static int getPrintPhotoOrEngravingOrderCount() {
         int count = 0;
-        for (MDImage mdImage : mAlreadySelectImage) {
+        for (MDImage mdImage : sAlreadySelectImage) {
             count += mdImage.getPhotoCount();
         }
         return count;

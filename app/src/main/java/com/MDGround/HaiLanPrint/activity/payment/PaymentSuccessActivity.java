@@ -36,8 +36,8 @@ public class PaymentSuccessActivity extends ToolbarActivity<ActivityPaymentSucce
         mDataBinding.tvPaidAmount.setText(getString(R.string.yuan_amount, StringUtil.toYuanWithoutUnit(orderInfo.getTotalFeeReal())));
         mDataBinding.tvOrderNum.setText(getString(R.string.order_number, orderInfo.getOrderNo()));
 
-        if (MDGroundApplication.mInstance.getChoosedProductType() != null) {
-            switch (MDGroundApplication.mInstance.getChoosedProductType()) {
+        if (MDGroundApplication.sInstance.getChoosedProductType() != null) {
+            switch (MDGroundApplication.sInstance.getChoosedProductType()) {
                 case PrintPhoto:
                 case PictureFrame:
                 case Engraving:

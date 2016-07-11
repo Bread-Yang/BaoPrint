@@ -35,7 +35,7 @@ public class FileRestful extends BaseRestful {
         public void onUploadSuccess(ArrayList<MDImage> mdImageArrayList);
     }
 
-    private static FileRestful mIntance = new FileRestful();
+    private static FileRestful sIntance = new FileRestful();
 
     @Override
     protected BusinessType getBusinessType() {
@@ -53,10 +53,10 @@ public class FileRestful extends BaseRestful {
     }
 
     public static FileRestful getInstance() {
-        if (mIntance == null) {
-            mIntance = new FileRestful();
+        if (sIntance == null) {
+            sIntance = new FileRestful();
         }
-        return mIntance;
+        return sIntance;
     }
 
     private String bitmapToString(Bitmap bitmap) {

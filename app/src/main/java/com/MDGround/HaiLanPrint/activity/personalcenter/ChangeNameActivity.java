@@ -34,7 +34,7 @@ public class ChangeNameActivity extends ToolbarActivity<ActivityChangeNameBindin
 
     @Override
     protected void initData() {
-        mLoginUser = MDGroundApplication.mInstance.getLoginUser();
+        mLoginUser = MDGroundApplication.sInstance.getLoginUser();
 
         tvRight.setText(R.string.finish);
         tvRight.setVisibility(View.VISIBLE);
@@ -64,7 +64,7 @@ public class ChangeNameActivity extends ToolbarActivity<ActivityChangeNameBindin
                             @Override
                             public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
                                 if (ResponseCode.isSuccess(response.body())) {
-                                    MDGroundApplication.mInstance.setLoginUser(mLoginUser);
+                                    MDGroundApplication.sInstance.setLoginUser(mLoginUser);
                                     finish();
                                 }
                             }

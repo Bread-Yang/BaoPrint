@@ -31,7 +31,7 @@ public class SelectSingleImageDialog extends Dialog {
     public static final int PHOTO_REQUEST_CUT = 3;// 剪切
     private DialogSelectSingleImageBinding mDataBinding;
     private Activity mActivity;
-    public static String mCaptureImageURL;
+    public static String sCaptureImageURL;
 
     public SelectSingleImageDialog(Activity activity) {
         super(activity, R.style.customDialogStyle);
@@ -105,7 +105,7 @@ public class SelectSingleImageDialog extends Dialog {
             }
             String imageName = System.currentTimeMillis() + ".jpg";
             File file = new File(folderFile, imageName);
-            mCaptureImageURL = file.getAbsolutePath();
+            sCaptureImageURL = file.getAbsolutePath();
             Uri outputFileUri = Uri.fromFile(file);
             intent.putExtra(MediaStore.EXTRA_OUTPUT, outputFileUri);
             mActivity.startActivityForResult(intent, PHOTO_REQUEST_CAREMA);

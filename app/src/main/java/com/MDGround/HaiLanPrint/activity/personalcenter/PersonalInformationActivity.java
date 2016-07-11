@@ -10,6 +10,7 @@ import com.MDGround.HaiLanPrint.R;
 import com.MDGround.HaiLanPrint.activity.base.ToolbarActivity;
 import com.MDGround.HaiLanPrint.activity.login.ForgetPasswordActivity;
 import com.MDGround.HaiLanPrint.application.MDGroundApplication;
+import com.MDGround.HaiLanPrint.constants.Constants;
 import com.MDGround.HaiLanPrint.databinding.ActivityPersonalInformationBinding;
 import com.MDGround.HaiLanPrint.enumobject.restfuls.ResponseCode;
 import com.MDGround.HaiLanPrint.greendao.Location;
@@ -42,7 +43,6 @@ import retrofit2.Response;
 
 public class PersonalInformationActivity extends ToolbarActivity<ActivityPersonalInformationBinding> {
 
-    public static final String SET_PASSWORD = "SetPassWord";
     public static final int FRO_PERSON = 1;
 
     private User mUser;
@@ -66,7 +66,7 @@ public class PersonalInformationActivity extends ToolbarActivity<ActivityPersona
     protected void onResume() {
         super.onResume();
 
-        mUser = MDGroundApplication.mInstance.getLoginUser();
+        mUser = MDGroundApplication.sInstance.getLoginUser();
         // 用户头像
         MDImage mdImage = new MDImage();
         mdImage.setPhotoID(mUser.getPhotoID());
@@ -77,8 +77,8 @@ public class PersonalInformationActivity extends ToolbarActivity<ActivityPersona
 
         mDataBinding.tvNickname.setText(mUser.getUserNickName());
 
-        Location city = MDGroundApplication.mDaoSession.getLocationDao().load((long) mUser.getCityID());
-        Location county = MDGroundApplication.mDaoSession.getLocationDao().load((long) mUser.getCountryID());
+        Location city = MDGroundApplication.sDaoSession.getLocationDao().load((long) mUser.getCityID());
+        Location county = MDGroundApplication.sDaoSession.getLocationDao().load((long) mUser.getCountryID());
         if (city != null && county != null) {
             mDataBinding.tvLocality.setText(city.getLocationName() + " " + county.getLocationName());
         }
@@ -99,7 +99,7 @@ public class PersonalInformationActivity extends ToolbarActivity<ActivityPersona
                     public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
                         if (ResponseCode.isSuccess(response.body())) {
                             mDataBinding.tvLocality.setText(city.getLocationName() + county.getLocationName());
-                            MDGroundApplication.mInstance.setLoginUser(mUser);
+                            MDGroundApplication.sInstance.setLoginUser(mUser);
                         }
                     }
 
@@ -129,7 +129,7 @@ public class PersonalInformationActivity extends ToolbarActivity<ActivityPersona
 
 //                Uri uri = data.getData();
 //                String picturePath = FileUtils.getAbsoluteImagePath(PersonalInformationActivity.this, uri);
-                String picturePath = SelectSingleImageDialog.mCaptureImageURL;
+                String picturePath = SelectSingleImageDialog.sCaptureImageURL;
                 uploadAvatar(picturePath);
             }
 
@@ -181,7 +181,7 @@ public class PersonalInformationActivity extends ToolbarActivity<ActivityPersona
                             User user = StringUtil.getInstanceByJsonString(jsonStr, User.class);
                             mUser.setPhotoID(user.getPhotoID());
                             mUser.setPhotoSID(user.getPhotoSID());
-                            MDGroundApplication.mInstance.setLoginUser(mUser);
+                            MDGroundApplication.sInstance.setLoginUser(mUser);
 
                             final MDImage mdImage = new MDImage();
                             mdImage.setPhotoID(user.getPhotoID());
@@ -238,7 +238,7 @@ public class PersonalInformationActivity extends ToolbarActivity<ActivityPersona
 
     public void toSetPassword(View view) {
         Intent intent = new Intent(this, ForgetPasswordActivity.class);
-        intent.putExtra(SET_PASSWORD, FRO_PERSON);
+        intent.putExtra(Constants.KEY_CHANGE_PASSWORD, true);
         startActivity(intent);
     }
 

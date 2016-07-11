@@ -45,7 +45,7 @@ public class PokerEditActivity extends ToolbarActivity<ActivityPokerEditBinding>
 
     @Override
     protected void initData() {
-        showImageToGPUImageView(0, SelectImageUtils.mTemplateImage.get(0));
+        showImageToGPUImageView(0, SelectImageUtils.sTemplateImage.get(0));
 
         mDataBinding.templateRecyclerView.setHasFixedSize(true);
         LinearLayoutManager imageLayoutManager = new LinearLayoutManager(this);
@@ -95,7 +95,7 @@ public class PokerEditActivity extends ToolbarActivity<ActivityPokerEditBinding>
                     float scaleFactor = mDataBinding.bgiImage.getmScaleFactor();
                     float rotateDegree = mDataBinding.bgiImage.getmRotationDegrees();
 
-                    WorkPhoto workPhoto = SelectImageUtils.mAlreadySelectImage.get(mCurrentSelectIndex).getWorkPhoto();
+                    WorkPhoto workPhoto = SelectImageUtils.sAlreadySelectImage.get(mCurrentSelectIndex).getWorkPhoto();
                     workPhoto.setZoomSize((int) (scaleFactor * 100));
                     workPhoto.setRotate((int) rotateDegree);
 
@@ -108,7 +108,7 @@ public class PokerEditActivity extends ToolbarActivity<ActivityPokerEditBinding>
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
 
-                WorkPhoto workPhoto = SelectImageUtils.mAlreadySelectImage.get(mCurrentSelectIndex).getWorkPhoto();
+                WorkPhoto workPhoto = SelectImageUtils.sAlreadySelectImage.get(mCurrentSelectIndex).getWorkPhoto();
                 workPhoto.setBrightLevel(progress);
 
                 mDataBinding.tvPercent.setText(getString(R.string.percent, progress) + "%");
@@ -136,12 +136,12 @@ public class PokerEditActivity extends ToolbarActivity<ActivityPokerEditBinding>
         GlideUtil.loadImageByMDImage(mDataBinding.ivTemplate, mdImage, false);
 
         // 用户选择的图片加载
-        MDImage selectImage = SelectImageUtils.mAlreadySelectImage.get(position);
+        MDImage selectImage = SelectImageUtils.sAlreadySelectImage.get(position);
         if (selectImage.getPhotoSID() != 0 || selectImage.getImageLocalPath() != null) {
             GlideUtil.loadImageAsBitmap(selectImage, new SimpleTarget<Bitmap>(200, 200) {
                 @Override
                 public void onResourceReady(Bitmap bitmap, GlideAnimation glideAnimation) {
-                    WorkPhoto workPhoto = SelectImageUtils.mAlreadySelectImage.get(mCurrentSelectIndex).getWorkPhoto();
+                    WorkPhoto workPhoto = SelectImageUtils.sAlreadySelectImage.get(mCurrentSelectIndex).getWorkPhoto();
 
                     mDataBinding.bgiImage.loadNewImage(bitmap, workPhoto.getZoomSize() / 100f,
                             workPhoto.getRotate(),
@@ -156,38 +156,38 @@ public class PokerEditActivity extends ToolbarActivity<ActivityPokerEditBinding>
     private void saveToMyWork() {
         ViewUtils.loading(this);
         // 保存到我的作品中
-        MDGroundApplication.mOrderutUtils = new OrderUtils(this, true,
-        1, MDGroundApplication.mInstance.getChoosedTemplate().getPrice());
-        MDGroundApplication.mOrderutUtils.uploadImageRequest(this, 0);
+        MDGroundApplication.sOrderutUtils = new OrderUtils(this, true,
+        1, MDGroundApplication.sInstance.getChoosedTemplate().getPrice());
+        MDGroundApplication.sOrderutUtils.uploadImageRequest(this, 0);
     }
 
 
     private void generateOrder() {
         ViewUtils.loading(this);
         // 生成订单
-        MDGroundApplication.mOrderutUtils = new OrderUtils(this, false,
-                1, MDGroundApplication.mInstance.getChoosedTemplate().getPrice());
-        MDGroundApplication.mOrderutUtils.uploadImageRequest(this, 0);
+        MDGroundApplication.sOrderutUtils = new OrderUtils(this, false,
+                1, MDGroundApplication.sInstance.getChoosedTemplate().getPrice());
+        MDGroundApplication.sOrderutUtils.uploadImageRequest(this, 0);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_OK) {
             MDImage newMDImage = data.getParcelableExtra(Constants.KEY_SELECT_IMAGE);
-            MDImage oldMDImage = SelectImageUtils.mAlreadySelectImage.get(mCurrentSelectIndex);
+            MDImage oldMDImage = SelectImageUtils.sAlreadySelectImage.get(mCurrentSelectIndex);
 
             newMDImage.setWorkPhoto(oldMDImage.getWorkPhoto());
 
-            SelectImageUtils.mAlreadySelectImage.set(mCurrentSelectIndex, newMDImage);
+            SelectImageUtils.sAlreadySelectImage.set(mCurrentSelectIndex, newMDImage);
 
-            showImageToGPUImageView(mCurrentSelectIndex, SelectImageUtils.mTemplateImage.get(mCurrentSelectIndex));
+            showImageToGPUImageView(mCurrentSelectIndex, SelectImageUtils.sTemplateImage.get(mCurrentSelectIndex));
         }
     }
 
     //region ACTION
     public void nextStepAction(View view) {
-        for (int i = 0; i < SelectImageUtils.mAlreadySelectImage.size(); i++) {
-            MDImage selectImage = SelectImageUtils.mAlreadySelectImage.get(i);
+        for (int i = 0; i < SelectImageUtils.sAlreadySelectImage.size(); i++) {
+            MDImage selectImage = SelectImageUtils.sAlreadySelectImage.get(i);
 
             if (selectImage.getPhotoSID() == 0 && selectImage.getImageLocalPath() == null) {
                 if (mNotifyDialog == null) {

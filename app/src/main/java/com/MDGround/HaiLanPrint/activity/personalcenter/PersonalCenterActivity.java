@@ -7,6 +7,7 @@ import com.MDGround.HaiLanPrint.R;
 import com.MDGround.HaiLanPrint.activity.base.ToolbarActivity;
 import com.MDGround.HaiLanPrint.activity.coupon.MyCouponActivity;
 import com.MDGround.HaiLanPrint.activity.messagecenter.MessageCenterActivity;
+import com.MDGround.HaiLanPrint.activity.myworks.MyWorksActivity;
 import com.MDGround.HaiLanPrint.activity.orders.MyOrdersActivity;
 import com.MDGround.HaiLanPrint.application.MDGroundApplication;
 import com.MDGround.HaiLanPrint.databinding.ActivityPersonalCenterBinding;
@@ -37,7 +38,7 @@ public class PersonalCenterActivity extends ToolbarActivity<ActivityPersonalCent
     @Override
     protected void onResume() {
         super.onResume();
-        User user = MDGroundApplication.mInstance.getLoginUser();
+        User user = MDGroundApplication.sInstance.getLoginUser();
         MDImage mdImage = new MDImage();
         mdImage.setPhotoID(user.getPhotoID());
         mdImage.setPhotoSID(user.getPhotoSID());
@@ -48,8 +49,8 @@ public class PersonalCenterActivity extends ToolbarActivity<ActivityPersonalCent
         } else {
             mDataBinding.tvPhoneNume.setText(R.string.not_bound);
         }
-        Location city = MDGroundApplication.mDaoSession.getLocationDao().load((long) user.getCityID());
-        Location county = MDGroundApplication.mDaoSession.getLocationDao().load((long) user.getCountryID());
+        Location city = MDGroundApplication.sDaoSession.getLocationDao().load((long) user.getCityID());
+        Location county = MDGroundApplication.sDaoSession.getLocationDao().load((long) user.getCountryID());
         if (city != null && county != null) {
             mDataBinding.tvCity.setText(city.getLocationName() + " " + county.getLocationName());
         } else {

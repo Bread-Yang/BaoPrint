@@ -150,9 +150,9 @@ public class ManageAddressActivity extends ToolbarActivity<ActivityManageAddress
         @Override
         public void onBindViewHolder(MyViewHolder holder, int position) {
             DeliveryAddress address = mUserAddressList.get(position);
-            Location province = MDGroundApplication.mDaoSession.getLocationDao().load(address.getProvinceID());
-            Location city = MDGroundApplication.mDaoSession.getLocationDao().load(address.getCityID());
-            Location county = MDGroundApplication.mDaoSession.getLocationDao().load(address.getCountryID());
+            Location province = MDGroundApplication.sDaoSession.getLocationDao().load(address.getProvinceID());
+            Location city = MDGroundApplication.sDaoSession.getLocationDao().load(address.getCityID());
+            Location county = MDGroundApplication.sDaoSession.getLocationDao().load(address.getCountryID());
             holder.viewItemBinding.tvAddress.setText(province.getLocationName() + " " + city.getLocationName() + " " + county.getLocationName() + " " + address.getStreet());
             holder.viewItemBinding.tvName.setText(address.getReceiver());
             holder.viewItemBinding.tvNume.setText(address.getPhone());

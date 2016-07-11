@@ -31,14 +31,14 @@ import com.bumptech.glide.request.target.SimpleTarget;
 
 import java.io.File;
 
-import static com.MDGround.HaiLanPrint.utils.SelectImageUtils.mTemplateImage;
+import static com.MDGround.HaiLanPrint.utils.SelectImageUtils.sTemplateImage;
 
 /**
  * Created by yoghourt on 5/12/16.
  */
 public class NavUtils {
 
-    private static int mLoadCompleteCount = 0;
+    private static int sLoadCompleteCount = 0;
 
     public static void toLoginActivity(Context context) {
         Intent intent = new Intent(context, LoginActivity.class);
@@ -65,13 +65,13 @@ public class NavUtils {
 
     public static void toPhotoEditActivity(final Context context) {
         ViewUtils.loading(context);
-        if (SelectImageUtils.mAlreadySelectImage.size() == 0) {
+        if (SelectImageUtils.sAlreadySelectImage.size() == 0) {
             return;
         }
 
         boolean hasTemplate = true;
         final Intent intent = new Intent();
-        switch (MDGroundApplication.mInstance.getChoosedProductType()) {
+        switch (MDGroundApplication.sInstance.getChoosedProductType()) {
             // pager 1
             case PrintPhoto:
                 hasTemplate = false;
@@ -114,31 +114,31 @@ public class NavUtils {
         }
 
         // 将所有选中图片的数量设为1
-        for (MDImage mdImage : SelectImageUtils.mAlreadySelectImage) {
+        for (MDImage mdImage : SelectImageUtils.sAlreadySelectImage) {
             mdImage.setPhotoCount(1);
         }
 
         if (hasTemplate) {
             // 先加载全部模版图片,再进入编辑界面
-            mLoadCompleteCount = 0;
+            sLoadCompleteCount = 0;
 
-            if (mTemplateImage.size() == 0) {
-                mTemplateImage.add(new MDImage());
+            if (sTemplateImage.size() == 0) {
+                sTemplateImage.add(new MDImage());
             }
 
-            for (MDImage mdImage : mTemplateImage) {
+            for (MDImage mdImage : sTemplateImage) {
                 if (mdImage.hasPhotoSID()) {
                     Glide.with(context)
                             .load(mdImage)
                             .downloadOnly(new SimpleTarget<File>() {
                                 @Override
                                 public void onResourceReady(File resource, GlideAnimation<? super File> glideAnimation) {
-                                    mLoadCompleteCount++;
+                                    sLoadCompleteCount++;
                                     downloadTemplateSuccessfully(context, intent);
                                 }
                             });
                 } else {
-                    mLoadCompleteCount++;
+                    sLoadCompleteCount++;
                     downloadTemplateSuccessfully(context, intent);
                 }
             }
@@ -149,38 +149,42 @@ public class NavUtils {
     }
 
     private static void downloadTemplateSuccessfully(Context context, Intent intent) {
-        if (mLoadCompleteCount == mTemplateImage.size()) {
+        if (sLoadCompleteCount == sTemplateImage.size()) {
             // 服务器返回的模板数量少于pagecount
-            if (mTemplateImage.size() < MDGroundApplication.mInstance.getChoosedTemplate().getPageCount()) {
-                int difference = MDGroundApplication.mInstance.getChoosedTemplate().getPageCount() - mTemplateImage.size();
+            if (sTemplateImage.size() < MDGroundApplication.sInstance.getChoosedTemplate().getPageCount()) {
+                int difference = MDGroundApplication.sInstance.getChoosedTemplate().getPageCount() - sTemplateImage.size();
                 for (int i = 0; i < difference; i++) {
-                    mTemplateImage.add(new MDImage());
+                    sTemplateImage.add(new MDImage());
                 }
             }
             // 选择的图片数量小于模板的数量
-            if (SelectImageUtils.mAlreadySelectImage.size() < mTemplateImage.size()) {
-                int difference = mTemplateImage.size() - SelectImageUtils.mAlreadySelectImage.size();
+            if (SelectImageUtils.sAlreadySelectImage.size() < sTemplateImage.size()) {
+                int difference = sTemplateImage.size() - SelectImageUtils.sAlreadySelectImage.size();
 
                 for (int i = 0; i < difference; i++) {
-                    SelectImageUtils.mAlreadySelectImage.add(new MDImage());
+                    SelectImageUtils.sAlreadySelectImage.add(new MDImage());
                 }
             }
 
             // 将模版的PID和PSID赋值给MdImage
-            for (int i = 0; i < SelectImageUtils.mTemplateImage.size(); i++) {
-                MDImage template = SelectImageUtils.mTemplateImage.get(i);
-                MDImage selectImage = SelectImageUtils.mAlreadySelectImage.get(i);
+            for (int i = 0; i < SelectImageUtils.sTemplateImage.size(); i++) {
+                MDImage template = SelectImageUtils.sTemplateImage.get(i);
+                MDImage selectImage = SelectImageUtils.sAlreadySelectImage.get(i);
 
-                WorkPhoto workPhoto = new WorkPhoto();
-                workPhoto.setPhotoIndex(i + 1);
-                workPhoto.setPhoto1ID(selectImage.getPhotoID());
-                workPhoto.setPhoto1SID(selectImage.getPhotoSID());
-                workPhoto.setPhoto2ID(template.getPhotoID()); // 合成图片默认等于模板图片
-                workPhoto.setPhoto2SID(template.getPhotoSID());
-                workPhoto.setTemplatePID(template.getPhotoID());
-                workPhoto.setTemplatePSID(template.getPhotoSID());
-                workPhoto.setZoomSize(100);
-                selectImage.setWorkPhoto(workPhoto);
+                WorkPhoto workPhoto = selectImage.getWorkPhoto();
+
+                if (workPhoto == null) {
+                    workPhoto = new WorkPhoto();
+                    workPhoto.setPhotoIndex(i + 1);
+                    workPhoto.setPhoto1ID(selectImage.getPhotoID());
+                    workPhoto.setPhoto1SID(selectImage.getPhotoSID());
+                    workPhoto.setPhoto2ID(template.getPhotoID()); // 合成图片默认等于模板图片
+                    workPhoto.setPhoto2SID(template.getPhotoSID());
+                    workPhoto.setTemplatePID(template.getPhotoID());
+                    workPhoto.setTemplatePSID(template.getPhotoSID());
+                    workPhoto.setZoomSize(100);
+                    selectImage.setWorkPhoto(workPhoto);
+                }
             }
             ViewUtils.dismiss();
             context.startActivity(intent);

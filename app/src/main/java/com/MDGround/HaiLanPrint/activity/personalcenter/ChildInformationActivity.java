@@ -43,7 +43,7 @@ public class ChildInformationActivity extends ToolbarActivity<ActivityChildInfor
     protected void initData() {
         tvRight.setText(R.string.save);
         tvRight.setVisibility(View.VISIBLE);
-        User user = MDGroundApplication.mInstance.getLoginUser();
+        User user = MDGroundApplication.sInstance.getLoginUser();
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         if ((!"".equals(user.getKidDOB1()) && (user.getKidDOB1() != null))) {
 
@@ -131,7 +131,7 @@ public class ChildInformationActivity extends ToolbarActivity<ActivityChildInfor
                         e.printStackTrace();
                     }
                 }
-                final User user = MDGroundApplication.mInstance.getLoginUser();
+                final User user = MDGroundApplication.sInstance.getLoginUser();
                 user.setUpdatedTime(updateDate);
                 user.setKidName1(firstKidName);
                 user.setKidDOB1(firstKidBirth);
@@ -147,7 +147,7 @@ public class ChildInformationActivity extends ToolbarActivity<ActivityChildInfor
                     @Override
                     public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
                         if (ResponseCode.isSuccess(response.body())) {
-                            MDGroundApplication.mInstance.setLoginUser(user);
+                            MDGroundApplication.sInstance.setLoginUser(user);
                             finish();
                         }
                     }

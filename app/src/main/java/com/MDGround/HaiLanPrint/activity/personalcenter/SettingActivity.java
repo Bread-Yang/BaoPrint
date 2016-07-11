@@ -12,7 +12,6 @@ import com.MDGround.HaiLanPrint.constants.Constants;
 import com.MDGround.HaiLanPrint.databinding.ActivitySettingBinding;
 import com.MDGround.HaiLanPrint.utils.DeviceUtil;
 import com.MDGround.HaiLanPrint.utils.FileUtils;
-import com.MDGround.HaiLanPrint.utils.NavUtils;
 import com.MDGround.HaiLanPrint.utils.PreferenceUtils;
 import com.MDGround.HaiLanPrint.utils.StringUtil;
 import com.MDGround.HaiLanPrint.views.dialog.NotifyDialog;
@@ -36,8 +35,8 @@ public class SettingActivity extends ToolbarActivity<ActivitySettingBinding> {
 
     @Override
     protected void initData() {
-        boolean isOnlyWifiUpdate = PreferenceUtils.getPrefBoolean(Constants.KEY_ONLY_WIFI_UPDATE, false);
-        mDataBinding.cbOnlyWifiUpdate.setChecked(isOnlyWifiUpdate);
+        boolean isOnlyWifiUpdate = PreferenceUtils.getPrefBoolean(Constants.KEY_ONLY_WIFI_UPLOAD, false);
+        mDataBinding.cbOnlyWifiUpload.setChecked(isOnlyWifiUpdate);
 
         mDataBinding.tvVersion.setText("V " + StringUtil.getVersion());
         mDataBinding.tvCache.setText(getCacheSize());
@@ -45,10 +44,10 @@ public class SettingActivity extends ToolbarActivity<ActivitySettingBinding> {
 
     @Override
     protected void setListener() {
-        mDataBinding.cbOnlyWifiUpdate.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        mDataBinding.cbOnlyWifiUpload.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                PreferenceUtils.setPrefBoolean(Constants.KEY_ONLY_WIFI_UPDATE, isChecked);
+                PreferenceUtils.setPrefBoolean(Constants.KEY_ONLY_WIFI_UPLOAD, isChecked);
             }
         });
     }
@@ -132,8 +131,7 @@ public class SettingActivity extends ToolbarActivity<ActivitySettingBinding> {
         builder.setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                DeviceUtil.logoutUser();
-                NavUtils.toLoginActivity(SettingActivity.this);
+                DeviceUtil.logoutUser(SettingActivity.this);
             }
         });
         builder.show();

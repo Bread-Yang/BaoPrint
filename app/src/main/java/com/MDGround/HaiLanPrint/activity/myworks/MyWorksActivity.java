@@ -1,4 +1,4 @@
-package com.MDGround.HaiLanPrint.activity.personalcenter;
+package com.MDGround.HaiLanPrint.activity.myworks;
 
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
@@ -9,7 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.MDGround.HaiLanPrint.ProductType;
+import com.MDGround.HaiLanPrint.enumobject.ProductType;
 import com.MDGround.HaiLanPrint.R;
 import com.MDGround.HaiLanPrint.activity.base.ToolbarActivity;
 import com.MDGround.HaiLanPrint.application.MDGroundApplication;
@@ -64,6 +64,8 @@ public class MyWorksActivity extends ToolbarActivity<ActivityMyWorksBinding> {
 
     @Override
     protected void initData() {
+        tvRight.setText(R.string.edit);
+
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         mDataBinding.myworksRecyclerView.setLayoutManager(layoutManager);
@@ -320,7 +322,6 @@ public class MyWorksActivity extends ToolbarActivity<ActivityMyWorksBinding> {
                     Collections.sort(mAllWorkInfoList);
 
                     if (mAllWorkInfoList.size() > 0) {
-                        tvRight.setText(R.string.edit);
                         tvRight.setVisibility(View.VISIBLE);
                         mDataBinding.llEnough.setVisibility(View.VISIBLE);
                         mDataBinding.llBlank.setVisibility(View.GONE);
@@ -357,9 +358,9 @@ public class MyWorksActivity extends ToolbarActivity<ActivityMyWorksBinding> {
                                 new TypeToken<ArrayList<OrderWork>>() {
                                 });
 
-                        MDGroundApplication.mOrderutUtils = new OrderUtils(orderInfo, orderWorkArrayList);
+                        MDGroundApplication.sOrderutUtils = new OrderUtils(orderInfo, orderWorkArrayList);
                         ProductType productType = ProductType.fromValue(orderWorkArrayList.get(0).getTypeID());
-                        MDGroundApplication.mInstance.setChoosedProductType(productType);
+                        MDGroundApplication.sInstance.setChoosedProductType(productType);
 
                         NavUtils.toPaymentPreviewActivity(MyWorksActivity.this);
                     } catch (JSONException e) {

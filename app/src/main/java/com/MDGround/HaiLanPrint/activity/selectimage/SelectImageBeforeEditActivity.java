@@ -91,7 +91,7 @@ public class SelectImageBeforeEditActivity extends ToolbarActivity<ActivitySelec
 
         mImageAdapter = new ChooseImageListAdapter(this, mMaxSelectImageNum, true, false);
         mImageAdapter.bindImages(mImagesList);
-        mImageAdapter.bindSelectImages(SelectImageUtils.mAlreadySelectImage);
+        mImageAdapter.bindSelectImages(SelectImageUtils.sAlreadySelectImage);
         mDataBinding.imageRecyclerView.setAdapter(mImageAdapter);
 
         // 选中图片
@@ -143,15 +143,15 @@ public class SelectImageBeforeEditActivity extends ToolbarActivity<ActivitySelec
         mSelectedImageAdapter.setOnDeleteImageLisenter(new SelectedImageAdapter.onDeleteImageLisenter() {
             @Override
             public void deleteImage() {
-                mImageAdapter.bindSelectImages(SelectImageUtils.mAlreadySelectImage);
+                mImageAdapter.bindSelectImages(SelectImageUtils.sAlreadySelectImage);
                 changeTips();
             }
         });
     }
 
     private void changeTips() {
-        if (SelectImageUtils.mAlreadySelectImage.size() > 0) {
-            String tips = getString(R.string.choose_image_tips, SelectImageUtils.mAlreadySelectImage.size(), mMaxSelectImageNum);
+        if (SelectImageUtils.sAlreadySelectImage.size() > 0) {
+            String tips = getString(R.string.choose_image_tips, SelectImageUtils.sAlreadySelectImage.size(), mMaxSelectImageNum);
 
             mDataBinding.tvChooseTips.setText(Html.fromHtml(tips));
 

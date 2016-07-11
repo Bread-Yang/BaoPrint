@@ -8,7 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.MDGround.HaiLanPrint.ProductType;
+import com.MDGround.HaiLanPrint.enumobject.ProductType;
 import com.MDGround.HaiLanPrint.R;
 import com.MDGround.HaiLanPrint.activity.base.ToolbarActivity;
 import com.MDGround.HaiLanPrint.activity.selectimage.SelectAlbumBeforeEditActivity;
@@ -59,7 +59,7 @@ public class PokerChooseInchActivity extends ToolbarActivity<ActivityPokerChoose
 
     @Override
     protected void initData() {
-        for (PhotoTypeExplain photoTypeExplain : MDGroundApplication.mInstance.getPhotoTypeExplainArrayList()) {
+        for (PhotoTypeExplain photoTypeExplain : MDGroundApplication.sInstance.getPhotoTypeExplainArrayList()) {
             if (photoTypeExplain.getExplainType() == PhotoExplainTypeEnum.Banner.value()
                     && photoTypeExplain.getTypeID() == ProductType.Poker.value()) {
                 GlideUtil.loadImageByPhotoSIDWithDialog(mDataBinding.ivBanner,
@@ -151,7 +151,7 @@ public class PokerChooseInchActivity extends ToolbarActivity<ActivityPokerChoose
             }
 
             public void toSelectAlbumActivityAction(View view) {
-                MDGroundApplication.mInstance.setChoosedMeasurement(mSpecList.get(getAdapterPosition()));
+                MDGroundApplication.sInstance.setChoosedMeasurement(mSpecList.get(getAdapterPosition()));
 
                 Intent intent = new Intent(PokerChooseInchActivity.this, SelectAlbumBeforeEditActivity.class);
                 startActivity(intent);

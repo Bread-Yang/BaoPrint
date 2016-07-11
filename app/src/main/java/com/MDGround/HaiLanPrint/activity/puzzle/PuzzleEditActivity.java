@@ -75,7 +75,7 @@ public class PuzzleEditActivity extends ToolbarActivity<ActivityPuzzleEditBindin
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
 
-                WorkPhoto workPhoto = SelectImageUtils.mAlreadySelectImage.get(0).getWorkPhoto();
+                WorkPhoto workPhoto = SelectImageUtils.sAlreadySelectImage.get(0).getWorkPhoto();
                 workPhoto.setBrightLevel(progress);
 
                 mDataBinding.tvPercent.setText(getString(R.string.percent, progress) + "%");
@@ -97,17 +97,24 @@ public class PuzzleEditActivity extends ToolbarActivity<ActivityPuzzleEditBindin
     }
 
     private void showImageToGPUImageView() {
-        if (SelectImageUtils.mTemplateImage.size() > 0) {
+        if (SelectImageUtils.sTemplateImage.size() > 0) {
             // 模板图片加载
-            GlideUtil.loadImageByMDImage(mDataBinding.ivTemplate, SelectImageUtils.mTemplateImage.get(0), false);
+            GlideUtil.loadImageByMDImage(mDataBinding.ivTemplate, SelectImageUtils.sTemplateImage.get(0), false);
         }
 
+        final MDImage mdImage = SelectImageUtils.sAlreadySelectImage.get(0);
+
         // 用户选择的图片加载
-        GlideUtil.loadImageAsBitmap(SelectImageUtils.mAlreadySelectImage.get(0),
+        GlideUtil.loadImageAsBitmap(mdImage,
                 new SimpleTarget<Bitmap>(200, 200) {
                     @Override
                     public void onResourceReady(Bitmap bitmap, GlideAnimation glideAnimation) {
-                        mDataBinding.bgiImage.loadNewImage(bitmap);
+                        WorkPhoto workPhoto = mdImage.getWorkPhoto();
+
+                        mDataBinding.bgiImage.loadNewImage(bitmap,
+                                workPhoto.getZoomSize() / 100f,
+                                workPhoto.getRotate(),
+                                workPhoto.getBrightLevel() / 100f);
                     }
                 });
     }
@@ -115,9 +122,9 @@ public class PuzzleEditActivity extends ToolbarActivity<ActivityPuzzleEditBindin
     private void saveToMyWork() {
         ViewUtils.loading(this);
         // 保存到我的作品中
-        MDGroundApplication.mOrderutUtils = new OrderUtils(this, true,
-                1, MDGroundApplication.mInstance.getChoosedTemplate().getPrice());
-        MDGroundApplication.mOrderutUtils.uploadImageRequest(this, 0);
+        MDGroundApplication.sOrderutUtils = new OrderUtils(this, true,
+                1, MDGroundApplication.sInstance.getChoosedTemplate().getPrice());
+        MDGroundApplication.sOrderutUtils.uploadImageRequest(this, 0);
     }
 
 
@@ -126,7 +133,7 @@ public class PuzzleEditActivity extends ToolbarActivity<ActivityPuzzleEditBindin
         if (resultCode == RESULT_OK) {
             MDImage mdImage = data.getParcelableExtra(Constants.KEY_SELECT_IMAGE);
 
-            SelectImageUtils.mAlreadySelectImage.set(0, mdImage);
+            SelectImageUtils.sAlreadySelectImage.set(0, mdImage);
 
             showImageToGPUImageView();
         }
@@ -137,15 +144,15 @@ public class PuzzleEditActivity extends ToolbarActivity<ActivityPuzzleEditBindin
         float scaleFactor = mDataBinding.bgiImage.getmScaleFactor();
         float rotateDegree = mDataBinding.bgiImage.getmRotationDegrees();
 
-        WorkPhoto workPhoto = SelectImageUtils.mAlreadySelectImage.get(0).getWorkPhoto();
+        WorkPhoto workPhoto = SelectImageUtils.sAlreadySelectImage.get(0).getWorkPhoto();
         workPhoto.setZoomSize((int) (scaleFactor * 100));
         workPhoto.setRotate((int) rotateDegree);
 
         ViewUtils.loading(this);
 
-        MDGroundApplication.mOrderutUtils = new OrderUtils(this, false,
-                1, MDGroundApplication.mInstance.getChoosedTemplate().getPrice());
-        MDGroundApplication.mOrderutUtils.uploadImageRequest(this, 0);
+        MDGroundApplication.sOrderutUtils = new OrderUtils(this, false,
+                1, MDGroundApplication.sInstance.getChoosedTemplate().getPrice());
+        MDGroundApplication.sOrderutUtils.uploadImageRequest(this, 0);
     }
     //endregion
 

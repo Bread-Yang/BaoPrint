@@ -45,9 +45,9 @@ public class EditAddressActivity extends ToolbarActivity<ActivityEditorAddressBi
             mDataBinding.etReceiverName.setText(mAddresss.getReceiver());
             mDataBinding.etAddress.setText(mAddresss.getStreet());
             mDataBinding.etReceiverName.setSelection(mAddresss.getReceiver().length());
-            Location province = MDGroundApplication.mDaoSession.getLocationDao().load((long) mAddresss.getProvinceID());
-            Location city = MDGroundApplication.mDaoSession.getLocationDao().load((long) mAddresss.getCityID());
-            Location country = MDGroundApplication.mDaoSession.getLocationDao().load((long) mAddresss.getCountryID());
+            Location province = MDGroundApplication.sDaoSession.getLocationDao().load((long) mAddresss.getProvinceID());
+            Location city = MDGroundApplication.sDaoSession.getLocationDao().load((long) mAddresss.getCityID());
+            Location country = MDGroundApplication.sDaoSession.getLocationDao().load((long) mAddresss.getCountryID());
             mDataBinding.etRegio.setText(province.getLocationName() + " " + city.getLocationName() + "" + country.getLocationName());
         } else {
             mIsUpdate = false;
@@ -63,7 +63,7 @@ public class EditAddressActivity extends ToolbarActivity<ActivityEditorAddressBi
             @Override
             public void onClick(View v) {
                 mAddresss.setReceiver(mDataBinding.etReceiverName.getText().toString());
-                mAddresss.setUserID(MDGroundApplication.mInstance.getLoginUser().getUserID());
+                mAddresss.setUserID(MDGroundApplication.sInstance.getLoginUser().getUserID());
                 if (StringUtil.isEmpty(mDataBinding.etContacts.getText().toString())) {
                     ViewUtils.toast(R.string.input_phone_number);
                     return;

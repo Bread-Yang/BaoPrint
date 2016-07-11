@@ -22,10 +22,6 @@ import com.MDGround.HaiLanPrint.application.MDGroundApplication;
  * 安卓判断网络状态，只需要在相应的Activity的相关方法（onCreat/onResum）调用一行代码即可
  * NetWorkUtils.getInstance(getActivity()).validateNetWork();
  * 
- * 
- * 
- * @author 曾繁添
- * @version 1.0
  */
 public class ToolNetwork {
 
@@ -33,8 +29,8 @@ public class ToolNetwork {
 	public final static String NETWORK_CMWAP = "CMWAP";
 	public final static String NETWORK_WIFI = "WIFI";
 	public final static String TAG = "ToolNetwork";
-	private static NetworkInfo networkInfo = null;
-	private Context mContext = MDGroundApplication.mInstance;
+	private static NetworkInfo sNetworkInfo = null;
+	private Context mContext = MDGroundApplication.sInstance;
 
 	private ToolNetwork() {
 	}
@@ -58,8 +54,8 @@ public class ToolNetwork {
 		if (null == manager) {
 			return false;
 		}
-		networkInfo = manager.getActiveNetworkInfo();
-		if (null == networkInfo || !networkInfo.isAvailable()) {
+		sNetworkInfo = manager.getActiveNetworkInfo();
+		if (null == sNetworkInfo || !sNetworkInfo.isAvailable()) {
 			return false;
 		}
 		return true;
@@ -74,7 +70,7 @@ public class ToolNetwork {
 		if (!isAvailable()) {
 			return false;
 		}
-		if (!networkInfo.isConnected()) {
+		if (!sNetworkInfo.isConnected()) {
 			return false;
 		}
 		return true;
@@ -112,10 +108,10 @@ public class ToolNetwork {
 	 */
 	public String getNetworkType() {
 		if (isConnected()) {
-			int type = networkInfo.getType();
+			int type = sNetworkInfo.getType();
 			if (ConnectivityManager.TYPE_MOBILE == type) {
-				Log.i(TAG, "networkInfo.getExtraInfo()-->" + networkInfo.getExtraInfo());
-				if (NETWORK_CMWAP.equals(networkInfo.getExtraInfo().toLowerCase())) {
+				Log.i(TAG, "networkInfo.getExtraInfo()-->" + sNetworkInfo.getExtraInfo());
+				if (NETWORK_CMWAP.equals(sNetworkInfo.getExtraInfo().toLowerCase())) {
 					return NETWORK_CMWAP;
 				} else {
 					return NETWORK_CMNET;
@@ -156,7 +152,7 @@ public class ToolNetwork {
 			ConnectivityManager mConnectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
 			NetworkInfo mWiFiNetworkInfo = mConnectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
 			if (mWiFiNetworkInfo != null) {
-				return mWiFiNetworkInfo.isAvailable();
+				return mWiFiNetworkInfo.isConnected();
 			}
 		}
 		return false;

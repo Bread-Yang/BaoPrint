@@ -18,7 +18,7 @@
                 android:layout_height="match_parent"
                 app:ratio="0.75">
 
-                <com.MDGround.HaiLanPrint.views.BaoCustomGPUImage
+                <com.MDGround.HaiLanPrint.views.BaoGPUImage
                     android:id="@+id/bgiCustomImage"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"

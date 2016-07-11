@@ -14,6 +14,7 @@ import com.MDGround.HaiLanPrint.databinding.ActivityPictureFrameEditBinding;
 import com.MDGround.HaiLanPrint.enumobject.MaterialType;
 import com.MDGround.HaiLanPrint.models.MDImage;
 import com.MDGround.HaiLanPrint.models.Template;
+import com.MDGround.HaiLanPrint.models.WorkPhoto;
 import com.MDGround.HaiLanPrint.utils.GlideUtil;
 import com.MDGround.HaiLanPrint.utils.OrderUtils;
 import com.MDGround.HaiLanPrint.utils.SelectImageUtils;
@@ -41,9 +42,9 @@ public class PictureFrameEditActivity extends ToolbarActivity<ActivityPictureFra
 
     @Override
     protected void initData() {
-        mChooseTemplate = MDGroundApplication.mInstance.getChoosedTemplate();
+        mChooseTemplate = MDGroundApplication.sInstance.getChoosedTemplate();
         mChooseTemplate.setPageCount(1);
-        MDGroundApplication.mInstance.setChoosedTemplate(mChooseTemplate);
+        MDGroundApplication.sInstance.setChoosedTemplate(mChooseTemplate);
 
         mDataBinding.setTemplate(mChooseTemplate);
 
@@ -72,19 +73,19 @@ public class PictureFrameEditActivity extends ToolbarActivity<ActivityPictureFra
 
                 switch (checkedId) {
                     case R.id.rb6Inch:
-                        mPrice = MDGroundApplication.mInstance.getChoosedTemplate().getPrice();
+                        mPrice = MDGroundApplication.sInstance.getChoosedTemplate().getPrice();
                         mWorkFormat = frameSizeArray[0];
                         break;
                     case R.id.rb8Inch:
-                        mPrice = MDGroundApplication.mInstance.getChoosedTemplate().getPrice2();
+                        mPrice = MDGroundApplication.sInstance.getChoosedTemplate().getPrice2();
                         mWorkFormat = frameSizeArray[1];
                         break;
                     case R.id.rb10Inch:
-                        mPrice = MDGroundApplication.mInstance.getChoosedTemplate().getPrice3();
+                        mPrice = MDGroundApplication.sInstance.getChoosedTemplate().getPrice3();
                         mWorkFormat = frameSizeArray[2];
                         break;
                     case R.id.rb12Inch:
-                        mPrice = MDGroundApplication.mInstance.getChoosedTemplate().getPrice4();
+                        mPrice = MDGroundApplication.sInstance.getChoosedTemplate().getPrice4();
                         mWorkFormat = frameSizeArray[3];
                         break;
                 }
@@ -96,17 +97,24 @@ public class PictureFrameEditActivity extends ToolbarActivity<ActivityPictureFra
     }
 
     private void showImageToGPUImageView() {
-        if (SelectImageUtils.mTemplateImage.size() > 0) {
+        if (SelectImageUtils.sTemplateImage.size() > 0) {
             // 模板图片加载
-            GlideUtil.loadImageByMDImage(mDataBinding.ivTemplate, SelectImageUtils.mTemplateImage.get(0), false);
+            GlideUtil.loadImageByMDImage(mDataBinding.ivTemplate, SelectImageUtils.sTemplateImage.get(0), false);
         }
 
+        final MDImage mdImage = SelectImageUtils.sAlreadySelectImage.get(0);
+
         // 用户选择的图片加载
-        GlideUtil.loadImageAsBitmap(SelectImageUtils.mAlreadySelectImage.get(0),
+        GlideUtil.loadImageAsBitmap(mdImage,
                 new SimpleTarget<Bitmap>(200, 200) {
                     @Override
                     public void onResourceReady(Bitmap bitmap, GlideAnimation glideAnimation) {
-                        mDataBinding.bgiImage.loadNewImage(bitmap);
+                        WorkPhoto workPhoto = mdImage.getWorkPhoto();
+
+                        mDataBinding.bgiImage.loadNewImage(bitmap,
+                                workPhoto.getZoomSize() / 100f,
+                                workPhoto.getRotate(),
+                                workPhoto.getBrightLevel() / 100f);
                     }
                 });
     }
@@ -114,7 +122,7 @@ public class PictureFrameEditActivity extends ToolbarActivity<ActivityPictureFra
     private void changeMaterialAvailable() {
         mDataBinding.rgStyle.clearCheck();
 
-        if ((MDGroundApplication.mInstance.getChoosedTemplate().getMaterialType() & MaterialType.Landscape.value()) != 0) {
+        if ((MDGroundApplication.sInstance.getChoosedTemplate().getMaterialType() & MaterialType.Landscape.value()) != 0) {
             mDataBinding.rbLandscape.setEnabled(true);
             if (mDataBinding.rgStyle.getCheckedRadioButtonId() == -1) {
                 mDataBinding.rbLandscape.setChecked(true);
@@ -125,7 +133,7 @@ public class PictureFrameEditActivity extends ToolbarActivity<ActivityPictureFra
             mDataBinding.rbLandscape.setEnabled(false);
         }
 
-        if ((MDGroundApplication.mInstance.getChoosedTemplate().getMaterialType() & MaterialType.Portrait.value()) != 0) {
+        if ((MDGroundApplication.sInstance.getChoosedTemplate().getMaterialType() & MaterialType.Portrait.value()) != 0) {
             mDataBinding.rbPortrait.setEnabled(true);
             if (mDataBinding.rgStyle.getCheckedRadioButtonId() == -1) {
                 mDataBinding.rbPortrait.setChecked(true);
@@ -140,10 +148,10 @@ public class PictureFrameEditActivity extends ToolbarActivity<ActivityPictureFra
     private void saveToMyWork() {
         ViewUtils.loading(this);
         // 保存到我的作品中
-        MDGroundApplication.mOrderutUtils = new OrderUtils(this, true,
+        MDGroundApplication.sOrderutUtils = new OrderUtils(this, true,
                 mChooseTemplate.getPageCount(),
                 mPrice, mWorkFormat, null, mWorkStyle);
-        MDGroundApplication.mOrderutUtils.uploadImageRequest(this, 0);
+        MDGroundApplication.sOrderutUtils.uploadImageRequest(this, 0);
     }
 
 
@@ -152,7 +160,7 @@ public class PictureFrameEditActivity extends ToolbarActivity<ActivityPictureFra
         if (resultCode == RESULT_OK) {
             MDImage mdImage = data.getParcelableExtra(Constants.KEY_SELECT_IMAGE);
 
-            SelectImageUtils.mAlreadySelectImage.set(0, mdImage);
+            SelectImageUtils.sAlreadySelectImage.set(0, mdImage);
 
             showImageToGPUImageView();
         }
@@ -167,22 +175,22 @@ public class PictureFrameEditActivity extends ToolbarActivity<ActivityPictureFra
         }
 
         mChooseTemplate.setPageCount(--photoCount);
-        MDGroundApplication.mInstance.setChoosedTemplate(mChooseTemplate);
+        MDGroundApplication.sInstance.setChoosedTemplate(mChooseTemplate);
     }
 
     public void addNumAction(View view) {
         int photoCount = mChooseTemplate.getPageCount();
 
         mChooseTemplate.setPageCount(++photoCount);
-        MDGroundApplication.mInstance.setChoosedTemplate(mChooseTemplate);
+        MDGroundApplication.sInstance.setChoosedTemplate(mChooseTemplate);
     }
 
     public void purchaseAction(View view) {
         ViewUtils.loading(this);
-        MDGroundApplication.mOrderutUtils = new OrderUtils(this, false,
+        MDGroundApplication.sOrderutUtils = new OrderUtils(this, false,
                 mChooseTemplate.getPageCount(),
                 mPrice, mWorkFormat, null, mWorkStyle);
-        MDGroundApplication.mOrderutUtils.uploadImageRequest(this, 0);
+        MDGroundApplication.sOrderutUtils.uploadImageRequest(this, 0);
     }
     //endregion
 }

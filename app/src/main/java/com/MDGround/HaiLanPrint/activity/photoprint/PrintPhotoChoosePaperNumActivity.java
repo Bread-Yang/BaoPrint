@@ -77,11 +77,11 @@ public class PrintPhotoChoosePaperNumActivity extends ToolbarActivity<ActivityPr
             workMaterial = ProductMaterial.PrintPhoto_Matte.getText();
         }
 
-        MDGroundApplication.mOrderutUtils = new OrderUtils(this, false,
+        MDGroundApplication.sOrderutUtils = new OrderUtils(this, false,
                 1,
-                MDGroundApplication.mInstance.getChoosedMeasurement().getPrice(),
+                MDGroundApplication.sInstance.getChoosedMeasurement().getPrice(),
                 null, workMaterial, null);
-        MDGroundApplication.mOrderutUtils.uploadImageRequest(this, 0);
+        MDGroundApplication.sOrderutUtils.uploadImageRequest(this, 0);
     }
     //endregion
 
@@ -98,13 +98,13 @@ public class PrintPhotoChoosePaperNumActivity extends ToolbarActivity<ActivityPr
 
         @Override
         public void onBindViewHolder(BindingHolder holder, int position) {
-            holder.viewDataBinding.setImage(SelectImageUtils.mAlreadySelectImage.get(position));
+            holder.viewDataBinding.setImage(SelectImageUtils.sAlreadySelectImage.get(position));
             holder.viewDataBinding.setHandlers(holder);
         }
 
         @Override
         public int getItemCount() {
-            return SelectImageUtils.mAlreadySelectImage.size();
+            return SelectImageUtils.sAlreadySelectImage.size();
         }
 
         public class BindingHolder extends RecyclerView.ViewHolder {
@@ -119,7 +119,7 @@ public class PrintPhotoChoosePaperNumActivity extends ToolbarActivity<ActivityPr
             public void addPrintNumAction(View view) {
                 int position = getAdapterPosition();
 
-                MDImage mdImage = SelectImageUtils.mAlreadySelectImage.get(position);
+                MDImage mdImage = SelectImageUtils.sAlreadySelectImage.get(position);
                 int photoCount = mdImage.getPhotoCount();
 
                 if (photoCount == 1) {
@@ -133,7 +133,7 @@ public class PrintPhotoChoosePaperNumActivity extends ToolbarActivity<ActivityPr
             public void minusPrintNumAction(View view) {
                 int position = getAdapterPosition();
 
-                MDImage mdImage = SelectImageUtils.mAlreadySelectImage.get(position);
+                MDImage mdImage = SelectImageUtils.sAlreadySelectImage.get(position);
                 int photoCount = mdImage.getPhotoCount();
 
                 if (photoCount == 1) {

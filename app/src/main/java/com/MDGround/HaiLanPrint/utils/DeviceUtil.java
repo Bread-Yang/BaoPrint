@@ -14,13 +14,13 @@ import java.util.Locale;
 
 public class DeviceUtil {
 
-    private static String filePath = Tools.getAppPath() + File.separator + "device";
+    private static String sFilePath = Tools.getAppPath() + File.separator + "device";
 //	private static String filePath = Tools.getAppPath() + File.separator + "device_ua";
 
     public static int getDeviceId() {
-        if (ToolFile.isExsit(filePath)) {
+        if (ToolFile.isExsit(sFilePath)) {
             try {
-                String dataStr = ToolFile.readFileByLines(filePath);
+                String dataStr = ToolFile.readFileByLines(sFilePath);
                 return Integer.parseInt(dataStr.trim());
             } catch (Exception e) {
                 e.printStackTrace();
@@ -32,12 +32,12 @@ public class DeviceUtil {
 
     public static void setDeviceId(int deviceId) {
         try {
-            if (!ToolFile.isExsit(filePath)) {
-                File file = new File(filePath);
+            if (!ToolFile.isExsit(sFilePath)) {
+                File file = new File(sFilePath);
                 file.createNewFile();
                 ToolFile.write(file, String.valueOf(deviceId), System.getProperty("file.encoding"));
             } else {
-                ToolFile.write(filePath, String.valueOf(deviceId).getBytes());
+                ToolFile.write(sFilePath, String.valueOf(deviceId).getBytes());
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -85,11 +85,13 @@ public class DeviceUtil {
         }
     }
 
-    public static void logoutUser() {
-        if (MDGroundApplication.mInstance.getLoginUser() != null) {
-            PreferenceUtils.setPrefString(Constants.KEY_PHONE, MDGroundApplication.mInstance.getLoginUser().getPhone());
+    public static void logoutUser(Context context) {
+        if (MDGroundApplication.sInstance.getLoginUser() != null) {
+            PreferenceUtils.setPrefString(Constants.KEY_PHONE, MDGroundApplication.sInstance.getLoginUser().getPhone());
         }
 
         FileUtils.setObject(Constants.KEY_ALREADY_LOGIN_USER, null); // 清空之前的user,保留登录账号
+
+        NavUtils.toLoginActivity(context);
     }
 }

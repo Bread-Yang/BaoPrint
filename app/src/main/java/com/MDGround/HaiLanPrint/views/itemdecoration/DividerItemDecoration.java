@@ -20,7 +20,7 @@ public class DividerItemDecoration extends RecyclerView.ItemDecoration {
     private Drawable mDrawable;
 
     public DividerItemDecoration(int margin) {
-        mDrawable = MDGroundApplication.mInstance.getResources().getDrawable(R.drawable.shape_divider);
+        mDrawable = MDGroundApplication.sInstance.getResources().getDrawable(R.drawable.shape_divider);
 
         mMargin = margin;
     }

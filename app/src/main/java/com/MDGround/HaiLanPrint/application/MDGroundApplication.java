@@ -3,8 +3,8 @@ package com.MDGround.HaiLanPrint.application;
 import android.app.Application;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.MDGround.HaiLanPrint.ProductType;
 import com.MDGround.HaiLanPrint.constants.Constants;
+import com.MDGround.HaiLanPrint.enumobject.ProductType;
 import com.MDGround.HaiLanPrint.greendao.DaoMaster;
 import com.MDGround.HaiLanPrint.greendao.DaoSession;
 import com.MDGround.HaiLanPrint.greendao.DatabaseOpenHelper;
@@ -14,6 +14,8 @@ import com.MDGround.HaiLanPrint.models.Template;
 import com.MDGround.HaiLanPrint.models.User;
 import com.MDGround.HaiLanPrint.utils.FileUtils;
 import com.MDGround.HaiLanPrint.utils.OrderUtils;
+import com.socks.library.KLog;
+import com.tencent.android.tpush.XGIOperateCallback;
 import com.tencent.android.tpush.XGPushManager;
 
 import java.util.ArrayList;
@@ -29,24 +31,34 @@ public class MDGroundApplication extends Application {
     /**
      * 对外提供整个应用生命周期的Context
      **/
-    public static MDGroundApplication mInstance;
+    public static MDGroundApplication sInstance;
 
-    public static DaoSession mDaoSession;
+    public static DaoSession sDaoSession;
 
-    public static OrderUtils mOrderutUtils;
+    public static OrderUtils sOrderutUtils;
 
     @Override
     public void onCreate() {
         super.onCreate();
-        mInstance = this;
+        sInstance = this;
 
         initDataBase();
 
-        SMSSDK.initSDK(this, Constants.SMS_APP_KEY, Constants.SMS_APP_SECRECT);
-
         ShareSDK.initSDK(this);
 
-        XGPushManager.registerPush(getApplicationContext());
+        SMSSDK.initSDK(this, Constants.SMS_APP_KEY, Constants.SMS_APP_SECRECT);
+
+        XGPushManager.registerPush(getApplicationContext(), new XGIOperateCallback() {
+            @Override
+            public void onSuccess(Object o, int i) {
+                KLog.e("信鸽注册成功");
+            }
+
+            @Override
+            public void onFail(Object o, int i, String s) {
+                KLog.e("信鸽注册失败");
+            }
+        });
 
 //        initExceptionHandler();
     }
@@ -55,7 +67,7 @@ public class MDGroundApplication extends Application {
         DatabaseOpenHelper helper = new DatabaseOpenHelper(this, Constants.DATABASE_NAME, null);
         SQLiteDatabase db = helper.getWritableDatabase();
         DaoMaster daoMaster = new DaoMaster(db);
-        mDaoSession = daoMaster.newSession();
+        sDaoSession = daoMaster.newSession();
     }
 
     private void initExceptionHandler() {

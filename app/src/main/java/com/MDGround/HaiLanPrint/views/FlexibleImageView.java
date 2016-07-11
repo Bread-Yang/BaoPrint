@@ -9,7 +9,7 @@ import com.MDGround.HaiLanPrint.R;
 
 
 /**
- * A flexible ImageView that  widith = parent'width * ration,
+ * A flexible ImageView that  widith = parent'width * ratio,
  */
 public class FlexibleImageView extends ImageView {
 

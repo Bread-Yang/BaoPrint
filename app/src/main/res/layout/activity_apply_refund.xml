@@ -94,6 +94,7 @@
                 android:layout_height="@dimen/size_88"
                 android:layout_toRightOf="@+id/tvDetailedAdress"
                 android:background="@null"
+                android:maxLength="200"
                 android:drawablePadding="@dimen/margin_8"
                 android:gravity="top|left"
                 android:hint="@string/input_refund_detail"

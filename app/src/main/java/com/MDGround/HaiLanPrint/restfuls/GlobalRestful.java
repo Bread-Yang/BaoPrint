@@ -1,6 +1,6 @@
 package com.MDGround.HaiLanPrint.restfuls;
 
-import com.MDGround.HaiLanPrint.ProductType;
+import com.MDGround.HaiLanPrint.enumobject.ProductType;
 import com.MDGround.HaiLanPrint.application.MDGroundApplication;
 import com.MDGround.HaiLanPrint.constants.Constants;
 import com.MDGround.HaiLanPrint.enumobject.OrderStatus;
@@ -31,7 +31,7 @@ import retrofit2.Callback;
  */
 public class GlobalRestful extends BaseRestful {
 
-    private static GlobalRestful mIntance = new GlobalRestful();
+    private static GlobalRestful sIntance = new GlobalRestful();
 
     @Override
     protected BusinessType getBusinessType() {
@@ -49,17 +49,17 @@ public class GlobalRestful extends BaseRestful {
     }
 
     public static GlobalRestful getInstance() {
-        if (mIntance == null) {
-            mIntance = new GlobalRestful();
+        if (sIntance == null) {
+            sIntance = new GlobalRestful();
         }
-        return mIntance;
+        return sIntance;
     }
 
     // 用户登录
     public void LoginUser(String loginID, String pwd, Callback<ResponseData> callback) {
-        Device device = DeviceUtil.getDeviceInfo(MDGroundApplication.mInstance);
+        Device device = DeviceUtil.getDeviceInfo(MDGroundApplication.sInstance);
 
-        device.setDeviceToken(XGPushConfig.getToken(MDGroundApplication.mInstance)); // 信鸽的token, XGPushConfig.getToken(this);
+        device.setDeviceToken(XGPushConfig.getToken(MDGroundApplication.sInstance)); // 信鸽的token, XGPushConfig.getToken(this);
 //        device.setDeviceToken("abc");
         device.setDeviceID(DeviceUtil.getDeviceId());
 
@@ -71,10 +71,20 @@ public class GlobalRestful extends BaseRestful {
         asynchronousPost("LoginUser", obj, callback);
     }
 
+    // 刷新用户
+    public void RefreshUser(Callback<ResponseData> callback) {
+        asynchronousPost("RefreshUser", null, callback);
+    }
+
+    // 退出登录
+    public void LogoutUser(Callback<ResponseData> callback) {
+        asynchronousPost("LogoutUser", null, callback);
+    }
+
     public void LoginUserByThirdParty(ThirdPartyLoginType loginType, String openID,
                                       String PhotoUrl, String UserNickName,
                                       String UserName, Callback<ResponseData> callback) {
-        Device device = DeviceUtil.getDeviceInfo(MDGroundApplication.mInstance);
+        Device device = DeviceUtil.getDeviceInfo(MDGroundApplication.sInstance);
         device.setDeviceToken("abc");   // 信鸽的token, XGPushConfig.getToken(this);
         device.setDeviceID(DeviceUtil.getDeviceId());
 
@@ -235,6 +245,13 @@ public class GlobalRestful extends BaseRestful {
         obj.add("UserAddress", new Gson().toJsonTree(deliveryAddress));
 
         asynchronousPost("SaveUserAddress", obj, callback);
+    }
+
+    public void GetPhotoTemplate(int templateID, Callback<ResponseData> callback) {
+        JsonObject obj = new JsonObject();
+        obj.addProperty("TemplateID", templateID);
+
+        asynchronousPost("GetPhotoTemplate", obj, callback);
     }
 
     public void GetPhotoTemplateList(int typeDescID, Callback<ResponseData> callback) {
