@@ -189,7 +189,7 @@ public class ViewUtils {
                                                 DialogInterface.OnClickListener confirmListener) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setTitle(R.string.tips);
-        builder.setMessage(R.string.if_add_to_my_work);
+        builder.setMessage(message);
 
         if (cancelListener != null) {
             builder.setNegativeButton(R.string.cancel, cancelListener);
