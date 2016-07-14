@@ -10,6 +10,7 @@ import android.widget.SeekBar;
 
 import com.MDGround.HaiLanPrint.R;
 import com.MDGround.HaiLanPrint.activity.base.ToolbarActivity;
+import com.MDGround.HaiLanPrint.activity.magazinealbum.MagazineEditActivity;
 import com.MDGround.HaiLanPrint.activity.selectimage.SelectAlbumWhenEditActivity;
 import com.MDGround.HaiLanPrint.adapter.TemplateImageAdapter;
 import com.MDGround.HaiLanPrint.application.MDGroundApplication;
@@ -38,6 +39,8 @@ public class ArtAlbumEditActivity extends ToolbarActivity<ActivityArtAlbumEditBi
 
     private NotifyDialog mNotifyDialog;
 
+    private AlertDialog mAlertDialog;
+
     @Override
     protected int getContentLayout() {
         return R.layout.activity_art_album_edit;
@@ -45,6 +48,19 @@ public class ArtAlbumEditActivity extends ToolbarActivity<ActivityArtAlbumEditBi
 
     @Override
     protected void initData() {
+        mAlertDialog = ViewUtils.createAlertDialog(this, getString(R.string.if_add_to_my_work),
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        NavUtils.toMainActivity(ArtAlbumEditActivity.this);
+                    }
+                }, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        saveToMyWork();
+                    }
+                });
+
         showImageToGPUImageView(0, SelectImageUtils.sTemplateImage.get(0));
 
         mDataBinding.templateRecyclerView.setHasFixedSize(true);
@@ -60,22 +76,7 @@ public class ArtAlbumEditActivity extends ToolbarActivity<ActivityArtAlbumEditBi
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(ArtAlbumEditActivity.this);
-                builder.setTitle(R.string.tips);
-                builder.setMessage(R.string.if_add_to_my_work);
-                builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        NavUtils.toMainActivity(ArtAlbumEditActivity.this);
-                    }
-                });
-                builder.setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        saveToMyWork();
-                    }
-                });
-                builder.show();
+                mAlertDialog.show();
             }
         });
 
@@ -182,6 +183,11 @@ public class ArtAlbumEditActivity extends ToolbarActivity<ActivityArtAlbumEditBi
 
             showImageToGPUImageView(mCurrentSelectIndex, SelectImageUtils.sTemplateImage.get(mCurrentSelectIndex));
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        mAlertDialog.show();
     }
 
     //region ACTION

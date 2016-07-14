@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/BaoPrint.iml" filepath="$PROJECT_DIR$/BaoPrint.iml" />
       <module fileurl="file://$PROJECT_DIR$/HailanPrint.iml" filepath="$PROJECT_DIR$/HailanPrint.iml" />
       <module fileurl="file://$PROJECT_DIR$/WheelviewLibrary/WheelviewLibrary.iml" filepath="$PROJECT_DIR$/WheelviewLibrary/WheelviewLibrary.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />

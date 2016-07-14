@@ -79,7 +79,7 @@ public class ForgetPasswordActivity extends ToolbarActivity<ActivityForgetPasswo
     protected void initData() {
         mIsChangePassword = getIntent().getBooleanExtra(Constants.KEY_CHANGE_PASSWORD, false);
         if (mIsChangePassword) {
-            tvTitle.setText(R.string.forget_password);
+            tvTitle.setText(R.string.change_password);
             mDataBinding.cetAccount.setEnabled(false);
             mDataBinding.cetAccount.setText(MDGroundApplication.sInstance.getLoginUser().getPhone());
         } else {

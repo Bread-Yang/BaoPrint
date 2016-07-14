@@ -38,6 +38,8 @@ public class LomoCardEditActivity extends ToolbarActivity<ActivityLomoCardEditBi
 
     private NotifyDialog mNotifyDialog;
 
+    private AlertDialog mAlertDialog;
+
     @Override
     protected int getContentLayout() {
         return R.layout.activity_lomo_card_edit;
@@ -45,6 +47,20 @@ public class LomoCardEditActivity extends ToolbarActivity<ActivityLomoCardEditBi
 
     @Override
     protected void initData() {
+        mAlertDialog = ViewUtils.createAlertDialog(this, getString(R.string.if_add_to_my_work),
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        NavUtils.toMainActivity(LomoCardEditActivity.this);
+                    }
+                }, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        saveToMyWork();
+                    }
+                });
+
+
         showImageToGPUImageView(0, SelectImageUtils.sTemplateImage.get(0));
 
         mDataBinding.templateRecyclerView.setHasFixedSize(true);
@@ -60,22 +76,7 @@ public class LomoCardEditActivity extends ToolbarActivity<ActivityLomoCardEditBi
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(LomoCardEditActivity.this);
-                builder.setTitle(R.string.tips);
-                builder.setMessage(R.string.if_add_to_my_work);
-                builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        NavUtils.toMainActivity(LomoCardEditActivity.this);
-                    }
-                });
-                builder.setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        saveToMyWork();
-                    }
-                });
-                builder.show();
+                mAlertDialog.show();
             }
         });
 
@@ -163,7 +164,6 @@ public class LomoCardEditActivity extends ToolbarActivity<ActivityLomoCardEditBi
         MDGroundApplication.sOrderutUtils.uploadImageRequest(this, 0);
     }
 
-
     private void generateOrder() {
         ViewUtils.loading(this);
         // 生成订单
@@ -184,6 +184,11 @@ public class LomoCardEditActivity extends ToolbarActivity<ActivityLomoCardEditBi
 
             showImageToGPUImageView(mCurrentSelectIndex, SelectImageUtils.sTemplateImage.get(mCurrentSelectIndex));
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        mAlertDialog.show();
     }
 
     //region ACTION

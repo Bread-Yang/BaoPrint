@@ -15,6 +15,7 @@ import com.MDGround.HaiLanPrint.greendao.Location;
 import com.MDGround.HaiLanPrint.models.MDImage;
 import com.MDGround.HaiLanPrint.models.User;
 import com.MDGround.HaiLanPrint.utils.GlideUtil;
+import com.MDGround.HaiLanPrint.utils.StringUtil;
 
 /**
  * Created by yoghourt on 5/30/16.
@@ -44,10 +45,10 @@ public class PersonalCenterActivity extends ToolbarActivity<ActivityPersonalCent
         mdImage.setPhotoSID(user.getPhotoSID());
         GlideUtil.loadImageByMDImage(mDataBinding.civAvatar, mdImage, false);
         mDataBinding.tvName.setText(user.getUserNickName());
-        if (user.getPhone() != null) {
-            mDataBinding.tvPhoneNume.setText(user.getPhone());
+        if (!StringUtil.isEmpty(user.getPhone())) {
+            mDataBinding.tvPhoneNum.setText(user.getPhone());
         } else {
-            mDataBinding.tvPhoneNume.setText(R.string.not_bound);
+            mDataBinding.tvPhoneNum.setText(R.string.not_bound);
         }
         Location city = MDGroundApplication.sDaoSession.getLocationDao().load((long) user.getCityID());
         Location county = MDGroundApplication.sDaoSession.getLocationDao().load((long) user.getCountryID());

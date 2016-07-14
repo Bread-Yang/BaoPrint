@@ -21,6 +21,7 @@ import com.google.gson.reflect.TypeToken;
 import com.malinskiy.superrecyclerview.OnMoreListener;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import retrofit2.Call;
@@ -52,6 +53,9 @@ public class CloudDetailActivity extends ToolbarActivity<ActivityCloudDetailBind
     @Override
     protected void onResume() {
         super.onResume();
+
+        mPageIndex = 0;
+        mImagesList.clear();
         loadImageRequest();
     }
 
@@ -243,9 +247,13 @@ public class CloudDetailActivity extends ToolbarActivity<ActivityCloudDetailBind
             @Override
             public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
                 for (MDImage selectImage : selectImages) {
-                    for (MDImage image : mImagesList) {
-                        if (selectImage.getAutoID() == image.getAutoID()) {
-                            mImagesList.remove(image);
+
+                    Iterator<MDImage> iterator = mImagesList.iterator();
+                    while (iterator.hasNext()) {
+                        MDImage item = iterator.next();
+
+                        if (selectImage.getAutoID() == item.getAutoID()) {
+                            iterator.remove();
                             break;
                         }
                     }
@@ -253,7 +261,7 @@ public class CloudDetailActivity extends ToolbarActivity<ActivityCloudDetailBind
 
                 mDataBinding.btnOperation.setText(getString(R.string.delete));
 
-                mImageAdapter.notifyDataSetChanged();
+                mImageAdapter.bindImages(mImagesList);
 
                 ViewUtils.dismiss();
             }

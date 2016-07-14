@@ -60,14 +60,24 @@ public class ChooseDeliveryAddressActivity extends ToolbarActivity<ActivityChoos
         mDataBinding.recyclerView.setAdapter(mAdapter);
         getUserAddressListRequest();
     }
+
     @Override
     protected void setListener() {
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == RESULT_OK) {
+            setResult(RESULT_OK, data);
+            finish();
+        }
+    }
+
     //region ACTION
     public void toAddDeliveryAddressActivityAction(View view) {
         if (Constants.MAX_DELIVERY_ADDRESS - mAddressArrayList.size() > 0) {
             Intent intent = new Intent(this, EditDeliveryAddressActivity.class);
-            startActivity(intent);
+            startActivityForResult(intent, 0);
         }
     }
     //endregion

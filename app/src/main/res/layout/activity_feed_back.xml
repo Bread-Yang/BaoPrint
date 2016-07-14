@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <LinearLayout
@@ -9,9 +10,9 @@
 
         <View style="@style/DividerHorizontalStyle" />
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="190dp"
             android:background="@color/color_white"
             android:paddingBottom="@dimen/margin_30"
             android:paddingLeft="@dimen/margin_12"
@@ -28,11 +29,24 @@
                 android:hint="@string/prompt"
                 android:inputType="textMultiLine"
                 android:minLines="10"
-                android:padding="@dimen/margin_12"
+                android:paddingTop="@dimen/margin_12"
+                android:paddingLeft="@dimen/margin_15"
+                android:paddingRight="@dimen/margin_15"
+                android:paddingBottom="@dimen/margin_16"
+                app:maxInputNum="200"
                 android:scrollbars="vertical"
                 android:textColorHint="#cccccc"
                 android:textSize="@dimen/text_size_16" />
-        </LinearLayout>
+
+            <TextView
+                android:id="@+id/tvCanInputCharactor"
+                style="@style/NormalTextStyle"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginBottom="@dimen/margin_8"
+                android:layout_marginRight="@dimen/margin_8"
+                tools:text="@string/can_input_charactor" />
+        </RelativeLayout>
 
         <TextView
             android:layout_width="@dimen/size_180"

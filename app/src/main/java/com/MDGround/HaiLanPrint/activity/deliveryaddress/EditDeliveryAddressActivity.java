@@ -1,5 +1,6 @@
 package com.MDGround.HaiLanPrint.activity.deliveryaddress;
 
+import android.content.Intent;
 import android.view.View;
 
 import com.MDGround.HaiLanPrint.R;
@@ -29,6 +30,8 @@ public class EditDeliveryAddressActivity extends ToolbarActivity<ActivityEditDel
 
     private RegionPickerDialog mRegionPickerDialog;
 
+    private boolean mIsAddAddress;
+
     @Override
     protected int getContentLayout() {
         return R.layout.activity_edit_delivery_address;
@@ -47,13 +50,15 @@ public class EditDeliveryAddressActivity extends ToolbarActivity<ActivityEditDel
             Location county = MDGroundApplication.sDaoSession.getLocationDao().load(mDeliveryAddress.getDistrictID());
             mDataBinding.tvRegion.setText(province.getLocationName() + city.getLocationName() + county.getLocationName());
         } else {
+            mIsAddAddress = true;
+
             mDeliveryAddress = new DeliveryAddress();
             mDeliveryAddress.setCountryID(86);
             mDeliveryAddress.setProvinceID(110000);
             mDeliveryAddress.setCityID(110100);
             mDeliveryAddress.setDistrictID(110101);
             mDeliveryAddress.setUserID(MDGroundApplication.sInstance.getLoginUser().getUserID());
-            mDataBinding.tvRegion.setText("北京北京市东城区");
+            mDataBinding.tvRegion.setText(R.string.defalut_address);
             tvTitle.setText(R.string.add_address);
         }
     }
@@ -112,6 +117,12 @@ public class EditDeliveryAddressActivity extends ToolbarActivity<ActivityEditDel
             @Override
             public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
                 ViewUtils.dismiss();
+
+                DeliveryAddress newDeliveryAddress = response.body().getContent(DeliveryAddress.class);
+
+                Intent intent = new Intent();
+                intent.putExtra(Constants.KEY_DELIVERY_ADDRESS, newDeliveryAddress);
+                setResult(RESULT_OK, intent);
                 finish();
             }
 

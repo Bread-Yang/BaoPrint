@@ -1,5 +1,7 @@
 package com.MDGround.HaiLanPrint.activity.personalcenter;
 
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 
 import com.MDGround.HaiLanPrint.R;
@@ -20,6 +22,7 @@ import retrofit2.Response;
  */
 
 public class FeedBackActivity extends ToolbarActivity<ActivityFeedBackBinding> {
+
     @Override
     protected int getContentLayout() {
         return R.layout.activity_feed_back;
@@ -27,16 +30,36 @@ public class FeedBackActivity extends ToolbarActivity<ActivityFeedBackBinding> {
 
     @Override
     protected void initData() {
-
+        mDataBinding.tvCanInputCharactor.setText(getString(R.string.can_input_charactor, 200));
     }
 
     @Override
     protected void setListener() {
+        mDataBinding.etContext.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                int charactorNum = 200 - s.toString().length();
+                if (charactorNum < 0) {
+                    charactorNum = 0;
+                }
+                mDataBinding.tvCanInputCharactor.setText(getString(R.string.can_input_charactor, charactorNum));
+            }
+        });
     }
 
     //region ACTION
     public void toSumbit(View view) {
+
         String suggestion = mDataBinding.etContext.getText().toString();
         String phone = MDGroundApplication.sInstance.getLoginUser().getPhone();
         ViewUtils.loading(this);

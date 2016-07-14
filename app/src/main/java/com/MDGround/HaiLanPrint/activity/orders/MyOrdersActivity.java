@@ -181,15 +181,15 @@ public class MyOrdersActivity extends ToolbarActivity<ActivityMyOrdersBinding> {
 
                         mOrderWorkArrayList.addAll(order.getOrderWorkList());
                     }
-
-                    if (mOrderWorkArrayList.size() > 0) {
-                        mDataBinding.tvEmptyTips.setVisibility(View.GONE);
-                        mDataBinding.recyclerView.setVisibility(View.VISIBLE);
-                    } else {
-                        mDataBinding.tvEmptyTips.setVisibility(View.VISIBLE);
-                        mDataBinding.recyclerView.setVisibility(View.GONE);
-                    }
                 }
+                if (mOrderWorkArrayList.size() > 0) {
+                    mDataBinding.tvEmptyTips.setVisibility(View.GONE);
+                    mDataBinding.recyclerView.setVisibility(View.VISIBLE);
+                } else {
+                    mDataBinding.tvEmptyTips.setVisibility(View.VISIBLE);
+                    mDataBinding.recyclerView.setVisibility(View.GONE);
+                }
+
                 mAdapter.notifyDataSetChanged();
 
                 mDataBinding.recyclerView.hideMoreProgress();

@@ -94,6 +94,20 @@ public class PictureFrameEditActivity extends ToolbarActivity<ActivityPictureFra
                         StringUtil.toYuanWithoutUnit(mPrice)));
             }
         });
+
+        mDataBinding.rgStyle.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                switch (checkedId) {
+                    case R.id.rbLandscape:
+                        GlideUtil.loadImageByMDImage(mDataBinding.ivTemplate, SelectImageUtils.sTemplateImage.get(0), false);
+                        break;
+                    case R.id.rbPortrait:
+                        GlideUtil.loadImageRotated(mDataBinding.ivTemplate, SelectImageUtils.sTemplateImage.get(0), 90);
+                        break;
+                }
+            }
+        });
     }
 
     private void showImageToGPUImageView() {

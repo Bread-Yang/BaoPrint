@@ -5,6 +5,7 @@ import android.widget.ImageView;
 
 import com.MDGround.HaiLanPrint.R;
 import com.MDGround.HaiLanPrint.application.MDGroundApplication;
+import com.MDGround.HaiLanPrint.glide.transformation.RotateTransformation;
 import com.MDGround.HaiLanPrint.models.MDImage;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -23,28 +24,8 @@ public class GlideUtil {
 
     public static void loadImageByMDImage(ImageView imageView, MDImage mdImage, boolean showPlaceHolder) {
 
-//        if (mdImage.getImageLocalPath() != null && mdImage.getImageLocalPath().contains("storage")) {
-//            // 加载本地图片
-//            Glide.with(MDGroundApplication.mInstance)
-//                    .load(Uri.fromFile(new File(mdImage.getImageLocalPath())))
-//                    .centerCrop()
-//                    .placeholder(R.drawable.layerlist_image_placeholder)
-//                    .error(R.drawable.layerlist_image_placeholder)
-//                    .dontAnimate()
-//                    .into(imageView);
-//        } else {
-//            // 加载网络图片
-//            Glide.with(MDGroundApplication.mInstance)
-//                    .load(mdImage)
-//                    .centerCrop()
-//                    .placeholder(R.drawable.layerlist_image_placeholder)
-//                    .error(R.drawable.layerlist_image_placeholder)
-//                    .dontAnimate()
-//                    .into(imageView);
-//        }
-
         if (mdImage != null) {
-            File cacheFile = Glide.getPhotoCacheDir(MDGroundApplication.sInstance);
+//            File cacheFile = Glide.getPhotoCacheDir(MDGroundApplication.sInstance);
 //            KLog.e(" cacheFile : " + cacheFile.getPath());
 //            KLog.e("cacheFolder size : " + getFileSize(cacheFile));
 
@@ -56,6 +37,18 @@ public class GlideUtil {
                     .dontAnimate()
                     .into(imageView);
 
+        }
+    }
+
+    public static void loadImageRotated(ImageView imageView, MDImage mdImage, float rotateAngle) {
+        if (mdImage != null) {
+            Glide.with(MDGroundApplication.sInstance)
+                    .load(mdImage)
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .error(R.drawable.layerlist_image_placeholder)
+                    .dontAnimate()
+                    .transform(new RotateTransformation(imageView.getContext(), rotateAngle))
+                    .into(imageView);
         }
     }
 

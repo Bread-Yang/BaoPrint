@@ -1,9 +1,11 @@
 package com.MDGround.HaiLanPrint.utils;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.ClipboardManager;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -180,5 +182,23 @@ public class ViewUtils {
         drawable.draw(canvas);
 
         return bitmap;
+    }
+
+    public static AlertDialog createAlertDialog(Context context, String message,
+                                                DialogInterface.OnClickListener cancelListener,
+                                                DialogInterface.OnClickListener confirmListener) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle(R.string.tips);
+        builder.setMessage(R.string.if_add_to_my_work);
+
+        if (cancelListener != null) {
+            builder.setNegativeButton(R.string.cancel, cancelListener);
+        }
+
+        if (confirmListener != null) {
+            builder.setPositiveButton(R.string.confirm, confirmListener);
+        }
+
+        return builder.create();
     }
 }

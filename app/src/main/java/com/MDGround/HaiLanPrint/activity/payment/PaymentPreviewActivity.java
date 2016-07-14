@@ -1,5 +1,7 @@
 package com.MDGround.HaiLanPrint.activity.payment;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.support.v7.widget.LinearLayoutManager;
@@ -10,7 +12,6 @@ import android.view.ViewGroup;
 import android.widget.CompoundButton;
 import android.widget.RadioGroup;
 
-import com.MDGround.HaiLanPrint.enumobject.ProductType;
 import com.MDGround.HaiLanPrint.R;
 import com.MDGround.HaiLanPrint.activity.base.ToolbarActivity;
 import com.MDGround.HaiLanPrint.activity.coupon.ChooseCouponActivity;
@@ -21,6 +22,7 @@ import com.MDGround.HaiLanPrint.databinding.ActivityPaymentPreviewBinding;
 import com.MDGround.HaiLanPrint.databinding.ItemPaymentPreviewBinding;
 import com.MDGround.HaiLanPrint.enumobject.PayType;
 import com.MDGround.HaiLanPrint.enumobject.ProductMaterial;
+import com.MDGround.HaiLanPrint.enumobject.ProductType;
 import com.MDGround.HaiLanPrint.enumobject.SettingType;
 import com.MDGround.HaiLanPrint.models.Coupon;
 import com.MDGround.HaiLanPrint.models.DeliveryAddress;
@@ -67,6 +69,8 @@ public class PaymentPreviewActivity extends ToolbarActivity<ActivityPaymentPrevi
 
     private Coupon mSelectedCoupon;
 
+    private AlertDialog mAlertDialog;
+
     private int mUnitFee, mAmountFee, mCredit, mReceivableFee, mFreightFee;
 
     private boolean mHadChangedOrderCount;
@@ -86,6 +90,23 @@ public class PaymentPreviewActivity extends ToolbarActivity<ActivityPaymentPrevi
 
     @Override
     protected void initData() {
+        mAlertDialog = ViewUtils.createAlertDialog(this, getString(R.string.within_12_hours_refund),
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        
+                    }
+                }, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if (mHadChangedOrderCount) {
+                            saveOrderWorkRequest(0);
+                        } else {
+                            updateOrderPrepay();
+                        }
+                    }
+                });
+
         mOrderWorkArrayList = MDGroundApplication.sOrderutUtils.mOrderWorkArrayList;
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
@@ -278,11 +299,7 @@ public class PaymentPreviewActivity extends ToolbarActivity<ActivityPaymentPrevi
             return;
         }
 
-        if (mHadChangedOrderCount) {
-            saveOrderWorkRequest(0);
-        } else {
-            updateOrderPrepay();
-        }
+        mAlertDialog.show();
     }
 
     public void itemMinusNumAction(View view) {

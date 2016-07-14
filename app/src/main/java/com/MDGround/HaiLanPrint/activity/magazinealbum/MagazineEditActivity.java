@@ -38,6 +38,8 @@ public class MagazineEditActivity extends ToolbarActivity<ActivityMagazineEditBi
 
     private NotifyDialog mNotifyDialog;
 
+    private AlertDialog mAlertDialog;
+
     @Override
     protected int getContentLayout() {
         return R.layout.activity_magazine_edit;
@@ -45,6 +47,19 @@ public class MagazineEditActivity extends ToolbarActivity<ActivityMagazineEditBi
 
     @Override
     protected void initData() {
+        mAlertDialog = ViewUtils.createAlertDialog(this, getString(R.string.if_add_to_my_work),
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        NavUtils.toMainActivity(MagazineEditActivity.this);
+                    }
+                }, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        saveToMyWork();
+                    }
+                });
+
         showImageToGPUImageView(0, SelectImageUtils.sTemplateImage.get(0));
 
         mDataBinding.templateRecyclerView.setHasFixedSize(true);
@@ -60,22 +75,7 @@ public class MagazineEditActivity extends ToolbarActivity<ActivityMagazineEditBi
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(MagazineEditActivity.this);
-                builder.setTitle(R.string.tips);
-                builder.setMessage(R.string.if_add_to_my_work);
-                builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        NavUtils.toMainActivity(MagazineEditActivity.this);
-                    }
-                });
-                builder.setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        saveToMyWork();
-                    }
-                });
-                builder.show();
+                mAlertDialog.show();
             }
         });
 
@@ -129,6 +129,25 @@ public class MagazineEditActivity extends ToolbarActivity<ActivityMagazineEditBi
         });
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == RESULT_OK) {
+            MDImage newMDImage = data.getParcelableExtra(Constants.KEY_SELECT_IMAGE);
+            MDImage oldMDImage = SelectImageUtils.sAlreadySelectImage.get(mCurrentSelectIndex);
+
+            newMDImage.setWorkPhoto(oldMDImage.getWorkPhoto());
+
+            SelectImageUtils.sAlreadySelectImage.set(mCurrentSelectIndex, newMDImage);
+
+            showImageToGPUImageView(mCurrentSelectIndex, SelectImageUtils.sTemplateImage.get(mCurrentSelectIndex));
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        mAlertDialog.show();
+    }
+
     private void showImageToGPUImageView(final int position, MDImage mdImage) {
         mCurrentSelectIndex = position;
 
@@ -168,20 +187,6 @@ public class MagazineEditActivity extends ToolbarActivity<ActivityMagazineEditBi
         MDGroundApplication.sOrderutUtils = new OrderUtils(this, false,
                 1, MDGroundApplication.sInstance.getChoosedTemplate().getPrice());
         MDGroundApplication.sOrderutUtils.uploadImageRequest(this, 0);
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode == RESULT_OK) {
-            MDImage newMDImage = data.getParcelableExtra(Constants.KEY_SELECT_IMAGE);
-            MDImage oldMDImage = SelectImageUtils.sAlreadySelectImage.get(mCurrentSelectIndex);
-
-            newMDImage.setWorkPhoto(oldMDImage.getWorkPhoto());
-
-            SelectImageUtils.sAlreadySelectImage.set(mCurrentSelectIndex, newMDImage);
-
-            showImageToGPUImageView(mCurrentSelectIndex, SelectImageUtils.sTemplateImage.get(mCurrentSelectIndex));
-        }
     }
 
     //region ACTION

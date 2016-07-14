@@ -108,7 +108,7 @@
                         <TextView
                             android:id="@+id/tvNum"
                             android:layout_width="wrap_content"
-                            android:text="@{@string/num_with_colon(workInfo.photoCount)}"
+                            android:text="@{@string/page_num(workInfo.photoCount)}"
                             android:layout_height="wrap_content"
                             android:layout_below="@id/tv_worksname"
                             android:layout_marginTop="@dimen/margin_10"

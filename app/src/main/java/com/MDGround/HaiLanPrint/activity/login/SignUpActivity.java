@@ -142,7 +142,6 @@ public class SignUpActivity extends ToolbarActivity<ActivitySignUpBinding> {
         });
     }
 
-
     public void nextStepAction(View view) {
         final String phone = mDataBinding.cetAccount.getText().toString();
 

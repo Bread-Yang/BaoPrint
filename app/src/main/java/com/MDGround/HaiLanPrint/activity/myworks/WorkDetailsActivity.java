@@ -64,7 +64,7 @@ public class WorkDetailsActivity extends ToolbarActivity<ActivityWorksDetailsBin
         getPhotoTemplateRequest();
 
         GlideUtil.loadImageByPhotoSID(mDataBinding.ivImage, mWorkInfo.getPhotoCover(), true);
-        mDataBinding.tvWorksname.setText(String.valueOf(mWorkInfo.getTypeName()));
+        mDataBinding.tvWorksname.setText(StringUtil.getProductName(mWorkInfo));
         mDataBinding.tvWorksPice.setText(getString(R.string.rmb) + String.valueOf(StringUtil.toYuanWithoutUnit(mWorkInfo.getPrice())));
 
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -76,7 +76,7 @@ public class WorkDetailsActivity extends ToolbarActivity<ActivityWorksDetailsBin
         }
         String recentlyDate = DateUtils.getDateStringBySpecificFormat(date, new SimpleDateFormat("yyyy-MM-dd"));
         mDataBinding.tvRecentlyEdited.setText(getString(R.string.recently_edit) + " " + recentlyDate);
-        mDataBinding.tvPage.setText(getString(R.string.page_num_) + " " + mWorkInfo.getPhotoCount() + getString(R.string.letter_P));
+        mDataBinding.tvPage.setText(getString(R.string.page_num, mWorkInfo.getPhotoCount()));
         mDataBinding.tvTemplate.setText(getString(R.string.template_name_) + " " + mWorkInfo.getTypeName());
     }
 

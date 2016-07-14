@@ -33,10 +33,10 @@ public class ChooseImageListAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
     private Context mContext;
 
-    private boolean showCamera = false;
-    private boolean enablePreview = false;
+    private boolean mShowCamera = false;
+    private boolean mEnablePreview = false;
     private int mMaxSelectNum = Integer.MAX_VALUE;
-    private int selectMode = MODE_MULTIPLE;
+    private int mSelectMode = MODE_MULTIPLE;
     private boolean mIsSelectable = false;
     private boolean mIsShareble = false;
 
@@ -97,7 +97,7 @@ public class ChooseImageListAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
     @Override
     public int getItemViewType(int position) {
-        if (showCamera && position == 0) {
+        if (mShowCamera && position == 0) {
             return TYPE_CAMERA;
         } else {
             return TYPE_PICTURE;
@@ -129,17 +129,17 @@ public class ChooseImageListAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             });
         } else {
             final ViewHolder contentHolder = (ViewHolder) holder;
-            final MDImage mdImage = mImages.get(showCamera ? position - 1 : position);
+            final MDImage mdImage = mImages.get(mShowCamera ? position - 1 : position);
 
             GlideUtil.loadImageByMDImage(contentHolder.ivImage, mdImage, true);
 
-            if (selectMode == MODE_SINGLE) {
+            if (mSelectMode == MODE_SINGLE) {
                 contentHolder.ivCheck.setVisibility(View.GONE);
             }
 
             selectImage(contentHolder, isSelected(mdImage));
 
-            if (enablePreview) {
+            if (mEnablePreview) {
                 contentHolder.ivCheck.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -151,8 +151,8 @@ public class ChooseImageListAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             contentHolder.contentView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if ((selectMode == MODE_SINGLE || enablePreview) && imageSelectChangedListener != null) {
-                        imageSelectChangedListener.onPictureClick(mdImage, showCamera ? position - 1 : position);
+                    if ((mSelectMode == MODE_SINGLE || mEnablePreview) && imageSelectChangedListener != null) {
+                        imageSelectChangedListener.onPictureClick(mdImage, mShowCamera ? position - 1 : position);
                     } else {
                         if (mIsSelectable) {
                             changeCheckboxState(contentHolder, mdImage);
@@ -201,7 +201,7 @@ public class ChooseImageListAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
     @Override
     public int getItemCount() {
-        return showCamera ? mImages.size() + 1 : mImages.size();
+        return mShowCamera ? mImages.size() + 1 : mImages.size();
     }
 
     private void changeCheckboxState(ViewHolder contentHolder, MDImage image) {

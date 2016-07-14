@@ -9,13 +9,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.MDGround.HaiLanPrint.enumobject.ProductType;
 import com.MDGround.HaiLanPrint.R;
 import com.MDGround.HaiLanPrint.activity.base.ToolbarActivity;
 import com.MDGround.HaiLanPrint.application.MDGroundApplication;
 import com.MDGround.HaiLanPrint.constants.Constants;
 import com.MDGround.HaiLanPrint.databinding.ActivityMyWorksBinding;
-import com.MDGround.HaiLanPrint.databinding.ItemMyworksBinding;
+import com.MDGround.HaiLanPrint.databinding.ItemMyWorksBinding;
+import com.MDGround.HaiLanPrint.enumobject.ProductType;
 import com.MDGround.HaiLanPrint.enumobject.restfuls.ResponseCode;
 import com.MDGround.HaiLanPrint.models.OrderInfo;
 import com.MDGround.HaiLanPrint.models.OrderWork;
@@ -382,7 +382,7 @@ public class MyWorksActivity extends ToolbarActivity<ActivityMyWorksBinding> {
 
         @Override
         public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_myworks, parent, false);
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_my_works, parent, false);
             ViewHolder viewHolder = new ViewHolder(view);
             return viewHolder;
         }
@@ -390,32 +390,32 @@ public class MyWorksActivity extends ToolbarActivity<ActivityMyWorksBinding> {
         @Override
         public void onBindViewHolder(ViewHolder holder, int position) {
             WorkInfo workInfo = mAllWorkInfoList.get(position);
-            holder.itemMyworksBinding.setWorkInfo(workInfo);
-            holder.itemMyworksBinding.tvWorksPice.setText(StringUtil.toYuanWithoutUnit(workInfo.getPrice()));
+            holder.itemMyWorksBinding.setWorkInfo(workInfo);
+            holder.itemMyWorksBinding.tvWorksPice.setText(StringUtil.toYuanWithoutUnit(workInfo.getPrice()));
             if (isShowHeader(position)) {
-                holder.itemMyworksBinding.rltHeader.setVisibility(View.VISIBLE);
+                holder.itemMyWorksBinding.rltHeader.setVisibility(View.VISIBLE);
                 if (mFlag) {
                     mFlag = false;
-                    holder.itemMyworksBinding.ivHeaderBack.setImageResource(R.drawable.bg_work_onehedr);
+                    holder.itemMyWorksBinding.ivHeaderBack.setImageResource(R.drawable.bg_work_onehedr);
                 } else {
                     mFlag = true;
-                    holder.itemMyworksBinding.ivHeaderBack.setImageResource(R.drawable.bg_work_twoheader);
+                    holder.itemMyWorksBinding.ivHeaderBack.setImageResource(R.drawable.bg_work_twoheader);
                 }
             } else {
-                holder.itemMyworksBinding.rltHeader.setVisibility(View.GONE);
+                holder.itemMyWorksBinding.rltHeader.setVisibility(View.GONE);
             }
-            holder.itemMyworksBinding.cbItem.setChecked(false);
+            holder.itemMyWorksBinding.cbItem.setChecked(false);
             for (WorkInfo item : mSelectedWorkInfoList) {
                 if (item.getWorkID() == workInfo.getWorkID()) {
-                    holder.itemMyworksBinding.cbItem.setChecked(true);
+                    holder.itemMyWorksBinding.cbItem.setChecked(true);
                     break;
                 }
             }
 
-            holder.itemMyworksBinding.cbHeader.setChecked(false);
+            holder.itemMyWorksBinding.cbHeader.setChecked(false);
             if (isShowHeader(position)) {
                 if (hadSelectAllOfSpecificTypeIDWork(workInfo)) {
-                    holder.itemMyworksBinding.cbHeader.setChecked(true);
+                    holder.itemMyWorksBinding.cbHeader.setChecked(true);
                 }
             }
         }
@@ -440,30 +440,30 @@ public class MyWorksActivity extends ToolbarActivity<ActivityMyWorksBinding> {
 
         class ViewHolder extends RecyclerView.ViewHolder {
 
-            public ItemMyworksBinding itemMyworksBinding;
+            public ItemMyWorksBinding itemMyWorksBinding;
 
             public ViewHolder(final View itemView) {
                 super(itemView);
-                itemMyworksBinding = DataBindingUtil.bind(itemView);
+                itemMyWorksBinding = DataBindingUtil.bind(itemView);
 
-                itemMyworksBinding.cbHeader.setOnClickListener(new View.OnClickListener() {
+                itemMyWorksBinding.cbHeader.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         WorkInfo workInfo = mAllWorkInfoList.get(getAdapterPosition());
 
-                        selectGroupWorks(workInfo, itemMyworksBinding.cbHeader.isChecked());
+                        selectGroupWorks(workInfo, itemMyWorksBinding.cbHeader.isChecked());
                     }
                 });
 
-                itemMyworksBinding.cbItem.setOnClickListener(new View.OnClickListener() {
+                itemMyWorksBinding.cbItem.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         WorkInfo workInfo = mAllWorkInfoList.get(getAdapterPosition());
 
-                        selectSingleWork(workInfo, itemMyworksBinding.cbItem.isChecked());
+                        selectSingleWork(workInfo, itemMyWorksBinding.cbItem.isChecked());
                     }
                 });
-                itemMyworksBinding.lltDetails.setOnClickListener(new View.OnClickListener() {
+                itemMyWorksBinding.lltDetails.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         WorkInfo workInfo = mAllWorkInfoList.get(getAdapterPosition());

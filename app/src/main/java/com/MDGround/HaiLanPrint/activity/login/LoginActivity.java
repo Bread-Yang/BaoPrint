@@ -57,6 +57,17 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
+    private void saveUserAndToMainActivity(User user) {
+        MDGroundApplication.sInstance.setLoginUser(user);
+        if (mDataBinding.cbAutoLogin.isChecked()) {
+            FileUtils.setObject(Constants.KEY_ALREADY_LOGIN_USER, user);
+            DeviceUtil.setDeviceId(user.getDeviceID());
+        }
+        ViewUtils.dismiss();
+        NavUtils.toMainActivity(LoginActivity.this);
+        finish();
+    }
+
     //region ACTION
     public void loginAction(View view) {
         String phone = mDataBinding.cetAccount.getText().toString();
@@ -257,16 +268,5 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
     //endregion
-
-    private void saveUserAndToMainActivity(User user) {
-        MDGroundApplication.sInstance.setLoginUser(user);
-        if (mDataBinding.cbAutoLogin.isChecked()) {
-            FileUtils.setObject(Constants.KEY_ALREADY_LOGIN_USER, user);
-            DeviceUtil.setDeviceId(user.getDeviceID());
-        }
-        ViewUtils.dismiss();
-        NavUtils.toMainActivity(LoginActivity.this);
-        finish();
-    }
 }
 

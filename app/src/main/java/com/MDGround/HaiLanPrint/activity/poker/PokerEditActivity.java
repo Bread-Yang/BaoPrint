@@ -38,6 +38,8 @@ public class PokerEditActivity extends ToolbarActivity<ActivityPokerEditBinding>
 
     private NotifyDialog mNotifyDialog;
 
+    private AlertDialog mAlertDialog;
+
     @Override
     protected int getContentLayout() {
         return R.layout.activity_poker_edit;
@@ -45,6 +47,19 @@ public class PokerEditActivity extends ToolbarActivity<ActivityPokerEditBinding>
 
     @Override
     protected void initData() {
+        mAlertDialog = ViewUtils.createAlertDialog(this, getString(R.string.if_add_to_my_work),
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        NavUtils.toMainActivity(PokerEditActivity.this);
+                    }
+                }, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        saveToMyWork();
+                    }
+                });
+
         showImageToGPUImageView(0, SelectImageUtils.sTemplateImage.get(0));
 
         mDataBinding.templateRecyclerView.setHasFixedSize(true);
@@ -60,22 +75,7 @@ public class PokerEditActivity extends ToolbarActivity<ActivityPokerEditBinding>
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(PokerEditActivity.this);
-                builder.setTitle(R.string.tips);
-                builder.setMessage(R.string.if_add_to_my_work);
-                builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        NavUtils.toMainActivity(PokerEditActivity.this);
-                    }
-                });
-                builder.setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        saveToMyWork();
-                    }
-                });
-                builder.show();
+                mAlertDialog.show();
             }
         });
 
@@ -161,7 +161,6 @@ public class PokerEditActivity extends ToolbarActivity<ActivityPokerEditBinding>
         MDGroundApplication.sOrderutUtils.uploadImageRequest(this, 0);
     }
 
-
     private void generateOrder() {
         ViewUtils.loading(this);
         // 生成订单
@@ -182,6 +181,11 @@ public class PokerEditActivity extends ToolbarActivity<ActivityPokerEditBinding>
 
             showImageToGPUImageView(mCurrentSelectIndex, SelectImageUtils.sTemplateImage.get(mCurrentSelectIndex));
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        mAlertDialog.show();
     }
 
     //region ACTION
