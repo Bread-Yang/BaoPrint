@@ -6,7 +6,7 @@
 
         <variable
             name="user"
-            type="com.MDGround.HaiLanPrint.models.User"/>
+            type="com.MDGround.HaiLanPrint.models.User" />
     </data>
 
     <LinearLayout
@@ -16,18 +16,37 @@
         android:focusableInTouchMode="true"
         android:orientation="vertical">
 
-        <LinearLayout
+        <RelativeLayout
+            android:id="@+id/rltOptionalTitle"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_height="@dimen/size_44"
+            android:layout_below="@+id/lltRequired">
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/size_44"
                 android:gravity="center_vertical"
-                android:paddingLeft="@dimen/margin_16"
-                android:paddingRight="@dimen/margin_16"
-                android:text="@string/child_information_one" />
+                android:paddingLeft="@dimen/margin_10"
+                android:text="@string/optional_information" />
+
+            <ImageView
+                android:id="@+id/ivCollapse"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/margin_8"
+                android:src="@drawable/icon_more" />
+        </RelativeLayout>
+
+        <View style="@style/DividerHorizontalStyle" />
+
+        <LinearLayout
+            android:id="@+id/lltOptional"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:visibility="gone">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -47,7 +66,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/margin_10"
-                    android:text="@string/nickname"
+                    android:text="@string/name"
                     android:textColor="@color/color_333333"
                     android:textSize="@dimen/text_size_16" />
 
@@ -62,13 +81,13 @@
                     android:layout_height="match_parent"
                     android:background="@null"
                     android:gravity="center_vertical|right"
-                    android:hint="@string/input_nickname"
+                    android:hint="@string/input_name"
                     android:singleLine="true"
                     android:text="@{user.KidName1}"
                     android:textSize="@dimen/text_size_16" />
             </LinearLayout>
 
-            <View style="@style/DividerHorizontalMarginSytle"/>
+            <View style="@style/DividerHorizontalMarginSytle" />
 
             <LinearLayout
                 android:id="@+id/ll_childDO"
@@ -191,20 +210,13 @@
                     android:text="@{user.KidClass1}"
                     android:textSize="@dimen/text_size_16" />
             </LinearLayout>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/size_44"
                 android:gravity="center_vertical"
                 android:paddingLeft="@dimen/margin_16"
-                android:paddingRight="@dimen/margin_16"
-                android:text="@string/child_information_two" />
+                android:paddingRight="@dimen/margin_16" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -224,7 +236,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/margin_10"
-                    android:text="@string/nickname"
+                    android:text="@string/name"
                     android:textColor="@color/color_333333"
                     android:textSize="@dimen/text_size_16" />
 
@@ -239,7 +251,7 @@
                     android:layout_height="match_parent"
                     android:background="@null"
                     android:gravity="center_vertical|right"
-                    android:hint="@string/input_nickname"
+                    android:hint="@string/input_name"
                     android:singleLine="true"
                     android:text="@{user.KidName2}"
                     android:textSize="@dimen/text_size_16" />

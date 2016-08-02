@@ -306,6 +306,13 @@ public class GlobalRestful extends BaseRestful {
         asynchronousPost("UpdateOrderPrepay", obj, callback);
     }
 
+    public void GetOrderInfo(int orderId, Callback<ResponseData> callback) {
+        JsonObject obj = new JsonObject();
+        obj.addProperty("OrderID", orderId);
+
+        asynchronousPost("GetOrderInfo", obj, callback);
+    }
+
     // 确认收货接口
     public void UpdateOrderFinished(int orderID, Callback<ResponseData> callback) {
         JsonObject obj = new JsonObject();

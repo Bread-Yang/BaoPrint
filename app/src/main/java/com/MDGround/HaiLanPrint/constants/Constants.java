@@ -22,11 +22,22 @@ public final class Constants {
     public static final String DATABASE_NAME = "mdground";
     //照片储存文件夹
     public static final String PHOTO_FILE = "/baoprint";
+
     // 短信接口参数
     public static final String SMS_APP_KEY = "1454d339909d2";
     public static final String SMS_APP_SECRECT = "93d5e19b5af1eb7e3da0e9c1f619d2f7";
 
     public static final String KEY_IS_FIRST_LAUNCH = "key_is_first_launch";
+
+    // 支付宝
+    // 商户PID
+    public static final String PARTNER = "2088001485268815";
+    // 商户收款账号
+    public static final String SELLER = "2088001485268815";
+    // 商户私钥，pkcs8格式
+    public static final String RSA_PRIVATE = "MIICdQIBADANBgkqhkiG9w0BAQEFAASCAl8wggJbAgEAAoGBAOpoaDusZHhV4hCmFNhjsiG398/6s1aZpQ5tbkrLcNLrJu511lpBqSS5t8tyqQv6npSpecumFrT/OPeDV5mRd1/JOnpnDrkmrcLrmanTxZXl9sVwQYCkXRhmRlj4Q41kQqWfqKnAep8OuGjKqs0LBEahaUzIRR7Z3atR7A4mBKx5AgMBAAECgYBnxJh/8iz36G0PGbaYpGmy65HUjBLf/1xGKsNscOsdM+QkJB4kDnUmQODQO44CM4wIG45DTN84eNNrHsWkwfSppad5agHxkz5ASjUZy2VnWuw4F1NVn6yoCCftgZ/E1nIUjrAFaUS+f5q0k9zVnQew8Efnn9FsMdGZk9gVJ8MeQQJBAPo+ZZ8d8DPNFw2V6hffk/nN7GWdjbO8LqKgrt6duH6sPQSj5zfyXWJIAs6bMI2rrvQYtxTEGazFeUK+xvmujN0CQQDvzMH/2syk8jerbG+kwGStVj8xAxAISrk5tjQXxA7wU7Vd860G3zowFN/6tRCPlRt4t3kCGS4XMgCG0JUkkaZNAkAoZ+bUuGrOknEEeo5f6HPmQ//FsJjuypXlIHjb7S+bFIiNtUFiYTn+4o3BeoFufqgzNcJqEffrU79urYtHSY3pAkBqUN2yEc+pUbpcxja5VJNORm69zB3Pj1GPxLhT0RjOdE502RRdd5rUtmyXOq+c+P61BqMfywokPob9PnzhObIBAkBEQVyk22guhYNqHu4AVnVaOeMWv2QUjaJ143ZdgafGqlL/e0gVVdxOGu9YVMDcao3PRRhuVAIuSgXMFP6nxgJR";
+    // 支付宝公钥
+    public static final String RSA_PUBLIC = "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDqaGg7rGR4VeIQphTYY7Iht/fP+rNWmaUObW5Ky3DS6ybuddZaQakkubfLcqkL+p6UqXnLpha0/zj3g1eZkXdfyTp6Zw65Jq3C65mp08WV5fbFcEGApF0YZkZY+EONZEKln6ipwHqfDrhoyqrNCwRGoWlMyEUe2d2rUewOJgSseQIDAQAB";
 
     // application
     public static final String KEY_ALREADY_LOGIN_USER = "key_already_login_user";

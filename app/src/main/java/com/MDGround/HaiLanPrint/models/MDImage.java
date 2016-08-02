@@ -7,6 +7,8 @@ import android.os.Parcelable;
 
 import com.MDGround.HaiLanPrint.BR;
 
+import java.util.List;
+
 /**
  * Created by yoghourt on 5/12/16.
  */
@@ -34,16 +36,14 @@ public class MDImage extends BaseObservable implements Parcelable {
 
     private WorkPhoto workPhoto;
 
+    private List<PhotoTemplateAttachFrame> PhotoTemplateAttachFrameList;
+
     public MDImage() {}
 
     public MDImage(String imageLocalPath, long lastUpdateAt, long duration) {
         this.imageLocalPath = imageLocalPath;
         this.duration = duration;
         this.lastUpdateAt = lastUpdateAt;
-    }
-
-    public boolean hasPhotoSID() {
-        return PhotoSID != 0;
     }
 
     protected MDImage(Parcel in) {
@@ -57,6 +57,7 @@ public class MDImage extends BaseObservable implements Parcelable {
         imageLocalPath = in.readString();
         duration = in.readLong();
         lastUpdateAt = in.readLong();
+        PhotoTemplateAttachFrameList = in.createTypedArrayList(PhotoTemplateAttachFrame.CREATOR);
     }
 
     public static final Creator<MDImage> CREATOR = new Creator<MDImage>() {
@@ -71,23 +72,8 @@ public class MDImage extends BaseObservable implements Parcelable {
         }
     };
 
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(AutoID);
-        dest.writeInt(PhotoID);
-        dest.writeString(PhotoName);
-        dest.writeInt(PhotoSID);
-        dest.writeInt(PhotoCount);
-        dest.writeInt(UserID);
-        dest.writeByte((byte) (Shared ? 1 : 0));
-        dest.writeString(imageLocalPath);
-        dest.writeLong(duration);
-        dest.writeLong(lastUpdateAt);
+    public boolean hasPhotoSID() {
+        return PhotoSID != 0;
     }
 
     public int getAutoID() {
@@ -178,5 +164,33 @@ public class MDImage extends BaseObservable implements Parcelable {
 
     public void setWorkPhoto(WorkPhoto workPhoto) {
         this.workPhoto = workPhoto;
+    }
+
+    public List<PhotoTemplateAttachFrame> getPhotoTemplateAttachFrameList() {
+        return PhotoTemplateAttachFrameList;
+    }
+
+    public void setPhotoTemplateAttachFrameList(List<PhotoTemplateAttachFrame> photoTemplateAttachFrameList) {
+        PhotoTemplateAttachFrameList = photoTemplateAttachFrameList;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(AutoID);
+        dest.writeInt(PhotoID);
+        dest.writeString(PhotoName);
+        dest.writeInt(PhotoSID);
+        dest.writeInt(PhotoCount);
+        dest.writeInt(UserID);
+        dest.writeByte((byte) (Shared ? 1 : 0));
+        dest.writeString(imageLocalPath);
+        dest.writeLong(duration);
+        dest.writeLong(lastUpdateAt);
+        dest.writeTypedList(PhotoTemplateAttachFrameList);
     }
 }

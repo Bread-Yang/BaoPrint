@@ -6,7 +6,8 @@ package com.MDGround.HaiLanPrint.enumobject;
 public enum SettingType {
 
     GetIntegralAmount(1),     // 消费1元获得积分数
-    PayIntegralAmount(2);     // 1积分可抵现现金数
+    PayIntegralAmount(2),     // 1积分可抵现现金数
+    DeliveryFee(3);           // 运费
 
     private int value;
 

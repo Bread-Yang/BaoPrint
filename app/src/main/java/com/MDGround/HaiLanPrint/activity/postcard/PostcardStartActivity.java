@@ -3,20 +3,19 @@ package com.MDGround.HaiLanPrint.activity.postcard;
 import android.content.Intent;
 import android.view.View;
 
-import com.MDGround.HaiLanPrint.enumobject.ProductType;
 import com.MDGround.HaiLanPrint.R;
 import com.MDGround.HaiLanPrint.activity.base.ToolbarActivity;
 import com.MDGround.HaiLanPrint.activity.template.SelectTemplateActivity;
 import com.MDGround.HaiLanPrint.application.MDGroundApplication;
 import com.MDGround.HaiLanPrint.databinding.ActivityPostcardStartBinding;
 import com.MDGround.HaiLanPrint.enumobject.PhotoExplainTypeEnum;
+import com.MDGround.HaiLanPrint.enumobject.ProductType;
 import com.MDGround.HaiLanPrint.enumobject.restfuls.ResponseCode;
 import com.MDGround.HaiLanPrint.models.Measurement;
 import com.MDGround.HaiLanPrint.models.PhotoTypeExplain;
 import com.MDGround.HaiLanPrint.restfuls.GlobalRestful;
 import com.MDGround.HaiLanPrint.restfuls.bean.ResponseData;
 import com.MDGround.HaiLanPrint.utils.GlideUtil;
-import com.MDGround.HaiLanPrint.utils.NavUtils;
 import com.MDGround.HaiLanPrint.utils.StringUtil;
 import com.MDGround.HaiLanPrint.utils.ViewUtils;
 import com.google.gson.reflect.TypeToken;
@@ -60,8 +59,6 @@ public class PostcardStartActivity extends ToolbarActivity<ActivityPostcardStart
 
     //region ACTION
     public void nextStepAction(View view) {
-        NavUtils.toSelectAlbumActivity(view.getContext());
-
         Intent intent = new Intent(PostcardStartActivity.this, SelectTemplateActivity.class);
         startActivity(intent);
     }

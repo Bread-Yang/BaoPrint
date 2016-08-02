@@ -29,6 +29,8 @@ import com.bumptech.glide.request.target.SimpleTarget;
  */
 public class MagicCupPhotoEditActivity extends ToolbarActivity<ActivityMagicCupEditBinding> {
 
+    private AlertDialog mAlertDialog;
+
     @Override
     protected int getContentLayout() {
         return R.layout.activity_magic_cup_edit;
@@ -36,6 +38,19 @@ public class MagicCupPhotoEditActivity extends ToolbarActivity<ActivityMagicCupE
 
     @Override
     protected void initData() {
+        mAlertDialog = ViewUtils.createAlertDialog(this, getString(R.string.if_add_to_my_work),
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        NavUtils.toMainActivity(MagicCupPhotoEditActivity.this);
+                    }
+                }, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        saveToMyWork();
+                    }
+                });
+
         showImageToGPUImageView();
     }
 
@@ -44,22 +59,7 @@ public class MagicCupPhotoEditActivity extends ToolbarActivity<ActivityMagicCupE
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(MagicCupPhotoEditActivity.this);
-                builder.setTitle(R.string.tips);
-                builder.setMessage(R.string.if_add_to_my_work);
-                builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        NavUtils.toMainActivity(MagicCupPhotoEditActivity.this);
-                    }
-                });
-                builder.setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        saveToMyWork();
-                    }
-                });
-                builder.show();
+                mAlertDialog.show();
             }
         });
 
@@ -98,6 +98,30 @@ public class MagicCupPhotoEditActivity extends ToolbarActivity<ActivityMagicCupE
         });
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == RESULT_OK) {
+            MDImage newMdImage = data.getParcelableExtra(Constants.KEY_SELECT_IMAGE);
+
+            MDImage oldMdImage = SelectImageUtils.sAlreadySelectImage.get(0);
+
+            WorkPhoto workPhoto = oldMdImage.getWorkPhoto();
+            workPhoto.setZoomSize(100);
+            workPhoto.setBrightLevel(0);
+            workPhoto.setRotate(0);
+            newMdImage.setWorkPhoto(workPhoto);
+
+            SelectImageUtils.sAlreadySelectImage.set(0, newMdImage);
+
+            showImageToGPUImageView();
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        mAlertDialog.show();
+    }
+
     private void showImageToGPUImageView() {
         if (SelectImageUtils.sTemplateImage.size() > 0) {
             // 模板图片加载
@@ -122,17 +146,6 @@ public class MagicCupPhotoEditActivity extends ToolbarActivity<ActivityMagicCupE
                 });
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode == RESULT_OK) {
-            MDImage mdImage = data.getParcelableExtra(Constants.KEY_SELECT_IMAGE);
-
-            SelectImageUtils.sAlreadySelectImage.set(0, mdImage);
-
-            showImageToGPUImageView();
-        }
-    }
-
     private void saveToMyWork() {
         ViewUtils.loading(this);
         // 保存到我的作品中
@@ -140,7 +153,6 @@ public class MagicCupPhotoEditActivity extends ToolbarActivity<ActivityMagicCupE
                 1, MDGroundApplication.sInstance.getChoosedMeasurement().getPrice());
         MDGroundApplication.sOrderutUtils.uploadImageRequest(this, 0);
     }
-
 
     //region ACTION
     public void nextStepAction(View view) {
@@ -158,5 +170,4 @@ public class MagicCupPhotoEditActivity extends ToolbarActivity<ActivityMagicCupE
         MDGroundApplication.sOrderutUtils.uploadImageRequest(this, 0);
     }
     //endregion
-
 }

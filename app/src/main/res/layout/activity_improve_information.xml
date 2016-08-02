@@ -47,7 +47,7 @@
                 android:layout_height="@dimen/size_44"
                 android:background="@color/color_white"
                 android:drawablePadding="@dimen/margin_12"
-                android:hint="@string/input_name"
+                android:hint="@string/input_register_name"
                 android:inputType="text"
                 android:longClickable="false"
                 android:textColorHint="@color/color_999999"
@@ -85,6 +85,7 @@
             android:id="@+id/lltOptional"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_above="@+id/btnLogin"
             android:layout_below="@+id/rltOptionalTitle"
             android:orientation="vertical"
             android:visibility="gone">

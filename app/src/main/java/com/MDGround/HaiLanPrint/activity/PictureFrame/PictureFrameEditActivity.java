@@ -172,9 +172,17 @@ public class PictureFrameEditActivity extends ToolbarActivity<ActivityPictureFra
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_OK) {
-            MDImage mdImage = data.getParcelableExtra(Constants.KEY_SELECT_IMAGE);
+            MDImage newMdImage = data.getParcelableExtra(Constants.KEY_SELECT_IMAGE);
 
-            SelectImageUtils.sAlreadySelectImage.set(0, mdImage);
+            MDImage oldMdImage = SelectImageUtils.sAlreadySelectImage.get(0);
+
+            WorkPhoto workPhoto = oldMdImage.getWorkPhoto();
+            workPhoto.setZoomSize(100);
+            workPhoto.setBrightLevel(0);
+            workPhoto.setRotate(0);
+            newMdImage.setWorkPhoto(workPhoto);
+
+            SelectImageUtils.sAlreadySelectImage.set(0, newMdImage);
 
             showImageToGPUImageView();
         }

@@ -33,6 +33,7 @@
                     android:id="@+id/etReceiverName"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:maxLength="20"
                     android:background="@color/color_white"
                     android:hint="@string/input_consignee"
                     android:textColor="@color/color_333333"

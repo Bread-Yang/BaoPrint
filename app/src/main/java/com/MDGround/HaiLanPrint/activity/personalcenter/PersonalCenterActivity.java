@@ -51,7 +51,7 @@ public class PersonalCenterActivity extends ToolbarActivity<ActivityPersonalCent
             mDataBinding.tvPhoneNum.setText(R.string.not_bound);
         }
         Location city = MDGroundApplication.sDaoSession.getLocationDao().load((long) user.getCityID());
-        Location county = MDGroundApplication.sDaoSession.getLocationDao().load((long) user.getCountryID());
+        Location county = MDGroundApplication.sDaoSession.getLocationDao().load((long) user.getDistrictID());
         if (city != null && county != null) {
             mDataBinding.tvCity.setText(city.getLocationName() + " " + county.getLocationName());
         } else {

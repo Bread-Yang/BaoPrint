@@ -158,6 +158,19 @@ public class ChildInformationActivity extends ToolbarActivity<ActivityChildInfor
                 });
             }
         });
+
+        mDataBinding.rltOptionalTitle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mDataBinding.lltOptional.getVisibility() == View.GONE) {
+                    mDataBinding.ivCollapse.setRotation(90);
+                    mDataBinding.lltOptional.setVisibility(View.VISIBLE);
+                } else {
+                    mDataBinding.ivCollapse.setRotation(0);
+                    mDataBinding.lltOptional.setVisibility(View.GONE);
+                }
+            }
+        });
     }
 
     //region ACTION

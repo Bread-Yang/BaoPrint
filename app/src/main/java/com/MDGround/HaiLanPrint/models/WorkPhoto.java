@@ -1,6 +1,6 @@
 package com.MDGround.HaiLanPrint.models;
 
-import android.os.Parcelable;
+import java.util.List;
 
 /**
  * Created by yoghourt on 6/11/16.
@@ -24,6 +24,10 @@ public class WorkPhoto {
 
     private int PhotoIndex;
 
+    private int PositionX;
+
+    private int PositionY;
+
     private int Rotate;
 
     private int TemplatePID;
@@ -33,6 +37,8 @@ public class WorkPhoto {
     private int WorkID;
 
     private int ZoomSize;
+
+    private List<WorkPhotoEdit> WorkPhotoEditList;
 
     public int getAutoID() {
         return AutoID;
@@ -98,6 +104,22 @@ public class WorkPhoto {
         PhotoIndex = photoIndex;
     }
 
+    public int getPositionX() {
+        return PositionX;
+    }
+
+    public void setPositionX(int positionX) {
+        PositionX = positionX;
+    }
+
+    public int getPositionY() {
+        return PositionY;
+    }
+
+    public void setPositionY(int positionY) {
+        PositionY = positionY;
+    }
+
     public float getRotate() {
         return Rotate;
     }
@@ -136,5 +158,13 @@ public class WorkPhoto {
 
     public void setZoomSize(int zoomSize) {
         ZoomSize = zoomSize;
+    }
+
+    public List<WorkPhotoEdit> getWorkPhotoEditList() {
+        return WorkPhotoEditList;
+    }
+
+    public void setWorkPhotoEditList(List<WorkPhotoEdit> workPhotoEditList) {
+        WorkPhotoEditList = workPhotoEditList;
     }
 }

@@ -101,8 +101,6 @@
                     android:layout_marginTop="@dimen/margin_8"
                     android:background="@color/color_white" />
 
-                <View style="@style/DividerHorizontalStyle" />
-
                 <RelativeLayout
                     style="@style/FixHeightLayoutStyle"
                     android:onClick="toChooseCouponActivityAction"
@@ -249,6 +247,7 @@
                             android:text="@string/freight" />
 
                         <TextView
+                            android:id="@+id/tvDeliveryFee"
                             style="@style/OrangeTextStyle"
                             android:layout_toLeftOf="@+id/tvYuan"
                             android:text="¥0.00" />

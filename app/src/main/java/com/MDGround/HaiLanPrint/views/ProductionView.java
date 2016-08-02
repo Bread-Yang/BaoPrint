@@ -5,11 +5,15 @@ import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.content.Context;
+import android.util.SparseArray;
+import android.view.Gravity;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.MDGround.HaiLanPrint.R;
@@ -24,17 +28,17 @@ import java.util.List;
 
 public class ProductionView extends FrameLayout {
 
-    private FrameLayout bgColorLayer, shadingLayer, drawBoardLayer, textLayer;
+    public FrameLayout bgColorLayer, shadingLayer, drawBoardLayer, textLayer;
 
-    private ImageView backgroundLayer;
+    public ImageView backgroundLayer;
 
     private AnimatorListenerAdapter listener;
 
-    private List<DrawingBoardView> images;
+    public SparseArray<DrawingBoardView> mDrawingBoardViewSparseArray = new SparseArray();
 
-    private List<TextView> texts;
+    private List<TextView> mTextViewList = new ArrayList();
 
-    private int margin;
+    private int mMargin;
 
     public ProductionView(Context context) {
         super(context);
@@ -48,30 +52,35 @@ public class ProductionView extends FrameLayout {
         textLayer = (FrameLayout) view.findViewById(R.id.texts);
         addView(view);
 
-        margin = ViewUtils.px2dp(8);
+        mMargin = ViewUtils.px2dp(8);
 
-        LayoutParams params = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        params.leftMargin = margin;
-        params.rightMargin = margin;
-        params.gravity = 17;
+        FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT);
+        params.leftMargin = mMargin;
+        params.rightMargin = mMargin;
+        params.gravity = Gravity.CENTER;
         setLayoutParams(params);
-        this.texts = new ArrayList();
-        this.images = new ArrayList();
     }
 
     private void init() {
         LayoutParams params = (LayoutParams) getLayoutParams();
-        params.leftMargin = margin;
-        params.rightMargin = margin;
+        params.leftMargin = mMargin;
+        params.rightMargin = mMargin;
         setLayoutParams(params);
     }
 
+    public void setWidthAndHeight(int width, int height) {
+        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(width, height);
+        bgColorLayer.setLayoutParams(params);
+    }
+
     public void clear() {
-        for (DrawingBoardView v : this.images) {
-            v.clear();
+        for (int i = 0; i < mDrawingBoardViewSparseArray.size(); i++) {
+            mDrawingBoardViewSparseArray.valueAt(i).clear();
         }
-        this.images.clear();
-        this.texts.clear();
+        this.mDrawingBoardViewSparseArray.clear();
+        this.mTextViewList.clear();
         this.bgColorLayer.setBackground(null);
         this.shadingLayer.setBackground(null);
         this.drawBoardLayer.removeAllViews();
@@ -137,4 +146,10 @@ public class ProductionView extends FrameLayout {
         params.topMargin -= height;
         setLayoutParams(params);
     }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        return super.onTouchEvent(event);
+    }
+
 }

@@ -56,6 +56,7 @@
                     android:drawablePadding="@dimen/margin_8"
                     android:hint="@string/input_captcha"
                     android:inputType="phone"
+                    android:maxLength="4"
                     android:longClickable="false"
                     android:paddingLeft="@dimen/margin_10"
                     android:textColorHint="@color/color_999999"

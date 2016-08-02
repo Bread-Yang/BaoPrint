@@ -91,7 +91,7 @@ public class ImproveInformationActivity extends ToolbarActivity<ActivityImproveI
     public void finishAction(View view) {
         String name = mDataBinding.cetName.getText().toString();
         if (StringUtil.isEmpty(name)) {
-            Toast.makeText(this, R.string.input_name, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.input_register_name, Toast.LENGTH_SHORT).show();
             return;
         }
 

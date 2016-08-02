@@ -4,9 +4,11 @@ import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.DatePicker;
 import android.widget.SeekBar;
 
@@ -96,6 +98,12 @@ public class CalendarEditActivity extends ToolbarActivity<ActivityCalendarEditBi
         mTeplateImageAdapter.setOnSelectImageLisenter(new TemplateImageAdapter.onSelectImageLisenter() {
             @Override
             public void selectImage(int position, MDImage mdImage) {
+
+                if (position > mCurrentSelectIndex) {
+                    mDataBinding.calendarCard.rightSlide();
+                } else {
+                    mDataBinding.calendarCard.leftSlide();
+                }
 
                 if (mCurrentSelectIndex != position) {
                     float scaleFactor = mDataBinding.bgiImage.getmScaleFactor();
@@ -204,8 +212,14 @@ public class CalendarEditActivity extends ToolbarActivity<ActivityCalendarEditBi
     public void toSelectCalendarAction(View view) {
         if (mBirthdayDatePickerDialog == null) {
             Calendar calendar = Calendar.getInstance();
-            mBirthdayDatePickerDialog = new DatePickerDialog(this, this, calendar.get(Calendar.YEAR),
+            mBirthdayDatePickerDialog = new DatePickerDialog(this,
+//                    android.R.style.Theme_Holo_Dialog_MinWidth,
+                    android.R.style.Theme_Holo_Dialog,
+                    this,
+                    calendar.get(Calendar.YEAR),
                     calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
+
+            ((ViewGroup) mBirthdayDatePickerDialog.getDatePicker()).findViewById(Resources.getSystem().getIdentifier("day", "id", "android")).setVisibility(View.GONE);
         }
         mBirthdayDatePickerDialog.show();
     }

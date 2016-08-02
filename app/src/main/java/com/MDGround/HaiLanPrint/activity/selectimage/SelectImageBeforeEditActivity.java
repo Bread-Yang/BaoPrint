@@ -61,7 +61,6 @@ public class SelectImageBeforeEditActivity extends ToolbarActivity<ActivitySelec
 
         mMaxSelectImageNum = getIntent().getIntExtra(Constants.KEY_MAX_IMAGE_NUM, 1);
 
-
         changeTips();
 
         mAlbum = getIntent().getParcelableExtra(Constants.KEY_ALBUM);

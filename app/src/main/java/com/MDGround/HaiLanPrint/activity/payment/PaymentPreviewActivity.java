@@ -65,13 +65,13 @@ public class PaymentPreviewActivity extends ToolbarActivity<ActivityPaymentPrevi
 
     private ArrayList<Coupon> mAvailableCouponArrayList = new ArrayList<>();
 
-    private SystemSetting mSystemSetting;
+    private SystemSetting mPayIntegralAmountSetting, mDeliveryFeeSetting;
 
     private Coupon mSelectedCoupon;
 
     private AlertDialog mAlertDialog;
 
-    private int mUnitFee, mAmountFee, mCredit, mReceivableFee, mFreightFee;
+    private int mUnitFee, mAmountFee, mCredit, mReceivableFee;
 
     private boolean mHadChangedOrderCount;
 
@@ -94,7 +94,7 @@ public class PaymentPreviewActivity extends ToolbarActivity<ActivityPaymentPrevi
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        
+
                     }
                 }, new DialogInterface.OnClickListener() {
                     @Override
@@ -116,7 +116,7 @@ public class PaymentPreviewActivity extends ToolbarActivity<ActivityPaymentPrevi
         PaymentPreviewAdapter paymentPreviewAdapter = new PaymentPreviewAdapter();
         mDataBinding.productRecyclerView.setAdapter(paymentPreviewAdapter);
 
-        refreshDisplayFee();
+//        refreshDisplayFee();
     }
 
     @Override
@@ -217,8 +217,8 @@ public class PaymentPreviewActivity extends ToolbarActivity<ActivityPaymentPrevi
 
     private int getCreditFee() {
         int creditFee = 0;
-        if (mSystemSetting != null && mDataBinding.cbUseCredit.isChecked()) {
-            creditFee = mCredit * mSystemSetting.getValue();
+        if (mPayIntegralAmountSetting != null && mDataBinding.cbUseCredit.isChecked()) {
+            creditFee = mCredit * mPayIntegralAmountSetting.getValue();
         }
         if (creditFee > getReceivableFee()) {
             creditFee = getReceivableFee();
@@ -226,8 +226,16 @@ public class PaymentPreviewActivity extends ToolbarActivity<ActivityPaymentPrevi
         return creditFee;
     }
 
+    private int getDeliveryFee() {
+        int deliveryFee = 0;
+        if (mDeliveryFeeSetting != null ) {
+            deliveryFee = mDeliveryFeeSetting.getValue();
+        }
+        return deliveryFee;
+    }
+
     private int getReceivableFee() {
-        int amountFee = getAllOrderWorkAmountFee() - getCouponFee() + mFreightFee;
+        int amountFee = getAllOrderWorkAmountFee() - getCouponFee() + getDeliveryFee();
         return amountFee;
     }
 
@@ -295,7 +303,7 @@ public class PaymentPreviewActivity extends ToolbarActivity<ActivityPaymentPrevi
 
     public void payAction(View view) {
         if (mDeliveryAddress == null) {
-            ViewUtils.toast(R.string.add_address_first);
+            ViewUtils.toast(R.string.choose_address_first);
             return;
         }
 
@@ -347,6 +355,8 @@ public class PaymentPreviewActivity extends ToolbarActivity<ActivityPaymentPrevi
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+
+                refreshDisplayFee();
             }
 
             @Override
@@ -392,12 +402,19 @@ public class PaymentPreviewActivity extends ToolbarActivity<ActivityPaymentPrevi
                 for (SystemSetting systemSetting : systemSettingArrayList) {
                     SettingType settingType = SettingType.fromValue(systemSetting.getSettingType());
                     if (settingType == SettingType.PayIntegralAmount) {
-                        mSystemSetting = systemSetting;
+                        mPayIntegralAmountSetting = systemSetting;
 
                         mDataBinding.cbUseCredit.setChecked(false);
-                        break;
+                    }
+
+                    if (settingType == SettingType.DeliveryFee) {
+                        mDeliveryFeeSetting = systemSetting;
+
+                        mDataBinding.tvDeliveryFee.setText(StringUtil.toYuanWithoutUnit(mDeliveryFeeSetting.getValue()));
                     }
                 }
+
+                refreshDisplayFee();
             }
 
             @Override

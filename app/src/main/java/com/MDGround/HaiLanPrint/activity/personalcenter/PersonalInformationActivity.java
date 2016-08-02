@@ -78,7 +78,7 @@ public class PersonalInformationActivity extends ToolbarActivity<ActivityPersona
         mDataBinding.tvNickname.setText(mUser.getUserNickName());
 
         Location city = MDGroundApplication.sDaoSession.getLocationDao().load((long) mUser.getCityID());
-        Location county = MDGroundApplication.sDaoSession.getLocationDao().load((long) mUser.getCountryID());
+        Location county = MDGroundApplication.sDaoSession.getLocationDao().load((long) mUser.getDistrictID());
         if (city != null && county != null) {
             mDataBinding.tvLocality.setText(city.getLocationName() + " " + county.getLocationName());
         }

@@ -29,6 +29,8 @@ import com.bumptech.glide.request.target.SimpleTarget;
  */
 public class PhoneShellEditActivity extends ToolbarActivity<ActivityPhoneShellEditBinding> {
 
+    private AlertDialog mAlertDialog;
+
     @Override
     protected int getContentLayout() {
         return R.layout.activity_phone_shell_edit;
@@ -36,6 +38,19 @@ public class PhoneShellEditActivity extends ToolbarActivity<ActivityPhoneShellEd
 
     @Override
     protected void initData() {
+        mAlertDialog = ViewUtils.createAlertDialog(this, getString(R.string.if_add_to_my_work),
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        NavUtils.toMainActivity(PhoneShellEditActivity.this);
+                    }
+                }, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        saveToMyWork();
+                    }
+                });
+
         showImageToGPUImageView();
     }
 
@@ -44,22 +59,7 @@ public class PhoneShellEditActivity extends ToolbarActivity<ActivityPhoneShellEd
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(PhoneShellEditActivity.this);
-                builder.setTitle(R.string.tips);
-                builder.setMessage(R.string.if_add_to_my_work);
-                builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        NavUtils.toMainActivity(PhoneShellEditActivity.this);
-                    }
-                });
-                builder.setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        saveToMyWork();
-                    }
-                });
-                builder.show();
+                mAlertDialog.show();
             }
         });
 
@@ -96,6 +96,30 @@ public class PhoneShellEditActivity extends ToolbarActivity<ActivityPhoneShellEd
         });
     }
 
+    @Override
+    public void onBackPressed() {
+        mAlertDialog.show();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == RESULT_OK) {
+            MDImage newMdImage = data.getParcelableExtra(Constants.KEY_SELECT_IMAGE);
+
+            MDImage oldMdImage = SelectImageUtils.sAlreadySelectImage.get(0);
+
+            WorkPhoto workPhoto = oldMdImage.getWorkPhoto();
+            workPhoto.setZoomSize(100);
+            workPhoto.setBrightLevel(0);
+            workPhoto.setRotate(0);
+            newMdImage.setWorkPhoto(workPhoto);
+
+            SelectImageUtils.sAlreadySelectImage.set(0, newMdImage);
+
+            showImageToGPUImageView();
+        }
+    }
+
     private void showImageToGPUImageView() {
         if (SelectImageUtils.sTemplateImage.size() > 0) {
             // 模板图片加载
@@ -118,17 +142,6 @@ public class PhoneShellEditActivity extends ToolbarActivity<ActivityPhoneShellEd
                                 workPhoto.getBrightLevel() / 100f);
                     }
                 });
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode == RESULT_OK) {
-            MDImage mdImage = data.getParcelableExtra(Constants.KEY_SELECT_IMAGE);
-
-            SelectImageUtils.sAlreadySelectImage.set(0, mdImage);
-
-            showImageToGPUImageView();
-        }
     }
 
     private void saveToMyWork() {

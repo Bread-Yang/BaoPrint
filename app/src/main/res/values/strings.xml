@@ -20,6 +20,7 @@
     <string name="cover">封面</string>
     <string name="error_msg">程序出错了</string>
     <string name="if_add_to_my_work">退出后可在"我的作品"中继续编辑,是否确认退出?</string>
+    <string name="create_all_composite_photo_success">生成所有合成图片成功!</string>
 
     <!-- custom view -->
     <string name="pixel_deficiency">像素不足!</string>
@@ -70,7 +71,7 @@
     <!-- 完善资料 -->
     <string name="improve_information">完善资料</string>
     <string name="require">(必填)</string>
-    <string name="input_name">请输入注册人姓名</string>
+    <string name="input_register_name">请输入注册人姓名</string>
     <string name="input_child_name">请输入孩子姓名</string>
     <string name="choose_child_birthday">请选择孩子生日</string>
     <string name="input_child_school">请输入孩子学校</string>
@@ -127,6 +128,7 @@
     <!-- 个人资料 -->
     <string name="personal_information">个人资料</string>
     <string name="avatar">头像</string>
+    <string name="name">姓名</string>
     <string name="nickname">昵称</string>
     <string name="locality">所在地</string>
     <string name="phone">手机号码</string>
@@ -298,12 +300,14 @@
     <string name="available_num">%d张可用</string>
     <string name="credit">积分</string>
     <string name="add_address_first">请先添加地址</string>
+    <string name="choose_address_first">请选择收货地址</string>
     <string name="amount">总额</string>
     <string name="freight">运费</string>
     <string name="offset_fee">已抵用%s元</string>
     <string name="credit_total">%s积分</string>
     <string name="quantity">数量</string>
-    <string name="within_12_hours_refund">支付后12小时内可申请退款，是否确认支付？</string>
+    <string name="within_12_hours_refund">根据《中华人民共和国消费者权益保护法》,定制产品不可退货，请谨慎下单</string>
+    <string name="template_load_fail">模版图片加载失败</string>
 
     <!-- 支付成功 -->
     <string name="payment_success">支付成功</string>
@@ -357,6 +361,7 @@
     <string name="school">学校</string>
     <string name="classes">班级</string>
     <string name="input_school">请输入学校</string>
+    <string name="input_name">请输入姓名</string>
     <string name="input_nickname">请输入昵称</string>
     <string name="input_grade">请输入年级</string>
     <string name="input_birthday">请输入生日</string>

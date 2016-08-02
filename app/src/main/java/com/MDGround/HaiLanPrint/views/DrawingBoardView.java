@@ -4,12 +4,13 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.ColorMatrix;
+import android.graphics.ColorMatrixColorFilter;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.PointF;
-import android.graphics.PorterDuff;
-import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
+import android.os.Environment;
 import android.support.v4.content.ContextCompat;
 import android.view.MotionEvent;
 import android.view.View;
@@ -17,6 +18,14 @@ import android.widget.ScrollView;
 
 import com.MDGround.HaiLanPrint.R;
 import com.MDGround.HaiLanPrint.utils.ViewUtils;
+import com.socks.library.KLog;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.RandomAccessFile;
+import java.nio.MappedByteBuffer;
+import java.nio.channels.FileChannel;
 
 /**
  * Created by yoghourt on 7/12/16.
@@ -37,16 +46,23 @@ public class DrawingBoardView extends View {
     private Rect mSrcRect, mDestRect;
 
     private PointF mStartPoint = new PointF();
-    private Matrix mMatrix = new Matrix();
+    private Matrix mMatrixOfEditPhoto = new Matrix();
+    private Matrix mCurrentMatrix = new Matrix();
+    private PointF mMidPoint;
 
     private float mViewHeight, mViewWidth;
     private float mStartDistance;
-    private float mOldRotation;
+    private float mOldRotation = 0.0f;
     private float mDx, mDy;
     private float mRate;
     private float mScale;
+    private float mBrightness;
     private int mMode = MODE_UP;
     private boolean mIsTouch, mIsSelected;
+
+    // TODO: 7/29/16 for test only
+    private Bitmap mTestBitmap;
+
 
     public DrawingBoardView(Context context) {
         super(context);
@@ -59,14 +75,22 @@ public class DrawingBoardView extends View {
         mContext = context;
         setFocusable(true);
         setFocusableInTouchMode(true);
-        setMould(width, height, mouldBmp);
-        setPhoto(photoBmp, matrix, rate);
+        setMouldBitmap(width, height, mouldBmp);
+
+        KLog.e("设置的Matrix : " + matrix);
+
+        setPhotoBitmap(photoBmp, matrix, rate);
+
+//        mTestBitmap = BitmapFactory.decodeResource(mContext.getResources(),
+//                R.drawable.icon_mz_home);
+//        mTestBitmap = convertToMutable(mTestBitmap);
+
     }
 
-    public void setMould(float width, float height, Bitmap mouldBmp) {
+    public void setMouldBitmap(float width, float height, Bitmap mouldBmp) {
         if (mouldBmp != null) {
-            this.mViewWidth = width;
-            this.mViewHeight = height;
+            mViewWidth = width;
+            mViewHeight = height;
             mMouldBmp = mouldBmp;
             if (mMouldBmp != null) {
                 this.mSrcRect = new Rect(0, 0, mMouldBmp.getWidth(), mMouldBmp.getHeight());
@@ -86,20 +110,22 @@ public class DrawingBoardView extends View {
         }
     }
 
-    public void setPhoto(Bitmap photoBmp, Matrix matrix, float rate) {
+    public void setPhotoBitmap(Bitmap photoBmp, Matrix matrix, float rate) {
         if (photoBmp != null) {
             Matrix photoMatrix = new Matrix();
             mRate = rate;
             if (matrix == null) {
                 matrix = new Matrix();
             }
-            mMatrix = matrix;
+            mMatrixOfEditPhoto = matrix;
 
             int photoBmpWidth = photoBmp.getWidth();
             int photoBmpHeight = photoBmp.getHeight();
+
             mScale = mViewWidth / ((float) photoBmpWidth) > mViewHeight / ((float) photoBmpHeight)
                     ? mViewWidth / ((float) photoBmpWidth)
                     : mViewHeight / ((float) photoBmpHeight);
+
             if (mScale != 0.0f) {
                 Bitmap scalePhotoBmp;
                 photoMatrix.setScale(mScale, mScale);
@@ -118,54 +144,75 @@ public class DrawingBoardView extends View {
                     photoBmp.recycle();
                 }
                 mPhotoBmp = scalePhotoBmp;
-                float photoWidth = (float) scalePhotoBmp.getWidth();
-                float photoHeigh = (float) scalePhotoBmp.getHeight();
-                mDx = (this.mViewWidth - photoWidth) / 2.0f;
-                mDy = (this.mViewHeight - photoHeigh) / 2.0f;
-                mMatrix.preTranslate(mDx, mDy);
+                float photoBitmapWidth = (float) scalePhotoBmp.getWidth();
+                float photoBitmapHeight = (float) scalePhotoBmp.getHeight();
+                mDx = (this.mViewWidth - photoBitmapWidth) / 2.0f;
+                mDy = (this.mViewHeight - photoBitmapHeight) / 2.0f;
+                mMatrixOfEditPhoto.preTranslate(mDx, mDy);
             }
         }
     }
 
-    private void compositePicture() {
+    private void compositeBitmap() {
+//        mOutputBmp.eraseColor(Color.parseColor("#00000000"));
+        mOutputBmp.eraseColor(Color.parseColor("#ffffff"));
+
         Canvas canvas = new Canvas(mOutputBmp);
         Paint paint = new Paint();
         paint.setAntiAlias(true);
         paint.setFilterBitmap(true);
         paint.setColor(Color.parseColor("#BAB399"));
+
+        // 亮度调整
+        ColorMatrix cMatrix = new ColorMatrix();
+        cMatrix.set(new float[]{1, 0, 0, 0, mBrightness, 0, 1,
+                0, 0, mBrightness,// 改变亮度
+                0, 0, 1, 0, mBrightness, 0, 0, 0, 1, 0});
+        paint.setColorFilter(new ColorMatrixColorFilter(cMatrix));
+
+//        mMouldBmp = mTestBitmap;
         if (!(mMouldBmp == null || mMouldBmp.isRecycled())) {
             /**
              * Rect src: 是对图片进行裁截，若是空null则显示整个图片
              * RectF dst：是图片在Canvas画布中显示的区域，大于src则把src的裁截区放大，小于src则把src的裁截区缩小。
              */
+//            KLog.e("mSrcRect : " + mSrcRect);
+//            KLog.e("mDestRect : " + mDestRect);
             canvas.drawBitmap(mMouldBmp, this.mSrcRect, this.mDestRect, paint);
         }
-        paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN)); // 取两层绘制交集。显示上层(src)。
+
+        // 第一次用canvas.drawBitmap的bitmap是dest,第二次draw的bitmap是src
+//        paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN)); // 取两层绘制交集。显示上层(src,即这里的变量mPhotoBmp)。
         paint.setDither(true);
+
         if (mPhotoBmp != null && !mPhotoBmp.isRecycled()) {
-            canvas.drawBitmap(mPhotoBmp, mMatrix, paint);
+            canvas.drawBitmap(mPhotoBmp, mMatrixOfEditPhoto, paint);
         }
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
-        if (mViewWidth != 0.0f && mViewHeight != 0.0f && mMouldBmp != null && mPhotoBmp != null) {
+//        boolean isCanDraw = mViewWidth != 0.0f && mViewHeight != 0.0f && mMouldBmp != null && mPhotoBmp != null;
+        boolean isCanDraw = mViewWidth != 0.0f
+                && mViewHeight != 0.0f
+                && mPhotoBmp != null;
+        if (isCanDraw) {
             float[] values = new float[9];
-            mMatrix.getValues(values);
-            compositePicture();
+            mMatrixOfEditPhoto.getValues(values);
+            compositeBitmap();
             canvas.drawBitmap(mOutputBmp, 0.0f, 0.0f, null);
-            float resizeSacle = (float) Math.sqrt((double) ((values[0] * values[0]) + (values[3] * values[3])));
-            if (mRate < resizeSacle / mScale) {
+            float resizeScale = (float) Math.sqrt((double) ((values[0] * values[0]) + (values[3] * values[3])));
+            if (mRate < resizeScale / mScale) {
                 drawPixelDeficiency(canvas);
             }
-            if (isFocused() && mIsSelected) {
+            if (mIsSelected) {
                 drawWarningLine(canvas);
             }
         }
     }
 
     public PointF matrixCalculator() {
-        Matrix matrix = getIMatrix();
+        Matrix matrix = getMatrixOfEditPhoto();
 
         float[] values = new float[9];
         matrix.getValues(values);
@@ -196,10 +243,10 @@ public class DrawingBoardView extends View {
             textWidth = textPaint.measureText(text);
         }
 
-        float textHeigh = textPaint.getFontMetricsInt(null);
+        float textHeight = textPaint.getFontMetricsInt(null);
 
         canvas.drawText(text, (mViewWidth - textWidth) / 2.0f,
-                ((mViewHeight - textHeigh) / 2.0f) - textPaint.getFontMetrics().top,
+                ((mViewHeight - textHeight) / 2.0f) - textPaint.getFontMetrics().top,
                 textPaint);
     }
 
@@ -216,70 +263,57 @@ public class DrawingBoardView extends View {
         canvas.drawLine(startPosition, startPosition, startPosition, mViewHeight - startPosition, paint);
 
         // 上线
-        canvas.drawLine(startPosition, startPosition, mViewWidth - startPosition, startPosition, paint);
+        canvas.drawLine(0, startPosition, mViewWidth, startPosition, paint);
 
         // 右线
         canvas.drawLine(mViewWidth - startPosition, startPosition, mViewWidth - startPosition, mViewHeight - startPosition, paint);
 
         // 下线
-        canvas.drawLine(startPosition, mViewHeight - startPosition, mViewWidth - startPosition, mViewHeight - startPosition, paint);
-    }
-
-    public void setmouldPic(Bitmap bmp) {
-        mMouldBmp = bmp;
-        invalidate();
-    }
-
-    public void setPhotoPic(Bitmap bmp) {
-        mPhotoBmp = bmp;
-        invalidate();
+        canvas.drawLine(0, mViewHeight - startPosition, mViewWidth, mViewHeight - startPosition, paint);
     }
 
     public void setMatrix(float pos1, float pos2, float pos3, float pos4, float pos5, float pos6) {
         float[] values = new float[9];
-        mMatrix.getValues(values);
+        mMatrixOfEditPhoto.getValues(values);
         values[0] = pos1;
-        values[MODE_DRAG] = pos2;
-        values[MODE_ZOOM] = pos3;
+        values[1] = pos2;
+        values[2] = pos3;
         values[3] = pos4;
         values[4] = pos5;
         values[5] = pos6;
-        mMatrix.setValues(values);
+        mMatrixOfEditPhoto.setValues(values);
     }
 
-    public void setMatrix(Matrix matrix) {
-        mMatrix = matrix;
-    }
-
-    public Matrix getIMatrix() {
-        Matrix matrix = new Matrix(mMatrix);
+    public Matrix getMatrixOfEditPhoto() {
+        Matrix matrix = new Matrix(mMatrixOfEditPhoto);
         matrix.preTranslate(-mDx, -mDy);
+        KLog.e("拿到的Matrix : " + matrix);
         return matrix;
     }
 
     public void translate(String dx, String dy) {
-        mMatrix.postTranslate(Float.parseFloat(dx), Float.parseFloat(dy));
+        mMatrixOfEditPhoto.postTranslate(Float.parseFloat(dx), Float.parseFloat(dy));
     }
 
     public void bigger() {
-        mMatrix.postScale(1.1f, 1.1f, getWidth() / 2, getHeight() / 2);
+        mMatrixOfEditPhoto.postScale(1.1f, 1.1f, getWidth() / 2, getHeight() / 2);
         invalidate();
     }
 
     public void littler() {
-        mMatrix.postScale(0.9f, 0.9f, getWidth() / 2, getHeight() / 2);
+        mMatrixOfEditPhoto.postScale(0.9f, 0.9f, getWidth() / 2, getHeight() / 2);
         invalidate();
     }
 
     public void rotate() {
-        mMatrix.postRotate(90.0f, getWidth() / 2, getHeight() / 2);
+        mMatrixOfEditPhoto.postRotate(90.0f, getWidth() / 2, getHeight() / 2);
         invalidate();
     }
 
     // 翻转图像
     public void reverse() {
-        mMatrix.postScale(-1.0f, 1.0f);
-        mMatrix.postTranslate((float) getWidth(), 0.0f);
+        mMatrixOfEditPhoto.postScale(-1.0f, 1.0f);
+        mMatrixOfEditPhoto.postTranslate((float) getWidth(), 0.0f);
         invalidate();
     }
 
@@ -325,19 +359,16 @@ public class DrawingBoardView extends View {
 
         invalidate();
 
-        return super.onTouchEvent(event);
+        return true;
     }
 
     private void touch(MotionEvent event, float x, float y) {
         mIsSelected = true;
 
-        Matrix currentMatrix = new Matrix();
-        PointF midPoint = new PointF();
-
         switch (event.getAction() & MotionEvent.ACTION_MASK) {
             case MotionEvent.ACTION_DOWN:
                 mMode = MODE_DRAG;
-                currentMatrix.set(mMatrix);
+                mCurrentMatrix.set(mMatrixOfEditPhoto);
                 mStartPoint.set(x, y);
                 break;
 
@@ -345,12 +376,15 @@ public class DrawingBoardView extends View {
                 mMode = MODE_ZOOM;
                 mStartDistance = distance(event);
                 if (mStartDistance > 10.0f) {
-                    midPoint = mid(event);
+                    mMidPoint = mid(event);
                 }
                 mOldRotation = rotation(event);
                 break;
 
             case MotionEvent.ACTION_UP:
+                mMode = MODE_UP;
+                mIsSelected = false;
+                break;
             case MotionEvent.ACTION_POINTER_UP:
                 mMode = MODE_UP;
                 break;
@@ -359,17 +393,17 @@ public class DrawingBoardView extends View {
                 if (mMode == MODE_DRAG) {
                     float dx = event.getX() - mStartPoint.x;
                     float dy = event.getY() - mStartPoint.y;
-                    mMatrix.set(currentMatrix);
-                    mMatrix.postTranslate(dx, dy);
+                    mMatrixOfEditPhoto.set(mCurrentMatrix);
+                    mMatrixOfEditPhoto.postTranslate(dx, dy);
                 } else if (mMode == MODE_ZOOM) {
                     float endDistance = distance(event);
 
                     if (endDistance > 10.0f) {
                         float scale = endDistance / mStartDistance;
 
-                        mMatrix.set(currentMatrix);
-                        mMatrix.postScale(scale, scale, midPoint.x, midPoint.y);
-                        mMatrix.postRotate(rotation(event) - mOldRotation, midPoint.x, midPoint.y);
+                        mMatrixOfEditPhoto.set(mCurrentMatrix);
+                        mMatrixOfEditPhoto.postScale(scale, scale, mMidPoint.x, mMidPoint.y);
+                        mMatrixOfEditPhoto.postRotate(rotation(event) - mOldRotation, mMidPoint.x, mMidPoint.y);
                     }
                 }
                 break;
@@ -377,19 +411,23 @@ public class DrawingBoardView extends View {
     }
 
     private float distance(MotionEvent event) {
-        float dx = event.getX(MODE_DRAG) - event.getX(0);
-        float dy = event.getY(MODE_DRAG) - event.getY(0);
-        return (float) Math.sqrt((dx * dx) + (dy * dy));
+        try {
+            float dx = event.getX(1) - event.getX(0);
+            float dy = event.getY(1) - event.getY(0);
+            return (float) Math.sqrt((dx * dx) + (dy * dy));
+        } catch (IllegalArgumentException exception) {
+            return 0;
+        }
     }
 
     private PointF mid(MotionEvent event) {
-        return new PointF((event.getX(MODE_DRAG) + event.getX(0)) / 2.0f,
-                (event.getY(MODE_DRAG) + event.getY(0)) / 2.0f);
+        return new PointF((event.getX(1) + event.getX(0)) / 2.0f,
+                (event.getY(1) + event.getY(0)) / 2.0f);
     }
 
     private float rotation(MotionEvent event) {
-        return (float) Math.toDegrees(Math.atan2((double) (event.getY(0) - event.getY(MODE_DRAG)),
-                (double) (event.getX(0) - event.getX(MODE_DRAG))));
+        return (float) Math.toDegrees(Math.atan2((double) (event.getY(0) - event.getY(1)),
+                (double) (event.getX(0) - event.getX(1))));
     }
 
     public void clear() {
@@ -402,4 +440,63 @@ public class DrawingBoardView extends View {
             mPhotoBmp = null;
         }
     }
+
+    public void setBrightness(float brightness) {
+        mBrightness = brightness;
+        invalidate();
+    }
+
+    /**
+     * Converts a immutable bitmap to a mutable bitmap. This operation doesn't allocates
+     * more memory that there is already allocated.
+     *
+     * @param imgIn - Source image. It will be released, and should not be used more
+     * @return a copy of imgIn, but muttable.
+     */
+    public static Bitmap convertToMutable(Bitmap imgIn) {
+        try {
+            //this is the file going to use temporally to save the bytes.
+            // This file will not be a image, it will store the raw image data.
+            File file = new File(Environment.getExternalStorageDirectory() + File.separator + "temp.tmp");
+
+            //Open an RandomAccessFile
+            //Make sure you have added uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+            //into AndroidManifest.xml file
+            RandomAccessFile randomAccessFile = new RandomAccessFile(file, "rw");
+
+            // get the width and height of the source bitmap.
+            int width = imgIn.getWidth();
+            int height = imgIn.getHeight();
+            Bitmap.Config type = imgIn.getConfig();
+
+            //Copy the byte to the file
+            //Assume source bitmap loaded using options.inPreferredConfig = Config.ARGB_8888;
+            FileChannel channel = randomAccessFile.getChannel();
+            MappedByteBuffer map = channel.map(FileChannel.MapMode.READ_WRITE, 0, imgIn.getRowBytes()*height);
+            imgIn.copyPixelsToBuffer(map);
+            //recycle the source bitmap, this will be no longer used.
+            imgIn.recycle();
+            System.gc();// try to force the bytes from the imgIn to be released
+
+            //Create a new bitmap to load the bitmap again. Probably the memory will be available.
+            imgIn = Bitmap.createBitmap(width, height, type);
+            map.position(0);
+            //load it back from temporary
+            imgIn.copyPixelsFromBuffer(map);
+            //close the temporary file and channel , then delete that also
+            channel.close();
+            randomAccessFile.close();
+
+            // delete the temp file
+            file.delete();
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return imgIn;
+    }
 }
+

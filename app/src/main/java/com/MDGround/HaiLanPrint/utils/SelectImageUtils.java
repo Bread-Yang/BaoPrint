@@ -56,6 +56,17 @@ public class SelectImageUtils {
         }
     }
 
+    public static int getMaxSelectImageNum() {
+        int maxNum = 0;
+        for (MDImage mdImage : sTemplateImage) {
+            if (mdImage.getPhotoTemplateAttachFrameList() != null) {
+                maxNum += mdImage.getPhotoTemplateAttachFrameList().size();
+            }
+        }
+
+        return maxNum;
+    }
+
     public static boolean isSameImage(MDImage originalImage, MDImage compareImage) {
         if ((originalImage.getAutoID() != 0 && originalImage.getAutoID() == compareImage.getAutoID())) { // 同一张网络图片
             return true;

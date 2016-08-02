@@ -1,21 +1,37 @@
 package com.MDGround.HaiLanPrint.utils;
 
+import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.BitmapFactory.Options;
+import android.graphics.drawable.Drawable;
 import android.widget.ImageView;
 
 import com.MDGround.HaiLanPrint.R;
 import com.MDGround.HaiLanPrint.application.MDGroundApplication;
+import com.MDGround.HaiLanPrint.glide.MDGroundLoader;
 import com.MDGround.HaiLanPrint.glide.transformation.RotateTransformation;
 import com.MDGround.HaiLanPrint.models.MDImage;
+import com.bumptech.glide.GenericRequestBuilder;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.ResourceDecoder;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.engine.Resource;
+import com.bumptech.glide.load.model.StreamEncoder;
+import com.bumptech.glide.load.resource.SimpleResource;
+import com.bumptech.glide.load.resource.transcode.ResourceTranscoder;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.target.Target;
+import com.socks.library.KLog;
 
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
+import java.util.concurrent.ExecutionException;
 
 /**
  * Created by yoghourt on 5/18/16.
@@ -64,6 +80,12 @@ public class GlideUtil {
                         imageView.setImageBitmap(bitmap);
                         ViewUtils.dismiss();
                     }
+
+                    @Override
+                    public void onLoadFailed(Exception e, Drawable errorDrawable) {
+                        super.onLoadFailed(e, errorDrawable);
+                        ViewUtils.dismiss();
+                    }
                 });
     }
 
@@ -79,6 +101,39 @@ public class GlideUtil {
         GlideUtil.loadImageByMDImageWithDialog(imageView, mdImage);
     }
 
+    public static void getImageOriginalSize(Context context, MDImage mdImage,
+                                            SimpleTarget<Options> simpleTarget) {
+        GenericRequestBuilder<MDImage, InputStream, Options, Options> SIZE_REQUEST = Glide // cache for effectiveness (re-use in lists for example) and readability at usage
+                .with(context)
+                .using(new MDGroundLoader(context), InputStream.class)
+                .from(MDImage.class)
+                .as(Options.class)
+                .sourceEncoder(new StreamEncoder())
+                .cacheDecoder(new BitmapSizeDecoder())
+                .diskCacheStrategy(DiskCacheStrategy.SOURCE);
+
+        SIZE_REQUEST
+                .load(mdImage)
+                .into(new SimpleTarget<Options>() { // Target.SIZE_ORIGINAL is hidden in ctor
+                    @Override
+                    public void onResourceReady(Options resource, GlideAnimation glideAnimation) {
+                        KLog.e("图片的original size是: ", String.format(Locale.ROOT, "%dx%d", resource.outWidth, resource.outHeight));
+                    }
+                })
+        ;
+
+//        Glide.with(context)
+//                .load(mdImage)
+//                .asBitmap()
+//                .transcode(new BitmapSizeTranscoder(), Size.class)
+//                .into(new SimpleTarget<Size>() {
+//                    @Override
+//                    public void onResourceReady(Size resource, GlideAnimation glideAnimation) {
+//                        KLog.e("图片的original size是: ", String.format(Locale.ROOT, "%dx%d", resource.width, resource.height));
+//                    }
+//                });
+    }
+
     public static void loadImageAsBitmap(MDImage mdImage, Target target) {
         Glide.with(MDGroundApplication.sInstance)
                 .load(mdImage)
@@ -87,6 +142,24 @@ public class GlideUtil {
                 .into(target);
     }
 
+    public static Bitmap loadImageAsBitmap(MDImage mdImage) {
+        Bitmap bitmap = null;
+        try {
+            bitmap = Glide.with(MDGroundApplication.sInstance)
+                    .load(mdImage)
+                    .asBitmap()
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .into(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL)
+                    .get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+        return bitmap;
+    }
+
+    // Glide同步拿Bitmap
     public static void loadImageAsBitmapRezie(MDImage mdImage, Target target) {
         Glide.with(MDGroundApplication.sInstance)
                 .load(mdImage)
@@ -118,5 +191,41 @@ public class GlideUtil {
             }
         }
         return result;
+    }
+
+    static class BitmapSizeDecoder implements ResourceDecoder<File, Options> {
+        @Override
+        public Resource<Options> decode(File source, int width, int height) throws IOException {
+            Options options = new Options();
+            options.inJustDecodeBounds = true;
+            KLog.e("source.getAbsolutePath() : " + source.getAbsolutePath());
+            BitmapFactory.decodeFile(source.getAbsolutePath(), options);
+            return new SimpleResource<>(options);
+        }
+
+        @Override
+        public String getId() {
+            return getClass().getName();
+        }
+    }
+
+    static class Size {
+        int width, height;
+    }
+
+    static class BitmapSizeTranscoder implements ResourceTranscoder<Bitmap, Size> {
+        @Override
+        public Resource<Size> transcode(Resource<Bitmap> toTranscode) {
+            Bitmap bitmap = toTranscode.get();
+            Size size = new Size();
+            size.width = bitmap.getWidth();
+            size.height = bitmap.getHeight();
+            return new SimpleResource<>(size);
+        }
+
+        @Override
+        public String getId() {
+            return getClass().getName();
+        }
     }
 }
