@@ -18,7 +18,6 @@ import android.widget.ScrollView;
 
 import com.MDGround.HaiLanPrint.R;
 import com.MDGround.HaiLanPrint.utils.ViewUtils;
-import com.socks.library.KLog;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -60,24 +59,33 @@ public class DrawingBoardView extends View {
     private int mMode = MODE_UP;
     private boolean mIsTouch, mIsSelected;
 
+    private OnDrawingBoardClickListener mOnDrawingBoardClickListener;
+
     // TODO: 7/29/16 for test only
     private Bitmap mTestBitmap;
 
+    public interface OnDrawingBoardClickListener {
+        void onDrawingBoardTouch(DrawingBoardView drawingBoardView);
+
+        void onDrawingBoardClick(DrawingBoardView drawingBoardView);
+    }
 
     public DrawingBoardView(Context context) {
         super(context);
         mContext = context;
     }
 
-    public DrawingBoardView(Context context, float width, float height,
+    public DrawingBoardView(Context context, OnDrawingBoardClickListener onDrawingBoardClickListener,
+                            float width, float height,
                             Bitmap mouldBmp, Bitmap photoBmp, Matrix matrix, float rate) {
         super(context);
         mContext = context;
+        mOnDrawingBoardClickListener = onDrawingBoardClickListener;
         setFocusable(true);
         setFocusableInTouchMode(true);
         setMouldBitmap(width, height, mouldBmp);
 
-        KLog.e("设置的Matrix : " + matrix);
+//        KLog.e("设置的Matrix : " + matrix);
 
         setPhotoBitmap(photoBmp, matrix, rate);
 
@@ -112,7 +120,6 @@ public class DrawingBoardView extends View {
 
     public void setPhotoBitmap(Bitmap photoBmp, Matrix matrix, float rate) {
         if (photoBmp != null) {
-            Matrix photoMatrix = new Matrix();
             mRate = rate;
             if (matrix == null) {
                 matrix = new Matrix();
@@ -128,6 +135,7 @@ public class DrawingBoardView extends View {
 
             if (mScale != 0.0f) {
                 Bitmap scalePhotoBmp;
+                Matrix photoMatrix = new Matrix();
                 photoMatrix.setScale(mScale, mScale);
                 try {
                     scalePhotoBmp = Bitmap.createBitmap(photoBmp, 0, 0, photoBmpWidth, photoBmpHeight, photoMatrix, true);
@@ -150,6 +158,7 @@ public class DrawingBoardView extends View {
                 mDy = (this.mViewHeight - photoBitmapHeight) / 2.0f;
                 mMatrixOfEditPhoto.preTranslate(mDx, mDy);
             }
+            invalidate();
         }
     }
 
@@ -287,7 +296,7 @@ public class DrawingBoardView extends View {
     public Matrix getMatrixOfEditPhoto() {
         Matrix matrix = new Matrix(mMatrixOfEditPhoto);
         matrix.preTranslate(-mDx, -mDy);
-        KLog.e("拿到的Matrix : " + matrix);
+//        KLog.e("拿到的Matrix : " + matrix);
         return matrix;
     }
 
@@ -370,6 +379,10 @@ public class DrawingBoardView extends View {
                 mMode = MODE_DRAG;
                 mCurrentMatrix.set(mMatrixOfEditPhoto);
                 mStartPoint.set(x, y);
+
+                if (mOnDrawingBoardClickListener != null) {
+                    mOnDrawingBoardClickListener.onDrawingBoardTouch(this);
+                }
                 break;
 
             case MotionEvent.ACTION_POINTER_DOWN:
@@ -384,6 +397,12 @@ public class DrawingBoardView extends View {
             case MotionEvent.ACTION_UP:
                 mMode = MODE_UP;
                 mIsSelected = false;
+                if (moveDistance(x, y) < ViewUtils.dp2px(5)) {
+                    // 点击事件触发
+                    if (mOnDrawingBoardClickListener != null) {
+                        mOnDrawingBoardClickListener.onDrawingBoardClick(this);
+                    }
+                }
                 break;
             case MotionEvent.ACTION_POINTER_UP:
                 mMode = MODE_UP;
@@ -408,6 +427,12 @@ public class DrawingBoardView extends View {
                 }
                 break;
         }
+    }
+
+    private float moveDistance(float x, float y) {
+        double sum = Math.pow(x - mStartPoint.x, 2) + Math.pow(y - mStartPoint.y, 2);
+        double distance = Math.sqrt(sum);
+        return (float) distance;
     }
 
     private float distance(MotionEvent event) {
@@ -472,7 +497,7 @@ public class DrawingBoardView extends View {
             //Copy the byte to the file
             //Assume source bitmap loaded using options.inPreferredConfig = Config.ARGB_8888;
             FileChannel channel = randomAccessFile.getChannel();
-            MappedByteBuffer map = channel.map(FileChannel.MapMode.READ_WRITE, 0, imgIn.getRowBytes()*height);
+            MappedByteBuffer map = channel.map(FileChannel.MapMode.READ_WRITE, 0, imgIn.getRowBytes() * height);
             imgIn.copyPixelsToBuffer(map);
             //recycle the source bitmap, this will be no longer used.
             imgIn.recycle();

@@ -121,23 +121,14 @@ public class GlideUtil {
                     }
                 })
         ;
-
-//        Glide.with(context)
-//                .load(mdImage)
-//                .asBitmap()
-//                .transcode(new BitmapSizeTranscoder(), Size.class)
-//                .into(new SimpleTarget<Size>() {
-//                    @Override
-//                    public void onResourceReady(Size resource, GlideAnimation glideAnimation) {
-//                        KLog.e("图片的original size是: ", String.format(Locale.ROOT, "%dx%d", resource.width, resource.height));
-//                    }
-//                });
     }
 
     public static void loadImageAsBitmap(MDImage mdImage, Target target) {
         Glide.with(MDGroundApplication.sInstance)
                 .load(mdImage)
                 .asBitmap()
+                .atMost()
+                .override(300, 300) // 图片如果超过300 * 300, 则压缩
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(target);
     }
@@ -148,6 +139,8 @@ public class GlideUtil {
             bitmap = Glide.with(MDGroundApplication.sInstance)
                     .load(mdImage)
                     .asBitmap()
+                    .atMost()
+                    .override(300, 300) // 图片如果超过300 * 300, 则压缩
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .into(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL)
                     .get();
@@ -157,16 +150,6 @@ public class GlideUtil {
             e.printStackTrace();
         }
         return bitmap;
-    }
-
-    // Glide同步拿Bitmap
-    public static void loadImageAsBitmapRezie(MDImage mdImage, Target target) {
-        Glide.with(MDGroundApplication.sInstance)
-                .load(mdImage)
-                .asBitmap()
-                .override(300, 300)
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .into(target);
     }
 
     public static long getFileSize(final File file) {

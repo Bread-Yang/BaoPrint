@@ -1,5 +1,6 @@
 package com.MDGround.HaiLanPrint.utils;
 
+import com.MDGround.HaiLanPrint.application.MDGroundApplication;
 import com.MDGround.HaiLanPrint.enumobject.ProductType;
 import com.MDGround.HaiLanPrint.constants.Constants;
 import com.MDGround.HaiLanPrint.models.MDImage;
@@ -56,15 +57,43 @@ public class SelectImageUtils {
         }
     }
 
-    public static int getMaxSelectImageNum() {
+    public static int getMaxUserSelectImageNum() {
         int maxNum = 0;
-        for (MDImage mdImage : sTemplateImage) {
-            if (mdImage.getPhotoTemplateAttachFrameList() != null) {
-                maxNum += mdImage.getPhotoTemplateAttachFrameList().size();
-            }
+
+        // 杂志册,艺术册,个性月历 这三个功能块有定位块
+        switch (MDGroundApplication.sInstance.getChoosedProductType()) {
+            case MagazineAlbum:
+            case ArtAlbum:
+            case Calendar:
+                for (MDImage mdImage : sTemplateImage) {
+                    if (mdImage.getPhotoTemplateAttachFrameList() != null) {
+                        maxNum += mdImage.getPhotoTemplateAttachFrameList().size();
+                    }
+                }
+                break;
+                default:
+                    // 其他没有定位块的功能块,等于服务器返回的pageCount
+                    maxNum = MDGroundApplication.sInstance.getChoosedTemplate().getPageCount();
         }
 
         return maxNum;
+    }
+
+    public static MDImage getMdImageByPageIndexAndModuleIndex(int pageIndex, int moduleIndex) {
+        int count = 0;
+        for (int i = 0; i < SelectImageUtils.sTemplateImage.size(); i++) {
+            if (i < pageIndex) {
+                count += SelectImageUtils.sTemplateImage.get(i).getPhotoTemplateAttachFrameList().size();
+            } else {
+                count += moduleIndex;
+                break;
+            }
+        }
+
+        if (count < SelectImageUtils.sAlreadySelectImage.size()) {
+            return SelectImageUtils.sAlreadySelectImage.get(count);
+        }
+        return null;
     }
 
     public static boolean isSameImage(MDImage originalImage, MDImage compareImage) {

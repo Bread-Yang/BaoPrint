@@ -81,7 +81,7 @@ public class PrintPhotoChoosePaperNumActivity extends ToolbarActivity<ActivityPr
                 1,
                 MDGroundApplication.sInstance.getChoosedMeasurement().getPrice(),
                 null, workMaterial, null);
-        MDGroundApplication.sOrderutUtils.uploadImageRequest(this, 0);
+        MDGroundApplication.sOrderutUtils.uploadPrintPhotoOrEngravingImageRequest(this, 0);
     }
     //endregion
 

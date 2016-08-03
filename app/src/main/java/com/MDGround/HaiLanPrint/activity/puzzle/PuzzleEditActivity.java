@@ -129,7 +129,7 @@ public class PuzzleEditActivity extends ToolbarActivity<ActivityPuzzleEditBindin
         // 保存到我的作品中
         MDGroundApplication.sOrderutUtils = new OrderUtils(this, true,
                 1, MDGroundApplication.sInstance.getChoosedTemplate().getPrice());
-        MDGroundApplication.sOrderutUtils.uploadImageRequest(this, 0);
+        MDGroundApplication.sOrderutUtils.uploadPrintPhotoOrEngravingImageRequest(this, 0);
     }
 
     @Override
@@ -164,7 +164,7 @@ public class PuzzleEditActivity extends ToolbarActivity<ActivityPuzzleEditBindin
 
         MDGroundApplication.sOrderutUtils = new OrderUtils(this, false,
                 1, MDGroundApplication.sInstance.getChoosedTemplate().getPrice());
-        MDGroundApplication.sOrderutUtils.uploadImageRequest(this, 0);
+        MDGroundApplication.sOrderutUtils.uploadPrintPhotoOrEngravingImageRequest(this, 0);
     }
     //endregion
 

@@ -3,10 +3,32 @@ package com.MDGround.HaiLanPrint.utils;
 import android.graphics.Bitmap;
 import android.graphics.Matrix;
 
+import com.MDGround.HaiLanPrint.application.MDGroundApplication;
+import com.MDGround.HaiLanPrint.enumobject.ProductType;
+
 /**
  * Created by yoghourt on 8/1/16.
  */
 public class TemplateUtils {
+
+    /**
+     * 是否有定位块
+     * @return
+     */
+    public static boolean isTemplateHasModules() {
+        boolean hasModules = false;
+
+        ProductType chooseProductType = MDGroundApplication.sInstance.getChoosedProductType();
+
+        // 杂志册,艺术册,个性月历 这三个功能块有定位块
+        if (chooseProductType == ProductType.MagazineAlbum
+                || chooseProductType == ProductType.ArtAlbum
+                || chooseProductType == ProductType.Calendar) {
+            hasModules = true;
+        }
+
+        return hasModules;
+    }
 
     /**
      * android编辑区域的高度 = (android编辑区域的宽度 / JWork返回的page width) * JWork返回的page height

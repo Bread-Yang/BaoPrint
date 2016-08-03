@@ -152,7 +152,7 @@ public class PhoneShellEditActivity extends ToolbarActivity<ActivityPhoneShellEd
                 null,
                 MDGroundApplication.sInstance.getChoosedTemplate().getSelectMaterial(),
                 null);
-        MDGroundApplication.sOrderutUtils.uploadImageRequest(this, 0);
+        MDGroundApplication.sOrderutUtils.uploadPrintPhotoOrEngravingImageRequest(this, 0);
     }
 
     //region ACTION
@@ -171,7 +171,7 @@ public class PhoneShellEditActivity extends ToolbarActivity<ActivityPhoneShellEd
                 null,
                 MDGroundApplication.sInstance.getChoosedTemplate().getSelectMaterial(),
                 null);
-        MDGroundApplication.sOrderutUtils.uploadImageRequest(this, 0);
+        MDGroundApplication.sOrderutUtils.uploadPrintPhotoOrEngravingImageRequest(this, 0);
     }
     //endregion
 

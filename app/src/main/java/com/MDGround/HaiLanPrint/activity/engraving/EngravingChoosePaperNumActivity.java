@@ -79,7 +79,7 @@ public class EngravingChoosePaperNumActivity extends ToolbarActivity<ActivityEng
 
         MDGroundApplication.sOrderutUtils = new OrderUtils(this, false,
                 1, MDGroundApplication.sInstance.getChoosedMeasurement().getPrice(), null, workMaterial, null);
-        MDGroundApplication.sOrderutUtils.uploadImageRequest(this, 0);
+        MDGroundApplication.sOrderutUtils.uploadPrintPhotoOrEngravingImageRequest(this, 0);
     }
     //endregion
 

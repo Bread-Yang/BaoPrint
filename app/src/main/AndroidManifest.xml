@@ -126,7 +126,7 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name=".activity.postcard.GlobalTemplateEditActivity"
+            android:name=".activity.templateedit.GlobalTemplateEditActivity"
             android:label="@string/edit"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />

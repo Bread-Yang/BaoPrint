@@ -35,17 +35,17 @@ public class MDGroundFetcher implements DataFetcher<InputStream> {
     public InputStream loadData(Priority priority) throws Exception {
 
         ResponseData responseData = FileRestful.getInstance().GetPhoto(mImage.getPhotoID());
-        if (responseData == null) {
+
+        if (responseData.getCode() == ResponseCode.SystemError.getValue()) {
             KLog.e("Glide请求大图失败,再次请求缩略图");
-//            responseData = FileRestful.getInstance().GetPhoto(mImage.getPhotoSID());
-            return null;
+            responseData = FileRestful.getInstance().GetPhoto(mImage.getPhotoSID());
         }
 
         if (responseData.getCode() == ResponseCode.Normal.getValue()) {
             byte[] bitmapArray;
             bitmapArray = Base64.decode(responseData.getContent(), Base64.DEFAULT);
             mInputStream = new ByteArrayInputStream(bitmapArray);
-            KLog.e("Glide请求成功");
+            KLog.e("Glide请求图片成功");
             return mInputStream;
         }
 

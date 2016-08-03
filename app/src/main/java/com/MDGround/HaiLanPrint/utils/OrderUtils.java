@@ -3,15 +3,12 @@ package com.MDGround.HaiLanPrint.utils;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.drawable.Drawable;
 import android.opengl.Matrix;
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
 import android.widget.Toast;
 
-import com.MDGround.HaiLanPrint.R;
 import com.MDGround.HaiLanPrint.activity.payment.PaymentSuccessActivity;
 import com.MDGround.HaiLanPrint.application.MDGroundApplication;
 import com.MDGround.HaiLanPrint.constants.Constants;
@@ -25,17 +22,17 @@ import com.MDGround.HaiLanPrint.models.Measurement;
 import com.MDGround.HaiLanPrint.models.OrderInfo;
 import com.MDGround.HaiLanPrint.models.OrderWork;
 import com.MDGround.HaiLanPrint.models.OrderWorkPhoto;
+import com.MDGround.HaiLanPrint.models.PhotoTemplateAttachFrame;
 import com.MDGround.HaiLanPrint.models.Template;
 import com.MDGround.HaiLanPrint.models.WorkInfo;
 import com.MDGround.HaiLanPrint.models.WorkPhoto;
+import com.MDGround.HaiLanPrint.models.WorkPhotoEdit;
 import com.MDGround.HaiLanPrint.models.alipay.PayResult;
 import com.MDGround.HaiLanPrint.restfuls.FileRestful;
 import com.MDGround.HaiLanPrint.restfuls.GlobalRestful;
 import com.MDGround.HaiLanPrint.restfuls.bean.ResponseData;
 import com.MDGround.HaiLanPrint.utils.alipay.SignUtils;
 import com.alipay.sdk.app.PayTask;
-import com.bumptech.glide.request.animation.GlideAnimation;
-import com.bumptech.glide.request.target.SimpleTarget;
 import com.google.gson.reflect.TypeToken;
 import com.socks.library.KLog;
 
@@ -47,10 +44,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Random;
 
-import jp.co.cyberagent.android.gpuimage.GPUImage;
-import jp.co.cyberagent.android.gpuimage.GPUImageBrightnessFilter;
-import jp.co.cyberagent.android.gpuimage.GPUImageFilterGroup;
-import jp.co.cyberagent.android.gpuimage.GPUImageNormalBlendFilter;
 import jp.co.cyberagent.android.gpuimage.GPUImageTransformFilter;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -177,7 +170,87 @@ public class OrderUtils {
         return transformFilter;
     }
 
-    public void uploadImageRequest(final Context context, final int upload_image_index) {
+    // 上传每页的合成照片
+    public void uploadAllCompositeImageReuqest(final Context context, final List<String> compositeImageList,
+                                               final int upload_image_index) {
+        final int nextUploadIndex = upload_image_index + 1;
+
+        if (upload_image_index < compositeImageList.size()) {
+            File file = new File(compositeImageList.get(upload_image_index));
+
+            FileRestful.getInstance().UploadPhoto(UploadType.Order, file, new Callback<ResponseData>() {
+                @Override
+                public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
+                    KLog.e("上传合成照片成功");
+                    final MDImage responseImage = response.body().getContent(MDImage.class);
+
+                    MDImage templateImage = SelectImageUtils.sTemplateImage.get(upload_image_index);
+
+                    WorkPhoto workPhoto = templateImage.getWorkPhoto();
+                    workPhoto.setPhoto2ID(responseImage.getPhotoID());
+                    workPhoto.setPhoto2SID(responseImage.getPhotoSID());
+//                    SelectImageUtils.sTemplateImage.set(upload_image_index, responseImage);
+
+                    uploadAllCompositeImageReuqest(context, compositeImageList, nextUploadIndex);
+                }
+
+                @Override
+                public void onFailure(Call<ResponseData> call, Throwable t) {
+
+                }
+            });
+        } else {
+            uploadAllUserSelectImageRequest(context, 0);
+        }
+    }
+
+    // 上传用户选择的所有照片
+    public void uploadAllUserSelectImageRequest(final Context context, final int upload_image_index) {
+        final int nextUploadIndex = upload_image_index + 1;
+
+        if (upload_image_index < SelectImageUtils.getMaxUserSelectImageNum()) {
+            final MDImage selectImage = SelectImageUtils.sAlreadySelectImage.get(upload_image_index);
+
+            // 本地图片
+            if (selectImage.getImageLocalPath() != null && !StringUtil.isEmpty(selectImage
+                    .getImageLocalPath())) {
+                File file = new File(selectImage.getImageLocalPath());
+
+                FileRestful.getInstance().UploadPhoto(UploadType.Order, file, new Callback<ResponseData>() {
+                    @Override
+                    public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
+                        KLog.e("上传本地照片成功");
+                        final MDImage responseImage = response.body().getContent(MDImage.class);
+
+                        SelectImageUtils.sAlreadySelectImage.set(upload_image_index, responseImage);
+
+                        uploadAllUserSelectImageRequest(context, nextUploadIndex);
+                    }
+
+                    @Override
+                    public void onFailure(Call<ResponseData> call, Throwable t) {
+
+                    }
+                });
+            } else {
+                uploadAllUserSelectImageRequest(context, nextUploadIndex);
+            }
+        } else {
+            switch (MDGroundApplication.sInstance.getChoosedProductType()) {
+                case PrintPhoto:
+                case Engraving:
+                    // 全部图片上传完之后,生成订单
+                    saveOrderRequest();
+                    break;
+                default:
+                    saveUserWorkReqeust();
+                    break;
+            }
+        }
+    }
+
+    // 上传"冲印模块"或者"版画模块"选中的照片
+    public void uploadPrintPhotoOrEngravingImageRequest(final Context context, final int upload_image_index) {
         if (upload_image_index < SelectImageUtils.sAlreadySelectImage.size()) {
             final MDImage selectImage = SelectImageUtils.sAlreadySelectImage.get(upload_image_index);
 
@@ -203,100 +276,18 @@ public class OrderUtils {
                         KLog.e("上传本地照片成功");
                         final MDImage responseImage = response.body().getContent(MDImage.class);
 
-                        if (responseImage != null) {
-                            // 上传本地图片成功, 设置对应的PhotoID, PhotoSID
-                            responseImage.setPhotoCount(selectImage.getPhotoCount());
+                        // 上传本地图片成功, 设置对应的PhotoID, PhotoSID
+                        responseImage.setPhotoCount(selectImage.getPhotoCount());
 
-                            final WorkPhoto workPhoto = selectImage.getWorkPhoto();
-                            if (workPhoto != null) {
-                                workPhoto.setPhoto1ID(responseImage.getPhotoID());
-                                workPhoto.setPhoto1SID(responseImage.getPhotoSID());
-                                responseImage.setWorkPhoto(workPhoto);
-                            }
-
-                            SelectImageUtils.sAlreadySelectImage.set(upload_image_index, responseImage);
-
-                            // 如果有模板, 把模板和选择的照片合成一张图片
-                            if (templateImage.getPhotoSID() != 0) {
-                                GlideUtil.loadImageAsBitmapRezie(templateImage, new SimpleTarget<Bitmap>() {
-                                    @Override
-                                    public void onResourceReady(final Bitmap templateBitmap,
-                                                                GlideAnimation<? super Bitmap>
-                                                                        glideAnimation) {
-                                        KLog.e("加载模板bitmap成功");
-
-                                        GlideUtil.loadImageAsBitmapRezie(selectImage, new SimpleTarget<Bitmap>() {
-                                            @Override
-                                            public void onResourceReady(Bitmap selectBitmap,
-                                                                        GlideAnimation<? super Bitmap>
-                                                                                glideAnimation) {
-                                                KLog.e("加载本地bitmap成功");
-
-                                                GPUImageTransformFilter transformFilter = getTransformFilter(workPhoto.getZoomSize() / 100f,
-                                                        workPhoto.getRotate());         //  放大缩小旋转
-                                                GPUImageBrightnessFilter brightnessFilter = new GPUImageBrightnessFilter();
-                                                brightnessFilter.setBrightness(workPhoto.getBrightLevel() / 100f); // 亮度
-
-                                                GPUImageNormalBlendFilter blendFilter = new GPUImageNormalBlendFilter();
-                                                blendFilter.setBitmap(templateBitmap);
-
-                                                GPUImageFilterGroup gpuImageFilterGroup = new GPUImageFilterGroup();
-                                                gpuImageFilterGroup.addFilter(brightnessFilter);
-                                                gpuImageFilterGroup.addFilter(transformFilter);
-                                                gpuImageFilterGroup.addFilter(blendFilter);
-
-                                                GPUImage blendImage = new GPUImage(context);
-                                                blendImage.setImage(selectBitmap);
-                                                blendImage.setFilter(gpuImageFilterGroup);
-
-                                                Bitmap blendBitmap = blendImage.getBitmapWithFilterApplied();
-
-                                                // 上传合成图片
-                                                FileRestful.getInstance().UploadPhoto(UploadType.Order,
-                                                        blendBitmap, new Callback<ResponseData>() {
-                                                            @Override
-                                                            public void onResponse(Call<ResponseData> call,
-                                                                                   Response<ResponseData> response) {
-                                                                KLog.e("上传本地和模板合成照片成功");
-                                                                // 上传合成图片成功, 设置对应的PhotoID, PhotoSID
-                                                                MDImage responseSyntheticImage = response.body()
-                                                                        .getContent(MDImage.class);
-
-                                                                responseImage.getWorkPhoto().setPhoto2ID
-                                                                        (responseSyntheticImage.getPhotoID());
-                                                                responseImage.getWorkPhoto().setPhoto2SID
-                                                                        (responseSyntheticImage.getPhotoSID());
-
-                                                                // 继续上传
-                                                                SelectImageUtils.sAlreadySelectImage.set
-                                                                        (upload_image_index, responseImage);
-                                                                uploadImageRequest(context, nextUploadIndex);
-                                                            }
-
-                                                            @Override
-                                                            public void onFailure(Call<ResponseData> call,
-                                                                                  Throwable t) {
-
-                                                            }
-                                                        });
-                                            }
-                                        });
-                                    }
-
-                                    @Override
-                                    public void onLoadFailed(Exception e, Drawable errorDrawable) {
-                                        super.onLoadFailed(e, errorDrawable);
-                                        ViewUtils.toast(R.string.template_load_fail);
-                                        ViewUtils.dismiss();
-                                    }
-                                });
-                            } else {
-                                uploadImageRequest(context, nextUploadIndex);
-                            }
-                        } else {
-                            // 继续上传
-                            uploadImageRequest(context, nextUploadIndex);
+                        final WorkPhoto workPhoto = selectImage.getWorkPhoto();
+                        if (workPhoto != null) {
+                            workPhoto.setPhoto1ID(responseImage.getPhotoID());
+                            workPhoto.setPhoto1SID(responseImage.getPhotoSID());
+                            responseImage.setWorkPhoto(workPhoto);
                         }
+
+                        SelectImageUtils.sAlreadySelectImage.set(upload_image_index, responseImage);
+                        uploadPrintPhotoOrEngravingImageRequest(context, nextUploadIndex);
                     }
 
                     @Override
@@ -304,77 +295,8 @@ public class OrderUtils {
                     }
                 });
             } else {
-                // 网络图片
-                // 如果有模板, 把模板和选择的照片合成一张图片
-                if (selectImage.getPhotoSID() != 0 && templateImage.getPhotoSID() != 0) {
-                    GlideUtil.loadImageAsBitmapRezie(templateImage, new SimpleTarget<Bitmap>() {
-                        @Override
-                        public void onResourceReady(final Bitmap templateBitmap, GlideAnimation<? super
-                                Bitmap> glideAnimation) {
-
-                            GlideUtil.loadImageAsBitmapRezie(selectImage, new SimpleTarget<Bitmap>() {
-                                @Override
-                                public void onResourceReady(Bitmap selectBitmap, GlideAnimation<? super
-                                        Bitmap> glideAnimation) {
-                                    KLog.e("加载网络bitmap成功");
-                                    WorkPhoto workPhoto = selectImage.getWorkPhoto();
-
-                                    GPUImageTransformFilter transformFilter = getTransformFilter(workPhoto.getZoomSize() / 100f,
-                                            workPhoto.getRotate());         //  放大缩小旋转
-                                    GPUImageBrightnessFilter brightnessFilter = new GPUImageBrightnessFilter();
-                                    brightnessFilter.setBrightness(workPhoto.getBrightLevel() / 100f); // 亮度
-
-                                    GPUImageNormalBlendFilter blendFilter = new GPUImageNormalBlendFilter();
-                                    blendFilter.setBitmap(templateBitmap);
-
-                                    GPUImageFilterGroup gpuImageFilterGroup = new GPUImageFilterGroup();
-                                    gpuImageFilterGroup.addFilter(brightnessFilter);
-                                    gpuImageFilterGroup.addFilter(transformFilter);
-                                    gpuImageFilterGroup.addFilter(blendFilter);
-
-                                    GPUImage blendImage = new GPUImage(context);
-                                    blendImage.setImage(selectBitmap);
-                                    blendImage.setFilter(gpuImageFilterGroup);
-
-                                    Bitmap blendBitmap = blendImage.getBitmapWithFilterApplied();
-
-                                    // 上传合成图片
-                                    FileRestful.getInstance().UploadPhoto(UploadType.Order, blendBitmap,
-                                            new Callback<ResponseData>() {
-                                                @Override
-                                                public void onResponse(Call<ResponseData> call,
-                                                                       Response<ResponseData> response) {
-                                                    KLog.e("上传网络和模板合成照片成功");
-                                                    // 上传合成图片成功, 设置对应的PhotoID, PhotoSID
-                                                    MDImage responseSyntheticImage = response.body().getContent
-                                                            (MDImage.class);
-
-                                                    selectImage.getWorkPhoto().setPhoto2ID(responseSyntheticImage.getPhotoID());
-                                                    selectImage.getWorkPhoto().setPhoto2SID(responseSyntheticImage.getPhotoSID());
-                                                    // 继续上传
-                                                    uploadImageRequest(context, nextUploadIndex);
-                                                }
-
-                                                @Override
-                                                public void onFailure(Call<ResponseData> call, Throwable t) {
-
-                                                }
-                                            });
-                                }
-                            });
-                        }
-
-                        @Override
-                        public void onLoadFailed(Exception e, Drawable errorDrawable) {
-                            super.onLoadFailed(e, errorDrawable);
-                            ViewUtils.toast(R.string.template_load_fail);
-                            ViewUtils.dismiss();
-                        }
-                    });
-                } else {
-                    // 继续上传
-                    uploadImageRequest(context, nextUploadIndex);
-                }
+                // 网络图片,则继续上传
+                uploadPrintPhotoOrEngravingImageRequest(context, nextUploadIndex);
             }
         } else {
             switch (MDGroundApplication.sInstance.getChoosedProductType()) {
@@ -393,7 +315,7 @@ public class OrderUtils {
     public void saveUserWorkReqeust() {
         WorkInfo workInfo = new WorkInfo();
         workInfo.setCreatedTime(DateUtils.getServerDateStringByDate(new Date()));
-        workInfo.setPhotoCount(SelectImageUtils.sAlreadySelectImage.size());
+        workInfo.setPhotoCount(SelectImageUtils.sTemplateImage.size());
         workInfo.setPrice(mPrice);
         workInfo.setTypeID(MDGroundApplication.sInstance.getChoosedProductType().value());
         workInfo.setTemplateID(MDGroundApplication.sInstance.getChoosedTemplate().getTemplateID());
@@ -419,11 +341,29 @@ public class OrderUtils {
     private void saveUserWorkPhotoListRequest(WorkInfo responseWorkInfo) {
         List<WorkPhoto> workPhotoList = new ArrayList<>();
 
-        for (int i = 0; i < SelectImageUtils.sAlreadySelectImage.size(); i++) {
-            MDImage mdImage = SelectImageUtils.sAlreadySelectImage.get(i);
+        for (int i = 0; i < SelectImageUtils.sTemplateImage.size(); i++) {
+            MDImage mdImage = SelectImageUtils.sTemplateImage.get(i);
             WorkPhoto workPhoto = mdImage.getWorkPhoto();
             workPhoto.setWorkID(responseWorkInfo.getWorkID());
-            workPhoto.setZoomSize(100);
+
+            if (TemplateUtils.isTemplateHasModules()) {
+                int count = 0;
+                List<WorkPhotoEdit> workPhotoEditList = new ArrayList<>();
+
+                List<PhotoTemplateAttachFrame> photoTemplateAttachFrameList = mdImage.getPhotoTemplateAttachFrameList();
+                for (PhotoTemplateAttachFrame photoTemplateAttachFrame : photoTemplateAttachFrameList) {
+                    WorkPhotoEdit workPhotoEdit = new WorkPhotoEdit();
+
+                    MDImage uploadUserSelectImage = SelectImageUtils.sAlreadySelectImage.get(count);
+
+                    workPhotoEdit.setPhotoID(uploadUserSelectImage.getPhotoID());
+                    workPhotoEdit.setPhotoSID(uploadUserSelectImage.getPhotoSID());
+
+                    count++;
+                }
+                workPhoto.setWorkPhotoEditList(workPhotoEditList);
+            }
+
             workPhotoList.add(workPhoto);
         }
 
@@ -503,8 +443,8 @@ public class OrderUtils {
             orderWork.setPhotoCount(SelectImageUtils.getPrintPhotoOrEngravingOrderCount());
             orderWork.setPhotoCover(SelectImageUtils.sAlreadySelectImage.get(0).getPhotoSID()); //封面，第一张照片的缩略图ID
         } else {
-            orderWork.setPhotoCount(SelectImageUtils.sAlreadySelectImage.size());
-            orderWork.setPhotoCover(SelectImageUtils.sAlreadySelectImage.get(0).getWorkPhoto().getPhoto2SID()); //封面，第一张照片的合成照片
+            orderWork.setPhotoCount(SelectImageUtils.sTemplateImage.size());
+            orderWork.setPhotoCover(SelectImageUtils.sTemplateImage.get(0).getWorkPhoto().getPhoto2SID()); //封面，第一张照片的合成照片
         }
 
         orderWork.setPrice(mPrice);
@@ -550,8 +490,8 @@ public class OrderUtils {
     private void saveOrderPhotoListRequest(final OrderWork orderWork) {
         List<OrderWorkPhoto> orderWorkPhotoList = new ArrayList<>();
 
-        for (int i = 0; i < SelectImageUtils.sAlreadySelectImage.size(); i++) {
-            MDImage mdImage = SelectImageUtils.sAlreadySelectImage.get(i);
+        for (int i = 0; i < SelectImageUtils.sTemplateImage.size(); i++) {
+            MDImage mdImage = SelectImageUtils.sTemplateImage.get(i);
             WorkPhoto workPhoto = mdImage.getWorkPhoto();
 
             OrderWorkPhoto orderWorkPhoto = new OrderWorkPhoto();

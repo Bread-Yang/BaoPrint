@@ -15,7 +15,6 @@ public class PhotoTemplateAttachFrame implements Parcelable {
     private int PositionX;
     private int PositionY;
     private int Width;
-    private MDImage userSelectImage;
     private String matrix;
 
     protected PhotoTemplateAttachFrame(Parcel in) {
@@ -25,7 +24,6 @@ public class PhotoTemplateAttachFrame implements Parcelable {
         PositionX = in.readInt();
         PositionY = in.readInt();
         Width = in.readInt();
-        userSelectImage = in.readParcelable(MDImage.class.getClassLoader());
         matrix = in.readString();
     }
 
@@ -37,7 +35,6 @@ public class PhotoTemplateAttachFrame implements Parcelable {
         dest.writeInt(PositionX);
         dest.writeInt(PositionY);
         dest.writeInt(Width);
-        dest.writeParcelable(userSelectImage, flags);
         dest.writeString(matrix);
     }
 
@@ -104,14 +101,6 @@ public class PhotoTemplateAttachFrame implements Parcelable {
 
     public void setWidth(int width) {
         Width = width;
-    }
-
-    public MDImage getUserSelectImage() {
-        return userSelectImage;
-    }
-
-    public void setUserSelectImage(MDImage userSelectImage) {
-        this.userSelectImage = userSelectImage;
     }
 
     public String getMatrix() {

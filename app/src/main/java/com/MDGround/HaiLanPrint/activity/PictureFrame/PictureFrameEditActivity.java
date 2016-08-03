@@ -21,6 +21,7 @@ import com.MDGround.HaiLanPrint.utils.SelectImageUtils;
 import com.MDGround.HaiLanPrint.utils.StringUtil;
 import com.MDGround.HaiLanPrint.utils.ViewUtils;
 import com.MDGround.HaiLanPrint.views.BaoGPUImage;
+import com.MDGround.HaiLanPrint.views.ProductionView;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 
@@ -28,6 +29,8 @@ import com.bumptech.glide.request.target.SimpleTarget;
  * Created by yoghourt on 5/18/16.
  */
 public class PictureFrameEditActivity extends ToolbarActivity<ActivityPictureFrameEditBinding> {
+
+    private ProductionView mProductionView;
 
     private Template mChooseTemplate;
 
@@ -42,6 +45,9 @@ public class PictureFrameEditActivity extends ToolbarActivity<ActivityPictureFra
 
     @Override
     protected void initData() {
+        mProductionView = new ProductionView(this);
+        mDataBinding.lltEdit.addView(mProductionView, 0);
+
         mChooseTemplate = MDGroundApplication.sInstance.getChoosedTemplate();
         mChooseTemplate.setPageCount(1);
         MDGroundApplication.sInstance.setChoosedTemplate(mChooseTemplate);
@@ -57,14 +63,6 @@ public class PictureFrameEditActivity extends ToolbarActivity<ActivityPictureFra
 
     @Override
     protected void setListener() {
-        mDataBinding.bgiImage.setOnSingleTouchListener(new BaoGPUImage.OnSingleTouchListener() {
-            @Override
-            public void onSingleTouch() {
-                Intent intent = new Intent(PictureFrameEditActivity.this, SelectAlbumWhenEditActivity.class);
-                startActivityForResult(intent, 0);
-            }
-        });
-
         mDataBinding.rgSize.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
@@ -165,7 +163,7 @@ public class PictureFrameEditActivity extends ToolbarActivity<ActivityPictureFra
         MDGroundApplication.sOrderutUtils = new OrderUtils(this, true,
                 mChooseTemplate.getPageCount(),
                 mPrice, mWorkFormat, null, mWorkStyle);
-        MDGroundApplication.sOrderutUtils.uploadImageRequest(this, 0);
+        MDGroundApplication.sOrderutUtils.uploadPrintPhotoOrEngravingImageRequest(this, 0);
     }
 
 
@@ -212,7 +210,7 @@ public class PictureFrameEditActivity extends ToolbarActivity<ActivityPictureFra
         MDGroundApplication.sOrderutUtils = new OrderUtils(this, false,
                 mChooseTemplate.getPageCount(),
                 mPrice, mWorkFormat, null, mWorkStyle);
-        MDGroundApplication.sOrderutUtils.uploadImageRequest(this, 0);
+        MDGroundApplication.sOrderutUtils.uploadPrintPhotoOrEngravingImageRequest(this, 0);
     }
     //endregion
 }

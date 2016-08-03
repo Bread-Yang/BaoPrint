@@ -91,7 +91,7 @@ public class SelectAlbumBeforeEditActivity extends ToolbarActivity<ActivitySelec
                     case ArtAlbum:
                     case LOMOCard:
                     case Calendar:
-                        mMaxSelectImageNum = SelectImageUtils.getMaxSelectImageNum();
+                        mMaxSelectImageNum = SelectImageUtils.getMaxUserSelectImageNum();
 //                        mMaxSelectImageNum = MDGroundApplication.sInstance.getChoosedTemplate().getPageCount();
                         changeTips();
                         break;
@@ -223,7 +223,7 @@ public class SelectAlbumBeforeEditActivity extends ToolbarActivity<ActivitySelec
                 SelectImageUtils.sTemplateImage = response.body().getContent(new TypeToken<ArrayList<MDImage>>() {
                 });
 
-                mMaxSelectImageNum = SelectImageUtils.getMaxSelectImageNum();
+                mMaxSelectImageNum = SelectImageUtils.getMaxUserSelectImageNum();
 //                mMaxSelectImageNum = MDGroundApplication.sInstance.getChoosedTemplate().getPageCount();
 
                 changeTips();

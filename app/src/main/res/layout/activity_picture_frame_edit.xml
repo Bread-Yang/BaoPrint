@@ -1,49 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <import type="com.MDGround.HaiLanPrint.utils.StringUtil"/>
 
-        <variable name="template" type="com.MDGround.HaiLanPrint.models.Template"/>
+        <import type="com.MDGround.HaiLanPrint.utils.StringUtil" />
+
+        <variable
+            name="template"
+            type="com.MDGround.HaiLanPrint.models.Template" />
     </data>
 
     <RelativeLayout
+        android:id="@+id/lltEdit"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <com.MDGround.HaiLanPrint.views.FlexibleRelativeLayout
-            android:id="@+id/frltEdit"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:ratio="0.75">
-
-            <com.MDGround.HaiLanPrint.views.BaoGPUImage
-                android:id="@+id/bgiImage"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:src="@drawable/ic_placeholder"/>
-
-            <ImageView
-                android:id="@+id/ivTemplate"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:scaleType="fitStart"
-                />
-
-        </com.MDGround.HaiLanPrint.views.FlexibleRelativeLayout>
-
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/frltEdit"
+            android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <RelativeLayout
-                style="@style/FixHeightLayoutStyle">
+            <RelativeLayout style="@style/FixHeightLayoutStyle">
 
                 <TextView
                     android:id="@+id/tvTemplateName"
@@ -51,7 +31,7 @@
                     android:layout_centerVertical="true"
                     android:text="@{template.templateName}"
                     android:textSize="@dimen/text_size_16"
-                    tools:text="实木大画框"/>
+                    tools:text="实木大画框" />
 
                 <TextView
                     android:id="@+id/tvPrice"
@@ -59,22 +39,19 @@
                     android:layout_alignParentRight="true"
                     android:layout_centerInParent="true"
                     android:textSize="@dimen/text_size_16"
-                    tools:text="¥233.00元"/>
+                    tools:text="¥233.00元" />
 
             </RelativeLayout>
 
-            <View
-                style="@style/DividerHorizontalMarginSytle"/>
+            <View style="@style/DividerHorizontalMarginSytle" />
 
-
-            <RelativeLayout
-                style="@style/FixHeightLayoutStyle">
+            <RelativeLayout style="@style/FixHeightLayoutStyle">
 
                 <TextView
                     style="@style/NormalTextStyle"
                     android:layout_centerVertical="true"
                     android:text="@string/choose_size"
-                    android:textSize="@dimen/text_size_16"/>
+                    android:textSize="@dimen/text_size_16" />
 
                 <RadioGroup
                     android:id="@+id/rgSize"
@@ -90,40 +67,38 @@
                         android:id="@+id/rb6Inch"
                         style="@style/NormalRaidoButtonStyle"
                         android:checked="true"
-                        android:text="@{(@stringArray/frame_size_array)[0]}"/>
+                        android:text="@{(@stringArray/frame_size_array)[0]}" />
 
                     <RadioButton
                         android:id="@+id/rb8Inch"
                         style="@style/NormalRaidoButtonStyle"
                         android:layout_marginLeft="@dimen/margin_15"
-                        android:text="@{(@stringArray/frame_size_array)[1]}"/>
+                        android:text="@{(@stringArray/frame_size_array)[1]}" />
 
                     <RadioButton
                         android:id="@+id/rb10Inch"
                         style="@style/NormalRaidoButtonStyle"
                         android:layout_marginLeft="@dimen/margin_15"
-                        android:text="@{(@stringArray/frame_size_array)[2]}"/>
+                        android:text="@{(@stringArray/frame_size_array)[2]}" />
 
                     <RadioButton
                         android:id="@+id/rb12Inch"
                         style="@style/NormalRaidoButtonStyle"
                         android:layout_marginLeft="@dimen/margin_15"
-                        android:text="@{(@stringArray/frame_size_array)[3]}"/>
+                        android:text="@{(@stringArray/frame_size_array)[3]}" />
                 </RadioGroup>
 
             </RelativeLayout>
 
-            <View
-                style="@style/DividerHorizontalMarginSytle"/>
+            <View style="@style/DividerHorizontalMarginSytle" />
 
-            <RelativeLayout
-                style="@style/FixHeightLayoutStyle">
+            <RelativeLayout style="@style/FixHeightLayoutStyle">
 
                 <TextView
                     style="@style/NormalTextStyle"
                     android:layout_centerVertical="true"
                     android:text="@string/choose_style"
-                    android:textSize="@dimen/text_size_16"/>
+                    android:textSize="@dimen/text_size_16" />
 
                 <RadioGroup
                     android:id="@+id/rgStyle"
@@ -140,30 +115,28 @@
                         style="@style/NormalRaidoButtonStyle"
                         android:checked="true"
                         android:enabled="false"
-                        android:text="@string/landscape"/>
+                        android:text="@string/landscape" />
 
                     <RadioButton
                         android:id="@+id/rbPortrait"
                         style="@style/NormalRaidoButtonStyle"
                         android:layout_marginLeft="@dimen/margin_15"
                         android:enabled="false"
-                        android:text="@string/portrait"/>
+                        android:text="@string/portrait" />
 
                 </RadioGroup>
 
             </RelativeLayout>
 
-            <View
-                style="@style/DividerHorizontalMarginSytle"/>
+            <View style="@style/DividerHorizontalMarginSytle" />
 
-            <RelativeLayout
-                style="@style/FixHeightLayoutStyle">
+            <RelativeLayout style="@style/FixHeightLayoutStyle">
 
                 <TextView
                     style="@style/NormalTextStyle"
                     android:layout_centerVertical="true"
                     android:text="@string/choose_quantity"
-                    android:textSize="@dimen/text_size_16"/>
+                    android:textSize="@dimen/text_size_16" />
 
 
                 <ImageView
@@ -174,7 +147,7 @@
                     android:layout_marginRight="@dimen/margin_8"
                     android:layout_toLeftOf="@+id/tvNum"
                     android:onClick="minusNumAction"
-                    android:src="@drawable/icon_reduce_pay"/>
+                    android:src="@drawable/icon_reduce_pay" />
 
                 <TextView
                     android:id="@+id/tvNum"
@@ -184,7 +157,7 @@
                     android:layout_toLeftOf="@+id/ivAdd"
                     android:text="@{String.valueOf(template.pageCount)}"
                     android:textSize="@dimen/text_size_16"
-                    tools:text="1"/>
+                    tools:text="1" />
 
                 <ImageView
                     android:id="@+id/ivAdd"
@@ -193,7 +166,7 @@
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:onClick="addNumAction"
-                    android:src="@drawable/icon_addition_pay"/>
+                    android:src="@drawable/icon_addition_pay" />
 
             </RelativeLayout>
 
@@ -202,7 +175,7 @@
         <View
             style="@style/DividerHorizontalStyle"
             android:layout_above="@+id/rltPurchase"
-            android:layout_marginTop="@dimen/margin_26"/>
+            android:layout_marginTop="@dimen/margin_26" />
 
         <RelativeLayout
             android:id="@+id/rltPurchase"
@@ -210,6 +183,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:background="@color/color_white">
+
             <Button
                 android:id="@+id/btnPurchase"
                 android:layout_width="match_parent"
@@ -220,7 +194,7 @@
                 android:onClick="purchaseAction"
                 android:text="@string/purchase"
                 android:textColor="@color/color_f88e11"
-                android:textSize="@dimen/text_size_20"/>
+                android:textSize="@dimen/text_size_20" />
         </RelativeLayout>
 
     </RelativeLayout>

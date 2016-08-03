@@ -14,6 +14,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -23,23 +24,92 @@ public class CreateImageUtil {
 
     public static final String SAVEPATH = Tools.getAppPath() + File.separator + "work";
 
-    public static void createAll(final List<MDImage> mdImageList) {
+    public interface onCreateAllComposteImageCompleteListner {
+        void onComplete(List<String> allCompositeImageLocalPathList);
+    }
+
+    // 有定位块的模版图片生成
+    public static void createAllPageHasModules(final onCreateAllComposteImageCompleteListner listner) {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                for (int i = 0; i < mdImageList.size(); i++) {
-                    final MDImage mdImage = mdImageList.get(i);
+                List<String> allCompositeImageLocalPathList = new ArrayList<String>();
+                for (int pageIndex = 0; pageIndex < SelectImageUtils.sTemplateImage.size(); pageIndex++) {
+                    Bitmap bitmap = createPageBitmapHasModules(pageIndex);
 
-                    Bitmap backgroundBitmap = GlideUtil.loadImageAsBitmap(mdImage);
-                    Bitmap bitmap = createPageBitmap(backgroundBitmap, mdImage.getPhotoTemplateAttachFrameList());
+                    String filePath = saveBitmapToSDCard(bitmap, pageIndex);
+                    allCompositeImageLocalPathList.add(filePath);
+                }
 
-                    saveBitmapToSDCard(bitmap, i);
+                if (listner != null) {
+                    listner.onComplete(allCompositeImageLocalPathList);
                 }
             }
         }).start();
     }
 
-    public static Bitmap createPageBitmap(Bitmap backgroundBitmap, List<PhotoTemplateAttachFrame> photoTemplateAttachFrameList) {
+    // 没有定位块的模版图片生成
+    public static void createAllPageWithoutModules(final onCreateAllComposteImageCompleteListner listner) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                List<String> allCompositeImageLocalPathList = new ArrayList<String>();
+                for (int pageIndex = 0; pageIndex < SelectImageUtils.sTemplateImage.size(); pageIndex++) {
+                    Bitmap bitmap = createPageBitmapWhthoutModules(pageIndex);
+
+                    String filePath = saveBitmapToSDCard(bitmap, pageIndex);
+                    allCompositeImageLocalPathList.add(filePath);
+                }
+
+                if (listner != null) {
+                    listner.onComplete(allCompositeImageLocalPathList);
+                }
+            }
+        }).start();
+    }
+
+    public static Bitmap createPageBitmapWhthoutModules(int pageIndex) {
+        MDImage templateImage = SelectImageUtils.sTemplateImage.get(pageIndex);
+
+        List<PhotoTemplateAttachFrame> photoTemplateAttachFrameList = templateImage.getPhotoTemplateAttachFrameList();
+
+        Bitmap backgroundBitmap = GlideUtil.loadImageAsBitmap(templateImage);
+
+        Paint paint = new Paint();
+        paint.setAntiAlias(true);
+        paint.setDither(true);
+
+        Bitmap bitmap = Bitmap.createBitmap(backgroundBitmap.getWidth(), backgroundBitmap.getHeight(),
+                Bitmap.Config.RGB_565);
+
+        Canvas canvas = new Canvas(bitmap);
+
+        float rateOfEditWidth = TemplateUtils.getRateOfEditWidthOnAndroid(backgroundBitmap);
+
+        // 用户编辑模块绘制
+        MDImage userSelectImage = SelectImageUtils.sAlreadySelectImage.get(pageIndex);
+
+        Bitmap selectBitmap = GlideUtil.loadImageAsBitmap(userSelectImage);
+
+        Matrix matrix = TemplateUtils.getMatrixByString(templateImage.getWorkPhoto().getMatrix());
+
+        Bitmap compositeBitmap = compositePicture(backgroundBitmap.getWidth(), backgroundBitmap.getHeight(),
+                null, selectBitmap, matrix);
+
+        canvas.drawBitmap(compositeBitmap, 0, 0, paint);
+
+        // 背景图绘制
+        canvas.drawBitmap(backgroundBitmap, 0, 0, paint);
+
+        return bitmap;
+    }
+
+    public static Bitmap createPageBitmapHasModules(int pageIndex) {
+        MDImage mdImage = SelectImageUtils.sTemplateImage.get(pageIndex);
+
+        List<PhotoTemplateAttachFrame> photoTemplateAttachFrameList = mdImage.getPhotoTemplateAttachFrameList();
+
+        Bitmap backgroundBitmap = GlideUtil.loadImageAsBitmap(mdImage);
 
         Paint paint = new Paint();
         paint.setAntiAlias(true);
@@ -56,17 +126,18 @@ public class CreateImageUtil {
         canvas.drawBitmap(backgroundBitmap, 0, 0, paint);
 
         // 各个模块绘制
-        createMould(canvas, paint, photoTemplateAttachFrameList, 1.0f, 1.0f, rateOfEditWidth);
+        createMould(pageIndex, canvas, paint, photoTemplateAttachFrameList, 1.0f, 1.0f, rateOfEditWidth);
 
         return bitmap;
     }
 
-    private static void createMould(final Canvas canvas, final Paint paint, List<PhotoTemplateAttachFrame> moulds,
+    private static void createMould(int pageIndex, final Canvas canvas,
+                                    final Paint paint, List<PhotoTemplateAttachFrame> moulds,
                                     float rate, float r, float rateOfEditWidth) {
-        for (int i = 0; i < moulds.size(); i++) {
+        for (int moduleIndex = 0; moduleIndex < moulds.size(); moduleIndex++) {
             final PhotoTemplateAttachFrame photoTemplateAttachFrame =
-                    moulds.get(i);
-            MDImage mdImage = photoTemplateAttachFrame.getUserSelectImage();
+                    moulds.get(moduleIndex);
+            MDImage mdImage = SelectImageUtils.getMdImageByPageIndexAndModuleIndex(pageIndex, moduleIndex);
 
             Bitmap selectBitmap = GlideUtil.loadImageAsBitmap(mdImage);
             float dx = photoTemplateAttachFrame.getPositionX();
@@ -82,10 +153,41 @@ public class CreateImageUtil {
         }
     }
 
-    private static Bitmap compositePicture(float w, float h, Bitmap mouldBmp, Bitmap photoBmp, Matrix matrix) {
+    private static Bitmap compositePicture(float width, float height, Bitmap mouldBmp, Bitmap photoBmp, Matrix matrix) {
         Bitmap outputBitmap;
-        outputBitmap = Bitmap.createBitmap((int) w, (int) h, Config.ARGB_4444);
+        outputBitmap = Bitmap.createBitmap((int) width, (int) height, Config.ARGB_4444);
         outputBitmap.eraseColor(Color.parseColor("#ffffff"));
+
+        int photoBmpWidth = photoBmp.getWidth();
+        int photoBmpHeight = photoBmp.getHeight();
+
+        float scale = width / ((float) photoBmpWidth) > height / ((float) photoBmpHeight)
+                ? width / ((float) photoBmpWidth)
+                : height / ((float) photoBmpHeight);
+
+        if (scale != 0.0f) {
+            Bitmap scalePhotoBmp;
+            Matrix photoMatrix = new Matrix();
+            photoMatrix.setScale(scale, scale);
+            try {
+                scalePhotoBmp = Bitmap.createBitmap(photoBmp, 0, 0, photoBmpWidth, photoBmpHeight, photoMatrix, true);
+            } catch (OutOfMemoryError e) {
+//                    BitMapUtil.oom();
+                try {
+                    scalePhotoBmp = Bitmap.createBitmap(photoBmp, 0, 0, photoBmpWidth, photoBmpHeight, photoMatrix, true);
+                } catch (OutOfMemoryError e2) {
+//                        BitMapUtil.oom();
+                    scalePhotoBmp = Bitmap.createBitmap(photoBmp, 0, 0, photoBmpWidth, photoBmpHeight, photoMatrix, true);
+                }
+            }
+            photoBmp = scalePhotoBmp;
+
+            float photoBitmapWidth = (float) photoBmp.getWidth();
+            float photoBitmapHeight = (float) photoBmp.getHeight();
+            float dx = (width - photoBitmapWidth) / 2.0f;
+            float dy = (height - photoBitmapHeight) / 2.0f;
+//            matrix.preTranslate(dx, dy);
+        }
 
         Canvas canvas = new Canvas(outputBitmap);
         Paint paint = new Paint();
@@ -100,7 +202,7 @@ public class CreateImageUtil {
         return outputBitmap;
     }
 
-    private static void saveBitmapToSDCard(Bitmap saveBitmap, int index) {
+    private static String saveBitmapToSDCard(Bitmap saveBitmap, int index) {
         File saveFoler = new File(SAVEPATH);
         if (!saveFoler.exists()) {
             saveFoler.mkdirs();
@@ -113,9 +215,12 @@ public class CreateImageUtil {
 //            }
         }
         String fileName = "page_" + index + ".jpg";
+        String filePath = SAVEPATH + File.separator + fileName;
+
+        File file = new File(filePath);
 
         try {
-            FileOutputStream out = new FileOutputStream(new File(saveFoler, fileName));
+            FileOutputStream out = new FileOutputStream(file);
 
             saveBitmap.compress(Bitmap.CompressFormat.JPEG, 100, out);
 
@@ -127,5 +232,6 @@ public class CreateImageUtil {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        return filePath;
     }
 }

@@ -40,6 +40,8 @@ public class WorkPhoto {
 
     private List<WorkPhotoEdit> WorkPhotoEditList;
 
+    private String matrix;
+
     public int getAutoID() {
         return AutoID;
     }
@@ -166,5 +168,13 @@ public class WorkPhoto {
 
     public void setWorkPhotoEditList(List<WorkPhotoEdit> workPhotoEditList) {
         WorkPhotoEditList = workPhotoEditList;
+    }
+
+    public String getMatrix() {
+        return matrix;
+    }
+
+    public void setMatrix(String matrix) {
+        this.matrix = matrix;
     }
 }

@@ -64,6 +64,7 @@ public class TemplateStartCreateActivity extends ToolbarActivity<ActivityTemplat
             }
         });
     }
+
     //region ACTION
 
     private void setCurrentPageTips(int currentIndex) {
@@ -75,6 +76,7 @@ public class TemplateStartCreateActivity extends ToolbarActivity<ActivityTemplat
     }
     //endregion
 
+    //region ADAPTER
     private class TemplateStartCreateAdapter extends PagerAdapter {
 
         @Override
@@ -106,5 +108,6 @@ public class TemplateStartCreateActivity extends ToolbarActivity<ActivityTemplat
             ((ViewPager) container).removeView((View) object);
         }
     }
+    //endregion
 
 }

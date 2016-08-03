@@ -32,6 +32,12 @@ public class MDGroundLoader implements ModelLoader<MDImage, InputStream> {
             return new StreamLocalUriFetcher(mContext, Uri.fromFile(new File(model.getImageLocalPath())));
         }
 
+        // 如果本地路径,PhotoID,PhotoSID都是空
+        if (model.getPhotoID() == 0 && model.getPhotoSID() == 0) {
+            Uri uri = Uri.parse("android.resource://" + mContext.getPackageName() + "/drawable/ic_placeholder");
+            return new StreamLocalUriFetcher(mContext, uri);
+        }
+
         return new MDGroundFetcher(model, mContext);
     }
 
