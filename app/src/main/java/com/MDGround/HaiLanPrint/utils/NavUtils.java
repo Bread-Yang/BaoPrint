@@ -7,15 +7,10 @@ import android.support.v4.content.IntentCompat;
 import com.MDGround.HaiLanPrint.activity.cloudphotos.CloudDetailActivity;
 import com.MDGround.HaiLanPrint.activity.engraving.EngravingChoosePaperNumActivity;
 import com.MDGround.HaiLanPrint.activity.login.LoginActivity;
-import com.MDGround.HaiLanPrint.activity.lomocard.LomoCardEditActivity;
-import com.MDGround.HaiLanPrint.activity.magiccup.MagicCupPhotoEditActivity;
 import com.MDGround.HaiLanPrint.activity.main.MainActivity;
 import com.MDGround.HaiLanPrint.activity.payment.PaymentPreviewActivity;
-import com.MDGround.HaiLanPrint.activity.phoneshell.PhoneShellEditActivity;
 import com.MDGround.HaiLanPrint.activity.photoprint.PrintPhotoChoosePaperNumActivity;
 import com.MDGround.HaiLanPrint.activity.pictureframe.PictureFrameEditActivity;
-import com.MDGround.HaiLanPrint.activity.poker.PokerEditActivity;
-import com.MDGround.HaiLanPrint.activity.puzzle.PuzzleEditActivity;
 import com.MDGround.HaiLanPrint.activity.selectimage.SelectAlbumBeforeEditActivity;
 import com.MDGround.HaiLanPrint.activity.templateedit.GlobalTemplateEditActivity;
 import com.MDGround.HaiLanPrint.application.MDGroundApplication;
@@ -89,19 +84,24 @@ public class NavUtils {
 //                intent.setClass(context, CalendarEditActivity.class);
                 break;
             case PhoneShell:
-                intent.setClass(context, PhoneShellEditActivity.class);
+//                intent.setClass(context, PhoneShellEditActivity.class);
+                intent.setClass(context, GlobalTemplateEditActivity.class);
                 break;
             case Poker:
-                intent.setClass(context, PokerEditActivity.class);
+//                intent.setClass(context, PokerEditActivity.class);
+                intent.setClass(context, GlobalTemplateEditActivity.class);
                 break;
             case Puzzle:
-                intent.setClass(context, PuzzleEditActivity.class);
+//                intent.setClass(context, PuzzleEditActivity.class);
+                intent.setClass(context, GlobalTemplateEditActivity.class);
                 break;
             case MagicCup:
-                intent.setClass(context, MagicCupPhotoEditActivity.class);
+//                intent.setClass(context, MagicCupPhotoEditActivity.class);
+                intent.setClass(context, GlobalTemplateEditActivity.class);
                 break;
             case LOMOCard:
-                intent.setClass(context, LomoCardEditActivity.class);
+//                intent.setClass(context, LomoCardEditActivity.class);
+                intent.setClass(context, GlobalTemplateEditActivity.class);
                 break;
             case Engraving:
                 hasTemplate = false;

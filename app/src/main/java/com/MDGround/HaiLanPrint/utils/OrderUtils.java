@@ -73,7 +73,7 @@ public class OrderUtils {
     private WorkInfo mWorkInfo;
 
     // true : 只是保存到我的作品,没有下单
-    private boolean mIsJustSaveUserWork;
+    public  boolean mIsJustSaveUserWork;
 
     public ArrayList<OrderWork> mOrderWorkArrayList = new ArrayList<>();
 

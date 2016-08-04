@@ -2,33 +2,41 @@ package com.MDGround.HaiLanPrint.activity.pictureframe;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Matrix;
+import android.graphics.Point;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.RadioGroup;
 
 import com.MDGround.HaiLanPrint.R;
 import com.MDGround.HaiLanPrint.activity.base.ToolbarActivity;
 import com.MDGround.HaiLanPrint.activity.selectimage.SelectAlbumWhenEditActivity;
+import com.MDGround.HaiLanPrint.activity.templateedit.GlobalTemplateEditActivity;
 import com.MDGround.HaiLanPrint.application.MDGroundApplication;
 import com.MDGround.HaiLanPrint.constants.Constants;
 import com.MDGround.HaiLanPrint.databinding.ActivityPictureFrameEditBinding;
 import com.MDGround.HaiLanPrint.enumobject.MaterialType;
 import com.MDGround.HaiLanPrint.models.MDImage;
 import com.MDGround.HaiLanPrint.models.Template;
-import com.MDGround.HaiLanPrint.models.WorkPhoto;
+import com.MDGround.HaiLanPrint.utils.CreateImageUtil;
 import com.MDGround.HaiLanPrint.utils.GlideUtil;
 import com.MDGround.HaiLanPrint.utils.OrderUtils;
 import com.MDGround.HaiLanPrint.utils.SelectImageUtils;
 import com.MDGround.HaiLanPrint.utils.StringUtil;
+import com.MDGround.HaiLanPrint.utils.TemplateUtils;
 import com.MDGround.HaiLanPrint.utils.ViewUtils;
-import com.MDGround.HaiLanPrint.views.BaoGPUImage;
+import com.MDGround.HaiLanPrint.views.DrawingBoardView;
 import com.MDGround.HaiLanPrint.views.ProductionView;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 
+import java.util.List;
+
 /**
  * Created by yoghourt on 5/18/16.
  */
-public class PictureFrameEditActivity extends ToolbarActivity<ActivityPictureFrameEditBinding> {
+public class PictureFrameEditActivity extends ToolbarActivity<ActivityPictureFrameEditBinding>
+        implements DrawingBoardView.OnDrawingBoardClickListener {
 
     private ProductionView mProductionView;
 
@@ -38,6 +46,8 @@ public class PictureFrameEditActivity extends ToolbarActivity<ActivityPictureFra
 
     private String mWorkFormat, mWorkStyle;
 
+    private Bitmap mTemplateBitmap;
+
     @Override
     protected int getContentLayout() {
         return R.layout.activity_picture_frame_edit;
@@ -45,16 +55,13 @@ public class PictureFrameEditActivity extends ToolbarActivity<ActivityPictureFra
 
     @Override
     protected void initData() {
-        mProductionView = new ProductionView(this);
-        mDataBinding.lltEdit.addView(mProductionView, 0);
+        initBackgroundBitmap();
 
         mChooseTemplate = MDGroundApplication.sInstance.getChoosedTemplate();
         mChooseTemplate.setPageCount(1);
         MDGroundApplication.sInstance.setChoosedTemplate(mChooseTemplate);
 
         mDataBinding.setTemplate(mChooseTemplate);
-
-        showImageToGPUImageView();
 
         mDataBinding.tvPrice.setText(getString(R.string.yuan_amount,
                 StringUtil.toYuanWithoutUnit(mChooseTemplate.getPrice())));
@@ -98,37 +105,91 @@ public class PictureFrameEditActivity extends ToolbarActivity<ActivityPictureFra
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 switch (checkedId) {
                     case R.id.rbLandscape:
-                        GlideUtil.loadImageByMDImage(mDataBinding.ivTemplate, SelectImageUtils.sTemplateImage.get(0), false);
+                        refreshProductionView(-90);
                         break;
                     case R.id.rbPortrait:
-                        GlideUtil.loadImageRotated(mDataBinding.ivTemplate, SelectImageUtils.sTemplateImage.get(0), 90);
+                        refreshProductionView(90);
                         break;
                 }
             }
         });
     }
 
-    private void showImageToGPUImageView() {
-        if (SelectImageUtils.sTemplateImage.size() > 0) {
-            // 模板图片加载
-            GlideUtil.loadImageByMDImage(mDataBinding.ivTemplate, SelectImageUtils.sTemplateImage.get(0), false);
+    @Override
+    public void onDrawingBoardTouch(DrawingBoardView drawingBoardView) {
+
+    }
+
+    @Override
+    public void onDrawingBoardClick(DrawingBoardView drawingBoardView) {
+        Intent intent = new Intent(PictureFrameEditActivity.this, SelectAlbumWhenEditActivity.class);
+        startActivityForResult(intent, 0);
+    }
+
+    private void initBackgroundBitmap() {
+        mProductionView = new ProductionView(this);
+        mDataBinding.lltEdit.addView(mProductionView, 0);
+        mProductionView.bringBackgroundToFront();
+
+        MDImage templateImage = SelectImageUtils.sTemplateImage.get(0);
+
+        GlideUtil.loadImageAsBitmap(templateImage, new SimpleTarget<Bitmap>() {
+            @Override
+            public void onResourceReady(final Bitmap backgroundBitmap, GlideAnimation<? super
+                    Bitmap> glideAnimation) {
+                mTemplateBitmap = backgroundBitmap;
+
+                refreshProductionView(0f);
+            }
+        });
+    }
+
+    private void refreshProductionView(float rotateAngle) {
+        if (rotateAngle != 0) {
+            Matrix matrix = new Matrix();
+            matrix.postRotate(rotateAngle);
+            mTemplateBitmap = Bitmap.createBitmap(mTemplateBitmap, 0, 0,
+                    mTemplateBitmap.getWidth(), mTemplateBitmap.getHeight(), matrix, true);
         }
 
-        final MDImage mdImage = SelectImageUtils.sAlreadySelectImage.get(0);
+        mProductionView.clear();
+        mProductionView.backgroundLayer.setImageBitmap(mTemplateBitmap);
 
-        // 用户选择的图片加载
-        GlideUtil.loadImageAsBitmap(mdImage,
-                new SimpleTarget<Bitmap>(200, 200) {
-                    @Override
-                    public void onResourceReady(Bitmap bitmap, GlideAnimation glideAnimation) {
-                        WorkPhoto workPhoto = mdImage.getWorkPhoto();
+        // 根据返回Bitmap的大小设置在android上对应的宽高
+        Point sizePoint = TemplateUtils.getEditPointOnAndroid(mTemplateBitmap);
 
-                        mDataBinding.bgiImage.loadNewImage(bitmap,
-                                workPhoto.getZoomSize() / 100f,
-                                workPhoto.getRotate(),
-                                workPhoto.getBrightLevel() / 100f);
-                    }
-                });
+        final int width = sizePoint.x;
+        final float height = sizePoint.y;
+
+        mProductionView.setWidthAndHeight(width, (int) height);
+
+        MDImage image = SelectImageUtils.sAlreadySelectImage.get(0);
+        GlideUtil.loadImageAsBitmap(image, new SimpleTarget<Bitmap>() {
+            @Override
+            public void onResourceReady(Bitmap moduleBitmap, GlideAnimation<? super
+                    Bitmap> glideAnimation) {
+
+                moduleBitmap = moduleBitmap.copy(moduleBitmap.getConfig(), true); // safe copy
+
+                Matrix matrix = new Matrix();
+                addDrawBoard(0, 0, width, height,
+                        moduleBitmap, moduleBitmap, matrix, 1.0f, 0);
+            }
+        });
+    }
+
+    private void addDrawBoard(float dx, float dy, float w, float h,
+                              Bitmap mouldBmp, Bitmap photoBmp, Matrix matrix, float rate, int position) {
+        DrawingBoardView drawingBoardView = new DrawingBoardView(this, this,
+                w, h, mouldBmp, photoBmp, matrix, rate);
+        drawingBoardView.setTag(Integer.valueOf(position));
+
+        FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams((int) w, (int) h);
+        layoutParams.setMargins((int) dx, (int) dy, 0, 0);
+        drawingBoardView.setLayoutParams(layoutParams);
+
+        mProductionView.drawBoardLayer.addView(drawingBoardView);
+        mProductionView.mDrawingBoardViewSparseArray.append(position, drawingBoardView);
     }
 
     private void changeMaterialAvailable() {
@@ -160,29 +221,42 @@ public class PictureFrameEditActivity extends ToolbarActivity<ActivityPictureFra
     private void saveToMyWork() {
         ViewUtils.loading(this);
         // 保存到我的作品中
-        MDGroundApplication.sOrderutUtils = new OrderUtils(this, true,
-                mChooseTemplate.getPageCount(),
-                mPrice, mWorkFormat, null, mWorkStyle);
-        MDGroundApplication.sOrderutUtils.uploadPrintPhotoOrEngravingImageRequest(this, 0);
+        CreateImageUtil.createAllPageHasModules(new CreateImageUtil.onCreateAllComposteImageCompleteListner() {
+            @Override
+            public void onComplete(final List<String> allCompositeImageLocalPathList) {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        // 保存到我的作品中
+                        MDGroundApplication.sOrderutUtils = new OrderUtils(PictureFrameEditActivity.this, true,
+                                mChooseTemplate.getPageCount(),
+                                mPrice, mWorkFormat, null, mWorkStyle);
+                        MDGroundApplication.sOrderutUtils.uploadAllCompositeImageReuqest(PictureFrameEditActivity.this,
+                                allCompositeImageLocalPathList, 0);
+                    }
+                });
+            }
+        });
     }
-
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_OK) {
-            MDImage newMdImage = data.getParcelableExtra(Constants.KEY_SELECT_IMAGE);
+            MDImage newMDImage = data.getParcelableExtra(Constants.KEY_SELECT_IMAGE);
 
-            MDImage oldMdImage = SelectImageUtils.sAlreadySelectImage.get(0);
+            MDImage oldMDImage = SelectImageUtils.sAlreadySelectImage.get(0);
 
-            WorkPhoto workPhoto = oldMdImage.getWorkPhoto();
-            workPhoto.setZoomSize(100);
-            workPhoto.setBrightLevel(0);
-            workPhoto.setRotate(0);
-            newMdImage.setWorkPhoto(workPhoto);
+            oldMDImage.setPhotoID(newMDImage.getPhotoID());
+            oldMDImage.setPhotoSID(newMDImage.getPhotoSID());
+            oldMDImage.setImageLocalPath(newMDImage.getImageLocalPath());
 
-            SelectImageUtils.sAlreadySelectImage.set(0, newMdImage);
-
-            showImageToGPUImageView();
+            GlideUtil.loadImageAsBitmap(oldMDImage, new SimpleTarget<Bitmap>() {
+                @Override
+                public void onResourceReady(final Bitmap newBitmap, GlideAnimation<? super
+                        Bitmap> glideAnimation) {
+                    mProductionView.mDrawingBoardViewSparseArray.valueAt(0).setPhotoBitmap(newBitmap, new Matrix(), 1.0f);
+                }
+            });
         }
     }
 
@@ -207,10 +281,23 @@ public class PictureFrameEditActivity extends ToolbarActivity<ActivityPictureFra
 
     public void purchaseAction(View view) {
         ViewUtils.loading(this);
-        MDGroundApplication.sOrderutUtils = new OrderUtils(this, false,
-                mChooseTemplate.getPageCount(),
-                mPrice, mWorkFormat, null, mWorkStyle);
-        MDGroundApplication.sOrderutUtils.uploadPrintPhotoOrEngravingImageRequest(this, 0);
+
+        CreateImageUtil.createAllPageWithoutModules(new CreateImageUtil.onCreateAllComposteImageCompleteListner() {
+            @Override
+            public void onComplete(final List<String> allCompositeImageLocalPathList) {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        MDGroundApplication.sOrderutUtils = new OrderUtils(PictureFrameEditActivity.this, false,
+                                mChooseTemplate.getPageCount(),
+                                mPrice, mWorkFormat, null, mWorkStyle);
+
+                        MDGroundApplication.sOrderutUtils.uploadAllCompositeImageReuqest(PictureFrameEditActivity.this,
+                                allCompositeImageLocalPathList, 0);
+                    }
+                });
+            }
+        });
     }
     //endregion
 }

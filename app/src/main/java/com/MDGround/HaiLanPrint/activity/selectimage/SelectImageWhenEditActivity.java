@@ -121,7 +121,7 @@ public class SelectImageWhenEditActivity extends ToolbarActivity<ActivitySelectI
     }
 
     private void loadImageRequest() {
-        GlobalRestful.getInstance().GetCloudPhoto(mPageIndex, mIsShared, new Callback<ResponseData>() {
+        GlobalRestful.getInstance().GetCloudPhoto(mPageIndex, mIsShared, 0, new Callback<ResponseData>() {
             @Override
             public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
                 mPageIndex++;

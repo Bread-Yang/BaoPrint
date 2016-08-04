@@ -117,8 +117,8 @@ public class MyCreditActivity extends ToolbarActivity<ActivityPersonalCreditBind
 
         @Override
         public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            View v = LayoutInflater.from(context).inflate(R.layout.item_credit_query, parent, false);
-            ViewHolder viewHolder = new ViewHolder(v);
+            View view = LayoutInflater.from(context).inflate(R.layout.item_credit_query, parent, false);
+            ViewHolder viewHolder = new ViewHolder(view);
             return viewHolder;
         }
 
@@ -128,13 +128,15 @@ public class MyCreditActivity extends ToolbarActivity<ActivityPersonalCreditBind
             holder.itemIntegralQueryBinding.setHandler(handler);
 
             holder.itemIntegralQueryBinding.setCreditInfo(mUserCreditList.get(position));
-            if(Integer.valueOf(mUserCreditList.get(position).getAmount())<0){
+            if (Integer.valueOf(mUserCreditList.get(position).getAmount()) < 0) {
+                holder.itemIntegralQueryBinding.tvTitle.setText(R.string.credits_deduction);
                 holder.itemIntegralQueryBinding.tvIntegral.setTextColor(getResources().getColor(R.color.color_0ec100));
                 holder.itemIntegralQueryBinding.tvIntegral.setText(mUserCreditList.get(position).getAmount());
-            }else{
+            } else {
 //                 String plus=("+ "+mUserCreditList.get(position).getAmount());
+                holder.itemIntegralQueryBinding.tvTitle.setText(R.string.credits_present);
                 holder.itemIntegralQueryBinding.tvIntegral.setTextColor(getResources().getColor(R.color.colorRed));
-                holder.itemIntegralQueryBinding.tvIntegral.setText("+"+mUserCreditList.get(position).getAmount());
+                holder.itemIntegralQueryBinding.tvIntegral.setText("+" + mUserCreditList.get(position).getAmount());
             }
         }
 

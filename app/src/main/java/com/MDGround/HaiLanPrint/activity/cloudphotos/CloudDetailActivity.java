@@ -1,6 +1,7 @@
 package com.MDGround.HaiLanPrint.activity.cloudphotos;
 
 import android.content.Intent;
+import android.support.design.widget.TabLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.view.View;
 import android.widget.CompoundButton;
@@ -11,6 +12,7 @@ import com.MDGround.HaiLanPrint.activity.uploadimage.UploadImageActivity;
 import com.MDGround.HaiLanPrint.adapter.ChooseImageListAdapter;
 import com.MDGround.HaiLanPrint.constants.Constants;
 import com.MDGround.HaiLanPrint.databinding.ActivityCloudDetailBinding;
+import com.MDGround.HaiLanPrint.models.CloudPhotoCategory;
 import com.MDGround.HaiLanPrint.models.MDImage;
 import com.MDGround.HaiLanPrint.restfuls.GlobalRestful;
 import com.MDGround.HaiLanPrint.restfuls.bean.ResponseData;
@@ -37,13 +39,19 @@ public class CloudDetailActivity extends ToolbarActivity<ActivityCloudDetailBind
 
     private ChooseImageListAdapter mImageAdapter;
 
-    private ArrayList<MDImage> mImagesList = new ArrayList<MDImage>();
+    private ArrayList<MDImage> mAllImagesList = new ArrayList<MDImage>();
+
+    private ArrayList<CloudPhotoCategory> mCloudPhotoCategoryArrayList = new ArrayList<>();
 
     private MDImage mImage;
 
     private int mPageIndex;
 
     private boolean isManualChangeState;
+
+    private int mCategoryId;
+
+    private boolean mIsFristEnter = true;
 
     @Override
     protected int getContentLayout() {
@@ -54,9 +62,13 @@ public class CloudDetailActivity extends ToolbarActivity<ActivityCloudDetailBind
     protected void onResume() {
         super.onResume();
 
-        mPageIndex = 0;
-        mImagesList.clear();
-        loadImageRequest();
+        if (!mIsFristEnter) {
+            mPageIndex = 0;
+            mAllImagesList.clear();
+            getCloudPhotoRequest();
+        }
+
+        mIsFristEnter = false;
     }
 
     @Override
@@ -69,6 +81,7 @@ public class CloudDetailActivity extends ToolbarActivity<ActivityCloudDetailBind
             tvRight.setText(R.string.forward);
             tvTitle.setText(R.string.share_album);
         } else {
+            mDataBinding.tabLayout.setVisibility(View.GONE);
             tvRight.setText(R.string.edit);
             tvTitle.setText(R.string.personal_album);
         }
@@ -79,6 +92,11 @@ public class CloudDetailActivity extends ToolbarActivity<ActivityCloudDetailBind
         mImageAdapter = new ChooseImageListAdapter(this, Integer.MAX_VALUE, false, !mImage.isShared());
         mDataBinding.recyclerView.setAdapter(mImageAdapter);
 
+        if (mImage.isShared()) {
+            getCloudPhotoCategoryListRequest();
+        } else {
+            getCloudPhotoRequest();
+        }
     }
 
     @Override
@@ -134,7 +152,7 @@ public class CloudDetailActivity extends ToolbarActivity<ActivityCloudDetailBind
         mDataBinding.recyclerView.setupMoreListener(new OnMoreListener() {
             @Override
             public void onMoreAsked(int overallItemsCount, int itemsBeforeMore, int maxLastVisiblePosition) {
-                loadImageRequest();
+                getCloudPhotoRequest();
             }
         }, Constants.ITEM_LEFT_TO_LOAD_MORE);
 
@@ -189,36 +207,57 @@ public class CloudDetailActivity extends ToolbarActivity<ActivityCloudDetailBind
     public void btnOperationAction(View view) {
         String btnText = mDataBinding.btnOperation.getText().toString();
         if (mImage.isShared()) {
-            transferImageRequest();
+            transferCloudPhotoRequest();
         } else {
             if (btnText.equals(getString(R.string.upload_image))) {
                 toImageSelectActivity();
             } else {
-                deleteImageRequest();
+                deleteCloudPhotoRequest();
             }
         }
     }
     //endregion
 
     //region SERVER
-    private void loadImageRequest() {
-        GlobalRestful.getInstance().GetCloudPhoto(mPageIndex, mImage.isShared(), new Callback<ResponseData>() {
+    private void getCloudPhotoCategoryListRequest() {
+        ViewUtils.loading(this);
+        GlobalRestful.getInstance().GetCloudPhotoCategoryList(new Callback<ResponseData>() {
             @Override
             public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
-                mPageIndex++;
+                mCloudPhotoCategoryArrayList = response.body().getContent(new TypeToken<ArrayList<CloudPhotoCategory>>() {
+                });
 
-                if (StringUtil.isEmpty(response.body().getContent())) {
-                    mDataBinding.recyclerView.setLoadingMore(false);
-                    mDataBinding.recyclerView.setupMoreListener(null, 0);
-                } else {
-                    ArrayList<MDImage> tempImagesList = response.body().getContent(new TypeToken<ArrayList<MDImage>>() {
-                    });
-
-                    mImagesList.addAll(tempImagesList);
-                    mImageAdapter.bindImages(mImagesList);
+                for (CloudPhotoCategory cloudPhotoCategory : mCloudPhotoCategoryArrayList) {
+                    mDataBinding.tabLayout.addTab(mDataBinding.tabLayout.newTab().setText(cloudPhotoCategory.getCategoryName()));
                 }
+                mCategoryId = mCloudPhotoCategoryArrayList.get(0).getCategoryID();
 
-                mDataBinding.recyclerView.hideMoreProgress();
+                mDataBinding.tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+                    @Override
+                    public void onTabSelected(TabLayout.Tab tab) {
+                        int currentSelectedTabIndex = tab.getPosition();
+
+                        CloudPhotoCategory cloudPhotoCategory = mCloudPhotoCategoryArrayList.get(currentSelectedTabIndex);
+
+                        mAllImagesList.clear();
+                        mPageIndex = 0;
+                        mCategoryId = cloudPhotoCategory.getCategoryID();
+
+                        getCloudPhotoRequest();
+                    }
+
+                    @Override
+                    public void onTabUnselected(TabLayout.Tab tab) {
+
+                    }
+
+                    @Override
+                    public void onTabReselected(TabLayout.Tab tab) {
+
+                    }
+                });
+
+                getCloudPhotoRequest();
             }
 
             @Override
@@ -228,7 +267,37 @@ public class CloudDetailActivity extends ToolbarActivity<ActivityCloudDetailBind
         });
     }
 
-    private void deleteImageRequest() {
+    private void getCloudPhotoRequest() {
+        GlobalRestful.getInstance().GetCloudPhoto(mPageIndex, mImage.isShared(), mCategoryId,
+                new Callback<ResponseData>() {
+                    @Override
+                    public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
+                        ViewUtils.dismiss();
+
+                        mPageIndex++;
+
+                        if (StringUtil.isEmpty(response.body().getContent())) {
+                            mDataBinding.recyclerView.setLoadingMore(false);
+                            mDataBinding.recyclerView.setupMoreListener(null, 0);
+                        } else {
+                            ArrayList<MDImage> tempImagesList = response.body().getContent(new TypeToken<ArrayList<MDImage>>() {
+                            });
+
+                            mAllImagesList.addAll(tempImagesList);
+                        }
+                        mImageAdapter.bindImages(mAllImagesList);
+
+                        mDataBinding.recyclerView.hideMoreProgress();
+                    }
+
+                    @Override
+                    public void onFailure(Call<ResponseData> call, Throwable t) {
+
+                    }
+                });
+    }
+
+    private void deleteCloudPhotoRequest() {
         final List<MDImage> selectImages = mImageAdapter.getSelectedImages();
 
         if (selectImages == null || selectImages.size() == 0) {
@@ -248,7 +317,7 @@ public class CloudDetailActivity extends ToolbarActivity<ActivityCloudDetailBind
             public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
                 for (MDImage selectImage : selectImages) {
 
-                    Iterator<MDImage> iterator = mImagesList.iterator();
+                    Iterator<MDImage> iterator = mAllImagesList.iterator();
                     while (iterator.hasNext()) {
                         MDImage item = iterator.next();
 
@@ -261,7 +330,7 @@ public class CloudDetailActivity extends ToolbarActivity<ActivityCloudDetailBind
 
                 mDataBinding.btnOperation.setText(getString(R.string.delete));
 
-                mImageAdapter.bindImages(mImagesList);
+                mImageAdapter.bindImages(mAllImagesList);
 
                 ViewUtils.dismiss();
             }
@@ -273,7 +342,7 @@ public class CloudDetailActivity extends ToolbarActivity<ActivityCloudDetailBind
         });
     }
 
-    private void transferImageRequest() {
+    private void transferCloudPhotoRequest() {
         final List<MDImage> selectImages = mImageAdapter.getSelectedImages();
 
         if (selectImages == null || selectImages.size() == 0) {

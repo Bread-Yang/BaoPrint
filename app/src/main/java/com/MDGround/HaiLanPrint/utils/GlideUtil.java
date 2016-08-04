@@ -56,18 +56,6 @@ public class GlideUtil {
         }
     }
 
-    public static void loadImageRotated(ImageView imageView, MDImage mdImage, float rotateAngle) {
-        if (mdImage != null) {
-            Glide.with(MDGroundApplication.sInstance)
-                    .load(mdImage)
-                    .diskCacheStrategy(DiskCacheStrategy.ALL)
-                    .error(R.drawable.layerlist_image_placeholder)
-                    .dontAnimate()
-                    .transform(new RotateTransformation(imageView.getContext(), rotateAngle))
-                    .into(imageView);
-        }
-    }
-
     public static void loadImageByMDImageWithDialog(final ImageView imageView, MDImage mdImage) {
         ViewUtils.loading(imageView.getContext());
         Glide.with(imageView.getContext())
@@ -150,6 +138,18 @@ public class GlideUtil {
             e.printStackTrace();
         }
         return bitmap;
+    }
+
+    public static void loadImageRotated(Context context,
+                                        MDImage mdImage, float rotateAngle, Target target) {
+        Glide.with(MDGroundApplication.sInstance)
+                .load(mdImage)
+                .asBitmap()
+                .atMost()
+                .override(300, 300) // 图片如果超过300 * 300, 则压缩
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .transform(new RotateTransformation(context, rotateAngle))
+                .into(target);
     }
 
     public static long getFileSize(final File file) {

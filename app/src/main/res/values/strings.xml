@@ -352,6 +352,7 @@
     <string name="holding_credit">持有积分</string>
     <string name="credits_balance_of_payment">积分收支明细</string>
     <string name="credits_deduction">积分抵扣</string>
+    <string name="credits_present">积分赠送</string>
     <string name="total">合计</string>
 
     <!-- 孩子资料 -->

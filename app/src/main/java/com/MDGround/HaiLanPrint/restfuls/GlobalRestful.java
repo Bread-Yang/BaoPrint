@@ -121,14 +121,14 @@ public class GlobalRestful extends BaseRestful {
         obj.addProperty("Phone", user.getPhone());
         obj.addProperty("Pwd", user.getPassword());
         obj.addProperty("UserName", user.getUserName());
-        obj.addProperty("KidName1",user.getKidName1());
-        obj.addProperty("KidDOB1",user.getKidDOB1());
-        obj.addProperty("KidSchool1",user.getKidSchool1());
-        obj.addProperty("KidClass1",user.getKidClass1());
-        obj.addProperty("KidName2",user.getKidName2());
-        obj.addProperty("KidDOB2",user.getKidDOB2());
-        obj.addProperty("KidSchool2",user.getKidSchool2());
-        obj.addProperty("KidClass2",user.getKidClass2());
+        obj.addProperty("KidName1", user.getKidName1());
+        obj.addProperty("KidDOB1", user.getKidDOB1());
+        obj.addProperty("KidSchool1", user.getKidSchool1());
+        obj.addProperty("KidClass1", user.getKidClass1());
+        obj.addProperty("KidName2", user.getKidName2());
+        obj.addProperty("KidDOB2", user.getKidDOB2());
+        obj.addProperty("KidSchool2", user.getKidSchool2());
+        obj.addProperty("KidClass2", user.getKidClass2());
         obj.addProperty("InvitationCode", user.getInvitationCode());
         asynchronousPost("RegisterUser", obj, callback);
     }
@@ -147,11 +147,18 @@ public class GlobalRestful extends BaseRestful {
         asynchronousPost("GetCloudPhotoCount", null, callback);
     }
 
+    // 获取共享相册的类别
+    public void GetCloudPhotoCategoryList(Callback<ResponseData> callback) {
+        asynchronousPost("GetCloudPhotoCategoryList", null, callback);
+    }
+
     // 获取云相册所有图片
-    public void GetCloudPhoto(int PageIndex, boolean IsShared, Callback<ResponseData> callback) {
+    public void GetCloudPhoto(int PageIndex, boolean IsShared, int categoryID,
+                              Callback<ResponseData> callback) {
         JsonObject obj = new JsonObject();
         obj.addProperty("PageIndex", PageIndex);
         obj.addProperty("IsShared", IsShared);
+        obj.addProperty("CategoryID", categoryID);
 
         asynchronousPost("GetCloudPhoto", obj, callback);
     }
@@ -384,9 +391,9 @@ public class GlobalRestful extends BaseRestful {
     }
 
     //消息中心
-    public void GetUserMessageList(int PageIndex, Callback<ResponseData> callback){
-        JsonObject jsonObject=new JsonObject();
-        jsonObject.addProperty("PageIndex",PageIndex);
-        asynchronousPost("GetUserMessageList",jsonObject, callback);
+    public void GetUserMessageList(int PageIndex, Callback<ResponseData> callback) {
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty("PageIndex", PageIndex);
+        asynchronousPost("GetUserMessageList", jsonObject, callback);
     }
 }

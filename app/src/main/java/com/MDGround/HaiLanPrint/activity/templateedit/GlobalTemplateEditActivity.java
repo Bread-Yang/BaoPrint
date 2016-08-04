@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Matrix;
+import android.graphics.Point;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -61,8 +62,7 @@ public class GlobalTemplateEditActivity extends ToolbarActivity<ActivityGlobalTe
 
     @Override
     protected void initData() {
-
-        ProductType chooseProductType = MDGroundApplication.sInstance.getChoosedProductType();
+        initOrder();
 
         mProductionView = new ProductionView(this);
         mDataBinding.lltEdit.addView(mProductionView, 0);
@@ -182,6 +182,28 @@ public class GlobalTemplateEditActivity extends ToolbarActivity<ActivityGlobalTe
         startActivityForResult(intent, 0);
     }
 
+    private void initOrder() {
+        ProductType productType = MDGroundApplication.sInstance.getChoosedProductType();
+
+        if (productType == ProductType.PhoneShell) {
+            MDGroundApplication.sOrderutUtils = new OrderUtils(this, false,
+                    1, MDGroundApplication.sInstance.getChoosedTemplate().getPrice(),
+                    null,
+                    MDGroundApplication.sInstance.getChoosedTemplate().getSelectMaterial(),
+                    null);
+        } else {
+            int price = 0;
+            if (productType == ProductType.MagicCup) {
+                price = MDGroundApplication.sInstance.getChoosedMeasurement().getPrice();
+            } else {
+                price = MDGroundApplication.sInstance.getChoosedTemplate().getPrice();
+            }
+
+            MDGroundApplication.sOrderutUtils = new OrderUtils(this, false,
+                    1, price);
+        }
+    }
+
     // 保存当前页的编辑状态
     private void saveCurrentPageEditStatus() {
         mCurrentSelectDrawingBoardView = null;
@@ -248,17 +270,19 @@ public class GlobalTemplateEditActivity extends ToolbarActivity<ActivityGlobalTe
                 mProductionView.backgroundLayer.setImageBitmap(backgroundBitmap);
 
                 // 根据返回Bitmap的大小设置在android上对应的宽高
-                final int width = ViewUtils.screenWidth();
-                final float height = TemplateUtils.getEditHeightOnAndroid(backgroundBitmap);
+                Point sizePoint = TemplateUtils.getEditPointOnAndroid(backgroundBitmap);
+                final int width = sizePoint.x;
+                final float height = sizePoint.y;
 
                 mProductionView.setWidthAndHeight(width, (int) height);
 
                 // 杂志册,艺术册,个性月历 这三个功能块有定位块
                 if (TemplateUtils.isTemplateHasModules()) {
+                    ViewUtils.loading(GlobalTemplateEditActivity.this);
 
                     // 各个编辑定位块加载
                     MDImage templateImage = SelectImageUtils.sTemplateImage.get(pageIndex);
-                    List<PhotoTemplateAttachFrame> photoTemplateAttachFrameList = templateImage.getPhotoTemplateAttachFrameList();
+                    final List<PhotoTemplateAttachFrame> photoTemplateAttachFrameList = templateImage.getPhotoTemplateAttachFrameList();
 
                     if (photoTemplateAttachFrameList != null) {
                         for (int moduleIndex = 0; moduleIndex < photoTemplateAttachFrameList.size(); moduleIndex++) {
@@ -274,7 +298,7 @@ public class GlobalTemplateEditActivity extends ToolbarActivity<ActivityGlobalTe
                                 public void onResourceReady(Bitmap moduleBitmap, GlideAnimation<? super
                                         Bitmap> glideAnimation) {
 
-                                    moduleBitmap = moduleBitmap.copy(moduleBitmap.getConfig(), true); // safe copy
+                                    Bitmap copyBitmap = moduleBitmap.copy(moduleBitmap.getConfig(), true); // safe copy
 
                                     int dx = photoTemplateAttachFrame.getPositionX();
                                     int dy = photoTemplateAttachFrame.getPositionY();
@@ -290,7 +314,11 @@ public class GlobalTemplateEditActivity extends ToolbarActivity<ActivityGlobalTe
                                     Matrix matrix = TemplateUtils.getMatrixByString(photoTemplateAttachFrame.getMatrix());
                                     // 添加module编辑区域
                                     addDrawBoard(androidDx, androidDy, androidWidth, androidHeight,
-                                            moduleBitmap, moduleBitmap, matrix, 1.0f, finalI);
+                                            copyBitmap, copyBitmap, matrix, 1.0f, finalI);
+
+                                    if (mProductionView.mDrawingBoardViewSparseArray.size() == photoTemplateAttachFrameList.size()) {
+                                        ViewUtils.dismiss();
+                                    }
                                 }
                             });
                         }
@@ -324,8 +352,7 @@ public class GlobalTemplateEditActivity extends ToolbarActivity<ActivityGlobalTe
                     @Override
                     public void run() {
                         // 保存到我的作品中
-                        MDGroundApplication.sOrderutUtils = new OrderUtils(GlobalTemplateEditActivity.this, true,
-                                1, MDGroundApplication.sInstance.getChoosedTemplate().getPrice());
+                        MDGroundApplication.sOrderutUtils.mIsJustSaveUserWork = true;
                         MDGroundApplication.sOrderutUtils.uploadAllCompositeImageReuqest(GlobalTemplateEditActivity.this,
                                 allCompositeImageLocalPathList, 0);
                     }
@@ -349,15 +376,13 @@ public class GlobalTemplateEditActivity extends ToolbarActivity<ActivityGlobalTe
     }
 
     private void generateOrder(List<String> allCompositeImageLocalPathList) {
-        ViewUtils.loading(this);
         // 生成订单
-        MDGroundApplication.sOrderutUtils = new OrderUtils(this, false,
-                1, MDGroundApplication.sInstance.getChoosedTemplate().getPrice());
         MDGroundApplication.sOrderutUtils.uploadAllCompositeImageReuqest(this, allCompositeImageLocalPathList, 0);
     }
 
     //region ACTION
     public void nextStepAction(View view) {
+        ViewUtils.loading(this);
         if (TemplateUtils.isTemplateHasModules()) {
             CreateImageUtil.createAllPageHasModules(new CreateImageUtil.onCreateAllComposteImageCompleteListner() {
                 @Override
@@ -382,7 +407,6 @@ public class GlobalTemplateEditActivity extends ToolbarActivity<ActivityGlobalTe
                     });
                 }
             });
-
         }
     }
     //endregion

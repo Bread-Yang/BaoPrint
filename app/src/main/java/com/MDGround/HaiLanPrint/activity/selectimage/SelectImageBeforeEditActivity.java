@@ -168,7 +168,7 @@ public class SelectImageBeforeEditActivity extends ToolbarActivity<ActivitySelec
 
     //region SERVER
     private void getCloudPhotoRequest() {
-        GlobalRestful.getInstance().GetCloudPhoto(mPageIndex, mIsShared, new Callback<ResponseData>() {
+        GlobalRestful.getInstance().GetCloudPhoto(mPageIndex, mIsShared, 0, new Callback<ResponseData>() {
             @Override
             public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
                 mPageIndex++;

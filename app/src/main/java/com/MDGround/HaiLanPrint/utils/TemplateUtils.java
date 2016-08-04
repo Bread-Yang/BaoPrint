@@ -2,6 +2,7 @@ package com.MDGround.HaiLanPrint.utils;
 
 import android.graphics.Bitmap;
 import android.graphics.Matrix;
+import android.graphics.Point;
 
 import com.MDGround.HaiLanPrint.application.MDGroundApplication;
 import com.MDGround.HaiLanPrint.enumobject.ProductType;
@@ -13,6 +14,7 @@ public class TemplateUtils {
 
     /**
      * 是否有定位块
+     *
      * @return
      */
     public static boolean isTemplateHasModules() {
@@ -37,8 +39,30 @@ public class TemplateUtils {
      */
     public static float getEditHeightOnAndroid(Bitmap bitmap) {
         float windowWidth = ((float) ViewUtils.screenWidth());
-        float pageWidth = (float) bitmap.getWidth();
-        return (windowWidth / pageWidth) * (float) bitmap.getHeight();
+        float bitmapWidth = (float) bitmap.getWidth();
+        return (windowWidth / bitmapWidth) * (float) bitmap.getHeight();
+    }
+
+    public static Point getEditPointOnAndroid(Bitmap bitmap) {
+        float bitmapWidth = bitmap.getWidth();
+        float bitmapHeight = bitmap.getHeight();
+
+        float windowWidth = ((float) ViewUtils.screenWidth());
+        float halfWindownHeight = ((float) ViewUtils.screenHeight() / 2.0f);  // 默认最大高度是屏幕的一半
+
+        float widthScale = windowWidth / bitmapWidth;
+        float heightScale = halfWindownHeight / bitmapHeight;
+
+        Point point = new Point();
+        if (widthScale < heightScale) {
+            point.x = (int) windowWidth;
+            point.y = (int) (widthScale * bitmapHeight);
+        } else {
+            point.x = (int) (heightScale * bitmapWidth);
+            point.y = (int) halfWindownHeight;
+        }
+
+        return point;
     }
 
     /**

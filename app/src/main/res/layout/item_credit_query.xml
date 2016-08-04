@@ -19,20 +19,20 @@
         android:onClick="@{handler::ClicEvent}">
 
         <TextView
-            android:id="@+id/first"
+            android:id="@+id/tvTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/margin_10"
             android:layout_marginTop="@dimen/margin_10"
-            android:text="@string/credits_deduction"
             android:textColor="@color/color_333333"
-            android:textSize="@dimen/text_size_16" />
+            android:textSize="@dimen/text_size_16"
+            tools:text="@string/credits_deduction" />
 
         <TextView
             android:id="@+id/tvDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/first"
+            android:layout_below="@+id/tvTitle"
             android:layout_marginLeft="@dimen/margin_10"
             android:layout_marginTop="@dimen/margin_6"
             android:text="@{creditInfo.createdTime}"
