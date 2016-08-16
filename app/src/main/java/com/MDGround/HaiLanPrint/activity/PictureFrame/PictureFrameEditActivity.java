@@ -11,12 +11,13 @@ import android.widget.RadioGroup;
 import com.MDGround.HaiLanPrint.R;
 import com.MDGround.HaiLanPrint.activity.base.ToolbarActivity;
 import com.MDGround.HaiLanPrint.activity.selectimage.SelectAlbumWhenEditActivity;
-import com.MDGround.HaiLanPrint.activity.templateedit.GlobalTemplateEditActivity;
 import com.MDGround.HaiLanPrint.application.MDGroundApplication;
 import com.MDGround.HaiLanPrint.constants.Constants;
 import com.MDGround.HaiLanPrint.databinding.ActivityPictureFrameEditBinding;
 import com.MDGround.HaiLanPrint.enumobject.MaterialType;
 import com.MDGround.HaiLanPrint.models.MDImage;
+import com.MDGround.HaiLanPrint.models.OriginalSizeBitmap;
+import com.MDGround.HaiLanPrint.models.Size;
 import com.MDGround.HaiLanPrint.models.Template;
 import com.MDGround.HaiLanPrint.utils.CreateImageUtil;
 import com.MDGround.HaiLanPrint.utils.GlideUtil;
@@ -47,6 +48,10 @@ public class PictureFrameEditActivity extends ToolbarActivity<ActivityPictureFra
     private String mWorkFormat, mWorkStyle;
 
     private Bitmap mTemplateBitmap;
+
+    private Size mSize;
+
+    private float mRateOfEditArea = 1.0f;
 
     @Override
     protected int getContentLayout() {
@@ -133,15 +138,17 @@ public class PictureFrameEditActivity extends ToolbarActivity<ActivityPictureFra
 
         MDImage templateImage = SelectImageUtils.sTemplateImage.get(0);
 
-        GlideUtil.loadImageAsBitmap(templateImage, new SimpleTarget<Bitmap>() {
+
+        GlideUtil.getOriginalSizeBitmap(this, templateImage, new SimpleTarget<OriginalSizeBitmap>() {
             @Override
-            public void onResourceReady(final Bitmap backgroundBitmap, GlideAnimation<? super
-                    Bitmap> glideAnimation) {
-                mTemplateBitmap = backgroundBitmap;
+            public void onResourceReady(OriginalSizeBitmap resource, GlideAnimation<? super OriginalSizeBitmap> glideAnimation) {
+                mTemplateBitmap = resource.bitmap;
+                mSize = resource.size;
 
                 refreshProductionView(0f);
             }
         });
+
     }
 
     private void refreshProductionView(float rotateAngle) {
@@ -155,8 +162,10 @@ public class PictureFrameEditActivity extends ToolbarActivity<ActivityPictureFra
         mProductionView.clear();
         mProductionView.backgroundLayer.setImageBitmap(mTemplateBitmap);
 
+        mRateOfEditArea = TemplateUtils.getRateOfEditAreaOnAndroid(mSize);
+
         // 根据返回Bitmap的大小设置在android上对应的宽高
-        Point sizePoint = TemplateUtils.getEditPointOnAndroid(mTemplateBitmap);
+        Point sizePoint = TemplateUtils.getEditAreaSizeOnAndroid(mSize);
 
         final int width = sizePoint.x;
         final float height = sizePoint.y;
@@ -164,28 +173,43 @@ public class PictureFrameEditActivity extends ToolbarActivity<ActivityPictureFra
         mProductionView.setWidthAndHeight(width, (int) height);
 
         MDImage image = SelectImageUtils.sAlreadySelectImage.get(0);
-        GlideUtil.loadImageAsBitmap(image, new SimpleTarget<Bitmap>() {
-            @Override
-            public void onResourceReady(Bitmap moduleBitmap, GlideAnimation<? super
-                    Bitmap> glideAnimation) {
 
-                moduleBitmap = moduleBitmap.copy(moduleBitmap.getConfig(), true); // safe copy
+        GlideUtil.getOriginalSizeBitmap(PictureFrameEditActivity.this, image, new SimpleTarget<OriginalSizeBitmap>() {
+            @Override
+            public void onResourceReady(OriginalSizeBitmap resource, GlideAnimation<? super OriginalSizeBitmap> glideAnimation) {
+                Bitmap copyBitmap = resource.bitmap.copy(resource.bitmap.getConfig(), true); // safe copy
 
                 Matrix matrix = new Matrix();
-                addDrawBoard(0, 0, width, height,
-                        moduleBitmap, moduleBitmap, matrix, 1.0f, 0);
+                addDrawBoard(0, 0, width, height, resource.size.width, resource.size.height,
+                        copyBitmap, copyBitmap, matrix, mRateOfEditArea, 0);
+                ViewUtils.dismiss();
             }
         });
+
+//        GlideUtil.loadImageAsBitmap(image, new SimpleTarget<Bitmap>() {
+//            @Override
+//            public void onResourceReady(Bitmap moduleBitmap, GlideAnimation<? super
+//                    Bitmap> glideAnimation) {
+//
+//                moduleBitmap = moduleBitmap.copy(moduleBitmap.getConfig(), true); // safe copy
+//
+//                Matrix matrix = new Matrix();
+//                addDrawBoard(0, 0, width, height,
+//                        moduleBitmap, moduleBitmap, matrix, 1.0f, 0);
+//            }
+//        });
     }
 
-    private void addDrawBoard(float dx, float dy, float w, float h,
-                              Bitmap mouldBmp, Bitmap photoBmp, Matrix matrix, float rate, int position) {
+    private void addDrawBoard(float androidDx, float androidDy, float androidWidth, float androidHeight,
+                              int userSelectBitmapOriginalWidth, int UserSelectBitmaporiginalHeight,
+                              Bitmap mouldBmp, Bitmap userSelectBitmap, Matrix matrix, float rate, int position) {
         DrawingBoardView drawingBoardView = new DrawingBoardView(this, this,
-                w, h, mouldBmp, photoBmp, matrix, rate);
+                androidWidth, androidHeight, mouldBmp, userSelectBitmap, matrix, rate,
+                userSelectBitmapOriginalWidth, UserSelectBitmaporiginalHeight);
         drawingBoardView.setTag(Integer.valueOf(position));
 
-        FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams((int) w, (int) h);
-        layoutParams.setMargins((int) dx, (int) dy, 0, 0);
+        FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams((int) androidWidth, (int) androidHeight);
+        layoutParams.setMargins((int) androidDx, (int) androidDy, 0, 0);
         drawingBoardView.setLayoutParams(layoutParams);
 
         mProductionView.drawBoardLayer.addView(drawingBoardView);
@@ -250,13 +274,24 @@ public class PictureFrameEditActivity extends ToolbarActivity<ActivityPictureFra
             oldMDImage.setPhotoSID(newMDImage.getPhotoSID());
             oldMDImage.setImageLocalPath(newMDImage.getImageLocalPath());
 
-            GlideUtil.loadImageAsBitmap(oldMDImage, new SimpleTarget<Bitmap>() {
+            GlideUtil.getOriginalSizeBitmap(PictureFrameEditActivity.this, oldMDImage, new SimpleTarget<OriginalSizeBitmap>() {
                 @Override
-                public void onResourceReady(final Bitmap newBitmap, GlideAnimation<? super
-                        Bitmap> glideAnimation) {
-                    mProductionView.mDrawingBoardViewSparseArray.valueAt(0).setPhotoBitmap(newBitmap, new Matrix(), 1.0f);
+                public void onResourceReady(OriginalSizeBitmap resource, GlideAnimation<? super OriginalSizeBitmap> glideAnimation) {
+                    Bitmap copyBitmap = resource.bitmap.copy(resource.bitmap.getConfig(), true); // safe copy
+
+                    mProductionView.mDrawingBoardViewSparseArray.valueAt(0)
+                            .setUserSelectBitmap(copyBitmap, new Matrix(), mRateOfEditArea,
+                                    resource.size.width, resource.size.height);
                 }
             });
+
+//            GlideUtil.loadImageAsBitmap(oldMDImage, new SimpleTarget<Bitmap>() {
+//                @Override
+//                public void onResourceReady(final Bitmap newBitmap, GlideAnimation<? super
+//                        Bitmap> glideAnimation) {
+//                    mProductionView.mDrawingBoardViewSparseArray.valueAt(0).setUserSelectBitmap(newBitmap, new Matrix(), 1.0f);
+//                }
+//            });
         }
     }
 

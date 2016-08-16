@@ -5,7 +5,6 @@ import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.content.Context;
-import android.support.v4.view.ViewCompat;
 import android.util.SparseArray;
 import android.view.Gravity;
 import android.view.MotionEvent;
@@ -149,8 +148,7 @@ public class ProductionView extends FrameLayout {
     }
 
     public void bringBackgroundToFront() {
-        ViewCompat.setElevation(backgroundLayer, 10);
-//        bringChildToFront(backgroundLayer);
+//        ViewCompat.setElevation(backgroundLayer, 10);
     }
 
     @Override

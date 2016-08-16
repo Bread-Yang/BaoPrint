@@ -51,24 +51,9 @@ public class CloudDetailActivity extends ToolbarActivity<ActivityCloudDetailBind
 
     private int mCategoryId;
 
-    private boolean mIsFristEnter = true;
-
     @Override
     protected int getContentLayout() {
         return R.layout.activity_cloud_detail;
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-
-        if (!mIsFristEnter) {
-            mPageIndex = 0;
-            mAllImagesList.clear();
-            getCloudPhotoRequest();
-        }
-
-        mIsFristEnter = false;
     }
 
     @Override
@@ -186,6 +171,16 @@ public class CloudDetailActivity extends ToolbarActivity<ActivityCloudDetailBind
         });
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            mPageIndex = 0;
+            mAllImagesList.clear();
+            getCloudPhotoRequest();
+        }
+    }
+
     private void changeTextNum(int selectNum) {
         if (selectNum != 0) {
             if (mImage.isShared()) {
@@ -200,7 +195,7 @@ public class CloudDetailActivity extends ToolbarActivity<ActivityCloudDetailBind
 
     private void toImageSelectActivity() {
         Intent intent = new Intent(this, UploadImageActivity.class);
-        startActivity(intent);
+        startActivityForResult(intent, 0);
     }
 
     //region ACTION

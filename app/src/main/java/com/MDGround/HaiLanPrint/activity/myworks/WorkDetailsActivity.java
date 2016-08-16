@@ -16,6 +16,7 @@ import com.MDGround.HaiLanPrint.models.OrderWork;
 import com.MDGround.HaiLanPrint.models.Template;
 import com.MDGround.HaiLanPrint.models.WorkInfo;
 import com.MDGround.HaiLanPrint.models.WorkPhoto;
+import com.MDGround.HaiLanPrint.models.WorkPhotoEdit;
 import com.MDGround.HaiLanPrint.restfuls.GlobalRestful;
 import com.MDGround.HaiLanPrint.restfuls.bean.ResponseData;
 import com.MDGround.HaiLanPrint.utils.DateUtils;
@@ -25,6 +26,7 @@ import com.MDGround.HaiLanPrint.utils.OrderUtils;
 import com.MDGround.HaiLanPrint.utils.SelectImageUtils;
 import com.MDGround.HaiLanPrint.utils.ShareUtils;
 import com.MDGround.HaiLanPrint.utils.StringUtil;
+import com.MDGround.HaiLanPrint.utils.TemplateUtils;
 import com.MDGround.HaiLanPrint.utils.ViewUtils;
 import com.MDGround.HaiLanPrint.views.dialog.ShareDialog;
 import com.google.gson.reflect.TypeToken;
@@ -60,6 +62,9 @@ public class WorkDetailsActivity extends ToolbarActivity<ActivityWorksDetailsBin
     protected void initData() {
         Intent intent = this.getIntent();
         mWorkInfo = (WorkInfo) intent.getSerializableExtra(Constants.KEY_WORKS_DETAILS);
+
+        ProductType productType = ProductType.fromValue(mWorkInfo.getTypeID());
+        MDGroundApplication.sInstance.setChoosedProductType(productType);
 
         getPhotoTemplateRequest();
 
@@ -109,6 +114,26 @@ public class WorkDetailsActivity extends ToolbarActivity<ActivityWorksDetailsBin
                 Template template = response.body().getContent(Template.class);
 
                 MDGroundApplication.sInstance.setChoosedTemplate(template);
+
+                getPhotoTemplateAttachListRequest(template.getTemplateID());
+            }
+
+            @Override
+            public void onFailure(Call<ResponseData> call, Throwable t) {
+
+            }
+        });
+    }
+
+    private void getPhotoTemplateAttachListRequest(int templateID) {
+        GlobalRestful.getInstance().GetPhotoTemplateAttachList(templateID, new Callback<ResponseData>() {
+            @Override
+            public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
+                SelectImageUtils.sTemplateImage.clear();
+
+                SelectImageUtils.sTemplateImage = response.body().getContent(new TypeToken<ArrayList<MDImage>>() {
+                });
+
                 getUserWorkRequest();
             }
 
@@ -126,7 +151,7 @@ public class WorkDetailsActivity extends ToolbarActivity<ActivityWorksDetailsBin
                 ViewUtils.dismiss();
 
                 SelectImageUtils.sAlreadySelectImage.clear();
-                SelectImageUtils.sTemplateImage.clear();
+//                SelectImageUtils.sTemplateImage.clear();
 
                 try {
                     JSONObject jsonObject = new JSONObject(response.body().getContent());
@@ -138,25 +163,38 @@ public class WorkDetailsActivity extends ToolbarActivity<ActivityWorksDetailsBin
                             });
 
                     for (WorkPhoto workPhoto : workPhotoArrayList) {
+                        // 之前选中的模版图片
+//                        {
+//                            MDImage templateMdImage = new MDImage();
+//
+//                            templateMdImage.setPhotoID(workPhoto.getTemplatePID());
+//                            templateMdImage.setPhotoSID(workPhoto.getTemplatePSID());
+//
+//                            SelectImageUtils.sTemplateImage.add(templateMdImage);
+//                        }
+
                         // 之前选中的图片
                         {
-                            MDImage selectMdImage = new MDImage();
+                            if (TemplateUtils.isTemplateHasModules()) {
+                                List<WorkPhotoEdit> workPhotoEditList = workPhoto.getWorkPhotoEditList();
 
-                            selectMdImage.setPhotoID(workPhoto.getPhoto1ID());
-                            selectMdImage.setPhotoSID(workPhoto.getPhoto1SID());
-                            selectMdImage.setWorkPhoto(workPhoto);
+                                for (WorkPhotoEdit workPhotoEdit : workPhotoEditList) {
+                                    MDImage selectMdImage = new MDImage();
 
-                            SelectImageUtils.sAlreadySelectImage.add(selectMdImage);
-                        }
+                                    selectMdImage.setPhotoID(workPhotoEdit.getPhotoID());
+                                    selectMdImage.setPhotoSID(workPhotoEdit.getPhotoSID());
 
-                        // 之前选中的模版图片
-                        {
-                            MDImage templateMdImage = new MDImage();
+                                    SelectImageUtils.sAlreadySelectImage.add(selectMdImage);
+                                }
+                            } else {
+                                MDImage selectMdImage = new MDImage();
 
-                            templateMdImage.setPhotoID(workPhoto.getTemplatePID());
-                            templateMdImage.setPhotoSID(workPhoto.getTemplatePSID());
+                                selectMdImage.setPhotoID(workPhoto.getPhoto1ID());
+                                selectMdImage.setPhotoSID(workPhoto.getPhoto1SID());
+                                selectMdImage.setWorkPhoto(workPhoto);
 
-                            SelectImageUtils.sTemplateImage.add(templateMdImage);
+                                SelectImageUtils.sAlreadySelectImage.add(selectMdImage);
+                            }
                         }
                     }
 
@@ -210,9 +248,6 @@ public class WorkDetailsActivity extends ToolbarActivity<ActivityWorksDetailsBin
     //region ACTION
     //编辑作品
     public void toEditActivityAction(View view) {
-        ProductType productType = ProductType.fromValue(mWorkInfo.getTypeID());
-        MDGroundApplication.sInstance.setChoosedProductType(productType);
-
         NavUtils.toPhotoEditActivity(this);
     }
 

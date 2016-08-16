@@ -7,6 +7,8 @@ import android.graphics.Bitmap;
 import android.graphics.Matrix;
 import android.graphics.Point;
 import android.support.v7.widget.LinearLayoutManager;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.SeekBar;
@@ -20,10 +22,11 @@ import com.MDGround.HaiLanPrint.constants.Constants;
 import com.MDGround.HaiLanPrint.databinding.ActivityGlobalTemplateEditBinding;
 import com.MDGround.HaiLanPrint.enumobject.ProductType;
 import com.MDGround.HaiLanPrint.models.MDImage;
+import com.MDGround.HaiLanPrint.models.OriginalSizeBitmap;
 import com.MDGround.HaiLanPrint.models.PhotoTemplateAttachFrame;
+import com.MDGround.HaiLanPrint.models.WorkPhoto;
 import com.MDGround.HaiLanPrint.utils.CreateImageUtil;
 import com.MDGround.HaiLanPrint.utils.GlideUtil;
-import com.MDGround.HaiLanPrint.utils.NavUtils;
 import com.MDGround.HaiLanPrint.utils.OrderUtils;
 import com.MDGround.HaiLanPrint.utils.SelectImageUtils;
 import com.MDGround.HaiLanPrint.utils.TemplateUtils;
@@ -35,7 +38,10 @@ import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.socks.library.KLog;
 
+import org.joda.time.DateTime;
+
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by yoghourt on 5/18/16.
@@ -55,6 +61,12 @@ public class GlobalTemplateEditActivity extends ToolbarActivity<ActivityGlobalTe
 
     private DrawingBoardView mCurrentSelectDrawingBoardView;
 
+    private float mRateOfEditArea = 1.0f;
+
+    private ProductType mProductType;
+
+    private DateTime mDateTime = new DateTime();
+
     @Override
     protected int getContentLayout() {
         return R.layout.activity_global_template_edit;
@@ -65,7 +77,22 @@ public class GlobalTemplateEditActivity extends ToolbarActivity<ActivityGlobalTe
         initOrder();
 
         mProductionView = new ProductionView(this);
-        mDataBinding.lltEdit.addView(mProductionView, 0);
+//        mDataBinding.lltEdit.addView(mProductionView, 0);
+        mDataBinding.fltEdit.addView(mProductionView, 0);
+
+        mProductType = MDGroundApplication.sInstance.getChoosedProductType();
+
+        // 明信片和Lomo卡可以输入文字
+        if (mProductType == ProductType.Postcard || mProductType == ProductType.LOMOCard) {
+            mDataBinding.cetInput.setVisibility(View.VISIBLE);
+        }
+
+        // 手机壳,拼图,魔术杯没有模版选择
+        if (mProductType == ProductType.PhoneShell
+                || mProductType == ProductType.Puzzle
+                || mProductType == ProductType.MagicCup) {
+            mDataBinding.templateRecyclerView.setVisibility(View.GONE);
+        }
 
         // 只有杂志册,艺术册,个性月历 这三个功能块有定位块, 否则背景图片显示在最前面
         if (!TemplateUtils.isTemplateHasModules()) {
@@ -76,7 +103,7 @@ public class GlobalTemplateEditActivity extends ToolbarActivity<ActivityGlobalTe
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        NavUtils.toMainActivity(GlobalTemplateEditActivity.this);
+//                        NavUtils.toMainActivity(GlobalTemplateEditActivity.this);
                     }
                 }, new DialogInterface.OnClickListener() {
                     @Override
@@ -104,16 +131,22 @@ public class GlobalTemplateEditActivity extends ToolbarActivity<ActivityGlobalTe
             }
         });
 
-        mTeplateImageAdapter.setOnSelectImageLisenter(new TemplateImageAdapter.onSelectImageLisenter() {
+        mDataBinding.cetInput.addTextChangedListener(new TextWatcher() {
             @Override
-            public void selectImage(int pageIndex, MDImage mdImage) {
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
-                if (mCurrentSelectPageIndex != pageIndex) {
+            }
 
-                    saveCurrentPageEditStatus();
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
 
-                    selectPageByIndexToEdit(pageIndex, mdImage);
-                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                WorkPhoto workPhoto = SelectImageUtils.sTemplateImage.get(mCurrentSelectPageIndex).getWorkPhoto();
+
+                workPhoto.setDescription(s.toString());
             }
         });
 
@@ -139,6 +172,32 @@ public class GlobalTemplateEditActivity extends ToolbarActivity<ActivityGlobalTe
 
             }
         });
+
+        mTeplateImageAdapter.setOnSelectImageLisenter(new TemplateImageAdapter.onSelectImageLisenter() {
+            @Override
+            public void selectImage(int pageIndex, MDImage mdImage) {
+
+                if (mCurrentSelectPageIndex != pageIndex) {
+
+                    saveCurrentPageEditStatus();
+
+                    selectPageByIndexToEdit(pageIndex, mdImage);
+
+                    // 如果是日历模块,则显示日历
+                    if (mProductType == ProductType.Calendar) {
+                        if (pageIndex == 0) {
+                            mDataBinding.calendarCard.setVisibility(View.GONE);
+                        } else {
+                            mDataBinding.calendarCard.setVisibility(View.VISIBLE);
+
+                            DateTime newDateTime = mDateTime.plusMonths(pageIndex - 1);
+
+                            mDataBinding.calendarCard.setTime(newDateTime.getYear(), newDateTime.getMonthOfYear());
+                        }
+                    }
+                }
+            }
+        });
     }
 
     @Override
@@ -154,11 +213,28 @@ public class GlobalTemplateEditActivity extends ToolbarActivity<ActivityGlobalTe
             oldMDImage.setPhotoSID(newMDImage.getPhotoSID());
             oldMDImage.setImageLocalPath(newMDImage.getImageLocalPath());
 
-            GlideUtil.loadImageAsBitmap(oldMDImage, new SimpleTarget<Bitmap>() {
+//            SelectImageUtils.sTemplateImage.get(mCurrentSelectPageIndex)
+//                    .getWorkPhoto().setDescription("");
+            // 切换模板图片后，则输入栏清空显示
+            mDataBinding.cetInput.setText("");
+
+//            GlideUtil.loadImageAsBitmap(oldMDImage, new SimpleTarget<Bitmap>() {
+//                @Override
+//                public void onResourceReady(final Bitmap newBitmap, GlideAnimation<? super
+//                        Bitmap> glideAnimation) {
+//                    Bitmap copyBitmap = newBitmap.copy(newBitmap.getConfig(), true); // safe copy
+//
+//                    mCurrentSelectDrawingBoardView.setUserSelectBitmap(copyBitmap, new Matrix(), 1.0f);
+//                }
+//            });
+
+            GlideUtil.getOriginalSizeBitmap(GlobalTemplateEditActivity.this, oldMDImage, new SimpleTarget<OriginalSizeBitmap>() {
                 @Override
-                public void onResourceReady(final Bitmap newBitmap, GlideAnimation<? super
-                        Bitmap> glideAnimation) {
-                    mCurrentSelectDrawingBoardView.setPhotoBitmap(newBitmap, new Matrix(), 1.0f);
+                public void onResourceReady(OriginalSizeBitmap resource, GlideAnimation<? super OriginalSizeBitmap> glideAnimation) {
+                    Bitmap copyBitmap = resource.bitmap.copy(resource.bitmap.getConfig(), true); // safe copy
+
+                    mCurrentSelectDrawingBoardView.setUserSelectBitmap(copyBitmap,
+                            new Matrix(), mRateOfEditArea, resource.size.width, resource.size.height);
                 }
             });
         }
@@ -262,29 +338,38 @@ public class GlobalTemplateEditActivity extends ToolbarActivity<ActivityGlobalTe
 
         mProductionView.clear();
 
+        WorkPhoto workPhoto = mdImage.getWorkPhoto();
+
+        String description = workPhoto.getDescription();
+
+        mDataBinding.cetInput.setText("");
+        if (description != null) {
+            mDataBinding.cetInput.append(description);
+        }
         // 模板背景图片加载
-        GlideUtil.loadImageAsBitmap(mdImage, new SimpleTarget<Bitmap>() {
+        GlideUtil.getOriginalSizeBitmap(GlobalTemplateEditActivity.this, mdImage, new SimpleTarget<OriginalSizeBitmap>() {
             @Override
-            public void onResourceReady(final Bitmap backgroundBitmap, GlideAnimation<? super
-                    Bitmap> glideAnimation) {
-                mProductionView.backgroundLayer.setImageBitmap(backgroundBitmap);
+            public void onResourceReady(OriginalSizeBitmap resource, GlideAnimation<? super OriginalSizeBitmap> glideAnimation) {
+                mProductionView.backgroundLayer.setImageBitmap(resource.bitmap);
 
                 // 根据返回Bitmap的大小设置在android上对应的宽高
-                Point sizePoint = TemplateUtils.getEditPointOnAndroid(backgroundBitmap);
+                Point sizePoint = TemplateUtils.getEditAreaSizeOnAndroid(resource.size);
                 final int width = sizePoint.x;
                 final float height = sizePoint.y;
 
                 mProductionView.setWidthAndHeight(width, (int) height);
 
+                ViewUtils.loading(GlobalTemplateEditActivity.this);
+
+                mRateOfEditArea = TemplateUtils.getRateOfEditAreaOnAndroid(resource.size);
+
                 // 杂志册,艺术册,个性月历 这三个功能块有定位块
                 if (TemplateUtils.isTemplateHasModules()) {
-                    ViewUtils.loading(GlobalTemplateEditActivity.this);
-
                     // 各个编辑定位块加载
                     MDImage templateImage = SelectImageUtils.sTemplateImage.get(pageIndex);
                     final List<PhotoTemplateAttachFrame> photoTemplateAttachFrameList = templateImage.getPhotoTemplateAttachFrameList();
 
-                    if (photoTemplateAttachFrameList != null) {
+                    if (photoTemplateAttachFrameList != null && photoTemplateAttachFrameList.size() > 0) {
                         for (int moduleIndex = 0; moduleIndex < photoTemplateAttachFrameList.size(); moduleIndex++) {
                             final PhotoTemplateAttachFrame photoTemplateAttachFrame = photoTemplateAttachFrameList.get(moduleIndex);
 
@@ -292,52 +377,100 @@ public class GlobalTemplateEditActivity extends ToolbarActivity<ActivityGlobalTe
 
                             MDImage moduleShowImage = SelectImageUtils
                                     .getMdImageByPageIndexAndModuleIndex(mCurrentSelectPageIndex, moduleIndex);
-                            // 加载用户选择的图片
-                            GlideUtil.loadImageAsBitmap(moduleShowImage, new SimpleTarget<Bitmap>() {
-                                @Override
-                                public void onResourceReady(Bitmap moduleBitmap, GlideAnimation<? super
-                                        Bitmap> glideAnimation) {
 
-                                    Bitmap copyBitmap = moduleBitmap.copy(moduleBitmap.getConfig(), true); // safe copy
+                            // 加载用户选择的图片
+                            GlideUtil.getOriginalSizeBitmap(GlobalTemplateEditActivity.this, moduleShowImage, new SimpleTarget<OriginalSizeBitmap>() {
+                                @Override
+                                public void onResourceReady(OriginalSizeBitmap resource, GlideAnimation<? super OriginalSizeBitmap> glideAnimation) {
+                                    KLog.e("图片的original size是: ", String.format(Locale.ROOT, "%dx%d", resource.size.width, resource.size.height));
+                                    KLog.e("图片的压缩的 size是: ", String.format(Locale.ROOT, "%dx%d", resource.bitmap.getWidth(), resource.bitmap.getHeight()));
+
+                                    Bitmap copyBitmap = resource.bitmap.copy(resource.bitmap.getConfig(), true); // safe copy
 
                                     int dx = photoTemplateAttachFrame.getPositionX();
                                     int dy = photoTemplateAttachFrame.getPositionY();
                                     int width = photoTemplateAttachFrame.getWidth();
                                     int height = photoTemplateAttachFrame.getHeight();
 
-                                    float coefficient = TemplateUtils.getRateOfEditWidthOnAndroid(backgroundBitmap);
-                                    float androidDx = dx * coefficient;
-                                    float androidDy = dy * coefficient;
-                                    float androidWidth = width * coefficient;
-                                    float androidHeight = height * coefficient;
+                                    float androidDx = dx * mRateOfEditArea;
+                                    float androidDy = dy * mRateOfEditArea;
+                                    float androidWidth = width * mRateOfEditArea;
+                                    float androidHeight = height * mRateOfEditArea;
 
                                     Matrix matrix = TemplateUtils.getMatrixByString(photoTemplateAttachFrame.getMatrix());
                                     // 添加module编辑区域
-                                    addDrawBoard(androidDx, androidDy, androidWidth, androidHeight,
-                                            copyBitmap, copyBitmap, matrix, 1.0f, finalI);
+                                    addDrawBoard(androidDx, androidDy, androidWidth, androidHeight, resource.size.width, resource.size.height,
+                                            copyBitmap, copyBitmap, matrix, mRateOfEditArea, finalI);
 
                                     if (mProductionView.mDrawingBoardViewSparseArray.size() == photoTemplateAttachFrameList.size()) {
                                         ViewUtils.dismiss();
                                     }
                                 }
                             });
+
+                            // 加载用户选择的图片
+//                            GlideUtil.loadImageAsBitmap(moduleShowImage, new SimpleTarget<Bitmap>() {
+//                                @Override
+//                                public void onResourceReady(Bitmap moduleBitmap, GlideAnimation<? super
+//                                        Bitmap> glideAnimation) {
+//
+//                                    Bitmap copyBitmap = moduleBitmap.copy(moduleBitmap.getConfig(), true); // safe copy
+//
+//                                    int dx = photoTemplateAttachFrame.getPositionX();
+//                                    int dy = photoTemplateAttachFrame.getPositionY();
+//                                    int width = photoTemplateAttachFrame.getWidth();
+//                                    int height = photoTemplateAttachFrame.getHeight();
+//
+//                                    float rate = TemplateUtils.getRateOfEditAreaOnAndroid(backgroundBitmap);
+//                                    float androidDx = dx * rate;
+//                                    float androidDy = dy * rate;
+//                                    float androidWidth = width * rate;
+//                                    float androidHeight = height * rate;
+//
+//                                    Matrix matrix = TemplateUtils.getMatrixByString(photoTemplateAttachFrame.getMatrix());
+//                                    // 添加module编辑区域
+//                                    addDrawBoard(androidDx, androidDy, androidWidth, androidHeight,
+//                                            copyBitmap, copyBitmap, matrix, rate, finalI);
+//
+//                                    if (mProductionView.mDrawingBoardViewSparseArray.size() == photoTemplateAttachFrameList.size()) {
+//                                        ViewUtils.dismiss();
+//                                    }
+//                                }
+//                            });
                         }
+                    } else {
+                        ViewUtils.dismiss();
                     }
                 } else {
                     MDImage image = SelectImageUtils.sAlreadySelectImage.get(mCurrentSelectPageIndex);
-                    GlideUtil.loadImageAsBitmap(image, new SimpleTarget<Bitmap>() {
-                        @Override
-                        public void onResourceReady(Bitmap moduleBitmap, GlideAnimation<? super
-                                Bitmap> glideAnimation) {
 
-                            moduleBitmap = moduleBitmap.copy(moduleBitmap.getConfig(), true); // safe copy
+                    GlideUtil.getOriginalSizeBitmap(GlobalTemplateEditActivity.this, image, new SimpleTarget<OriginalSizeBitmap>() {
+                        @Override
+                        public void onResourceReady(OriginalSizeBitmap resource, GlideAnimation<? super OriginalSizeBitmap> glideAnimation) {
+                            Bitmap copyBitmap = resource.bitmap.copy(resource.bitmap.getConfig(), true); // safe copy
 
                             Matrix matrix = TemplateUtils.getMatrixByString(SelectImageUtils.sTemplateImage.get(mCurrentSelectPageIndex)
                                     .getWorkPhoto().getMatrix());
-                            addDrawBoard(0, 0, width, height,
-                                    moduleBitmap, moduleBitmap, matrix, 1.0f, 0);
+                            addDrawBoard(0, 0, width, height, resource.size.width, resource.size.height,
+                                    copyBitmap, copyBitmap, matrix, mRateOfEditArea, 0);
+                            ViewUtils.dismiss();
                         }
                     });
+
+//                    GlideUtil.loadImageAsBitmap(image, new SimpleTarget<Bitmap>() {
+//                        @Override
+//                        public void onResourceReady(Bitmap moduleBitmap, GlideAnimation<? super
+//                                Bitmap> glideAnimation) {
+//
+//                            moduleBitmap = moduleBitmap.copy(moduleBitmap.getConfig(), true); // safe copy
+//
+//                            Matrix matrix = TemplateUtils.getMatrixByString(SelectImageUtils.sTemplateImage.get(mCurrentSelectPageIndex)
+//                                    .getWorkPhoto().getMatrix());
+//                            addDrawBoard(0, 0, width, height,
+//                                    moduleBitmap, moduleBitmap, matrix, 1.0f, 0);
+//                            ViewUtils.dismiss();
+//                        }
+//                    });
                 }
             }
         });
@@ -361,14 +494,16 @@ public class GlobalTemplateEditActivity extends ToolbarActivity<ActivityGlobalTe
         });
     }
 
-    private void addDrawBoard(float dx, float dy, float w, float h,
-                              Bitmap mouldBmp, Bitmap photoBmp, Matrix matrix, float rate, int position) {
+    private void addDrawBoard(float androidDx, float androidDy, float androidWidth, float androidHeight,
+                              int userSelectBitmapOriginalWidth, int UserSelectBitmaporiginalHeight,
+                              Bitmap mouldBmp, Bitmap userSelectBitmap, Matrix matrix, float rate, int position) {
         DrawingBoardView drawingBoardView = new DrawingBoardView(this, this,
-                w, h, mouldBmp, photoBmp, matrix, rate);
+                androidWidth, androidHeight, mouldBmp, userSelectBitmap, matrix, rate,
+                userSelectBitmapOriginalWidth, UserSelectBitmaporiginalHeight);
         drawingBoardView.setTag(Integer.valueOf(position));
 
-        FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams((int) w, (int) h);
-        layoutParams.setMargins((int) dx, (int) dy, 0, 0);
+        FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams((int) androidWidth, (int) androidHeight);
+        layoutParams.setMargins((int) androidDx, (int) androidDy, 0, 0);
         drawingBoardView.setLayoutParams(layoutParams);
 
         mProductionView.drawBoardLayer.addView(drawingBoardView);

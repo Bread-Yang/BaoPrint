@@ -49,6 +49,9 @@ public final class Constants {
     public static final String KEY_NEW_USER = "key_new_user";
     public static final String KEY_PHONE = "key_phone";
     public static final String KEY_CLOUD_IMAGE = "key_cloud_image";
+    public static final String KEY_PREVIEW_IMAGE_LIST = "key_preview_image_list";
+    public static final String KEY_PREVIEW_IMAGE = "key_preview_image";
+    public static final String KEY_PREVIEW_IMAGE_POSITION = "key_preview_image_position";
     public static final String KEY_SELECT_IMAGE = "key_select_image";
     public static final String KEY_ALBUM = "key_album";
     public static final String KEY_DELIVERY_ADDRESS = "key_delivery_address";
@@ -56,6 +59,7 @@ public final class Constants {
     public static final String KEY_ORDER_WORK = "key_order_work";
     public static final String KEY_ORDER_WORK_LIST = "key_order_work_list";
     public static final String KEY_ORDER_INFO = "key_order_info";
+    public static final String KEY_ORDER_URL = "key_order_url";
     public static final String KEY_WORK_INFO = "key_work_info";
     public static final String KEY_MESSAGE = "key_message";
     public static final String KEY_SELECTED_COUPON = "key_selected_coupon";

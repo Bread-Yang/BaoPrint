@@ -142,6 +142,7 @@
     <!-- 我的作品 -->
     <string name="please_select_same_type">请选择相同类型</string>
     <string name="please_select_work">请选择作品</string>
+    <string name="production_share">%s作品分享，你也可以来创作自己的作品哦！</string>
 
     <!-- 我的订单 -->
     <string name="order_no_with_colon">订单号:</string>
@@ -160,6 +161,7 @@
 
     <!-- 订单详情 -->
     <string name="order_detail">订单详情</string>
+    <string name="production_info">商品信息</string>
     <string name="logistics_information">物流信息</string>
     <string name="express_company_with_colon">快递公司:</string>
     <string name="express_number_with_colon">快递单号:</string>
@@ -284,7 +286,7 @@
 
     <!-- 支付 -->
     <string name="pay">支付</string>
-    <string name="choose_delivery_address_first">请先添加收货地址</string>
+    <string name="choose_delivery_address_first">请选择收货地址</string>
     <string name="choose_specification">选择规格</string>
     <string name="boutique_art_album">精品艺术册</string>
     <string name="crystal_art_album">水晶艺术册</string>

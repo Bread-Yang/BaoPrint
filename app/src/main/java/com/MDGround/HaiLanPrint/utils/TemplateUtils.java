@@ -1,11 +1,11 @@
 package com.MDGround.HaiLanPrint.utils;
 
-import android.graphics.Bitmap;
 import android.graphics.Matrix;
 import android.graphics.Point;
 
 import com.MDGround.HaiLanPrint.application.MDGroundApplication;
 import com.MDGround.HaiLanPrint.enumobject.ProductType;
+import com.MDGround.HaiLanPrint.models.Size;
 
 /**
  * Created by yoghourt on 8/1/16.
@@ -33,19 +33,14 @@ public class TemplateUtils {
     }
 
     /**
-     * android编辑区域的高度 = (android编辑区域的宽度 / JWork返回的page width) * JWork返回的page height
+     * 返回bitmap在android上的实际显示宽高
      *
+     * @param size 模版的原始宽高
      * @return
      */
-    public static float getEditHeightOnAndroid(Bitmap bitmap) {
-        float windowWidth = ((float) ViewUtils.screenWidth());
-        float bitmapWidth = (float) bitmap.getWidth();
-        return (windowWidth / bitmapWidth) * (float) bitmap.getHeight();
-    }
-
-    public static Point getEditPointOnAndroid(Bitmap bitmap) {
-        float bitmapWidth = bitmap.getWidth();
-        float bitmapHeight = bitmap.getHeight();
+    public static Point getEditAreaSizeOnAndroid(Size size) {
+        float bitmapWidth = size.width;
+        float bitmapHeight = size.height;
 
         float windowWidth = ((float) ViewUtils.screenWidth());
         float halfWindownHeight = ((float) ViewUtils.screenHeight() / 2.0f);  // 默认最大高度是屏幕的一半
@@ -66,11 +61,26 @@ public class TemplateUtils {
     }
 
     /**
-     * @param templateBitmap 模版的背景图片
+     * 返回各个定位块在android上的实际缩放比例
+     *
+     * @param size 模版的原始宽高
      * @return
      */
-    public static float getRateOfEditWidthOnAndroid(Bitmap templateBitmap) {
-        return ((float) ViewUtils.screenWidth()) / templateBitmap.getWidth();
+    public static float getRateOfEditAreaOnAndroid(Size size) {
+        float bitmapWidth = size.width;
+        float bitmapHeight = size.height;
+
+        float windowWidth = ((float) ViewUtils.screenWidth());
+        float halfWindownHeight = ((float) ViewUtils.screenHeight() / 2.0f);  // 默认最大高度是屏幕的一半
+
+        float widthScale = windowWidth / bitmapWidth;
+        float heightScale = halfWindownHeight / bitmapHeight;
+
+        if (widthScale < heightScale) {
+            return widthScale;
+        } else {
+            return heightScale;
+        }
     }
 
     // 将String cast成 Matrix

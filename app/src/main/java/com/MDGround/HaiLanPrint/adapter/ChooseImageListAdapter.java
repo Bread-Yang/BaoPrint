@@ -1,6 +1,7 @@
 package com.MDGround.HaiLanPrint.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -10,6 +11,8 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.MDGround.HaiLanPrint.R;
+import com.MDGround.HaiLanPrint.activity.imagepreview.ImagePreviewActivity;
+import com.MDGround.HaiLanPrint.constants.Constants;
 import com.MDGround.HaiLanPrint.models.MDImage;
 import com.MDGround.HaiLanPrint.utils.GlideUtil;
 import com.MDGround.HaiLanPrint.utils.SelectImageUtils;
@@ -40,7 +43,7 @@ public class ChooseImageListAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     private boolean mIsSelectable = false;
     private boolean mIsShareble = false;
 
-    private List<MDImage> mImages = new ArrayList<MDImage>();
+    private ArrayList<MDImage> mImages = new ArrayList<MDImage>();
     private List<MDImage> mSelectImages = new ArrayList<MDImage>();
 
     private OnImageSelectChangedListener imageSelectChangedListener;
@@ -156,6 +159,11 @@ public class ChooseImageListAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                     } else {
                         if (mIsSelectable) {
                             changeCheckboxState(contentHolder, mdImage);
+                        } else {
+                            Intent intent = new Intent(mContext, ImagePreviewActivity.class);
+                            intent.putParcelableArrayListExtra(Constants.KEY_PREVIEW_IMAGE_LIST, mImages);
+                            intent.putExtra(Constants.KEY_PREVIEW_IMAGE_POSITION, position);
+                            mContext.startActivity(intent);
                         }
                     }
                 }

@@ -41,8 +41,7 @@
                         android:id="@+id/calendarCard"
                         android:layout_width="wrap_content"
                         android:layout_height="60dp"
-                        android:layout_alignParentBottom="true"
-                        />
+                        android:layout_alignParentBottom="true" />
 
                 </com.MDGround.HaiLanPrint.views.FlexibleRelativeLayout>
 

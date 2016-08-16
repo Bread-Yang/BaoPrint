@@ -18,6 +18,7 @@ import android.widget.ScrollView;
 
 import com.MDGround.HaiLanPrint.R;
 import com.MDGround.HaiLanPrint.utils.ViewUtils;
+import com.socks.library.KLog;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -53,8 +54,11 @@ public class DrawingBoardView extends View {
     private float mStartDistance;
     private float mOldRotation = 0.0f;
     private float mDx, mDy;
+    // 定位块在android上的缩放比例(比如定位块实际像素是200 * 200的, 如果mRate是0.5, 则定位块宽高是100 * 100)
     private float mRate;
-    private float mScale;
+    // 如何用户选择的图片太大,则根据定位块的宽高和用户选择图片的宽高比例来设置图片
+    private float mUserSelectPhotoSetScale;
+    private float mUserSelectPhotoOriginalScale;
     private float mBrightness;
     private int mMode = MODE_UP;
     private boolean mIsTouch, mIsSelected;
@@ -76,8 +80,9 @@ public class DrawingBoardView extends View {
     }
 
     public DrawingBoardView(Context context, OnDrawingBoardClickListener onDrawingBoardClickListener,
-                            float width, float height,
-                            Bitmap mouldBmp, Bitmap photoBmp, Matrix matrix, float rate) {
+                            float width, float height, Bitmap mouldBmp, Bitmap userSelectBitmap,
+                            Matrix matrix, float rate, int userSelectBitmapOriginalWidth,
+                            int userSelectBitmapOriginalHeight) {
         super(context);
         mContext = context;
         mOnDrawingBoardClickListener = onDrawingBoardClickListener;
@@ -87,7 +92,8 @@ public class DrawingBoardView extends View {
 
 //        KLog.e("设置的Matrix : " + matrix);
 
-        setPhotoBitmap(photoBmp, matrix, rate);
+        setUserSelectBitmap(userSelectBitmap, matrix, rate,
+                userSelectBitmapOriginalWidth, userSelectBitmapOriginalHeight);
 
 //        mTestBitmap = BitmapFactory.decodeResource(mContext.getResources(),
 //                R.drawable.icon_mz_home);
@@ -118,39 +124,51 @@ public class DrawingBoardView extends View {
         }
     }
 
-    public void setPhotoBitmap(Bitmap photoBmp, Matrix matrix, float rate) {
-        if (photoBmp != null) {
+    public void setUserSelectBitmap(Bitmap userSelectBitmap, Matrix matrix, float rate,
+                                    int userSelectBitmapOriginalWidth, int userSelectBitmapOriginalHeight) {
+        if (userSelectBitmap != null) {
             mRate = rate;
             if (matrix == null) {
                 matrix = new Matrix();
             }
             mMatrixOfEditPhoto = matrix;
 
-            int photoBmpWidth = photoBmp.getWidth();
-            int photoBmpHeight = photoBmp.getHeight();
+            int photoBmpWidth = userSelectBitmap.getWidth();
+            int photoBmpHeight = userSelectBitmap.getHeight();
 
-            mScale = mViewWidth / ((float) photoBmpWidth) > mViewHeight / ((float) photoBmpHeight)
+            KLog.e("压缩后的userSelectBitmap的宽度 : " + photoBmpWidth);
+            KLog.e("压缩后的userSelectBitmap的高度 : " + photoBmpHeight);
+
+            mUserSelectPhotoSetScale = mViewWidth / ((float) photoBmpWidth) > mViewHeight / ((float) photoBmpHeight)
                     ? mViewWidth / ((float) photoBmpWidth)
                     : mViewHeight / ((float) photoBmpHeight);
 
-            if (mScale != 0.0f) {
+            mUserSelectPhotoOriginalScale = photoBmpWidth / ((float) userSelectBitmapOriginalWidth) > photoBmpHeight / ((float) userSelectBitmapOriginalHeight)
+                    ? photoBmpWidth / ((float) userSelectBitmapOriginalWidth)
+                    : photoBmpHeight / ((float) userSelectBitmapOriginalHeight);
+
+            if (mUserSelectPhotoSetScale != 0.0f) {
                 Bitmap scalePhotoBmp;
                 Matrix photoMatrix = new Matrix();
-                photoMatrix.setScale(mScale, mScale);
+                photoMatrix.setScale(mUserSelectPhotoSetScale, mUserSelectPhotoSetScale);
                 try {
-                    scalePhotoBmp = Bitmap.createBitmap(photoBmp, 0, 0, photoBmpWidth, photoBmpHeight, photoMatrix, true);
+                    scalePhotoBmp = Bitmap.createBitmap(userSelectBitmap, 0, 0, photoBmpWidth, photoBmpHeight, photoMatrix, true);
                 } catch (OutOfMemoryError e) {
 //                    BitMapUtil.oom();
                     try {
-                        scalePhotoBmp = Bitmap.createBitmap(photoBmp, 0, 0, photoBmpWidth, photoBmpHeight, photoMatrix, true);
+                        scalePhotoBmp = Bitmap.createBitmap(userSelectBitmap, 0, 0, photoBmpWidth, photoBmpHeight, photoMatrix, true);
                     } catch (OutOfMemoryError e2) {
 //                        BitMapUtil.oom();
-                        scalePhotoBmp = Bitmap.createBitmap(photoBmp, 0, 0, photoBmpWidth, photoBmpHeight, photoMatrix, true);
+                        scalePhotoBmp = Bitmap.createBitmap(userSelectBitmap, 0, 0, photoBmpWidth, photoBmpHeight, photoMatrix, true);
                     }
                 }
-                if (scalePhotoBmp != photoBmp) {
-                    photoBmp.recycle();
+                if (scalePhotoBmp != userSelectBitmap) {
+                    userSelectBitmap.recycle();
                 }
+
+//                KLog.e("photoBmp缩放后宽度 : " + scalePhotoBmp.getWidth());
+//                KLog.e("photoBmp缩放后高度 : " + scalePhotoBmp.getHeight());
+
                 mPhotoBmp = scalePhotoBmp;
                 float photoBitmapWidth = (float) scalePhotoBmp.getWidth();
                 float photoBitmapHeight = (float) scalePhotoBmp.getHeight();
@@ -164,7 +182,7 @@ public class DrawingBoardView extends View {
 
     private void compositeBitmap() {
 //        mOutputBmp.eraseColor(Color.parseColor("#00000000"));
-        mOutputBmp.eraseColor(Color.parseColor("#ffffff"));
+        mOutputBmp.eraseColor(ContextCompat.getColor(mContext, R.color.color_f8f8f8));
 
         Canvas canvas = new Canvas(mOutputBmp);
         Paint paint = new Paint();
@@ -210,10 +228,25 @@ public class DrawingBoardView extends View {
             mMatrixOfEditPhoto.getValues(values);
             compositeBitmap();
             canvas.drawBitmap(mOutputBmp, 0.0f, 0.0f, null);
-            float resizeScale = (float) Math.sqrt((double) ((values[0] * values[0]) + (values[3] * values[3])));
-            if (mRate < resizeScale / mScale) {
+//            float resizeScale = (float) Math.sqrt((double) ((values[Matrix.MSCALE_X] * values[Matrix.MSCALE_X])
+//                    + (values[Matrix.MSKEW_Y] * values[Matrix.MSKEW_Y])));
+//            if (mRate < resizeScale / mPhotoSetScale) {
+//                drawPixelDeficiency(canvas);
+//            }
+            // photoBitmap的缩放比例
+            float scaleX = values[Matrix.MSCALE_X];
+            float scaleY = values[Matrix.MSCALE_Y];
+            float resizeScale = (float) Math.sqrt((double) ((scaleX * scaleX)
+                    + (scaleY * scaleY)));
+//            if (resizeScale > (mRate / mPhotoSetScale)) {
+//                drawPixelDeficiency(canvas);
+//            }
+            if ((resizeScale *  mUserSelectPhotoSetScale) * mRate * mUserSelectPhotoOriginalScale > 1.2) { // 根据需求, 缩放大于1.2倍提示像素不足
                 drawPixelDeficiency(canvas);
             }
+//            if ((scaleX * mUserSelectPhotoOriginalScale) > 1.2) { // 根据需求, 缩放大于1.2倍提示像素不足
+//                drawPixelDeficiency(canvas);
+//            }
             if (mIsSelected) {
                 drawWarningLine(canvas);
             }

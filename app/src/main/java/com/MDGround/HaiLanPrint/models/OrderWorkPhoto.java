@@ -3,6 +3,8 @@ package com.MDGround.HaiLanPrint.models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.List;
+
 /**
  * Created by yoghourt on 5/24/16.
  */
@@ -27,33 +29,11 @@ public class OrderWorkPhoto implements Parcelable{
 
     private int WorkOID;
 
+    private List<OrderWorkPhotoEdit> OrderWorkPhotoEditList;
+
     public OrderWorkPhoto() {
 
     }
-
-    protected OrderWorkPhoto(Parcel in) {
-        AutoID = in.readInt();
-        Photo1ID = in.readInt();
-        Photo1SID = in.readInt();
-        Photo2ID = in.readInt();
-        Photo2SID = in.readInt();
-        photoCount = in.readInt();
-        PhotoIndex = in.readInt();
-        tDescription = in.readString();
-        WorkOID = in.readInt();
-    }
-
-    public static final Creator<OrderWorkPhoto> CREATOR = new Creator<OrderWorkPhoto>() {
-        @Override
-        public OrderWorkPhoto createFromParcel(Parcel in) {
-            return new OrderWorkPhoto(in);
-        }
-
-        @Override
-        public OrderWorkPhoto[] newArray(int size) {
-            return new OrderWorkPhoto[size];
-        }
-    };
 
     public int getAutoID() {
         return AutoID;
@@ -127,6 +107,14 @@ public class OrderWorkPhoto implements Parcelable{
         WorkOID = workOID;
     }
 
+    public List<OrderWorkPhotoEdit> getOrderWorkPhotoEditList() {
+        return OrderWorkPhotoEditList;
+    }
+
+    public void setOrderWorkPhotoEditList(List<OrderWorkPhotoEdit> orderWorkPhotoEditList) {
+        OrderWorkPhotoEditList = orderWorkPhotoEditList;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -134,14 +122,40 @@ public class OrderWorkPhoto implements Parcelable{
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(AutoID);
-        dest.writeInt(Photo1ID);
-        dest.writeInt(Photo1SID);
-        dest.writeInt(Photo2ID);
-        dest.writeInt(Photo2SID);
-        dest.writeInt(photoCount);
-        dest.writeInt(PhotoIndex);
-        dest.writeString(tDescription);
-        dest.writeInt(WorkOID);
+        dest.writeInt(this.AutoID);
+        dest.writeInt(this.Photo1ID);
+        dest.writeInt(this.Photo1SID);
+        dest.writeInt(this.Photo2ID);
+        dest.writeInt(this.Photo2SID);
+        dest.writeInt(this.photoCount);
+        dest.writeInt(this.PhotoIndex);
+        dest.writeString(this.tDescription);
+        dest.writeInt(this.WorkOID);
+        dest.writeTypedList(this.OrderWorkPhotoEditList);
     }
+
+    protected OrderWorkPhoto(Parcel in) {
+        this.AutoID = in.readInt();
+        this.Photo1ID = in.readInt();
+        this.Photo1SID = in.readInt();
+        this.Photo2ID = in.readInt();
+        this.Photo2SID = in.readInt();
+        this.photoCount = in.readInt();
+        this.PhotoIndex = in.readInt();
+        this.tDescription = in.readString();
+        this.WorkOID = in.readInt();
+        this.OrderWorkPhotoEditList = in.createTypedArrayList(OrderWorkPhotoEdit.CREATOR);
+    }
+
+    public static final Creator<OrderWorkPhoto> CREATOR = new Creator<OrderWorkPhoto>() {
+        @Override
+        public OrderWorkPhoto createFromParcel(Parcel source) {
+            return new OrderWorkPhoto(source);
+        }
+
+        @Override
+        public OrderWorkPhoto[] newArray(int size) {
+            return new OrderWorkPhoto[size];
+        }
+    };
 }

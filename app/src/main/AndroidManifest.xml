@@ -87,6 +87,9 @@
             android:label="@string/select_photos_upload"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".activity.imagepreview.ImagePreviewActivity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".activity.selectimage.SelectAlbumBeforeEditActivity"
             android:label="@string/choose_photo"
             android:screenOrientation="portrait" />
@@ -327,6 +330,10 @@
         <activity
             android:name=".activity.orders.OrderDetailActivity"
             android:label="@string/order_detail"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.orders.ProductionInfoActivity"
+            android:label="@string/production_info"
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.personalcenter.EditAddressActivity"

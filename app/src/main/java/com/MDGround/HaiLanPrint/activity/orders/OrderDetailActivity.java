@@ -22,10 +22,12 @@ import com.MDGround.HaiLanPrint.models.OrderWork;
 import com.MDGround.HaiLanPrint.restfuls.GlobalRestful;
 import com.MDGround.HaiLanPrint.restfuls.bean.ResponseData;
 import com.MDGround.HaiLanPrint.utils.DateUtils;
+import com.MDGround.HaiLanPrint.utils.EncryptUtil;
 import com.MDGround.HaiLanPrint.utils.StringUtil;
 import com.MDGround.HaiLanPrint.utils.ViewUtils;
 import com.MDGround.HaiLanPrint.views.itemdecoration.GridSpacingItemDecoration;
 
+import java.net.URLEncoder;
 import java.util.ArrayList;
 
 import retrofit2.Call;
@@ -161,6 +163,20 @@ public class OrderDetailActivity extends ToolbarActivity<ActivityOrderDetailBind
         }
     }
 
+    public String createOrderDetailURL(int orderId) {
+        String orderDetailUrl = null;
+        String encryptOrderIdString = null;
+        try {
+            encryptOrderIdString = EncryptUtil.encrypt(String.valueOf(orderId));
+            encryptOrderIdString = URLEncoder.encode(encryptOrderIdString, "UTF-8");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        orderDetailUrl = Constants.HOST + "ShareOrderPhoto.aspx?orderId=" + encryptOrderIdString;
+
+        return orderDetailUrl;
+    }
+
     //region ACTION
     public void btnOperationAction(View view) {
         switch (mOrderStatus) {
@@ -207,9 +223,19 @@ public class OrderDetailActivity extends ToolbarActivity<ActivityOrderDetailBind
 
         @Override
         public void onBindViewHolder(ViewHolder holder, int position) {
-            OrderWork orderWork = mOrderWorkArrayList.get(position);
+            final OrderWork orderWork = mOrderWorkArrayList.get(position);
 
             holder.viewDataBinding.setOrderWork(orderWork);
+
+            holder.viewDataBinding.getRoot().setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(OrderDetailActivity.this, ProductionInfoActivity.class);
+                    String orderUrl = createOrderDetailURL(orderWork.getOrderID());
+                    intent.putExtra(Constants.KEY_ORDER_URL, orderUrl);
+                    startActivity(intent);
+                }
+            });
         }
 
         @Override

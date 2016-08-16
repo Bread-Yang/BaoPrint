@@ -128,6 +128,8 @@ public class PrintPhotoChoosePaperNumActivity extends ToolbarActivity<ActivityPr
                 viewDataBinding.ivMinus.setEnabled(true);
 
                 mdImage.setPhotoCount(++photoCount);
+
+                viewDataBinding.tvPrintNum.setText(String.valueOf(photoCount));
             }
 
             public void minusPrintNumAction(View view) {
@@ -147,6 +149,7 @@ public class PrintPhotoChoosePaperNumActivity extends ToolbarActivity<ActivityPr
 
                 mdImage.setPhotoCount(--photoCount);
 
+                viewDataBinding.tvPrintNum.setText(String.valueOf(photoCount));
             }
         }
     }

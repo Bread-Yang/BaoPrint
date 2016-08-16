@@ -3,6 +3,7 @@ package com.MDGround.HaiLanPrint.utils;
 import android.content.Context;
 
 import com.MDGround.HaiLanPrint.R;
+import com.MDGround.HaiLanPrint.application.MDGroundApplication;
 import com.MDGround.HaiLanPrint.constants.Constants;
 
 import java.net.URLEncoder;
@@ -51,7 +52,7 @@ public class ShareUtils {
     public static Platform.ShareParams initURLShareParams(Context context, String url) {
         Platform.ShareParams shareParams = new Platform.ShareParams();
         shareParams.setTitle(context.getString(R.string.app_name));
-        shareParams.setText(url);
+        shareParams.setText(context.getString(R.string.production_share, MDGroundApplication.sInstance.getLoginUser().getUserNickName()));
         shareParams.setTitleUrl(url);
         shareParams.setUrl(url);
         shareParams.setSite(context.getString(R.string.app_name));

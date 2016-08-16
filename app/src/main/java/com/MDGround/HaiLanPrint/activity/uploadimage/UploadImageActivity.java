@@ -43,7 +43,9 @@ public class UploadImageActivity extends ToolbarActivity<ActivityUploadImageBind
 
     private NotifyDialog mNotifyDialog;
 
-    private boolean isManualChangeState;
+    private boolean mIsManualChangeState;
+
+    private boolean mAlreadyUploadedImage;
 
     @Override
     protected int getContentLayout() {
@@ -70,10 +72,20 @@ public class UploadImageActivity extends ToolbarActivity<ActivityUploadImageBind
 
     @Override
     protected void setListener() {
+        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mAlreadyUploadedImage) {
+                    setResult(RESULT_OK);
+                }
+                finish();
+            }
+        });
+
         mDataBinding.cbSelectAll.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (!isManualChangeState) {
+                if (!mIsManualChangeState) {
                     mImageAdapter.selectAllImage(isChecked);
                 }
             }
@@ -103,9 +115,9 @@ public class UploadImageActivity extends ToolbarActivity<ActivityUploadImageBind
 
             @Override
             public void onIsSelectAllImage(boolean isSelectAll) {
-                isManualChangeState = true;
+                mIsManualChangeState = true;
                 mDataBinding.cbSelectAll.setChecked(isSelectAll);
-                isManualChangeState = false;
+                mIsManualChangeState = false;
             }
         });
     }
@@ -196,6 +208,7 @@ public class UploadImageActivity extends ToolbarActivity<ActivityUploadImageBind
         } else {
             ViewUtils.toast("上传图片成功");
             ViewUtils.dismiss();
+            mAlreadyUploadedImage = true;
             mImageAdapter.selectAllImage(false);
             mDataBinding.btnUpload.setEnabled(true);
         }

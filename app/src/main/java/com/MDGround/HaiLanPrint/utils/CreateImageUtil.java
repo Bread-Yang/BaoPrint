@@ -6,8 +6,10 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint;
+import android.graphics.RectF;
 
 import com.MDGround.HaiLanPrint.models.MDImage;
+import com.MDGround.HaiLanPrint.models.OriginalSizeBitmap;
 import com.MDGround.HaiLanPrint.models.PhotoTemplateAttachFrame;
 
 import java.io.File;
@@ -73,7 +75,10 @@ public class CreateImageUtil {
 
         List<PhotoTemplateAttachFrame> photoTemplateAttachFrameList = templateImage.getPhotoTemplateAttachFrameList();
 
-        Bitmap backgroundBitmap = GlideUtil.loadImageAsBitmap(templateImage);
+//        Bitmap backgroundBitmap = GlideUtil.loadImageAsBitmap(templateImage);
+
+        OriginalSizeBitmap originalSizeBitmap = GlideUtil.loadImageAsOriginalSizeBitmap(templateImage);
+        Bitmap backgroundBitmap = originalSizeBitmap.bitmap;
 
         Paint paint = new Paint();
         paint.setAntiAlias(true);
@@ -84,7 +89,7 @@ public class CreateImageUtil {
 
         Canvas canvas = new Canvas(bitmap);
 
-        float rateOfEditWidth = TemplateUtils.getRateOfEditWidthOnAndroid(backgroundBitmap);
+        float rateOfEditWidth = TemplateUtils.getRateOfEditAreaOnAndroid(originalSizeBitmap.size);
 
         // 用户编辑模块绘制
         MDImage userSelectImage = SelectImageUtils.sAlreadySelectImage.get(pageIndex);
@@ -99,7 +104,9 @@ public class CreateImageUtil {
         canvas.drawBitmap(compositeBitmap, 0, 0, paint);
 
         // 背景图绘制
-        canvas.drawBitmap(backgroundBitmap, 0, 0, paint);
+//        canvas.drawBitmap(backgroundBitmap, 0, 0, paint);
+        RectF rectF = new RectF(0, 0, originalSizeBitmap.size.width, originalSizeBitmap.size.height);
+        canvas.drawBitmap(backgroundBitmap, null, rectF, paint);
 
         return bitmap;
     }
@@ -109,21 +116,25 @@ public class CreateImageUtil {
 
         List<PhotoTemplateAttachFrame> photoTemplateAttachFrameList = mdImage.getPhotoTemplateAttachFrameList();
 
-        Bitmap backgroundBitmap = GlideUtil.loadImageAsBitmap(mdImage);
+//        Bitmap backgroundBitmap = GlideUtil.loadImageAsBitmap(mdImage);
+        OriginalSizeBitmap originalSizeBitmap = GlideUtil.loadImageAsOriginalSizeBitmap(mdImage);
+        Bitmap backgroundBitmap = originalSizeBitmap.bitmap;
 
         Paint paint = new Paint();
         paint.setAntiAlias(true);
         paint.setDither(true);
 
-        Bitmap bitmap = Bitmap.createBitmap(backgroundBitmap.getWidth(), backgroundBitmap.getHeight(),
+        Bitmap bitmap = Bitmap.createBitmap(originalSizeBitmap.size.width, originalSizeBitmap.size.height,
                 Bitmap.Config.RGB_565);
 
         Canvas canvas = new Canvas(bitmap);
 
-        float rateOfEditWidth = TemplateUtils.getRateOfEditWidthOnAndroid(backgroundBitmap);
+        float rateOfEditWidth = TemplateUtils.getRateOfEditAreaOnAndroid(originalSizeBitmap.size);
 
         // 背景图绘制
-        canvas.drawBitmap(backgroundBitmap, 0, 0, paint);
+//        canvas.drawBitmap(backgroundBitmap, 0, 0, paint);
+        RectF rectF = new RectF(0, 0, originalSizeBitmap.size.width, originalSizeBitmap.size.height);
+        canvas.drawBitmap(backgroundBitmap, null, rectF, paint);
 
         // 各个模块绘制
         createMould(pageIndex, canvas, paint, photoTemplateAttachFrameList, 1.0f, 1.0f, rateOfEditWidth);

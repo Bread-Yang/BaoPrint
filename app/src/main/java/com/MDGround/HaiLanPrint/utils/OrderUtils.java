@@ -22,6 +22,7 @@ import com.MDGround.HaiLanPrint.models.Measurement;
 import com.MDGround.HaiLanPrint.models.OrderInfo;
 import com.MDGround.HaiLanPrint.models.OrderWork;
 import com.MDGround.HaiLanPrint.models.OrderWorkPhoto;
+import com.MDGround.HaiLanPrint.models.OrderWorkPhotoEdit;
 import com.MDGround.HaiLanPrint.models.PhotoTemplateAttachFrame;
 import com.MDGround.HaiLanPrint.models.Template;
 import com.MDGround.HaiLanPrint.models.WorkInfo;
@@ -238,6 +239,7 @@ public class OrderUtils {
         } else {
             switch (MDGroundApplication.sInstance.getChoosedProductType()) {
                 case PrintPhoto:
+                case PictureFrame:
                 case Engraving:
                     // 全部图片上传完之后,生成订单
                     saveOrderRequest();
@@ -318,9 +320,15 @@ public class OrderUtils {
         workInfo.setPhotoCount(SelectImageUtils.sTemplateImage.size());
         workInfo.setPrice(mPrice);
         workInfo.setTypeID(MDGroundApplication.sInstance.getChoosedProductType().value());
+        if (MDGroundApplication.sInstance.getChoosedMeasurement() != null) {
+            workInfo.setTypeTitle(MDGroundApplication.sInstance.getChoosedMeasurement().getTitle());
+        }
         workInfo.setTemplateID(MDGroundApplication.sInstance.getChoosedTemplate().getTemplateID());
         workInfo.setTypeName(ProductType.getProductName(MDGroundApplication.sInstance.getChoosedProductType()));
         workInfo.setUserID(MDGroundApplication.sInstance.getLoginUser().getUserID());
+        workInfo.setWorkMaterial(mWorkMaterial);
+        workInfo.setWorkStyle(mWorkStyle);
+        workInfo.setWorkFormat(mWorkFormat);
         workInfo.setWorkDesc("");
 
         GlobalRestful.getInstance().SaveUserWork(workInfo, new Callback<ResponseData>() {
@@ -358,6 +366,8 @@ public class OrderUtils {
 
                     workPhotoEdit.setPhotoID(uploadUserSelectImage.getPhotoID());
                     workPhotoEdit.setPhotoSID(uploadUserSelectImage.getPhotoSID());
+
+                    workPhotoEditList.add(workPhotoEdit);
 
                     count++;
                 }
@@ -512,6 +522,27 @@ public class OrderUtils {
                 orderWorkPhoto.setPhotoCount(mdImage.getPhotoCount());
                 orderWorkPhoto.setPhotoIndex(workPhoto.getPhotoIndex());
                 orderWorkPhoto.setWorkOID(orderWork.getWorkOID());
+
+
+                if (TemplateUtils.isTemplateHasModules()) {
+                    int count = 0;
+                    List<OrderWorkPhotoEdit> workPhotoEditList = new ArrayList<>();
+
+                    List<PhotoTemplateAttachFrame> photoTemplateAttachFrameList = mdImage.getPhotoTemplateAttachFrameList();
+                    for (PhotoTemplateAttachFrame photoTemplateAttachFrame : photoTemplateAttachFrameList) {
+                        OrderWorkPhotoEdit orderWorkPhotoEdit = new OrderWorkPhotoEdit();
+
+                        MDImage uploadUserSelectImage = SelectImageUtils.sAlreadySelectImage.get(count);
+
+                        orderWorkPhotoEdit.setPhotoID(uploadUserSelectImage.getPhotoID());
+                        orderWorkPhotoEdit.setPhotoSID(uploadUserSelectImage.getPhotoSID());
+
+                        workPhotoEditList.add(orderWorkPhotoEdit);
+
+                        count++;
+                    }
+                    orderWorkPhoto.setOrderWorkPhotoEditList(workPhotoEditList);
+                }
             }
 
             orderWorkPhotoList.add(orderWorkPhoto);
@@ -532,7 +563,7 @@ public class OrderUtils {
     }
 
     public void updateOrderPrepayRequest(final Activity activity, DeliveryAddress deliveryAddress, final PayType
-            payType, int amountFee, int receivableFee) {
+            payType, int amountFee, int receivableFee, int couponFee, int deliveryFee, int creditFee) {
 //        ViewUtils.loading(activity);
         mOrderInfo.setAddressID(deliveryAddress.getAutoID());
         mOrderInfo.setAddressReceipt(StringUtil.getCompleteAddress(deliveryAddress));
@@ -543,6 +574,9 @@ public class OrderUtils {
         mOrderInfo.setReceiver(deliveryAddress.getReceiver());
         mOrderInfo.setTotalFee(amountFee);
         mOrderInfo.setTotalFeeReal(receivableFee);
+        mOrderInfo.setCouponFee(couponFee);
+        mOrderInfo.setDeliveryFee(deliveryFee);
+        mOrderInfo.setIntegralFee(creditFee);
 
         GlobalRestful.getInstance().UpdateOrderPrepay(mOrderInfo, new Callback<ResponseData>() {
             @Override

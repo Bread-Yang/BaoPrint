@@ -12,7 +12,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.MDGround.HaiLanPrint.BR;
-import com.MDGround.HaiLanPrint.enumobject.ProductType;
 import com.MDGround.HaiLanPrint.R;
 import com.MDGround.HaiLanPrint.activity.artalbum.ArtAlbumChooseInchActivity;
 import com.MDGround.HaiLanPrint.activity.calendar.CalendarChooseOrientationActivity;
@@ -30,6 +29,7 @@ import com.MDGround.HaiLanPrint.activity.postcard.PostcardStartActivity;
 import com.MDGround.HaiLanPrint.activity.puzzle.PuzzleStartActivity;
 import com.MDGround.HaiLanPrint.application.MDGroundApplication;
 import com.MDGround.HaiLanPrint.databinding.ActivityMainBinding;
+import com.MDGround.HaiLanPrint.enumobject.ProductType;
 import com.MDGround.HaiLanPrint.enumobject.restfuls.ResponseCode;
 import com.MDGround.HaiLanPrint.models.MDImage;
 import com.MDGround.HaiLanPrint.models.PhotoTypeExplain;
@@ -37,7 +37,6 @@ import com.MDGround.HaiLanPrint.restfuls.GlobalRestful;
 import com.MDGround.HaiLanPrint.restfuls.bean.ResponseData;
 import com.MDGround.HaiLanPrint.utils.SelectImageUtils;
 import com.google.gson.reflect.TypeToken;
-import com.socks.library.KLog;
 
 import java.util.ArrayList;
 
@@ -58,12 +57,6 @@ public class MainActivity extends AppCompatActivity {
 
         initData();
         setListener();
-    }
-
-    @Override
-    protected void onNewIntent(Intent intent) {
-        super.onNewIntent(intent);
-        KLog.e("onNewIntent");
     }
 
     @Override

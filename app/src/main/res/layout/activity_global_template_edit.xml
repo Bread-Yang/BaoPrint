@@ -15,34 +15,77 @@
             android:focusableInTouchMode="true"
             android:orientation="vertical">
 
+            <FrameLayout
+                android:id="@+id/fltEdit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <com.MDGround.HaiLanPrint.views.CalendarCard
+                    android:id="@+id/calendarCard"
+                    android:layout_width="wrap_content"
+                    android:layout_height="60dp"
+                    android:visibility="gone"
+                    android:layout_alignParentBottom="true"
+                    android:layout_gravity="bottom" />
+            </FrameLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="@dimen/margin_10">
+                android:background="@color/color_white"
+                android:orientation="vertical">
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/icon_light_edit" />
+                <com.MDGround.HaiLanPrint.views.ClearEditText
+                    android:id="@+id/cetInput"
+                    android:layout_width="match_parent"
+                    android:layout_height="38dp"
+                    android:layout_marginLeft="@dimen/margin_10"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="@dimen/margin_8"
+                    android:background="@drawable/shape_round_corner_area_grey_bg"
+                    android:drawablePadding="@dimen/margin_8"
+                    android:hint="@string/click_input"
+                    android:longClickable="false"
+                    android:maxLength="30"
+                    android:maxLines="1"
+                    android:paddingLeft="@dimen/margin_10"
+                    android:textColorHint="@color/color_999999"
+                    android:textSize="@dimen/text_size_16"
+                    android:visibility="gone" />
 
-                <SeekBar
-                    android:id="@+id/seekBar"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_weight="1"
-                    android:progress="0"
-                    android:progressDrawable="@drawable/layerlist_seekbar_progress"
-                    android:thumb="@drawable/shape_seekbar_thumb" />
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingBottom="@dimen/margin_6"
+                    android:paddingLeft="@dimen/margin_10"
+                    android:paddingRight="@dimen/margin_10"
+                    android:paddingTop="@dimen/margin_6">
 
-                <TextView
-                    android:id="@+id/tvPercent"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:text="0%" />
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/icon_light_edit" />
 
+                    <SeekBar
+                        android:id="@+id/seekBar"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="1"
+                        android:progress="0"
+                        android:progressDrawable="@drawable/layerlist_seekbar_progress"
+                        android:splitTrack="false"
+                        android:thumb="@drawable/btn_progress_mes_gray" />
+
+                    <TextView
+                        android:id="@+id/tvPercent"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:text="0%" />
+                </LinearLayout>
             </LinearLayout>
 
             <android.support.v7.widget.RecyclerView
@@ -52,7 +95,6 @@
                 android:scrollbars="none" />
 
         </LinearLayout>
-
 
         <View
             android:id="@+id/viewDivider"
@@ -73,5 +115,4 @@
             android:textColor="@color/color_f88e11"
             android:textSize="@dimen/text_size_20" />
     </RelativeLayout>
-
 </layout>

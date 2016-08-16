@@ -7,7 +7,7 @@ android {
     defaultConfig {
         applicationId "com.MDGround.HaiLanPrint"
         minSdkVersion 16
-        targetSdkVersion 23
+        targetSdkVersion 22
         versionCode 1
         versionName "1.2.7.14"
     }
@@ -67,6 +67,7 @@ dependencies {
     compile 'joda-time:joda-time:2.9.3'
     compile 'com.github.lzyzsd:circleprogress:1.1.0@aar'
     compile 'com.flyco.banner:FlycoBanner_Lib:2.0.2@aar'
+    compile 'com.commit451:PhotoView:1.2.5'
     compile 'com.github.zhaokaiqiang.klog:library:1.1.0'
 
     compile(name: 'SMSSDK-2.0.2', ext: 'aar')

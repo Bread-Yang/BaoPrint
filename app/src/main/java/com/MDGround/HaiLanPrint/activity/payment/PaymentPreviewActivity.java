@@ -71,7 +71,7 @@ public class PaymentPreviewActivity extends ToolbarActivity<ActivityPaymentPrevi
 
     private AlertDialog mAlertDialog;
 
-    private int mUnitFee, mAmountFee, mCredit, mReceivableFee;
+    private int mCredit;
 
     private boolean mHadChangedOrderCount;
 
@@ -121,12 +121,12 @@ public class PaymentPreviewActivity extends ToolbarActivity<ActivityPaymentPrevi
 
     @Override
     protected void setListener() {
-        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                NavUtils.toMainActivity(PaymentPreviewActivity.this);
-            }
-        });
+//        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                NavUtils.toMainActivity(PaymentPreviewActivity.this);
+//            }
+//        });
 
         mDataBinding.cbUseCredit.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -228,7 +228,7 @@ public class PaymentPreviewActivity extends ToolbarActivity<ActivityPaymentPrevi
 
     private int getDeliveryFee() {
         int deliveryFee = 0;
-        if (mDeliveryFeeSetting != null ) {
+        if (mDeliveryFeeSetting != null) {
             deliveryFee = mDeliveryFeeSetting.getValue();
         }
         return deliveryFee;
@@ -241,8 +241,8 @@ public class PaymentPreviewActivity extends ToolbarActivity<ActivityPaymentPrevi
 
     private int getFinalReceivableFee() {
         int amountFee = getReceivableFee() - getCreditFee();
-        if (amountFee < 0) {
-            amountFee = 0;
+        if (amountFee <= 0) {
+            amountFee = 1;
         }
         return amountFee;
     }
@@ -283,7 +283,9 @@ public class PaymentPreviewActivity extends ToolbarActivity<ActivityPaymentPrevi
         }
 
         MDGroundApplication.sOrderutUtils.updateOrderPrepayRequest(PaymentPreviewActivity.this,
-                mDeliveryAddress, payType, getAllOrderWorkAmountFee(), getFinalReceivableFee());
+                mDeliveryAddress, payType, getAllOrderWorkAmountFee(),
+                getFinalReceivableFee(), getCouponFee(), getDeliveryFee(),
+                getCreditFee());
     }
 
     //region ACTION
