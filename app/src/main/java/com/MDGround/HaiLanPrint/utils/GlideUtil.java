@@ -166,7 +166,7 @@ public class GlideUtil {
                 .using(new MDGroundLoader(MDGroundApplication.sInstance), InputStream.class)
                 .from(MDImage.class)
                 .as(OriginalSizeBitmap.class)
-                .override(300, 300)
+                .override(1024, 1024)
                 .sourceEncoder(new StreamEncoder())
                 .cacheDecoder(new OriginalSizeBitmapDecoder(MDGroundApplication.sInstance))
                 .diskCacheStrategy(DiskCacheStrategy.SOURCE);

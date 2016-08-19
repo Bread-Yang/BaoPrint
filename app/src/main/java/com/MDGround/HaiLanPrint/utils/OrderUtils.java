@@ -202,6 +202,8 @@ public class OrderUtils {
             });
         } else {
             uploadAllUserSelectImageRequest(context, 0);
+            // 现在只需要合成图的照片,不需要上传用户选择的照片
+//            saveUserWorkReqeust();
         }
     }
 
@@ -223,7 +225,9 @@ public class OrderUtils {
                         KLog.e("上传本地照片成功");
                         final MDImage responseImage = response.body().getContent(MDImage.class);
 
-                        SelectImageUtils.sAlreadySelectImage.set(upload_image_index, responseImage);
+                        selectImage.setPhotoID(responseImage.getPhotoID());
+                        selectImage.setPhotoSID(responseImage.getPhotoSID());
+//                        SelectImageUtils.sAlreadySelectImage.set(upload_image_index, responseImage);
 
                         uploadAllUserSelectImageRequest(context, nextUploadIndex);
                     }
@@ -279,16 +283,18 @@ public class OrderUtils {
                         final MDImage responseImage = response.body().getContent(MDImage.class);
 
                         // 上传本地图片成功, 设置对应的PhotoID, PhotoSID
-                        responseImage.setPhotoCount(selectImage.getPhotoCount());
+                        selectImage.setPhotoID(responseImage.getPhotoID());
+                        selectImage.setPhotoSID(responseImage.getPhotoSID());
+//                        responseImage.setPhotoCount(selectImage.getPhotoCount());
 
                         final WorkPhoto workPhoto = selectImage.getWorkPhoto();
                         if (workPhoto != null) {
                             workPhoto.setPhoto1ID(responseImage.getPhotoID());
                             workPhoto.setPhoto1SID(responseImage.getPhotoSID());
-                            responseImage.setWorkPhoto(workPhoto);
+//                            responseImage.setWorkPhoto(workPhoto);
                         }
 
-                        SelectImageUtils.sAlreadySelectImage.set(upload_image_index, responseImage);
+//                        SelectImageUtils.sAlreadySelectImage.set(upload_image_index, responseImage);
                         uploadPrintPhotoOrEngravingImageRequest(context, nextUploadIndex);
                     }
 
@@ -360,9 +366,9 @@ public class OrderUtils {
 
                 List<PhotoTemplateAttachFrame> photoTemplateAttachFrameList = mdImage.getPhotoTemplateAttachFrameList();
                 for (PhotoTemplateAttachFrame photoTemplateAttachFrame : photoTemplateAttachFrameList) {
-                    WorkPhotoEdit workPhotoEdit = new WorkPhotoEdit();
-
                     MDImage uploadUserSelectImage = SelectImageUtils.sAlreadySelectImage.get(count);
+
+                    WorkPhotoEdit workPhotoEdit = uploadUserSelectImage.getWorkPhotoEdit();
 
                     workPhotoEdit.setPhotoID(uploadUserSelectImage.getPhotoID());
                     workPhotoEdit.setPhotoSID(uploadUserSelectImage.getPhotoSID());
@@ -500,8 +506,17 @@ public class OrderUtils {
     private void saveOrderPhotoListRequest(final OrderWork orderWork) {
         List<OrderWorkPhoto> orderWorkPhotoList = new ArrayList<>();
 
-        for (int i = 0; i < SelectImageUtils.sTemplateImage.size(); i++) {
-            MDImage mdImage = SelectImageUtils.sTemplateImage.get(i);
+        ArrayList<MDImage> mdImageArrayList = null;
+
+        if (MDGroundApplication.sInstance.getChoosedProductType() == ProductType.PrintPhoto
+                || MDGroundApplication.sInstance.getChoosedProductType() == ProductType.Engraving) {
+            mdImageArrayList = SelectImageUtils.sAlreadySelectImage;
+        } else {
+            mdImageArrayList = SelectImageUtils.sTemplateImage;
+        }
+
+        for (int i = 0; i < mdImageArrayList.size(); i++) {
+            MDImage mdImage = mdImageArrayList.get(i);
             WorkPhoto workPhoto = mdImage.getWorkPhoto();
 
             OrderWorkPhoto orderWorkPhoto = new OrderWorkPhoto();

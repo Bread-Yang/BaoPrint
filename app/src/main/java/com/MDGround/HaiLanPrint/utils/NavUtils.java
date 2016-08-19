@@ -17,6 +17,7 @@ import com.MDGround.HaiLanPrint.application.MDGroundApplication;
 import com.MDGround.HaiLanPrint.constants.Constants;
 import com.MDGround.HaiLanPrint.models.MDImage;
 import com.MDGround.HaiLanPrint.models.WorkPhoto;
+import com.MDGround.HaiLanPrint.models.WorkPhotoEdit;
 
 import static com.MDGround.HaiLanPrint.utils.SelectImageUtils.sTemplateImage;
 
@@ -169,6 +170,15 @@ public class NavUtils {
 
                 for (int i = 0; i < difference; i++) {
                     SelectImageUtils.sAlreadySelectImage.add(new MDImage());
+                }
+            }
+
+            for (MDImage mdImage : SelectImageUtils.sAlreadySelectImage) {
+                WorkPhotoEdit workPhotoEdit = mdImage.getWorkPhotoEdit();
+
+                if (workPhotoEdit == null) {
+                    workPhotoEdit = new WorkPhotoEdit();
+                    mdImage.setWorkPhotoEdit(workPhotoEdit);
                 }
             }
 

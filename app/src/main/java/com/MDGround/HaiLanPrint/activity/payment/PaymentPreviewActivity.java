@@ -32,7 +32,6 @@ import com.MDGround.HaiLanPrint.models.UserIntegral;
 import com.MDGround.HaiLanPrint.restfuls.GlobalRestful;
 import com.MDGround.HaiLanPrint.restfuls.bean.ResponseData;
 import com.MDGround.HaiLanPrint.utils.DateUtils;
-import com.MDGround.HaiLanPrint.utils.NavUtils;
 import com.MDGround.HaiLanPrint.utils.SelectImageUtils;
 import com.MDGround.HaiLanPrint.utils.StringUtil;
 import com.MDGround.HaiLanPrint.utils.ViewUtils;
@@ -171,10 +170,10 @@ public class PaymentPreviewActivity extends ToolbarActivity<ActivityPaymentPrevi
         }
     }
 
-    @Override
-    public void onBackPressed() {
-        NavUtils.toMainActivity(PaymentPreviewActivity.this);
-    }
+//    @Override
+//    public void onBackPressed() {
+//        NavUtils.toMainActivity(PaymentPreviewActivity.this);
+//    }
 
     private int getSingleOrderWorkAmountFee(OrderWork orderWork) {
         ProductType productType = ProductType.fromValue(orderWork.getTypeID());

@@ -60,8 +60,10 @@ public class FileRestful extends BaseRestful {
     }
 
     private String bitmapToString(Bitmap bitmap) {
+        KLog.e("上传bitmap的高 : " + bitmap.getHeight());
+        KLog.e("上传bitmap的宽 : " + bitmap.getWidth());
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 50, baos);
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 80, baos);
         String dataStr = Base64.encodeToString(baos.toByteArray(), Base64.DEFAULT);
         try {
             dataStr = URLEncoder.encode(dataStr, "UTF-8");
@@ -94,8 +96,8 @@ public class FileRestful extends BaseRestful {
 
                 Bitmap bitmap = ViewUtils.getSmallBitmap(photo.getPath());
                 if (bitmap != null) {
-                    String photoData = bitmapToString(bitmap);
                     String fileName = photo.getName();
+                    String photoData = bitmapToString(bitmap);
 
                     JsonObject obj = new JsonObject();
                     obj.addProperty("Shared", isShare);

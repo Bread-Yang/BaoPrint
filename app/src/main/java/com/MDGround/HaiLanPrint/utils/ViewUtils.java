@@ -20,6 +20,7 @@ import android.widget.Toast;
 
 import com.MDGround.HaiLanPrint.R;
 import com.MDGround.HaiLanPrint.application.MDGroundApplication;
+import com.socks.library.KLog;
 
 /**
  * Created by shadow on 15/11/7.
@@ -100,7 +101,6 @@ public class ViewUtils {
         } catch (Throwable e) {
 
         }
-
     }
 
     public static void closeKeyboard(Activity context) {
@@ -119,28 +119,19 @@ public class ViewUtils {
         return MDGroundApplication.sInstance.getString(resId);
     }
 
-    //计算图片的缩放值
-    public static int calculateInSampleSize(BitmapFactory.Options options, int reqWidth, int reqHeight) {
-        final int height = options.outHeight;
-        final int width = options.outWidth;
-        int inSampleSize = 1;
-
-        if (height > reqHeight || width > reqWidth) {
-            final int heightRatio = Math.round((float) height / (float) reqHeight);
-            final int widthRatio = Math.round((float) width / (float) reqWidth);
-            inSampleSize = heightRatio < widthRatio ? heightRatio : widthRatio;
-        }
-        return inSampleSize;
-    }
-
-    // 根据路径获得图片并压缩，返回bitmap用于显示
+    // 根据路径获得图片, 如果超过1024 * 1024就压缩
     public static Bitmap getSmallBitmap(String filePath) {
         final BitmapFactory.Options options = new BitmapFactory.Options();
+
         options.inJustDecodeBounds = true;
+
         BitmapFactory.decodeFile(filePath, options);
 
+        KLog.e("解析图片的宽 : " + options.outWidth);
+        KLog.e("解析图片的高 : " + options.outHeight);
+
         // Calculate inSampleSize
-        options.inSampleSize = calculateInSampleSize(options, 720, 1080);
+        options.inSampleSize = calculateInSampleSize(options, 2048, 2048);
 
         // Decode bitmap with inSampleSize set
         options.inJustDecodeBounds = false;
@@ -148,6 +139,20 @@ public class ViewUtils {
         return BitmapFactory.decodeFile(filePath, options);
     }
 
+    //计算图片的缩放值
+    public static int calculateInSampleSize(BitmapFactory.Options options, int reqWidth, int reqHeight) {
+        final int height = options.outHeight;
+        final int width = options.outWidth;
+        int inSampleSize = 1;
+
+        if (height > reqHeight || width > reqWidth) {
+            float heightRatio = (float) height / (float) reqHeight;
+            float widthRatio = (float) width / (float) reqWidth;
+            float ratio = heightRatio > widthRatio ? heightRatio : widthRatio;
+            inSampleSize = Math.round(ratio);
+        }
+        return inSampleSize;
+    }
 
     public static void copy(String str) {
         ClipboardManager clipboardManager = (ClipboardManager) MDGroundApplication.sInstance.getSystemService(Context.CLIPBOARD_SERVICE);

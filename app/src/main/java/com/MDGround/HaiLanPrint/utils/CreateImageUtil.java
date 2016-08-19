@@ -99,7 +99,7 @@ public class CreateImageUtil {
         Matrix matrix = TemplateUtils.getMatrixByString(templateImage.getWorkPhoto().getMatrix());
 
         Bitmap compositeBitmap = compositePicture(backgroundBitmap.getWidth(), backgroundBitmap.getHeight(),
-                null, selectBitmap, matrix);
+                null, selectBitmap, matrix, rateOfEditWidth);
 
         canvas.drawBitmap(compositeBitmap, 0, 0, paint);
 
@@ -125,19 +125,19 @@ public class CreateImageUtil {
         paint.setDither(true);
 
         Bitmap bitmap = Bitmap.createBitmap(originalSizeBitmap.size.width, originalSizeBitmap.size.height,
-                Bitmap.Config.RGB_565);
+                Bitmap.Config.ARGB_4444);
 
         Canvas canvas = new Canvas(bitmap);
 
-        float rateOfEditWidth = TemplateUtils.getRateOfEditAreaOnAndroid(originalSizeBitmap.size);
+        float rateOfEditArea = TemplateUtils.getRateOfEditAreaOnAndroid(originalSizeBitmap.size);
+
+        // 各个模块绘制
+        createMould(pageIndex, canvas, paint, photoTemplateAttachFrameList, 1.0f, 1.0f, rateOfEditArea);
 
         // 背景图绘制
 //        canvas.drawBitmap(backgroundBitmap, 0, 0, paint);
         RectF rectF = new RectF(0, 0, originalSizeBitmap.size.width, originalSizeBitmap.size.height);
         canvas.drawBitmap(backgroundBitmap, null, rectF, paint);
-
-        // 各个模块绘制
-        createMould(pageIndex, canvas, paint, photoTemplateAttachFrameList, 1.0f, 1.0f, rateOfEditWidth);
 
         return bitmap;
     }
@@ -158,19 +158,27 @@ public class CreateImageUtil {
 
             Matrix matrix = TemplateUtils.getMatrixByString(photoTemplateAttachFrame.getMatrix());
 
-            Bitmap compositeBitmap = compositePicture(width, height, null, selectBitmap, matrix);
+            Bitmap compositeBitmap = compositePicture(width, height, null, selectBitmap, matrix, rateOfEditWidth);
 
             canvas.drawBitmap(compositeBitmap, dx, dy, paint);
         }
     }
 
-    private static Bitmap compositePicture(float width, float height, Bitmap mouldBmp, Bitmap photoBmp, Matrix matrix) {
+    private static Bitmap compositePicture(float width, float height, Bitmap mouldBmp, Bitmap photoBmp, Matrix matrix, float rateOfEditWidth) {
         Bitmap outputBitmap;
         outputBitmap = Bitmap.createBitmap((int) width, (int) height, Config.ARGB_4444);
         outputBitmap.eraseColor(Color.parseColor("#ffffff"));
 
         int photoBmpWidth = photoBmp.getWidth();
         int photoBmpHeight = photoBmp.getHeight();
+
+        float[] values = new float[9];
+        matrix.getValues(values);
+//        values[Matrix.MTRANS_X] = values[Matrix.MTRANS_X] / (rateOfEditWidth / rate);
+//        values[Matrix.MTRANS_Y] = values[Matrix.MTRANS_Y] / (rateOfEditWidth / rate);
+        values[Matrix.MTRANS_X] = values[Matrix.MTRANS_X] / (rateOfEditWidth);
+        values[Matrix.MTRANS_Y] = values[Matrix.MTRANS_Y] / (rateOfEditWidth);
+        matrix.setValues(values);
 
         float scale = width / ((float) photoBmpWidth) > height / ((float) photoBmpHeight)
                 ? width / ((float) photoBmpWidth)
@@ -197,7 +205,7 @@ public class CreateImageUtil {
             float photoBitmapHeight = (float) photoBmp.getHeight();
             float dx = (width - photoBitmapWidth) / 2.0f;
             float dy = (height - photoBitmapHeight) / 2.0f;
-//            matrix.preTranslate(dx, dy);
+            matrix.preTranslate(dx, dy);
         }
 
         Canvas canvas = new Canvas(outputBitmap);

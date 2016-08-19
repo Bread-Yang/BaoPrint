@@ -191,6 +191,7 @@ public class CalendarEditActivity extends ToolbarActivity<ActivityCalendarEditBi
             MDImage oldMDImage = SelectImageUtils.sAlreadySelectImage.get(mCurrentSelectIndex);
 
             newMDImage.setWorkPhoto(oldMDImage.getWorkPhoto());
+            newMDImage.setWorkPhotoEdit(oldMDImage.getWorkPhotoEdit());
 
             SelectImageUtils.sAlreadySelectImage.set(mCurrentSelectIndex, newMDImage);
 

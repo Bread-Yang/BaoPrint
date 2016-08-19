@@ -21,6 +21,10 @@ public class WorkPhotoEdit {
 
     private float ZoomSize;
 
+    public WorkPhotoEdit() {
+        ZoomSize = 1.0f;
+    }
+
     public int getAutoID() {
         return AutoID;
     }

@@ -177,6 +177,7 @@ public class ArtAlbumEditActivity extends ToolbarActivity<ActivityArtAlbumEditBi
             MDImage oldMDImage = SelectImageUtils.sAlreadySelectImage.get(mCurrentSelectIndex);
 
             newMDImage.setWorkPhoto(oldMDImage.getWorkPhoto());
+            newMDImage.setWorkPhotoEdit(oldMDImage.getWorkPhotoEdit());
 
             SelectImageUtils.sAlreadySelectImage.set(mCurrentSelectIndex, newMDImage);
 

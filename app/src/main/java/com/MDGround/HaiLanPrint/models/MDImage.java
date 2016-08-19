@@ -36,6 +36,8 @@ public class MDImage extends BaseObservable implements Parcelable {
 
     private WorkPhoto workPhoto;
 
+    private WorkPhotoEdit workPhotoEdit;
+
     private List<PhotoTemplateAttachFrame> PhotoTemplateAttachFrameList;
 
     public MDImage() {}
@@ -164,6 +166,14 @@ public class MDImage extends BaseObservable implements Parcelable {
 
     public void setWorkPhoto(WorkPhoto workPhoto) {
         this.workPhoto = workPhoto;
+    }
+
+    public WorkPhotoEdit getWorkPhotoEdit() {
+        return workPhotoEdit;
+    }
+
+    public void setWorkPhotoEdit(WorkPhotoEdit workPhotoEdit) {
+        this.workPhotoEdit = workPhotoEdit;
     }
 
     public List<PhotoTemplateAttachFrame> getPhotoTemplateAttachFrameList() {

@@ -25,6 +25,7 @@ import com.MDGround.HaiLanPrint.models.MDImage;
 import com.MDGround.HaiLanPrint.models.OriginalSizeBitmap;
 import com.MDGround.HaiLanPrint.models.PhotoTemplateAttachFrame;
 import com.MDGround.HaiLanPrint.models.WorkPhoto;
+import com.MDGround.HaiLanPrint.models.WorkPhotoEdit;
 import com.MDGround.HaiLanPrint.utils.CreateImageUtil;
 import com.MDGround.HaiLanPrint.utils.GlideUtil;
 import com.MDGround.HaiLanPrint.utils.OrderUtils;
@@ -307,6 +308,8 @@ public class GlobalTemplateEditActivity extends ToolbarActivity<ActivityGlobalTe
                     float skewy = values[Matrix.MSKEW_Y];
                     float rScale = (float) Math.sqrt(scalex * scalex + skewy * skewy);
 
+                    WorkPhotoEdit workPhotoEdit = SelectImageUtils.getMdImageByPageIndexAndModuleIndex(mCurrentSelectPageIndex, i).getWorkPhotoEdit();
+
                     // calculate the degree of rotation
                     float rAngle = Math.round(Math.atan2(values[Matrix.MSKEW_X], values[Matrix.MSCALE_X]) * (180 / Math.PI));
 
@@ -314,6 +317,11 @@ public class GlobalTemplateEditActivity extends ToolbarActivity<ActivityGlobalTe
                     KLog.e("ty : " + ty);
                     KLog.e("rScale : " + rScale);
                     KLog.e("rAngle : " + rAngle);
+
+                    workPhotoEdit.setPositionX((int) tx);
+                    workPhotoEdit.setPositionY((int) ty);
+                    workPhotoEdit.setRotate(rAngle);
+                    workPhotoEdit.setZoomSize(rScale);
 
                     String matrixString = TemplateUtils.getStringByMatrix(matrix);
 
@@ -477,6 +485,7 @@ public class GlobalTemplateEditActivity extends ToolbarActivity<ActivityGlobalTe
     }
 
     private void saveToMyWork() {
+        saveCurrentPageEditStatus();
         ViewUtils.loading(this);
         CreateImageUtil.createAllPageHasModules(new CreateImageUtil.onCreateAllComposteImageCompleteListner() {
             @Override
@@ -517,6 +526,7 @@ public class GlobalTemplateEditActivity extends ToolbarActivity<ActivityGlobalTe
 
     //region ACTION
     public void nextStepAction(View view) {
+        saveCurrentPageEditStatus();
         ViewUtils.loading(this);
         if (TemplateUtils.isTemplateHasModules()) {
             CreateImageUtil.createAllPageHasModules(new CreateImageUtil.onCreateAllComposteImageCompleteListner() {
@@ -525,6 +535,7 @@ public class GlobalTemplateEditActivity extends ToolbarActivity<ActivityGlobalTe
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
+//                            ViewUtils.dismiss();
                             generateOrder(allCompositeImageLocalPathList);
                         }
                     });
