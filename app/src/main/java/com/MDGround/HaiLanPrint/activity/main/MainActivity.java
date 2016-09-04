@@ -31,6 +31,7 @@ import com.MDGround.HaiLanPrint.application.MDGroundApplication;
 import com.MDGround.HaiLanPrint.databinding.ActivityMainBinding;
 import com.MDGround.HaiLanPrint.enumobject.ProductType;
 import com.MDGround.HaiLanPrint.enumobject.restfuls.ResponseCode;
+import com.MDGround.HaiLanPrint.models.BannerImage;
 import com.MDGround.HaiLanPrint.models.MDImage;
 import com.MDGround.HaiLanPrint.models.PhotoTypeExplain;
 import com.MDGround.HaiLanPrint.restfuls.GlobalRestful;
@@ -39,6 +40,7 @@ import com.MDGround.HaiLanPrint.utils.SelectImageUtils;
 import com.google.gson.reflect.TypeToken;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -223,10 +225,19 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
                 if (ResponseCode.isSuccess(response.body())) {
-                    ArrayList<MDImage> tempImagesList = response.body().getContent(new TypeToken<ArrayList<MDImage>>() {
+                    ArrayList<BannerImage> tempImagesList = response.body().getContent(new TypeToken<ArrayList<BannerImage>>() {
                     });
 
-                    mImagesList.addAll(tempImagesList);
+                    Collections.sort(tempImagesList);
+
+                    for (BannerImage bannerImage : tempImagesList) {
+                        MDImage mdImage = new MDImage();
+
+                        mdImage.setPhotoID(bannerImage.getPhotoID());
+                        mdImage.setPhotoSID(bannerImage.getPhotoSID());
+
+                        mImagesList.add(mdImage);
+                    }
 
                     mDataBinding.simpleImageBanner
                             .setSource(mImagesList).startScroll();
