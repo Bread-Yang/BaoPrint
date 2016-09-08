@@ -170,11 +170,11 @@ public class DrawingBoardView extends View {
 //                KLog.e("photoBmp缩放后高度 : " + scalePhotoBmp.getHeight());
 
                 mPhotoBmp = scalePhotoBmp;
-                float photoBitmapWidth = (float) scalePhotoBmp.getWidth();
-                float photoBitmapHeight = (float) scalePhotoBmp.getHeight();
-                mDx = (this.mViewWidth - photoBitmapWidth) / 2.0f;
-                mDy = (this.mViewHeight - photoBitmapHeight) / 2.0f;
-                mMatrixOfEditPhoto.preTranslate(mDx, mDy);
+//                float photoBitmapWidth = (float) scalePhotoBmp.getWidth();
+//                float photoBitmapHeight = (float) scalePhotoBmp.getHeight();
+//                mDx = (this.mViewWidth - photoBitmapWidth) / 2.0f;
+//                mDy = (this.mViewHeight - photoBitmapHeight) / 2.0f;
+//                mMatrixOfEditPhoto.preTranslate(mDx, mDy);
             }
             invalidate();
         }
@@ -328,7 +328,7 @@ public class DrawingBoardView extends View {
 
     public Matrix getMatrixOfEditPhoto() {
         Matrix matrix = new Matrix(mMatrixOfEditPhoto);
-        matrix.preTranslate(-mDx, -mDy);
+//        matrix.preTranslate(-mDx, -mDy);
 //        KLog.e("拿到的Matrix : " + matrix);
         return matrix;
     }
@@ -484,8 +484,10 @@ public class DrawingBoardView extends View {
     }
 
     private float rotation(MotionEvent event) {
-        return (float) Math.toDegrees(Math.atan2((double) (event.getY(0) - event.getY(1)),
+        float angle = (float) Math.toDegrees(Math.atan2((double) (event.getY(0) - event.getY(1)),
                 (double) (event.getX(0) - event.getX(1))));
+        KLog.e("旋转角度是 : " + angle);
+        return angle;
     }
 
     public void clear() {

@@ -1,6 +1,7 @@
 package com.MDGround.HaiLanPrint.restfuls;
 
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.util.Base64;
 
 import com.MDGround.HaiLanPrint.constants.Constants;
@@ -94,7 +95,8 @@ public class FileRestful extends BaseRestful {
             @Override
             public void run() {
 
-                Bitmap bitmap = ViewUtils.getSmallBitmap(photo.getPath());
+//                Bitmap bitmap = ViewUtils.getSmallBitmap(photo.getPath());
+                Bitmap bitmap = BitmapFactory.decodeFile(photo.getPath());
                 if (bitmap != null) {
                     String fileName = photo.getName();
                     String photoData = bitmapToString(bitmap);

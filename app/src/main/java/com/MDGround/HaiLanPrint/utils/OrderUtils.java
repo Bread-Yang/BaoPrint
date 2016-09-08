@@ -463,8 +463,8 @@ public class OrderUtils {
             orderWork.setPhotoCover(SelectImageUtils.sTemplateImage.get(0).getWorkPhoto().getPhoto2SID()); //封面，第一张照片的合成照片
         }
 
-        orderWork.setPrice(mPrice);
-//        orderWork.setPrice(1); // 测试,全部设成0.01元
+//        orderWork.setPrice(mPrice);
+        orderWork.setPrice(1); // 测试,全部设成0.01元
         orderWork.setTypeID(MDGroundApplication.sInstance.getChoosedProductType().value()); //作品类型（getPhotoType接口返回的TypeID）
         orderWork.setTypeName(ProductType.getProductName(MDGroundApplication.sInstance.getChoosedProductType()));
         Measurement measurement = MDGroundApplication.sInstance.getChoosedMeasurement();
@@ -560,6 +560,7 @@ public class OrderUtils {
                         orderWorkPhotoEdit.setPositionY(workPhotoEdit.getPositionY());
                         orderWorkPhotoEdit.setRotate(workPhotoEdit.getRotate());
                         orderWorkPhotoEdit.setZoomSize(workPhotoEdit.getZoomSize());
+                        orderWorkPhotoEdit.setMatrix(workPhotoEdit.getMatrix());
 
                         orderWorkPhotoEditList.add(orderWorkPhotoEdit);
 

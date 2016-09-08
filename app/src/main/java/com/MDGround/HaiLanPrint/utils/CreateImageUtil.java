@@ -11,6 +11,8 @@ import android.graphics.RectF;
 import com.MDGround.HaiLanPrint.models.MDImage;
 import com.MDGround.HaiLanPrint.models.OriginalSizeBitmap;
 import com.MDGround.HaiLanPrint.models.PhotoTemplateAttachFrame;
+import com.MDGround.HaiLanPrint.models.WorkPhotoEdit;
+import com.socks.library.KLog;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -98,7 +100,7 @@ public class CreateImageUtil {
 
         Matrix matrix = TemplateUtils.getMatrixByString(templateImage.getWorkPhoto().getMatrix());
 
-        Bitmap compositeBitmap = compositePicture(backgroundBitmap.getWidth(), backgroundBitmap.getHeight(),
+        Bitmap compositeBitmap = compositePicture(pageIndex, 0, backgroundBitmap.getWidth(), backgroundBitmap.getHeight(),
                 null, selectBitmap, matrix, rateOfEditWidth);
 
         canvas.drawBitmap(compositeBitmap, 0, 0, paint);
@@ -158,57 +160,55 @@ public class CreateImageUtil {
 
             Matrix matrix = TemplateUtils.getMatrixByString(photoTemplateAttachFrame.getMatrix());
 
-            Bitmap compositeBitmap = compositePicture(width, height, null, selectBitmap, matrix, rateOfEditWidth);
+            Bitmap compositeBitmap = compositePicture(pageIndex, moduleIndex, width, height, null, selectBitmap, matrix, rateOfEditWidth);
 
             canvas.drawBitmap(compositeBitmap, dx, dy, paint);
         }
     }
 
-    private static Bitmap compositePicture(float width, float height,
+    private static Bitmap compositePicture(int pageIndex, int moduleIndex,
+                                           float width, float height,
                                            Bitmap mouldBmp, Bitmap photoBmp,
                                            Matrix matrix, float rateOfEditWidth) {
         Bitmap outputBitmap;
         outputBitmap = Bitmap.createBitmap((int) width, (int) height, Config.ARGB_4444);
-        outputBitmap.eraseColor(Color.parseColor("#ffffff"));
+        outputBitmap.eraseColor(Color.parseColor("#00000000"));
 
         int photoBmpWidth = photoBmp.getWidth();
         int photoBmpHeight = photoBmp.getHeight();
-
-        float[] values = new float[9];
-        matrix.getValues(values);
-//        values[Matrix.MTRANS_X] = values[Matrix.MTRANS_X] / (rateOfEditWidth / rate);
-//        values[Matrix.MTRANS_Y] = values[Matrix.MTRANS_Y] / (rateOfEditWidth / rate);
-        values[Matrix.MTRANS_X] = values[Matrix.MTRANS_X] / (rateOfEditWidth);
-        values[Matrix.MTRANS_Y] = values[Matrix.MTRANS_Y] / (rateOfEditWidth);
-        matrix.setValues(values);
 
         float scale = width / ((float) photoBmpWidth) > height / ((float) photoBmpHeight)
                 ? width / ((float) photoBmpWidth)
                 : height / ((float) photoBmpHeight);
 
         if (scale != 0.0f) {
-            Bitmap scalePhotoBmp;
-            Matrix photoMatrix = new Matrix();
-            photoMatrix.setScale(scale, scale);
-            try {
-                scalePhotoBmp = Bitmap.createBitmap(photoBmp, 0, 0, photoBmpWidth, photoBmpHeight, photoMatrix, true);
-            } catch (OutOfMemoryError e) {
-//                    BitMapUtil.oom();
-                try {
-                    scalePhotoBmp = Bitmap.createBitmap(photoBmp, 0, 0, photoBmpWidth, photoBmpHeight, photoMatrix, true);
-                } catch (OutOfMemoryError e2) {
-//                        BitMapUtil.oom();
-                    scalePhotoBmp = Bitmap.createBitmap(photoBmp, 0, 0, photoBmpWidth, photoBmpHeight, photoMatrix, true);
-                }
-            }
-            photoBmp = scalePhotoBmp;
+//            Bitmap scalePhotoBmp;
+            matrix.preScale(scale, scale);
+//            Matrix photoMatrix = new Matrix();
+//            photoMatrix.setScale(scale, scale);
+//            try {
+//                scalePhotoBmp = Bitmap.createBitmap(photoBmp, 0, 0, photoBmpWidth, photoBmpHeight, photoMatrix, true);
+//            } catch (OutOfMemoryError e) {
+//                try {
+//                    scalePhotoBmp = Bitmap.createBitmap(photoBmp, 0, 0, photoBmpWidth, photoBmpHeight, photoMatrix, true);
+//                } catch (OutOfMemoryError e2) {
+//                    scalePhotoBmp = Bitmap.createBitmap(photoBmp, 0, 0, photoBmpWidth, photoBmpHeight, photoMatrix, true);
+//                }
+//            }
+//            photoBmp = scalePhotoBmp;
 
-            float photoBitmapWidth = (float) photoBmp.getWidth();
-            float photoBitmapHeight = (float) photoBmp.getHeight();
-            float dx = (width - photoBitmapWidth) / 2.0f;
-            float dy = (height - photoBitmapHeight) / 2.0f;
-            matrix.preTranslate(dx, dy);
+//            float photoBitmapWidth = (float) photoBmp.getWidth();
+//            float photoBitmapHeight = (float) photoBmp.getHeight();
+//            float dx = (width - photoBitmapWidth) / 2.0f;
+//            float dy = (height - photoBitmapHeight) / 2.0f;
+//            matrix.preTranslate(dx, dy);
         }
+
+        float[] values = new float[9];
+        matrix.getValues(values);
+        values[Matrix.MTRANS_X] = values[Matrix.MTRANS_X] / (rateOfEditWidth);
+        values[Matrix.MTRANS_Y] = values[Matrix.MTRANS_Y] / (rateOfEditWidth);
+        matrix.setValues(values);
 
         Canvas canvas = new Canvas(outputBitmap);
         Paint paint = new Paint();
@@ -220,6 +220,81 @@ public class CreateImageUtil {
 //        canvas.drawColor(-1, PorterDuff.Mode.SRC_IN);
         canvas.drawBitmap(photoBmp, matrix, paint);
 //        canvas.drawBitmap(photoBmp, 0, 0, paint);
+
+        // 保存编辑信息,用于传到服务器
+        float tx = values[Matrix.MTRANS_X];
+        float ty = values[Matrix.MTRANS_Y];
+        float scalex = values[Matrix.MSCALE_X];
+
+        // calculate the degree of rotation
+        float rAngle = -Math.round(Math.atan2(values[Matrix.MSKEW_X], values[Matrix.MSCALE_X]) * (180 / Math.PI));
+
+        KLog.e("tx : " + tx);
+        KLog.e("ty : " + ty);
+        KLog.e("rScale : " + scalex);
+        KLog.e("rAngle : " + rAngle);
+
+        WorkPhotoEdit workPhotoEdit = SelectImageUtils.getMdImageByPageIndexAndModuleIndex(pageIndex, moduleIndex).getWorkPhotoEdit();
+
+        MDImage templateImage = SelectImageUtils.sTemplateImage.get(pageIndex);
+        List<PhotoTemplateAttachFrame> photoTemplateAttachFrameList = templateImage.getPhotoTemplateAttachFrameList();
+        if (photoTemplateAttachFrameList != null && photoTemplateAttachFrameList.size() > moduleIndex) {
+            PhotoTemplateAttachFrame photoTemplateAttachFrame = photoTemplateAttachFrameList.get(moduleIndex);
+
+            workPhotoEdit.setPositionX(photoTemplateAttachFrame.getPositionX());
+            workPhotoEdit.setPositionY(photoTemplateAttachFrame.getPositionY());
+        }
+
+//        MDImage templateImage = SelectImageUtils.sTemplateImage.get(pageIndex);
+//        List<PhotoTemplateAttachFrame> photoTemplateAttachFrameList = templateImage.getPhotoTemplateAttachFrameList();
+//        PhotoTemplateAttachFrame photoTemplateAttachFrame = photoTemplateAttachFrameList.get(moduleIndex);
+
+//        workPhotoEdit.setPositionX((int) tx + photoTemplateAttachFrame.getPositionX());
+//        workPhotoEdit.setPositionY((int) ty + photoTemplateAttachFrame.getPositionY());
+//        workPhotoEdit.setPositionX((int) tx);
+//        workPhotoEdit.setPositionY((int) ty);
+        workPhotoEdit.setRotate(rAngle);
+        workPhotoEdit.setZoomSize(scalex);
+
+        workPhotoEdit.setMatrix(TemplateUtils.getServerMatrixString(matrix));
+
+        String matrixString = TemplateUtils.getStringByMatrix(matrix);
+        KLog.e("传给服务器的Matrix : " + matrixString);
+
+        return outputBitmap;
+    }
+
+    private static Bitmap compositePicture(int pageIndex, int moduleIndex,
+                                           float width, float height,
+                                           Bitmap userSelectPhotoBmp,
+                                           Matrix matrix, float rateOfEditWidth) {
+        Bitmap outputBitmap;
+        outputBitmap = Bitmap.createBitmap((int) width, (int) height, Config.ARGB_4444);
+        outputBitmap.eraseColor(Color.parseColor("#00000000"));
+
+        int photoBmpWidth = userSelectPhotoBmp.getWidth();
+        int photoBmpHeight = userSelectPhotoBmp.getHeight();
+
+        float scale = width / ((float) photoBmpWidth) > height / ((float) photoBmpHeight)
+                ? width / ((float) photoBmpWidth)
+                : height / ((float) photoBmpHeight);
+
+        if (scale != 0.0f) {
+            matrix.preScale(scale, scale);
+        }
+
+        float[] values = new float[9];
+        matrix.getValues(values);
+        values[Matrix.MTRANS_X] = values[Matrix.MTRANS_X] / (rateOfEditWidth);
+        values[Matrix.MTRANS_Y] = values[Matrix.MTRANS_Y] / (rateOfEditWidth);
+        matrix.setValues(values);
+
+        Canvas canvas = new Canvas(outputBitmap);
+        Paint paint = new Paint();
+        paint.setAntiAlias(true);
+        paint.setDither(true);
+        canvas.drawBitmap(userSelectPhotoBmp, matrix, paint);
+
         return outputBitmap;
     }
 

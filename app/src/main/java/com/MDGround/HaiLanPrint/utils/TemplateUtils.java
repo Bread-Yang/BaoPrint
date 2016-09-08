@@ -122,4 +122,15 @@ public class TemplateUtils {
 
         return matrixString;
     }
+
+    public static String getServerMatrixString(Matrix matrix) {
+        float[] values = new float[9];
+        matrix.getValues(values);
+
+        String matrixString = values[Matrix.MSCALE_X] + "," + values[Matrix.MSKEW_Y] + "," + values[Matrix.MPERSP_0] + ","
+                + values[Matrix.MSKEW_X] + "," + values[Matrix.MSCALE_Y] + "," + values[Matrix.MPERSP_1] + ","
+                + values[Matrix.MTRANS_X] + "," + values[Matrix.MTRANS_Y] + "," + values[Matrix.MPERSP_2];
+
+        return matrixString;
+    }
 }

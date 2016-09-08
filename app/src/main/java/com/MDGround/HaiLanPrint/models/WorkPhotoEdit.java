@@ -21,6 +21,8 @@ public class WorkPhotoEdit {
 
     private float ZoomSize;
 
+    private String Matrix;
+
     public WorkPhotoEdit() {
         ZoomSize = 1.0f;
     }
@@ -87,5 +89,13 @@ public class WorkPhotoEdit {
 
     public void setZoomSize(float zoomSize) {
         ZoomSize = zoomSize;
+    }
+
+    public String getMatrix() {
+        return Matrix;
+    }
+
+    public void setMatrix(String matrix) {
+        Matrix = matrix;
     }
 }

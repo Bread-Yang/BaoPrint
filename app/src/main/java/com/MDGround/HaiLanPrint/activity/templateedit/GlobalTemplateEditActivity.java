@@ -25,7 +25,6 @@ import com.MDGround.HaiLanPrint.models.MDImage;
 import com.MDGround.HaiLanPrint.models.OriginalSizeBitmap;
 import com.MDGround.HaiLanPrint.models.PhotoTemplateAttachFrame;
 import com.MDGround.HaiLanPrint.models.WorkPhoto;
-import com.MDGround.HaiLanPrint.models.WorkPhotoEdit;
 import com.MDGround.HaiLanPrint.utils.CreateImageUtil;
 import com.MDGround.HaiLanPrint.utils.GlideUtil;
 import com.MDGround.HaiLanPrint.utils.OrderUtils;
@@ -296,33 +295,6 @@ public class GlobalTemplateEditActivity extends ToolbarActivity<ActivityGlobalTe
 
                     Matrix matrix = drawingBoardView.getMatrixOfEditPhoto();
 
-                    float[] values = new float[9];
-
-                    matrix.getValues(values);
-
-                    float tx = values[Matrix.MTRANS_X];
-                    float ty = values[Matrix.MTRANS_Y];
-
-                    // calculate real scale
-                    float scalex = values[Matrix.MSCALE_X];
-//                    float skewy = values[Matrix.MSKEW_Y];
-//                    float rScale = (float) Math.sqrt(scalex * scalex + skewy * skewy);
-
-                    WorkPhotoEdit workPhotoEdit = SelectImageUtils.getMdImageByPageIndexAndModuleIndex(mCurrentSelectPageIndex, i).getWorkPhotoEdit();
-
-                    // calculate the degree of rotation
-                    float rAngle = Math.round(Math.atan2(values[Matrix.MSKEW_X], values[Matrix.MSCALE_X]) * (180 / Math.PI));
-
-                    KLog.e("tx : " + tx);
-                    KLog.e("ty : " + ty);
-                    KLog.e("rScale : " + scalex);
-                    KLog.e("rAngle : " + rAngle);
-
-                    workPhotoEdit.setPositionX((int) tx);
-                    workPhotoEdit.setPositionY((int) ty);
-                    workPhotoEdit.setRotate(rAngle);
-                    workPhotoEdit.setZoomSize(scalex);
-
                     String matrixString = TemplateUtils.getStringByMatrix(matrix);
 
                     photoTemplateAttachFrameList.get(i).setMatrix(matrixString);
@@ -390,8 +362,8 @@ public class GlobalTemplateEditActivity extends ToolbarActivity<ActivityGlobalTe
                             GlideUtil.getOriginalSizeBitmap(GlobalTemplateEditActivity.this, moduleShowImage, new SimpleTarget<OriginalSizeBitmap>() {
                                 @Override
                                 public void onResourceReady(OriginalSizeBitmap resource, GlideAnimation<? super OriginalSizeBitmap> glideAnimation) {
-                                    KLog.e("图片的original size是: ", String.format(Locale.ROOT, "%dx%d", resource.size.width, resource.size.height));
-                                    KLog.e("图片的压缩的 size是: ", String.format(Locale.ROOT, "%dx%d", resource.bitmap.getWidth(), resource.bitmap.getHeight()));
+                                    KLog.e("定位块位置 : " + finalI + "图片的original size是: ", String.format(Locale.ROOT, "%dx%d", resource.size.width, resource.size.height));
+                                    KLog.e("定位块位置 : " + finalI + "图片的压缩的 size是: ", String.format(Locale.ROOT, "%dx%d", resource.bitmap.getWidth(), resource.bitmap.getHeight()));
 
                                     Bitmap copyBitmap = resource.bitmap.copy(resource.bitmap.getConfig(), true); // safe copy
 
