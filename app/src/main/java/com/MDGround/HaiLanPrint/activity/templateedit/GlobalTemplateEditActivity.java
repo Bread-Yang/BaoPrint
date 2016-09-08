@@ -305,8 +305,8 @@ public class GlobalTemplateEditActivity extends ToolbarActivity<ActivityGlobalTe
 
                     // calculate real scale
                     float scalex = values[Matrix.MSCALE_X];
-                    float skewy = values[Matrix.MSKEW_Y];
-                    float rScale = (float) Math.sqrt(scalex * scalex + skewy * skewy);
+//                    float skewy = values[Matrix.MSKEW_Y];
+//                    float rScale = (float) Math.sqrt(scalex * scalex + skewy * skewy);
 
                     WorkPhotoEdit workPhotoEdit = SelectImageUtils.getMdImageByPageIndexAndModuleIndex(mCurrentSelectPageIndex, i).getWorkPhotoEdit();
 
@@ -315,13 +315,13 @@ public class GlobalTemplateEditActivity extends ToolbarActivity<ActivityGlobalTe
 
                     KLog.e("tx : " + tx);
                     KLog.e("ty : " + ty);
-                    KLog.e("rScale : " + rScale);
+                    KLog.e("rScale : " + scalex);
                     KLog.e("rAngle : " + rAngle);
 
                     workPhotoEdit.setPositionX((int) tx);
                     workPhotoEdit.setPositionY((int) ty);
                     workPhotoEdit.setRotate(rAngle);
-                    workPhotoEdit.setZoomSize(rScale);
+                    workPhotoEdit.setZoomSize(scalex);
 
                     String matrixString = TemplateUtils.getStringByMatrix(matrix);
 
@@ -505,18 +505,18 @@ public class GlobalTemplateEditActivity extends ToolbarActivity<ActivityGlobalTe
 
     private void addDrawBoard(float androidDx, float androidDy, float androidWidth, float androidHeight,
                               int userSelectBitmapOriginalWidth, int UserSelectBitmaporiginalHeight,
-                              Bitmap mouldBmp, Bitmap userSelectBitmap, Matrix matrix, float rate, int position) {
+                              Bitmap mouldBmp, Bitmap userSelectBitmap, Matrix matrix, float rate, int modulePosition) {
         DrawingBoardView drawingBoardView = new DrawingBoardView(this, this,
                 androidWidth, androidHeight, mouldBmp, userSelectBitmap, matrix, rate,
                 userSelectBitmapOriginalWidth, UserSelectBitmaporiginalHeight);
-        drawingBoardView.setTag(Integer.valueOf(position));
+        drawingBoardView.setTag(Integer.valueOf(modulePosition));
 
         FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams((int) androidWidth, (int) androidHeight);
         layoutParams.setMargins((int) androidDx, (int) androidDy, 0, 0);
         drawingBoardView.setLayoutParams(layoutParams);
 
         mProductionView.drawBoardLayer.addView(drawingBoardView);
-        mProductionView.mDrawingBoardViewSparseArray.append(position, drawingBoardView);
+        mProductionView.mDrawingBoardViewSparseArray.append(modulePosition, drawingBoardView);
     }
 
     private void generateOrder(List<String> allCompositeImageLocalPathList) {

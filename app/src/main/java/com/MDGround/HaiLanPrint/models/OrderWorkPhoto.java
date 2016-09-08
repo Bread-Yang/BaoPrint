@@ -29,6 +29,10 @@ public class OrderWorkPhoto implements Parcelable{
 
     private int WorkOID;
 
+    private int TemplatePID;
+
+    private int TemplatePSID;
+
     private List<OrderWorkPhotoEdit> OrderWorkPhotoEditList;
 
     public OrderWorkPhoto() {
@@ -107,6 +111,22 @@ public class OrderWorkPhoto implements Parcelable{
         WorkOID = workOID;
     }
 
+    public int getTemplatePID() {
+        return TemplatePID;
+    }
+
+    public void setTemplatePID(int templatePID) {
+        TemplatePID = templatePID;
+    }
+
+    public int getTemplatePSID() {
+        return TemplatePSID;
+    }
+
+    public void setTemplatePSID(int templatePSID) {
+        TemplatePSID = templatePSID;
+    }
+
     public List<OrderWorkPhotoEdit> getOrderWorkPhotoEditList() {
         return OrderWorkPhotoEditList;
     }
@@ -131,6 +151,8 @@ public class OrderWorkPhoto implements Parcelable{
         dest.writeInt(this.PhotoIndex);
         dest.writeString(this.tDescription);
         dest.writeInt(this.WorkOID);
+        dest.writeInt(this.TemplatePID);
+        dest.writeInt(this.TemplatePSID);
         dest.writeTypedList(this.OrderWorkPhotoEditList);
     }
 
@@ -144,6 +166,8 @@ public class OrderWorkPhoto implements Parcelable{
         this.PhotoIndex = in.readInt();
         this.tDescription = in.readString();
         this.WorkOID = in.readInt();
+        this.TemplatePID = in.readInt();
+        this.TemplatePSID = in.readInt();
         this.OrderWorkPhotoEditList = in.createTypedArrayList(OrderWorkPhotoEdit.CREATOR);
     }
 

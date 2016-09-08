@@ -13,6 +13,14 @@ public class OrderWorkPhotoEdit implements Parcelable{
     private int PhotoID;
     private int PhotoSID;
 
+    private int PositionX;
+
+    private int PositionY;
+
+    private float Rotate;
+
+    private float ZoomSize;
+
     public int getAutoID() {
         return AutoID;
     }
@@ -45,6 +53,41 @@ public class OrderWorkPhotoEdit implements Parcelable{
         PhotoSID = photoSID;
     }
 
+    public int getPositionX() {
+        return PositionX;
+    }
+
+    public void setPositionX(int positionX) {
+        PositionX = positionX;
+    }
+
+    public int getPositionY() {
+        return PositionY;
+    }
+
+    public void setPositionY(int positionY) {
+        PositionY = positionY;
+    }
+
+    public float getRotate() {
+        return Rotate;
+    }
+
+    public void setRotate(float rotate) {
+        Rotate = rotate;
+    }
+
+    public float getZoomSize() {
+        return ZoomSize;
+    }
+
+    public void setZoomSize(float zoomSize) {
+        ZoomSize = zoomSize;
+    }
+
+    public OrderWorkPhotoEdit() {
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -56,9 +99,10 @@ public class OrderWorkPhotoEdit implements Parcelable{
         dest.writeInt(this.ParentID);
         dest.writeInt(this.PhotoID);
         dest.writeInt(this.PhotoSID);
-    }
-
-    public OrderWorkPhotoEdit() {
+        dest.writeInt(this.PositionX);
+        dest.writeInt(this.PositionY);
+        dest.writeFloat(this.Rotate);
+        dest.writeFloat(this.ZoomSize);
     }
 
     protected OrderWorkPhotoEdit(Parcel in) {
@@ -66,6 +110,10 @@ public class OrderWorkPhotoEdit implements Parcelable{
         this.ParentID = in.readInt();
         this.PhotoID = in.readInt();
         this.PhotoSID = in.readInt();
+        this.PositionX = in.readInt();
+        this.PositionY = in.readInt();
+        this.Rotate = in.readFloat();
+        this.ZoomSize = in.readFloat();
     }
 
     public static final Creator<OrderWorkPhotoEdit> CREATOR = new Creator<OrderWorkPhotoEdit>() {

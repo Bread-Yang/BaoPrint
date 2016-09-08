@@ -537,11 +537,12 @@ public class OrderUtils {
                 orderWorkPhoto.setPhotoCount(mdImage.getPhotoCount());
                 orderWorkPhoto.setPhotoIndex(workPhoto.getPhotoIndex());
                 orderWorkPhoto.setWorkOID(orderWork.getWorkOID());
-
+                orderWorkPhoto.setTemplatePID(mdImage.getPhotoID());
+                orderWorkPhoto.setTemplatePSID(mdImage.getPhotoSID());
 
                 if (TemplateUtils.isTemplateHasModules()) {
                     int count = 0;
-                    List<OrderWorkPhotoEdit> workPhotoEditList = new ArrayList<>();
+                    List<OrderWorkPhotoEdit> orderWorkPhotoEditList = new ArrayList<>();
 
                     List<PhotoTemplateAttachFrame> photoTemplateAttachFrameList = mdImage.getPhotoTemplateAttachFrameList();
                     for (PhotoTemplateAttachFrame photoTemplateAttachFrame : photoTemplateAttachFrameList) {
@@ -549,14 +550,22 @@ public class OrderUtils {
 
                         MDImage uploadUserSelectImage = SelectImageUtils.sAlreadySelectImage.get(count);
 
+                        WorkPhotoEdit workPhotoEdit = uploadUserSelectImage.getWorkPhotoEdit();
+
                         orderWorkPhotoEdit.setPhotoID(uploadUserSelectImage.getPhotoID());
                         orderWorkPhotoEdit.setPhotoSID(uploadUserSelectImage.getPhotoSID());
 
-                        workPhotoEditList.add(orderWorkPhotoEdit);
+                        // 复制workPhotoEdit的数据过来
+                        orderWorkPhotoEdit.setPositionX(workPhotoEdit.getPositionX());
+                        orderWorkPhotoEdit.setPositionY(workPhotoEdit.getPositionY());
+                        orderWorkPhotoEdit.setRotate(workPhotoEdit.getRotate());
+                        orderWorkPhotoEdit.setZoomSize(workPhotoEdit.getZoomSize());
+
+                        orderWorkPhotoEditList.add(orderWorkPhotoEdit);
 
                         count++;
                     }
-                    orderWorkPhoto.setOrderWorkPhotoEditList(workPhotoEditList);
+                    orderWorkPhoto.setOrderWorkPhotoEditList(orderWorkPhotoEditList);
                 }
             }
 

@@ -164,7 +164,9 @@ public class CreateImageUtil {
         }
     }
 
-    private static Bitmap compositePicture(float width, float height, Bitmap mouldBmp, Bitmap photoBmp, Matrix matrix, float rateOfEditWidth) {
+    private static Bitmap compositePicture(float width, float height,
+                                           Bitmap mouldBmp, Bitmap photoBmp,
+                                           Matrix matrix, float rateOfEditWidth) {
         Bitmap outputBitmap;
         outputBitmap = Bitmap.createBitmap((int) width, (int) height, Config.ARGB_4444);
         outputBitmap.eraseColor(Color.parseColor("#ffffff"));

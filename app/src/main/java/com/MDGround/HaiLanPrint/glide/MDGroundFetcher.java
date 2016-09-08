@@ -49,6 +49,8 @@ public class MDGroundFetcher implements DataFetcher<InputStream> {
             return mInputStream;
         }
 
+        KLog.e("Glide请求图片返回null, 图片PhotoID : "  + mImage.getPhotoID() + " PhotoSID : " + mImage.getPhotoSID());
+
         return null;
     }
 
