@@ -41,7 +41,7 @@ public class ImagePreviewFragment extends Fragment {
 
         MDImage mdImage = getArguments().getParcelable(Constants.KEY_PREVIEW_IMAGE);
 
-        GlideUtil.loadImageAsBitmap(mdImage, new SimpleTarget<Bitmap>() {
+        GlideUtil.loadImageAsBitmapWithoutCache(mdImage, new SimpleTarget<Bitmap>() {
             @Override
             public void onResourceReady(Bitmap bitmap, GlideAnimation<? super
                     Bitmap> glideAnimation) {

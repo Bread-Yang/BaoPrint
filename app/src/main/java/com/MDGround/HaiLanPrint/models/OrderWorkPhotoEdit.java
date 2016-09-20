@@ -23,6 +23,8 @@ public class OrderWorkPhotoEdit implements Parcelable{
 
     private String Matrix;
 
+    private int FrameID;
+
     public int getAutoID() {
         return AutoID;
     }
@@ -95,6 +97,14 @@ public class OrderWorkPhotoEdit implements Parcelable{
         Matrix = matrix;
     }
 
+    public int getFrameID() {
+        return FrameID;
+    }
+
+    public void setFrameID(int frameID) {
+        FrameID = frameID;
+    }
+
     public OrderWorkPhotoEdit() {
     }
 
@@ -114,6 +124,7 @@ public class OrderWorkPhotoEdit implements Parcelable{
         dest.writeFloat(this.Rotate);
         dest.writeFloat(this.ZoomSize);
         dest.writeString(this.Matrix);
+        dest.writeInt(this.FrameID);
     }
 
     protected OrderWorkPhotoEdit(Parcel in) {
@@ -126,6 +137,7 @@ public class OrderWorkPhotoEdit implements Parcelable{
         this.Rotate = in.readFloat();
         this.ZoomSize = in.readFloat();
         this.Matrix = in.readString();
+        this.FrameID = in.readInt();
     }
 
     public static final Creator<OrderWorkPhotoEdit> CREATOR = new Creator<OrderWorkPhotoEdit>() {

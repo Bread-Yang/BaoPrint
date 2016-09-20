@@ -121,7 +121,7 @@ public class GlideUtil {
                 .using(new MDGroundLoader(context), InputStream.class)
                 .from(MDImage.class)
                 .as(OriginalSizeBitmap.class)
-                .override(300, 300)
+                .override(1024, 1024)
                 .sourceEncoder(new StreamEncoder())
                 .cacheDecoder(new OriginalSizeBitmapDecoder(context))
                 .diskCacheStrategy(DiskCacheStrategy.SOURCE);
@@ -136,8 +136,18 @@ public class GlideUtil {
                 .load(mdImage)
                 .asBitmap()
                 .atMost()
-                .override(300, 300) // 图片如果超过300 * 300, 则压缩
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .override(1024, 1024)
+                .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                .into(target);
+    }
+
+    public static void loadImageAsBitmapWithoutCache(MDImage mdImage, Target target) {
+        Glide.with(MDGroundApplication.sInstance)
+                .load(mdImage)
+                .asBitmap()
+                .atMost()
+                .override(1024, 1024)
+                .diskCacheStrategy(DiskCacheStrategy.NONE)
                 .into(target);
     }
 
@@ -148,7 +158,7 @@ public class GlideUtil {
                     .load(mdImage)
                     .asBitmap()
                     .atMost()
-                    .override(300, 300) // 图片如果超过300 * 300, 则压缩
+                    .override(1024, 1024)
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .into(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL)
                     .get();

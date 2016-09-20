@@ -1,6 +1,7 @@
 package com.MDGround.HaiLanPrint.activity.templateedit;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -15,6 +16,7 @@ import android.widget.SeekBar;
 
 import com.MDGround.HaiLanPrint.R;
 import com.MDGround.HaiLanPrint.activity.base.ToolbarActivity;
+import com.MDGround.HaiLanPrint.activity.imagepreview.ImagePreviewActivity;
 import com.MDGround.HaiLanPrint.activity.selectimage.SelectAlbumWhenEditActivity;
 import com.MDGround.HaiLanPrint.adapter.TemplateImageAdapter;
 import com.MDGround.HaiLanPrint.application.MDGroundApplication;
@@ -33,13 +35,13 @@ import com.MDGround.HaiLanPrint.utils.TemplateUtils;
 import com.MDGround.HaiLanPrint.utils.ViewUtils;
 import com.MDGround.HaiLanPrint.views.DrawingBoardView;
 import com.MDGround.HaiLanPrint.views.ProductionView;
-import com.MDGround.HaiLanPrint.views.dialog.NotifyDialog;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.socks.library.KLog;
 
 import org.joda.time.DateTime;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -54,8 +56,6 @@ public class GlobalTemplateEditActivity extends ToolbarActivity<ActivityGlobalTe
     private TemplateImageAdapter mTeplateImageAdapter;
 
     private int mCurrentSelectPageIndex = 0;
-
-    private NotifyDialog mNotifyDialog;
 
     private AlertDialog mAlertDialog;
 
@@ -74,6 +74,8 @@ public class GlobalTemplateEditActivity extends ToolbarActivity<ActivityGlobalTe
 
     @Override
     protected void initData() {
+        tvRight.setText(R.string.preview);
+
         initOrder();
 
         mProductionView = new ProductionView(this);
@@ -128,6 +130,39 @@ public class GlobalTemplateEditActivity extends ToolbarActivity<ActivityGlobalTe
             @Override
             public void onClick(View v) {
                 mAlertDialog.show();
+            }
+        });
+
+        tvRight.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                saveCurrentPageEditStatus();
+                ViewUtils.loading(GlobalTemplateEditActivity.this);
+                if (TemplateUtils.isTemplateHasModules()) {
+                    CreateImageUtil.createAllPageHasModules(new CreateImageUtil.onCreateAllComposteImageCompleteListner() {
+                        @Override
+                        public void onComplete(final List<String> allCompositeImageLocalPathList) {
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    toPreviewActivity(allCompositeImageLocalPathList);
+                                }
+                            });
+                        }
+                    });
+                } else {
+                    CreateImageUtil.createAllPageWithoutModules(new CreateImageUtil.onCreateAllComposteImageCompleteListner() {
+                        @Override
+                        public void onComplete(final List<String> allCompositeImageLocalPathList) {
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    toPreviewActivity(allCompositeImageLocalPathList);
+                                }
+                            });
+                        }
+                    });
+                }
             }
         });
 
@@ -186,13 +221,13 @@ public class GlobalTemplateEditActivity extends ToolbarActivity<ActivityGlobalTe
                     // 如果是日历模块,则显示日历
                     if (mProductType == ProductType.Calendar) {
                         if (pageIndex == 0) {
-                            mDataBinding.calendarCard.setVisibility(View.GONE);
+//                            mDataBinding.calendarCard.setVisibility(View.GONE);
                         } else {
-                            mDataBinding.calendarCard.setVisibility(View.VISIBLE);
+//                            mDataBinding.calendarCard.setVisibility(View.VISIBLE);
 
-                            DateTime newDateTime = mDateTime.plusMonths(pageIndex - 1);
+//                            DateTime newDateTime = mDateTime.plusMonths(pageIndex - 1);
 
-                            mDataBinding.calendarCard.setTime(newDateTime.getYear(), newDateTime.getMonthOfYear());
+//                            mDataBinding.calendarCard.setTime(newDateTime.getYear(), newDateTime.getMonthOfYear());
                         }
                     }
                 }
@@ -491,14 +526,7 @@ public class GlobalTemplateEditActivity extends ToolbarActivity<ActivityGlobalTe
         mProductionView.mDrawingBoardViewSparseArray.append(modulePosition, drawingBoardView);
     }
 
-    private void generateOrder(List<String> allCompositeImageLocalPathList) {
-        // 生成订单
-        MDGroundApplication.sOrderutUtils.uploadAllCompositeImageReuqest(this, allCompositeImageLocalPathList, 0);
-    }
-
-    //region ACTION
-    public void nextStepAction(View view) {
-        saveCurrentPageEditStatus();
+    private void createCompositeImage() {
         ViewUtils.loading(this);
         if (TemplateUtils.isTemplateHasModules()) {
             CreateImageUtil.createAllPageHasModules(new CreateImageUtil.onCreateAllComposteImageCompleteListner() {
@@ -525,6 +553,55 @@ public class GlobalTemplateEditActivity extends ToolbarActivity<ActivityGlobalTe
                     });
                 }
             });
+        }
+    }
+
+    private void generateOrder(List<String> allCompositeImageLocalPathList) {
+        // 生成订单
+        MDGroundApplication.sOrderutUtils.uploadAllCompositeImageReuqest(this, allCompositeImageLocalPathList, 0);
+    }
+
+    private void toPreviewActivity(List<String> allCompositeImageLocalPathList) {
+        ViewUtils.dismiss();
+
+        ArrayList<MDImage> allPreviewImages = new ArrayList<>();
+        for (String localPathString : allCompositeImageLocalPathList) {
+            MDImage mdImage = new MDImage();
+            mdImage.setImageLocalPath(localPathString);
+
+            allPreviewImages.add(mdImage);
+        }
+
+        Intent intent = new Intent(this, ImagePreviewActivity.class);
+        intent.putParcelableArrayListExtra(Constants.KEY_PREVIEW_IMAGE_LIST, allPreviewImages);
+        startActivity(intent);
+    }
+
+    //region ACTION
+    public void nextStepAction(View view) {
+        saveCurrentPageEditStatus();
+
+        for (int i = 0; i < SelectImageUtils.sAlreadySelectImage.size(); i++) {
+            MDImage selectImage = SelectImageUtils.sAlreadySelectImage.get(i);
+
+            if (selectImage.getPhotoSID() == 0 && selectImage.getImageLocalPath() == null) {
+                int pageIndex = SelectImageUtils.getPageIndexBySelectPhotoIndex(i);
+                Dialog alertDialog = ViewUtils.createAlertDialog(this, getString(R.string.not_add_image, pageIndex + 1),
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+//                        NavUtils.toMainActivity(GlobalTemplateEditActivity.this);
+                            }
+                        }, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                createCompositeImage();
+                            }
+                        });
+
+                alertDialog.show();
+                return;
+            }
         }
     }
     //endregion

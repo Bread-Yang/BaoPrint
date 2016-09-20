@@ -27,7 +27,7 @@
             android:layout_height="match_parent"
             android:layout_above="@+id/tvName"
             android:layout_weight="1"
-            android:scaleType="fitXY"
+            android:scaleType="centerInside"
             android:src="@drawable/ic_placeholder" />
 
         <RelativeLayout

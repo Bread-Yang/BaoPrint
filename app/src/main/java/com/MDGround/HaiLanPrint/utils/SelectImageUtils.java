@@ -79,15 +79,37 @@ public class SelectImageUtils {
         return maxNum;
     }
 
+    public static int getPageIndexBySelectPhotoIndex(int selectPhotoInex) {
+        int count = 0;
+
+        if (TemplateUtils.isTemplateHasModules()) {
+            for (int i = 0; i < SelectImageUtils.sTemplateImage.size(); i++) {
+                count += SelectImageUtils.sTemplateImage.get(i).getPhotoTemplateAttachFrameList().size();
+
+                if (selectPhotoInex < count) {
+                    return i;
+                }
+            }
+        } else {
+            count = selectPhotoInex;
+        }
+
+        return count = 0;
+    }
+
     public static MDImage getMdImageByPageIndexAndModuleIndex(int pageIndex, int moduleIndex) {
         int count = 0;
-        for (int i = 0; i < SelectImageUtils.sTemplateImage.size(); i++) {
-            if (i < pageIndex) {
-                count += SelectImageUtils.sTemplateImage.get(i).getPhotoTemplateAttachFrameList().size();
-            } else {
-                count += moduleIndex;
-                break;
+        if (TemplateUtils.isTemplateHasModules()) {
+            for (int i = 0; i < SelectImageUtils.sTemplateImage.size(); i++) {
+                if (i < pageIndex) {
+                    count += SelectImageUtils.sTemplateImage.get(i).getPhotoTemplateAttachFrameList().size();
+                } else {
+                    count += moduleIndex;
+                    break;
+                }
             }
+        } else {
+            count = pageIndex;
         }
 
         if (count < SelectImageUtils.sAlreadySelectImage.size()) {

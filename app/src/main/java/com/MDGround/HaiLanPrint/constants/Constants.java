@@ -69,6 +69,7 @@ public final class Constants {
     public static final String KEY_WORKS_DETAILS = "key_from_works_details";
     public static final String KEY_ONLY_WIFI_UPLOAD = "key_only_wifi_upload";
     public static final String KEY_CHANGE_PASSWORD = "key_change_password";
+    public static final String KEY_COVER_IMAGE_LIST = "key_cover_image_list";
     public static int MAX_DELIVERY_ADDRESS = 10; // 最多十个收货地址
 
     public static int ITEM_LEFT_TO_LOAD_MORE = 3;

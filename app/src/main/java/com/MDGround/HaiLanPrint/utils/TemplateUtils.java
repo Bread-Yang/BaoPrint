@@ -133,4 +133,27 @@ public class TemplateUtils {
 
         return matrixString;
     }
+
+    public static String convertServerMatrixToAndroidMatrixString(String serverMatrixString) {
+        float[] values = new float[9];
+
+        String[] strings = serverMatrixString.split(",");
+
+        values[Matrix.MSCALE_X] = Float.valueOf(strings[0]);
+        values[Matrix.MSKEW_Y] = Float.valueOf(strings[1]);
+        values[Matrix.MPERSP_0] = Float.valueOf(strings[2]);
+
+        values[Matrix.MSKEW_X] = Float.valueOf(strings[3]);
+        values[Matrix.MSCALE_Y] = Float.valueOf(strings[4]);
+        values[Matrix.MPERSP_1] = Float.valueOf(strings[5]);
+
+        values[Matrix.MTRANS_X] = Float.valueOf(strings[6]);
+        values[Matrix.MTRANS_Y] = Float.valueOf(strings[7]);
+        values[Matrix.MPERSP_2] = Float.valueOf(strings[8]);
+
+        String androidMatrixString = "[" + values[0] + "," + values[1] + "," + values[2] + "," + values[3] + ","
+                + values[4] + "," + values[5] + "," + values[6] + "," + values[7] + "," + values[8] + "]";
+
+        return androidMatrixString;
+    }
 }

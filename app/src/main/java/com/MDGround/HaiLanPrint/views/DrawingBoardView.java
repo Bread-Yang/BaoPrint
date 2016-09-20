@@ -136,6 +136,9 @@ public class DrawingBoardView extends View {
             int photoBmpWidth = userSelectBitmap.getWidth();
             int photoBmpHeight = userSelectBitmap.getHeight();
 
+            KLog.e("userSelectBitmap的原宽度 : " + userSelectBitmapOriginalWidth);
+            KLog.e("userSelectBitmap的原高度 : " + userSelectBitmapOriginalHeight);
+
             KLog.e("压缩后的userSelectBitmap的宽度 : " + photoBmpWidth);
             KLog.e("压缩后的userSelectBitmap的高度 : " + photoBmpHeight);
 
@@ -486,7 +489,6 @@ public class DrawingBoardView extends View {
     private float rotation(MotionEvent event) {
         float angle = (float) Math.toDegrees(Math.atan2((double) (event.getY(0) - event.getY(1)),
                 (double) (event.getX(0) - event.getX(1))));
-        KLog.e("旋转角度是 : " + angle);
         return angle;
     }
 

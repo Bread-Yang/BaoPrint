@@ -9,14 +9,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.MDGround.HaiLanPrint.enumobject.ProductType;
 import com.MDGround.HaiLanPrint.R;
 import com.MDGround.HaiLanPrint.activity.base.ToolbarActivity;
 import com.MDGround.HaiLanPrint.application.MDGroundApplication;
+import com.MDGround.HaiLanPrint.constants.Constants;
 import com.MDGround.HaiLanPrint.databinding.ActivitySelectTemplateBinding;
 import com.MDGround.HaiLanPrint.databinding.ItemSelectTemplateBinding;
+import com.MDGround.HaiLanPrint.enumobject.ProductType;
 import com.MDGround.HaiLanPrint.enumobject.restfuls.ResponseCode;
 import com.MDGround.HaiLanPrint.models.MDImage;
+import com.MDGround.HaiLanPrint.models.PhotoTemplate2;
 import com.MDGround.HaiLanPrint.models.Template;
 import com.MDGround.HaiLanPrint.restfuls.GlobalRestful;
 import com.MDGround.HaiLanPrint.restfuls.bean.ResponseData;
@@ -42,11 +44,13 @@ public class SelectTemplateActivity extends ToolbarActivity<ActivitySelectTempla
 
     private final int mCountPerLine = 2; // 每行显示2个
 
+    private ArrayList<PhotoTemplate2> mAllTemplateTypeList = new ArrayList<>();
+
     private ArrayList<Template> mAllTemplateArrayList = new ArrayList<>();
 
     private ArrayList<Template> mShowTemplateArrayList = new ArrayList<>();
 
-    private HashMap<Integer, ArrayList<MDImage>> mTemplateAttachListHashMap = new HashMap<>();
+    private HashMap<Integer, ArrayList<MDImage>> mTemplateCoverImageListHashMap = new HashMap<>();
 
     private SelectTemplateAdapter mAdapter;
 
@@ -57,17 +61,6 @@ public class SelectTemplateActivity extends ToolbarActivity<ActivitySelectTempla
 
     @Override
     protected void initData() {
-        if (MDGroundApplication.sInstance.getChoosedProductType() == ProductType.PictureFrame) {
-            mDataBinding.tabLayout.setVisibility(View.GONE);
-            tvTitle.setText(R.string.choose_frame);
-        } else {
-            String[] titles = getResources().getStringArray(R.array.template_class_array);
-
-            for (String title : titles) {
-                mDataBinding.tabLayout.addTab(mDataBinding.tabLayout.newTab().setText(title));
-            }
-        }
-
         mDataBinding.recyclerView.addItemDecoration(new GridSpacingItemDecoration(mCountPerLine, ViewUtils.dp2px(10), true));
         mDataBinding.recyclerView.setLayoutManager(new GridLayoutManager(this, mCountPerLine));
 
@@ -75,11 +68,19 @@ public class SelectTemplateActivity extends ToolbarActivity<ActivitySelectTempla
         mDataBinding.recyclerView.setAdapter(mAdapter);
 
         if (MDGroundApplication.sInstance.getChoosedProductType() == ProductType.PictureFrame) {
+            mDataBinding.tabLayout.setVisibility(View.GONE);
+            tvTitle.setText(R.string.choose_frame);
+
             getPhotoTemplateListByTypeRequest();
         } else {
-            getPhotoTemplateListRequest();
-        }
+//            String[] titles = getResources().getStringArray(R.array.template_class_array);
+//
+//            for (String title : titles) {
+//                mDataBinding.tabLayout.addTab(mDataBinding.tabLayout.newTab().setText(title));
+//            }
 
+            getPhotoTemplateTypeListRequest();
+        }
     }
 
     @Override
@@ -93,12 +94,19 @@ public class SelectTemplateActivity extends ToolbarActivity<ActivitySelectTempla
                 if (currentSelectedTabIndex == 0) {
                     mShowTemplateArrayList.addAll(mAllTemplateArrayList);
                 } else {
+//                    for (Template template : mAllTemplateArrayList) {
+//                        if (template.getParentID() == currentSelectedTabIndex) {
+//                            mShowTemplateArrayList.add(template);
+//                        }
+//                    }
+                    PhotoTemplate2 photoTemplate2 = mAllTemplateTypeList.get(currentSelectedTabIndex - 1);
                     for (Template template : mAllTemplateArrayList) {
-                        if (template.getParentID() == currentSelectedTabIndex) {
+                        if (template.getParentID() == photoTemplate2.getTemplateID()) {
                             mShowTemplateArrayList.add(template);
                         }
                     }
                 }
+
                 mAdapter.notifyDataSetChanged();
             }
 
@@ -115,6 +123,29 @@ public class SelectTemplateActivity extends ToolbarActivity<ActivitySelectTempla
     }
 
     //region SERVER
+    private void getPhotoTemplateTypeListRequest() {
+        ViewUtils.loading(this);
+        GlobalRestful.getInstance().GetPhotoTemplateTypeList(new Callback<ResponseData>() {
+            @Override
+            public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
+                mAllTemplateTypeList = response.body().getContent(new TypeToken<ArrayList<PhotoTemplate2>>() {
+                });
+
+                mDataBinding.tabLayout.addTab(mDataBinding.tabLayout.newTab().setText(R.string.all));
+                for (PhotoTemplate2 photoTemplate2 : mAllTemplateTypeList) {
+                    mDataBinding.tabLayout.addTab(mDataBinding.tabLayout.newTab().setText(photoTemplate2.getTemplateName()));
+                }
+
+                getPhotoTemplateListRequest();
+            }
+
+            @Override
+            public void onFailure(Call<ResponseData> call, Throwable t) {
+
+            }
+        });
+    }
+
     private void getPhotoTemplateListByTypeRequest() {
         GlobalRestful.getInstance().GetPhotoTemplateListByType(MDGroundApplication.sInstance.getChoosedProductType(), new Callback<ResponseData>() {
             @Override
@@ -158,7 +189,7 @@ public class SelectTemplateActivity extends ToolbarActivity<ActivitySelectTempla
                 });
     }
 
-    private void getPhotoTemplateAttachListRequest(int templateID) {
+    private void getPhotoTemplateAttachListRequest(final int templateID) {
         ViewUtils.loading(this);
         GlobalRestful.getInstance().GetPhotoTemplateAttachList(templateID, new Callback<ResponseData>() {
             @Override
@@ -169,6 +200,7 @@ public class SelectTemplateActivity extends ToolbarActivity<ActivitySelectTempla
                 });
 
                 Intent intent = new Intent(SelectTemplateActivity.this, TemplateStartCreateActivity.class);
+                intent.putExtra(Constants.KEY_COVER_IMAGE_LIST, mTemplateCoverImageListHashMap.get(templateID));
                 startActivity(intent);
                 ViewUtils.dismiss();
             }
@@ -199,12 +231,12 @@ public class SelectTemplateActivity extends ToolbarActivity<ActivitySelectTempla
             holder.viewDataBinding.setTemplate(template);
             holder.viewDataBinding.setViewHolder(holder);
 
-            GlobalRestful.getInstance().GetPhotoTemplateAttachList(template.getTemplateID(), new Callback<ResponseData>() {
+            GlobalRestful.getInstance().GetPhotoTemplateCoverList(template.getTemplateID(), new Callback<ResponseData>() {
                 @Override
                 public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
                     ArrayList<MDImage> templateImageArrayList = response.body().getContent(new TypeToken<ArrayList<MDImage>>() {
                     });
-                    mTemplateAttachListHashMap.put(template.getTemplateID(), templateImageArrayList);
+                    mTemplateCoverImageListHashMap.put(template.getTemplateID(), templateImageArrayList);
 
                     if (templateImageArrayList.size() > 0) {
                         GlideUtil.loadImageByMDImage(holder.viewDataBinding.ivImage, templateImageArrayList.get(0), true);
@@ -216,6 +248,24 @@ public class SelectTemplateActivity extends ToolbarActivity<ActivitySelectTempla
 
                 }
             });
+
+//            GlobalRestful.getInstance().GetPhotoTemplateAttachList(template.getTemplateID(), new Callback<ResponseData>() {
+//                @Override
+//                public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
+//                    ArrayList<MDImage> templateImageArrayList = response.body().getContent(new TypeToken<ArrayList<MDImage>>() {
+//                    });
+//                    mTemplateAttachListHashMap.put(template.getTemplateID(), templateImageArrayList);
+//
+//                    if (templateImageArrayList.size() > 0) {
+//                        GlideUtil.loadImageByMDImage(holder.viewDataBinding.ivImage, templateImageArrayList.get(0), true);
+//                    }
+//                }
+//
+//                @Override
+//                public void onFailure(Call<ResponseData> call, Throwable t) {
+//
+//                }
+//            });
         }
 
         @Override

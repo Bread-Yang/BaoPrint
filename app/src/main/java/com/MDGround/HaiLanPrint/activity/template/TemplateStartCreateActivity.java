@@ -10,16 +10,21 @@ import android.view.ViewGroup;
 import com.MDGround.HaiLanPrint.R;
 import com.MDGround.HaiLanPrint.activity.base.ToolbarActivity;
 import com.MDGround.HaiLanPrint.application.MDGroundApplication;
+import com.MDGround.HaiLanPrint.constants.Constants;
 import com.MDGround.HaiLanPrint.databinding.ActivityTemplateStartCreateBinding;
 import com.MDGround.HaiLanPrint.databinding.ItemTemplateStartCreateBinding;
 import com.MDGround.HaiLanPrint.models.MDImage;
 import com.MDGround.HaiLanPrint.utils.NavUtils;
 import com.MDGround.HaiLanPrint.utils.SelectImageUtils;
 
+import java.util.ArrayList;
+
 /**
  * Created by yoghourt on 5/11/16.
  */
 public class TemplateStartCreateActivity extends ToolbarActivity<ActivityTemplateStartCreateBinding> {
+
+    private ArrayList<MDImage> mTemplateCoverImageList;
 
     @Override
     protected int getContentLayout() {
@@ -27,13 +32,9 @@ public class TemplateStartCreateActivity extends ToolbarActivity<ActivityTemplat
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-
-    }
-
-    @Override
     protected void initData() {
+        mTemplateCoverImageList = getIntent().getParcelableArrayListExtra(Constants.KEY_COVER_IMAGE_LIST);
+
         mDataBinding.setTemplate(MDGroundApplication.sInstance.getChoosedTemplate());
 
         if (SelectImageUtils.sTemplateImage.size() > 0) {
@@ -68,7 +69,7 @@ public class TemplateStartCreateActivity extends ToolbarActivity<ActivityTemplat
     //region ACTION
 
     private void setCurrentPageTips(int currentIndex) {
-        tvTitle.setText(getString(R.string.current_page_index, currentIndex, SelectImageUtils.sTemplateImage.size()));
+        tvTitle.setText(getString(R.string.current_page_index, currentIndex, mTemplateCoverImageList.size() - 1));
     }
 
     public void nextStepAction(View view) {
@@ -81,7 +82,7 @@ public class TemplateStartCreateActivity extends ToolbarActivity<ActivityTemplat
 
         @Override
         public int getCount() {
-            return SelectImageUtils.sTemplateImage.size();
+            return mTemplateCoverImageList.size() - 1;
         }
 
         @Override
@@ -93,7 +94,7 @@ public class TemplateStartCreateActivity extends ToolbarActivity<ActivityTemplat
         public Object instantiateItem(ViewGroup container, int position) {
             ItemTemplateStartCreateBinding dataBinding = DataBindingUtil.inflate(LayoutInflater.from(container.getContext())
                     , R.layout.item_template_start_create, container, false);
-            MDImage mdImage = SelectImageUtils.sTemplateImage.get(position);
+            MDImage mdImage = SelectImageUtils.sTemplateImage.get(position + 1);
             dataBinding.setMdImage(mdImage);
 
             View root = dataBinding.getRoot();

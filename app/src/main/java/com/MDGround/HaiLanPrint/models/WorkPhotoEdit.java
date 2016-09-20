@@ -23,6 +23,8 @@ public class WorkPhotoEdit {
 
     private String Matrix;
 
+    private int FrameID;
+
     public WorkPhotoEdit() {
         ZoomSize = 1.0f;
     }
@@ -97,5 +99,13 @@ public class WorkPhotoEdit {
 
     public void setMatrix(String matrix) {
         Matrix = matrix;
+    }
+
+    public int getFrameID() {
+        return FrameID;
+    }
+
+    public void setFrameID(int frameID) {
+        FrameID = frameID;
     }
 }

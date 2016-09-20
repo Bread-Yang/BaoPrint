@@ -3,6 +3,7 @@ package com.MDGround.HaiLanPrint.activity.imagepreview;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
 
 import com.MDGround.HaiLanPrint.R;
 import com.MDGround.HaiLanPrint.activity.base.ToolbarActivity;
@@ -11,7 +12,6 @@ import com.MDGround.HaiLanPrint.databinding.ActivityImagePreviewBinding;
 import com.MDGround.HaiLanPrint.models.MDImage;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by yoghourt on 2016-08-4.
@@ -19,7 +19,7 @@ import java.util.List;
 
 public class ImagePreviewActivity extends ToolbarActivity<ActivityImagePreviewBinding> {
 
-    private List<MDImage> mAllPreviewImages = new ArrayList<>();
+    private ArrayList<MDImage> mAllPreviewImages = new ArrayList<>();
 
     @Override
     protected int getContentLayout() {
@@ -28,10 +28,11 @@ public class ImagePreviewActivity extends ToolbarActivity<ActivityImagePreviewBi
 
     @Override
     protected void initData() {
-        tvTitle.setText("");
-        mToolbar.setBackgroundResource(R.color.image_overlay2);
+//        mToolbar.setBackgroundResource(R.color.image_overlay2);
         mAllPreviewImages = getIntent().getParcelableArrayListExtra(Constants.KEY_PREVIEW_IMAGE_LIST);
         int imagePosition = getIntent().getIntExtra(Constants.KEY_PREVIEW_IMAGE_POSITION, 0);
+
+        tvTitle.setText((imagePosition + 1) + "/" + mAllPreviewImages.size());
 
         mDataBinding.previewViewPager.setAdapter(new SimpleFragmentAdapter(getSupportFragmentManager()));
         mDataBinding.previewViewPager.setCurrentItem(imagePosition);
@@ -39,7 +40,22 @@ public class ImagePreviewActivity extends ToolbarActivity<ActivityImagePreviewBi
 
     @Override
     protected void setListener() {
+        mDataBinding.previewViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                tvTitle.setText((position + 1) + "/" + mAllPreviewImages.size());
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
     }
 
     private class SimpleFragmentAdapter extends FragmentPagerAdapter {

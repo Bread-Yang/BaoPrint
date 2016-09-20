@@ -159,7 +159,8 @@ public class FileRestful extends BaseRestful {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                Bitmap bitmap = ViewUtils.getSmallBitmap(photo.getPath());
+//                Bitmap bitmap = ViewUtils.getSmallBitmap(photo.getPath());
+                Bitmap bitmap = BitmapFactory.decodeFile(photo.getPath());
 
                 UploadPhoto(uploadType, bitmap, callback);
             }
@@ -201,7 +202,7 @@ public class FileRestful extends BaseRestful {
                 long fileSize = photo.length();
                 Bitmap bitmap = ViewUtils.getSmallBitmap(photo.getPath());
                 ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 80, baos);
                 String dataStr = Base64.encodeToString(baos.toByteArray(), Base64.DEFAULT);
                 try {
                     dataStr = URLEncoder.encode(dataStr, "UTF-8");

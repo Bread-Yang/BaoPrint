@@ -138,7 +138,6 @@ public class PictureFrameEditActivity extends ToolbarActivity<ActivityPictureFra
 
         MDImage templateImage = SelectImageUtils.sTemplateImage.get(0);
 
-
         GlideUtil.getOriginalSizeBitmap(this, templateImage, new SimpleTarget<OriginalSizeBitmap>() {
             @Override
             public void onResourceReady(OriginalSizeBitmap resource, GlideAnimation<? super OriginalSizeBitmap> glideAnimation) {
@@ -263,6 +262,18 @@ public class PictureFrameEditActivity extends ToolbarActivity<ActivityPictureFra
         });
     }
 
+    private void saveCurrentPageEditStatus() {
+        MDImage templateImage = SelectImageUtils.sTemplateImage.get(0);
+
+        DrawingBoardView drawingBoardView = mProductionView.mDrawingBoardViewSparseArray.get(0);
+
+        Matrix matrix = drawingBoardView.getMatrixOfEditPhoto();
+
+        String matrixString = TemplateUtils.getStringByMatrix(matrix);
+
+        templateImage.getWorkPhoto().setMatrix(matrixString);
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_OK) {
@@ -315,6 +326,7 @@ public class PictureFrameEditActivity extends ToolbarActivity<ActivityPictureFra
     }
 
     public void purchaseAction(View view) {
+        saveCurrentPageEditStatus();
         ViewUtils.loading(this);
 
         CreateImageUtil.createAllPageWithoutModules(new CreateImageUtil.onCreateAllComposteImageCompleteListner() {
@@ -323,6 +335,7 @@ public class PictureFrameEditActivity extends ToolbarActivity<ActivityPictureFra
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+//                        ViewUtils.dismiss();
                         MDGroundApplication.sOrderutUtils = new OrderUtils(PictureFrameEditActivity.this, false,
                                 mChooseTemplate.getPageCount(),
                                 mPrice, mWorkFormat, null, mWorkStyle);

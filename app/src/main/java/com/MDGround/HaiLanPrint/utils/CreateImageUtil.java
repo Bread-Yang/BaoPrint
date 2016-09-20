@@ -12,7 +12,6 @@ import com.MDGround.HaiLanPrint.models.MDImage;
 import com.MDGround.HaiLanPrint.models.OriginalSizeBitmap;
 import com.MDGround.HaiLanPrint.models.PhotoTemplateAttachFrame;
 import com.MDGround.HaiLanPrint.models.WorkPhotoEdit;
-import com.socks.library.KLog;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -86,8 +85,8 @@ public class CreateImageUtil {
         paint.setAntiAlias(true);
         paint.setDither(true);
 
-        Bitmap bitmap = Bitmap.createBitmap(backgroundBitmap.getWidth(), backgroundBitmap.getHeight(),
-                Bitmap.Config.RGB_565);
+        Bitmap bitmap = Bitmap.createBitmap(originalSizeBitmap.size.width, originalSizeBitmap.size.height,
+                Bitmap.Config.ARGB_4444);
 
         Canvas canvas = new Canvas(bitmap);
 
@@ -96,14 +95,19 @@ public class CreateImageUtil {
         // 用户编辑模块绘制
         MDImage userSelectImage = SelectImageUtils.sAlreadySelectImage.get(pageIndex);
 
-        Bitmap selectBitmap = GlideUtil.loadImageAsBitmap(userSelectImage);
+        OriginalSizeBitmap userSelectOriginalSizeBitmap = GlideUtil.loadImageAsOriginalSizeBitmap(userSelectImage);
 
         Matrix matrix = TemplateUtils.getMatrixByString(templateImage.getWorkPhoto().getMatrix());
 
-        Bitmap compositeBitmap = compositePicture(pageIndex, 0, backgroundBitmap.getWidth(), backgroundBitmap.getHeight(),
-                null, selectBitmap, matrix, rateOfEditWidth);
+        Bitmap compositeBitmap = compositePicture(pageIndex, 0, originalSizeBitmap.size.width, originalSizeBitmap.size.height,
+                null, userSelectOriginalSizeBitmap, matrix, rateOfEditWidth);
 
-        canvas.drawBitmap(compositeBitmap, 0, 0, paint);
+        // 如果用户没有设置图片, 则不画
+        if (!(templateImage.getPhotoID() == 0
+                && templateImage.getPhotoSID() == 0
+                && StringUtil.isEmpty(templateImage.getImageLocalPath()))) {
+            canvas.drawBitmap(compositeBitmap, 0, 0, paint);
+        }
 
         // 背景图绘制
 //        canvas.drawBitmap(backgroundBitmap, 0, 0, paint);
@@ -152,7 +156,7 @@ public class CreateImageUtil {
                     moulds.get(moduleIndex);
             MDImage mdImage = SelectImageUtils.getMdImageByPageIndexAndModuleIndex(pageIndex, moduleIndex);
 
-            Bitmap selectBitmap = GlideUtil.loadImageAsBitmap(mdImage);
+            OriginalSizeBitmap originalSizeBitmap = GlideUtil.loadImageAsOriginalSizeBitmap(mdImage);
             float dx = photoTemplateAttachFrame.getPositionX();
             float dy = photoTemplateAttachFrame.getPositionY();
             float width = photoTemplateAttachFrame.getWidth();
@@ -160,30 +164,38 @@ public class CreateImageUtil {
 
             Matrix matrix = TemplateUtils.getMatrixByString(photoTemplateAttachFrame.getMatrix());
 
-            Bitmap compositeBitmap = compositePicture(pageIndex, moduleIndex, width, height, null, selectBitmap, matrix, rateOfEditWidth);
+            Bitmap compositeBitmap = compositePicture(pageIndex, moduleIndex, width, height, null, originalSizeBitmap, matrix, rateOfEditWidth);
 
-            canvas.drawBitmap(compositeBitmap, dx, dy, paint);
+            // 如果用户没有设置图片, 则不画
+            if (!(mdImage.getPhotoID() == 0
+                    && mdImage.getPhotoSID() == 0
+                    && StringUtil.isEmpty(mdImage.getImageLocalPath()))) {
+                canvas.drawBitmap(compositeBitmap, dx, dy, paint);
+            }
         }
     }
 
     private static Bitmap compositePicture(int pageIndex, int moduleIndex,
-                                           float width, float height,
-                                           Bitmap mouldBmp, Bitmap photoBmp,
+                                           float moduleWidth, float moduleHeight,
+                                           Bitmap mouldBmp, OriginalSizeBitmap originalSizeBitmap,
                                            Matrix matrix, float rateOfEditWidth) {
         Bitmap outputBitmap;
-        outputBitmap = Bitmap.createBitmap((int) width, (int) height, Config.ARGB_4444);
+        outputBitmap = Bitmap.createBitmap((int) moduleWidth, (int) moduleHeight, Config.ARGB_4444);
         outputBitmap.eraseColor(Color.parseColor("#00000000"));
 
-        int photoBmpWidth = photoBmp.getWidth();
-        int photoBmpHeight = photoBmp.getHeight();
+        int userSelectBitmapOriginalWidth = originalSizeBitmap.size.width;
+        int userSelectBitmapOriginalHeight = originalSizeBitmap.size.height;
 
-        float scale = width / ((float) photoBmpWidth) > height / ((float) photoBmpHeight)
-                ? width / ((float) photoBmpWidth)
-                : height / ((float) photoBmpHeight);
+        int photoBmpWidth = originalSizeBitmap.bitmap.getWidth();
+        int photoBmpHeight = originalSizeBitmap.bitmap.getHeight();
 
-        if (scale != 0.0f) {
+        float userSelectPhotoSetScale = moduleWidth / ((float) photoBmpWidth) > moduleHeight / ((float) photoBmpHeight)
+                ? moduleWidth / ((float) photoBmpWidth)
+                : moduleHeight / ((float) photoBmpHeight);
+
+        if (userSelectPhotoSetScale != 0.0f) {
 //            Bitmap scalePhotoBmp;
-            matrix.preScale(scale, scale);
+            matrix.preScale(userSelectPhotoSetScale, userSelectPhotoSetScale);
 //            Matrix photoMatrix = new Matrix();
 //            photoMatrix.setScale(scale, scale);
 //            try {
@@ -218,8 +230,17 @@ public class CreateImageUtil {
 //        canvas.drawBitmap(mouldBmp, new Rect(0, 0, mouldBmp.getWidth(), mouldBmp.getHeight()), new RectF(0.0f, 0.0f, w, h), paint);
 //        paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
 //        canvas.drawColor(-1, PorterDuff.Mode.SRC_IN);
-        canvas.drawBitmap(photoBmp, matrix, paint);
+        canvas.drawBitmap(originalSizeBitmap.bitmap, matrix, paint);
 //        canvas.drawBitmap(photoBmp, 0, 0, paint);
+
+        // 因为服务器是用原图来合成的,所以这里要将压缩后的图片宽高和原图的宽高对比,相乘到matrix上要返回给服务器
+        float userSelectPhotoOriginalScale = photoBmpWidth / ((float) userSelectBitmapOriginalWidth) > photoBmpHeight / ((float) userSelectBitmapOriginalHeight)
+                ? photoBmpWidth / ((float) userSelectBitmapOriginalWidth)
+                : photoBmpHeight / ((float) userSelectBitmapOriginalHeight);
+
+        if (userSelectPhotoOriginalScale != 0.0f) {
+            matrix.preScale(userSelectPhotoOriginalScale, userSelectPhotoOriginalScale);
+        }
 
         // 保存编辑信息,用于传到服务器
         float tx = values[Matrix.MTRANS_X];
@@ -229,10 +250,10 @@ public class CreateImageUtil {
         // calculate the degree of rotation
         float rAngle = -Math.round(Math.atan2(values[Matrix.MSKEW_X], values[Matrix.MSCALE_X]) * (180 / Math.PI));
 
-        KLog.e("tx : " + tx);
-        KLog.e("ty : " + ty);
-        KLog.e("rScale : " + scalex);
-        KLog.e("rAngle : " + rAngle);
+//        KLog.e("tx : " + tx);
+//        KLog.e("ty : " + ty);
+//        KLog.e("rScale : " + scalex);
+//        KLog.e("rAngle : " + rAngle);
 
         WorkPhotoEdit workPhotoEdit = SelectImageUtils.getMdImageByPageIndexAndModuleIndex(pageIndex, moduleIndex).getWorkPhotoEdit();
 
@@ -241,6 +262,7 @@ public class CreateImageUtil {
         if (photoTemplateAttachFrameList != null && photoTemplateAttachFrameList.size() > moduleIndex) {
             PhotoTemplateAttachFrame photoTemplateAttachFrame = photoTemplateAttachFrameList.get(moduleIndex);
 
+            workPhotoEdit.setFrameID(photoTemplateAttachFrame.getFrameID());
             workPhotoEdit.setPositionX(photoTemplateAttachFrame.getPositionX());
             workPhotoEdit.setPositionY(photoTemplateAttachFrame.getPositionY());
         }
@@ -257,9 +279,6 @@ public class CreateImageUtil {
         workPhotoEdit.setZoomSize(scalex);
 
         workPhotoEdit.setMatrix(TemplateUtils.getServerMatrixString(matrix));
-
-        String matrixString = TemplateUtils.getStringByMatrix(matrix);
-        KLog.e("传给服务器的Matrix : " + matrixString);
 
         return outputBitmap;
     }

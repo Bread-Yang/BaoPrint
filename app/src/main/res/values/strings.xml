@@ -7,6 +7,7 @@
     <string name="cancel">取消</string>
     <string name="confirm">确定</string>
     <string name="edit">编辑</string>
+    <string name="preview">预览</string>
     <string name="delete">删除</string>
     <string name="delete_num">删除(%d)</string>
     <string name="loading">加载中</string>
@@ -203,7 +204,7 @@
     <string name="matte_paper_quality">* 特点 : 照片色彩柔和,相纸表面显哑光效果,手感好,不容易留下手指印,更易保存</string>
 
     <!-- 明信片 -->
-    <string name="postcard">明信片</string>
+    <string name="postcard">卡卡DIY</string>
     <string name="click_input">点击这里写点什么，限30字</string>
 
     <!-- 杂志册 -->
@@ -213,7 +214,7 @@
     <string name="art_album">艺术册</string>
 
     <!-- 相框 -->
-    <string name="picture_frame">相框</string>
+    <string name="picture_frame">艺术相框</string>
     <string name="template">模板</string>
     <string name="landscape">横版</string>
     <string name="portrait">竖版</string>
@@ -228,6 +229,7 @@
     <string name="template_detail">模板详情</string>
     <string name="price_rmb">价格: ¥%s</string>
     <string name="page_count">%dP</string>
+    <string name="all">全部</string>
 
     <!-- 模板详情 -->
     <string name="current_page_index">%1$d/%2$d</string>
@@ -257,20 +259,20 @@
     <string name="price">价格</string>
 
     <!-- 扑克牌 -->
-    <string name="poker">扑克牌</string>
+    <string name="poker">魅力桌游</string>
 
     <!-- 拼图 -->
-    <string name="puzzle">拼图</string>
+    <string name="puzzle">3D拼图</string>
     <string name="start_make">开始制作</string>
 
     <!-- 魔术杯 -->
-    <string name="magic_cup">魔术杯</string>
+    <string name="magic_cup">艺术杯</string>
 
     <!-- LOMO卡 -->
-    <string name="lomo_card">LOMO卡</string>
+    <string name="lomo_card">T恤DIY</string>
 
     <!-- 版画 -->
-    <string name="engraving">版画</string>
+    <string name="engraving">小资版画</string>
     <string name="crystal">水晶面</string>
     <string name="yogon">亚光面</string>
     <string name="warm_prompt">温馨提示,版画制作周期为5天,请耐心等待</string>

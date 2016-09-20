@@ -355,18 +355,18 @@ public class OrderUtils {
     private void saveUserWorkPhotoListRequest(WorkInfo responseWorkInfo) {
         List<WorkPhoto> workPhotoList = new ArrayList<>();
 
-        for (int i = 0; i < SelectImageUtils.sTemplateImage.size(); i++) {
-            MDImage mdImage = SelectImageUtils.sTemplateImage.get(i);
+        int moduleIndexCount = 0;
+        for (int pageIndex = 0; pageIndex < SelectImageUtils.sTemplateImage.size(); pageIndex++) {
+            MDImage mdImage = SelectImageUtils.sTemplateImage.get(pageIndex);
             WorkPhoto workPhoto = mdImage.getWorkPhoto();
             workPhoto.setWorkID(responseWorkInfo.getWorkID());
 
             if (TemplateUtils.isTemplateHasModules()) {
-                int count = 0;
                 List<WorkPhotoEdit> workPhotoEditList = new ArrayList<>();
 
                 List<PhotoTemplateAttachFrame> photoTemplateAttachFrameList = mdImage.getPhotoTemplateAttachFrameList();
                 for (PhotoTemplateAttachFrame photoTemplateAttachFrame : photoTemplateAttachFrameList) {
-                    MDImage uploadUserSelectImage = SelectImageUtils.sAlreadySelectImage.get(count);
+                    MDImage uploadUserSelectImage = SelectImageUtils.sAlreadySelectImage.get(moduleIndexCount);
 
                     WorkPhotoEdit workPhotoEdit = uploadUserSelectImage.getWorkPhotoEdit();
 
@@ -375,8 +375,21 @@ public class OrderUtils {
 
                     workPhotoEditList.add(workPhotoEdit);
 
-                    count++;
+                    moduleIndexCount++;
                 }
+                workPhoto.setWorkPhotoEditList(workPhotoEditList);
+            } else {
+                List<WorkPhotoEdit> workPhotoEditList = new ArrayList<>();
+
+                MDImage uploadUserSelectImage =  SelectImageUtils.sAlreadySelectImage.get(pageIndex);
+
+                WorkPhotoEdit workPhotoEdit = uploadUserSelectImage.getWorkPhotoEdit();
+
+                workPhotoEdit.setPhotoID(uploadUserSelectImage.getPhotoID());
+                workPhotoEdit.setPhotoSID(uploadUserSelectImage.getPhotoSID());
+
+                workPhotoEditList.add(workPhotoEdit);
+
                 workPhoto.setWorkPhotoEditList(workPhotoEditList);
             }
 
@@ -463,8 +476,8 @@ public class OrderUtils {
             orderWork.setPhotoCover(SelectImageUtils.sTemplateImage.get(0).getWorkPhoto().getPhoto2SID()); //封面，第一张照片的合成照片
         }
 
-//        orderWork.setPrice(mPrice);
-        orderWork.setPrice(1); // 测试,全部设成0.01元
+        orderWork.setPrice(mPrice);
+//        orderWork.setPrice(1); // 测试,全部设成0.01元
         orderWork.setTypeID(MDGroundApplication.sInstance.getChoosedProductType().value()); //作品类型（getPhotoType接口返回的TypeID）
         orderWork.setTypeName(ProductType.getProductName(MDGroundApplication.sInstance.getChoosedProductType()));
         Measurement measurement = MDGroundApplication.sInstance.getChoosedMeasurement();
@@ -515,8 +528,9 @@ public class OrderUtils {
             mdImageArrayList = SelectImageUtils.sTemplateImage;
         }
 
-        for (int i = 0; i < mdImageArrayList.size(); i++) {
-            MDImage mdImage = mdImageArrayList.get(i);
+        int moduleIndexCount = 0;
+        for (int pageIndex = 0; pageIndex < mdImageArrayList.size(); pageIndex++) {
+            MDImage mdImage = mdImageArrayList.get(pageIndex);
             WorkPhoto workPhoto = mdImage.getWorkPhoto();
 
             OrderWorkPhoto orderWorkPhoto = new OrderWorkPhoto();
@@ -527,7 +541,7 @@ public class OrderUtils {
                 orderWorkPhoto.setWorkOID(orderWork.getWorkOID());
                 orderWorkPhoto.setPhoto1ID(mdImage.getPhotoID());
                 orderWorkPhoto.setPhoto1SID(mdImage.getPhotoSID());
-                int index = i + 1;
+                int index = pageIndex + 1;
                 orderWorkPhoto.setPhotoIndex(index);
             } else {
                 orderWorkPhoto.setPhoto1ID(workPhoto.getPhoto1ID());
@@ -541,14 +555,13 @@ public class OrderUtils {
                 orderWorkPhoto.setTemplatePSID(mdImage.getPhotoSID());
 
                 if (TemplateUtils.isTemplateHasModules()) {
-                    int count = 0;
                     List<OrderWorkPhotoEdit> orderWorkPhotoEditList = new ArrayList<>();
 
                     List<PhotoTemplateAttachFrame> photoTemplateAttachFrameList = mdImage.getPhotoTemplateAttachFrameList();
                     for (PhotoTemplateAttachFrame photoTemplateAttachFrame : photoTemplateAttachFrameList) {
                         OrderWorkPhotoEdit orderWorkPhotoEdit = new OrderWorkPhotoEdit();
 
-                        MDImage uploadUserSelectImage = SelectImageUtils.sAlreadySelectImage.get(count);
+                        MDImage uploadUserSelectImage = SelectImageUtils.sAlreadySelectImage.get(moduleIndexCount);
 
                         WorkPhotoEdit workPhotoEdit = uploadUserSelectImage.getWorkPhotoEdit();
 
@@ -556,6 +569,7 @@ public class OrderUtils {
                         orderWorkPhotoEdit.setPhotoSID(uploadUserSelectImage.getPhotoSID());
 
                         // 复制workPhotoEdit的数据过来
+                        orderWorkPhotoEdit.setFrameID(workPhotoEdit.getFrameID());
                         orderWorkPhotoEdit.setPositionX(workPhotoEdit.getPositionX());
                         orderWorkPhotoEdit.setPositionY(workPhotoEdit.getPositionY());
                         orderWorkPhotoEdit.setRotate(workPhotoEdit.getRotate());
@@ -564,8 +578,24 @@ public class OrderUtils {
 
                         orderWorkPhotoEditList.add(orderWorkPhotoEdit);
 
-                        count++;
+                        moduleIndexCount++;
                     }
+                    orderWorkPhoto.setOrderWorkPhotoEditList(orderWorkPhotoEditList);
+                } else {
+                    List<OrderWorkPhotoEdit> orderWorkPhotoEditList = new ArrayList<>();
+
+                    OrderWorkPhotoEdit orderWorkPhotoEdit = new OrderWorkPhotoEdit();
+
+                    MDImage uploadUserSelectImage =  SelectImageUtils.sAlreadySelectImage.get(pageIndex);
+
+                    WorkPhotoEdit workPhotoEdit = uploadUserSelectImage.getWorkPhotoEdit();
+
+                    orderWorkPhotoEdit.setPhotoID(uploadUserSelectImage.getPhotoID());
+                    orderWorkPhotoEdit.setPhotoSID(uploadUserSelectImage.getPhotoSID());
+                    orderWorkPhotoEdit.setMatrix(workPhotoEdit.getMatrix());
+
+                    orderWorkPhotoEditList.add(orderWorkPhotoEdit);
+
                     orderWorkPhoto.setOrderWorkPhotoEditList(orderWorkPhotoEditList);
                 }
             }
