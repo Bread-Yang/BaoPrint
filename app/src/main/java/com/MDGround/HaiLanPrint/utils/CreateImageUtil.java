@@ -4,6 +4,8 @@ import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.ColorMatrix;
+import android.graphics.ColorMatrixColorFilter;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.RectF;
@@ -226,6 +228,21 @@ public class CreateImageUtil {
         Paint paint = new Paint();
         paint.setAntiAlias(true);
         paint.setDither(true);
+
+        MDImage templateImage = SelectImageUtils.sTemplateImage.get(pageIndex);
+
+        int brightness = templateImage.getWorkPhoto().getBrightLevel();
+
+        // 亮度调整
+        ColorMatrix cMatrix = new ColorMatrix();
+        cMatrix.set(new float[]{
+                1, 0, 0, 0, brightness,
+                0, 1, 0, 0, brightness,
+                0, 0, 1, 0, brightness,
+                0, 0, 0, 1, 0
+        });
+        paint.setColorFilter(new ColorMatrixColorFilter(cMatrix));
+
 //        paint.setColor(Color.parseColor("#BAB399"));
 //        canvas.drawBitmap(mouldBmp, new Rect(0, 0, mouldBmp.getWidth(), mouldBmp.getHeight()), new RectF(0.0f, 0.0f, w, h), paint);
 //        paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
@@ -257,7 +274,6 @@ public class CreateImageUtil {
 
         WorkPhotoEdit workPhotoEdit = SelectImageUtils.getMdImageByPageIndexAndModuleIndex(pageIndex, moduleIndex).getWorkPhotoEdit();
 
-        MDImage templateImage = SelectImageUtils.sTemplateImage.get(pageIndex);
         List<PhotoTemplateAttachFrame> photoTemplateAttachFrameList = templateImage.getPhotoTemplateAttachFrameList();
         if (photoTemplateAttachFrameList != null && photoTemplateAttachFrameList.size() > moduleIndex) {
             PhotoTemplateAttachFrame photoTemplateAttachFrame = photoTemplateAttachFrameList.get(moduleIndex);

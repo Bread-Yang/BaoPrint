@@ -231,6 +231,10 @@ public class SelectTemplateActivity extends ToolbarActivity<ActivitySelectTempla
             holder.viewDataBinding.setTemplate(template);
             holder.viewDataBinding.setViewHolder(holder);
 
+            if (MDGroundApplication.sInstance.getChoosedProductType() == ProductType.PictureFrame) {
+                holder.viewDataBinding.tvPrice.setVisibility(View.INVISIBLE);
+            }
+
             GlobalRestful.getInstance().GetPhotoTemplateCoverList(template.getTemplateID(), new Callback<ResponseData>() {
                 @Override
                 public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {

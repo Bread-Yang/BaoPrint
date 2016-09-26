@@ -544,6 +544,7 @@ public class OrderUtils {
                 int index = pageIndex + 1;
                 orderWorkPhoto.setPhotoIndex(index);
             } else {
+                orderWorkPhoto.setBrightLevel(workPhoto.getBrightLevel());
                 orderWorkPhoto.setPhoto1ID(workPhoto.getPhoto1ID());
                 orderWorkPhoto.setPhoto1SID(workPhoto.getPhoto1SID());
                 orderWorkPhoto.setPhoto2ID(workPhoto.getPhoto2ID());

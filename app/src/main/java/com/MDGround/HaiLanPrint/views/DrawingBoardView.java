@@ -195,9 +195,12 @@ public class DrawingBoardView extends View {
 
         // 亮度调整
         ColorMatrix cMatrix = new ColorMatrix();
-        cMatrix.set(new float[]{1, 0, 0, 0, mBrightness, 0, 1,
-                0, 0, mBrightness,// 改变亮度
-                0, 0, 1, 0, mBrightness, 0, 0, 0, 1, 0});
+        cMatrix.set(new float[]{
+                1, 0, 0, 0, mBrightness,
+                0, 1, 0, 0, mBrightness,
+                0, 0, 1, 0, mBrightness,
+                0, 0, 0, 1, 0
+        });
         paint.setColorFilter(new ColorMatrixColorFilter(cMatrix));
 
 //        mMouldBmp = mTestBitmap;
@@ -244,7 +247,7 @@ public class DrawingBoardView extends View {
 //            if (resizeScale > (mRate / mPhotoSetScale)) {
 //                drawPixelDeficiency(canvas);
 //            }
-            if ((resizeScale *  mUserSelectPhotoSetScale) * mRate * mUserSelectPhotoOriginalScale > 1.2) { // 根据需求, 缩放大于1.2倍提示像素不足
+            if ((resizeScale * mUserSelectPhotoSetScale) * mRate * mUserSelectPhotoOriginalScale > 1.2) { // 根据需求, 缩放大于1.2倍提示像素不足
                 drawPixelDeficiency(canvas);
             }
 //            if ((scaleX * mUserSelectPhotoOriginalScale) > 1.2) { // 根据需求, 缩放大于1.2倍提示像素不足

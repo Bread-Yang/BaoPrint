@@ -45,6 +45,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import static com.MDGround.HaiLanPrint.utils.SelectImageUtils.sTemplateImage;
+
 /**
  * Created by yoghourt on 5/18/16.
  */
@@ -114,7 +116,7 @@ public class GlobalTemplateEditActivity extends ToolbarActivity<ActivityGlobalTe
                     }
                 });
 
-        selectPageByIndexToEdit(0, SelectImageUtils.sTemplateImage.get(0));
+        selectPageByIndexToEdit(0, sTemplateImage.get(0));
 
         mDataBinding.templateRecyclerView.setHasFixedSize(true);
         LinearLayoutManager imageLayoutManager = new LinearLayoutManager(this);
@@ -179,7 +181,7 @@ public class GlobalTemplateEditActivity extends ToolbarActivity<ActivityGlobalTe
 
             @Override
             public void afterTextChanged(Editable s) {
-                WorkPhoto workPhoto = SelectImageUtils.sTemplateImage.get(mCurrentSelectPageIndex).getWorkPhoto();
+                WorkPhoto workPhoto = sTemplateImage.get(mCurrentSelectPageIndex).getWorkPhoto();
 
                 workPhoto.setDescription(s.toString());
             }
@@ -188,13 +190,25 @@ public class GlobalTemplateEditActivity extends ToolbarActivity<ActivityGlobalTe
         mDataBinding.seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                if (mCurrentSelectDrawingBoardView == null) {
-                    mProductionView.mDrawingBoardViewSparseArray.get(0).setBrightness(progress);
-                } else {
-                    mCurrentSelectDrawingBoardView.setBrightness(progress);
-                }
+//                if (mCurrentSelectDrawingBoardView == null) {
+//                    mProductionView.mDrawingBoardViewSparseArray.get(0).setBrightness(progress);
+//                } else {
+//                    mCurrentSelectDrawingBoardView.setBrightness(progress);
+//                }
 
-                mDataBinding.tvPercent.setText(getString(R.string.percent, progress) + "%");
+                if (fromUser) {
+                    int brightLevel = -255 + 510 * progress / 100;
+
+                    sTemplateImage.get(mCurrentSelectPageIndex).getWorkPhoto().setBrightLevel(brightLevel);
+
+                    mDataBinding.tvPercent.setText(getString(R.string.percent, brightLevel));
+
+                    for (int i = 0; i < mProductionView.mDrawingBoardViewSparseArray.size(); i++) {
+                        DrawingBoardView drawingBoardView = mProductionView.mDrawingBoardViewSparseArray.valueAt(i);
+
+                        drawingBoardView.setBrightness(brightLevel);
+                    }
+                }
             }
 
             @Override
@@ -214,6 +228,7 @@ public class GlobalTemplateEditActivity extends ToolbarActivity<ActivityGlobalTe
 
                 if (mCurrentSelectPageIndex != pageIndex) {
 
+                    ViewUtils.loading(GlobalTemplateEditActivity.this);
                     saveCurrentPageEditStatus();
 
                     selectPageByIndexToEdit(pageIndex, mdImage);
@@ -320,7 +335,7 @@ public class GlobalTemplateEditActivity extends ToolbarActivity<ActivityGlobalTe
         mCurrentSelectDrawingBoardView = null;
 
         if (TemplateUtils.isTemplateHasModules()) {
-            MDImage templateImage = SelectImageUtils.sTemplateImage.get(mCurrentSelectPageIndex);
+            MDImage templateImage = sTemplateImage.get(mCurrentSelectPageIndex);
             List<PhotoTemplateAttachFrame> photoTemplateAttachFrameList = templateImage.getPhotoTemplateAttachFrameList();
 
             if (photoTemplateAttachFrameList != null) {
@@ -328,15 +343,17 @@ public class GlobalTemplateEditActivity extends ToolbarActivity<ActivityGlobalTe
 
                     DrawingBoardView drawingBoardView = mProductionView.mDrawingBoardViewSparseArray.get(i);
 
-                    Matrix matrix = drawingBoardView.getMatrixOfEditPhoto();
+                    if (drawingBoardView != null) {
+                        Matrix matrix = drawingBoardView.getMatrixOfEditPhoto();
 
-                    String matrixString = TemplateUtils.getStringByMatrix(matrix);
+                        String matrixString = TemplateUtils.getStringByMatrix(matrix);
 
-                    photoTemplateAttachFrameList.get(i).setMatrix(matrixString);
+                        photoTemplateAttachFrameList.get(i).setMatrix(matrixString);
+                    }
                 }
             }
         } else {
-            MDImage templateImage = SelectImageUtils.sTemplateImage.get(mCurrentSelectPageIndex);
+            MDImage templateImage = sTemplateImage.get(mCurrentSelectPageIndex);
 
             DrawingBoardView drawingBoardView = mProductionView.mDrawingBoardViewSparseArray.get(0);
 
@@ -349,6 +366,13 @@ public class GlobalTemplateEditActivity extends ToolbarActivity<ActivityGlobalTe
     }
 
     private void selectPageByIndexToEdit(final int pageIndex, final MDImage mdImage) {
+        int brightLevel = SelectImageUtils.sTemplateImage.get(pageIndex).getWorkPhoto().getBrightLevel();
+
+        int progress = (brightLevel + 255) * 100 / 510;
+
+        mDataBinding.seekBar.setProgress(progress);
+        mDataBinding.tvPercent.setText(getString(R.string.percent, brightLevel));
+
         mCurrentSelectPageIndex = pageIndex;
 
         mProductionView.clear();
@@ -374,14 +398,12 @@ public class GlobalTemplateEditActivity extends ToolbarActivity<ActivityGlobalTe
 
                 mProductionView.setWidthAndHeight(width, (int) height);
 
-                ViewUtils.loading(GlobalTemplateEditActivity.this);
-
                 mRateOfEditArea = TemplateUtils.getRateOfEditAreaOnAndroid(resource.size);
 
                 // 杂志册,艺术册,个性月历 这三个功能块有定位块
                 if (TemplateUtils.isTemplateHasModules()) {
                     // 各个编辑定位块加载
-                    MDImage templateImage = SelectImageUtils.sTemplateImage.get(pageIndex);
+                    MDImage templateImage = sTemplateImage.get(pageIndex);
                     final List<PhotoTemplateAttachFrame> photoTemplateAttachFrameList = templateImage.getPhotoTemplateAttachFrameList();
 
                     if (photoTemplateAttachFrameList != null && photoTemplateAttachFrameList.size() > 0) {
@@ -464,7 +486,7 @@ public class GlobalTemplateEditActivity extends ToolbarActivity<ActivityGlobalTe
                         public void onResourceReady(OriginalSizeBitmap resource, GlideAnimation<? super OriginalSizeBitmap> glideAnimation) {
                             Bitmap copyBitmap = resource.bitmap.copy(resource.bitmap.getConfig(), true); // safe copy
 
-                            Matrix matrix = TemplateUtils.getMatrixByString(SelectImageUtils.sTemplateImage.get(mCurrentSelectPageIndex)
+                            Matrix matrix = TemplateUtils.getMatrixByString(sTemplateImage.get(mCurrentSelectPageIndex)
                                     .getWorkPhoto().getMatrix());
                             addDrawBoard(0, 0, width, height, resource.size.width, resource.size.height,
                                     copyBitmap, copyBitmap, matrix, mRateOfEditArea, 0);
@@ -518,12 +540,15 @@ public class GlobalTemplateEditActivity extends ToolbarActivity<ActivityGlobalTe
                 userSelectBitmapOriginalWidth, UserSelectBitmaporiginalHeight);
         drawingBoardView.setTag(Integer.valueOf(modulePosition));
 
+        int brightLevel = SelectImageUtils.sTemplateImage.get(mCurrentSelectPageIndex).getWorkPhoto().getBrightLevel();
+        drawingBoardView.setBrightness(brightLevel);
+
         FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams((int) androidWidth, (int) androidHeight);
         layoutParams.setMargins((int) androidDx, (int) androidDy, 0, 0);
         drawingBoardView.setLayoutParams(layoutParams);
 
         mProductionView.drawBoardLayer.addView(drawingBoardView);
-        mProductionView.mDrawingBoardViewSparseArray.append(modulePosition, drawingBoardView);
+        mProductionView.mDrawingBoardViewSparseArray.put(modulePosition, drawingBoardView);
     }
 
     private void createCompositeImage() {
@@ -603,6 +628,8 @@ public class GlobalTemplateEditActivity extends ToolbarActivity<ActivityGlobalTe
                 return;
             }
         }
+
+        createCompositeImage();
     }
     //endregion
 }

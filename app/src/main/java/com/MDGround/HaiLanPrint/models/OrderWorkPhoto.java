@@ -13,6 +13,8 @@ public class OrderWorkPhoto implements Parcelable{
 
     private int AutoID;
 
+    private int BrightLevel;
+
     private int Photo1ID;
 
     private int Photo1SID;
@@ -45,6 +47,14 @@ public class OrderWorkPhoto implements Parcelable{
 
     public void setAutoID(int autoID) {
         AutoID = autoID;
+    }
+
+    public int getBrightLevel() {
+        return BrightLevel;
+    }
+
+    public void setBrightLevel(int brightLevel) {
+        BrightLevel = brightLevel;
     }
 
     public int getPhoto1ID() {
@@ -143,6 +153,7 @@ public class OrderWorkPhoto implements Parcelable{
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(this.AutoID);
+        dest.writeInt(this.BrightLevel);
         dest.writeInt(this.Photo1ID);
         dest.writeInt(this.Photo1SID);
         dest.writeInt(this.Photo2ID);
@@ -158,6 +169,7 @@ public class OrderWorkPhoto implements Parcelable{
 
     protected OrderWorkPhoto(Parcel in) {
         this.AutoID = in.readInt();
+        this.BrightLevel = in.readInt();
         this.Photo1ID = in.readInt();
         this.Photo1SID = in.readInt();
         this.Photo2ID = in.readInt();

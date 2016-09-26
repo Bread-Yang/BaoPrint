@@ -94,7 +94,7 @@ public class SelectImageUtils {
             count = selectPhotoInex;
         }
 
-        return count = 0;
+        return count;
     }
 
     public static MDImage getMdImageByPageIndexAndModuleIndex(int pageIndex, int moduleIndex) {

@@ -94,7 +94,7 @@ public class TemplateStartCreateActivity extends ToolbarActivity<ActivityTemplat
         public Object instantiateItem(ViewGroup container, int position) {
             ItemTemplateStartCreateBinding dataBinding = DataBindingUtil.inflate(LayoutInflater.from(container.getContext())
                     , R.layout.item_template_start_create, container, false);
-            MDImage mdImage = SelectImageUtils.sTemplateImage.get(position + 1);
+            MDImage mdImage = mTemplateCoverImageList.get(position + 1);
             dataBinding.setMdImage(mdImage);
 
             View root = dataBinding.getRoot();
