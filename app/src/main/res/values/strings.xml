@@ -93,6 +93,8 @@
     <string name="share_to_wechat">分享到微信</string>
     <string name="share_to_qq">分享到QQ</string>
     <string name="share_to_weibo">分享到微博</string>
+    <string name="upload_success">上传图片成功</string>
+    <string name="delete_success">删除图片成功</string>
 
     <!-- 照片上传 -->
     <string name="select_photos_upload">选择照片上传</string>

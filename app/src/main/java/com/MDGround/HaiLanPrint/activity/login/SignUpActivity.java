@@ -84,11 +84,13 @@ public class SignUpActivity extends ToolbarActivity<ActivitySignUpBinding> {
     private void toImproveInformationActivity() {
         String phone = mDataBinding.cetAccount.getText().toString();
         String password = mDataBinding.cetPassword.getText().toString();
+        String inviteCode = mDataBinding.cetInviteCode.getText().toString();
 
         User newUser = new User();
 
         newUser.setPhone(phone);
         newUser.setPassword(MD5Util.MD5(password));
+        newUser.setInvitationCode(inviteCode);
 
         Intent intent = new Intent(this, ImproveInformationActivity.class);
         intent.putExtra(Constants.KEY_NEW_USER, newUser);

@@ -1,2 +1,2 @@
-include ':app', ':greendaogenerator'
-include ':WheelviewLibrary'
+include ':app'
+include ':WheelviewLibrary', ':greendaogenerator'

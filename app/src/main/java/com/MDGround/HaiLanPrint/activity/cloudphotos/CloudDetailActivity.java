@@ -327,6 +327,8 @@ public class CloudDetailActivity extends ToolbarActivity<ActivityCloudDetailBind
 
                 mImageAdapter.bindImages(mAllImagesList);
 
+                ViewUtils.toast(R.string.delete_success);
+
                 ViewUtils.dismiss();
             }
 

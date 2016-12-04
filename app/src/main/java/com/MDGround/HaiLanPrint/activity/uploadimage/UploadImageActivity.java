@@ -206,7 +206,8 @@ public class UploadImageActivity extends ToolbarActivity<ActivityUploadImageBind
                 }
             });
         } else {
-            ViewUtils.toast("上传图片成功");
+            setResult(RESULT_OK);
+            ViewUtils.toast(R.string.upload_success);
             ViewUtils.dismiss();
             mAlreadyUploadedImage = true;
             mImageAdapter.selectAllImage(false);
