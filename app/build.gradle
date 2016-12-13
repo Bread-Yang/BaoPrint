@@ -13,13 +13,6 @@ android {
     }
 
     signingConfigs {
-        debug {
-            storeFile file('MDGround_Keystore.jks')
-            storePassword "13560506833"
-            keyAlias "yoghourt"
-            keyPassword "13560506833"
-        }
-
         release {
             storeFile file('MDGround_Keystore.jks')
             storePassword "13560506833"
@@ -29,11 +22,26 @@ android {
     }
 
     buildTypes {
+        debug {
+//            minifyEnabled true
+//            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+        }
         release {
             minifyEnabled false
 //            minifyEnabled true
 //            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    productFlavors {
+        dev {
+            signingConfig signingConfigs.debug
+        }
+
+        product {
+            signingConfig signingConfigs.debug
         }
     }
 
